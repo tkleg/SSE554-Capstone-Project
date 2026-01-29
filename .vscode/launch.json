@@ -9,7 +9,8 @@
             "type": "java",
             "name": "Current File",
             "request": "launch",
-            "mainClass": "${file}"
+            "mainClass": "${file}",
+            "vmArgs": "-Djava.util.logging.manager=org.slf4j.bridge.SLF4JBridgeHandler --add-opens java.base/sun.misc=ALL-UNNAMED"
         },
         {
             "type": "java",
