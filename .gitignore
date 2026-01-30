@@ -1,0 +1,22 @@
+# Build artifacts
+target/
+distribution/
+native-app/
+installer/
+
+# Distribution files
+*.zip
+*.tar.gz
+*.msi
+*.exe
+
+# IDE files
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Maven
+dependency-reduced-pom.xml
