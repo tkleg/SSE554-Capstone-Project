@@ -28,7 +28,9 @@ public class PriceSlider extends VBox {
         maxSlider.setPrefWidth(150);
 
         label = new Label("Price: $" + String.format("%.0f - %.0f", min, max));
-
+        //Bold style for the label
+        label.setStyle("-fx-font-weight: bold;");
+        
         // Update label when sliders change
         minSlider.valueProperty().addListener((obs, oldVal, newVal) -> {
             double minVal = newVal.doubleValue();

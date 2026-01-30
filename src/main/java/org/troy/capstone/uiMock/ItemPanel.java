@@ -1,5 +1,6 @@
 package org.troy.capstone.uiMock;
 
+import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Border;
@@ -23,15 +24,20 @@ public class ItemPanel extends HBox{
         imageView.setFitHeight(150);
         imageView.setPreserveRatio(true);
         
+        //Name label done separately so we can style it later
+        Label nameLabel = new Label("Name: " + item.getName());
+        nameLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14;");
+
         // Set up the right side - text content
         rightPanel = new VBox(5); // 5px spacing between elements
         rightPanel.getChildren().addAll(
-            new Label("Name: " + item.getName()),
+            nameLabel,
             new Label("Publisher: " + item.getPublisher()),
             new Label("Category: " + item.getCategory()),
             new Label("Price: $" + String.format("%.2f", item.getPrice())),
             new Label("Rating: " + item.getReviewScore() + "/5.0 (" + item.getReviewCount() + " reviews)"),
-            new Label("Stock: " + item.getStockQuantity())
+            new Label("Stock: " + item.getStockQuantity()),
+            new Label("Date Added: " + item.getDateAdded().toString())
         );
         
         // Add both sides to the HBox
@@ -40,13 +46,13 @@ public class ItemPanel extends HBox{
         
         // Add border to the panel
         setBorder(new Border(new BorderStroke(
-            Color.GRAY, 
+            Color.BLACK, 
             BorderStrokeStyle.SOLID, 
             new CornerRadii(5), 
             new BorderWidths(2)
         )));
         
         // Add padding inside the border
-        setStyle("-fx-padding: 10;");
+        setPadding(new Insets(10));
     }
 }

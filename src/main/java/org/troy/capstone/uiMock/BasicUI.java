@@ -1,9 +1,18 @@
 package org.troy.capstone.uiMock;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import org.troy.capstone.utils.TableUtils;
+
 import javafx.application.Application;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.TableView;
 import javafx.scene.layout.GridPane;
+import tech.tablesaw.api.Table;
 
 public class BasicUI extends Application {
 
@@ -20,21 +29,43 @@ public class BasicUI extends Application {
         int numItems = 10;
         for(int x = 0; x < numItems; x++)
             itemScroller.addItemPanel(new ItemPanel(Item.randomItem()));
-        itemScroller.setPrefSize(400, 700);
+        itemScroller.setPrefSize(500, 600);
         gridPane.add(itemScroller, 0, 1, 2, 3);
 
         //Get and setup the SearchBar
         SearchBar searchBar = new SearchBar();
         gridPane.add(searchBar, 0, 0, 2, 1);
 
+        //Insert a CategoriesPanel
+        CategoriesPanel categoriesPanel = new CategoriesPanel();
+        gridPane.add(categoriesPanel, 2, 1, 2, 1);
+
+        //Insert a TableView to test the Tablesaw integration
+        TableView<ObservableList<Object>> tableView = TableUtils.tablesawTableToTableView(
+            Table.read().csv("data/teams.csv")
+        );
+        tableView.setMaxSize(400, 300);
+        gridPane.add(tableView, 2, 3, 2, 2);
+
+
+        //Set additional action for SearchBar to get Checked Categories
+        Set<String> selectedCategories = new HashSet<String>();
+        searchBar.addAdditionalAction((ActionEvent e) ->{
+            selectedCategories.clear();
+            for(String category : categoriesPanel.getCheckedCategories())
+                selectedCategories.add(category);
+            System.out.println("Selected Categories: " + selectedCategories);
+        });
 
         ///Get and setup the PriceSlider
         PriceSlider priceSlider = new PriceSlider(0, 500);
         gridPane.add(priceSlider, 2, 0, 2, 1);
+        gridPane.setPrefSize(1000, 700);
         Scene scene = new Scene(gridPane);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Basic UI");
         primaryStage.show();
+
     }
 
     public static void main(String[] args) {
