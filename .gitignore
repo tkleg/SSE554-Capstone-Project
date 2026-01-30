@@ -1,6 +1,6 @@
 # Build artifacts
+# Allowing distribution so that users can package the project easily if needed
 target/
-distribution/
 
 # Distribution files
 *.zip
