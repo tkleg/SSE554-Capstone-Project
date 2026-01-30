@@ -6,10 +6,16 @@
     "configurations": [
         {
             "type": "java",
+            "name": "BasicUI",
+            "request": "launch",
+            "mainClass": "org.troy.capstone.uiMock.BasicUI",
+            "vmArgs": "--module-path \"${workspaceFolder}/target/dependency\" --add-modules javafx.controls,javafx.fxml"
+        },
+        {
+            "type": "java",
             "name": "JavaFXTest",
             "request": "launch",
-            "mainClass": "org.troy.capstone.JavaFXTest",
-            "projectName": "Project",
+            "mainClass": "org.troy.capstone.basictests.JavaFXTest",
             "vmArgs": "--module-path \"${workspaceFolder}/target/dependency\" --add-modules javafx.controls,javafx.fxml"
         },
         {
@@ -22,7 +28,7 @@
             "type": "java",
             "name": "SwingTest",
             "request": "launch",
-            "mainClass": "org.troy.capstone.SwingTest"
+            "mainClass": "org.troy.capstone.basictests.SwingTest"
         }
     ]
 }

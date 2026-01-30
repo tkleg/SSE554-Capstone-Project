@@ -1,4 +1,4 @@
-package org.troy.capstone;
+package org.troy.capstone.basictests;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;

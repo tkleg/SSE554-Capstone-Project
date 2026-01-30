@@ -1,4 +1,4 @@
-package org.troy.capstone;
+package org.troy.capstone.basictests;
 
 import org.troy.capstone.utils.TableUtils;
 

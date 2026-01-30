@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  */
 
-package org.troy.capstone;
+package org.troy.capstone.basictests;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
