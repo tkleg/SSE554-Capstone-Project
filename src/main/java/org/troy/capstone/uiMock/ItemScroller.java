@@ -12,6 +12,7 @@ public class ItemScroller extends ScrollPane {
         super();
         itemContainer = new VBox(5); // 5px spacing between items
         setContent(itemContainer);
+        setFitToWidth(true);
     }
 
     public void addItemPanel(ItemPanel itemPanel) {

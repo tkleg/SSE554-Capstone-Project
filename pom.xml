@@ -52,6 +52,11 @@
             <artifactId>datafaker</artifactId>
             <version>2.5.2</version>
         </dependency>
+        <dependency>
+            <groupId>org.controlsfx</groupId>
+            <artifactId>controlsfx</artifactId>
+            <version>11.0.1</version>
+        </dependency>
     </dependencies>
 
     <build>

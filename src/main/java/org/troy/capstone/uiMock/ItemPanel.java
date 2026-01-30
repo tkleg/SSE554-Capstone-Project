@@ -31,8 +31,7 @@ public class ItemPanel extends HBox{
             new Label("Category: " + item.getCategory()),
             new Label("Price: $" + String.format("%.2f", item.getPrice())),
             new Label("Rating: " + item.getReviewScore() + "/5.0 (" + item.getReviewCount() + " reviews)"),
-            new Label("Stock: " + item.getStockQuantity()),
-            new Label("Description: " + item.getDescription())
+            new Label("Stock: " + item.getStockQuantity())
         );
         
         // Add both sides to the HBox

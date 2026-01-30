@@ -33,7 +33,7 @@ public class Item {
             .image( new Image( faker.internet().image() ) )
             .name( faker.commerce().productName() )
             .publisher( faker.company().name() )
-            .description( String.join("", faker.lorem().sentences(2) ) )
+            .description( String.join(" ", faker.lorem().sentences(2) ) )
             .category( faker.commerce().department() )
             .tags( Set.copyOf( faker.lorem().words(3) ) )
             .price( faker.number().randomDouble(2, 5, 500) )
