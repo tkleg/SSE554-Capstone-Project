@@ -68,6 +68,13 @@
                 <version>3.11.0</version>
                 <configuration>
                     <release>${maven.compiler.release}</release>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>1.18.42</version>
+                        </path>
+                    </annotationProcessorPaths>
                 </configuration>
             </plugin>
             
@@ -99,6 +106,29 @@
                 <configuration>
                     <commandlineArgs>--add-modules javafx.controls,javafx.fxml</commandlineArgs>
                 </configuration>
+            </plugin>
+            
+            <!-- Maven Shade Plugin for creating executable JAR with dependencies -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.4.1</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>org.troy.capstone.uiMock.BasicUI</mainClass>
+                                </transformer>
+                            </transformers>
+                            <finalName>${project.artifactId}-${project.version}-with-dependencies</finalName>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
             
             <!-- Maven Exec Plugin for JavaFX -->

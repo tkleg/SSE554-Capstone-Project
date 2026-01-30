@@ -1,0 +1,12 @@
+org\troy\capstone\basictests\SwingTest.class
+org\troy\capstone\uiMock\PriceSlider.class
+org\troy\capstone\uiMock\ItemScroller.class
+org\troy\capstone\uiMock\SearchBar.class
+org\troy\capstone\uiMock\Item$ItemBuilder.class
+org\troy\capstone\uiMock\ItemPanel.class
+org\troy\capstone\basictests\Animal.class
+org\troy\capstone\basictests\JavaFXTest.class
+org\troy\capstone\uiMock\BasicUI.class
+org\troy\capstone\uiMock\CategoriesPanel.class
+org\troy\capstone\utils\TableUtils.class
+org\troy\capstone\uiMock\Item.class
