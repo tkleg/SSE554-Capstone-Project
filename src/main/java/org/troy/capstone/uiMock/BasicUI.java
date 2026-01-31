@@ -1,15 +1,13 @@
 package org.troy.capstone.uiMock;
 
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
+import org.troy.capstone.managers.uiElementManager;
 import org.troy.capstone.utils.TableUtils;
 
 import javafx.application.Application;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.TableView;
@@ -25,6 +23,9 @@ public class BasicUI extends Application {
         //Use Faker to generate random data
         Faker faker = new Faker();
         
+        //Create uiElementManager to hold UI elements
+        uiElementManager uiManager = new uiElementManager();
+        
         GridPane gridPane = new GridPane();
         gridPane.setPadding(new Insets(20)); // Add 20px padding around all edges
         gridPane.setHgap(10); // 10px horizontal spacing between columns
@@ -35,7 +36,7 @@ public class BasicUI extends Application {
         gridPane.add(itemScroller, 0, 1, 2, 3);
 
         //Get and setup the SearchBar
-        SearchBar searchBar = new SearchBar();
+        SearchBar searchBar = new SearchBar( uiManager);
         gridPane.add(searchBar, 0, 0, 2, 1);
 
         //Generate 10 random departments and categories and make Sets
@@ -46,18 +47,18 @@ public class BasicUI extends Application {
             categories.add( faker.commerce().material() );
         }
         //Insert a FiltersContainer
-        FiltersContainer filtersContainer = new FiltersContainer();
+        FiltersContainer filtersContainer = new FiltersContainer( uiManager );
         filtersContainer.addFilterPanel("Departments", departments);
         filtersContainer.addFilterPanel("Categories", categories);
         gridPane.add(filtersContainer, 2, 1, 2, 1);
 
         //Set additional action for SearchBar to get Checked options
-        final Map<String, Set<String>> selectedOptions = new HashMap<>();
+        /*final Map<String, Set<String>> selectedOptions = new HashMap<>();
         searchBar.addAdditionalAction((ActionEvent e) ->{
             selectedOptions.clear();
             selectedOptions.putAll( filtersContainer.getSelectedFilters() );
             System.out.println("Selected Options: " + selectedOptions.toString());
-        });
+        });*/
 
         //Insert a TableView to test the Tablesaw integration
         TableView<ObservableList<Object>> tableView = TableUtils.tablesawTableToTableView(
@@ -68,7 +69,7 @@ public class BasicUI extends Application {
 
 
         ///Get and setup the PriceSlider
-        PriceSlider priceSlider = new PriceSlider(0, 500);
+        PriceSlider priceSlider = new PriceSlider(0, 500, uiManager );
         gridPane.add(priceSlider, 2, 0, 2, 1);
         gridPane.setPrefSize(1000, 700);
         Scene scene = new Scene(gridPane);
