@@ -31,11 +31,7 @@ public class BasicUI extends Application {
         gridPane.setVgap(10); // 10px vertical spacing between rows
 
         //Get and set up the ItemScroller with random items
-        ItemScroller itemScroller = new ItemScroller();
-        int numItems = 10;
-        for(int x = 0; x < numItems; x++)
-            itemScroller.addItemPanel(new ItemPanel(Item.randomItem()));
-        itemScroller.setPrefSize(500, 600);
+        ItemScroller itemScroller = createSimpleItemScroller();
         gridPane.add(itemScroller, 0, 1, 2, 3);
 
         //Get and setup the SearchBar
@@ -80,6 +76,15 @@ public class BasicUI extends Application {
         primaryStage.setTitle("Basic UI");
         primaryStage.show();
 
+    }
+
+    private static ItemScroller createSimpleItemScroller(){
+        ItemScroller itemScroller = new ItemScroller();
+        int numItems = 10;
+        for(int x = 0; x < numItems; x++)
+            itemScroller.addItemPanel(new ItemPanel(Item.randomItem()));
+        itemScroller.setPrefSize(500, 600);
+        return itemScroller;
     }
 
     public static void main(String[] args) {
