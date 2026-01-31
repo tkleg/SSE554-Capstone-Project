@@ -12,6 +12,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.GridPane;
+import net.datafaker.Faker;
 import tech.tablesaw.api.Table;
 
 public class BasicUI extends Application {
@@ -19,6 +20,9 @@ public class BasicUI extends Application {
     @Override
     public void start(javafx.stage.Stage primaryStage) throws Exception {
 
+        //Use Faker to generate random data
+        Faker faker = new Faker();
+        
         GridPane gridPane = new GridPane();
         gridPane.setPadding(new Insets(20)); // Add 20px padding around all edges
         gridPane.setHgap(10); // 10px horizontal spacing between columns
@@ -36,8 +40,12 @@ public class BasicUI extends Application {
         SearchBar searchBar = new SearchBar();
         gridPane.add(searchBar, 0, 0, 2, 1);
 
+        //Generate 10 random categories and make a Set
+        Set<String> departments = new HashSet<String>();
+        for( int x = 0; x < 10; x++)
+            departments.add( faker.commerce().department() );
         //Insert a CategoriesPanel
-        CategoriesPanel categoriesPanel = new CategoriesPanel();
+        FilterPanel categoriesPanel = new FilterPanel("Departments", departments);
         gridPane.add(categoriesPanel, 2, 1, 2, 1);
 
         //Insert a TableView to test the Tablesaw integration
@@ -49,12 +57,12 @@ public class BasicUI extends Application {
 
 
         //Set additional action for SearchBar to get Checked Categories
-        Set<String> selectedCategories = new HashSet<String>();
+        Set<String> selectedDepartments = new HashSet<String>();
         searchBar.addAdditionalAction((ActionEvent e) ->{
-            selectedCategories.clear();
-            for(String category : categoriesPanel.getCheckedCategories())
-                selectedCategories.add(category);
-            System.out.println("Selected Categories: " + selectedCategories);
+            selectedDepartments.clear();
+            for(String department : categoriesPanel.getCheckedOptions())
+                selectedDepartments.add(department);
+            System.out.println("Selected Departments: " + selectedDepartments);
         });
 
         ///Get and setup the PriceSlider
