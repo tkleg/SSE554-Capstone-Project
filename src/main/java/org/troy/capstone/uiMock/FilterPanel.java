@@ -22,7 +22,11 @@ public class FilterPanel extends TitledPane{
 
         setAlignment(Pos.CENTER_LEFT); // Align everything to the left
 
-        setStyle("-fx-font-weight: bold;");//Bold title style
+        // Style only the title text, not the content
+        setStyle("-fx-font-weight: bold");
+        
+        // Ensure the content (checkboxes) use normal font weight
+        contentBox.setStyle("-fx-font-weight: normal;");
 
         contentBox.getChildren().addAll(optionCheckBoxes);
 
