@@ -1,6 +1,8 @@
 package org.troy.capstone.uiMock;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import org.troy.capstone.utils.TableUtils;
@@ -44,9 +46,10 @@ public class BasicUI extends Application {
         Set<String> departments = new HashSet<String>();
         for( int x = 0; x < 10; x++)
             departments.add( faker.commerce().department() );
-        //Insert a CategoriesPanel
-        FilterPanel categoriesPanel = new FilterPanel("Departments", departments);
-        gridPane.add(categoriesPanel, 2, 1, 2, 1);
+        //Insert a FiltersContainer
+        FiltersContainer filtersContainer = new FiltersContainer();
+        filtersContainer.addFilterPanel("Departments", departments);
+        gridPane.add(filtersContainer, 2, 1, 2, 1);
 
         //Insert a TableView to test the Tablesaw integration
         TableView<ObservableList<Object>> tableView = TableUtils.tablesawTableToTableView(
@@ -56,13 +59,12 @@ public class BasicUI extends Application {
         gridPane.add(tableView, 2, 3, 2, 2);
 
 
-        //Set additional action for SearchBar to get Checked Categories
-        Set<String> selectedDepartments = new HashSet<String>();
+        //Set additional action for SearchBar to get Checked options
+        final Map<String, Set<String>> selectedOptions = new HashMap<>();
         searchBar.addAdditionalAction((ActionEvent e) ->{
-            selectedDepartments.clear();
-            for(String department : categoriesPanel.getCheckedOptions())
-                selectedDepartments.add(department);
-            System.out.println("Selected Departments: " + selectedDepartments);
+            selectedOptions.clear();
+            selectedOptions.putAll( filtersContainer.getSelectedFilters() );
+            System.out.println("Selected Options: " + selectedOptions.toString());
         });
 
         ///Get and setup the PriceSlider
