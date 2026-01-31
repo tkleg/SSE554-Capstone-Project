@@ -13,20 +13,17 @@ public class FilterPanel extends VBox{
     private final Set<CheckBox> optionCheckBoxes;//Not the same as the tile pane that holds them
     //This list is meant to make it easier to retrieve which options are selected
 
-    public FilterPanel(String title, Set<String> options) {
-        optionCheckBoxes = new HashSet<>();
+    public FilterPanel(String title, Set<CheckBox> options) {
+        optionCheckBoxes = new HashSet<>(options);
         setAlignment(Pos.CENTER_LEFT); // Align everything to the left
         
-        //Add header label first (at the top)
+        //Add header label first (at the top) and style to bold text
         Label titleLabel = new Label(title);
         titleLabel.setStyle("-fx-font-weight: bold;");
         getChildren().add(titleLabel);
         
-        for(String option : options) {
-            CheckBox optionBox = new CheckBox(option);
-            getChildren().add(optionBox);
-            optionCheckBoxes.add(optionBox);
-        }
+        //Add all option CheckBoxes below the title
+        getChildren().addAll(optionCheckBoxes);
     }
 
     public Set<String> getCheckedOptions() {

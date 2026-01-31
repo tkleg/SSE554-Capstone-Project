@@ -42,22 +42,18 @@ public class BasicUI extends Application {
         SearchBar searchBar = new SearchBar();
         gridPane.add(searchBar, 0, 0, 2, 1);
 
-        //Generate 10 random categories and make a Set
+        //Generate 10 random departments and categories and make Sets
         Set<String> departments = new HashSet<String>();
-        for( int x = 0; x < 10; x++)
+        Set<String> categories = new HashSet<String>();
+        for( int x = 0; x < 10; x++){
             departments.add( faker.commerce().department() );
+            categories.add( faker.commerce().material() );
+        }
         //Insert a FiltersContainer
         FiltersContainer filtersContainer = new FiltersContainer();
         filtersContainer.addFilterPanel("Departments", departments);
+        filtersContainer.addFilterPanel("Categories", categories);
         gridPane.add(filtersContainer, 2, 1, 2, 1);
-
-        //Insert a TableView to test the Tablesaw integration
-        TableView<ObservableList<Object>> tableView = TableUtils.tablesawTableToTableView(
-            Table.read().csv("data/teams.csv")
-        );
-        tableView.setMaxSize(400, 300);
-        gridPane.add(tableView, 2, 3, 2, 2);
-
 
         //Set additional action for SearchBar to get Checked options
         final Map<String, Set<String>> selectedOptions = new HashMap<>();
@@ -66,6 +62,14 @@ public class BasicUI extends Application {
             selectedOptions.putAll( filtersContainer.getSelectedFilters() );
             System.out.println("Selected Options: " + selectedOptions.toString());
         });
+
+        //Insert a TableView to test the Tablesaw integration
+        TableView<ObservableList<Object>> tableView = TableUtils.tablesawTableToTableView(
+            Table.read().csv("data/teams.csv")
+        );
+        tableView.setMaxSize(400, 300);
+        gridPane.add(tableView, 2, 3, 2, 2);
+
 
         ///Get and setup the PriceSlider
         PriceSlider priceSlider = new PriceSlider(0, 500);
