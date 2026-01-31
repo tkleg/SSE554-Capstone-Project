@@ -6,24 +6,26 @@ import java.util.stream.Collectors;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
+import javafx.scene.control.TitledPane;
 import javafx.scene.layout.VBox;
 
-public class FilterPanel extends VBox{
+public class FilterPanel extends TitledPane{
     private final Set<CheckBox> optionCheckBoxes;//Not the same as the tile pane that holds them
     //This list is meant to make it easier to retrieve which options are selected
 
     public FilterPanel(String title, Set<CheckBox> options) {
         optionCheckBoxes = new HashSet<>(options);
+        VBox contentBox = new VBox(5); // 5px spacing between checkboxes
+        super(title, contentBox);
+
+        setExpanded(false);
+
         setAlignment(Pos.CENTER_LEFT); // Align everything to the left
-        
-        //Add header label first (at the top) and style to bold text
-        Label titleLabel = new Label(title);
-        titleLabel.setStyle("-fx-font-weight: bold;");
-        getChildren().add(titleLabel);
-        
-        //Add all option CheckBoxes below the title
-        getChildren().addAll(optionCheckBoxes);
+
+        setStyle("-fx-font-weight: bold;");//Bold title style
+
+        contentBox.getChildren().addAll(optionCheckBoxes);
+
     }
 
     public Set<String> getCheckedOptions() {
