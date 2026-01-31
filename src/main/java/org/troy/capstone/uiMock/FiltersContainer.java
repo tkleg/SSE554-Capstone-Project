@@ -8,7 +8,13 @@ import java.util.stream.Collectors;
 
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 
 public class FiltersContainer extends ScrollPane {
     private final Map<String, Set<CheckBox>> filterOptions;
@@ -17,7 +23,12 @@ public class FiltersContainer extends ScrollPane {
     public FiltersContainer() {
         filterOptions = new HashMap<>();
         contentContainer = new VBox();
+        contentContainer.setSpacing(10); // Add spacing between filter panels
+        contentContainer.setFillWidth(true); // Make children fill the available width
         setContent(contentContainer);
+        setFitToWidth(true); // Make the ScrollPane's content fit to the width
+        setPrefSize(400, 250);
+        setMaxSize(USE_PREF_SIZE, USE_PREF_SIZE);
     }
 
     public void addFilterPanel( String title, Set<String> options ) {
@@ -25,7 +36,15 @@ public class FiltersContainer extends ScrollPane {
         for (String option : options)
             checkBoxes.add(new CheckBox(option));
         filterOptions.put( title, checkBoxes );
-        contentContainer.getChildren().add( new FilterPanel(title, options) );
+        FilterPanel filterPanel = new FilterPanel(title, checkBoxes);
+        filterPanel.setBorder(new Border(new BorderStroke(
+            Color.BLACK, 
+            BorderStrokeStyle.SOLID, 
+            new CornerRadii(2), 
+            new BorderWidths(2)
+        )));
+        filterPanel.setMaxWidth(Double.MAX_VALUE); // Allow the panel to expand to fill available width
+        contentContainer.getChildren().add(filterPanel);
     }
 
     public Map<String, Set<String>> getSelectedFilters() {
