@@ -1,6 +1,6 @@
 package org.troy.capstone.uiMock;
 
-import org.troy.capstone.constants.uiElementNames;
+import org.troy.capstone.constants.uiElementName;
 import org.troy.capstone.managers.uiElementManager;
 
 import javafx.scene.control.Label;
@@ -21,7 +21,7 @@ public class PriceSlider extends VBox {
         minSlider.setMajorTickUnit((max - min) / 4);
         minSlider.setBlockIncrement(1);
         minSlider.setPrefWidth(150);
-        uiManager.addElement(uiElementNames.MIN_PRICE_SLIDER, minSlider);
+        uiManager.addElement(uiElementName.MIN_PRICE_SLIDER, minSlider);
 
         // Max slider
         maxSlider = new Slider(min, max, max);
@@ -30,7 +30,7 @@ public class PriceSlider extends VBox {
         maxSlider.setMajorTickUnit((max - min) / 4);
         maxSlider.setBlockIncrement(1);
         maxSlider.setPrefWidth(150);
-        uiManager.addElement(uiElementNames.MAX_PRICE_SLIDER, maxSlider);
+        uiManager.addElement(uiElementName.MAX_PRICE_SLIDER, maxSlider);
 
         // Label
         label = new Label("Price: $" + String.format("%.0f - %.0f", min, max));

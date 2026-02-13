@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.troy.capstone.constants.uiElementNames;
+import org.troy.capstone.constants.uiElementName;
 import org.troy.capstone.managers.uiElementManager;
 
 import javafx.scene.control.CheckBox;
@@ -33,7 +33,7 @@ public class FiltersContainer extends ScrollPane {
         setPrefSize(400, 250);
         setMaxSize(USE_PREF_SIZE, USE_PREF_SIZE);
 
-        uiManager.addElement(uiElementNames.FILTERS_CONTAINER, this);
+        uiManager.addElement(uiElementName.FILTERS_CONTAINER, this);
     }
 
     public void addFilterPanel( String title, Set<String> options ) {

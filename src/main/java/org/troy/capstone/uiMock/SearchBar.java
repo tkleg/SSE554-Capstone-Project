@@ -3,7 +3,7 @@ package org.troy.capstone.uiMock;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.troy.capstone.constants.uiElementNames;
+import org.troy.capstone.constants.uiElementName;
 import org.troy.capstone.managers.uiElementManager;
 
 import javafx.event.ActionEvent;
@@ -21,10 +21,10 @@ public class SearchBar extends HBox {
         additionalActions = new ArrayList<>();
         searchField = new TextField();
         searchField.setPromptText("Enter Query Here");
-        uiManager.addElement(uiElementNames.SEARCH_FIELD, searchField);
+        uiManager.addElement(uiElementName.SEARCH_FIELD, searchField);
 
         searchButton = new Button("Search");
-        uiManager.addElement(uiElementNames.SEARCH_BUTTON, searchButton);
+        uiManager.addElement(uiElementName.SEARCH_BUTTON, searchButton);
 
         /*searchButton.setOnAction(e -> {
             System.out.println( "Search Query: " + searchField.getText() );
