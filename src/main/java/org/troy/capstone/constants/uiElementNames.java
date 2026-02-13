@@ -1,10 +1,10 @@
 package org.troy.capstone.constants;
 
 public class uiElementNames {
-    public static final String ITEM_SCROLLER = "item_scroller";
-    public static final String FILTERS_CONTAINER = "filters_container";
-    public static final String MIN_PRICE_SLIDER = "min_price_slider";
-    public static final String MAX_PRICE_SLIDER = "max_price_slider";
-    public static final String SEARCH_FIELD = "search_field";
-    public static final String SEARCH_BUTTON = "search_button";
+    public static final String ITEM_SCROLLER = "ITEM_SCROLLER";
+    public static final String FILTERS_CONTAINER = "FILTERS_CONTAINER";
+    public static final String MIN_PRICE_SLIDER = "MIN_PRICE_SLIDER";
+    public static final String MAX_PRICE_SLIDER = "MAX_PRICE_SLIDER";
+    public static final String SEARCH_FIELD = "SEARCH_FIELD";
+    public static final String SEARCH_BUTTON = "SEARCH_BUTTON";
 }
