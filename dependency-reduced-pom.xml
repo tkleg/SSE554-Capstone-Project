@@ -57,7 +57,7 @@
             <configuration>
               <transformers>
                 <transformer>
-                  <mainClass>org.troy.capstone.uiMock.BasicUI</mainClass>
+                  <mainClass>org.troy.capstone.Main</mainClass>
                 </transformer>
               </transformers>
               <finalName>${project.artifactId}-${project.version}-with-dependencies</finalName>
@@ -81,12 +81,12 @@
           <execution>
             <id>default-cli</id>
             <configuration>
-              <mainClass>org.troy.capstone.uiMock.BasicUI</mainClass>
+              <mainClass>org.troy.capstone.Main</mainClass>
             </configuration>
           </execution>
         </executions>
         <configuration>
-          <mainClass>org.troy.capstone.uiMock.BasicUI</mainClass>
+          <mainClass>org.troy.capstone.Main</mainClass>
           <commandlineArgs>--add-modules javafx.controls,javafx.fxml</commandlineArgs>
         </configuration>
       </plugin>
