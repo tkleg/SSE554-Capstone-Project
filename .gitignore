@@ -7,3 +7,6 @@ target/
 *.tar.gz
 *.msi
 *.exe
+
+#Holds an API key
+.env

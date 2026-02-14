@@ -5,21 +5,21 @@ import java.util.List;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 
-public class ItemScroller extends ScrollPane {
+public class SearchedItemContainer extends ScrollPane {
     private VBox itemContainer;
     
-    public ItemScroller() {
+    public SearchedItemContainer() {
         super();
         itemContainer = new VBox(5); // 5px spacing between items
         setContent(itemContainer);
         setFitToWidth(true);
     }
 
-    public void addItemPanel(ItemPanel itemPanel) {
+    public void addItemPanel(SearchedItemPanel itemPanel) {
         itemContainer.getChildren().add(itemPanel);
     }
 
-    public void addItemPanels(List<ItemPanel> itemPanels) {
+    public void addItemPanels(List<SearchedItemPanel> itemPanels) {
         itemContainer.getChildren().addAll(itemPanels);
     }
 }

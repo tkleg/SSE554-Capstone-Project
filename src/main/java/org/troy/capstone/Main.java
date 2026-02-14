@@ -6,8 +6,8 @@ import java.util.Set;
 import org.troy.capstone.managers.GeneralManager;
 import org.troy.capstone.uiComponents.filters.FiltersContainer;
 import org.troy.capstone.uiComponents.items.Item;
-import org.troy.capstone.uiComponents.items.searched.ItemPanel;
-import org.troy.capstone.uiComponents.items.searched.ItemScroller;
+import org.troy.capstone.uiComponents.items.searched.SearchedItemContainer;
+import org.troy.capstone.uiComponents.items.searched.SearchedItemPanel;
 import org.troy.capstone.uiComponents.priceSlider.PriceSlider;
 import org.troy.capstone.uiComponents.searchBar.SearchBar;
 import org.troy.capstone.utils.TableUtils;
@@ -39,7 +39,7 @@ public class Main extends Application {
         gridPane.setVgap(10); // 10px vertical spacing between rows
 
         //Get and set up the ItemScroller with random items
-        ItemScroller itemScroller = createSimpleItemScroller();
+        SearchedItemContainer itemScroller = createSimpleItemScroller();
         gridPane.add(itemScroller, 0, 1, 2, 3);
 
         //Get and setup the SearchBar
@@ -86,11 +86,11 @@ public class Main extends Application {
 
     }
 
-    private static ItemScroller createSimpleItemScroller(){
-        ItemScroller itemScroller = new ItemScroller();
+    private static SearchedItemContainer createSimpleItemScroller(){
+        SearchedItemContainer itemScroller = new SearchedItemContainer();
         int numItems = 10;
         for(int x = 0; x < numItems; x++)
-            itemScroller.addItemPanel(new ItemPanel(Item.randomItem()));
+            itemScroller.addItemPanel(new SearchedItemPanel(Item.randomItem()));
         itemScroller.setPrefSize(500, 600);
         return itemScroller;
     }

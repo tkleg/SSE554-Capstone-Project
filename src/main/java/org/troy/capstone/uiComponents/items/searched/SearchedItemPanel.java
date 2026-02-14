@@ -14,12 +14,12 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
-public class ItemPanel extends HBox{
+public class SearchedItemPanel extends HBox{
 
     private ImageView imageView;
     private VBox rightPanel;
 
-    public ItemPanel(Item item) {
+    public SearchedItemPanel(Item item) {
         // Set up the left side - image
         imageView = new ImageView(item.getImage());
         imageView.setFitWidth(150);
