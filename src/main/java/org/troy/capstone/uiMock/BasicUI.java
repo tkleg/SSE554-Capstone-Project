@@ -3,7 +3,8 @@ package org.troy.capstone.uiMock;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.troy.capstone.managers.uiElementManager;
+import org.troy.capstone.managers.GeneralManager;
+import org.troy.capstone.managers.UIElementManager;
 import org.troy.capstone.utils.TableUtils;
 
 import javafx.application.Application;
@@ -23,8 +24,8 @@ public class BasicUI extends Application {
         //Use Faker to generate random data
         Faker faker = new Faker();
         
-        //Create uiElementManager to hold UI elements
-        uiElementManager uiManager = new uiElementManager();
+        //Create generalManager
+        GeneralManager generalManager = new GeneralManager();
         
         GridPane gridPane = new GridPane();
         gridPane.setPadding(new Insets(20)); // Add 20px padding around all edges
@@ -36,7 +37,7 @@ public class BasicUI extends Application {
         gridPane.add(itemScroller, 0, 1, 2, 3);
 
         //Get and setup the SearchBar
-        SearchBar searchBar = new SearchBar( uiManager);
+        SearchBar searchBar = new SearchBar(generalManager);
         gridPane.add(searchBar, 0, 0, 2, 1);
 
         //Generate 10 random departments and categories and make Sets
@@ -47,7 +48,7 @@ public class BasicUI extends Application {
             categories.add( faker.commerce().material() );
         }
         //Insert a FiltersContainer
-        FiltersContainer filtersContainer = new FiltersContainer( uiManager );
+        FiltersContainer filtersContainer = new FiltersContainer(generalManager);
         filtersContainer.addFilterPanel("Departments", departments);
         filtersContainer.addFilterPanel("Categories", categories);
         gridPane.add(filtersContainer, 2, 1, 2, 1);
@@ -69,7 +70,7 @@ public class BasicUI extends Application {
 
 
         ///Get and setup the PriceSlider
-        PriceSlider priceSlider = new PriceSlider(0, 500, uiManager );
+        PriceSlider priceSlider = new PriceSlider(0, 500, generalManager );
         gridPane.add(priceSlider, 2, 0, 2, 1);
         gridPane.setPrefSize(1000, 700);
         Scene scene = new Scene(gridPane);

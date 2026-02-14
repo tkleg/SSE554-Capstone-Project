@@ -13,22 +13,22 @@ import javafx.scene.Node;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 
-public class uiElementManager {
-    private Map<String, Node> uiElements;
+public class UIElementManager {
+    private final Map<uiElementName, Node> uiElements;
     
-    public uiElementManager() {
+    public UIElementManager() {
         uiElements = new HashMap<>();
     }
 
     public Optional<Node> getElement(uiElementName key) {
-        return Optional.ofNullable(uiElements.get(key.getValue()));
+        return Optional.ofNullable(uiElements.get(key));
     }
 
     public void addElement(uiElementName key, Node element) {
-        uiElements.put(key.getValue(), element);
+        uiElements.put(key, element);
     }
 
-    public Set<String> getAllKeys() {
+    public Set<uiElementName> getAllKeys() {
         return uiElements.keySet();
     }
 

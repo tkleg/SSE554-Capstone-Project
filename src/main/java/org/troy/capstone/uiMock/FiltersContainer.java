@@ -7,7 +7,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.troy.capstone.constants.uiElementName;
-import org.troy.capstone.managers.uiElementManager;
+import org.troy.capstone.managers.GeneralManager;
 
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ScrollPane;
@@ -23,7 +23,7 @@ public class FiltersContainer extends ScrollPane {
     private final Map<String, Set<CheckBox>> filterOptions;
     private final VBox contentContainer;
 
-    public FiltersContainer( uiElementManager uiManager ) {
+    public FiltersContainer( GeneralManager generalManager ) {
         filterOptions = new HashMap<>();
         contentContainer = new VBox();
         contentContainer.setSpacing(10); // Add spacing between filter panels
@@ -33,7 +33,7 @@ public class FiltersContainer extends ScrollPane {
         setPrefSize(400, 250);
         setMaxSize(USE_PREF_SIZE, USE_PREF_SIZE);
 
-        uiManager.addElement(uiElementName.FILTERS_CONTAINER, this);
+        generalManager.addUIElement(uiElementName.FILTERS_CONTAINER, this);
     }
 
     public void addFilterPanel( String title, Set<String> options ) {

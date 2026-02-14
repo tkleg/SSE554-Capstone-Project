@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.troy.capstone.constants.uiElementName;
-import org.troy.capstone.managers.uiElementManager;
+import org.troy.capstone.managers.GeneralManager;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -13,18 +13,18 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 
 public class SearchBar extends HBox {
-    private TextField searchField;
+    private final TextField searchField;
     private final Button searchButton;
-    private List<EventHandler<ActionEvent>> additionalActions;
+    private final List<EventHandler<ActionEvent>> additionalActions;
     
-    public SearchBar( uiElementManager uiManager ) {
+    public SearchBar( GeneralManager generalManager ) {
         additionalActions = new ArrayList<>();
         searchField = new TextField();
         searchField.setPromptText("Enter Query Here");
-        uiManager.addElement(uiElementName.SEARCH_FIELD, searchField);
+        generalManager.addUIElement(uiElementName.SEARCH_FIELD, searchField);
 
         searchButton = new Button("Search");
-        uiManager.addElement(uiElementName.SEARCH_BUTTON, searchButton);
+        generalManager.addUIElement(uiElementName.SEARCH_BUTTON, searchButton);
 
         /*searchButton.setOnAction(e -> {
             System.out.println( "Search Query: " + searchField.getText() );
@@ -33,7 +33,7 @@ public class SearchBar extends HBox {
                 action.handle(e);
         });*/
         searchButton.setOnAction( e ->{
-            System.out.println( uiManager.getSearchData() );
+            System.out.println( generalManager.getSearchData() );
         });
 
         getChildren().addAll(searchField, searchButton);
