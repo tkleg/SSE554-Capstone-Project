@@ -6,9 +6,9 @@
     "configurations": [
         {
             "type": "java",
-            "name": "BasicUI",
+            "name": "Main",
             "request": "launch",
-            "mainClass": "org.troy.capstone.uiMock.BasicUI",
+            "mainClass": "org.troy.capstone.Main",
             "vmArgs": "--module-path \"${workspaceFolder}/target/dependency\" --add-modules javafx.controls,javafx.fxml"
         },
         {

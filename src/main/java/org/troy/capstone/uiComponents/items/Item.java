@@ -1,4 +1,4 @@
-package org.troy.capstone.uiMock;
+package org.troy.capstone.uiComponents.items;
 
 import java.util.Date;
 import java.util.Set;

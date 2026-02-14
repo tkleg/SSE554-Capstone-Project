@@ -1,4 +1,4 @@
-package org.troy.capstone.uiMock;
+package org.troy.capstone.uiComponents.searchBar;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,9 +1,15 @@
-package org.troy.capstone.uiMock;
+package org.troy.capstone;
 
 import java.util.HashSet;
 import java.util.Set;
 
 import org.troy.capstone.managers.GeneralManager;
+import org.troy.capstone.uiComponents.filters.FiltersContainer;
+import org.troy.capstone.uiComponents.items.Item;
+import org.troy.capstone.uiComponents.items.searched.ItemPanel;
+import org.troy.capstone.uiComponents.items.searched.ItemScroller;
+import org.troy.capstone.uiComponents.priceSlider.PriceSlider;
+import org.troy.capstone.uiComponents.searchBar.SearchBar;
 import org.troy.capstone.utils.TableUtils;
 
 import javafx.application.Application;
@@ -16,7 +22,7 @@ import javafx.stage.Stage;
 import net.datafaker.Faker;
 import tech.tablesaw.api.Table;
 
-public class BasicUI extends Application {
+public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {

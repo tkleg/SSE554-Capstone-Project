@@ -1,4 +1,4 @@
-package org.troy.capstone.uiMock;
+package org.troy.capstone.uiComponents.items.searched;
 
 import java.util.List;
 

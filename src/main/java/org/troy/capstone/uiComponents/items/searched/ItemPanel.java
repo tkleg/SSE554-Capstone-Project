@@ -1,4 +1,6 @@
-package org.troy.capstone.uiMock;
+package org.troy.capstone.uiComponents.items.searched;
+
+import org.troy.capstone.uiComponents.items.Item;
 
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
