@@ -35,21 +35,17 @@ public class UIElementManager {
     public Map<uiDataNames, Object> getSearchData(){
         Map<uiDataNames, Object> searchData = new HashMap<>();
         
-        Optional<Node> minPriceSliderOpt = getElement(uiElementName.MIN_PRICE_SLIDER);
-        if( minPriceSliderOpt.isPresent() )
-            searchData.put(uiDataNames.MIN_PRICE, ((Slider)minPriceSliderOpt.get()).getValue());
+        getElement(uiElementName.MIN_PRICE_SLIDER)
+        .ifPresent( e -> searchData.put(uiDataNames.MIN_PRICE, ((Slider)e).getValue()) );
 
-        Optional<Node> maxPriceSliderOpt = getElement(uiElementName.MAX_PRICE_SLIDER);
-        if( maxPriceSliderOpt.isPresent() )
-            searchData.put(uiDataNames.MAX_PRICE, ((Slider)maxPriceSliderOpt.get()).getValue());
+        getElement(uiElementName.MAX_PRICE_SLIDER)
+        .ifPresent( e -> searchData.put(uiDataNames.MAX_PRICE, ((Slider)e).getValue()) );
 
-        Optional<Node> searchFieldNodeOpt = getElement(uiElementName.SEARCH_FIELD);
-        if( searchFieldNodeOpt.isPresent() )
-            searchData.put(uiDataNames.SEARCH_QUERY, ((TextField)searchFieldNodeOpt.get()).getText() );
+        getElement(uiElementName.SEARCH_FIELD)
+        .ifPresent( e -> searchData.put(uiDataNames.SEARCH_QUERY, ((TextField)e).getText()) );
 
-        Optional<Node> filtersContainerOpt = getElement(uiElementName.FILTERS_CONTAINER);
-        if( filtersContainerOpt.isPresent() )
-            searchData.put(uiDataNames.FILTERS_CONTAINER, ((FiltersContainer)filtersContainerOpt.get()).getSelectedFilters());
+        getElement(uiElementName.FILTERS_CONTAINER)
+        .ifPresent( e -> searchData.put(uiDataNames.FILTERS_CONTAINER, ((FiltersContainer)e).getSelectedFilters()) );
         
         return searchData;
     }

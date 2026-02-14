@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.troy.capstone.managers.GeneralManager;
-import org.troy.capstone.managers.UIElementManager;
 import org.troy.capstone.utils.TableUtils;
 
 import javafx.application.Application;
@@ -13,13 +12,14 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
 import net.datafaker.Faker;
 import tech.tablesaw.api.Table;
 
 public class BasicUI extends Application {
 
     @Override
-    public void start(javafx.stage.Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) throws Exception {
 
         //Use Faker to generate random data
         Faker faker = new Faker();
@@ -41,8 +41,8 @@ public class BasicUI extends Application {
         gridPane.add(searchBar, 0, 0, 2, 1);
 
         //Generate 10 random departments and categories and make Sets
-        Set<String> departments = new HashSet<String>();
-        Set<String> categories = new HashSet<String>();
+        Set<String> departments = new HashSet<>();
+        Set<String> categories = new HashSet<>();
         for( int x = 0; x < 10; x++){
             departments.add( faker.commerce().department() );
             categories.add( faker.commerce().material() );
