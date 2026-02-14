@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "HttpRequester",
+            "request": "launch",
+            "mainClass": "org.troy.capstone.http.HttpRequester",
+            "projectName": "Project"
+        },
+        {
+            "type": "java",
             "name": "HttpTest",
             "request": "launch",
             "mainClass": "org.troy.capstone.http.HttpTest",
