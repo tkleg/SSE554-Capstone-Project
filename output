@@ -1,3 +1,0 @@
-Removed 9 rows due to errors.
-Rows with errors were at indices: [0, 22, 199, 206, 212, 286, 331, 411, 413]
-Final dataset size after cleanup: 491 rows.
