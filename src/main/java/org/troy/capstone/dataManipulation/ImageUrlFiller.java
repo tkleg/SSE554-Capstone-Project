@@ -1,5 +1,6 @@
 package org.troy.capstone.dataManipulation;
 
+import java.io.IOException;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.net.http.HttpClient;
@@ -21,7 +22,7 @@ import tech.tablesaw.selection.Selection;
 public class ImageUrlFiller {
     public static void main(String[] args) {
         //Load csv file
-        Table productData = Table.read().csv("data\\shopping_dataset_500_items.csv");
+        Table productData = Table.read().csv("data\\1000_items_catalog_v2.csv");
 
         StringColumn imageUrlColumn = productData.stringColumn("image_url");
         StringColumn nameColumn = productData.stringColumn("name");
@@ -82,7 +83,7 @@ public class ImageUrlFiller {
                     badRowIndexes.add(i);
                 }
                 
-            } catch (Exception e) {
+            } catch (IOException | InterruptedException e) {
                 System.err.println("Exception Caught: Row " + i + " (" + query + "): " + e.getMessage());
                 badRowIndexes.add(i); //mark this row index as bad
             }

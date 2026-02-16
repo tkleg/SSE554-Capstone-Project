@@ -1,6 +1,6 @@
 package org.troy.capstone.uiComponents.items.searched;
 
-import org.troy.capstone.uiComponents.items.Item;
+import org.troy.capstone.entities.Item;
 
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
@@ -16,8 +16,8 @@ import javafx.scene.paint.Color;
 
 public class SearchedItemPanel extends HBox{
 
-    private ImageView imageView;
-    private VBox rightPanel;
+    private final ImageView imageView;
+    private final VBox rightPanel;
 
     public SearchedItemPanel(Item item) {
         // Set up the left side - image

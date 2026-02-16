@@ -1,8 +1,11 @@
+org\troy\capstone\entities\Item.class
 org\troy\capstone\constants\uiDataNames.class
+org\troy\capstone\uiComponents\items\searched\SearchedItemContainer.class
+org\troy\capstone\uiComponents\items\searched\SearchedItemPanel.class
 org\troy\capstone\basictests\Animal.class
 org\troy\capstone\basictests\JavaFXTest.class
-org\troy\capstone\uiComponents\items\Item$ItemBuilder.class
-org\troy\capstone\uiComponents\items\Item.class
+org\troy\capstone\dataManipulation\ManualDataWriter.class
+org\troy\capstone\entities\Item$ItemBuilder.class
 org\troy\capstone\utils\TableUtils.class
 org\troy\capstone\basictests\SwingTest.class
 org\troy\capstone\managers\GeneralManager.class
@@ -11,5 +14,7 @@ org\troy\capstone\uiComponents\filters\FilterPanel.class
 org\troy\capstone\constants\uiElementName.class
 org\troy\capstone\uiComponents\priceSlider\PriceSlider.class
 org\troy\capstone\uiComponents\searchBar\SearchBar.class
+org\troy\capstone\dataManipulation\ImageUrlFiller.class
+org\troy\capstone\ENV.class
 org\troy\capstone\managers\UIElementManager.class
 org\troy\capstone\uiComponents\filters\FiltersContainer.class

@@ -3,9 +3,9 @@ package org.troy.capstone;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.troy.capstone.entities.Item;
 import org.troy.capstone.managers.GeneralManager;
 import org.troy.capstone.uiComponents.filters.FiltersContainer;
-import org.troy.capstone.uiComponents.items.Item;
 import org.troy.capstone.uiComponents.items.searched.SearchedItemContainer;
 import org.troy.capstone.uiComponents.items.searched.SearchedItemPanel;
 import org.troy.capstone.uiComponents.priceSlider.PriceSlider;

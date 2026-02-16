@@ -8,6 +8,13 @@
             "type": "java",
             "name": "ImageUrlFiller",
             "request": "launch",
+            "mainClass": "org.troy.capstone.dataManipulation.ImageUrlFiller",
+            "projectName": "Project"
+        },
+        {
+            "type": "java",
+            "name": "ImageUrlFiller",
+            "request": "launch",
             "mainClass": "org.troy.capstone.http.ImageUrlFiller",
             "projectName": "Project"
         },

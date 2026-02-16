@@ -6,7 +6,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 
 public class SearchedItemContainer extends ScrollPane {
-    private VBox itemContainer;
+    private final VBox itemContainer;
     
     public SearchedItemContainer() {
         super();
