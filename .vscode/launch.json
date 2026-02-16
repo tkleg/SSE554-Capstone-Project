@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "PriceRangeFinderTest",
+            "request": "launch",
+            "mainClass": "org.troy.capstone.basictests.PriceRangeFinderTest",
+            "projectName": "Project"
+        },
+        {
+            "type": "java",
             "name": "ImageUrlFiller",
             "request": "launch",
             "mainClass": "org.troy.capstone.dataManipulation.ImageUrlFiller",

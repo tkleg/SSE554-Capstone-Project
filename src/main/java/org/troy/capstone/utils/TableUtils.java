@@ -1,5 +1,7 @@
 package org.troy.capstone.utils;
 
+import java.util.Map;
+
 import javax.swing.JTable;
 
 import javafx.beans.property.ReadOnlyObjectWrapper;
@@ -7,8 +9,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import tech.tablesaw.api.ColumnType;
 import tech.tablesaw.api.Table;
 import tech.tablesaw.columns.Column;
+import tech.tablesaw.io.csv.CsvReadOptions;
 
 public class TableUtils {
 
@@ -53,5 +57,17 @@ public class TableUtils {
         tableView.setItems(data);
         
         return tableView;
+    }
+
+    public static Table readCleanedData() {
+        CsvReadOptions options = CsvReadOptions.builder("C:\\Users\\thkle\\SSE554\\SSE554-Capstone-Project\\data\\1000_items_catalog_v2_cleaned.csv")
+            .columnTypesPartial(Map.of(
+                "price", ColumnType.FLOAT,
+                "review_score", ColumnType.FLOAT,
+                "review_count", ColumnType.SHORT,
+                "stock_quantity", ColumnType.SHORT,
+                "id", ColumnType.SHORT
+            )).build();
+        return Table.read().usingOptions(options);    
     }
 }
