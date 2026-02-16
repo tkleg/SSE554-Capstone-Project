@@ -1,0 +1,48 @@
+📊 FREQUENCY ANALYSIS
+====================
+
+🏢 PUBLISHER FREQUENCIES:
+
+Found 8 unique publishers. Showing all:
+  NorthPeak: 139 items
+  BrightLeaf Publishing: 138 items
+  Summit Gear Co.: 129 items
+  BlueRiver Outfitters: 126 items
+  Horizon Tech: 123 items
+  UrbanNest: 121 items
+  Maple Street Press: 113 items
+  SilverLine Electronics: 111 items
+
+📦 CATEGORY FREQUENCIES:
+
+Found 6 unique categories. Showing all:
+  Home & Kitchen: 188 items
+  Office Supplies: 171 items
+  Sports & Outdoors: 167 items
+  Electronics: 163 items
+  Books: 161 items
+  Clothing: 150 items
+
+🏷️  TAG FREQUENCIES (All tags):
+Found 16 unique tags. Showing all:
+  limitededition: 346 times
+  giftable: 333 times
+  premium: 321 times
+  modern: 319 times
+  bestseller: 315 times
+  essential: 314 times
+  portable: 312 times
+  durable: 311 times
+  rechargeable: 310 times
+  lightweight: 309 times
+  compact: 308 times
+  newarrival: 306 times
+  ergonomic: 305 times
+  versatile: 305 times
+  wireless: 302 times
+  waterproof: 284 times
+
+📈 SUMMARY STATISTICS:
+  Total unique publishers: 8
+  Total unique categories: 6
+  Total unique tags: 16
