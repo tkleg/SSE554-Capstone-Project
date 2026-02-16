@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "PriceRangeFinder",
+            "request": "launch",
+            "mainClass": "org.troy.capstone.data_structures.PriceRangeFinder",
+            "projectName": "Project"
+        },
+        {
+            "type": "java",
             "name": "PriceRangeFinderTest",
             "request": "launch",
             "mainClass": "org.troy.capstone.basictests.PriceRangeFinderTest",
