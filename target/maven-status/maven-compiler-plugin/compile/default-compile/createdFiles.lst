@@ -3,14 +3,11 @@ org\troy\capstone\entities\Item.class
 org\troy\capstone\constants\uiDataNames.class
 org\troy\capstone\uiComponents\items\searched\SearchedItemContainer.class
 org\troy\capstone\uiComponents\items\searched\SearchedItemPanel.class
-org\troy\capstone\basictests\Animal.class
-org\troy\capstone\basictests\JavaFXTest.class
 org\troy\capstone\dataManipulation\ManualDataWriter.class
 org\troy\capstone\entities\Item$ItemBuilder.class
 org\troy\capstone\utils\Converters.class
 org\troy\capstone\data_structures\PriceRangeFinder.class
 org\troy\capstone\utils\TableUtils.class
-org\troy\capstone\basictests\SwingTest.class
 org\troy\capstone\managers\GeneralManager.class
 org\troy\capstone\data_structures\ItemHashMap.class
 org\troy\capstone\Main.class
