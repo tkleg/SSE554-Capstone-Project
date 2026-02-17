@@ -5,41 +5,33 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Optional;
 
-import org.troy.capstone.annotations.Generated;
+import org.troy.capstone.annotations.TestExclusionGenerated;
 import org.troy.capstone.constants.tableColumns;
 import org.troy.capstone.entities.Item;
 import org.troy.capstone.utils.Converters;
 import org.troy.capstone.utils.TableUtils;
 
-import javafx.application.Platform;
 import tech.tablesaw.api.Row;
 import tech.tablesaw.api.Table;
 
 public class ItemHashMap extends HashMap<Short, Item> {
 
-    @Generated
+    @TestExclusionGenerated
     public static void main(String[] args) {
-        // Initialize JavaFX Platform
-        // Needed to create Image objects for Items, which requires JavaFX to be initialized
-        Platform.startup(() -> {});
-        
         Table table = TableUtils.readCleanedData();
         ItemHashMap itemMap = new ItemHashMap(table);
         short testId = table.shortColumn(tableColumns.ID.getColumnName()).get(0); // Get the ID of the first item in the table for testing
         Optional<Item> itemOpt = itemMap.getItem(testId);
-        itemOpt.ifPresentOrElse(
-            item -> System.out.println("Item with ID " + testId + ": " + item),
-            () -> System.out.println("Item with ID " + testId + " not found.")
-        );
-        
-        // Exit JavaFX Platform
-        Platform.exit();
+        if (itemOpt.isPresent())
+            System.out.println("Item with ID " + testId + ": " + itemOpt.get());
+        else
+            System.out.println("Item with ID " + testId + " not found in ItemHashMap.");
     }
 
     public ItemHashMap(Table table) {
         addAllItems(table);
     }
-
+    
     private void addItem(Row itemRow) {
         short itemId = itemRow.getShort(tableColumns.ID.getColumnName());
         String tags = itemRow.getString(tableColumns.TAGS.getColumnName());

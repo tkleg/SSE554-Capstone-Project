@@ -170,6 +170,8 @@
                         <exclude>**/Test*.class</exclude>
                         <!-- Exclude basictests package -->
                         <exclude>**/basictests/**</exclude>
+                        <!-- Exclude classes/methods with TestExclusionGenerated annotation -->
+                        <exclude>**/*Generated*.class</exclude>
                     </excludes>
                 </configuration>
                 <executions>

@@ -83,10 +83,10 @@
         </executions>
         <configuration>
           <excludes>
-            <exclude>**/main</exclude>
             <exclude>**/*Test.class</exclude>
             <exclude>**/Test*.class</exclude>
             <exclude>**/basictests/**</exclude>
+            <exclude>**/*Generated*.class</exclude>
           </excludes>
         </configuration>
       </plugin>
