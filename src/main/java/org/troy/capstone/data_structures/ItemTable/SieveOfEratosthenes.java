@@ -2,6 +2,9 @@ package org.troy.capstone.data_structures.ItemTable;
 
 import java.util.Optional;
 
+import org.troy.capstone.annotations.TestExclusionGenerated;
+
+//Code originally sourced from the MindTap assignment, but modified to find the largest prime smaller or equal to (2 * Short.MAX_VALUE) instead of the smallest prime greater than Short.MAX_VALUE
 public class SieveOfEratosthenes {
 
     boolean[] notAPrime;
@@ -43,6 +46,7 @@ public class SieveOfEratosthenes {
         return Optional.empty();
     }
 
+    @TestExclusionGenerated
     public static void main(String[] args) {
         System.out.println("Short.MAX_VALUE: " + Short.MAX_VALUE);
         SieveOfEratosthenes s = new SieveOfEratosthenes(Short.MAX_VALUE * 2);

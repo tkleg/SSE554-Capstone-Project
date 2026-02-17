@@ -1,5 +1,6 @@
 package org.troy.capstone.data_structures.ItemTable;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,7 +20,6 @@ public class SieveOfEratosthenesTest {
         assert !s.isPrime(3432) : "3432 should not be prime";
         assert !s.isPrime(12) : "12 should not be prime";
         assert s.isPrime(67) : "67 should be prime";
-        System.out.println("32771 is prime: " + s.isPrime(32771));
     }
 
     @Test
@@ -27,7 +27,7 @@ public class SieveOfEratosthenesTest {
     public void testPrimeBeyondShortRangeValue() {
         SieveOfEratosthenes s = new SieveOfEratosthenes(Short.MAX_VALUE * 2);
         int primeBeyondShort = s.primeBeyondShortRange().orElse(-1);
-        assert primeBeyondShort > Short.MAX_VALUE : "Prime beyond short range should be greater than Short.MAX_VALUE";
+        assertEquals(65521, primeBeyondShort, "Prime beyond short range should be 65521");
         assert s.isPrime(primeBeyondShort) : "Returned value should be prime";
     }
 }
