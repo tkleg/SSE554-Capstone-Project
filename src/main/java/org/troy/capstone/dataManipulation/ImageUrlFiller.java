@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.troy.capstone.ENV;
+import org.troy.capstone.annotations.Generated;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,6 +21,7 @@ import tech.tablesaw.api.Table;
 import tech.tablesaw.selection.Selection;
 
 public class ImageUrlFiller {
+    @Generated
     public static void main(String[] args) {
         //Load csv file
         Table productData = Table.read().csv("data\\1000_items_catalog_v2.csv");

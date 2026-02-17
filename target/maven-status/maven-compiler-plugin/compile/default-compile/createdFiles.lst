@@ -6,6 +6,7 @@ org\troy\capstone\uiComponents\items\searched\SearchedItemPanel.class
 org\troy\capstone\dataManipulation\ManualDataWriter.class
 org\troy\capstone\entities\Item$ItemBuilder.class
 org\troy\capstone\utils\Converters.class
+org\troy\capstone\annotations\Generated.class
 org\troy\capstone\data_structures\PriceRangeFinder.class
 org\troy\capstone\utils\TableUtils.class
 org\troy\capstone\managers\GeneralManager.class

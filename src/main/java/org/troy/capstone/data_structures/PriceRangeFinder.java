@@ -3,6 +3,7 @@ package org.troy.capstone.data_structures;
 import java.util.List;
 import java.util.TreeMap;
 
+import org.troy.capstone.annotations.Generated;
 import org.troy.capstone.constants.tableColumns;
 import org.troy.capstone.utils.TableUtils;
 
@@ -10,6 +11,7 @@ import tech.tablesaw.api.Table;
 
 public class PriceRangeFinder extends TreeMap<Float, Short> {
 
+    @Generated
     public static void main(String[] args) {
         Table table = TableUtils.readCleanedData();
         PriceRangeFinder finder = new PriceRangeFinder(table);

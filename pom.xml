@@ -163,6 +163,15 @@
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.8.14</version>
+                <configuration>
+                    <excludes>
+                        <!-- Exclude test classes -->
+                        <exclude>**/*Test.class</exclude>
+                        <exclude>**/Test*.class</exclude>
+                        <!-- Exclude basictests package -->
+                        <exclude>**/basictests/**</exclude>
+                    </excludes>
+                </configuration>
                 <executions>
                     <execution>
                         <goals>

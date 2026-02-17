@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Optional;
 
+import org.troy.capstone.annotations.Generated;
 import org.troy.capstone.constants.tableColumns;
 import org.troy.capstone.entities.Item;
 import org.troy.capstone.utils.Converters;
@@ -16,6 +17,7 @@ import tech.tablesaw.api.Table;
 
 public class ItemHashMap extends HashMap<Short, Item> {
 
+    @Generated
     public static void main(String[] args) {
         // Initialize JavaFX Platform
         // Needed to create Image objects for Items, which requires JavaFX to be initialized
