@@ -48,7 +48,7 @@ public class PriceRangeFinderTest {
         Table filteredTable = table.where(table.floatColumn("price").isBetweenInclusive(minPrice, maxPrice));
         assertNotNull(filteredTable);
         
-        List<Short> filteredByRange = finder.findItemsInPriceRange((float)minPrice, (float)maxPrice);
+        List<String> filteredByRange = finder.findItemsInPriceRange((float)minPrice, (float)maxPrice);
         assertNotNull(filteredByRange);
 
         assertEquals(filteredTable.rowCount(), filteredByRange.size(), 

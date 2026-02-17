@@ -35,6 +35,11 @@ public class SieveOfEratosthenes {
         return !notAPrime[value];
     }
 
+    public static Optional<Integer> staticPrimeBeyondShortRange() {
+        SieveOfEratosthenes s = new SieveOfEratosthenes(Short.MAX_VALUE * 2);
+        return s.primeBeyondShortRange();
+    }
+
     public Optional<Integer> primeBeyondShortRange(){
         if( Short.MAX_VALUE * 2 > notAPrime.length )// If our sieve doesn't cover the range we need, we can't find the prime
             return Optional.empty();

@@ -14,74 +14,15 @@ import org.troy.capstone.utils.TableUtils;
 import tech.tablesaw.api.Row;
 import tech.tablesaw.api.Table;
 
-/**
- * Custom key wrapper that allows us to override the hash function
- */
-class PrimeHashKey {
-    private final short value;
-    
-    // Prime constants for hash calculation
-    private static final int PRIME1 = 31;
-    private static final int PRIME2 = 17;
-    private static final int PRIME3 = 13;
-    
-    public PrimeHashKey(short value) {
-        this.value = value;
-    }
-    
-    public short getValue() {
-        return value;
-    }
-    
-    @Override
-    public int hashCode() {
-        // Improved hash function that truly scrambles consecutive values
-        int hash = value;
-        
-        // First round: multiply by large prime and rotate bits
-        hash = (int) (hash * 2654435761L); // Large prime (2^32 / golden ratio)
-        hash = Integer.rotateLeft(hash, 13);
-        
-        // Second round: XOR with different transformations
-        hash = hash ^ (hash >>> 7);
-        hash = hash * PRIME1;
-        hash = hash ^ (hash >>> 12);
-        
-        // Third round: more bit mixing with different primes
-        hash = hash * PRIME2;
-        hash = hash ^ (hash >>> 16);
-        hash = hash * PRIME3;
-        
-        // Final scrambling
-        hash = hash ^ (hash >>> 5);
-        hash = Integer.rotateRight(hash, 9);
-        
-        return Math.abs(hash);
-    }
-    
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
-        PrimeHashKey that = (PrimeHashKey) obj;
-        return value == that.value;
-    }
-    
-    @Override
-    public String toString() {
-        return String.valueOf(value);
-    }
-}
+public class ItemHashMap extends HashMap<IdHashKey, Item> {
 
-public class ItemHashMap extends HashMap<PrimeHashKey, Item> {
-
-    private static final float LOAD_FACTOR = 0.75f;
+    private static final float MAX_LOAD_FACTOR = 0.75f;
 
     @TestExclusionGenerated
     public static void main(String[] args) {
         Table table = TableUtils.readCleanedData();
         ItemHashMap itemMap = new ItemHashMap(table);
-        short testId = table.shortColumn(tableColumns.ID.getColumnName()).get(0);
+        String testId = table.stringColumn(tableColumns.ID.getColumnName()).get(0);
         Optional<Item> itemOpt = itemMap.getItem(testId);
         if (itemOpt.isPresent())
             System.out.println("Item with ID " + testId + ": " + itemOpt.get());
@@ -91,22 +32,23 @@ public class ItemHashMap extends HashMap<PrimeHashKey, Item> {
         // Demonstrate custom hash function vs standard
         System.out.println("\n=== Custom Hash Function Demo ===");
         itemMap.demonstrateHashFunction();
+        //itemMap.printAllHashCodes();
     }
 
     public ItemHashMap(Table table) {
         // Calculate initial capacity to avoid resizing during population
-        int capacity = (int) (table.rowCount() / LOAD_FACTOR) + 1;
+        int capacity = (int) (table.rowCount() / MAX_LOAD_FACTOR) + 1;
         super(capacity);
         addAllItems(table);
     }
     
     private void addItem(Row itemRow) {
-        short itemId = itemRow.getShort(tableColumns.ID.getColumnName());
+        String itemId = itemRow.getString(tableColumns.ID.getColumnName());
         String tags = itemRow.getString(tableColumns.TAGS.getColumnName());
         tags = tags.substring(1, tags.length() - 1); // Remove parantheses bounding the tags list
         
-        // Use PrimeHashKey instead of raw short
-        PrimeHashKey key = new PrimeHashKey(itemId);
+        // Use IdHashKey instead of raw short
+        IdHashKey key = new IdHashKey(itemId);
         put(key, 
             Item.builder()
                 .imageUrl( itemRow.getString(tableColumns.IMAGE_URL.getColumnName()) )
@@ -129,8 +71,8 @@ public class ItemHashMap extends HashMap<PrimeHashKey, Item> {
         table.stream().forEach(this::addItem);
     }
 
-    public Optional<Item> getItem(short itemId) {
-        PrimeHashKey key = new PrimeHashKey(itemId);
+    public Optional<Item> getItem(String itemId) {
+        IdHashKey key = new IdHashKey(itemId);
         Optional<Item> item = Optional.ofNullable(get(key));
         if (item.isEmpty())
             System.out.println("Item with ID " + itemId + " not found in ItemHashMap.");
@@ -146,15 +88,16 @@ public class ItemHashMap extends HashMap<PrimeHashKey, Item> {
         System.out.println("-".repeat(50));
         
         // Show hash comparison for sequential IDs
-        short[] testIds = {1, 2, 3, 4, 5, 10, 100, 500, 1000};
+        String[] testIds = {"1", "2", "3", "4", "5", "10", "100", "500", "1000"};
         
-        for (short id : testIds) {
-            int standardHash = Short.valueOf(id).hashCode();
-            PrimeHashKey primeKey = new PrimeHashKey(id);
-            int primeHash = primeKey.hashCode();
+        for (String id : testIds) {
+            String itemId = id;
+            IdHashKey idKey = new IdHashKey(id);
+            int standardHash = id.hashCode();
+            int primeHash = idKey.hashCode();
             int difference = Math.abs(primeHash - standardHash);
             
-            System.out.printf("%-6d %-15d %-15d %-10d%n", 
+            System.out.printf("%-6s %-15d %-15d %-10d%n", 
                 id, standardHash, primeHash, difference);
         }
         
@@ -170,15 +113,15 @@ public class ItemHashMap extends HashMap<PrimeHashKey, Item> {
         System.out.printf("%-6s %-15s %-15s%n", "ID", "Standard Bucket", "Prime Bucket");
         System.out.println("-".repeat(40));
         
-        int bucketCount = 16; // Typical HashMap initial capacity
-        short[] sequentialIds = {100, 101, 102, 103, 104, 105, 106, 107};
+        int bucketCount = 2048; // Typical HashMap initial capacity
+        String[] sequentialIds = {"100", "101", "102", "103", "104", "105", "106", "107"};
         
-        for (short id : sequentialIds) {
-            int standardBucket = Math.abs(Short.valueOf(id).hashCode()) % bucketCount;
-            PrimeHashKey primeKey = new PrimeHashKey(id);
-            int primeBucket = Math.abs(primeKey.hashCode()) % bucketCount;
+        for (String id : sequentialIds) {
+            int standardBucket = Math.abs(id.hashCode()) % bucketCount;
+            IdHashKey idKey = new IdHashKey(id);
+            int primeBucket = Math.abs(idKey.hashCode()) % bucketCount;
             
-            System.out.printf("%-6d %-15d %-15d%n", id, standardBucket, primeBucket);
+            System.out.printf("%-6s %-15d %-15d%n", id, standardBucket, primeBucket);
         }
         
         System.out.println("\nCustom hash function benefits:");
@@ -193,20 +136,28 @@ public class ItemHashMap extends HashMap<PrimeHashKey, Item> {
      * @param itemId the item ID
      * @return custom hash value
      */
-    public int getCustomHashValue(short itemId) {
-        return new PrimeHashKey(itemId).hashCode();
+    public int getCustomHashValue(String itemId) {
+        return new IdHashKey(itemId).hashCode();
     }
     
     /**
      * Compare standard vs custom hash for a specific ID.
      * @param itemId the item ID to analyze
      */
-    public void compareHashFunctions(short itemId) {
-        int standardHash = Short.valueOf(itemId).hashCode();
+    public void compareHashFunctions(String itemId) {
+        int standardHash = itemId.hashCode();
         int customHash = getCustomHashValue(itemId);
         
-        System.out.printf("ID %d: Standard=%d, Custom=%d, Improvement=%d%n", 
+        System.out.printf("ID %s: Standard=%d, Custom=%d, Improvement=%d%n", 
             itemId, standardHash, customHash, Math.abs(customHash - standardHash));
+    }
+
+    public void printAllHashCodes() {
+        System.out.printf("%-6s %-15s%n", "ID", "Custom Hash");
+        System.out.println("-".repeat(25));
+        for (IdHashKey key : keySet()) {
+            System.out.printf("%-6s %-15d%n", key.getValue(), key.hashCode());
+        }
     }
 
 }

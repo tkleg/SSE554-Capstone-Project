@@ -67,8 +67,7 @@ public class TableUtils {
                 tableColumns.PRICE.getColumnName(), ColumnType.FLOAT,
                 tableColumns.REVIEW_SCORE.getColumnName(), ColumnType.FLOAT,
                 tableColumns.REVIEW_COUNT.getColumnName(), ColumnType.SHORT,
-                tableColumns.STOCK_QUANTITY.getColumnName(), ColumnType.SHORT,
-                tableColumns.ID.getColumnName(), ColumnType.SHORT
+                tableColumns.STOCK_QUANTITY.getColumnName(), ColumnType.SHORT
             )).build();
         return Table.read().usingOptions(options);    
     }

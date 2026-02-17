@@ -15,6 +15,7 @@ import net.datafaker.Faker;
 public class Item {
     private static final Faker faker = new Faker();
 
+private String id;
     private String imageUrl;
     private String name;
     private String publisher;
@@ -25,7 +26,6 @@ public class Item {
     private float reviewScore;
     private short reviewCount;
     private short stockQuantity;
-    private short id;
     private Date dateAdded;
 
     public static Item randomItem(){
@@ -41,7 +41,7 @@ public class Item {
             .reviewCount( (short) faker.number().numberBetween(0, 1000) )
             .stockQuantity( (short) faker.number().numberBetween(0, 100) )
             .dateAdded( Date.from( faker.timeAndDate().future(365, TimeUnit.DAYS) ) )
-            .id( (short) faker.number().numberBetween(1, Short.MAX_VALUE) )
+            .id( faker.internet().uuid() )
             .build();
     }
 }
