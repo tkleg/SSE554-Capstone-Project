@@ -4,6 +4,8 @@ import java.util.Map;
 
 import javax.swing.JTable;
 
+import org.troy.capstone.constants.tableColumns;
+
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -62,11 +64,11 @@ public class TableUtils {
     public static Table readCleanedData() {
         CsvReadOptions options = CsvReadOptions.builder("C:\\Users\\thkle\\SSE554\\SSE554-Capstone-Project\\data\\1000_items_catalog_v2_cleaned.csv")
             .columnTypesPartial(Map.of(
-                "price", ColumnType.FLOAT,
-                "reviewScore", ColumnType.FLOAT,
-                "reviewCount", ColumnType.SHORT,
-                "stockQuantity", ColumnType.SHORT,
-                "id", ColumnType.SHORT
+                tableColumns.PRICE.getColumnName(), ColumnType.FLOAT,
+                tableColumns.REVIEW_SCORE.getColumnName(), ColumnType.FLOAT,
+                tableColumns.REVIEW_COUNT.getColumnName(), ColumnType.SHORT,
+                tableColumns.STOCK_QUANTITY.getColumnName(), ColumnType.SHORT,
+                tableColumns.ID.getColumnName(), ColumnType.SHORT
             )).build();
         return Table.read().usingOptions(options);    
     }

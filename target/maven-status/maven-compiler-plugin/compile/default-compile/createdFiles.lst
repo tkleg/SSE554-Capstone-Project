@@ -1,3 +1,4 @@
+org\troy\capstone\constants\tableColumns.class
 org\troy\capstone\entities\Item.class
 org\troy\capstone\constants\uiDataNames.class
 org\troy\capstone\uiComponents\items\searched\SearchedItemContainer.class

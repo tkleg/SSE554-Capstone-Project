@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Optional;
 
+import org.troy.capstone.constants.tableColumns;
 import org.troy.capstone.entities.Item;
 import org.troy.capstone.utils.Converters;
 import org.troy.capstone.utils.TableUtils;
@@ -22,7 +23,7 @@ public class ItemHashMap extends HashMap<Short, Item> {
         
         Table table = TableUtils.readCleanedData();
         ItemHashMap itemMap = new ItemHashMap(table);
-        short testId = table.shortColumn("id").get(0); // Get the ID of the first item in the table for testing
+        short testId = table.shortColumn(tableColumns.ID.getColumnName()).get(0); // Get the ID of the first item in the table for testing
         Optional<Item> itemOpt = itemMap.getItem(testId);
         itemOpt.ifPresentOrElse(
             item -> System.out.println("Item with ID " + testId + ": " + item),
@@ -38,23 +39,23 @@ public class ItemHashMap extends HashMap<Short, Item> {
     }
 
     private void addItem(Row itemRow) {
-        short itemId = itemRow.getShort("id");
-        String tags = itemRow.getString("tags");
+        short itemId = itemRow.getShort(tableColumns.ID.getColumnName());
+        String tags = itemRow.getString(tableColumns.TAGS.getColumnName());
         tags = tags.substring(1, tags.length() - 1); // Remove parantheses bounding the tags list
         put(itemId, 
             Item.builder()
-                .imageUrl( itemRow.getString("imageUrl") )
-                .name( itemRow.getString("name") )
-                .publisher( itemRow.getString("publisher") )
-                .description( itemRow.getString("description") )
-                .category( itemRow.getString("category") )
+                .imageUrl( itemRow.getString(tableColumns.IMAGE_URL.getColumnName()) )
+                .name( itemRow.getString(tableColumns.NAME.getColumnName()) )
+                .publisher( itemRow.getString(tableColumns.PUBLISHER.getColumnName()) )
+                .description( itemRow.getString(tableColumns.DESCRIPTION.getColumnName()) )
+                .category( itemRow.getString(tableColumns.CATEGORY.getColumnName()) )
                 .tags( new HashSet<>( Arrays.asList( tags.split(", ") ) ) )
-                .price( itemRow.getFloat("price") )
-                .reviewScore( itemRow.getFloat("reviewScore") )
-                .reviewCount( itemRow.getShort("reviewCount") )
-                .stockQuantity( itemRow.getShort("stockQuantity") )
+                .price( itemRow.getFloat(tableColumns.PRICE.getColumnName()) )
+                .reviewScore( itemRow.getFloat(tableColumns.REVIEW_SCORE.getColumnName()) )
+                .reviewCount( itemRow.getShort(tableColumns.REVIEW_COUNT.getColumnName()) )
+                .stockQuantity( itemRow.getShort(tableColumns.STOCK_QUANTITY.getColumnName()) )
                 .id( itemId )
-                .dateAdded( Converters.localDateToDate(itemRow.getDate("dateAdded")) )
+                .dateAdded( Converters.localDateToDate(itemRow.getDate(tableColumns.DATE_ADDED.getColumnName())) )
             .build()
         );
     }
