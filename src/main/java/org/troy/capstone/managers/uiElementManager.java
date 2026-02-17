@@ -21,6 +21,8 @@ public class UIElementManager {
     }
 
     public Optional<Node> getElement(uiElementName key) {
+        if (!uiElements.containsKey(key))
+            System.out.println("UI element with key " + key + " not found in UIElementManager.");
         return Optional.ofNullable(uiElements.get(key));
     }
 

@@ -63,9 +63,9 @@ public class TableUtils {
         CsvReadOptions options = CsvReadOptions.builder("C:\\Users\\thkle\\SSE554\\SSE554-Capstone-Project\\data\\1000_items_catalog_v2_cleaned.csv")
             .columnTypesPartial(Map.of(
                 "price", ColumnType.FLOAT,
-                "review_score", ColumnType.FLOAT,
-                "review_count", ColumnType.SHORT,
-                "stock_quantity", ColumnType.SHORT,
+                "reviewScore", ColumnType.FLOAT,
+                "reviewCount", ColumnType.SHORT,
+                "stockQuantity", ColumnType.SHORT,
                 "id", ColumnType.SHORT
             )).build();
         return Table.read().usingOptions(options);    

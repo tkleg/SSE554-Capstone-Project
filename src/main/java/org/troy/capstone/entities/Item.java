@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-import javafx.scene.image.Image;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,31 +15,33 @@ import net.datafaker.Faker;
 public class Item {
     private static final Faker faker = new Faker();
 
-    private Image image;
+    private String imageUrl;
     private String name;
     private String publisher;
     private String description;
     private String category;
     private Set<String> tags;
-    private double price;
-    private double reviewScore;
-    private int reviewCount;
-    private int stockQuantity;
+    private float price;
+    private float reviewScore;
+    private short reviewCount;
+    private short stockQuantity;
+    private short id;
     private Date dateAdded;
 
     public static Item randomItem(){
         return Item.builder()
-            .image( new Image( faker.internet().image() ) )
+            .imageUrl( faker.internet().image() )
             .name( faker.commerce().productName() )
             .publisher( faker.company().name() )
             .description( String.join(" ", faker.lorem().sentences(2) ) )
             .category( faker.commerce().department() )
             .tags( Set.copyOf( faker.lorem().words(3) ) )
-            .price( faker.number().randomDouble(2, 5, 500) )
-            .reviewScore( faker.number().randomDouble(1, 1, 5) )
-            .reviewCount( faker.number().numberBetween(0, 1000) )
-            .stockQuantity( faker.number().numberBetween(0, 100) )
+            .price( (float) faker.number().randomDouble(2, 5, 500) )
+            .reviewScore( (float) faker.number().randomDouble(1, 1, 5) )
+            .reviewCount( (short) faker.number().numberBetween(0, 1000) )
+            .stockQuantity( (short) faker.number().numberBetween(0, 100) )
             .dateAdded( Date.from( faker.timeAndDate().future(365, TimeUnit.DAYS) ) )
+            .id( (short) faker.number().numberBetween(1, Short.MAX_VALUE) )
             .build();
     }
 }

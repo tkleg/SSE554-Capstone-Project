@@ -21,7 +21,7 @@ public class SearchedItemPanel extends HBox{
 
     public SearchedItemPanel(Item item) {
         // Set up the left side - image
-        imageView = new ImageView(item.getImage());
+        imageView = new ImageView( item.getImageUrl() );
         imageView.setFitWidth(150);
         imageView.setFitHeight(150);
         imageView.setPreserveRatio(true);

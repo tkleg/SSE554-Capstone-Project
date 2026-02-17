@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "ItemHashMap",
+            "request": "launch",
+            "mainClass": "org.troy.capstone.data_structures.ItemHashMap",
+            "projectName": "Project"
+        },
+        {
+            "type": "java",
             "name": "PriceRangeFinder",
             "request": "launch",
             "mainClass": "org.troy.capstone.data_structures.PriceRangeFinder",

@@ -6,6 +6,7 @@ C:\Users\thkle\SSE554\SSE554-Capstone-Project\src\main\java\org\troy\capstone\ba
 C:\Users\thkle\SSE554\SSE554-Capstone-Project\src\main\java\org\troy\capstone\managers\UIElementManager.java
 C:\Users\thkle\SSE554\SSE554-Capstone-Project\src\main\java\org\troy\capstone\Main.java
 C:\Users\thkle\SSE554\SSE554-Capstone-Project\src\main\java\org\troy\capstone\constants\uiDataNames.java
+C:\Users\thkle\SSE554\SSE554-Capstone-Project\src\main\java\org\troy\capstone\data_structures\ItemHashMap.java
 C:\Users\thkle\SSE554\SSE554-Capstone-Project\src\main\java\org\troy\capstone\uiComponents\items\searched\SearchedItemContainer.java
 C:\Users\thkle\SSE554\SSE554-Capstone-Project\src\main\java\org\troy\capstone\utils\TableUtils.java
 C:\Users\thkle\SSE554\SSE554-Capstone-Project\src\main\java\org\troy\capstone\constants\uiElementName.java
@@ -14,6 +15,7 @@ C:\Users\thkle\SSE554\SSE554-Capstone-Project\src\main\java\org\troy\capstone\ui
 C:\Users\thkle\SSE554\SSE554-Capstone-Project\src\main\java\org\troy\capstone\uiComponents\items\searched\SearchedItemPanel.java
 C:\Users\thkle\SSE554\SSE554-Capstone-Project\src\main\java\org\troy\capstone\basictests\SwingTest.java
 C:\Users\thkle\SSE554\SSE554-Capstone-Project\src\main\java\org\troy\capstone\managers\GeneralManager.java
+C:\Users\thkle\SSE554\SSE554-Capstone-Project\src\main\java\org\troy\capstone\utils\Converters.java
 C:\Users\thkle\SSE554\SSE554-Capstone-Project\src\main\java\org\troy\capstone\data_structures\PriceRangeFinder.java
 C:\Users\thkle\SSE554\SSE554-Capstone-Project\src\main\java\org\troy\capstone\uiComponents\priceSlider\PriceSlider.java
 C:\Users\thkle\SSE554\SSE554-Capstone-Project\src\main\java\org\troy\capstone\dataManipulation\ManualDataWriter.java
