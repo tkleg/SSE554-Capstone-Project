@@ -6,6 +6,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "SieveOfEratosthenes",
+            "request": "launch",
+            "mainClass": "org.troy.capstone.data_structures.ItemTable.SieveOfEratosthenes",
+            "projectName": "Project"
+        },
+        {
+            "type": "java",
+            "name": "ItemHashMap",
+            "request": "launch",
+            "mainClass": "org.troy.capstone.data_structures.ItemTable.ItemHashMap",
+            "projectName": "Project"
+        },
+        {
+            "type": "java",
             "name": "ItemHashMap",
             "request": "launch",
             "mainClass": "org.troy.capstone.data_structures.ItemHashMap",
