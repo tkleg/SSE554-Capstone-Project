@@ -25,8 +25,8 @@ public class IdHashKey {
     //Adding a Rabin-Karp style string to int collapse to make strings ints
     @Override
     public int hashCode() {
-        int collapsed = collapseStringToInt(value);
-        return i.multiply(BigInteger.valueOf(collapsed))
+        BigInteger collapsed = collapseStringToInt(value);
+        return i.multiply(collapsed)
             .add(j)
             .mod(BigInteger.valueOf(TABLE_SIZE))
             .intValue();
@@ -34,15 +34,15 @@ public class IdHashKey {
 
     //Algorithm source is https://www.tutorialspoint.com/data_structures_algorithms/rabin_karp_algorithm.htm
     //Rabin-Karp style string to int collapse, using polynomial rolling hash method
-    private int collapseStringToInt(String str) {
-        int b = '~' - '!' + 1; // Number of possible characters (ASCII range from '!' to '~', printables with no space)
+    private BigInteger collapseStringToInt(String str) {
+        BigInteger b = BigInteger.valueOf('~' - '!' + 1); // Number of possible characters (ASCII range from '!' to '~', printables with no space)
         int L = str.length();
-        int hash = 0;
+        BigInteger hash = BigInteger.ZERO;
         for (int i = 0; i < L; i++){
             int rankingOfChar = str.charAt(i) - '!' + 1; // Map '!' to 1, '"' to 2, ..., '~' to 94
-            hash += rankingOfChar * Math.pow(b, L - i - 1);
+            hash = hash.add(BigInteger.valueOf(rankingOfChar).multiply(b.pow(L - i - 1)));
         }
-        return hash % PRIME; // Mod by a prime to keep the hash value manageable
+        return hash.mod(BigInteger.valueOf(PRIME)); // Mod by a prime to keep the hash value manageable
     }
 
     @Override

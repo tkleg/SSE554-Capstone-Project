@@ -29,10 +29,7 @@ public class ItemHashMap extends HashMap<IdHashKey, Item> {
         else
             System.out.println("Item with ID " + testId + " not found in ItemHashMap.");
             
-        // Demonstrate custom hash function vs standard
-        System.out.println("\n=== Custom Hash Function Demo ===");
-        itemMap.demonstrateHashFunction();
-        //itemMap.printAllHashCodes();
+        itemMap.printAllHashCodes();
     }
 
     public ItemHashMap(Table table) {
@@ -78,59 +75,7 @@ public class ItemHashMap extends HashMap<IdHashKey, Item> {
             System.out.println("Item with ID " + itemId + " not found in ItemHashMap.");
         return item;
     }
-    
-    /**
-     * Demonstrate the difference between standard hash and custom prime-based hash.
-     */
-    public void demonstrateHashFunction() {
-        System.out.printf("%-6s %-15s %-15s %-10s%n", 
-            "ID", "Standard Hash", "Prime Hash", "Difference");
-        System.out.println("-".repeat(50));
-        
-        // Show hash comparison for sequential IDs
-        String[] testIds = {"1", "2", "3", "4", "5", "10", "100", "500", "1000"};
-        
-        for (String id : testIds) {
-            String itemId = id;
-            IdHashKey idKey = new IdHashKey(id);
-            int standardHash = id.hashCode();
-            int primeHash = idKey.hashCode();
-            int difference = Math.abs(primeHash - standardHash);
-            
-            System.out.printf("%-6s %-15d %-15d %-10d%n", 
-                id, standardHash, primeHash, difference);
-        }
-        
-        // Analyze clustering for sequential IDs
-        analyzeSequentialClustering();
-    }
-    
-    /**
-     * Analyze how the custom hash function reduces clustering.
-     */
-    private void analyzeSequentialClustering() {
-        System.out.println("\n=== Clustering Analysis (Bucket Distribution) ===");
-        System.out.printf("%-6s %-15s %-15s%n", "ID", "Standard Bucket", "Prime Bucket");
-        System.out.println("-".repeat(40));
-        
-        int bucketCount = 2048; // Typical HashMap initial capacity
-        String[] sequentialIds = {"100", "101", "102", "103", "104", "105", "106", "107"};
-        
-        for (String id : sequentialIds) {
-            int standardBucket = Math.abs(id.hashCode()) % bucketCount;
-            IdHashKey idKey = new IdHashKey(id);
-            int primeBucket = Math.abs(idKey.hashCode()) % bucketCount;
-            
-            System.out.printf("%-6s %-15d %-15d%n", id, standardBucket, primeBucket);
-        }
-        
-        System.out.println("\nCustom hash function benefits:");
-        System.out.println("• Reduces clustering of sequential IDs");
-        System.out.println("• Better distribution across buckets");
-        System.out.println("• Fewer hash collisions");
-        System.out.println("• Improved HashMap performance");
-    }
-    
+
     /**
      * Get the custom hash value for an item ID.
      * @param itemId the item ID
@@ -138,18 +83,6 @@ public class ItemHashMap extends HashMap<IdHashKey, Item> {
      */
     public int getCustomHashValue(String itemId) {
         return new IdHashKey(itemId).hashCode();
-    }
-    
-    /**
-     * Compare standard vs custom hash for a specific ID.
-     * @param itemId the item ID to analyze
-     */
-    public void compareHashFunctions(String itemId) {
-        int standardHash = itemId.hashCode();
-        int customHash = getCustomHashValue(itemId);
-        
-        System.out.printf("ID %s: Standard=%d, Custom=%d, Improvement=%d%n", 
-            itemId, standardHash, customHash, Math.abs(customHash - standardHash));
     }
 
     public void printAllHashCodes() {
