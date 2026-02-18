@@ -3,7 +3,10 @@ package org.troy.capstone.data_structures.ItemTable;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.troy.capstone.annotations.TestExclusionGenerated;
 import org.troy.capstone.constants.tableColumns;
@@ -29,7 +32,7 @@ public class ItemHashMap extends HashMap<IdHashKey, Item> {
         else
             System.out.println("Item with ID " + testId + " not found in ItemHashMap.");
             
-        itemMap.printAllHashCodes();
+        itemMap.printNumBucketsForEachSize();
     }
 
     public ItemHashMap(Table table) {
@@ -91,6 +94,36 @@ public class ItemHashMap extends HashMap<IdHashKey, Item> {
         for (IdHashKey key : keySet()) {
             System.out.printf("%-6s %-15d%n", key.getValue(), key.hashCode());
         }
+    }
+
+    public void printNumBucketsForEachSize(){
+        List<Integer> buckets = keySet().stream() //List of the buckets that get hashed to
+            .map( key -> key.hashCode() )
+            .collect(Collectors.toList());
+        int[] bucketCounts = new int[2048]; // Count of how many items get hashed to each bucket
+        for (int bucket : buckets)
+            bucketCounts[bucket]++;
+        
+        // Find the maximum bucket size to avoid ArrayIndexOutOfBoundsException
+        int maxBucketSize = 0;
+        for (int count : bucketCounts)
+            if (count > maxBucketSize)
+                maxBucketSize = count;
+        
+        int[] bucketSizeCounts = new int[maxBucketSize + 1]; // Count of how many buckets have a certain size (0 items, 1 item, 2 items, etc.)
+        for (int count : bucketCounts)
+            bucketSizeCounts[count]++;
+        int backwardsIndexFirstNonZero = 0;
+        for (int i = bucketSizeCounts.length - 1; i >= 0; i--){
+            if (bucketSizeCounts[i] != 0){
+                backwardsIndexFirstNonZero = i;
+                break;
+            }
+        }
+        System.out.println("Prime = " + IdHashKey.getPrime() + ", I = " + IdHashKey.getI() + ", J = " + IdHashKey.getJ());
+        System.out.printf("%-17s %s %-15s%n", "Entries in Bucket", "|",  "Num Buckets with that many Entries");
+        for (int i = 0; i <= backwardsIndexFirstNonZero; i++)
+            System.out.printf("%-17d %s %-15d%n", i, "|", bucketSizeCounts[i]);
     }
 
 }
