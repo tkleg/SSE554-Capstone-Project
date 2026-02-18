@@ -35,31 +35,29 @@ public class SieveOfEratosthenes {
         return !notAPrime[value];
     }
 
-    public static Optional<Integer> staticPrimeBeyondShortRange() {
-        SieveOfEratosthenes s = new SieveOfEratosthenes(Short.MAX_VALUE * 2);
-        return s.primeBeyondShortRange();
-    }
+    public static Optional<Integer> staticPrimeUnder1mil() {
+        SieveOfEratosthenes s = new SieveOfEratosthenes(1_000_000);
+        return s.maxPrimeUnder1mil();
+        }
 
-    public Optional<Integer> primeBeyondShortRange(){
-        if( Short.MAX_VALUE * 2 > notAPrime.length )// If our sieve doesn't cover the range we need, we can't find the prime
+    public Optional<Integer> maxPrimeUnder1mil(){
+        if( notAPrime.length < 1_000_000 )
             return Optional.empty();
-
-        for( int i = Short.MAX_VALUE * 2; i > Short.MAX_VALUE; i-- )
+        for( int i = notAPrime.length - 1; i >= 0; i-- )
             if( isPrime(i) )
                 return Optional.of(i);
-            
         return Optional.empty();
     }
 
     @TestExclusionGenerated
     public static void main(String[] args) {
         System.out.println("Short.MAX_VALUE: " + Short.MAX_VALUE);
-        SieveOfEratosthenes s = new SieveOfEratosthenes(Short.MAX_VALUE * 2);
-        Optional<Integer> primeBeyondShort = s.primeBeyondShortRange();
-        if( primeBeyondShort.isPresent() )
-            System.out.println("Largest prime smaller or equal to (2 * Short.MAX_VALUE): " + primeBeyondShort.get());
+        SieveOfEratosthenes s = new SieveOfEratosthenes(1_000_000);
+        Optional<Integer> primeUnder1mil = s.maxPrimeUnder1mil();
+        if( primeUnder1mil.isPresent() )
+            System.out.println("Largest prime under 1 million: " + primeUnder1mil.get());
         else
-            System.out.println("No prime found beyond short range.");
+            System.out.println("No prime found under 1 million.");
     }
 
 }
