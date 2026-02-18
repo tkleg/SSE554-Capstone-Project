@@ -10,7 +10,7 @@ public class SieveOfEratosthenesTest {
 
     @BeforeAll
     public static void setup() {
-        s = new SieveOfEratosthenes(1_000_000);
+        s = new SieveOfEratosthenes(100_000_000);
     }
     
     @Test
@@ -23,10 +23,10 @@ public class SieveOfEratosthenesTest {
     }
 
     @Test
-    @DisplayName("Test prime under 1 million")
-    public void testPrimeUnder1Million() {
-        int primeUnder1Million = s.maxPrimeUnder1mil().orElse(-1);
-        assertEquals(999983, primeUnder1Million, "Prime under 1 million should be 999983");
-        assert s.isPrime(primeUnder1Million) : "Returned value should be prime";
+    @DisplayName("Test prime under 100 million")
+    public void testPrimeUnder100Million() {
+        int primeUnder100Million = s.maxPrimeUnder100mil().orElse(-1);
+        assertEquals(99999989, primeUnder100Million, "Prime under 100 million should be 99999989");
+        assert s.isPrime(primeUnder100Million) : "Returned value should be prime";
     }
 }

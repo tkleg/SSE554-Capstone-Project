@@ -35,13 +35,23 @@ public class SieveOfEratosthenes {
         return !notAPrime[value];
     }
 
-    public static Optional<Integer> staticPrimeUnder1mil() {
-        SieveOfEratosthenes s = new SieveOfEratosthenes(1_000_000);
-        return s.maxPrimeUnder1mil();
-        }
+    /**
+     * Releases the internal array to be eligible for garbage collection.
+     * After calling this, isPrime() will throw NullPointerException.
+     */
+    public void releaseMemory() {
+        notAPrime = null;
+    }
 
-    public Optional<Integer> maxPrimeUnder1mil(){
-        if( notAPrime.length < 1_000_000 )
+    public static Optional<Integer> staticPrimeUnder100mil() {
+        SieveOfEratosthenes s = new SieveOfEratosthenes(100_000_000);
+        Optional<Integer> result = s.maxPrimeUnder100mil();
+        s.releaseMemory();
+        return result;
+    }
+
+    public Optional<Integer> maxPrimeUnder100mil(){
+        if( notAPrime.length < 100_000_000 )
             return Optional.empty();
         for( int i = notAPrime.length - 1; i >= 0; i-- )
             if( isPrime(i) )
@@ -51,13 +61,12 @@ public class SieveOfEratosthenes {
 
     @TestExclusionGenerated
     public static void main(String[] args) {
-        System.out.println("Short.MAX_VALUE: " + Short.MAX_VALUE);
-        SieveOfEratosthenes s = new SieveOfEratosthenes(1_000_000);
-        Optional<Integer> primeUnder1mil = s.maxPrimeUnder1mil();
-        if( primeUnder1mil.isPresent() )
-            System.out.println("Largest prime under 1 million: " + primeUnder1mil.get());
+        SieveOfEratosthenes s = new SieveOfEratosthenes(100_000_000);
+        Optional<Integer> primeUnder100mil = s.maxPrimeUnder100mil();
+        if( primeUnder100mil.isPresent() )
+            System.out.println("Largest prime under 100 million: " + primeUnder100mil.get());
         else
-            System.out.println("No prime found under 1 million.");
+            System.out.println("No prime found under 100 million.");
     }
 
 }

@@ -2,14 +2,12 @@ package org.troy.capstone.data_structures.ItemTable;
 
 import java.math.BigInteger;
 
-import lombok.Data;
-
 public class IdHashKey {
     private final String value;
-    private static final int PRIME = SieveOfEratosthenes.staticPrimeUnder1mil().get();
-    private static final BigInteger I = BigInteger.
+    private static final int PRIME = SieveOfEratosthenes.staticPrimeUnder100mil().get(); // A prime number larger than the maximum possible hash value from collapsing the strings, to ensure good distribution in universal hashing
+    private static BigInteger I = BigInteger.
         valueOf( (long) (Math.random() * PRIME) + 1 );
-    private static final BigInteger J = BigInteger.
+    private static BigInteger J = BigInteger.
         valueOf( (long) (Math.random() * (PRIME - 1L)) );
 
     // 1000 entries, 0.75 load factor -> 2048 table size
@@ -19,20 +17,24 @@ public class IdHashKey {
         this.value = value;
     }
     
+    static void reRollHashParameters() {
+        I = BigInteger.valueOf( (long) (Math.random() * PRIME) + 1 );
+        J = BigInteger.valueOf( (long) (Math.random() * (PRIME - 1L)) );
+    } 
 
     public String getValue() {
         return value;
     }
-    
-    public static int getPrime() {
+
+    static int getPrime() {
         return PRIME;
     }
     
-    public static BigInteger getI() {
+    static BigInteger getI() {
         return I;
     }
     
-    public static BigInteger getJ() {
+    static BigInteger getJ() {
         return J;
     }
     
