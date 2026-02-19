@@ -1,5 +1,8 @@
 package org.troy.capstone.uiComponents.items.searched;
 
+import java.awt.Desktop;
+import java.io.IOException;
+
 import org.troy.capstone.entities.Item;
 
 import javafx.geometry.Insets;
@@ -25,6 +28,17 @@ public class SearchedItemPanel extends HBox{
         imageView.setFitWidth(150);
         imageView.setFitHeight(150);
         imageView.setPreserveRatio(true);
+
+        imageView.setOnMouseClicked(e -> {
+            //URL will be replaced with item.getImageUrl() once the real image URLs are added to the dataset
+            String url = "https://unsplash.com/@kalenemsley";
+            try {
+                Desktop.getDesktop().browse(java.net.URI.create(url));
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+
+        });
         
         //Name label done separately so we can style it later
         Label nameLabel = new Label("Name: " + item.getName());
