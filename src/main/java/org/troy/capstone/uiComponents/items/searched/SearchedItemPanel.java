@@ -29,23 +29,32 @@ public class SearchedItemPanel extends HBox{
         imageView.setFitHeight(150);
         imageView.setPreserveRatio(true);
 
-        imageView.setOnMouseClicked(e -> {
-            //URL will be replaced with item.getImageUrl() once the real image URLs are added to the dataset
-            String url = "https://unsplash.com/@kalenemsley";
-            try {
-                Desktop.getDesktop().browse(java.net.URI.create(url));
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
-
-        });
+        //URL will be replaced with item.getImageUrl() once the real image URLs are added to the dataset
+        //Right now, dummy links to no real images are in the data
+        //This URL was retrieved from a previous API call to Unsplash
+        String url = "https://unsplash.com/@kalenemsley";
+        setClickEvent( imageView, url  );
         
-        //Name label done separately so we can style it later
+        // Set up the right side - text content
+        rightPanel = new VBox(5); // 5px spacing between elements
+        fillRightPanel(item);
+        
+        // Add both sides to the HBox
+        getChildren().addAll(imageView, rightPanel);
+        setSpacing(20); // 20px spacing between image and text
+        
+        // Add border to the panel
+        setBorder();
+        
+        // Add padding inside the border
+        setPadding(new Insets(10));
+    }
+
+    private void fillRightPanel(Item item) {
+        //Name label done separately so we can style it
         Label nameLabel = new Label("Name: " + item.getName());
         nameLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14;");
 
-        // Set up the right side - text content
-        rightPanel = new VBox(5); // 5px spacing between elements
         rightPanel.getChildren().addAll(
             nameLabel,
             new Label("Publisher: " + item.getPublisher()),
@@ -55,20 +64,25 @@ public class SearchedItemPanel extends HBox{
             new Label("Stock: " + item.getStockQuantity()),
             new Label("Date Added: " + item.getDateAdded().toString())
         );
-        
-        // Add both sides to the HBox
-        getChildren().addAll(imageView, rightPanel);
-        setSpacing(20); // 20px spacing between image and text
-        
-        // Add border to the panel
+    }
+
+    private void setClickEvent(ImageView imageView, String url) {
+        imageView.setOnMouseClicked(e -> {
+            try {
+                Desktop.getDesktop().browse(java.net.URI.create(url));
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        });
+    }
+    
+    private void setBorder(){
         setBorder(new Border(new BorderStroke(
             Color.BLACK, 
             BorderStrokeStyle.SOLID, 
             new CornerRadii(5), 
             new BorderWidths(2)
         )));
-        
-        // Add padding inside the border
-        setPadding(new Insets(10));
     }
+
 }

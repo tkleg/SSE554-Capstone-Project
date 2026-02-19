@@ -24,9 +24,9 @@ public class ImageUrlFiller {
     @TestExclusionGenerated
     public static void main(String[] args) {
         //Load csv file
-        Table productData = Table.read().csv("data\\1000_items_catalog_v2.csv");
+        Table productData = Table.read().csv("data\\1000_items_catalog_c2_cleaned.csv");
 
-        StringColumn imageUrlColumn = productData.stringColumn("image_url");
+        StringColumn imageUrlColumn = productData.stringColumn("imageUrl");
         StringColumn nameColumn = productData.stringColumn("name");
 
         HttpClient client = HttpClient.newHttpClient();
