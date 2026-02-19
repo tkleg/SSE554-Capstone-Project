@@ -17,17 +17,21 @@ public class IdHashKey {
         this.value = value;
     }
     
-    static void reRollHashParameters() {
+    static void reRoll_I_And_J() {
         I = BigInteger.valueOf( (long) (Math.random() * PRIME) + 1 );
         J = BigInteger.valueOf( (long) (Math.random() * (PRIME - 1L)) );
+    }
+    
+    public static void setI(BigInteger newI) {
+        I = newI;
+    }
+    
+    public static void setJ(BigInteger newJ) {
+        J = newJ;
     } 
 
     public String getValue() {
         return value;
-    }
-
-    static int getPrime() {
-        return PRIME;
     }
     
     static BigInteger getI() {
@@ -38,8 +42,11 @@ public class IdHashKey {
         return J;
     }
     
-    //Using universal hashing from textbook
-    //Adding a Rabin-Karp style string to int collapse to make strings ints
+    static int getPrime() {
+        return PRIME;
+    }
+    
+    //Using universal hashing code from textbook, with small alterations
     @Override
     public int hashCode() {
         BigInteger collapsed = collapseStringToInt(value);
@@ -56,7 +63,7 @@ public class IdHashKey {
         int L = str.length();
         BigInteger hash = BigInteger.ZERO;
         for (int i = 0; i < L; i++){
-            int rankingOfChar = str.charAt(i) - '!' + 1; // Map '!' to 1, '"' to 2, ..., '~' to 94
+            int rankingOfChar = str.charAt(i) - '!'; // Map '!' to 0, '"' to 1, ..., '~' to 93
             hash = hash.add(BigInteger.valueOf(rankingOfChar).multiply(b.pow(L - i - 1)));
         }
         return hash.mod(BigInteger.valueOf(PRIME)); // Mod by a prime to keep the hash value manageable

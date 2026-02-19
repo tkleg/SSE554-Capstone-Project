@@ -1,5 +1,6 @@
 package org.troy.capstone.data_structures.ItemTable;
 
+import java.util.BitSet;
 import java.util.Optional;
 
 import org.troy.capstone.annotations.TestExclusionGenerated;
@@ -7,23 +8,23 @@ import org.troy.capstone.annotations.TestExclusionGenerated;
 //Code originally sourced from the MindTap assignment, but modified to find the largest prime smaller or equal to (2 * Short.MAX_VALUE) instead of the smallest prime greater than Short.MAX_VALUE
 public class SieveOfEratosthenes {
 
-    boolean[] notAPrime;
+    BitSet notAPrime;
 
     public SieveOfEratosthenes(int maxValue) {
-        notAPrime = new boolean[maxValue + 1];
+        notAPrime = new BitSet(maxValue + 1);
 
         // 0 and 1 are not prime numbers
-        notAPrime[0] = true;
-        notAPrime[1] = true;
+        notAPrime.set(0);
+        notAPrime.set(1);
         
         int p = 2;
         boolean newP = true;
         while(newP){
             newP = false;
             for( int i = p * 2; i <= maxValue; i += p )
-                notAPrime[i] = true;
+                notAPrime.set(i);
             for( int i = p+1; i <= maxValue; i++ )
-                if( !notAPrime[i] ){
+                if( !notAPrime.get(i) ){
                     p = i;
                     newP = true;
                     break;
@@ -32,7 +33,7 @@ public class SieveOfEratosthenes {
     }
 
     public boolean isPrime(int value) {
-        return !notAPrime[value];
+        return !notAPrime.get(value);
     }
 
     /**
@@ -49,11 +50,11 @@ public class SieveOfEratosthenes {
         s.releaseMemory();
         return result;
     }
-
+    
     public Optional<Integer> maxPrimeUnder100mil(){
-        if( notAPrime.length < 100_000_000 )
+        if( notAPrime.length() < 100_000_000 )
             return Optional.empty();
-        for( int i = notAPrime.length - 1; i >= 0; i-- )
+        for( int i = notAPrime.length() - 1; i >= 0; i-- )
             if( isPrime(i) )
                 return Optional.of(i);
         return Optional.empty();

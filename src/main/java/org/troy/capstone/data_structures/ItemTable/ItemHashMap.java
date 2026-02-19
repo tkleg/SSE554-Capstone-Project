@@ -1,11 +1,11 @@
 package org.troy.capstone.data_structures.ItemTable;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -26,24 +26,24 @@ public class ItemHashMap extends HashMap<IdHashKey, Item> {
     @TestExclusionGenerated
     public static void main(String[] args) {
         Table table = TableUtils.readCleanedData();
-        ItemHashMap itemMap = new ItemHashMap(table);
-        String testId = table.stringColumn(tableColumns.ID.getColumnName()).get(0);
-        Optional<Item> itemOpt = itemMap.getItem(testId);
-        if (itemOpt.isPresent())
-            System.out.println("Item with ID " + testId + ": " + itemOpt.get());
-        else
-            System.out.println("Item with ID " + testId + " not found in ItemHashMap.");
-            
-        itemMap.findBestHashParameters();
-        // itemMap.printNumBucketsForEachSize();
-        //itemMap.printBucketSizeCountsCustomVsBuiltIn();
+        ItemHashMap itemMap = fromTable(table);
+        itemMap.printBucketSizeCountsCustomVsBuiltIn();
     }
 
-    public ItemHashMap(Table table) {
-        // Calculate initial capacity to avoid resizing during population
-        int capacity = (int) (table.rowCount() / MAX_LOAD_FACTOR) + 1;
-        super(capacity);
-        addAllItems(table);
+    /*
+    Creates an ItemHashMap from a Table.
+    The map is initialized with the optimal hash parameters for the current item IDs.
+    */
+    public static ItemHashMap fromTable(Table table) {
+        ItemHashMap itemMap = new ItemHashMap(table.rowCount());
+        itemMap.findBestHashParameters( table.stringColumn( tableColumns.ID.getColumnName() ).asList());
+        System.out.println("Prime: " + IdHashKey.getPrime() + ", Best I: " + IdHashKey.getI() + ", Best J: " + IdHashKey.getJ());
+        itemMap.addAllItems(table);
+        return itemMap;
+    }
+
+    public ItemHashMap(int data_size) {
+        super((int) (data_size / MAX_LOAD_FACTOR) + 1); // Calculate initial capacity based on expected data size and load factor
     }
     
     private void addItem(Row itemRow) {
@@ -51,9 +51,7 @@ public class ItemHashMap extends HashMap<IdHashKey, Item> {
         String tags = itemRow.getString(tableColumns.TAGS.getColumnName());
         tags = tags.substring(1, tags.length() - 1); // Remove parantheses bounding the tags list
         
-        // Use IdHashKey instead of raw short
-        IdHashKey key = new IdHashKey(itemId);
-        put(key, 
+        put(new IdHashKey(itemId), 
             Item.builder()
                 .imageUrl( itemRow.getString(tableColumns.IMAGE_URL.getColumnName()) )
                 .name( itemRow.getString(tableColumns.NAME.getColumnName()) )
@@ -71,7 +69,7 @@ public class ItemHashMap extends HashMap<IdHashKey, Item> {
         );
     }
 
-    private final void addAllItems(Table table) {
+    private void addAllItems(Table table) {
         table.stream().forEach(this::addItem);
     }
 
@@ -83,98 +81,49 @@ public class ItemHashMap extends HashMap<IdHashKey, Item> {
         return item;
     }
 
-    /**
-     * Get the custom hash value for an item ID.
-     * @param itemId the item ID
-     * @return custom hash value
-     */
-    public int getCustomHashValue(String itemId) {
-        return new IdHashKey(itemId).hashCode();
-    }
+    /*
+    Sets the I and J parameters for the universal hash function to optimize the distribution of items
+        across buckets for the current item IDs.
+    The map does not have to be filled before calling this, but the item IDs must be known (e.g. from the table) to find the best I and J values for those specific IDs.
+    */
+    private void findBestHashParameters( List<String> itemIds ){
+        BigInteger bestI, bestJ, curI, curJ, 
+            lowestI = BigInteger.valueOf(Integer.MAX_VALUE), lowestJ = BigInteger.valueOf(Integer.MAX_VALUE);
+        int maxBucketsWithOneItem = 0;
+        for( int iteration = 0; iteration < 10000; iteration++ ){// Try 10,000 times
+            IdHashKey.reRoll_I_And_J();
+            
+            // Get the number of buckets that have exactly 1 item with the current I and J
+            int bucketsWithOneItem = getFreshBucketSizeCount( itemIds, true )[1];
 
-    public void printAllHashCodes() {
-        System.out.printf("%-6s %-15s%n", "ID", "Custom Hash");
-        System.out.println("-".repeat(25));
-        for (IdHashKey key : keySet()) {
-            System.out.printf("%-6s %-15d%n", key.getValue(), key.hashCode());
-        }
-    }
-
-    private void printNumBucketsForEachSize(  int[] bucketSizeCounts ){
-        int backwardsIndexFirstNonZero = 0;
-        for (int i = bucketSizeCounts.length - 1; i >= 0; i--){
-            if (bucketSizeCounts[i] != 0){
-                backwardsIndexFirstNonZero = i;
-                break;
-            }
-        }
-        System.out.println("Prime = " + IdHashKey.getPrime() + ", I = " + IdHashKey.getI() + ", J = " + IdHashKey.getJ());
-        System.out.printf("%-17s %s %-15s%n", "Entries in Bucket", "|",  "Num Buckets with that many Entries");
-        for (int i = 0; i <= backwardsIndexFirstNonZero; i++)
-            System.out.printf("%-17d %s %-15d%n", i, "|", bucketSizeCounts[i]);
-    }
-
-    //Calculatue bucket distributions 10000 times
-    //Print the I and J that give the most single item buckets
-    private void findBestHashParameters(){
-        BigInteger bestI = null, bestJ = null, curI, curJ;
-        int lowestSingleSizeBucketCount = 0;
-        int[] bucketSizeCounts = getBucketSizeCount();
-        int[] bestBucketSizeCounts = bucketSizeCounts;
-        for( int iteration = 0; iteration < 10000; iteration++ ){
-            IdHashKey.reRollHashParameters();
-            bucketSizeCounts = getBucketSizeCount();
             curI = IdHashKey.getI();
             curJ = IdHashKey.getJ();
-            if( bucketSizeCounts[1] > lowestSingleSizeBucketCount ){
+            if( bucketsWithOneItem > maxBucketsWithOneItem ){// If there are more buckets with one item than the current best, update best
                 bestI = curI;
                 bestJ = curJ;
-                lowestSingleSizeBucketCount = bucketSizeCounts[1];
-                bestBucketSizeCounts = bucketSizeCounts;
+                maxBucketsWithOneItem = bucketsWithOneItem;
+                if( bestI.compareTo(lowestI) < 0 && bestJ.compareTo(lowestJ) < 0 ){// If the I and J are smaller than current best, update lowest
+                    lowestI = bestI;
+                    lowestJ = bestJ;
+                }
             }
         }
-        System.out.println("Best I: " + bestI);
-        System.out.println("Best J: " + bestJ);
-        System.out.println("Best Max Bucket Size: " + lowestSingleSizeBucketCount);
-        printNumBucketsForEachSize(bestBucketSizeCounts);
-        
+
+        // Set I and J to the best found values to optimize the current map instance
+        IdHashKey.setI(lowestI);
+        IdHashKey.setJ(lowestJ);        
     }
 
-    private int[] getBucketSizeCount(){
-        List<Integer> buckets = keySet().stream() //List of the buckets that get hashed to
-            .map( key -> key.hashCode() )
-            .collect(Collectors.toList());
-        int[] itemsInBucket = new int[TABLE_SIZE]; // Count of how many items get hashed to each bucket
-        for (int bucket : buckets)
-            itemsInBucket[bucket]++;//modulues not needed because hashCode does this
-        
-        // Find the maximum bucket size to avoid ArrayIndexOutOfBoundsException
-        int maxBucketSize = 0;
-        for (int count : itemsInBucket)
-            if (count > maxBucketSize)
-                maxBucketSize = count;
-        
-        int[] bucketSizeCounts = new int[maxBucketSize + 1]; // Count of how many buckets have a certain size (0 items, 1 item, 2 items, etc.)
-        for (int count : itemsInBucket)
-            bucketSizeCounts[count]++;
-        return bucketSizeCounts;
-    }
+    /*
+    Recalculate bucket distribution with current I and J values (fresh hash calculation) 
 
-    private void printBucketSizeCountsCustomVsBuiltIn(){
-        System.out.printf("%-17s %s %-15s %s %-15s%n", "Entries in Bucket", "|",  "Num Buckets with that many Entries (Custom Hash)", "|", "Num Buckets with that many Entries (Built-in Hash)");
-        int[] customBucketSizeCounts = getBucketSizeCount();
-        int[] builtInBucketSizeCounts = getBuiltInBucketSizeCount();
-        int maxSize = Math.max(customBucketSizeCounts.length, builtInBucketSizeCounts.length);
-        for (int i = 0; i < maxSize; i++){
-            int customCount = i < customBucketSizeCounts.length ? customBucketSizeCounts[i] : 0;
-            int builtInCount = i < builtInBucketSizeCounts.length ? builtInBucketSizeCounts[i] : 0;
-            System.out.printf("%-17d %s %-15d %s %-15d%n", i, "|", customCount, "|", builtInCount);
-        }
-    }
-
-    private int[] getBuiltInBucketSizeCount(){
-        List<Integer> buckets = keySet().stream() //List of the buckets that get hashed to
-            .map( key -> key.getValue().hashCode() )
+    @param useCustomHash (boolean): whether to use the custom hash function or the built-in String hashCode
+     
+    @return int[] where the value at index N is the number of buckets that have N items in them, according to the specified hash function
+    */
+    public int[] getFreshBucketSizeCount( List<String> itemIds, boolean useCustomHash ){
+        List<Integer> buckets = itemIds.stream() //List of the buckets that get hashed to
+            .map( id -> useCustomHash ? new IdHashKey(id).hashCode() : id.hashCode() )
             .collect(Collectors.toList());
         int[] itemsInBucket = new int[TABLE_SIZE]; // Count of how many items get hashed to each bucket
         for (int bucket : buckets)
@@ -190,6 +139,39 @@ public class ItemHashMap extends HashMap<IdHashKey, Item> {
         for (int count : itemsInBucket)
             bucketSizeCounts[count]++;
         return bucketSizeCounts;
+    }
+
+    private List<IdHashKey> getKeysAsList() {
+        return new ArrayList<>(keySet());
+    }
+
+    public List<String> getItemIdsAsList() {
+        return getKeysAsList().stream()
+            .map(IdHashKey::getValue)
+            .collect(Collectors.toList());
+    }
+
+    /*
+    Prints a table comparing the distribution of bucket sizes (number of buckets with 0 items, 1 item, 2 items, etc.) 
+    for the custom hash function vs Java's built in String hashCode, using the same item IDs. 
+    This allows us to see how well our custom universal hash function is performing in terms of distributing
+    items across buckets compared to the built-in hash function.
+
+    pre-conditions: findBestHashParameters() has already been called to optimize I and J for the current item IDs,
+        and the internal state of the ItemHashMap is not modified between the two distribution calculations (i.e. no items are added or removed).
+        Additionally, the same item IDs are used for both calculations. Finally, the map must be filled.
+    */
+    private void printBucketSizeCountsCustomVsBuiltIn(){
+        String col1 = "Entries in Bucket (N)", col2 = "Buckets with N entries (Custom Hash)", col3 = "Buckets with N entries (Built-in Hash)";
+        System.out.printf("%-" + col1.length() + "s %s %-" + col2.length() + "s %s %-" + col3.length() + "s%n", col1, "|", col2, "|", col3);
+        int[] customBucketSizeCounts = getFreshBucketSizeCount(getItemIdsAsList(), true); // Use fresh calculation with current I,J
+        int[] builtInBucketSizeCounts = getFreshBucketSizeCount(getItemIdsAsList(), false); // Use fresh calculation for built-in String hash
+        int maxSize = Math.max(customBucketSizeCounts.length, builtInBucketSizeCounts.length);
+        for (int i = 0; i < maxSize; i++){
+            int customCount = i < customBucketSizeCounts.length ? customBucketSizeCounts[i] : 0;
+            int builtInCount = i < builtInBucketSizeCounts.length ? builtInBucketSizeCounts[i] : 0;
+            System.out.printf("%-" + col1.length() + "d %s %-" + col2.length() + "d %s %-" + col3.length() + "d%n", i, "|", customCount, "|", builtInCount);
+        }
     }
 
 }
