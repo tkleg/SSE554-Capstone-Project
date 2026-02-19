@@ -1,15 +1,10 @@
 package org.troy.capstone.uiComponents.items.searched;
 
-import java.awt.Desktop;
-import java.io.IOException;
-import java.net.URI;
-
-import org.troy.capstone.constants.URLs;
 import org.troy.capstone.entities.Item;
+import org.troy.capstone.uiComponents.items.AttributedItemContainer;
 
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
@@ -18,56 +13,23 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextFlow;
 
 public class SearchedItemPanel extends HBox{
 
-    private final ImageView imageView;
-    private final VBox leftPanel;
+    private final AttributedItemContainer attributedImage;
     private final VBox rightPanel;
 
     public SearchedItemPanel(Item item) {
+
         // Set up the left side
-        leftPanel = new VBox(5);
-        Text text1 = new Text("Photo by ");
-        Text authorName = new Text(item.getPhotoAuthor());
-        Text text2 = new Text(" on ");
-        Text sourceName = new Text("Unsplash");  
-        TextFlow attributionFlow = new TextFlow(text1, authorName, text2, sourceName);
-        authorName.setOnMouseClicked(e ->{
-            try {
-                Desktop.getDesktop().browse(new URI(item.getPhotoAuthorUrl()));
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        });
-        sourceName.setOnMouseClicked(e ->{
-            try {
-                Desktop.getDesktop().browse( new URI( URLs.UNSPLASH_ATTRIBUTION ) );
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        });
-
-
-
-        imageView = new ImageView( item.getImageUrl() );
-        imageView.setFitWidth(150);
-        imageView.setFitHeight(150);
-        imageView.setPreserveRatio(true);
-
-        leftPanel.getChildren().addAll(imageView, attributionFlow);
-
-        setClickEvent( imageView, item.getImageUrl() );
-
+        attributedImage = new AttributedItemContainer(item);
 
         // Set up the right side - text content
         rightPanel = new VBox(5); // 5px spacing between elements
         fillRightPanel(item);
         
         // Add both sides to the HBox
-        getChildren().addAll(leftPanel, rightPanel);
+        getChildren().addAll(attributedImage, rightPanel);
         setSpacing(20); // 20px spacing between image and text
         
         // Add border to the panel
@@ -91,16 +53,6 @@ public class SearchedItemPanel extends HBox{
             new Label("Stock: " + item.getStockQuantity()),
             new Label("Date Added: " + item.getDateAdded().toString())
         );
-    }
-
-    private void setClickEvent(ImageView imageView, String url) {
-        imageView.setOnMouseClicked(e -> {
-            try {
-                Desktop.getDesktop().browse(java.net.URI.create(url));
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
-        });
     }
     
     private void setBorder(){

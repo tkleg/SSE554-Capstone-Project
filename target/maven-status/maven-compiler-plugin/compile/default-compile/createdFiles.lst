@@ -18,6 +18,7 @@ org\troy\capstone\uiComponents\items\searched\SearchedItemPanel.class
 org\troy\capstone\utils\TableUtils.class
 org\troy\capstone\managers\GeneralManager.class
 org\troy\capstone\Main.class
+org\troy\capstone\uiComponents\items\AttributedItemContainer.class
 org\troy\capstone\uiComponents\priceSlider\PriceSlider.class
 org\troy\capstone\annotations\TestExclusionGenerated.class
 org\troy\capstone\dataManipulation\ImageUrlFiller.class
