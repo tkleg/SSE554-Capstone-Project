@@ -64,6 +64,8 @@ public class ItemHashMap extends HashMap<IdHashKey, Item> {
                 .reviewCount( itemRow.getShort(tableColumns.REVIEW_COUNT.getColumnName()) )
                 .stockQuantity( itemRow.getShort(tableColumns.STOCK_QUANTITY.getColumnName()) )
                 .id( itemId )
+                .photoAuthor( itemRow.getString(tableColumns.PHOTO_AUTHOR.getColumnName()) )
+                .photoAuthorUrl( itemRow.getString(tableColumns.PHOTO_AUTHOR_URL.getColumnName()) )
                 .dateAdded( Converters.localDateToDate(itemRow.getDate(tableColumns.DATE_ADDED.getColumnName())) )
             .build()
         );

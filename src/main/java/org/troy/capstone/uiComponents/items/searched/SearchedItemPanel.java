@@ -2,7 +2,9 @@ package org.troy.capstone.uiComponents.items.searched;
 
 import java.awt.Desktop;
 import java.io.IOException;
+import java.net.URI;
 
+import org.troy.capstone.constants.URLs;
 import org.troy.capstone.entities.Item;
 
 import javafx.geometry.Insets;
@@ -16,31 +18,56 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 
 public class SearchedItemPanel extends HBox{
 
     private final ImageView imageView;
+    private final VBox leftPanel;
     private final VBox rightPanel;
 
     public SearchedItemPanel(Item item) {
-        // Set up the left side - image
+        // Set up the left side
+        leftPanel = new VBox(5);
+        Text text1 = new Text("Photo by ");
+        Text authorName = new Text(item.getPhotoAuthor());
+        Text text2 = new Text(" on ");
+        Text sourceName = new Text("Unsplash");  
+        TextFlow attributionFlow = new TextFlow(text1, authorName, text2, sourceName);
+        authorName.setOnMouseClicked(e ->{
+            try {
+                Desktop.getDesktop().browse(new URI(item.getPhotoAuthorUrl()));
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
+        sourceName.setOnMouseClicked(e ->{
+            try {
+                Desktop.getDesktop().browse( new URI( URLs.UNSPLASH_ATTRIBUTION ) );
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
+
+
+
         imageView = new ImageView( item.getImageUrl() );
         imageView.setFitWidth(150);
         imageView.setFitHeight(150);
         imageView.setPreserveRatio(true);
 
-        //URL will be replaced with item.getImageUrl() once the real image URLs are added to the dataset
-        //Right now, dummy links to no real images are in the data
-        //This URL was retrieved from a previous API call to Unsplash
-        String url = "https://unsplash.com/@kalenemsley";
-        setClickEvent( imageView, url  );
-        
+        leftPanel.getChildren().addAll(imageView, attributionFlow);
+
+        setClickEvent( imageView, item.getImageUrl() );
+
+
         // Set up the right side - text content
         rightPanel = new VBox(5); // 5px spacing between elements
         fillRightPanel(item);
         
         // Add both sides to the HBox
-        getChildren().addAll(imageView, rightPanel);
+        getChildren().addAll(leftPanel, rightPanel);
         setSpacing(20); // 20px spacing between image and text
         
         // Add border to the panel

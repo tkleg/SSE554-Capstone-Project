@@ -12,7 +12,9 @@ public enum tableColumns {
     REVIEW_SCORE("reviewScore"),
     REVIEW_COUNT("reviewCount"),
     STOCK_QUANTITY("stockQuantity"),
-    DATE_ADDED("dateAdded");
+    DATE_ADDED("dateAdded"),
+    PHOTO_AUTHOR("photoAuthor"),
+    PHOTO_AUTHOR_URL("photoAuthorUrl");
 
     private final String columnName;
 

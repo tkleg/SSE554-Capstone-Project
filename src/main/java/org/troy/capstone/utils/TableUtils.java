@@ -71,4 +71,16 @@ public class TableUtils {
             )).build();
         return Table.read().usingOptions(options);    
     }
+
+    public static Table readAttributtedData(){
+        CsvReadOptions options = CsvReadOptions.builder("C:\\Users\\thkle\\SSE554\\SSE554-Capstone-Project\\data\\1000_items_catalog_v2_attributed.csv")
+            .columnTypesPartial(Map.of(
+                tableColumns.PRICE.getColumnName(), ColumnType.FLOAT,
+                tableColumns.REVIEW_SCORE.getColumnName(), ColumnType.FLOAT,
+                tableColumns.REVIEW_COUNT.getColumnName(), ColumnType.SHORT,
+                tableColumns.STOCK_QUANTITY.getColumnName(), ColumnType.SHORT
+            )).build();
+        return Table.read().usingOptions(options);
+    }
+    
 }

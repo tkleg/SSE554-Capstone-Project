@@ -12,6 +12,7 @@ import java.util.List;
 
 import org.troy.capstone.ENV;
 import org.troy.capstone.annotations.TestExclusionGenerated;
+import org.troy.capstone.constants.tableColumns;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -26,8 +27,10 @@ public class ImageUrlFiller {
         //Load csv file
         Table productData = Table.read().csv("data\\1000_items_catalog_c2_cleaned.csv");
 
-        StringColumn imageUrlColumn = productData.stringColumn("imageUrl");
-        StringColumn nameColumn = productData.stringColumn("name");
+        StringColumn imageUrlColumn = productData.stringColumn(tableColumns.IMAGE_URL.getColumnName());
+        StringColumn nameColumn = productData.stringColumn(tableColumns.NAME.getColumnName());
+        StringColumn photoAuthorColumn = productData.stringColumn(tableColumns.PHOTO_AUTHOR.getColumnName());
+        StringColumn photoAuthorUrlColumn = productData.stringColumn(tableColumns.PHOTO_AUTHOR_URL.getColumnName());
 
         HttpClient client = HttpClient.newHttpClient();
         ObjectMapper mapper = new ObjectMapper();
@@ -68,16 +71,26 @@ public class ImageUrlFiller {
                 String responseBody = httpResponse.body();
                 JsonNode rootNode = mapper.readTree(responseBody);
                 
-                // Extract the first photo's URL from search results
+                // Extract the first photo's data from search results
                 JsonNode results = rootNode.get("results");
-                if (results != null && results.isArray() && results.size() > 0) {
+                if (results.isArray() && results.size() > 0) {
                     JsonNode photo = results.get(0);
-                    if (photo != null && photo.has("urls")) {
+                    if (photo != null && photo.has("urls") && photo.has("user")
+                        && photo.get("urls").has("regular") && photo.get("user").has("name")
+                        && photo.get("user").has("links") && photo.get("user").get("links").has("html")) {
+
                         String photoUrl = photo.get("urls").get("regular").asText();
                         imageUrlColumn.set(i, photoUrl); //update the URL in the table
-                        //System.out.println("Updated row " + i + " (" + query + "): " + photoUrl);
+                        
+                        JsonNode user = photo.get("user");
+                        String authorName = user.get("name").asText();
+                        photoAuthorColumn.set(i, authorName); //update the photo author
+
+                        String authorProfileUrl = user.get("links").get("html").asText() + "?utm_source=sse554_capstone&utm_medium=referral";
+                        photoAuthorUrlColumn.set(i, authorProfileUrl); //update the photo author URL
+
                     } else {
-                        System.out.println("No photo data found for: " + query);
+                        System.out.println("Bad photo data found for: " + query);
                         badRowIndexes.add(i);
                     }
                 } else {
