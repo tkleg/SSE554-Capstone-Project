@@ -1,10 +1,10 @@
 package org.troy.capstone.uiComponents.items.searched;
 
 import org.troy.capstone.entities.Item;
+import org.troy.capstone.uiComponents.items.AttributedItemContainer;
 
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
@@ -16,22 +16,34 @@ import javafx.scene.paint.Color;
 
 public class SearchedItemPanel extends HBox{
 
-    private final ImageView imageView;
+    private final AttributedItemContainer attributedImage;
     private final VBox rightPanel;
 
     public SearchedItemPanel(Item item) {
-        // Set up the left side - image
-        imageView = new ImageView( item.getImageUrl() );
-        imageView.setFitWidth(150);
-        imageView.setFitHeight(150);
-        imageView.setPreserveRatio(true);
-        
-        //Name label done separately so we can style it later
-        Label nameLabel = new Label("Name: " + item.getName());
-        nameLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14;");
+
+        // Set up the left side
+        attributedImage = new AttributedItemContainer(item);
 
         // Set up the right side - text content
         rightPanel = new VBox(5); // 5px spacing between elements
+        fillRightPanel(item);
+        
+        // Add both sides to the HBox
+        getChildren().addAll(attributedImage, rightPanel);
+        setSpacing(20); // 20px spacing between image and text
+        
+        // Add border to the panel
+        setBorder();
+        
+        // Add padding inside the border
+        setPadding(new Insets(10));
+    }
+
+    private void fillRightPanel(Item item) {
+        //Name label done separately so we can style it
+        Label nameLabel = new Label("Name: " + item.getName());
+        nameLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14;");
+
         rightPanel.getChildren().addAll(
             nameLabel,
             new Label("Publisher: " + item.getPublisher()),
@@ -41,20 +53,15 @@ public class SearchedItemPanel extends HBox{
             new Label("Stock: " + item.getStockQuantity()),
             new Label("Date Added: " + item.getDateAdded().toString())
         );
-        
-        // Add both sides to the HBox
-        getChildren().addAll(imageView, rightPanel);
-        setSpacing(20); // 20px spacing between image and text
-        
-        // Add border to the panel
+    }
+    
+    private void setBorder(){
         setBorder(new Border(new BorderStroke(
             Color.BLACK, 
             BorderStrokeStyle.SOLID, 
             new CornerRadii(5), 
             new BorderWidths(2)
         )));
-        
-        // Add padding inside the border
-        setPadding(new Insets(10));
     }
+
 }

@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import org.troy.capstone.constants.URLs;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,6 +24,8 @@ private String id;
     private String description;
     private String category;
     private Set<String> tags;
+    private String photoAuthor;
+    private String photoAuthorUrl;
     private float price;
     private float reviewScore;
     private short reviewCount;
@@ -30,7 +34,7 @@ private String id;
 
     public static Item randomItem(){
         return Item.builder()
-            .imageUrl( faker.internet().image() )
+            .imageUrl( URLs.DEFAULT_IMAGE_URL )
             .name( faker.commerce().productName() )
             .publisher( faker.company().name() )
             .description( String.join(" ", faker.lorem().sentences(2) ) )
@@ -41,6 +45,8 @@ private String id;
             .reviewCount( (short) faker.number().numberBetween(0, 1000) )
             .stockQuantity( (short) faker.number().numberBetween(0, 100) )
             .dateAdded( Date.from( faker.timeAndDate().future(365, TimeUnit.DAYS) ) )
+            .photoAuthor( URLs.DEFAULT_AUTHOR_NAME )
+            .photoAuthorUrl( URLs.DEFAULT_AUTHOR_URL )
             .id( faker.internet().uuid() )
             .build();
     }
