@@ -3,6 +3,7 @@ package org.troy.capstone;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.troy.capstone.data_structures.ItemTable.ItemHashMap;
 import org.troy.capstone.entities.Item;
 import org.troy.capstone.managers.GeneralManager;
 import org.troy.capstone.uiComponents.filters.FiltersContainer;
@@ -29,6 +30,10 @@ public class Main extends Application {
 
         //Use Faker to generate random data
         Faker faker = new Faker();
+
+        //Load data from csv and set into ItemHashMap
+        Table table = TableUtils.readCleanedAttributedData();
+        ItemHashMap itemHashMap = ItemHashMap.fromTable(table);
         
         //Create generalManager
         GeneralManager generalManager = new GeneralManager();
@@ -38,8 +43,9 @@ public class Main extends Application {
         gridPane.setHgap(10); // 10px horizontal spacing between columns
         gridPane.setVgap(10); // 10px vertical spacing between rows
 
-        //Get and set up the ItemScroller with random items
-        SearchedItemContainer itemScroller = createSimpleItemScroller();
+        //Get and set up the ItemScroller with 20 random items to start
+        int firstNItems = 20;
+        SearchedItemContainer itemScroller = SearchedItemContainer.createFilledContainer(table.first(firstNItems), itemHashMap);
         gridPane.add(itemScroller, 0, 1, 2, 3);
 
         //Get and setup the SearchBar

@@ -2,9 +2,7 @@ package org.troy.capstone.data_structures.ItemTable;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -12,7 +10,6 @@ import java.util.stream.Collectors;
 import org.troy.capstone.annotations.TestExclusionGenerated;
 import org.troy.capstone.constants.tableColumns;
 import org.troy.capstone.entities.Item;
-import org.troy.capstone.utils.Converters;
 import org.troy.capstone.utils.TableUtils;
 
 import tech.tablesaw.api.Row;
@@ -47,32 +44,16 @@ public class ItemHashMap extends HashMap<IdHashKey, Item> {
     }
     
     private void addItem(Row itemRow) {
-        String itemId = itemRow.getString(tableColumns.ID.getColumnName());
-        String tags = itemRow.getString(tableColumns.TAGS.getColumnName());
-        tags = tags.substring(1, tags.length() - 1); // Remove parantheses bounding the tags list
-        
-        put(new IdHashKey(itemId), 
-            Item.builder()
-                .imageUrl( itemRow.getString(tableColumns.IMAGE_URL.getColumnName()) )
-                .name( itemRow.getString(tableColumns.NAME.getColumnName()) )
-                .publisher( itemRow.getString(tableColumns.PUBLISHER.getColumnName()) )
-                .description( itemRow.getString(tableColumns.DESCRIPTION.getColumnName()) )
-                .category( itemRow.getString(tableColumns.CATEGORY.getColumnName()) )
-                .tags( new HashSet<>( Arrays.asList( tags.split(", ") ) ) )
-                .price( itemRow.getFloat(tableColumns.PRICE.getColumnName()) )
-                .reviewScore( itemRow.getFloat(tableColumns.REVIEW_SCORE.getColumnName()) )
-                .reviewCount( itemRow.getShort(tableColumns.REVIEW_COUNT.getColumnName()) )
-                .stockQuantity( itemRow.getShort(tableColumns.STOCK_QUANTITY.getColumnName()) )
-                .id( itemId )
-                .photoAuthor( itemRow.getString(tableColumns.PHOTO_AUTHOR.getColumnName()) )
-                .photoAuthorUrl( itemRow.getString(tableColumns.PHOTO_AUTHOR_URL.getColumnName()) )
-                .dateAdded( Converters.localDateToDate(itemRow.getDate(tableColumns.DATE_ADDED.getColumnName())) )
-            .build()
-        );
+        String itemId = itemRow.getString(tableColumns.ID.getColumnName());        
+        put(new IdHashKey(itemId), Item.fromRow(itemRow));
     }
 
     private void addAllItems(Table table) {
-        table.stream().forEach(this::addItem);
+        for (Row itemRow : table){
+            addItem(itemRow);
+            System.out.println("Added item with ID: " + itemRow.getString(tableColumns.ID.getColumnName()));
+        }
+        System.out.println("Finished adding items. Total items added: " + size());
     }
 
     public Optional<Item> getItem(String itemId) {
