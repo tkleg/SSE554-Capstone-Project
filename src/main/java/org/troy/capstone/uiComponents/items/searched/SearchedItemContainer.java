@@ -46,4 +46,8 @@ public class SearchedItemContainer extends ScrollPane {
         }
         return container;
     }
+
+    public void clearItems() {
+        itemContainer.getChildren().clear();
+    }
 }

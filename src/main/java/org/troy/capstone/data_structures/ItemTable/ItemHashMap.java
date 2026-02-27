@@ -49,10 +49,7 @@ public class ItemHashMap extends HashMap<IdHashKey, Item> {
     }
 
     private void addAllItems(Table table) {
-        for (Row itemRow : table){
-            addItem(itemRow);
-            System.out.println("Added item with ID: " + itemRow.getString(tableColumns.ID.getColumnName()));
-        }
+        table.stream().forEach(this::addItem);
         System.out.println("Finished adding items. Total items added: " + size());
     }
 
