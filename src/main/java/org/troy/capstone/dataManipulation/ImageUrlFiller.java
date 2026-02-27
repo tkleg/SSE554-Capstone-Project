@@ -13,6 +13,7 @@ import java.util.List;
 import org.troy.capstone.ENV;
 import org.troy.capstone.annotations.TestExclusionGenerated;
 import org.troy.capstone.constants.tableColumns;
+import org.troy.capstone.utils.TableUtils;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -25,7 +26,7 @@ public class ImageUrlFiller {
     @TestExclusionGenerated
     public static void main(String[] args) {
         //Load csv file
-        Table productData = Table.read().csv("data\\1000_items_catalog_c2_cleaned.csv");
+        Table productData = TableUtils.readCleanedData();
 
         StringColumn imageUrlColumn = productData.stringColumn(tableColumns.IMAGE_URL.getColumnName());
         StringColumn nameColumn = productData.stringColumn(tableColumns.NAME.getColumnName());
@@ -79,7 +80,7 @@ public class ImageUrlFiller {
                         && photo.get("urls").has("regular") && photo.get("user").has("name")
                         && photo.get("user").has("links") && photo.get("user").get("links").has("html")) {
 
-                        String photoUrl = photo.get("urls").get("regular").asText();
+                        String photoUrl = photo.get("urls").get("regular").asText() + "?utm_source=sse554_capstone&utm_medium=referral";
                         imageUrlColumn.set(i, photoUrl); //update the URL in the table
                         
                         JsonNode user = photo.get("user");
@@ -88,7 +89,8 @@ public class ImageUrlFiller {
 
                         String authorProfileUrl = user.get("links").get("html").asText() + "?utm_source=sse554_capstone&utm_medium=referral";
                         photoAuthorUrlColumn.set(i, authorProfileUrl); //update the photo author URL
-
+                        
+                        System.out.println("Updated row " + i + ": " + query + " with photo by " + authorName);
                     } else {
                         System.out.println("Bad photo data found for: " + query);
                         badRowIndexes.add(i);
@@ -114,6 +116,6 @@ public class ImageUrlFiller {
         System.out.println("Final dataset size after cleanup: " + productData.rowCount() + " rows.");
 
         //Save updated table to new CSV
-        productData.write().csv("data\\shopping_dataset_500_items_filled.csv");
+        TableUtils.writeAttributedData(productData);
     }
 }

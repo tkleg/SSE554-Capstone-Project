@@ -4,6 +4,7 @@ import java.util.Map;
 
 import javax.swing.JTable;
 
+import org.troy.capstone.constants.dataPaths;
 import org.troy.capstone.constants.tableColumns;
 
 import javafx.beans.property.ReadOnlyObjectWrapper;
@@ -17,6 +18,21 @@ import tech.tablesaw.columns.Column;
 import tech.tablesaw.io.csv.CsvReadOptions;
 
 public class TableUtils {
+
+    // Base column type mapping for CSV reading
+    private static final Map<String, ColumnType> COLUMN_TYPES = Map.of(
+        tableColumns.PRICE.getColumnName(), ColumnType.FLOAT,
+        tableColumns.REVIEW_SCORE.getColumnName(), ColumnType.FLOAT,
+        tableColumns.REVIEW_COUNT.getColumnName(), ColumnType.SHORT,
+        tableColumns.STOCK_QUANTITY.getColumnName(), ColumnType.SHORT
+    );
+
+    // Helper method to create CSV read options with specified path
+    private static CsvReadOptions createCsvReadOptions(String path) {
+        return CsvReadOptions.builder(path)
+            .columnTypesPartial(COLUMN_TYPES)
+            .build();
+    }
 
     public static Object[][] to2DArray(Table table) {
         
@@ -62,25 +78,57 @@ public class TableUtils {
     }
 
     public static Table readCleanedData() {
-        CsvReadOptions options = CsvReadOptions.builder("C:\\Users\\thkle\\SSE554\\SSE554-Capstone-Project\\data\\1000_items_catalog_v2_cleaned.csv")
-            .columnTypesPartial(Map.of(
-                tableColumns.PRICE.getColumnName(), ColumnType.FLOAT,
-                tableColumns.REVIEW_SCORE.getColumnName(), ColumnType.FLOAT,
-                tableColumns.REVIEW_COUNT.getColumnName(), ColumnType.SHORT,
-                tableColumns.STOCK_QUANTITY.getColumnName(), ColumnType.SHORT
-            )).build();
+        CsvReadOptions options = createCsvReadOptions(dataPaths.CLEANED_DATA_CSV);
         return Table.read().usingOptions(options);    
     }
 
-    public static Table readAttributtedData(){
-        CsvReadOptions options = CsvReadOptions.builder("C:\\Users\\thkle\\SSE554\\SSE554-Capstone-Project\\data\\1000_items_catalog_v2_attributed.csv")
-            .columnTypesPartial(Map.of(
-                tableColumns.PRICE.getColumnName(), ColumnType.FLOAT,
-                tableColumns.REVIEW_SCORE.getColumnName(), ColumnType.FLOAT,
-                tableColumns.REVIEW_COUNT.getColumnName(), ColumnType.SHORT,
-                tableColumns.STOCK_QUANTITY.getColumnName(), ColumnType.SHORT
-            )).build();
+    public static Table readCleanedDataLongPath() {
+        CsvReadOptions options = createCsvReadOptions(dataPaths.CLEANED_DATA_CSV_LONG);
+        return Table.read().usingOptions(options);    
+    }
+
+    public static Table readAttributedData(){
+        CsvReadOptions options = createCsvReadOptions(dataPaths.ATTRIBUTED_DATA_CSV);
         return Table.read().usingOptions(options);
+    }
+
+    public static Table readAttributedDataLongPath(){
+        CsvReadOptions options = createCsvReadOptions(dataPaths.ATTRIBUTED_DATA_CSV_LONG);
+        return Table.read().usingOptions(options);
+    }
+
+    public static Table readCleanedAttributedData(){
+        CsvReadOptions options = createCsvReadOptions(dataPaths.CLEANED_ATTRIBUTED_DATA_CSV);
+        return Table.read().usingOptions(options);
+    }
+
+    public static Table readCleanedAttributedDataLongPath(){
+        CsvReadOptions options = createCsvReadOptions(dataPaths.CLEANED_ATTRIBUTED_DATA_CSV_LONG);
+        return Table.read().usingOptions(options);
+    }
+    
+    public static void writeCleanedData(Table table) {
+        table.write().csv(dataPaths.CLEANED_DATA_CSV);
+    }
+
+    public static void writeCleanedDataLongPath(Table table) {
+        table.write().csv(dataPaths.CLEANED_DATA_CSV_LONG);
+    }
+
+    public static void writeAttributedData(Table table) {
+        table.write().csv(dataPaths.ATTRIBUTED_DATA_CSV);
+    }
+
+    public static void writeAttributedDataLongPath(Table table) {
+        table.write().csv(dataPaths.ATTRIBUTED_DATA_CSV_LONG);
+    }
+
+    public static void writeCleanedAttributedData(Table table) {
+        table.write().csv(dataPaths.CLEANED_ATTRIBUTED_DATA_CSV);
+    }
+
+    public static void writeCleanedAttributedDataLongPath(Table table) {
+        table.write().csv(dataPaths.CLEANED_ATTRIBUTED_DATA_CSV_LONG);
     }
     
 }
