@@ -6,6 +6,8 @@ import java.net.URI;
 import org.troy.capstone.constants.URLs;
 import org.troy.capstone.entities.Item;
 
+import javafx.concurrent.Task;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -17,14 +19,18 @@ public class AttributedItemContainer extends VBox {
     private final ImageView imageView;
 
     public AttributedItemContainer(Item item) {
-        super(5); // 5px spacing between items
+        super(5); //5px spacing between items
 
         TextFlow attributionFlow = makeAttributionFlow(item);
 
-        imageView = new ImageView( item.getImageUrl() );
+        imageView = new ImageView();
         imageView.setFitWidth(150);
         imageView.setFitHeight(150);
         imageView.setPreserveRatio(true);
+        
+        //Load image asynchronously to avoid blocking scroll
+        loadImageAsync(item.getImageUrl());
+        
         imageView.setOnMouseClicked(e -> {
             try {
                 Desktop.getDesktop().browse(new URI(item.getImageUrl()));
@@ -32,6 +38,10 @@ public class AttributedItemContainer extends VBox {
                 ex.printStackTrace();
             }
         });
+        
+        //Optimize rendering
+        setCache(true);
+        setCacheHint(javafx.scene.CacheHint.SPEED);
 
         getChildren().addAll(imageView, attributionFlow);
     }
@@ -59,7 +69,31 @@ public class AttributedItemContainer extends VBox {
             }
         });
         
-        // Create the TextFlow and add all the text nodes to it
+        //Create the TextFlow and add all the text nodes to it
         return new TextFlow(text1, authorName, text2, sourceName);
+    }
+    
+    private void loadImageAsync(String imageUrl) {
+        Task<Image> imageTask = new Task<Image>() {
+            @Override
+            protected Image call() throws Exception {
+                return new Image(imageUrl, true); // true = load in background
+            }
+        };
+        
+        imageTask.setOnSucceeded(e -> {
+            Image image = imageTask.getValue();
+            if (image != null && !image.isError()) {
+                imageView.setImage(image);
+            }
+        });
+        
+        imageTask.setOnFailed(e -> {
+            System.err.println("Failed to load image: " + imageUrl);
+        });
+        
+        Thread imageThread = new Thread(imageTask);
+        imageThread.setDaemon(true);//Allow JVM to exit if these threads are the only ones left
+        imageThread.start();
     }
 }

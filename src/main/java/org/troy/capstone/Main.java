@@ -43,8 +43,8 @@ public class Main extends Application {
         gridPane.setHgap(10); // 10px horizontal spacing between columns
         gridPane.setVgap(10); // 10px vertical spacing between rows
 
-        //Get and set up the ItemScroller with 20 random items to start
-        int firstNItems = 20;
+        //Get and set up the ItemScroller with 10 random items to start
+        int firstNItems = 10;
         SearchedItemContainer itemScroller = SearchedItemContainer.createFilledContainer(table.first(firstNItems), itemHashMap);
         gridPane.add(itemScroller, 0, 1, 2, 3);
 

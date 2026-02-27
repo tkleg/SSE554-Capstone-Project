@@ -1,4 +1,5 @@
 org\troy\capstone\constants\tableColumns.class
+org\troy\capstone\constants\dataPaths.class
 org\troy\capstone\data_structures\ItemTable\SieveOfEratosthenes.class
 org\troy\capstone\dataManipulation\ManualDataWriter.class
 org\troy\capstone\entities\Item$ItemBuilder.class
@@ -13,6 +14,7 @@ org\troy\capstone\managers\UIElementManager.class
 org\troy\capstone\uiComponents\filters\FiltersContainer.class
 org\troy\capstone\entities\Item.class
 org\troy\capstone\constants\uiDataNames.class
+org\troy\capstone\uiComponents\items\AttributedItemContainer$1.class
 org\troy\capstone\uiComponents\items\searched\SearchedItemContainer.class
 org\troy\capstone\uiComponents\items\searched\SearchedItemPanel.class
 org\troy\capstone\utils\TableUtils.class

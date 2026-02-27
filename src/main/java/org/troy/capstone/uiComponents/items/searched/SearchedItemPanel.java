@@ -21,22 +21,27 @@ public class SearchedItemPanel extends HBox{
 
     public SearchedItemPanel(Item item) {
 
-        // Set up the left side
+        //Set up the left side
         attributedImage = new AttributedItemContainer(item);
 
-        // Set up the right side - text content
+        //Set up the right side - text content
         rightPanel = new VBox(5); // 5px spacing between elements
         fillRightPanel(item);
         
-        // Add both sides to the HBox
+        //Add both sides to the HBox
         getChildren().addAll(attributedImage, rightPanel);
         setSpacing(20); // 20px spacing between image and text
         
-        // Add border to the panel
+        //Add border to the panel
         setBorder();
         
-        // Add padding inside the border
+        //Add padding inside the border
         setPadding(new Insets(10));
+        
+        //Optimize rendering performance
+        setCache(true);
+        setCacheHint(javafx.scene.CacheHint.SPEED);
+        setSnapToPixel(true);
     }
 
     private void fillRightPanel(Item item) {
