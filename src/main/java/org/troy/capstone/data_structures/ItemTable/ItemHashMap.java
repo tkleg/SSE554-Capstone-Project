@@ -33,7 +33,7 @@ public class ItemHashMap extends HashMap<IdHashKey, Item> {
     */
     public static ItemHashMap fromTable(Table table) {
         ItemHashMap itemMap = new ItemHashMap(table.rowCount());
-        itemMap.findBestHashParameters( table.stringColumn( tableColumns.ID.getColumnName() ).asList());
+        //itemMap.findBestHashParameters( table.stringColumn( tableColumns.ID.getColumnName() ).asList());
         System.out.println("Prime: " + IdHashKey.getPrime() + ", Best I: " + IdHashKey.getI() + ", Best J: " + IdHashKey.getJ());
         itemMap.addAllItems(table);
         return itemMap;
