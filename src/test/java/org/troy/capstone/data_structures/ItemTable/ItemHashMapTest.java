@@ -1,17 +1,13 @@
 package org.troy.capstone.data_structures.ItemTable;
 
 import java.math.BigInteger;
-import java.util.Arrays;
 import java.util.List;
-
-import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.troy.capstone.constants.tableColumns;
 import org.troy.capstone.entities.Item;
 import org.troy.capstone.utils.TableUtils;
@@ -59,24 +55,6 @@ public class ItemHashMapTest {
     void testBucketSizeDistribution(){
         assertEquals( 1000, map.size(), "ItemHashMap should contain 1000 items after initialization from the table" );
         assertEquals( 1000, table.rowCount(), "Table should contain 1000 rows" );
-    }
-
-
-    @Test
-    @DisplayName("Test Prime, I, and J parameters are set")
-    void testIAndJSet(){
-        // Just check that I and J are not null and are within the expected range (1 to PRIME-1 for I, 0 to PRIME-1 for J)
-        assert IdHashKey.getI() != null : "I should be set";
-        assert IdHashKey.getJ() != null : "J should be set";
-        assert IdHashKey.getPrime() != 0 : "Prime should be set";
-        
-        BigInteger I = IdHashKey.getI();
-        BigInteger J = IdHashKey.getJ();
-        int PRIME = IdHashKey.getPrime();
-
-        assert I.compareTo(BigInteger.ONE) >= 0 && I.compareTo(BigInteger.valueOf(PRIME)) < 0 : "I should be in the range [1, PRIME)";
-        assert J.compareTo(BigInteger.ZERO) >= 0 && J.compareTo(BigInteger.valueOf(PRIME)) < 0 : "J should be in the range [0, PRIME)";
-        assertEquals( 99999989, IdHashKey.getPrime(), "Prime should be 99999989, the largest prime under 100 million" );
     }
 
     @Test

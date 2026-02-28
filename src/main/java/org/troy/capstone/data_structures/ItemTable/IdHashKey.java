@@ -4,7 +4,7 @@ import java.math.BigInteger;
 
 public class IdHashKey {
     private final String value;
-    private static final int PRIME = SieveOfEratosthenes.staticPrimeUnder100mil().get(); // A prime number larger than the maximum possible hash value from collapsing the strings, to ensure good distribution in universal hashing
+    private static final int PRIME = SieveOfEratosthenes.staticPrimeUnder100mil().orElseThrow(); // A prime number larger than the maximum possible hash value from collapsing the strings, to ensure good distribution in universal hashing
     private static BigInteger I = BigInteger.
         valueOf( (long) (Math.random() * PRIME) + 1 );
     private static BigInteger J = BigInteger.

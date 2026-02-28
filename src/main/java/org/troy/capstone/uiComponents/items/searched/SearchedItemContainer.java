@@ -19,12 +19,12 @@ public class SearchedItemContainer extends ScrollPane {
         setContent(itemContainer);
         setFitToWidth(true);
         
-        // Optimize scroll performance
+        //Optimize scroll performance
         setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         setPannable(false);
         
-        // Cache nodes to improve scroll performance
+        //Cache nodes to improve scroll performance
         itemContainer.setCache(true);
         itemContainer.setCacheHint(javafx.scene.CacheHint.SPEED);
     }

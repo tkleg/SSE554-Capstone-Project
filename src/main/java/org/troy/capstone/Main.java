@@ -8,6 +8,7 @@ import org.troy.capstone.entities.Item;
 import org.troy.capstone.managers.GeneralManager;
 import org.troy.capstone.uiComponents.filters.FiltersContainer;
 import org.troy.capstone.uiComponents.items.searched.SearchedItemContainer;
+import org.troy.capstone.uiComponents.items.searched.SearchedItemPagination;
 import org.troy.capstone.uiComponents.items.searched.SearchedItemPanel;
 import org.troy.capstone.uiComponents.priceSlider.PriceSlider;
 import org.troy.capstone.uiComponents.searchBar.SearchBar;
@@ -44,9 +45,11 @@ public class Main extends Application {
         gridPane.setVgap(10); // 10px vertical spacing between rows
 
         //Get and set up the ItemScroller with 10 random items to start
-        int firstNItems = 10;
-        SearchedItemContainer itemScroller = SearchedItemContainer.createFilledContainer(table.first(firstNItems), itemHashMap);
-        gridPane.add(itemScroller, 0, 1, 2, 3);
+        int firstNItems = 50;
+        SearchedItemPagination itemPagination = SearchedItemPagination.create(table.first(firstNItems), itemHashMap);
+        gridPane.add(itemPagination, 0, 1, 2, 3);
+        //SearchedItemContainer itemScroller = SearchedItemContainer.createFilledContainer(table.first(firstNItems), itemHashMap);
+        //gridPane.add(itemScroller, 0, 1, 2, 3);
 
         //Get and setup the SearchBar
         SearchBar searchBar = new SearchBar(generalManager);
