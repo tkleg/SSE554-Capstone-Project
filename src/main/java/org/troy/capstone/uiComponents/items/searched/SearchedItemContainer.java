@@ -37,6 +37,18 @@ public class SearchedItemContainer extends ScrollPane {
         itemContainer.getChildren().addAll(itemPanels);
     }
 
+    /**
+     * Optimized method to add item directly from table row.
+     * Avoids redundant row processing for better performance.
+     */
+    public void addItemFromRow(tech.tablesaw.api.Row row, ItemHashMap itemHashMap) {
+        String itemId = row.getString(tableColumns.ID.getColumnName());
+        itemHashMap.getItem(itemId).ifPresent(item -> {
+            SearchedItemPanel itemPanel = new SearchedItemPanel(item);
+            addItemPanel(itemPanel);
+        });
+    }
+
     public static SearchedItemContainer createFilledContainer(Table table, ItemHashMap itemHashMap) {
         SearchedItemContainer container = new SearchedItemContainer();
         for (Row row : table) {
