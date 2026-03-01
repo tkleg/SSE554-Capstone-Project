@@ -2,6 +2,7 @@ package org.troy.capstone.uiComponents.items.searched;
 
 import java.util.List;
 
+import org.troy.capstone.constants.uiSizeControls;
 import org.troy.capstone.data_structures.ItemTable.ItemHashMap;
 
 import javafx.scene.control.Pagination;
@@ -17,12 +18,12 @@ public class SearchedItemPagination extends Pagination {
         this.table = table;
         this.itemHashMap = itemHashMap;
 
-        setPrefWidth(550);
-        setMaxWidth(550);
-        setMinWidth(550);
-        setPrefHeight(600);
-        setMaxHeight(600);
-        setMinHeight(600);
+        setPrefWidth(uiSizeControls.SEARCHED_ITEM_PAGINATION_WIDTH);
+        setMaxWidth(uiSizeControls.SEARCHED_ITEM_PAGINATION_WIDTH);
+        setMinWidth(uiSizeControls.SEARCHED_ITEM_PAGINATION_WIDTH);
+        setPrefHeight(uiSizeControls.SEARCHED_ITEM_PAGINATION_HEIGHT);
+        setMaxHeight(uiSizeControls.SEARCHED_ITEM_PAGINATION_HEIGHT);
+        setMinHeight(uiSizeControls.SEARCHED_ITEM_PAGINATION_HEIGHT);
     }
 
     public static int getItemsPerPage() {

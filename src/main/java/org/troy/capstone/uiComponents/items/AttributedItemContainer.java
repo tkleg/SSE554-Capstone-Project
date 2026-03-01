@@ -4,6 +4,7 @@ import java.awt.Desktop;
 import java.net.URI;
 
 import org.troy.capstone.constants.URLs;
+import org.troy.capstone.constants.uiSizeControls;
 import org.troy.capstone.entities.Item;
 
 import javafx.concurrent.Task;
@@ -24,8 +25,8 @@ public class AttributedItemContainer extends VBox {
         TextFlow attributionFlow = makeAttributionFlow(item);
 
         imageView = new ImageView();
-        imageView.setFitWidth(150);
-        imageView.setFitHeight(150);
+        imageView.setFitWidth(uiSizeControls.ATTRIBUTED_ITEM_IMAGE_WIDTH);
+        imageView.setFitHeight(uiSizeControls.ATTRIBUTED_ITEM_IMAGE_HEIGHT);
         imageView.setPreserveRatio(true);
         
         //Load image asynchronously to avoid blocking scroll

@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
 
+import org.troy.capstone.constants.uiSizeControls;
 import org.troy.capstone.data_structures.ItemTable.ItemHashMap;
 import org.troy.capstone.entities.Item;
 import org.troy.capstone.managers.GeneralManager;
@@ -42,8 +43,8 @@ public class Main extends Application {
         
         GridPane gridPane = new GridPane();
         gridPane.setPadding(new Insets(20)); // Add 20px padding around all edges
-        gridPane.setHgap(10); // 10px horizontal spacing between columns
-        gridPane.setVgap(10); // 10px vertical spacing between rows
+        gridPane.setHgap(uiSizeControls.WIDTH_PADDING); // 10px horizontal spacing between columns
+        gridPane.setVgap(uiSizeControls.HEIGHT_PADDING); // 10px vertical spacing between rows
 
         //Get and set up the ItemScroller with 10 random items to start
         System.out.println("Enter number of items to display on first load (max " + table.rowCount() + "): ");

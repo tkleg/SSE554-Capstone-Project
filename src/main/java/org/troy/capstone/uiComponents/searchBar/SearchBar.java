@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.troy.capstone.constants.uiElementName;
+import org.troy.capstone.constants.uiSizeControls;
 import org.troy.capstone.managers.GeneralManager;
 
 import javafx.event.ActionEvent;
@@ -37,11 +38,11 @@ public class SearchBar extends HBox {
         });
 
         getChildren().addAll(searchField, searchButton);
-        setSpacing(5); // 5px spacing between elements
+        setSpacing(uiSizeControls.WIDTH_PADDING);
 
-        setPrefWidth(500); // Set preferred width for consistent layout
-        setMaxWidth(500);
-        setMinWidth(500);
+        setPrefWidth(uiSizeControls.SEARCH_BAR_WIDTH);
+        setMaxWidth(uiSizeControls.SEARCH_BAR_WIDTH);
+        setMinWidth(uiSizeControls.SEARCH_BAR_WIDTH);
     }
     
     public void addAdditionalAction(EventHandler<ActionEvent> action) {
