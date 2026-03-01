@@ -16,6 +16,13 @@ public class SearchedItemPagination extends Pagination {
     private SearchedItemPagination(Table table, ItemHashMap itemHashMap) {
         this.table = table;
         this.itemHashMap = itemHashMap;
+
+        setPrefWidth(550);
+        setMaxWidth(550);
+        setMinWidth(550);
+        setPrefHeight(600);
+        setMaxHeight(600);
+        setMinHeight(600);
     }
 
     public static int getItemsPerPage() {

@@ -19,6 +19,11 @@ public class SearchedItemContainer extends ScrollPane {
         setContent(itemContainer);
         setFitToWidth(true);
         
+        // Set fixed width to prevent content-based resizing
+        setPrefWidth(500);
+        setMaxWidth(500);
+        setMinWidth(500);
+        
         //Optimize scroll performance
         setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);

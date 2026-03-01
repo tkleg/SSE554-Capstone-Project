@@ -38,6 +38,10 @@ public class SearchBar extends HBox {
 
         getChildren().addAll(searchField, searchButton);
         setSpacing(5); // 5px spacing between elements
+
+        setPrefWidth(500); // Set preferred width for consistent layout
+        setMaxWidth(500);
+        setMinWidth(500);
     }
     
     public void addAdditionalAction(EventHandler<ActionEvent> action) {

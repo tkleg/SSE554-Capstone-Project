@@ -49,6 +49,7 @@ public class Main extends Application {
         System.out.println("Enter number of items to display on first load (max " + table.rowCount() + "): ");
         Scanner scan = new Scanner(System.in);
         int firstNItems = Math.min(scan.nextInt(), (int) table.rowCount());
+        scan.close();
         SearchedItemPagination itemPagination = SearchedItemPagination.create(table.first(firstNItems), itemHashMap);
         gridPane.add(itemPagination, 0, 1, 2, 3);
         //SearchedItemContainer itemScroller = SearchedItemContainer.createFilledContainer(table.first(firstNItems), itemHashMap);
