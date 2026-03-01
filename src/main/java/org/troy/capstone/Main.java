@@ -1,6 +1,7 @@
 package org.troy.capstone;
 
 import java.util.HashSet;
+import java.util.Scanner;
 import java.util.Set;
 
 import org.troy.capstone.data_structures.ItemTable.ItemHashMap;
@@ -45,7 +46,9 @@ public class Main extends Application {
         gridPane.setVgap(10); // 10px vertical spacing between rows
 
         //Get and set up the ItemScroller with 10 random items to start
-        int firstNItems = 50;
+        System.out.println("Enter number of items to display on first load (max " + table.rowCount() + "): ");
+        Scanner scan = new Scanner(System.in);
+        int firstNItems = Math.min(scan.nextInt(), (int) table.rowCount());
         SearchedItemPagination itemPagination = SearchedItemPagination.create(table.first(firstNItems), itemHashMap);
         gridPane.add(itemPagination, 0, 1, 2, 3);
         //SearchedItemContainer itemScroller = SearchedItemContainer.createFilledContainer(table.first(firstNItems), itemHashMap);
