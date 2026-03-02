@@ -1,17 +1,14 @@
 package org.troy.capstone;
 
 import java.util.HashSet;
-import java.util.Scanner;
 import java.util.Set;
 
+import org.troy.capstone.constants.tableColumns;
 import org.troy.capstone.constants.uiSizeControls;
 import org.troy.capstone.data_structures.ItemTable.ItemHashMap;
-import org.troy.capstone.entities.Item;
 import org.troy.capstone.managers.GeneralManager;
 import org.troy.capstone.uiComponents.filters.FiltersContainer;
-import org.troy.capstone.uiComponents.items.searched.SearchedItemContainer;
 import org.troy.capstone.uiComponents.items.searched.SearchedItemPagination;
-import org.troy.capstone.uiComponents.items.searched.SearchedItemPanel;
 import org.troy.capstone.uiComponents.priceSlider.PriceSlider;
 import org.troy.capstone.uiComponents.searchBar.SearchBar;
 import org.troy.capstone.utils.TableUtils;
@@ -46,12 +43,7 @@ public class Main extends Application {
         gridPane.setHgap(uiSizeControls.WIDTH_PADDING); // 10px horizontal spacing between columns
         gridPane.setVgap(uiSizeControls.HEIGHT_PADDING); // 10px vertical spacing between rows
 
-        //Get and set up the ItemScroller with 10 random items to start
-        System.out.println("Enter number of items to display on first load (max " + table.rowCount() + "): ");
-        Scanner scan = new Scanner(System.in);
-        int firstNItems = Math.min(scan.nextInt(), (int) table.rowCount());
-        scan.close();
-        SearchedItemPagination itemPagination = SearchedItemPagination.create(table.first(firstNItems), itemHashMap);
+        SearchedItemPagination itemPagination = SearchedItemPagination.create(itemHashMap);
         gridPane.add(itemPagination, 0, 1, 2, 3);
         //SearchedItemContainer itemScroller = SearchedItemContainer.createFilledContainer(table.first(firstNItems), itemHashMap);
         //gridPane.add(itemScroller, 0, 1, 2, 3);
@@ -89,8 +81,10 @@ public class Main extends Application {
         gridPane.add(tableView, 2, 3, 2, 2);
 
 
-        ///Get and setup the PriceSlider
-        PriceSlider priceSlider = new PriceSlider(0, 500, generalManager );
+        //Get and setup the PriceSlider
+        int minPrice = (int) table.numberColumn(tableColumns.PRICE.getColumnName()).min();
+        int maxPrice = (int) table.numberColumn(tableColumns.PRICE.getColumnName()).max();
+        PriceSlider priceSlider = new PriceSlider(minPrice, maxPrice, generalManager );
         gridPane.add(priceSlider, 2, 0, 2, 1);
         gridPane.setPrefSize(1000, 700);
         Scene scene = new Scene(gridPane);
@@ -100,7 +94,7 @@ public class Main extends Application {
 
     }
 
-    private static SearchedItemContainer createSimpleItemScroller(){
+    /*private static SearchedItemContainer createSimpleItemScroller(){
         SearchedItemContainer itemScroller = new SearchedItemContainer();
         int numItems = 10;
         for(int x = 0; x < numItems; x++)
@@ -108,7 +102,8 @@ public class Main extends Application {
         itemScroller.setPrefSize(500, 600);
         return itemScroller;
     }
-
+    */
+   
     public static void main(String[] args) {
         launch(args);
     }
