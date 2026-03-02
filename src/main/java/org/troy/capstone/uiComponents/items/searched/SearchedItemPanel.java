@@ -1,5 +1,8 @@
 package org.troy.capstone.uiComponents.items.searched;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.troy.capstone.constants.uiSizeControls;
 import org.troy.capstone.entities.Item;
 import org.troy.capstone.uiComponents.items.AttributedItemContainer;
@@ -16,6 +19,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
 public class SearchedItemPanel extends HBox{
+
+    private static final SimpleDateFormat dateAddedFormatter = new SimpleDateFormat("MMMM dd, yyyy");
 
     private final AttributedItemContainer attributedImage;
     private final VBox rightPanel;
@@ -51,7 +56,7 @@ public class SearchedItemPanel extends HBox{
 
     private void fillRightPanel(Item item) {
         //Name label done separately so we can style it
-        Label nameLabel = new Label("Name: " + item.getName());
+        Label nameLabel = new Label(item.getName());
         nameLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14;");
         nameLabel.setWrapText(true);
         nameLabel.setMaxWidth(uiSizeControls.SEARCHED_ITEM_LABEL_MAX_WIDTH); // Allow space for image on left
@@ -77,7 +82,8 @@ public class SearchedItemPanel extends HBox{
         stockLabel.setWrapText(true);
         stockLabel.setMaxWidth(uiSizeControls.SEARCHED_ITEM_LABEL_MAX_WIDTH);
         
-        Label dateLabel = new Label("Date Added: " + item.getDateAdded().toString());
+        Date dateAdded = item.getDateAdded();
+        Label dateLabel = new Label("Date Added: " + dateAddedFormatter.format(dateAdded));
         dateLabel.setWrapText(true);
         dateLabel.setMaxWidth(uiSizeControls.SEARCHED_ITEM_LABEL_MAX_WIDTH);
 
