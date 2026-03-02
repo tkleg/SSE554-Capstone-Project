@@ -45,17 +45,18 @@ public class FiltersContainer extends ScrollPane {
 
     private void createFiltersFromTable(ItemHashMap itemHashMap) {
         for (tableColumns column : categoricalColumns) {
+            Set<String> uniqueValues;
             if( column.getColumnName().equals(tableColumns.TAGS.getColumnName()) ){
-                Set<String> uniqueTags = itemHashMap.values().stream()
+                uniqueValues = itemHashMap.values().stream()
                 .flatMap(item -> item.getTags().stream())
                 .collect(Collectors.toSet());
-                addFilterPanel(column.getColumnName(), uniqueTags);
             } else {
-                Set<String> uniqueValues = itemHashMap.values().stream()
+                uniqueValues = itemHashMap.values().stream()
                     .map(item -> (String) item.getAttribute(column))
                     .collect(Collectors.toSet());
-                addFilterPanel(column.getColumnName(), uniqueValues);
             }
+            String filterTitle = column.getColumnName().substring(0, 1).toUpperCase() + column.getColumnName().substring(1).toLowerCase();
+            addFilterPanel(filterTitle, uniqueValues);
         }
     }
 
