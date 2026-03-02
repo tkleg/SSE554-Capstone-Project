@@ -54,7 +54,7 @@ public class Main extends Application {
         PriceSlider priceSlider = new PriceSlider(minPrice, maxPrice, generalManager );
         gridPane.add(priceSlider, 2, 0, 2, 1);
 
-        StarRatingFilter starRatingFilter = new StarRatingFilter();
+        StarRatingFilter starRatingFilter = StarRatingFilter.create(generalManager);
         gridPane.add(starRatingFilter, 2, 2, 1, 1);
         
         gridPane.setPrefSize(1000, 700);

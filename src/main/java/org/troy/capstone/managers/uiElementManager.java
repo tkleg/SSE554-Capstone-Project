@@ -8,6 +8,7 @@ import java.util.Set;
 import org.troy.capstone.constants.uiDataNames;
 import org.troy.capstone.constants.uiElementName;
 import org.troy.capstone.uiComponents.filters.categorical.FiltersContainer;
+import org.troy.capstone.uiComponents.filters.stars.StarRatingFilter;
 
 import javafx.scene.Node;
 import javafx.scene.control.Slider;
@@ -38,17 +39,25 @@ public class UIElementManager {
         Map<uiDataNames, Object> searchData = new HashMap<>();
         
         getElement(uiElementName.MIN_PRICE_SLIDER)
-        .ifPresent( e -> searchData.put(uiDataNames.MIN_PRICE, ((Slider)e).getValue()) );
+        .ifPresentOrElse( e -> searchData.put(uiDataNames.MIN_PRICE, ((Slider)e).getValue()),
+        () -> System.out.println("Min price slider not found in UIElementManager, cannot include min price in search data.") );
 
         getElement(uiElementName.MAX_PRICE_SLIDER)
-        .ifPresent( e -> searchData.put(uiDataNames.MAX_PRICE, ((Slider)e).getValue()) );
+        .ifPresentOrElse( e -> searchData.put(uiDataNames.MAX_PRICE, ((Slider)e).getValue()),
+        () -> System.out.println("Max price slider not found in UIElementManager, cannot include max price in search data.") );
 
         getElement(uiElementName.SEARCH_FIELD)
-        .ifPresent( e -> searchData.put(uiDataNames.SEARCH_QUERY, ((TextField)e).getText()) );
-
-        getElement(uiElementName.FILTERS_CONTAINER)
-        .ifPresent( e -> searchData.put(uiDataNames.FILTERS_CONTAINER, ((FiltersContainer)e).getSelectedFilters()) );
+        .ifPresentOrElse( e -> searchData.put(uiDataNames.SEARCH_QUERY, ((TextField)e).getText()),
+        () -> System.out.println("Search field not found in UIElementManager, cannot include search query in search data.") );
         
+        getElement(uiElementName.FILTERS_CONTAINER)
+        .ifPresentOrElse( e -> searchData.put(uiDataNames.FILTERS_CONTAINER, ((FiltersContainer)e).getSelectedFilters()),
+        () -> System.out.println("Filters container not found in UIElementManager, cannot include filters in search data.") );
+        
+        getElement(uiElementName.STAR_RATING_FILTER)
+        .ifPresentOrElse( e -> searchData.put(uiDataNames.MIN_STAR_RATING, ((StarRatingFilter)e).getSelectedRating()),
+        () -> System.out.println("Star rating filter not found in UIElementManager, cannot include star rating in search data.") );
+
         return searchData;
     }
     

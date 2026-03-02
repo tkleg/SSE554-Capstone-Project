@@ -1,5 +1,8 @@
 package org.troy.capstone.uiComponents.filters.stars;
 
+import org.troy.capstone.constants.uiElementName;
+import org.troy.capstone.managers.GeneralManager;
+
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
@@ -20,7 +23,14 @@ public class StarRatingFilter extends VBox {
 
     private final Label[] stars;
     private int selectedRating = 0;
-    
+
+    public static StarRatingFilter create(GeneralManager generalManager) {
+        StarRatingFilter filter = new StarRatingFilter();
+        generalManager.addUIElement(uiElementName.STAR_RATING_FILTER, filter);
+        filter.setAlignment(Pos.CENTER_LEFT);
+        filter.setSpacing(5);
+        return filter;
+    }
     public StarRatingFilter() {
         stars = new Label[MAX_STARS];
         
@@ -60,7 +70,7 @@ public class StarRatingFilter extends VBox {
             selectedRating = rating;
         
         updateDisplay();
-        
+
         String starText = selectedRating == 1 ? "star" : "stars";
         ratingLabel.setText("Minimum Rating: " + selectedRating + " " + starText);
     }
@@ -101,18 +111,9 @@ public class StarRatingFilter extends VBox {
             }
         }
     }
-    
-    /**
-     * Clears the rating filter
-     */
-    public void clearRating() {
-        setRating(0);
+
+    public int getSelectedRating() {
+        return selectedRating;
     }
-    
-    /**
-     * Returns true if a minimum rating filter is active
-     */
-    public boolean hasRatingFilter() {
-        return selectedRating > 0;
-    }
+
 }
