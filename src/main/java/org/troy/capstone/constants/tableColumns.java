@@ -1,5 +1,7 @@
 package org.troy.capstone.constants;
 
+import java.util.Set;
+
 public enum tableColumns {
     ID("id"),
     IMAGE_URL("imageUrl"),
@@ -18,6 +20,12 @@ public enum tableColumns {
 
     private final String columnName;
 
+    private static final Set<tableColumns> categoricalColumns = Set.of(tableColumns.PUBLISHER, tableColumns.CATEGORY, tableColumns.TAGS);
+
+    public static Set<tableColumns> getCategoricalColumns() {
+        return categoricalColumns;
+    }
+
     tableColumns(String columnName) {
         this.columnName = columnName;
     }
@@ -25,4 +33,5 @@ public enum tableColumns {
     public String getColumnName() {
         return columnName;
     }
+
 }

@@ -34,14 +34,8 @@ public class SearchBar extends HBox {
         searchButton = new Button("Search");
         generalManager.addUIElement(uiElementName.SEARCH_BUTTON, searchButton);
 
-        /*searchButton.setOnAction(e -> {
-            System.out.println( "Search Query: " + searchField.getText() );
-
-            for (EventHandler<ActionEvent> action : additionalActions)
-                action.handle(e);
-        });*/
         searchButton.setOnAction( e ->{
-            System.out.println( generalManager.getSearchData() );
+            generalManager.filterAndPrintNumberOfResults();
         });
 
         getChildren().addAll(searchField, searchButton);

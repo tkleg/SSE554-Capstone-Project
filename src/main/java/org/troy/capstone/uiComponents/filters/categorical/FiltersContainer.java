@@ -27,11 +27,9 @@ public class FiltersContainer extends ScrollPane {
     private final Map<String, Set<CheckBox>> filterOptions;
     private final VBox contentContainer;
     //Define which columns are categorical for filter generation
-    private final Set<tableColumns> categoricalColumns = Set.of(tableColumns.PUBLISHER, tableColumns.CATEGORY, tableColumns.TAGS);
 
     public static FiltersContainer create( GeneralManager generalManager, ItemHashMap itemHashMap ) {
         FiltersContainer container = new FiltersContainer(generalManager, itemHashMap);
-        container.createFiltersFromTable(itemHashMap);
         UIUtils.setSize(container, uiSizeControls.FILTERS_CONTAINER_WIDTH, uiSizeControls.FILTERS_CONTAINER_HEIGHT);
         generalManager.addUIElement(uiElementName.FILTERS_CONTAINER, container);
 
@@ -49,7 +47,7 @@ public class FiltersContainer extends ScrollPane {
     }
 
     private void createFiltersFromTable(ItemHashMap itemHashMap) {
-        for (tableColumns column : categoricalColumns) {
+        for (tableColumns column : tableColumns.getCategoricalColumns()) {
             Set<String> uniqueValues;
             if( column.getColumnName().equals(tableColumns.TAGS.getColumnName()) ){// Special handling for tags since it's a set of strings
                 uniqueValues = itemHashMap.values().stream()
