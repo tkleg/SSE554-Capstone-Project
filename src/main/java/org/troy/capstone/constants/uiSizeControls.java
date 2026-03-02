@@ -18,7 +18,7 @@ public class uiSizeControls {
     public static final int SEARCHED_ITEM_CONTAINER_HEIGHT = SEARCHED_ITEM_PAGINATION_HEIGHT;
     public static final int SEARCHED_ITEM_SPACING = 5;
 
-    public static final int SEARCHED_ITEM_PANEL_WIDTH = SEARCHED_ITEM_CONTAINER_WIDTH - WIDTH_PADDING*8;
+    public static final int SEARCHED_ITEM_PANEL_WIDTH = SEARCHED_ITEM_CONTAINER_WIDTH - WIDTH_PADDING*2;
     public static final int SEARCHED_ITEM_PANEL_HEIGHT = 150;
 
     public static final int ATTRIBUTED_ITEM_IMAGE_WIDTH = 150;

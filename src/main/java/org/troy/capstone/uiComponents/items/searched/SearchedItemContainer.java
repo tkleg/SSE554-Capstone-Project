@@ -3,6 +3,7 @@ package org.troy.capstone.uiComponents.items.searched;
 import java.util.List;
 
 import org.troy.capstone.constants.tableColumns;
+import org.troy.capstone.constants.uiSizeControls;
 import org.troy.capstone.data_structures.ItemTable.ItemHashMap;
 
 import javafx.scene.control.ScrollPane;
@@ -20,9 +21,9 @@ public class SearchedItemContainer extends ScrollPane {
         setFitToWidth(true);
         
         // Set fixed width to prevent content-based resizing
-        setPrefWidth(500);
-        setMaxWidth(500);
-        setMinWidth(500);
+        setPrefWidth(uiSizeControls.SEARCHED_ITEM_CONTAINER_WIDTH);
+        setMaxWidth(uiSizeControls.SEARCHED_ITEM_CONTAINER_WIDTH);
+        setMinWidth(uiSizeControls.SEARCHED_ITEM_CONTAINER_WIDTH);
         
         //Optimize scroll performance
         setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
