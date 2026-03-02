@@ -3,14 +3,21 @@ package org.troy.capstone.uiComponents.filters.stars;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
-public class StarRatingFilter extends HBox {
+public class StarRatingFilter extends VBox {
     private static final int MAX_STARS = 5;
     private static final String FILLED_STAR = "★";
     private static final String EMPTY_STAR = "☆";
     
+    //Holds the stars
+    private final HBox starContainer = new HBox();
+
+    //Says "Minimum Rating" above the stars
+    private final Label ratingLabel = new Label("Minimum Rating: 0 stars");
+
     private final Label[] stars;
     private int selectedRating = 0;
     
@@ -35,9 +42,10 @@ public class StarRatingFilter extends HBox {
             star.setOnMouseExited(e -> updateDisplay());
 
             stars[i] = star;
-            getChildren().add(star);
+            starContainer.getChildren().add(star);
         }
         
+        getChildren().addAll(ratingLabel, starContainer);
         updateDisplay();
     }
     
@@ -52,7 +60,9 @@ public class StarRatingFilter extends HBox {
             selectedRating = rating;
         
         updateDisplay();
- 
+        
+        String starText = selectedRating == 1 ? "star" : "stars";
+        ratingLabel.setText("Minimum Rating: " + selectedRating + " " + starText);
     }
     
     /**
