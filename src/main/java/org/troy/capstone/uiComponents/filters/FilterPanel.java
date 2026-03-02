@@ -20,7 +20,7 @@ public class FilterPanel extends TitledPane{
 
         setExpanded(false);
 
-        setAlignment(Pos.CENTER_LEFT); // Align everything to the left
+        setAlignment(Pos.CENTER_LEFT);
 
         // Style only the title text, not the content
         setStyle("-fx-font-weight: bold");

@@ -6,6 +6,7 @@ import java.util.Date;
 import org.troy.capstone.constants.uiSizeControls;
 import org.troy.capstone.entities.Item;
 import org.troy.capstone.uiComponents.items.AttributedItemContainer;
+import org.troy.capstone.utils.UIUtils;
 
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
@@ -25,6 +26,12 @@ public class SearchedItemPanel extends HBox{
     private final AttributedItemContainer attributedImage;
     private final VBox rightPanel;
 
+    public static SearchedItemPanel createFromItem(Item item) {
+        SearchedItemPanel panel =  new SearchedItemPanel(item);
+        UIUtils.setSize(panel, uiSizeControls.SEARCHED_ITEM_PANEL_WIDTH, uiSizeControls.SEARCHED_ITEM_PANEL_HEIGHT);
+        return panel;
+    }
+    
     public SearchedItemPanel(Item item) {
 
         //Set up the left side
@@ -37,10 +44,6 @@ public class SearchedItemPanel extends HBox{
         //Add both sides to the HBox
         getChildren().addAll(attributedImage, rightPanel);
         setSpacing(20); // 20px spacing between image and text
-        
-        setPrefWidth(uiSizeControls.SEARCHED_ITEM_PANEL_WIDTH);
-        setMaxWidth(uiSizeControls.SEARCHED_ITEM_PANEL_WIDTH);
-        setMinWidth(uiSizeControls.SEARCHED_ITEM_PANEL_WIDTH);
         
         //Add border to the panel
         setBorder();

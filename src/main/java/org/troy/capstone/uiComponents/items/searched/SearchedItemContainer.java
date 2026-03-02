@@ -5,6 +5,7 @@ import java.util.List;
 import org.troy.capstone.constants.tableColumns;
 import org.troy.capstone.constants.uiSizeControls;
 import org.troy.capstone.data_structures.ItemTable.ItemHashMap;
+import org.troy.capstone.utils.UIUtils;
 
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
@@ -14,17 +15,18 @@ import tech.tablesaw.api.Table;
 public class SearchedItemContainer extends ScrollPane {
     private final VBox itemContainer;
     
+    public static SearchedItemContainer create(){
+        SearchedItemContainer container = new SearchedItemContainer();
+        UIUtils.setSize(container, uiSizeControls.SEARCHED_ITEM_CONTAINER_WIDTH, uiSizeControls.SEARCHED_ITEM_CONTAINER_HEIGHT);
+        return container;
+    }
+
     public SearchedItemContainer() {
         super();
         itemContainer = new VBox(5); // 5px spacing between items
         setContent(itemContainer);
         setFitToWidth(true);
-        
-        // Set fixed width to prevent content-based resizing
-        setPrefWidth(uiSizeControls.SEARCHED_ITEM_CONTAINER_WIDTH);
-        setMaxWidth(uiSizeControls.SEARCHED_ITEM_CONTAINER_WIDTH);
-        setMinWidth(uiSizeControls.SEARCHED_ITEM_CONTAINER_WIDTH);
-        
+
         //Optimize scroll performance
         setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
@@ -47,7 +49,7 @@ public class SearchedItemContainer extends ScrollPane {
      * Optimized method to add item directly from table row.
      * Avoids redundant row processing for better performance.
      */
-    public void addItemFromRow(tech.tablesaw.api.Row row, ItemHashMap itemHashMap) {
+    public void addItemFromRow(Row row, ItemHashMap itemHashMap) {
         String itemId = row.getString(tableColumns.ID.getColumnName());
         itemHashMap.getItem(itemId).ifPresent(item -> {
             SearchedItemPanel itemPanel = new SearchedItemPanel(item);

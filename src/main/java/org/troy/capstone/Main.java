@@ -5,28 +5,23 @@ import org.troy.capstone.constants.uiSizeControls;
 import org.troy.capstone.data_structures.ItemTable.ItemHashMap;
 import org.troy.capstone.managers.GeneralManager;
 import org.troy.capstone.uiComponents.filters.FiltersContainer;
+import org.troy.capstone.uiComponents.filters.StarRatingFilter;
 import org.troy.capstone.uiComponents.items.searched.SearchedItemPagination;
 import org.troy.capstone.uiComponents.priceSlider.PriceSlider;
 import org.troy.capstone.uiComponents.searchBar.SearchBar;
 import org.troy.capstone.utils.TableUtils;
 
 import javafx.application.Application;
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.TableView;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import net.datafaker.Faker;
 import tech.tablesaw.api.Table;
 
 public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-
-        //Use Faker to generate random data
-        Faker faker = new Faker();
 
         //Load data from csv and set into ItemHashMap
         Table table = TableUtils.readCleanedAttributedData();
@@ -46,51 +41,31 @@ public class Main extends Application {
         //gridPane.add(itemScroller, 0, 1, 2, 3);
 
         //Get and setup the SearchBar
-        SearchBar searchBar = new SearchBar(generalManager);
-        gridPane.add(searchBar, 0, 0, 2, 1);
+        SearchBar searchBar = SearchBar.create(generalManager);
+        gridPane.add(searchBar, 0, 0, 1, 1);
 
         //Insert a FiltersContainer
-        FiltersContainer filtersContainer = new FiltersContainer(generalManager, itemHashMap);
-        gridPane.add(filtersContainer, 2, 1, 2, 1);
-
-        //Set additional action for SearchBar to get Checked options
-        /*final Map<String, Set<String>> selectedOptions = new HashMap<>();
-        searchBar.addAdditionalAction((ActionEvent e) ->{
-            selectedOptions.clear();
-            selectedOptions.putAll( filtersContainer.getSelectedFilters() );
-            System.out.println("Selected Options: " + selectedOptions.toString());
-        });*/
-
-        //Insert a TableView to test the Tablesaw integration
-        TableView<ObservableList<Object>> tableView = TableUtils.tablesawTableToTableView(
-            Table.read().csv("data/teams.csv")
-        );
-        tableView.setMaxSize(400, 300);
-        gridPane.add(tableView, 2, 3, 2, 2);
-
+        FiltersContainer filtersContainer = FiltersContainer.create(generalManager, itemHashMap);
+        gridPane.add(filtersContainer, 2, 1, 1, 1);
 
         //Get and setup the PriceSlider
         int minPrice = (int) table.numberColumn(tableColumns.PRICE.getColumnName()).min();
         int maxPrice = (int) table.numberColumn(tableColumns.PRICE.getColumnName()).max();
         PriceSlider priceSlider = new PriceSlider(minPrice, maxPrice, generalManager );
         gridPane.add(priceSlider, 2, 0, 2, 1);
+
+        StarRatingFilter starRatingFilter = new StarRatingFilter();
+        gridPane.add(starRatingFilter, 2, 2, 1, 1);
+        
         gridPane.setPrefSize(1000, 700);
+        
         Scene scene = new Scene(gridPane);
         primaryStage.setScene(scene);
-        primaryStage.setTitle("Basic UI");
+        primaryStage.setTitle("Shopping App");
         primaryStage.show();
 
     }
 
-    /*private static SearchedItemContainer createSimpleItemScroller(){
-        SearchedItemContainer itemScroller = new SearchedItemContainer();
-        int numItems = 10;
-        for(int x = 0; x < numItems; x++)
-            itemScroller.addItemPanel(new SearchedItemPanel(Item.randomItem()));
-        itemScroller.setPrefSize(500, 600);
-        return itemScroller;
-    }
-    */
    
     public static void main(String[] args) {
         launch(args);

@@ -6,6 +6,7 @@ import java.net.URI;
 import org.troy.capstone.constants.URLs;
 import org.troy.capstone.constants.uiSizeControls;
 import org.troy.capstone.entities.Item;
+import org.troy.capstone.utils.UIUtils;
 
 import javafx.concurrent.Task;
 import javafx.scene.image.Image;
@@ -18,6 +19,12 @@ public class AttributedItemContainer extends VBox {
 
 
     private final ImageView imageView;
+
+    public static AttributedItemContainer createFromItem(Item item) {
+        AttributedItemContainer container = new AttributedItemContainer(item);
+        UIUtils.setSize(container, uiSizeControls.ATTRIBUTED_ITEM_CONTAINER_WIDTH, null);
+        return container;
+    }
 
     public AttributedItemContainer(Item item) {
         super(5); //5px spacing between items
@@ -45,10 +52,6 @@ public class AttributedItemContainer extends VBox {
         setCacheHint(javafx.scene.CacheHint.SPEED);
 
         getChildren().addAll(imageView, attributionFlow);
-
-        setPrefWidth(uiSizeControls.ATTRIBUTED_ITEM_CONTAINER_WIDTH);
-        setMaxWidth(uiSizeControls.ATTRIBUTED_ITEM_CONTAINER_WIDTH);
-        setMinWidth(uiSizeControls.ATTRIBUTED_ITEM_CONTAINER_WIDTH);
     }
 
     private TextFlow makeAttributionFlow(Item item) {

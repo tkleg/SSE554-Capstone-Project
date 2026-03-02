@@ -8,8 +8,10 @@ import java.util.stream.Collectors;
 
 import org.troy.capstone.constants.tableColumns;
 import org.troy.capstone.constants.uiElementName;
+import org.troy.capstone.constants.uiSizeControls;
 import org.troy.capstone.data_structures.ItemTable.ItemHashMap;
 import org.troy.capstone.managers.GeneralManager;
+import org.troy.capstone.utils.UIUtils;
 
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ScrollPane;
@@ -27,26 +29,29 @@ public class FiltersContainer extends ScrollPane {
     //Define which columns are categorical for filter generation
     private final Set<tableColumns> categoricalColumns = Set.of(tableColumns.PUBLISHER, tableColumns.CATEGORY, tableColumns.TAGS);
 
+    public static FiltersContainer create( GeneralManager generalManager, ItemHashMap itemHashMap ) {
+        FiltersContainer container = new FiltersContainer(generalManager, itemHashMap);
+        container.createFiltersFromTable(itemHashMap);
+        UIUtils.setSize(container, uiSizeControls.FILTERS_CONTAINER_WIDTH, uiSizeControls.FILTERS_CONTAINER_HEIGHT);
+        generalManager.addUIElement(uiElementName.FILTERS_CONTAINER, container);
+
+        return container;
+    }
     public FiltersContainer( GeneralManager generalManager, ItemHashMap itemHashMap ) {
         filterOptions = new HashMap<>();
         contentContainer = new VBox();
-        contentContainer.setSpacing(10); // Add spacing between filter panels
-        contentContainer.setFillWidth(true); // Make children fill the available width
+        contentContainer.setSpacing(10);
+        contentContainer.setFillWidth(true);
         setContent(contentContainer);
-        setFitToWidth(true); // Make the ScrollPane's content fit to the width
-        setPrefSize(400, 250);
-        setMaxSize(USE_PREF_SIZE, USE_PREF_SIZE);
-        setMinSize(USE_PREF_SIZE, USE_PREF_SIZE);
+        setFitToWidth(true);
 
         createFiltersFromTable(itemHashMap);
-
-        generalManager.addUIElement(uiElementName.FILTERS_CONTAINER, this);
     }
 
     private void createFiltersFromTable(ItemHashMap itemHashMap) {
         for (tableColumns column : categoricalColumns) {
             Set<String> uniqueValues;
-            if( column.getColumnName().equals(tableColumns.TAGS.getColumnName()) ){
+            if( column.getColumnName().equals(tableColumns.TAGS.getColumnName()) ){// Special handling for tags since it's a set of strings
                 uniqueValues = itemHashMap.values().stream()
                 .flatMap(item -> item.getTags().stream())
                 .collect(Collectors.toSet());
