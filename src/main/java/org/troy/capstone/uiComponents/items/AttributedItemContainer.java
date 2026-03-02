@@ -45,6 +45,10 @@ public class AttributedItemContainer extends VBox {
         setCacheHint(javafx.scene.CacheHint.SPEED);
 
         getChildren().addAll(imageView, attributionFlow);
+
+        setPrefWidth(uiSizeControls.ATTRIBUTED_ITEM_CONTAINER_WIDTH);
+        setMaxWidth(uiSizeControls.ATTRIBUTED_ITEM_CONTAINER_WIDTH);
+        setMinWidth(uiSizeControls.ATTRIBUTED_ITEM_CONTAINER_WIDTH);
     }
 
     private TextFlow makeAttributionFlow(Item item) {

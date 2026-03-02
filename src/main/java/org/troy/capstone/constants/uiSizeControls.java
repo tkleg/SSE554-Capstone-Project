@@ -24,5 +24,7 @@ public class uiSizeControls {
     public static final int ATTRIBUTED_ITEM_IMAGE_WIDTH = 150;
     public static final int ATTRIBUTED_ITEM_IMAGE_HEIGHT = 150;
 
+    public static final int ATTRIBUTED_ITEM_CONTAINER_WIDTH = ATTRIBUTED_ITEM_IMAGE_WIDTH + 50;
+
     public static final int SEARCHED_ITEM_LABEL_MAX_WIDTH = SEARCHED_ITEM_PANEL_WIDTH - ATTRIBUTED_ITEM_IMAGE_WIDTH - WIDTH_PADDING*3;
 }
