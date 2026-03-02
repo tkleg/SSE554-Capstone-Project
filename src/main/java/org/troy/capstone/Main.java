@@ -1,8 +1,5 @@
 package org.troy.capstone;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.troy.capstone.constants.tableColumns;
 import org.troy.capstone.constants.uiSizeControls;
 import org.troy.capstone.data_structures.ItemTable.ItemHashMap;
@@ -52,17 +49,8 @@ public class Main extends Application {
         SearchBar searchBar = new SearchBar(generalManager);
         gridPane.add(searchBar, 0, 0, 2, 1);
 
-        //Generate 10 random departments and categories and make Sets
-        Set<String> departments = new HashSet<>();
-        Set<String> categories = new HashSet<>();
-        for( int x = 0; x < 10; x++){
-            departments.add( faker.commerce().department() );
-            categories.add( faker.commerce().material() );
-        }
         //Insert a FiltersContainer
-        FiltersContainer filtersContainer = new FiltersContainer(generalManager);
-        filtersContainer.addFilterPanel("Departments", departments);
-        filtersContainer.addFilterPanel("Categories", categories);
+        FiltersContainer filtersContainer = new FiltersContainer(generalManager, itemHashMap);
         gridPane.add(filtersContainer, 2, 1, 2, 1);
 
         //Set additional action for SearchBar to get Checked options

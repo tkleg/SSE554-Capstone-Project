@@ -6,7 +6,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.troy.capstone.constants.tableColumns;
 import org.troy.capstone.constants.uiElementName;
+import org.troy.capstone.data_structures.ItemTable.ItemHashMap;
 import org.troy.capstone.managers.GeneralManager;
 
 import javafx.scene.control.CheckBox;
@@ -22,8 +24,10 @@ import javafx.scene.paint.Color;
 public class FiltersContainer extends ScrollPane {
     private final Map<String, Set<CheckBox>> filterOptions;
     private final VBox contentContainer;
+    //Define which columns are categorical for filter generation
+    private final Set<tableColumns> categoricalColumns = Set.of(tableColumns.PUBLISHER, tableColumns.CATEGORY, tableColumns.TAGS);
 
-    public FiltersContainer( GeneralManager generalManager ) {
+    public FiltersContainer( GeneralManager generalManager, ItemHashMap itemHashMap ) {
         filterOptions = new HashMap<>();
         contentContainer = new VBox();
         contentContainer.setSpacing(10); // Add spacing between filter panels
@@ -32,8 +36,27 @@ public class FiltersContainer extends ScrollPane {
         setFitToWidth(true); // Make the ScrollPane's content fit to the width
         setPrefSize(400, 250);
         setMaxSize(USE_PREF_SIZE, USE_PREF_SIZE);
+        setMinSize(USE_PREF_SIZE, USE_PREF_SIZE);
+
+        createFiltersFromTable(itemHashMap);
 
         generalManager.addUIElement(uiElementName.FILTERS_CONTAINER, this);
+    }
+
+    private void createFiltersFromTable(ItemHashMap itemHashMap) {
+        for (tableColumns column : categoricalColumns) {
+            if( column.getColumnName().equals(tableColumns.TAGS.getColumnName()) ){
+                Set<String> uniqueTags = itemHashMap.values().stream()
+                .flatMap(item -> item.getTags().stream())
+                .collect(Collectors.toSet());
+                addFilterPanel(column.getColumnName(), uniqueTags);
+            } else {
+                Set<String> uniqueValues = itemHashMap.values().stream()
+                    .map(item -> (String) item.getAttribute(column))
+                    .collect(Collectors.toSet());
+                addFilterPanel(column.getColumnName(), uniqueValues);
+            }
+        }
     }
 
     public void addFilterPanel( String title, Set<String> options ) {

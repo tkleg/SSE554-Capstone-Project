@@ -37,6 +37,25 @@ private String id;
     private short stockQuantity;
     private Date dateAdded;
 
+    public Object getAttribute( tableColumns column ){
+        return switch(column){
+            case ID -> id;
+            case IMAGE_URL -> imageUrl;
+            case NAME -> name;
+            case PUBLISHER -> publisher;
+            case DESCRIPTION -> description;
+            case CATEGORY -> category;
+            case TAGS -> tags;
+            case PRICE -> price;
+            case REVIEW_SCORE -> reviewScore;
+            case REVIEW_COUNT -> reviewCount;
+            case STOCK_QUANTITY -> stockQuantity;
+            case DATE_ADDED -> dateAdded;
+            case PHOTO_AUTHOR -> photoAuthor;
+            case PHOTO_AUTHOR_URL -> photoAuthorUrl;
+        };
+    }
+    
     public static Item randomItem(){
         return Item.builder()
             .imageUrl( URLs.DEFAULT_IMAGE_URL )
