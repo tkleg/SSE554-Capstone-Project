@@ -7,7 +7,7 @@ import java.util.Set;
 
 import org.troy.capstone.constants.uiDataNames;
 import org.troy.capstone.constants.uiElementName;
-import org.troy.capstone.uiComponents.filters.FiltersContainer;
+import org.troy.capstone.uiComponents.filters.categorical.FiltersContainer;
 
 import javafx.scene.Node;
 import javafx.scene.control.Slider;
