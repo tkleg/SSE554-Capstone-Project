@@ -35,7 +35,7 @@ public class Main extends Application {
         gridPane.setHgap(uiSizeControls.WIDTH_PADDING); // 10px horizontal spacing between columns
         gridPane.setVgap(uiSizeControls.HEIGHT_PADDING); // 10px vertical spacing between rows
 
-        SearchedItemPagination itemPagination = SearchedItemPagination.create(itemHashMap);
+        SearchedItemPagination itemPagination = SearchedItemPagination.create(itemHashMap, generalManager);
         gridPane.add(itemPagination, 0, 1, 2, 3);
         //SearchedItemContainer itemScroller = SearchedItemContainer.createFilledContainer(table.first(firstNItems), itemHashMap);
         //gridPane.add(itemScroller, 0, 1, 2, 3);

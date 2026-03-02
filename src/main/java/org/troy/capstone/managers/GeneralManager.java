@@ -6,6 +6,7 @@ import java.util.Set;
 import org.troy.capstone.constants.tableColumns;
 import org.troy.capstone.constants.uiDataNames;
 import org.troy.capstone.constants.uiElementName;
+import org.troy.capstone.uiComponents.items.searched.SearchedItemPagination;
 
 import javafx.scene.Node;
 import tech.tablesaw.api.Table;
@@ -53,10 +54,10 @@ public class GeneralManager {
         Map<String, Set<String>> filtersContainer = (Map<String, Set<String>>)searchData.get(uiDataNames.FILTERS_CONTAINER);
         System.out.println(filtersContainer);
         Set<String> selectedTags = filtersContainer.get("Tags");
-        if( selectedTags != null && !selectedTags.isEmpty() ) {
+        if( selectedTags != null && !selectedTags.isEmpty() )
             for( String selectedTag : selectedTags )
                 selection = selection.and( dataTable.stringColumn(tableColumns.TAGS.getColumnName()).lowerCase().containsString(selectedTag.toLowerCase()) );
-        }
+        System.out.println("After tags filter: " + selection.size() + " items");
 
         for( tableColumns column : categoricalColumns ) {
             //Skip tags since it's already handled
@@ -79,10 +80,16 @@ public class GeneralManager {
                     selection = selection.and(columnSelection);
                 }
             }
+            System.out.println("After " + filterKey + " filter: " + selection.size() + " items");
         }
 
         System.out.println("Number of results: " + selection.size());
         System.out.println("Total Data Size: " + dataTable.rowCount());
+
+        //Reset pagination to first page after filtering
+        SearchedItemPagination pagination = (SearchedItemPagination) uiManager.getElement(uiElementName.SEARCHED_ITEM_PAGINATION).get();
+        Set<String> filteredItemIDs = dataTable.where(selection).stringColumn(tableColumns.ID.getColumnName()).asSet();
+        pagination.updateContent(filteredItemIDs);
     }
 
 }
