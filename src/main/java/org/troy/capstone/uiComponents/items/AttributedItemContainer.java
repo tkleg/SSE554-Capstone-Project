@@ -9,6 +9,7 @@ import org.troy.capstone.entities.Item;
 import org.troy.capstone.utils.UIUtils;
 
 import javafx.concurrent.Task;
+import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
@@ -28,6 +29,7 @@ public class AttributedItemContainer extends VBox {
 
     public AttributedItemContainer(Item item) {
         super(5); //5px spacing between items
+        setAlignment(Pos.TOP_CENTER); // Center-align the image and attribution
 
         TextFlow attributionFlow = makeAttributionFlow(item);
 

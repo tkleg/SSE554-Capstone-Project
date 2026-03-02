@@ -7,6 +7,7 @@ import org.troy.capstone.constants.uiSizeControls;
 import org.troy.capstone.data_structures.ItemTable.ItemHashMap;
 import org.troy.capstone.utils.UIUtils;
 
+import javafx.geometry.Pos;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import tech.tablesaw.api.Row;
@@ -24,6 +25,7 @@ public class SearchedItemContainer extends ScrollPane {
     public SearchedItemContainer() {
         super();
         itemContainer = new VBox(5); // 5px spacing between items
+        itemContainer.setAlignment(Pos.TOP_CENTER); // Center-align items consistently
         setContent(itemContainer);
         setFitToWidth(true);
 
