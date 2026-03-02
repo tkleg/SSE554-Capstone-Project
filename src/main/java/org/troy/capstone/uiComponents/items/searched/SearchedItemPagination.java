@@ -12,12 +12,15 @@ import org.troy.capstone.data_structures.ItemTable.ItemHashMap;
 import org.troy.capstone.managers.GeneralManager;
 import org.troy.capstone.utils.UIUtils;
 
+import javafx.scene.control.Label;
 import javafx.scene.control.Pagination;
 
 public class SearchedItemPagination extends Pagination {
     private static final int ITEMS_PER_PAGE = 10;
     
     private final ItemHashMap itemHashMap;
+
+    private static final Label EMPTY_LABEL = new Label("No items found.");
 
     private SearchedItemPagination(ItemHashMap itemHashMap) {
         this.itemHashMap = itemHashMap;
@@ -40,8 +43,13 @@ public class SearchedItemPagination extends Pagination {
     }
 
     public void updateContent(Set<String> itemIDs) {
-        updatePageCount(itemIDs.size());
-        setPageFactory(pageIndex -> createPageContent(pageIndex, itemIDs));
+        if( ! itemIDs.isEmpty() ) {
+            updatePageCount(itemIDs.size());
+            setPageFactory(pageIndex -> createPageContent(pageIndex, itemIDs));
+        }else{
+            setPageCount(1);
+            setPageFactory(pageIndex -> EMPTY_LABEL);   
+        }
     }
     
     /**
