@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.TreeMap;
 
 import org.troy.capstone.annotations.TestExclusionGenerated;
-import org.troy.capstone.constants.tableColumns;
+import org.troy.capstone.constants.TableColumnName;
 import org.troy.capstone.utils.TableUtils;
 
 import tech.tablesaw.api.Table;
@@ -38,8 +38,8 @@ public class PriceRangeFinder extends TreeMap<Float, Short> {
     }
 
     public void addAllItems(Table table) {
-        List<Float> prices = table.floatColumn(tableColumns.PRICE.getColumnName()).asList();
-        List<Short> itemIndices = table.shortColumn(tableColumns.INDEX.getColumnName()).asList(); 
+        List<Float> prices = table.floatColumn(TableColumnName.PRICE.getColumnName()).asList();
+        List<Short> itemIndices = table.shortColumn(TableColumnName.INDEX.getColumnName()).asList(); 
         addAllItems(prices, itemIndices);
     }
 }

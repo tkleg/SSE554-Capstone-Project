@@ -8,7 +8,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.troy.capstone.constants.tableColumns;
+import org.troy.capstone.constants.TableColumnName;
 import org.troy.capstone.utils.TableUtils;
 
 import tech.tablesaw.api.Table;
@@ -44,7 +44,7 @@ public class PriceRangeFinderTest {
     })
     @DisplayName("Test Price Range Finder with various price ranges")
     public void testPriceRangeFinder(double minPrice, double maxPrice, String rangeDescription) {
-        Table filteredTable = table.where(table.floatColumn(tableColumns.PRICE.getColumnName()).isBetweenInclusive(minPrice, maxPrice));
+        Table filteredTable = table.where(table.floatColumn(TableColumnName.PRICE.getColumnName()).isBetweenInclusive(minPrice, maxPrice));
         assertNotNull(filteredTable);
         
         int[] filteredByRange = finder.findItemsInPriceRange((float)minPrice, (float)maxPrice);

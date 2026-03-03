@@ -7,7 +7,7 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import org.troy.capstone.constants.URLs;
-import org.troy.capstone.constants.tableColumns;
+import org.troy.capstone.constants.TableColumnName;
 import org.troy.capstone.utils.Converters;
 
 import lombok.AllArgsConstructor;
@@ -38,7 +38,7 @@ private String id;
     private short stockQuantity;
     private Date dateAdded;
 
-    public Object getAttribute( tableColumns column ){
+    public Object getAttribute( TableColumnName column ){
         return switch(column){
             case INDEX -> index;
             case ID -> id;
@@ -79,21 +79,21 @@ private String id;
 
     public static Item fromRow( Row itemRow ){
         return Item.builder()
-                .index( itemRow.getShort(tableColumns.INDEX.getColumnName()) )
-                .imageUrl( itemRow.getString(tableColumns.IMAGE_URL.getColumnName()) )
-                .name( itemRow.getString(tableColumns.NAME.getColumnName()) )
-                .publisher( itemRow.getString(tableColumns.PUBLISHER.getColumnName()) )
-                .description( itemRow.getString(tableColumns.DESCRIPTION.getColumnName()) )
-                .category( itemRow.getString(tableColumns.CATEGORY.getColumnName()) )
-                .tags( new HashSet<>( Arrays.asList( itemRow.getString(tableColumns.TAGS.getColumnName()).split(", ") ) ) )
-                .price( itemRow.getFloat(tableColumns.PRICE.getColumnName()) )
-                .reviewScore( itemRow.getFloat(tableColumns.REVIEW_SCORE.getColumnName()) )
-                .reviewCount( itemRow.getShort(tableColumns.REVIEW_COUNT.getColumnName()) )
-                .stockQuantity( itemRow.getShort(tableColumns.STOCK_QUANTITY.getColumnName()) )
-                .id( itemRow.getString(tableColumns.ID.getColumnName()) )
-                .photoAuthor( itemRow.getString(tableColumns.PHOTO_AUTHOR.getColumnName()) )
-                .photoAuthorUrl( itemRow.getString(tableColumns.PHOTO_AUTHOR_URL.getColumnName()) )
-                .dateAdded( Converters.localDateToDate(itemRow.getDate(tableColumns.DATE_ADDED.getColumnName())) )
+                .index( itemRow.getShort(TableColumnName.INDEX.getColumnName()) )
+                .imageUrl( itemRow.getString(TableColumnName.IMAGE_URL.getColumnName()) )
+                .name( itemRow.getString(TableColumnName.NAME.getColumnName()) )
+                .publisher( itemRow.getString(TableColumnName.PUBLISHER.getColumnName()) )
+                .description( itemRow.getString(TableColumnName.DESCRIPTION.getColumnName()) )
+                .category( itemRow.getString(TableColumnName.CATEGORY.getColumnName()) )
+                .tags( new HashSet<>( Arrays.asList( itemRow.getString(TableColumnName.TAGS.getColumnName()).split(", ") ) ) )
+                .price( itemRow.getFloat(TableColumnName.PRICE.getColumnName()) )
+                .reviewScore( itemRow.getFloat(TableColumnName.REVIEW_SCORE.getColumnName()) )
+                .reviewCount( itemRow.getShort(TableColumnName.REVIEW_COUNT.getColumnName()) )
+                .stockQuantity( itemRow.getShort(TableColumnName.STOCK_QUANTITY.getColumnName()) )
+                .id( itemRow.getString(TableColumnName.ID.getColumnName()) )
+                .photoAuthor( itemRow.getString(TableColumnName.PHOTO_AUTHOR.getColumnName()) )
+                .photoAuthorUrl( itemRow.getString(TableColumnName.PHOTO_AUTHOR_URL.getColumnName()) )
+                .dateAdded( Converters.localDateToDate(itemRow.getDate(TableColumnName.DATE_ADDED.getColumnName())) )
             .build();
     }
 }

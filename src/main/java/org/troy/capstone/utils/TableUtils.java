@@ -6,7 +6,7 @@ import java.util.stream.IntStream;
 import javax.swing.JTable;
 
 import org.troy.capstone.constants.DataPath;
-import org.troy.capstone.constants.tableColumns;
+import org.troy.capstone.constants.TableColumnName;
 
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
@@ -23,10 +23,10 @@ public class TableUtils {
 
     // Base column type mapping for CSV reading
     private static final Map<String, ColumnType> COLUMN_TYPES = Map.of(
-        tableColumns.PRICE.getColumnName(), ColumnType.FLOAT,
-        tableColumns.REVIEW_SCORE.getColumnName(), ColumnType.FLOAT,
-        tableColumns.REVIEW_COUNT.getColumnName(), ColumnType.SHORT,
-        tableColumns.STOCK_QUANTITY.getColumnName(), ColumnType.SHORT
+        TableColumnName.PRICE.getColumnName(), ColumnType.FLOAT,
+        TableColumnName.REVIEW_SCORE.getColumnName(), ColumnType.FLOAT,
+        TableColumnName.REVIEW_COUNT.getColumnName(), ColumnType.SHORT,
+        TableColumnName.STOCK_QUANTITY.getColumnName(), ColumnType.SHORT
     );
 
     // Helper method to create CSV read options with specified path
@@ -148,7 +148,7 @@ public class TableUtils {
     private static void insertIndexColumn(Table table) {
         int rowCount = table.rowCount();
         ShortColumn indexColumn = ShortColumn.create(
-            tableColumns.INDEX.getColumnName(), 
+            TableColumnName.INDEX.getColumnName(), 
             IntStream.range(0, rowCount).mapToObj(i -> (short) i).toArray(Short[]::new)
         );
         table.addColumns( indexColumn );

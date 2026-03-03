@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.troy.capstone.constants.tableColumns;
+import org.troy.capstone.constants.TableColumnName;
 import org.troy.capstone.entities.Item;
 import org.troy.capstone.utils.TableUtils;
 
@@ -31,13 +31,13 @@ public class ItemHashMapTest {
     @DisplayName("Test simple item retrieval")
     void testItem(){
         // Get the ID of the first item in the table
-        String testId = table.stringColumn( tableColumns.ID.getColumnName() ).get(0);
+        String testId = table.stringColumn( TableColumnName.ID.getColumnName() ).get(0);
         // Use the map to get the item with that ID
         Optional<Item> item = map.getItem( testId );
 
         assert item.isPresent() : "Item should be found in the map";
         assertEquals(item.get().getName(), 
-            table.stringColumn( tableColumns.NAME.getColumnName() ).get(0), "Item name should match the name in the table");
+            table.stringColumn( TableColumnName.NAME.getColumnName() ).get(0), "Item name should match the name in the table");
     }
 
     @Test

@@ -12,7 +12,7 @@ import java.util.List;
 
 import org.troy.capstone.ENV;
 import org.troy.capstone.annotations.TestExclusionGenerated;
-import org.troy.capstone.constants.tableColumns;
+import org.troy.capstone.constants.TableColumnName;
 import org.troy.capstone.utils.TableUtils;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -28,10 +28,10 @@ public class ImageUrlFiller {
         //Load csv file
         Table productData = TableUtils.readCleanedData();
 
-        StringColumn imageUrlColumn = productData.stringColumn(tableColumns.IMAGE_URL.getColumnName());
-        StringColumn nameColumn = productData.stringColumn(tableColumns.NAME.getColumnName());
-        StringColumn photoAuthorColumn = productData.stringColumn(tableColumns.PHOTO_AUTHOR.getColumnName());
-        StringColumn photoAuthorUrlColumn = productData.stringColumn(tableColumns.PHOTO_AUTHOR_URL.getColumnName());
+        StringColumn imageUrlColumn = productData.stringColumn(TableColumnName.IMAGE_URL.getColumnName());
+        StringColumn nameColumn = productData.stringColumn(TableColumnName.NAME.getColumnName());
+        StringColumn photoAuthorColumn = productData.stringColumn(TableColumnName.PHOTO_AUTHOR.getColumnName());
+        StringColumn photoAuthorUrlColumn = productData.stringColumn(TableColumnName.PHOTO_AUTHOR_URL.getColumnName());
 
         HttpClient client = HttpClient.newHttpClient();
         ObjectMapper mapper = new ObjectMapper();

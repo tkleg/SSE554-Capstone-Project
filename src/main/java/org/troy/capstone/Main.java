@@ -1,6 +1,6 @@
 package org.troy.capstone;
 
-import org.troy.capstone.constants.tableColumns;
+import org.troy.capstone.constants.TableColumnName;
 import org.troy.capstone.constants.uiSizeControls;
 import org.troy.capstone.data_structures.ItemTable.ItemHashMap;
 import org.troy.capstone.managers.GeneralManager;
@@ -50,8 +50,8 @@ public class Main extends Application {
 
         //Get and setup the PriceSlider
         //+1 and -1 to ensure no items cutoff by rounding issues
-        double minPrice = table.floatColumn(tableColumns.PRICE.getColumnName()).min() - 1;
-        double maxPrice = table.floatColumn(tableColumns.PRICE.getColumnName()).max() + 1;
+        double minPrice = table.floatColumn(TableColumnName.PRICE.getColumnName()).min() - 1;
+        double maxPrice = table.floatColumn(TableColumnName.PRICE.getColumnName()).max() + 1;
         PriceSlider priceSlider = new PriceSlider(minPrice, maxPrice, generalManager );
         gridPane.add(priceSlider, 2, 0, 2, 1);
 

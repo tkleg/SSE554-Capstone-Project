@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.troy.capstone.constants.tableColumns;
+import org.troy.capstone.constants.TableColumnName;
 import org.troy.capstone.constants.uiElementName;
 import org.troy.capstone.constants.uiSizeControls;
 import org.troy.capstone.data_structures.ItemTable.ItemHashMap;
@@ -47,9 +47,9 @@ public class FiltersContainer extends ScrollPane {
     }
 
     private void createFiltersFromTable(ItemHashMap itemHashMap) {
-        for (tableColumns column : tableColumns.getCategoricalColumns()) {
+        for (TableColumnName column : TableColumnName.getCategoricalColumns()) {
             Set<String> uniqueValues;
-            if( column.getColumnName().equals(tableColumns.TAGS.getColumnName()) ){// Special handling for tags since it's a set of strings
+            if( column.getColumnName().equals(TableColumnName.TAGS.getColumnName()) ){// Special handling for tags since it's a set of strings
                 uniqueValues = itemHashMap.values().stream()
                 .flatMap(item -> item.getTags().stream())
                 .collect(Collectors.toSet());

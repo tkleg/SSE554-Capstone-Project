@@ -8,7 +8,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.troy.capstone.annotations.TestExclusionGenerated;
-import org.troy.capstone.constants.tableColumns;
+import org.troy.capstone.constants.TableColumnName;
 import org.troy.capstone.entities.Item;
 import org.troy.capstone.utils.TableUtils;
 
@@ -44,7 +44,7 @@ public class ItemHashMap extends HashMap<IdHashKey, Item> {
     }
     
     private void addItem(Row itemRow) {
-        String itemId = itemRow.getString(tableColumns.ID.getColumnName());        
+        String itemId = itemRow.getString(TableColumnName.ID.getColumnName());        
         put(new IdHashKey(itemId), Item.fromRow(itemRow));
     }
 

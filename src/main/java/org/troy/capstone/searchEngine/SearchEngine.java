@@ -3,7 +3,7 @@ package org.troy.capstone.searchEngine;
 import java.util.Map;
 import java.util.Set;
 
-import org.troy.capstone.constants.tableColumns;
+import org.troy.capstone.constants.TableColumnName;
 import org.troy.capstone.constants.uiDataNames;
 import org.troy.capstone.data_structures.PriceRangeFinder;
 
@@ -51,7 +51,7 @@ public class SearchEngine {
         System.out.println("Number of results: " + selection.size());
         System.out.println("Total Data Size: " + table.rowCount());
 
-        return table.where(selection).stringColumn(tableColumns.ID.getColumnName()).asSet();
+        return table.where(selection).stringColumn(TableColumnName.ID.getColumnName()).asSet();
     }
 
     private Selection applyTagFilters(Map<String, Set<String>> filtersContainer) {
@@ -68,7 +68,7 @@ public class SearchEngine {
         }
         if( !( selectedTags == null || selectedTags.isEmpty() ) )
             for( String selectedTag : selectedTags )
-                tagSelection = tagSelection.and( table.stringColumn(tableColumns.TAGS.getColumnName()).lowerCase().containsString(selectedTag.toLowerCase()) );
+                tagSelection = tagSelection.and( table.stringColumn(TableColumnName.TAGS.getColumnName()).lowerCase().containsString(selectedTag.toLowerCase()) );
         else if( selectedTags == null )
             System.out.println("Tags filter key not found in filters container, skipping tags filter.");
         else
@@ -88,7 +88,7 @@ public class SearchEngine {
             System.out.println("Min star rating value not found in search data. Skipping star rating filter.");
             return null;
         }
-        return table.floatColumn(tableColumns.REVIEW_SCORE.getColumnName()).isGreaterThanOrEqualTo(minStarRating.doubleValue());
+        return table.floatColumn(TableColumnName.REVIEW_SCORE.getColumnName()).isGreaterThanOrEqualTo(minStarRating.doubleValue());
     }
 
     private Selection applyPriceFilters(Map<uiDataNames, Object> searchData) {
@@ -108,7 +108,7 @@ public class SearchEngine {
     }
 
     private Selection applyCategoricalFilters(Map<uiDataNames, Object> searchData) {
-        Set<tableColumns> categoricalColumns = tableColumns.getCategoricalColumns();
+        Set<TableColumnName> categoricalColumns = TableColumnName.getCategoricalColumns();
         Selection categoricalSelection = Selection.withRange(0, table.rowCount());
         Map<String, Set<String>> filtersContainer;
         try{ 
@@ -121,9 +121,9 @@ public class SearchEngine {
             return null;
         }
 
-        for( tableColumns column : categoricalColumns ) {
+        for( TableColumnName column : categoricalColumns ) {
             //Tags has special handling since it's a set of strings, so outsource the handling
-            if( column == tableColumns.TAGS ){
+            if( column == TableColumnName.TAGS ){
                 Selection tagResult = applyTagFilters(filtersContainer);
                 if( tagResult != null )
                     categoricalSelection = tagResult;

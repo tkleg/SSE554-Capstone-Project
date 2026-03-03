@@ -2,7 +2,7 @@ package org.troy.capstone.uiComponents.items.searched;
 
 import java.util.List;
 
-import org.troy.capstone.constants.tableColumns;
+import org.troy.capstone.constants.TableColumnName;
 import org.troy.capstone.constants.uiSizeControls;
 import org.troy.capstone.data_structures.ItemTable.ItemHashMap;
 import org.troy.capstone.utils.UIUtils;
@@ -52,7 +52,7 @@ public class SearchedItemContainer extends ScrollPane {
      * Avoids redundant row processing for better performance.
      */
     public void addItemFromRow(Row row, ItemHashMap itemHashMap) {
-        String itemId = row.getString(tableColumns.ID.getColumnName());
+        String itemId = row.getString(TableColumnName.ID.getColumnName());
         itemHashMap.getItem(itemId).ifPresent(item -> {
             SearchedItemPanel itemPanel = new SearchedItemPanel(item);
             addItemPanel(itemPanel);
@@ -62,7 +62,7 @@ public class SearchedItemContainer extends ScrollPane {
     public static SearchedItemContainer createFilledContainer(Table table, ItemHashMap itemHashMap) {
         SearchedItemContainer container = new SearchedItemContainer();
         for (Row row : table) {
-            String itemId = row.getString(tableColumns.ID.getColumnName());
+            String itemId = row.getString(TableColumnName.ID.getColumnName());
             SearchedItemPanel itemPanel = new SearchedItemPanel( itemHashMap.getItem(itemId).orElseThrow() );
             container.addItemPanel(itemPanel);
         }
