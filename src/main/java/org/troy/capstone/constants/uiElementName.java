@@ -1,6 +1,6 @@
 package org.troy.capstone.constants;
 
-public enum uiElementName {
+public enum UIElementName {
     ITEM_SCROLLER("ITEM_SCROLLER"),
     FILTERS_CONTAINER("FILTERS_CONTAINER"),
     SEARCHED_ITEM_PAGINATION("SEARCHED_ITEM_PAGINATION"),
@@ -12,7 +12,7 @@ public enum uiElementName {
 
     private final String value;
 
-    uiElementName(String value) {
+    UIElementName(String value) {
         this.value = value;
     }
 

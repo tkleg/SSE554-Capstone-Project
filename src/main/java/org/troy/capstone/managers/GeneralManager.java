@@ -4,7 +4,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.troy.capstone.constants.UIDataName;
-import org.troy.capstone.constants.uiElementName;
+import org.troy.capstone.constants.UIElementName;
 import org.troy.capstone.searchEngine.SearchEngine;
 
 import javafx.scene.Node;
@@ -28,7 +28,7 @@ public class GeneralManager {
         return uiManager.getSearchData();
     }
 
-    public void addUIElement(uiElementName key, Node element) {
+    public void addUIElement(UIElementName key, Node element) {
         switch(key){
             case SEARCH_BUTTON -> ((Button) element).setOnAction(e -> filterAndPrintNumberOfResults());
             default -> uiManager.addElement(key, element);

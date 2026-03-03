@@ -3,7 +3,7 @@ package org.troy.capstone.uiComponents.searchBar;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.troy.capstone.constants.uiElementName;
+import org.troy.capstone.constants.UIElementName;
 import org.troy.capstone.constants.uiSizeControls;
 import org.troy.capstone.managers.GeneralManager;
 import org.troy.capstone.utils.UIUtils;
@@ -29,10 +29,10 @@ public class SearchBar extends HBox {
         additionalActions = new ArrayList<>();
         searchField = new TextField();
         searchField.setPromptText("Enter Query Here");
-        generalManager.addUIElement(uiElementName.SEARCH_FIELD, searchField);
+        generalManager.addUIElement(UIElementName.SEARCH_FIELD, searchField);
 
         searchButton = new Button("Search");
-        generalManager.addUIElement(uiElementName.SEARCH_BUTTON, searchButton);
+        generalManager.addUIElement(UIElementName.SEARCH_BUTTON, searchButton);
 
         getChildren().addAll(searchField, searchButton);
         setSpacing(uiSizeControls.WIDTH_PADDING);

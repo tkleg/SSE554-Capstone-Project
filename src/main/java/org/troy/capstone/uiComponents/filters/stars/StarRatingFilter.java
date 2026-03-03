@@ -1,6 +1,6 @@
 package org.troy.capstone.uiComponents.filters.stars;
 
-import org.troy.capstone.constants.uiElementName;
+import org.troy.capstone.constants.UIElementName;
 import org.troy.capstone.managers.GeneralManager;
 
 import javafx.geometry.Pos;
@@ -26,7 +26,7 @@ public class StarRatingFilter extends VBox {
 
     public static StarRatingFilter create(GeneralManager generalManager) {
         StarRatingFilter filter = new StarRatingFilter();
-        generalManager.addUIElement(uiElementName.STAR_RATING_FILTER, filter);
+        generalManager.addUIElement(UIElementName.STAR_RATING_FILTER, filter);
         filter.setAlignment(Pos.CENTER_LEFT);
         filter.setSpacing(5);
         return filter;
