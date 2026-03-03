@@ -3,6 +3,7 @@ package org.troy.capstone.constants;
 import java.util.Set;
 
 public enum tableColumns {
+    INDEX("index"),
     ID("id"),
     IMAGE_URL("imageUrl"),
     NAME("name"),

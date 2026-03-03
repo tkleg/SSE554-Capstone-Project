@@ -1,6 +1,5 @@
 package org.troy.capstone.searchEngine;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -104,9 +103,8 @@ public class SearchEngine {
             System.out.println("min and/or max price values not found in search data. Skipping price filter.");
             return null;
         }
-        List<String> idsInRange = priceRangeFinder.findItemsInPriceRange(minPrice.floatValue(), maxPrice.floatValue());
-        return table.stringColumn(tableColumns.ID.getColumnName()).isIn(idsInRange);
-
+        int[] itemIndicesInRange = priceRangeFinder.findItemsInPriceRange(minPrice.floatValue(), maxPrice.floatValue());
+        return Selection.with(itemIndicesInRange);
     }
 
     private Selection applyCategoricalFilters(Map<uiDataNames, Object> searchData) {

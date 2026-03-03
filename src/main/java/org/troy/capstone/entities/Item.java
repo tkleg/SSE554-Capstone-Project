@@ -23,6 +23,7 @@ public class Item {
     private static final Faker faker = new Faker();
 
 private String id;
+    private int index;
     private String imageUrl;
     private String name;
     private String publisher;
@@ -39,6 +40,7 @@ private String id;
 
     public Object getAttribute( tableColumns column ){
         return switch(column){
+            case INDEX -> index;
             case ID -> id;
             case IMAGE_URL -> imageUrl;
             case NAME -> name;
@@ -77,6 +79,7 @@ private String id;
 
     public static Item fromRow( Row itemRow ){
         return Item.builder()
+                .index( itemRow.getShort(tableColumns.INDEX.getColumnName()) )
                 .imageUrl( itemRow.getString(tableColumns.IMAGE_URL.getColumnName()) )
                 .name( itemRow.getString(tableColumns.NAME.getColumnName()) )
                 .publisher( itemRow.getString(tableColumns.PUBLISHER.getColumnName()) )
