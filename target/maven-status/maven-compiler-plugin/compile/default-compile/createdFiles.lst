@@ -1,6 +1,5 @@
 org\troy\capstone\constants\tableColumns.class
 org\troy\capstone\entities\Item$1.class
-org\troy\capstone\constants\dataPaths.class
 org\troy\capstone\data_structures\ItemTable\SieveOfEratosthenes.class
 org\troy\capstone\dataManipulation\ManualDataWriter.class
 org\troy\capstone\entities\Item$ItemBuilder.class
@@ -14,6 +13,7 @@ org\troy\capstone\constants\uiElementName.class
 org\troy\capstone\managers\GeneralManager$1.class
 org\troy\capstone\uiComponents\searchBar\SearchBar.class
 org\troy\capstone\searchEngine\SearchEngine.class
+org\troy\capstone\constants\DataPath.class
 org\troy\capstone\uiComponents\items\searched\SearchedItemPagination.class
 org\troy\capstone\searchEngine\query\MyBM25.class
 org\troy\capstone\constants\URLs.class
