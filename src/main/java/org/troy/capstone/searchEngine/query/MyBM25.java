@@ -1,6 +1,8 @@
 package org.troy.capstone.searchEngine.query;
 
+import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.lucene.analysis.Analyzer;
@@ -14,6 +16,7 @@ import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.index.StoredFields;
 import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
@@ -65,20 +68,26 @@ public class MyBM25 {
         // Parse the user query to search across both name and description fields
         Query query = parser.parse(userQuery);
 
-        // Increase result limit and search more generously
-        TopDocs results = searcher.search(query, 50); // Increased from 10 to 50
+        TopDocs results = searcher.search(query, 50);
+        
         System.out.println("Total Hits: " + results.totalHits + " for search term: '" + userQuery + "'");
-        for (int i = 0; i < results.scoreDocs.length; i++) {
-            Document doc = searcher.storedFields().document(results.scoreDocs[i].doc);
-            System.out.println((i + 1) + ". ID: " + doc.get("id") + " | " + doc.get("name") + " - " + doc.get("description") + " (Score: " + results.scoreDocs[i].score + ")");
-        }
+        
+        // All results already meet minimum score - no manual filtering needed
+        StoredFields storedFields = searcher.storedFields();
+        List<String> ids =
+        Arrays.asList(results.scoreDocs).stream().map(scoreDoc -> {
+            Document doc = null;
+            try{ doc = storedFields.document(scoreDoc.doc); }catch(Exception e){};
+            return doc.get("id");
+        }).toList();
+        System.out.println("Matching Document IDs: " + ids);
     }
 
     private static void addDoc(IndexWriter w, String id, String name, String desc) throws Exception {
         Document doc = new Document();
         doc.add(new StoredField("id", id)); // ID field - stored but not indexed for searching
-        doc.add(new TextField("name", name, Field.Store.YES));
-        doc.add(new TextField("description", desc, Field.Store.YES));
+        doc.add(new TextField("name", name, Field.Store.NO));    // Searchable but not stored
+        doc.add(new TextField("description", desc, Field.Store.NO)); // Searchable but not stored  
         w.addDocument(doc);
     }
 }
