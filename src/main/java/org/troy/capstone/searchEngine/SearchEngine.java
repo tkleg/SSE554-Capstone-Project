@@ -142,6 +142,7 @@ public class SearchEngine {
                 //Ensure that one of the selected values for the column is present with AND
                 if( columnSelection != null ) {
                     categoricalSelection = categoricalSelection.and(columnSelection);
+                    System.out.println("After applying " + filterKey + " filter: " + categoricalSelection.size() + " items selected for cateogries. Not including non-categorical filters.");
                 }else
                     System.out.println("Column selection for " + filterKey + " is null, skipping " + filterKey + " filter.");
             }else if( selectedValues == null )
