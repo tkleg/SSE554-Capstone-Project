@@ -5,45 +5,45 @@ import java.util.Set;
 
 import org.troy.capstone.constants.tableColumns;
 import org.troy.capstone.constants.uiDataNames;
-import org.troy.capstone.uiComponents.items.searched.SearchedItemPagination;
 
 import tech.tablesaw.api.Table;
 import tech.tablesaw.selection.Selection;
 
 public class SearchEngine {
     private final Table table;
-    private SearchedItemPagination searchedItemPagination = null;
 
     public SearchEngine(Table table) {
         this.table = table;
     }
 
-    public void setSearchedItemPagination(SearchedItemPagination searchedItemPagination) {
-        this.searchedItemPagination = searchedItemPagination;
-    }
-
     //For tags, we use AND so all tags are there as multiple can be selected
     //For other categorical filters, we use OR since only one value is there
-    private Set<String> filterItems(Map<uiDataNames, Object> searchData) {
+    public Set<String> filterItems(Map<uiDataNames, Object> searchData) {
+        Selection selection = Selection.withRange(0, table.rowCount());
+
         //Filter price
-        Selection selection = table.floatColumn(tableColumns.PRICE.getColumnName()).isBetweenInclusive((double) searchData.get(uiDataNames.MIN_PRICE), (double) searchData.get(uiDataNames.MAX_PRICE));
-        System.out.println("After price filter: " + selection.size() + " items");
+        Selection priceResult = applyPriceFilters(searchData);
+        if( priceResult != null ) {
+            selection = priceResult;
+            System.out.println("After price filter: " + selection.size() + " items");
+        } else
+            System.out.println("Price filter not applied.");
         
         //Filter star rating
-        selection = selection.and( table.floatColumn(tableColumns.REVIEW_SCORE.getColumnName()).isGreaterThanOrEqualTo(((Integer) searchData.get(uiDataNames.MIN_STAR_RATING)).doubleValue()) );
-        System.out.println("After rating filter: " + selection.size() + " items");
+        Selection starResult = applyStarFilter(searchData);
+        if( starResult != null ) {
+            selection = selection.and(starResult);
+            System.out.println("After star rating filter: " + selection.size() + " items");
+        } else
+            System.out.println("Star rating filter not applied.");
 
-        //Tags require special handling since it's a set of strings
-        Map<String, Set<String>> filtersContainer = (Map<String, Set<String>>)searchData.get(uiDataNames.FILTERS_CONTAINER);
-        System.out.println(filtersContainer);
-        Set<String> selectedTags = filtersContainer.get("Tags");
-        if( selectedTags != null && !selectedTags.isEmpty() )
-            for( String selectedTag : selectedTags )
-                selection = selection.and( table.stringColumn(tableColumns.TAGS.getColumnName()).lowerCase().containsString(selectedTag.toLowerCase()) );
-        System.out.println("After tags filter: " + selection.size() + " items");
-
-        //Apply other categorical filters
-        applyCategoricalFilters(selection, searchData);
+        //Apply categorical filters
+        Selection categoricalResult = applyCategoricalFilters(searchData);
+        if( categoricalResult != null ) {
+            selection = selection.and(categoricalResult);
+            System.out.println("After categorical filters: " + selection.size() + " items");
+        } else
+            System.out.println("Categorical filters not applied.");
 
         System.out.println("Number of results: " + selection.size());
         System.out.println("Total Data Size: " + table.rowCount());
@@ -51,26 +51,86 @@ public class SearchEngine {
         return table.where(selection).stringColumn(tableColumns.ID.getColumnName()).asSet();
     }
 
-    public void resetItems(Map<uiDataNames, Object> searchData) {
-        Set<String> filteredIDs = filterItems(searchData);
-        searchedItemPagination.updateContent(filteredIDs);
+    private Selection applyTagFilters(Map<String, Set<String>> filtersContainer) {
+        Set<String> selectedTags;
+        Selection tagSelection = Selection.withRange(0, table.rowCount());
+        try{
+            selectedTags = filtersContainer.get("Tags");
+        }catch(ClassCastException e){
+            System.out.println("Selected tags value in filters container is not of type Set<String>. Skipping tag filter.");
+            return null;
+        }catch(NullPointerException e){
+            System.out.println("Selected tags value not found in filters container. Skipping tag filter.");
+            return null;
+        }
+        if( !( selectedTags == null || selectedTags.isEmpty() ) )
+            for( String selectedTag : selectedTags )
+                tagSelection = tagSelection.and( table.stringColumn(tableColumns.TAGS.getColumnName()).lowerCase().containsString(selectedTag.toLowerCase()) );
+        else if( selectedTags == null )
+            System.out.println("Tags filter key not found in filters container, skipping tags filter.");
+        else
+            System.out.println("No tags selected, skipping tags filter.");
+        
+        return tagSelection;
     }
 
+    private Selection applyStarFilter(Map<uiDataNames, Object> searchData) {
+        Integer minStarRating;
+        try{
+            minStarRating = (Integer) searchData.get(uiDataNames.MIN_STAR_RATING);
+        }catch(ClassCastException e){
+            System.out.println("Min star rating value in search data is not of type Integer. Skipping star rating filter.");
+            return null;
+        }catch(NullPointerException e){
+            System.out.println("Min star rating value not found in search data. Skipping star rating filter.");
+            return null;
+        }
+        return table.floatColumn(tableColumns.REVIEW_SCORE.getColumnName()).isGreaterThanOrEqualTo(minStarRating.doubleValue());
+    }
 
-    
-    private void applyCategoricalFilters(Selection currentSelection, Map<uiDataNames, Object> searchData) {
+    private Selection applyPriceFilters(Map<uiDataNames, Object> searchData) {
+        Double minPrice, maxPrice;
+        try{
+            minPrice = (Double) searchData.get(uiDataNames.MIN_PRICE);
+            maxPrice = (Double) searchData.get(uiDataNames.MAX_PRICE);
+        }catch(ClassCastException e){
+            System.out.println("min and/or max price values in search data are not of type Double. Skipping price filter.");
+            return null;
+        }catch(NullPointerException e){
+            System.out.println("min and/or max price values not found in search data. Skipping price filter.");
+            return null;
+        }
+        return table.floatColumn(tableColumns.PRICE.getColumnName()).isBetweenInclusive(minPrice, maxPrice);
+    }
+
+    private Selection applyCategoricalFilters(Map<uiDataNames, Object> searchData) {
         Set<tableColumns> categoricalColumns = tableColumns.getCategoricalColumns();
-        Map<String, Set<String>> filtersContainer = (Map<String, Set<String>>)searchData.get(uiDataNames.FILTERS_CONTAINER);
+        Selection categoricalSelection = Selection.withRange(0, table.rowCount());
+        Map<String, Set<String>> filtersContainer;
+        try{ 
+            filtersContainer = (Map<String, Set<String>>)searchData.get(uiDataNames.FILTERS_CONTAINER);
+        }catch(ClassCastException e){
+            System.out.println("Filters container in search data is not of type Map<String, Set<String>>. Skipping categorical filters.");
+            return null;
+        }catch(NullPointerException e){
+            System.out.println("Filters container not found in search data. Skipping categorical filters.");
+            return null;
+        }
 
         for( tableColumns column : categoricalColumns ) {
-            //Skip tags since it's already handled
-            if( column == tableColumns.TAGS ) continue;
+            //Tags has special handling since it's a set of strings, so outsource the handling
+            if( column == tableColumns.TAGS ){
+                Selection tagResult = applyTagFilters(filtersContainer);
+                if( tagResult != null )
+                    categoricalSelection = tagResult;
+                continue;
+            }
 
             //Convert enum to the string key format used by FiltersContainer
             String filterKey = column.getColumnName().substring(0, 1).toUpperCase() + column.getColumnName().substring(1).toLowerCase();
             Set<String> selectedValues = filtersContainer.get(filterKey);
 
-            if( selectedValues != null && !selectedValues.isEmpty() ) {
+            if( !( selectedValues == null || selectedValues.isEmpty() ) ) {
                 Selection columnSelection = null;
 
                 //Combine selected values for the column with OR
@@ -79,12 +139,18 @@ public class SearchEngine {
                     columnSelection = (columnSelection == null) ? valueSelection : columnSelection.or(valueSelection);
                 }
 
+                //Ensure that one of the selected values for the column is present with AND
                 if( columnSelection != null ) {
-                    currentSelection = currentSelection.and(columnSelection);
-                }
-            }
+                    categoricalSelection = categoricalSelection.and(columnSelection);
+                }else
+                    System.out.println("Column selection for " + filterKey + " is null, skipping " + filterKey + " filter.");
+            }else if( selectedValues == null )
+                System.out.println("Filter key " + filterKey + " not found in filters container, skipping " + filterKey + " filter.");
+            else
+                System.out.println("No values selected for " + filterKey + ", skipping " + filterKey + " filter.");
         }
 
+        return categoricalSelection;
     }
 
 

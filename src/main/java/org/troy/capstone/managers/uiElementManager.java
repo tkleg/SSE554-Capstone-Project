@@ -9,6 +9,7 @@ import org.troy.capstone.constants.uiDataNames;
 import org.troy.capstone.constants.uiElementName;
 import org.troy.capstone.uiComponents.filters.categorical.FiltersContainer;
 import org.troy.capstone.uiComponents.filters.stars.StarRatingFilter;
+import org.troy.capstone.uiComponents.items.searched.SearchedItemPagination;
 
 import javafx.scene.Node;
 import javafx.scene.control.Slider;
@@ -59,6 +60,12 @@ public class UIElementManager {
         () -> System.out.println("Star rating filter not found in UIElementManager, cannot include star rating in search data.") );
 
         return searchData;
+    }
+
+    public void updateSearchedItemPagination(Set<String> itemIDs) {
+        getElement(uiElementName.SEARCHED_ITEM_PAGINATION)
+        .ifPresentOrElse( e -> ((SearchedItemPagination)e).updateContent(itemIDs),
+        () -> System.out.println("Searched item pagination not found in UIElementManager, cannot update search results.") );
     }
     
 }
