@@ -11,7 +11,9 @@ org\troy\capstone\constants\uiSizeControls.class
 org\troy\capstone\utils\UIUtils.class
 org\troy\capstone\uiComponents\filters\categorical\FilterPanel.class
 org\troy\capstone\constants\uiElementName.class
+org\troy\capstone\managers\GeneralManager$1.class
 org\troy\capstone\uiComponents\searchBar\SearchBar.class
+org\troy\capstone\searchEngine\SearchEngine.class
 org\troy\capstone\uiComponents\items\searched\SearchedItemPagination.class
 org\troy\capstone\constants\URLs.class
 org\troy\capstone\managers\UIElementManager.class
