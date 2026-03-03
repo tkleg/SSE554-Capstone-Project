@@ -4,7 +4,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.troy.capstone.constants.TableColumnName;
-import org.troy.capstone.constants.uiDataNames;
+import org.troy.capstone.constants.UIDataName;
 import org.troy.capstone.data_structures.PriceRangeFinder;
 
 import tech.tablesaw.api.Table;
@@ -21,7 +21,7 @@ public class SearchEngine {
 
     //For tags, we use AND so all tags are there as multiple can be selected
     //For other categorical filters, we use OR since only one value is there
-    public Set<String> filterItems(Map<uiDataNames, Object> searchData) {
+    public Set<String> filterItems(Map<UIDataName, Object> searchData) {
         Selection selection = Selection.withRange(0, table.rowCount());
 
         //Filter price
@@ -77,10 +77,10 @@ public class SearchEngine {
         return tagSelection;
     }
 
-    private Selection applyStarFilter(Map<uiDataNames, Object> searchData) {
+    private Selection applyStarFilter(Map<UIDataName, Object> searchData) {
         Integer minStarRating;
         try{
-            minStarRating = (Integer) searchData.get(uiDataNames.MIN_STAR_RATING);
+            minStarRating = (Integer) searchData.get(UIDataName.MIN_STAR_RATING);
         }catch(ClassCastException e){
             System.out.println("Min star rating value in search data is not of type Integer. Skipping star rating filter.");
             return null;
@@ -91,11 +91,11 @@ public class SearchEngine {
         return table.floatColumn(TableColumnName.REVIEW_SCORE.getColumnName()).isGreaterThanOrEqualTo(minStarRating.doubleValue());
     }
 
-    private Selection applyPriceFilters(Map<uiDataNames, Object> searchData) {
+    private Selection applyPriceFilters(Map<UIDataName, Object> searchData) {
         Double minPrice, maxPrice;
         try{
-            minPrice = (Double) searchData.get(uiDataNames.MIN_PRICE);
-            maxPrice = (Double) searchData.get(uiDataNames.MAX_PRICE);
+            minPrice = (Double) searchData.get(UIDataName.MIN_PRICE);
+            maxPrice = (Double) searchData.get(UIDataName.MAX_PRICE);
         }catch(ClassCastException e){
             System.out.println("min and/or max price values in search data are not of type Double. Skipping price filter.");
             return null;
@@ -107,12 +107,12 @@ public class SearchEngine {
         return Selection.with(itemIndicesInRange);
     }
 
-    private Selection applyCategoricalFilters(Map<uiDataNames, Object> searchData) {
+    private Selection applyCategoricalFilters(Map<UIDataName, Object> searchData) {
         Set<TableColumnName> categoricalColumns = TableColumnName.getCategoricalColumns();
         Selection categoricalSelection = Selection.withRange(0, table.rowCount());
         Map<String, Set<String>> filtersContainer;
         try{ 
-            filtersContainer = (Map<String, Set<String>>)searchData.get(uiDataNames.FILTERS_CONTAINER);
+            filtersContainer = (Map<String, Set<String>>)searchData.get(UIDataName.FILTERS_CONTAINER);
         }catch(ClassCastException e){
             System.out.println("Filters container in search data is not of type Map<String, Set<String>>. Skipping categorical filters.");
             return null;

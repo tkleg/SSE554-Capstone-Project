@@ -1,6 +1,6 @@
 package org.troy.capstone.constants;
 
-public enum uiDataNames {
+public enum UIDataName {
     MIN_PRICE("MIN_PRICE"),
     MAX_PRICE("MAX_PRICE"),
     SEARCH_QUERY("SEARCH_QUERY"),
@@ -9,7 +9,7 @@ public enum uiDataNames {
 
     private final String value;
 
-    uiDataNames(String value) {
+    UIDataName(String value) {
         this.value = value;
     }
 

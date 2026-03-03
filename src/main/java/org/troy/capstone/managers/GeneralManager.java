@@ -3,7 +3,7 @@ package org.troy.capstone.managers;
 import java.util.Map;
 import java.util.Set;
 
-import org.troy.capstone.constants.uiDataNames;
+import org.troy.capstone.constants.UIDataName;
 import org.troy.capstone.constants.uiElementName;
 import org.troy.capstone.searchEngine.SearchEngine;
 
@@ -24,7 +24,7 @@ public class GeneralManager {
         return uiManager;
     }
 
-    public Map<uiDataNames, Object> getSearchData() {
+    public Map<UIDataName, Object> getSearchData() {
         return uiManager.getSearchData();
     }
 
@@ -36,7 +36,7 @@ public class GeneralManager {
     }
 
     public void filterAndPrintNumberOfResults() {
-        Map<uiDataNames, Object> searchData = getSearchData();
+        Map<UIDataName, Object> searchData = getSearchData();
         System.out.println("Search Data: " + searchData);
         Set<String> filteredIDs = searchEngine.filterItems(searchData);
         uiManager.updateSearchedItemPagination(filteredIDs);

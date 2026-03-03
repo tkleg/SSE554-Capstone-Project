@@ -1,4 +1,5 @@
 org\troy\capstone\entities\Item$1.class
+org\troy\capstone\constants\UIDataName.class
 org\troy\capstone\constants\TableColumnName.class
 org\troy\capstone\data_structures\ItemTable\SieveOfEratosthenes.class
 org\troy\capstone\dataManipulation\ManualDataWriter.class
@@ -20,7 +21,6 @@ org\troy\capstone\constants\URLs.class
 org\troy\capstone\managers\UIElementManager.class
 org\troy\capstone\entities\Item.class
 org\troy\capstone\uiComponents\filters\stars\StarRatingFilter.class
-org\troy\capstone\constants\uiDataNames.class
 org\troy\capstone\uiComponents\items\AttributedItemContainer$1.class
 org\troy\capstone\uiComponents\items\searched\SearchedItemContainer.class
 org\troy\capstone\uiComponents\items\searched\SearchedItemPanel.class
