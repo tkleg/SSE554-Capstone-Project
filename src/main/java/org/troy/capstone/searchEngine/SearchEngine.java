@@ -1,19 +1,23 @@
 package org.troy.capstone.searchEngine;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import org.troy.capstone.constants.tableColumns;
 import org.troy.capstone.constants.uiDataNames;
+import org.troy.capstone.data_structures.PriceRangeFinder;
 
 import tech.tablesaw.api.Table;
 import tech.tablesaw.selection.Selection;
 
 public class SearchEngine {
     private final Table table;
+    private final PriceRangeFinder priceRangeFinder;
 
     public SearchEngine(Table table) {
         this.table = table;
+        this.priceRangeFinder = new PriceRangeFinder(table);
     }
 
     //For tags, we use AND so all tags are there as multiple can be selected
@@ -100,7 +104,9 @@ public class SearchEngine {
             System.out.println("min and/or max price values not found in search data. Skipping price filter.");
             return null;
         }
-        return table.floatColumn(tableColumns.PRICE.getColumnName()).isBetweenInclusive(minPrice, maxPrice);
+        List<String> idsInRange = priceRangeFinder.findItemsInPriceRange(minPrice.floatValue(), maxPrice.floatValue());
+        return table.stringColumn(tableColumns.ID.getColumnName()).isIn(idsInRange);
+
     }
 
     private Selection applyCategoricalFilters(Map<uiDataNames, Object> searchData) {
