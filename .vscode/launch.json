@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "MyBM25",
+            "request": "launch",
+            "mainClass": "org.troy.capstone.searchEngine.query.MyBM25",
+            "projectName": "Project"
+        },
+        {
+            "type": "java",
             "name": "SieveOfEratosthenes",
             "request": "launch",
             "mainClass": "org.troy.capstone.data_structures.ItemTable.SieveOfEratosthenes",
