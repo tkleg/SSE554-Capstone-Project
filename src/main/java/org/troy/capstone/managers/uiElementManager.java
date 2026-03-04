@@ -32,10 +32,6 @@ public class UIElementManager {
         uiElements.put(key, element);
     }
 
-    public Set<UIElementName> getAllKeys() {
-        return uiElements.keySet();
-    }
-
     public Map<UIDataName, Object> getSearchData(){
         Map<UIDataName, Object> searchData = new HashMap<>();
         
@@ -82,9 +78,13 @@ public class UIElementManager {
     }
 
     public void updateSearchedItemPagination(Set<String> itemIDs) {
-        getElement(UIElementName.SEARCHED_ITEM_PAGINATION)
-        .ifPresentOrElse( e -> ((SearchedItemPagination)e).updateContent(itemIDs),
-        () -> System.out.println("Searched item pagination not found in UIElementManager, cannot update search results.") );
+        try{
+            getElement(UIElementName.SEARCHED_ITEM_PAGINATION)
+            .ifPresentOrElse( e -> ((SearchedItemPagination)e).updateContent(itemIDs),
+            () -> System.out.println("Searched item pagination not found in UIElementManager, cannot update search results.") );
+        }catch (ClassCastException ex) {
+            System.out.println("Error retrieving searched item pagination value: " + ex.getMessage());
+        }
     }
 
     //Useful for testing to reset the UIElementManager state between tests
