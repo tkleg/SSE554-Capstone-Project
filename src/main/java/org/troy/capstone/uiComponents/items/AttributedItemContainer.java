@@ -3,7 +3,7 @@ package org.troy.capstone.uiComponents.items;
 import java.awt.Desktop;
 import java.net.URI;
 
-import org.troy.capstone.constants.URLs;
+import org.troy.capstone.constants.URL;
 import org.troy.capstone.constants.UISizeControl;
 import org.troy.capstone.entities.Item;
 import org.troy.capstone.utils.UIUtils;
@@ -73,7 +73,7 @@ public class AttributedItemContainer extends VBox {
         });
         sourceName.setOnMouseClicked(e ->{
             try {
-                Desktop.getDesktop().browse( new URI( URLs.UNSPLASH_ATTRIBUTION ) );
+                Desktop.getDesktop().browse( new URI( URL.UNSPLASH_ATTRIBUTION.getUrl() ) );
             } catch (Exception ex) {
                 ex.printStackTrace();
             }

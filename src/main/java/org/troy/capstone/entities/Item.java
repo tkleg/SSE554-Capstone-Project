@@ -6,8 +6,8 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-import org.troy.capstone.constants.URLs;
 import org.troy.capstone.constants.TableColumnName;
+import org.troy.capstone.constants.URL;
 import org.troy.capstone.utils.Converters;
 
 import lombok.AllArgsConstructor;
@@ -60,7 +60,7 @@ private String id;
     
     public static Item randomItem(){
         return Item.builder()
-            .imageUrl( URLs.DEFAULT_IMAGE_URL )
+            .imageUrl( URL.DEFAULT_IMAGE_URL.getUrl() )
             .name( faker.commerce().productName() )
             .publisher( faker.company().name() )
             .description( String.join(" ", faker.lorem().sentences(2) ) )
@@ -71,8 +71,8 @@ private String id;
             .reviewCount( (short) faker.number().numberBetween(0, 1000) )
             .stockQuantity( (short) faker.number().numberBetween(0, 100) )
             .dateAdded( Date.from( faker.timeAndDate().future(365, TimeUnit.DAYS) ) )
-            .photoAuthor( URLs.DEFAULT_AUTHOR_NAME )
-            .photoAuthorUrl( URLs.DEFAULT_AUTHOR_URL )
+            .photoAuthor( URL.DEFAULT_AUTHOR_NAME.getUrl() )
+            .photoAuthorUrl( URL.DEFAULT_AUTHOR_URL.getUrl() )
             .id( faker.internet().uuid() )
             .build();
     }
