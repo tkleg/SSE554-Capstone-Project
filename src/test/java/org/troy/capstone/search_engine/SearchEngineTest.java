@@ -21,8 +21,8 @@ import tech.tablesaw.selection.Selection;
 public class SearchEngineTest {
     private SearchEngine searchEngine;
     private Table table;
-    private static final double minMinPrice = 8.619999885559082;
-    private static final double maxMaxPrice = 799.0599975585938;
+    private static final float minMinPrice = 8.619999885559082f;
+    private static final float maxMaxPrice = 799.0599975585938f;
 
     @BeforeEach
     public void setup() {
@@ -38,11 +38,10 @@ public class SearchEngineTest {
         "146.73451560799788, 231.7280637448834, 97",
         "8.619999885559082, 38.36773464105467, 47"
     })
-    public void testPriceRangeFilter(double minPrice, double maxPrice, int expectedCount) {
-        Map<UIDataName, Object> searchData = Map.of(
-            UIDataName.MIN_PRICE, minPrice,
-            UIDataName.MAX_PRICE, maxPrice
-        );
+    public void testPriceRangeFilter(float minPrice, float maxPrice, int expectedCount) {
+        Map<UIDataName, Object> searchData = new HashMap<>();
+        searchData.put(UIDataName.MIN_PRICE, minPrice);
+        searchData.put(UIDataName.MAX_PRICE, maxPrice);
 
         Selection result = searchEngine.applyPriceFilters(searchData);
         assert result != null;
@@ -60,9 +59,8 @@ public class SearchEngineTest {
         "5, 150"
     })
     public void testStarRatingFilter(int minStarRating, int expectedCount) {
-        Map<UIDataName, Object> searchData = Map.of(
-            UIDataName.MIN_STAR_RATING, minStarRating
-        );
+        Map<UIDataName, Object> searchData = new HashMap<>();
+        searchData.put(UIDataName.MIN_STAR_RATING, minStarRating);
 
         Selection result = searchEngine.applyStarFilter(searchData);
         System.out.println("Min Star Rating: " + minStarRating + ", Result Count: " + result.size());
@@ -158,7 +156,7 @@ public class SearchEngineTest {
         "'', '', '', 115.92435440837701, 522.830966113716, -1, 481",
         "'', '', '', 115.92435440837701, 522.830966113716, 5, 83"
     })
-    public void testCombinedFilters(String tagsString, String categoriesString, String publisherString, double minPrice, double maxPrice, int minStarRating, int expectedCount) {
+    public void testCombinedFilters(String tagsString, String categoriesString, String publisherString, float minPrice, float maxPrice, int minStarRating, int expectedCount) {
         Map<String, Set<String>> filtersContainer = new HashMap<>();
         
         // Handle empty strings properly to avoid creating sets with empty string elements
@@ -211,18 +209,22 @@ public class SearchEngineTest {
     class SearchEngineEdgeCasesTest {
         //I looked at the code coverage report and looked for edge cases that need covering.
 
-        private static final Map<String, Set<String>> emptyFiltersContainer = Map.of(
-            "Tags", new HashSet<>(),
-            "Category", new HashSet<>(),
-            "Publisher", new HashSet<>()
-        );
+        private static final Map<String, Set<String>> emptyFiltersContainer = new HashMap<>();
+        static {
+            emptyFiltersContainer.put("Tags", new HashSet<>());
+            emptyFiltersContainer.put("Category", new HashSet<>());
+            emptyFiltersContainer.put("Publisher", new HashSet<>());
+        }
 
-        private static final Map<UIDataName, Object> starClassCastErrorData = Map.of(
-                UIDataName.MIN_STAR_RATING, "NotAnInteger",
-                UIDataName.MIN_PRICE, minMinPrice,
-                UIDataName.MAX_PRICE, maxMaxPrice,
-                UIDataName.FILTERS_CONTAINER, emptyFiltersContainer
-            );
+        private static Map<UIDataName, Object> createStarClassCastErrorData() {
+            Map<UIDataName, Object> data = new HashMap<>();
+            data.put(UIDataName.MIN_STAR_RATING, "NotAnInteger");
+            data.put(UIDataName.MIN_PRICE, minMinPrice);
+            data.put(UIDataName.MAX_PRICE, maxMaxPrice);
+            data.put(UIDataName.FILTERS_CONTAINER, emptyFiltersContainer);
+            return data;
+        }
+        private static final Map<UIDataName, Object> starClassCastErrorData = createStarClassCastErrorData();
         
         @Test
         @DisplayName("Test star rating filter handling of ClassCastException when value is of wrong type - direct method call")
@@ -238,11 +240,14 @@ public class SearchEngineTest {
             assert filteredIds.size() == table.rowCount() : "Expected all items to be returned when star rating filter value is of wrong type, but got a different number of results.";
         }
 
-        private static final Map<UIDataName, Object> starNullErrorData = Map.of(
-                UIDataName.MIN_PRICE, minMinPrice,
-                UIDataName.MAX_PRICE, maxMaxPrice,
-                UIDataName.FILTERS_CONTAINER, emptyFiltersContainer
-            );
+        private static Map<UIDataName, Object> createStarNullErrorData() {
+            Map<UIDataName, Object> data = new HashMap<>();
+            data.put(UIDataName.MIN_PRICE, minMinPrice);
+            data.put(UIDataName.MAX_PRICE, maxMaxPrice);
+            data.put(UIDataName.FILTERS_CONTAINER, emptyFiltersContainer);
+            return data;
+        }
+        private static final Map<UIDataName, Object> starNullErrorData = createStarNullErrorData();
         @Test
         @DisplayName("Test star rating filter handling of null value when star rating is missing - direct method call")
         public void testStarFilterNullHandlingDirect() {
@@ -256,12 +261,15 @@ public class SearchEngineTest {
             assert filteredIds.size() == table.rowCount() : "Expected all items to be returned when star rating filter value is missing, but got a different number of results.";
         }
 
-        private static final Map<UIDataName, Object> priceClassCastErrorData = Map.of(
-                UIDataName.MIN_STAR_RATING, 0,
-                UIDataName.MIN_PRICE, "NotADouble",
-                UIDataName.MAX_PRICE, "NotADouble",
-                UIDataName.FILTERS_CONTAINER, emptyFiltersContainer
-            );
+        private static Map<UIDataName, Object> createPriceClassCastErrorData() {
+            Map<UIDataName, Object> data = new HashMap<>();
+            data.put(UIDataName.MIN_STAR_RATING, 0);
+            data.put(UIDataName.MIN_PRICE, "NotAFloat");
+            data.put(UIDataName.MAX_PRICE, "NotAFloat");
+            data.put(UIDataName.FILTERS_CONTAINER, emptyFiltersContainer);
+            return data;
+        }
+        private static final Map<UIDataName, Object> priceClassCastErrorData = createPriceClassCastErrorData();
         @Test
         @DisplayName("Test price filter handling of ClassCastException when values are of wrong type - direct method call")
         public void testPriceFilterClassCastExceptionHandlingDirect() {
@@ -352,12 +360,15 @@ public class SearchEngineTest {
         }
         
 
-        private static final Map<UIDataName, Object> categoricalClassCastErrorData = Map.of(
-                UIDataName.MIN_STAR_RATING, 0,
-                UIDataName.MIN_PRICE, minMinPrice,
-                UIDataName.MAX_PRICE, maxMaxPrice,
-                UIDataName.FILTERS_CONTAINER, "NotAMap"
-            );
+        private static Map<UIDataName, Object> createCategoricalClassCastErrorData() {
+            Map<UIDataName, Object> data = new HashMap<>();
+            data.put(UIDataName.MIN_STAR_RATING, 0);
+            data.put(UIDataName.MIN_PRICE, minMinPrice);
+            data.put(UIDataName.MAX_PRICE, maxMaxPrice);
+            data.put(UIDataName.FILTERS_CONTAINER, "NotAMap");
+            return data;
+        }
+        private static final Map<UIDataName, Object> categoricalClassCastErrorData = createCategoricalClassCastErrorData();
         @Test
         public void testCategoricalFilterClassCastExceptionHandlingDirect() {
             Selection result = searchEngine.applyCategoricalFilters(categoricalClassCastErrorData);
@@ -369,11 +380,14 @@ public class SearchEngineTest {
             assert filteredIds.size() == table.rowCount() : "Expected all items to be returned when categorical filters container is of wrong type, but got a different number of results.";
         }
 
-        private static final Map<UIDataName, Object> categoricalNullErrorData = Map.of(
-                UIDataName.MIN_STAR_RATING, 0,
-                UIDataName.MIN_PRICE, minMinPrice,
-                UIDataName.MAX_PRICE, maxMaxPrice
-            );
+        private static Map<UIDataName, Object> createCategoricalNullErrorData() {
+            Map<UIDataName, Object> data = new HashMap<>();
+            data.put(UIDataName.MIN_STAR_RATING, 0);
+            data.put(UIDataName.MIN_PRICE, minMinPrice);
+            data.put(UIDataName.MAX_PRICE, maxMaxPrice);
+            return data;
+        }
+        private static final Map<UIDataName, Object> categoricalNullErrorData = createCategoricalNullErrorData();
         @Test
         public void testCategoricalFilterNullHandlingDirect() {
             Selection result = searchEngine.applyCategoricalFilters(categoricalNullErrorData);

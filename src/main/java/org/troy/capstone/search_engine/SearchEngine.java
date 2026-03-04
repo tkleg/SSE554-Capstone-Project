@@ -106,29 +106,29 @@ public class SearchEngine {
     }
 
     Selection applyPriceFilters(Map<UIDataName, Object> searchData) {
-        Double minPrice, maxPrice;
+        Float minPrice, maxPrice;
         try{
-            minPrice = (Double) searchData.get(UIDataName.MIN_PRICE);
-            maxPrice = (Double) searchData.get(UIDataName.MAX_PRICE);
+            minPrice = (Float) searchData.get(UIDataName.MIN_PRICE);
+            maxPrice = (Float) searchData.get(UIDataName.MAX_PRICE);
         }catch(ClassCastException e){
-            System.out.println("min and/or max price values in search data are not of type Double. Skipping price filter.");
+            System.out.println("min and/or max price values in search data are not of type Float. Skipping price filter.");
             return ALL_ITEMS;
         }
         if( minPrice == null && maxPrice != null ){
             System.out.println("Min price value not found in search data. Getting min from table");
-            minPrice = table.floatColumn(TableColumnName.PRICE.getColumnName()).min();
-            int[] itemIndicesInRange = priceRangeFinder.findItemsInPriceRange(minPrice.floatValue(), maxPrice.floatValue());
+            minPrice = (float) table.floatColumn(TableColumnName.PRICE.getColumnName()).min();
+            int[] itemIndicesInRange = priceRangeFinder.findItemsInPriceRange(minPrice, maxPrice);
             return Selection.with(itemIndicesInRange);
         }else if( maxPrice == null && minPrice != null ){
             System.out.println("Max price value not found in search data. Getting max from table");
-            maxPrice = table.floatColumn(TableColumnName.PRICE.getColumnName()).max();
-            int[] itemIndicesInRange = priceRangeFinder.findItemsInPriceRange(minPrice.floatValue(), maxPrice.floatValue());
+            maxPrice = (float) table.floatColumn(TableColumnName.PRICE.getColumnName()).max();
+            int[] itemIndicesInRange = priceRangeFinder.findItemsInPriceRange(minPrice, maxPrice);
             return Selection.with(itemIndicesInRange);
         }else if( minPrice == null && maxPrice == null ){
             System.out.println("Min and max price values not found in search data. Skipping price filter.");
             return ALL_ITEMS;
         }else{
-            int[] itemIndicesInRange = priceRangeFinder.findItemsInPriceRange(minPrice.floatValue(), maxPrice.floatValue());
+            int[] itemIndicesInRange = priceRangeFinder.findItemsInPriceRange(minPrice, maxPrice);
             return Selection.with(itemIndicesInRange);
         }
     }
