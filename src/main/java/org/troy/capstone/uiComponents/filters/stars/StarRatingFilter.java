@@ -65,7 +65,7 @@ public class StarRatingFilter extends VBox {
     public void setRating(int rating) {
         // If clicking the same star that's already selected, clear the rating
         if (selectedRating == rating)
-            return;
+            selectedRating = 0;
         else
             selectedRating = rating;
         
