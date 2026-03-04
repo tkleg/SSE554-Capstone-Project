@@ -1,7 +1,7 @@
 package org.troy.capstone;
 
 import org.troy.capstone.constants.TableColumnName;
-import org.troy.capstone.constants.uiSizeControls;
+import org.troy.capstone.constants.UISizeControl;
 import org.troy.capstone.data_structures.ItemTable.ItemHashMap;
 import org.troy.capstone.managers.GeneralManager;
 import org.troy.capstone.uiComponents.filters.categorical.FiltersContainer;
@@ -32,8 +32,8 @@ public class Main extends Application {
         
         GridPane gridPane = new GridPane();
         gridPane.setPadding(new Insets(20)); // Add 20px padding around all edges
-        gridPane.setHgap(uiSizeControls.WIDTH_PADDING); // 10px horizontal spacing between columns
-        gridPane.setVgap(uiSizeControls.HEIGHT_PADDING); // 10px vertical spacing between rows
+        gridPane.setHgap(UISizeControl.WIDTH_PADDING.getValue()); // 10px horizontal spacing between columns
+        gridPane.setVgap(UISizeControl.HEIGHT_PADDING.getValue()); // 10px vertical spacing between rows
 
         SearchedItemPagination itemPagination = SearchedItemPagination.create(itemHashMap, generalManager);
         gridPane.add(itemPagination, 0, 1, 2, 3);

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.troy.capstone.constants.UIElementName;
-import org.troy.capstone.constants.uiSizeControls;
+import org.troy.capstone.constants.UISizeControl;
 import org.troy.capstone.managers.GeneralManager;
 import org.troy.capstone.utils.UIUtils;
 
@@ -21,7 +21,7 @@ public class SearchBar extends HBox {
     
     public static SearchBar create( GeneralManager generalManager ) {
         SearchBar searchBar = new SearchBar(generalManager);
-        UIUtils.setSize(searchBar, uiSizeControls.SEARCH_BAR_WIDTH, uiSizeControls.SEARCH_BAR_HEIGHT);
+        UIUtils.setSize(searchBar, UISizeControl.SEARCH_BAR_WIDTH.getValue(), UISizeControl.SEARCH_BAR_HEIGHT.getValue());
         return searchBar;
     }
 
@@ -35,7 +35,7 @@ public class SearchBar extends HBox {
         generalManager.addUIElement(UIElementName.SEARCH_BUTTON, searchButton);
 
         getChildren().addAll(searchField, searchButton);
-        setSpacing(uiSizeControls.WIDTH_PADDING);
+        setSpacing(UISizeControl.WIDTH_PADDING.getValue());
     }
     
     public void addAdditionalAction(EventHandler<ActionEvent> action) {

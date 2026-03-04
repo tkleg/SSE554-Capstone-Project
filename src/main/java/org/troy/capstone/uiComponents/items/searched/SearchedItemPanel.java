@@ -3,7 +3,7 @@ package org.troy.capstone.uiComponents.items.searched;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.troy.capstone.constants.uiSizeControls;
+import org.troy.capstone.constants.UISizeControl;
 import org.troy.capstone.entities.Item;
 import org.troy.capstone.uiComponents.items.AttributedItemContainer;
 import org.troy.capstone.utils.UIUtils;
@@ -29,7 +29,7 @@ public class SearchedItemPanel extends HBox{
 
     public static SearchedItemPanel createFromItem(Item item) {
         SearchedItemPanel panel =  new SearchedItemPanel(item);
-        UIUtils.setSize(panel, uiSizeControls.SEARCHED_ITEM_PANEL_WIDTH, uiSizeControls.SEARCHED_ITEM_PANEL_HEIGHT);
+        UIUtils.setSize(panel, UISizeControl.SEARCHED_ITEM_PANEL_WIDTH.getValue(), UISizeControl.SEARCHED_ITEM_PANEL_HEIGHT.getValue());
         return panel;
     }
     
@@ -65,39 +65,39 @@ public class SearchedItemPanel extends HBox{
         Label nameLabel = new Label(item.getName());
         nameLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14;");
         nameLabel.setWrapText(true);
-        nameLabel.setMaxWidth(uiSizeControls.SEARCHED_ITEM_LABEL_MAX_WIDTH); // Allow space for image on left
+        nameLabel.setMaxWidth(UISizeControl.SEARCHED_ITEM_LABEL_MAX_WIDTH.getValue()); // Allow space for image on left
         nameLabel.setAlignment(Pos.CENTER_LEFT);
 
         // Create labels with text wrapping enabled
         Label publisherLabel = new Label("Publisher: " + item.getPublisher());
         publisherLabel.setWrapText(true);
-        publisherLabel.setMaxWidth(uiSizeControls.SEARCHED_ITEM_LABEL_MAX_WIDTH);
+        publisherLabel.setMaxWidth(UISizeControl.SEARCHED_ITEM_LABEL_MAX_WIDTH.getValue());
         publisherLabel.setAlignment(Pos.CENTER_LEFT);
         
         Label categoryLabel = new Label("Category: " + item.getCategory());
         categoryLabel.setWrapText(true);
-        categoryLabel.setMaxWidth(uiSizeControls.SEARCHED_ITEM_LABEL_MAX_WIDTH);
+        categoryLabel.setMaxWidth(UISizeControl.SEARCHED_ITEM_LABEL_MAX_WIDTH.getValue());
         categoryLabel.setAlignment(Pos.CENTER_LEFT);
         
         Label priceLabel = new Label("Price: $" + String.format("%.2f", item.getPrice()));
         priceLabel.setWrapText(true);
-        priceLabel.setMaxWidth(uiSizeControls.SEARCHED_ITEM_LABEL_MAX_WIDTH);
+        priceLabel.setMaxWidth(UISizeControl.SEARCHED_ITEM_LABEL_MAX_WIDTH.getValue());
         priceLabel.setAlignment(Pos.CENTER_LEFT);
         
         Label ratingLabel = new Label("Rating: " + item.getReviewScore() + "/5.0 (" + item.getReviewCount() + " reviews)");
         ratingLabel.setWrapText(true);
-        ratingLabel.setMaxWidth(uiSizeControls.SEARCHED_ITEM_LABEL_MAX_WIDTH);
+        ratingLabel.setMaxWidth(UISizeControl.SEARCHED_ITEM_LABEL_MAX_WIDTH.getValue());
         ratingLabel.setAlignment(Pos.CENTER_LEFT);
         
         Label stockLabel = new Label("Stock: " + item.getStockQuantity());
         stockLabel.setWrapText(true);
-        stockLabel.setMaxWidth(uiSizeControls.SEARCHED_ITEM_LABEL_MAX_WIDTH);
+        stockLabel.setMaxWidth(UISizeControl.SEARCHED_ITEM_LABEL_MAX_WIDTH.getValue());
         stockLabel.setAlignment(Pos.CENTER_LEFT);
         
         Date dateAdded = item.getDateAdded();
         Label dateLabel = new Label("Date Added: " + dateAddedFormatter.format(dateAdded));
         dateLabel.setWrapText(true);
-        dateLabel.setMaxWidth(uiSizeControls.SEARCHED_ITEM_LABEL_MAX_WIDTH);
+        dateLabel.setMaxWidth(UISizeControl.SEARCHED_ITEM_LABEL_MAX_WIDTH.getValue());
         dateLabel.setAlignment(Pos.CENTER_LEFT);
 
         rightPanel.getChildren().addAll(

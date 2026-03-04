@@ -4,7 +4,7 @@ import java.awt.Desktop;
 import java.net.URI;
 
 import org.troy.capstone.constants.URLs;
-import org.troy.capstone.constants.uiSizeControls;
+import org.troy.capstone.constants.UISizeControl;
 import org.troy.capstone.entities.Item;
 import org.troy.capstone.utils.UIUtils;
 
@@ -23,7 +23,7 @@ public class AttributedItemContainer extends VBox {
 
     public static AttributedItemContainer createFromItem(Item item) {
         AttributedItemContainer container = new AttributedItemContainer(item);
-        UIUtils.setSize(container, uiSizeControls.ATTRIBUTED_ITEM_CONTAINER_WIDTH, null);
+        UIUtils.setSize(container, UISizeControl.ATTRIBUTED_ITEM_CONTAINER_WIDTH.getValue(), null);
         return container;
     }
 
@@ -34,8 +34,8 @@ public class AttributedItemContainer extends VBox {
         TextFlow attributionFlow = makeAttributionFlow(item);
 
         imageView = new ImageView();
-        imageView.setFitWidth(uiSizeControls.ATTRIBUTED_ITEM_IMAGE_WIDTH);
-        imageView.setFitHeight(uiSizeControls.ATTRIBUTED_ITEM_IMAGE_HEIGHT);
+        imageView.setFitWidth(UISizeControl.ATTRIBUTED_ITEM_IMAGE_WIDTH.getValue());
+        imageView.setFitHeight(UISizeControl.ATTRIBUTED_ITEM_IMAGE_HEIGHT.getValue());
         imageView.setPreserveRatio(true);
         
         //Load image asynchronously to avoid blocking scroll

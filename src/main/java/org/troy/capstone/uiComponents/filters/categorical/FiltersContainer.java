@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 import org.troy.capstone.constants.TableColumnName;
 import org.troy.capstone.constants.UIElementName;
-import org.troy.capstone.constants.uiSizeControls;
+import org.troy.capstone.constants.UISizeControl;
 import org.troy.capstone.data_structures.ItemTable.ItemHashMap;
 import org.troy.capstone.managers.GeneralManager;
 import org.troy.capstone.utils.UIUtils;
@@ -30,7 +30,7 @@ public class FiltersContainer extends ScrollPane {
 
     public static FiltersContainer create( GeneralManager generalManager, ItemHashMap itemHashMap ) {
         FiltersContainer container = new FiltersContainer(generalManager, itemHashMap);
-        UIUtils.setSize(container, uiSizeControls.FILTERS_CONTAINER_WIDTH, uiSizeControls.FILTERS_CONTAINER_HEIGHT);
+        UIUtils.setSize(container, UISizeControl.FILTERS_CONTAINER_WIDTH.getValue(), UISizeControl.FILTERS_CONTAINER_HEIGHT.getValue());
         generalManager.addUIElement(UIElementName.FILTERS_CONTAINER, container);
 
         return container;

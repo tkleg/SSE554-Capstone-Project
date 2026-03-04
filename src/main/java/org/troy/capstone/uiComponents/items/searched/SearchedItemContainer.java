@@ -3,7 +3,7 @@ package org.troy.capstone.uiComponents.items.searched;
 import java.util.List;
 
 import org.troy.capstone.constants.TableColumnName;
-import org.troy.capstone.constants.uiSizeControls;
+import org.troy.capstone.constants.UISizeControl;
 import org.troy.capstone.data_structures.ItemTable.ItemHashMap;
 import org.troy.capstone.utils.UIUtils;
 
@@ -18,7 +18,7 @@ public class SearchedItemContainer extends ScrollPane {
     
     public static SearchedItemContainer create(){
         SearchedItemContainer container = new SearchedItemContainer();
-        UIUtils.setSize(container, uiSizeControls.SEARCHED_ITEM_CONTAINER_WIDTH, uiSizeControls.SEARCHED_ITEM_CONTAINER_HEIGHT);
+        UIUtils.setSize(container, UISizeControl.SEARCHED_ITEM_CONTAINER_WIDTH.getValue(), UISizeControl.SEARCHED_ITEM_CONTAINER_HEIGHT.getValue());
         return container;
     }
 

@@ -6,7 +6,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.troy.capstone.constants.UIElementName;
-import org.troy.capstone.constants.uiSizeControls;
+import org.troy.capstone.constants.UISizeControl;
 import org.troy.capstone.data_structures.ItemTable.IdHashKey;
 import org.troy.capstone.data_structures.ItemTable.ItemHashMap;
 import org.troy.capstone.managers.GeneralManager;
@@ -37,7 +37,7 @@ public class SearchedItemPagination extends Pagination {
             .collect(Collectors.toSet());
         SearchedItemPagination pagination = new SearchedItemPagination(itemHashMap);
         pagination.updateContent(itemIDs);
-        UIUtils.setSize(pagination, uiSizeControls.SEARCHED_ITEM_PAGINATION_WIDTH, uiSizeControls.SEARCHED_ITEM_PAGINATION_HEIGHT);
+        UIUtils.setSize(pagination, UISizeControl.SEARCHED_ITEM_PAGINATION_WIDTH.getValue(), UISizeControl.SEARCHED_ITEM_PAGINATION_HEIGHT.getValue());
         generalManager.addUIElement(UIElementName.SEARCHED_ITEM_PAGINATION, pagination);
         return pagination;
     }
