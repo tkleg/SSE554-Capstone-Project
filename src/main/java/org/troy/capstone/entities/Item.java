@@ -64,7 +64,6 @@ public class Item {
             case DATE_ADDED -> dateAdded;
             case PHOTO_AUTHOR -> photoAuthor;
             case PHOTO_AUTHOR_URL -> photoAuthorUrl;
-            default -> throw new IllegalArgumentException("Invalid column: " + column + " in getAttribute for item with id: " + id);
         };
     }
     
