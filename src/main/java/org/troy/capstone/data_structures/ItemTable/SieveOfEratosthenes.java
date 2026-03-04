@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import org.troy.capstone.annotations.TestExclusionGenerated;
 
-//Code originally sourced from the MindTap assignment, but modified to find the largest prime smaller or equal to (2 * Short.MAX_VALUE) instead of the smallest prime greater than Short.MAX_VALUE
+//Code originally sourced from the MindTap assignment, but modified
 public class SieveOfEratosthenes {
 
     BitSet notAPrime;
@@ -36,7 +36,7 @@ public class SieveOfEratosthenes {
         return !notAPrime.get(value);
     }
 
-    /**
+    /*
      * Releases the internal array to be eligible for garbage collection.
      * After calling this, isPrime() will throw NullPointerException.
      */
@@ -44,6 +44,13 @@ public class SieveOfEratosthenes {
         notAPrime = null;
     }
 
+    /**
+     * Gets the largest prime number under 100 million using the Sieve of Eratosthenes algorithm.
+     * 
+     * pre-conditions: none
+     * 
+     * @return prime (Optional<Integer>): an Optional containing the largest prime number under 100 million, or empty if there was an error during calculation.
+     */
     public static Optional<Integer> staticPrimeUnder100mil() {
         SieveOfEratosthenes s = new SieveOfEratosthenes(100_000_000);
         Optional<Integer> result = s.maxPrimeUnder100mil();
@@ -51,6 +58,13 @@ public class SieveOfEratosthenes {
         return result;
     }
     
+    /**
+     * Gets the largest prime number under 100 million using the Sieve of Eratosthenes algorithm.
+     * 
+     * pre-conditions: none
+     * 
+     * @return prime (Optional<Integer>): an Optional containing the largest prime number under 100 million, or empty if there was an error during calculation.
+     */
     public Optional<Integer> maxPrimeUnder100mil(){
         if( notAPrime.length() < 100_000_000 )
             return Optional.empty();

@@ -4,31 +4,20 @@ import java.math.BigInteger;
 
 public class IdHashKey {
     private final String value;
-    private static final int PRIME = SieveOfEratosthenes.staticPrimeUnder100mil().orElseThrow(); // A prime number larger than the maximum possible hash value from collapsing the strings, to ensure good distribution in universal hashing
+    // A prime number larger than the maximum possible hash value from collapsing the strings, to ensure good distribution in universal hashing
+    private static final BigInteger P = BigInteger.valueOf(SieveOfEratosthenes.staticPrimeUnder100mil().orElseThrow());
     private static BigInteger I = BigInteger.
-        valueOf( (long) (Math.random() * PRIME) + 1 );
+        valueOf( (long) (Math.random() * P.longValue()) + 1 );
     private static BigInteger J = BigInteger.
-        valueOf( (long) (Math.random() * (PRIME - 1L)) );
+        valueOf( (long) (Math.random() * (P.longValue() - 1L)) );
 
-    // 1000 entries, 0.75 load factor -> 2048 table size
+    //1000 entries, 0.75 load factor -> 2048 table size
+    //2048 is the lowest power of 2 above 1000/0.75, a
     private static final int TABLE_SIZE = 2048;
 
     public IdHashKey(String value) {
         this.value = value;
     }
-    
-    static void reRoll_I_And_J() {
-        I = BigInteger.valueOf( (long) (Math.random() * PRIME) + 1 );
-        J = BigInteger.valueOf( (long) (Math.random() * (PRIME - 1L)) );
-    }
-    
-    public static void setI(BigInteger newI) {
-        I = newI;
-    }
-    
-    public static void setJ(BigInteger newJ) {
-        J = newJ;
-    } 
 
     public String getValue() {
         return value;
@@ -42,8 +31,16 @@ public class IdHashKey {
         return J;
     }
     
-    static int getPrime() {
-        return PRIME;
+    static BigInteger getP() {
+        return P;
+    }
+
+    static void setI(BigInteger newI) {
+        I = newI;
+    }
+
+    static void setJ(BigInteger newJ) {
+        J = newJ;
     }
     
     //Using universal hashing code from textbook, with small alterations
@@ -56,17 +53,26 @@ public class IdHashKey {
             .intValue();
     }
 
-    //Algorithm source is https://www.tutorialspoint.com/data_structures_algorithms/rabin_karp_algorithm.htm
-    //Rabin-Karp style string to int collapse, using polynomial rolling hash method
+    /**
+     * Algorithm source is https://www.tutorialspoint.com/data_structures_algorithms/rabin_karp_algorithm.htm
+     * Rabin-Karp style string to int collapse, using polynomial rolling hash method
+     * 
+     * pre-conditions: str is not null and only contains ASCII characters from '!' to '~' (printable characters excluding space and delete)
+     *
+     * @param str (String): The string to collapse into an integer hash value
+     * @return hash (BigInteger): A BigInteger hash value representing the input string collapsed via Rabin-Karp rolling hash
+     */
     private BigInteger collapseStringToInt(String str) {
-        BigInteger b = BigInteger.valueOf('~' - '!' + 1); // Number of possible characters (ASCII range from '!' to '~', printables with no space)
+        //Number of possible characters (ASCII chars from '!' to '~', printables excluding space and delete)
+        BigInteger b = BigInteger.valueOf('~' - '!' + 1);
         int L = str.length();
         BigInteger hash = BigInteger.ZERO;
         for (int i = 0; i < L; i++){
-            int rankingOfChar = str.charAt(i) - '!'; // Map '!' to 0, '"' to 1, ..., '~' to 93
+            //Map '!' to 0, '"' to 1, ..., '~' to 93
+            int rankingOfChar = str.charAt(i) - '!';
             hash = hash.add(BigInteger.valueOf(rankingOfChar).multiply(b.pow(L - i - 1)));
         }
-        return hash.mod(BigInteger.valueOf(PRIME)); // Mod by a prime to keep the hash value manageable
+        return hash.mod(P); // Mod by a prime to keep the hash value manageable
     }
 
     @Override
