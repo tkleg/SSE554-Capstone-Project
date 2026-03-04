@@ -22,8 +22,8 @@ import tech.tablesaw.api.Row;
 public class Item {
     private static final Faker faker = new Faker();
 
-private String id;
-    private int index;
+    private String id;
+    private short index;
     private String imageUrl;
     private String name;
     private String publisher;
@@ -38,6 +38,15 @@ private String id;
     private short stockQuantity;
     private Date dateAdded;
 
+    /**
+     * Returns the value of the specified attribute for this item. The attribute is determined by the provided TableColumnName enum value.
+     * 
+     * pre-conditions: column is not null and corresponds to a valid attribute of the Item class.
+     * 
+     * @param column (TableColumnName): an enum value representing the attribute to retrieve from this item.
+     * @return Object: the value of the specified attribute for this item, returned as an Object. The caller must cast result.
+     * @throws IllegalArgumentException if the provided column does not correspond to a valid attribute of the Item class.
+     */
     public Object getAttribute( TableColumnName column ){
         return switch(column){
             case INDEX -> index;
@@ -55,9 +64,15 @@ private String id;
             case DATE_ADDED -> dateAdded;
             case PHOTO_AUTHOR -> photoAuthor;
             case PHOTO_AUTHOR_URL -> photoAuthorUrl;
+            default -> throw new IllegalArgumentException("Invalid column: " + column + " in getAttribute for item with id: " + id);
         };
     }
     
+    /**
+     * Generates a random Item object with realistic values for each attribute using the Faker library.
+     * 
+     * @return Item: a randomly generated Item object with all attributes populated with realistic random values.
+     */
     public static Item randomItem(){
         return Item.builder()
             .imageUrl( URL.DEFAULT_IMAGE_URL.getUrl() )
@@ -77,6 +92,14 @@ private String id;
             .build();
     }
 
+    /**
+     * Creates an Item object from a tablesaw Row. The Row must contain columns corresponding to the attributes of the Item class.
+     * 
+     * pre-conditions: itemRow is not null and contains the expected columns for creating an Item (ID, Name, etc.).
+     * 
+     * @param itemRow (Row): a Row from a tablesaw Table containing item info
+     * @return Item: an Item object created from the data in the provided Row.
+     */
     public static Item fromRow( Row itemRow ){
         return Item.builder()
                 .index( itemRow.getShort(TableColumnName.INDEX.getColumnName()) )
