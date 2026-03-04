@@ -5,7 +5,7 @@ import java.util.Set;
 
 import org.troy.capstone.constants.UIDataName;
 import org.troy.capstone.constants.UIElementName;
-import org.troy.capstone.searchEngine.SearchEngine;
+import org.troy.capstone.search_engine.SearchEngine;
 
 import javafx.scene.Node;
 import javafx.scene.control.Button;
