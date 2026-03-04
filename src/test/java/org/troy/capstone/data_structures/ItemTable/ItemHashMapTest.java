@@ -99,6 +99,7 @@ public class ItemHashMapTest {
     }
 
     @Nested
+    @DisplayName("Bucket Size Distribution Comparison Tests")
     class bucketSizeComparisonTests{
         //Enables newline chars to be matched
         private static Pattern pattern = Pattern.compile(".*", Pattern.DOTALL);

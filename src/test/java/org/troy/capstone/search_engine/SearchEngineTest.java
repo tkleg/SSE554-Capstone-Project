@@ -206,6 +206,7 @@ public class SearchEngineTest {
     }
 
     @Nested
+    @DisplayName("Edge Cases for Search Engine Filters")
     class SearchEngineEdgeCasesTest {
         //I looked at the code coverage report and looked for edge cases that need covering.
 

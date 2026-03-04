@@ -1,9 +1,12 @@
 package org.troy.capstone.data_structures.ItemTable;
 import java.math.BigInteger;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 
 public class IdHashKeyTest {
     
@@ -31,6 +34,51 @@ public class IdHashKeyTest {
         IdHashKey key1 = new IdHashKey(testString);
         IdHashKey key2 = new IdHashKey(testString);
         assertEquals( key1.hashCode(), key2.hashCode(), "Hash codes should be consistent for the same string" );
+    }
+
+    @Nested
+    @DisplayName("Test entire equals method")
+    class EqualsMethodTests {
+
+        @Test
+        @DisplayName("Test equals with same object")
+        void testEqualsWithSameObject() {
+            String testString = "test-item-id";
+            IdHashKey key = new IdHashKey(testString);
+            assert key.equals(key) : "Equals should return true when comparing the same object";
+        }
+
+        @Test
+        @DisplayName("Test equals with equal objects")
+        void testEqualsWithEqualObjects() {
+            String testString = "test-item-id";
+            IdHashKey key1 = new IdHashKey(testString);
+            IdHashKey key2 = new IdHashKey(testString);
+            assert key1.equals(key2) : "Equals should return true for equal objects";
+        }
+
+        @Test
+        @DisplayName("Test equals with different objects")
+        void testEqualsWithDifferentObjects() {
+            IdHashKey key1 = new IdHashKey("test-item-id-1");
+            IdHashKey key2 = new IdHashKey("test-item-id-2");
+            assert !key1.equals(key2) : "Equals should return false for different objects";
+        }
+
+        @Test
+        @DisplayName("Test equals with second variable being null")
+        void testEqualsWithNull() {
+            IdHashKey key = new IdHashKey("test-item-id");
+            assert !key.equals(null) : "Equals should return false when comparing with null";
+        }
+
+        @Test
+        @DisplayName("Test equals with different class")
+        void testEqualsWithDifferentClass() {
+            IdHashKey key = new IdHashKey("test-item-id");
+            String other = "test-item-id";
+            assert !key.equals(other) : "Equals should return false when compared with different class";
+        }
     }
 
 }

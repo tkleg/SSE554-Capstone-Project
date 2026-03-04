@@ -82,6 +82,6 @@ public class IdHashKey {
         if (obj == null || getClass() != obj.getClass())
             return false;
         IdHashKey other = (IdHashKey) obj;
-        return value != null ? value.equals(other.value) : other.value == null;
+        return value.equals(other.value);
     }
 }
