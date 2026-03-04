@@ -16,14 +16,27 @@ public class SearchEngine {
     private final Table table;
     private final PriceRangeFinder priceRangeFinder;
 
+    /**
+     * Constructor for SearchEngine
+     * 
+     * @param table (Table) : The table containing the data to be searched
+     */
     public SearchEngine(Table table) {
         this.table = table;
         this.priceRangeFinder = new PriceRangeFinder(table);
         this.ALL_ITEMS = Selection.withRange(0, table.rowCount());
     }
 
-    //For tags, we use AND so all tags are there as multiple can be selected
-    //For other categorical filters, we use OR since only one value is there
+    /**
+     * For tags, we use AND so all tags are there as multiple can be selected
+     * For other categorical filters, we use OR since only one value is there
+     * 
+     * pre-conditions: None, error handling is done within the method to allow for maximum flexibility and fault tolerance,
+     * such as skipping filters if expected data is not found or of the wrong type
+     * 
+     * @param searchData (Map<UIDataName, Object>) : The search data containing the filters to be applied
+     * @return Set<String> : The set of item IDs that match the search criteria
+    */
     public Set<String> filterItems(Map<UIDataName, Object> searchData) {
         Selection selection;
 
@@ -48,6 +61,12 @@ public class SearchEngine {
         return table.where(selection).stringColumn(TableColumnName.ID.getColumnName()).asSet();
     }
 
+    /**
+     * Helper method to apply tag filters since they have special handling compared to other categorical filters
+     * 
+     * @param filtersContainer (Map<String, Set<String>>) : The filters container containing the selected tags under the "Tags" key
+     * @return Selection : The selection of items that match the selected tags, or null if more than 4 tags are selected since it's impossible to satisfy that criteria
+     */
     Selection applyTagFilters(Map<String, Set<String>> filtersContainer) {
         Set<String> selectedTags = filtersContainer.get("Tags");
         Selection tagSelection = ALL_ITEMS;
@@ -70,6 +89,12 @@ public class SearchEngine {
         return tagSelection;
     }
 
+    /**
+     * Helper method to apply star rating filter
+     * 
+     * @param searchData (Map<UIDataName, Object>) : The search data containing the minimum star rating
+     * @return Selection : The selection of items that match the minimum star rating
+     */
     Selection applyStarFilter(Map<UIDataName, Object> searchData) {
         Integer minStarRating;
         try{
@@ -87,6 +112,12 @@ public class SearchEngine {
         return table.floatColumn(TableColumnName.REVIEW_SCORE.getColumnName()).isGreaterThanOrEqualTo(minStarRating.doubleValue());
     }
 
+    /**
+     * Helper method to apply price filters
+     * 
+     * @param searchData (Map<UIDataName, Object>) : The search data containing the minimum and/or maximum price
+     * @return Selection : The selection of items that match the price criteria
+     */
     Selection applyPriceFilters(Map<UIDataName, Object> searchData) {
         Float minPrice, maxPrice;
         try{
@@ -115,6 +146,12 @@ public class SearchEngine {
         }
     }
 
+    /**
+     * Helper method to apply categorical filters (other than tags which have special handling)
+      *
+     * @param searchData (Map<UIDataName, Object>) : The search data containing the selected categorical filters under the FILTERS_CONTAINER key
+     * @return Selection : The selection of items that match the selected categorical filters, or ALL_ITEMS if no valid filters are found in the search data
+     */
     Selection applyCategoricalFilters(Map<UIDataName, Object> searchData) {
         Set<TableColumnName> categoricalColumns = TableColumnName.getCategoricalColumns();
         Selection categoricalSelection = ALL_ITEMS;
