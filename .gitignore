@@ -8,6 +8,6 @@ target/
 *.msi
 *.exe
 target/*
-
+response.json
 #Holds an API key
 *ENV.java
