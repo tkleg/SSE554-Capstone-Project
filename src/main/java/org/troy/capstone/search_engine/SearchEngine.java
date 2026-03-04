@@ -152,17 +152,14 @@ public class SearchEngine {
                 //Combine selected values for the column with OR
                 for( String value : selectedValues ) {
                     Selection valueSelection = table.stringColumn(column.getColumnName()).lowerCase().isEqualTo(value.toLowerCase());
-                    if( !valueSelection.isEmpty() ) {
-                        if( columnSelection == null ) {
-                            columnSelection = valueSelection;
-                        } else {
-                            columnSelection = columnSelection.or(valueSelection);
-                        }
-                    }
+                    if( columnSelection == null )
+                        columnSelection = valueSelection;
+                    else
+                        columnSelection = columnSelection.or(valueSelection);
                 }
 
                 //Ensure that one of the selected values for the column is present with AND
-                if( columnSelection != null && !columnSelection.isEmpty() ) {
+                if( columnSelection != null ) {
                     categoricalSelection = categoricalSelection.and(columnSelection);
                     System.out.println("After applying " + filterKey + " filter: " + categoricalSelection.size() + " items selected for cateogries. Not including non-categorical filters.");
                 }
