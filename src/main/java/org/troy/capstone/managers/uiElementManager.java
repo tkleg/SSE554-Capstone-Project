@@ -39,25 +39,44 @@ public class UIElementManager {
     public Map<UIDataName, Object> getSearchData(){
         Map<UIDataName, Object> searchData = new HashMap<>();
         
-        getElement(UIElementName.MIN_PRICE_SLIDER)
-        .ifPresentOrElse( e -> searchData.put(UIDataName.MIN_PRICE, ((Slider)e).getValue()),
-        () -> System.out.println("Min price slider not found in UIElementManager, cannot include min price in search data.") );
+        try{
+            getElement(UIElementName.MIN_PRICE_SLIDER)
+            .ifPresentOrElse( e -> searchData.put(UIDataName.MIN_PRICE, (float) ((Slider)e).getValue()),
+            () -> System.out.println("Min price slider not found in UIElementManager, cannot include min price in search data.") );
+        }catch (ClassCastException ex) {
+            System.out.println("Error retrieving min price slider value: " + ex.getMessage());
+        }
 
-        getElement(UIElementName.MAX_PRICE_SLIDER)
-        .ifPresentOrElse( e -> searchData.put(UIDataName.MAX_PRICE, ((Slider)e).getValue()),
-        () -> System.out.println("Max price slider not found in UIElementManager, cannot include max price in search data.") );
+        try{
+            getElement(UIElementName.MAX_PRICE_SLIDER)
+            .ifPresentOrElse( e -> searchData.put(UIDataName.MAX_PRICE, (float) ((Slider)e).getValue()),
+            () -> System.out.println("Max price slider not found in UIElementManager, cannot include max price in search data.") );
+        }catch (ClassCastException ex) {
+            System.out.println("Error retrieving max price slider value: " + ex.getMessage());
+        }
+        try{
+            getElement(UIElementName.SEARCH_FIELD)
+            .ifPresentOrElse( e -> searchData.put(UIDataName.SEARCH_QUERY, ((TextField)e).getText()),
+            () -> System.out.println("Search field not found in UIElementManager, cannot include search query in search data.") );
+        }catch (ClassCastException ex) {
+            System.out.println("Error retrieving search field value: " + ex.getMessage());
+        }
 
-        getElement(UIElementName.SEARCH_FIELD)
-        .ifPresentOrElse( e -> searchData.put(UIDataName.SEARCH_QUERY, ((TextField)e).getText()),
-        () -> System.out.println("Search field not found in UIElementManager, cannot include search query in search data.") );
-        
-        getElement(UIElementName.FILTERS_CONTAINER)
-        .ifPresentOrElse( e -> searchData.put(UIDataName.FILTERS_CONTAINER, ((FiltersContainer)e).getSelectedFilters()),
-        () -> System.out.println("Filters container not found in UIElementManager, cannot include filters in search data.") );
-        
-        getElement(UIElementName.STAR_RATING_FILTER)
-        .ifPresentOrElse( e -> searchData.put(UIDataName.MIN_STAR_RATING, ((StarRatingFilter)e).getSelectedRating()),
-        () -> System.out.println("Star rating filter not found in UIElementManager, cannot include star rating in search data.") );
+        try{
+            getElement(UIElementName.FILTERS_CONTAINER)
+            .ifPresentOrElse( e -> searchData.put(UIDataName.FILTERS_CONTAINER, ((FiltersContainer)e).getSelectedFilters()),
+            () -> System.out.println("Filters container not found in UIElementManager, cannot include filters in search data.") );
+        }catch (ClassCastException ex) {
+            System.out.println("Error retrieving filters container value: " + ex.getMessage());
+        }
+
+        try{
+            getElement(UIElementName.STAR_RATING_FILTER)
+            .ifPresentOrElse( e -> searchData.put(UIDataName.MIN_STAR_RATING, ((StarRatingFilter)e).getSelectedRating()),
+            () -> System.out.println("Star rating filter not found in UIElementManager, cannot include star rating in search data.") );
+        }catch (ClassCastException ex) {
+            System.out.println("Error retrieving star rating filter value: " + ex.getMessage());
+        }
 
         return searchData;
     }
@@ -66,6 +85,11 @@ public class UIElementManager {
         getElement(UIElementName.SEARCHED_ITEM_PAGINATION)
         .ifPresentOrElse( e -> ((SearchedItemPagination)e).updateContent(itemIDs),
         () -> System.out.println("Searched item pagination not found in UIElementManager, cannot update search results.") );
+    }
+
+    //Useful for testing to reset the UIElementManager state between tests
+    public void clearElements() {
+        uiElements.clear();
     }
     
 }

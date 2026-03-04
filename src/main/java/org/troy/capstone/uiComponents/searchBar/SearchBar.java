@@ -32,7 +32,7 @@ public class SearchBar extends HBox {
         generalManager.addUIElement(UIElementName.SEARCH_FIELD, searchField);
 
         searchButton = new Button("Search");
-        generalManager.addUIElement(UIElementName.SEARCH_BUTTON, searchButton);
+        generalManager.setButton(searchButton);
 
         getChildren().addAll(searchField, searchButton);
         setSpacing(UISizeControl.WIDTH_PADDING.getValue());

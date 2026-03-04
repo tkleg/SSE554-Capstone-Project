@@ -24,6 +24,11 @@ public class GeneralManager {
         return uiManager;
     }
 
+    //Not used in main program, useful for testing to reset the GeneralManager state between tests
+    public void clearUIElements() {
+        uiManager.clearElements();
+    }
+
     /**
      * Gets the search data from the UIElementManager.
      * 
@@ -36,7 +41,7 @@ public class GeneralManager {
     }
 
     /**
-     * Adds a UI element to the UIElementManager, with special handling for the search button to set its action to filter and print the number of results.
+     * Adds a UI element to the UIElementManager
      * 
      * pre-conditions: key and element are not null
      *
@@ -44,10 +49,11 @@ public class GeneralManager {
      * @param element (Node) : The UI element to be added
      */
     public void addUIElement(UIElementName key, Node element) {
-        switch(key){
-            case SEARCH_BUTTON -> ((Button) element).setOnAction(e -> filterAndPrintNumberOfResults());
-            default -> uiManager.addElement(key, element);
-        }
+        uiManager.addElement(key, element);
+    }
+
+    public void setButton(Button button) {
+        button.setOnAction(e -> filterAndPrintNumberOfResults());
     }
 
     /**
