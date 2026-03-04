@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.troy.capstone.ENV;
-import org.troy.capstone.annotations.TestExclusionGenerated;
 import org.troy.capstone.constants.TableColumnName;
 import org.troy.capstone.utils.TableUtils;
 
@@ -23,7 +22,6 @@ import tech.tablesaw.api.Table;
 import tech.tablesaw.selection.Selection;
 
 public class ImageUrlFiller {
-    @TestExclusionGenerated
     public static void main(String[] args) {
         //Load csv file
         Table productData = TableUtils.readCleanedData();
