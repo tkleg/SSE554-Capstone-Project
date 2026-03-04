@@ -29,4 +29,24 @@ public class SieveOfEratosthenesTest {
         assertEquals(99999989, primeUnder100Million, "Prime under 100 million should be 99999989");
         assert s.isPrime(primeUnder100Million) : "Returned value should be prime";
     }
+
+    @Test
+    @DisplayName("Test bad length for maxPrimeUnder100mil")
+    public void testBadLengthForMaxPrimeUnder100Mil() {
+        SieveOfEratosthenes smallSieve = new SieveOfEratosthenes(10);
+        assert smallSieve.maxPrimeUnder100mil().isEmpty() : "Should return empty for sieve that doesn't cover up to 100 million";
+    }
+
+    @Test
+    @DisplayName("Force bottom return statement of maxPrimeUnder100mil for code coverage")
+    public void testForceBottomReturnStatement() {
+        SieveOfEratosthenes smallSieve = new SieveOfEratosthenes(100_000_000){
+            @Override
+            public boolean isPrime(int value) {
+                //Override isPrime to make the sieve think there are no primes, to force the bottom return statement of maxPrimeUnder100mil
+                return false;
+            }
+        };
+        assert smallSieve.maxPrimeUnder100mil().isEmpty() : "Should return empty for sieve that doesn't cover up to 100 million";
+    }
 }

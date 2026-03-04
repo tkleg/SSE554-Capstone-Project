@@ -71,6 +71,8 @@ public class SieveOfEratosthenes {
         for( int i = notAPrime.length() - 1; i >= 0; i-- )
             if( isPrime(i) )
                 return Optional.of(i);
+        //Defensive programming, should never be reached with a properly functioning sieve of sufficient size
+        //as there will always be primes in the range [2, 99,999,999]
         return Optional.empty();
     }
 
