@@ -126,7 +126,7 @@ public class SearchEngine {
             if( column == TableColumnName.TAGS ){
                 Selection tagResult = applyTagFilters(filtersContainer);
                 if( tagResult != null )
-                    categoricalSelection = tagResult;
+                    categoricalSelection = categoricalSelection.and(tagResult);
                 continue;
             }
 
