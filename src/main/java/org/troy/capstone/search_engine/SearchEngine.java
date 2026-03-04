@@ -32,9 +32,9 @@ public class SearchEngine {
         if( priceResult != null ) {
             selection = priceResult;
             System.out.println("After price filter: " + selection.size() + " items");
-        } else{
+        } else {
             System.out.println("Price filter not applied.");
-            return Set.of();
+            selection = Selection.withRange(0, table.rowCount());
         }
         
         //Filter star rating
@@ -42,9 +42,8 @@ public class SearchEngine {
         if( starResult != null ) {
             selection = selection.and(starResult);
             System.out.println("After star rating filter: " + selection.size() + " items");
-        } else{
+        } else {
             System.out.println("Star rating filter not applied.");
-            return Set.of();
         }
 
         //Apply categorical filters
@@ -52,9 +51,8 @@ public class SearchEngine {
         if( categoricalResult != null ) {
             selection = selection.and(categoricalResult);
             System.out.println("After categorical filters: " + selection.size() + " items");
-        } else{
+        } else {
             System.out.println("Categorical filters not applied.");
-            return Set.of();
         }
         System.out.println("Number of results: " + selection.size());
         System.out.println("Total Data Size: " + table.rowCount());
@@ -70,10 +68,13 @@ public class SearchEngine {
         }catch(ClassCastException e){
             System.out.println("Selected tags value in filters container is not of type Set<String>. Skipping tag filter.");
             return ALL_ITEMS;
-        }catch(NullPointerException e){
+        }
+
+        if( selectedTags == null ){
             System.out.println("Selected tags value not found in filters container. Skipping tag filter.");
             return ALL_ITEMS;
         }
+
         if( selectedTags.size() > 4 ){
             System.out.println("More than 4 tags selected, no items are possibly matching since max tags per item is 4.");
             return null;//Indicates removing all results
@@ -94,7 +95,9 @@ public class SearchEngine {
         }catch(ClassCastException e){
             System.out.println("Min star rating value in search data is not of type Integer. Skipping star rating filter.");
             return ALL_ITEMS;
-        }catch(NullPointerException e){
+        }
+
+        if( minStarRating == null ){
             System.out.println("Min star rating value not found in search data. Skipping star rating filter.");
             return ALL_ITEMS;
         }
@@ -110,12 +113,24 @@ public class SearchEngine {
         }catch(ClassCastException e){
             System.out.println("min and/or max price values in search data are not of type Double. Skipping price filter.");
             return ALL_ITEMS;
-        }catch(NullPointerException e){
-            System.out.println("min and/or max price values not found in search data. Skipping price filter.");
-            return ALL_ITEMS;
         }
-        int[] itemIndicesInRange = priceRangeFinder.findItemsInPriceRange(minPrice.floatValue(), maxPrice.floatValue());
-        return Selection.with(itemIndicesInRange);
+        if( minPrice == null && maxPrice != null ){
+            System.out.println("Min price value not found in search data. Getting min from table");
+            minPrice = table.floatColumn(TableColumnName.PRICE.getColumnName()).min();
+            int[] itemIndicesInRange = priceRangeFinder.findItemsInPriceRange(minPrice.floatValue(), maxPrice.floatValue());
+            return Selection.with(itemIndicesInRange);
+        }else if( maxPrice == null && minPrice != null ){
+            System.out.println("Max price value not found in search data. Getting max from table");
+            maxPrice = table.floatColumn(TableColumnName.PRICE.getColumnName()).max();
+            int[] itemIndicesInRange = priceRangeFinder.findItemsInPriceRange(minPrice.floatValue(), maxPrice.floatValue());
+            return Selection.with(itemIndicesInRange);
+        }else if( minPrice == null && maxPrice == null ){
+            System.out.println("Min and max price values not found in search data. Skipping price filter.");
+            return ALL_ITEMS;
+        }else{
+            int[] itemIndicesInRange = priceRangeFinder.findItemsInPriceRange(minPrice.floatValue(), maxPrice.floatValue());
+            return Selection.with(itemIndicesInRange);
+        }
     }
 
     Selection applyCategoricalFilters(Map<UIDataName, Object> searchData) {
@@ -128,7 +143,8 @@ public class SearchEngine {
         }catch(ClassCastException e){
             System.out.println("Filters container in search data is not of type Map<String, Set<String>>. Skipping categorical filters.");
             return ALL_ITEMS;
-        }catch(NullPointerException e){
+        }
+        if( filtersContainer == null ){
             System.out.println("Filters container not found in search data. Skipping categorical filters.");
             return ALL_ITEMS;
         }
@@ -155,30 +171,28 @@ public class SearchEngine {
                 for( String value : selectedValues ) {
                     Selection valueSelection = table.stringColumn(column.getColumnName()).lowerCase().isEqualTo(value.toLowerCase());
                     if( !valueSelection.isEmpty() ) {
-                        if( columnSelection == null )
+                        if( columnSelection == null ) {
                             columnSelection = valueSelection;
-                        else
+                        } else {
                             columnSelection = columnSelection.or(valueSelection);
+                        }
                     }
                 }
 
                 //Ensure that one of the selected values for the column is present with AND
-                if( columnSelection != null ) {
+                if( columnSelection != null && !columnSelection.isEmpty() ) {
                     categoricalSelection = categoricalSelection.and(columnSelection);
                     System.out.println("After applying " + filterKey + " filter: " + categoricalSelection.size() + " items selected for cateogries. Not including non-categorical filters.");
-                } else {
-                    System.out.println("Column selection for " + filterKey + " is null, skipping " + filterKey + " filter.");
                 }
-            }else if( selectedValues == null )
+            } else if( selectedValues == null ) {
                 System.out.println("Filter key " + filterKey + " not found in filters container, skipping " + filterKey + " filter.");
-            else
+            } else {
                 System.out.println("No values selected for " + filterKey + ", skipping " + filterKey + " filter.");
+            }
         }
 
         System.out.println("Final categorical filter result: " + categoricalSelection.size() + " items");
         return categoricalSelection;
     }
-
-
 
 }

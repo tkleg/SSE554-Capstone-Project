@@ -1,7 +1,5 @@
 package org.troy.capstone.search_engine;
 
-import static org.junit.Assert.assertNull;
-
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -10,21 +8,26 @@ import java.util.Set;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.troy.capstone.constants.UIDataName;
 import org.troy.capstone.utils.TableUtils;
 
+import tech.tablesaw.api.Table;
 import tech.tablesaw.selection.Selection;
 
 public class SearchEngineTest {
     private SearchEngine searchEngine;
-    private static final float minMinPrice = 8.619999885559082f;
-    private static final float maxMaxPrice = 799.0599975585938f;
+    private Table table;
+    private static final double minMinPrice = 8.619999885559082;
+    private static final double maxMaxPrice = 799.0599975585938;
 
     @BeforeEach
     public void setup() {
-        searchEngine = new SearchEngine(TableUtils.readCleanedAttributedData());
+        table = TableUtils.readCleanedAttributedData();
+        searchEngine = new SearchEngine(table);
     }
 
     @ParameterizedTest
@@ -203,4 +206,185 @@ public class SearchEngineTest {
         assert filteredIds != null;
         assert filteredIds.size() == expectedCount : "Expected " + expectedCount + " results, but got " + filteredIds.size();
     }
+
+    @Nested
+    class SearchEngineEdgeCasesTest {
+        //I looked at the code coverage report and looked for edge cases that need covering.
+
+        private static final Map<String, Set<String>> emptyFiltersContainer = Map.of(
+            "Tags", new HashSet<>(),
+            "Category", new HashSet<>(),
+            "Publisher", new HashSet<>()
+        );
+
+        private static final Map<UIDataName, Object> starClassCastErrorData = Map.of(
+                UIDataName.MIN_STAR_RATING, "NotAnInteger",
+                UIDataName.MIN_PRICE, minMinPrice,
+                UIDataName.MAX_PRICE, maxMaxPrice,
+                UIDataName.FILTERS_CONTAINER, emptyFiltersContainer
+            );
+        
+        @Test
+        @DisplayName("Test star rating filter handling of ClassCastException when value is of wrong type - direct method call")
+        public void testStarFilterClassCastExceptionHandlingDirect() {
+            Selection result = searchEngine.applyStarFilter(starClassCastErrorData);
+            assert result.size() == table.rowCount() : "Expected all items to be returned when star rating filter value is of wrong type, but got a different number of results.";
+        }
+
+        @Test
+        @DisplayName("Test star rating filter handling of ClassCastException when value is of wrong type - method call through filterItems")
+        public void testStarFilterClassCastExceptionHandlingIndirect() {
+            Set<String> filteredIds = searchEngine.filterItems(starClassCastErrorData);
+            assert filteredIds.size() == table.rowCount() : "Expected all items to be returned when star rating filter value is of wrong type, but got a different number of results.";
+        }
+
+        private static final Map<UIDataName, Object> starNullErrorData = Map.of(
+                UIDataName.MIN_PRICE, minMinPrice,
+                UIDataName.MAX_PRICE, maxMaxPrice,
+                UIDataName.FILTERS_CONTAINER, emptyFiltersContainer
+            );
+        @Test
+        @DisplayName("Test star rating filter handling of null value when star rating is missing - direct method call")
+        public void testStarFilterNullHandlingDirect() {
+            Selection result = searchEngine.applyStarFilter(starNullErrorData);
+            assert result.size() == table.rowCount() : "Expected all items to be returned when star rating filter value is missing, but got a different number of results.";
+        }
+        @Test
+        @DisplayName("Test star rating filter handling of null value when star rating is missing - method call through filterItems")
+        public void testStarFilterNullHandlingIndirect() {
+            Set<String> filteredIds = searchEngine.filterItems(starNullErrorData);
+            assert filteredIds.size() == table.rowCount() : "Expected all items to be returned when star rating filter value is missing, but got a different number of results.";
+        }
+
+        private static final Map<UIDataName, Object> priceClassCastErrorData = Map.of(
+                UIDataName.MIN_STAR_RATING, 0,
+                UIDataName.MIN_PRICE, "NotADouble",
+                UIDataName.MAX_PRICE, "NotADouble",
+                UIDataName.FILTERS_CONTAINER, emptyFiltersContainer
+            );
+        @Test
+        @DisplayName("Test price filter handling of ClassCastException when values are of wrong type - direct method call")
+        public void testPriceFilterClassCastExceptionHandlingDirect() {
+            Selection result = searchEngine.applyPriceFilters(priceClassCastErrorData);
+            assert result.size() == table.rowCount() : "Expected all items to be returned when price filter values are of wrong type, but got a different number of results.";
+        }
+        @Test
+        @DisplayName("Test price filter handling of ClassCastException when values are of wrong type - method call through filterItems")
+        public void testPriceFilterClassCastExceptionHandlingIndirect() {
+            Set<String> filteredIds = searchEngine.filterItems(priceClassCastErrorData);
+            assert filteredIds.size() == table.rowCount() : "Expected all items to be returned when price filter values are of wrong type, but got a different number of results.";
+        }
+        
+        //Triggers the branch in applyPrice filters with null min price and non-null max price
+        @Test
+        @DisplayName("Test min price only null handling - direct method call")
+        public void testMinPriceNullHandlingDirect() {
+            Map<UIDataName, Object> searchData = new HashMap<>();
+            searchData.put(UIDataName.MIN_STAR_RATING, 0);
+            searchData.put(UIDataName.MAX_PRICE, maxMaxPrice);
+            searchData.put(UIDataName.FILTERS_CONTAINER, emptyFiltersContainer);
+
+            Selection result = searchEngine.applyPriceFilters(searchData);
+            assert result.size() == table.rowCount() : "Expected all items to be returned when min price value is missing, but got a different number of results.";
+        }
+
+        //Triggers the branch in applyPrice filters with null min price and non-null max price
+        @Test
+        @DisplayName("Test min price only null handling - method call through filterItems")
+        public void testMinPriceNullHandlingIndirect() {
+            Map<UIDataName, Object> searchData = new HashMap<>();
+            searchData.put(UIDataName.MIN_STAR_RATING, 0);
+            searchData.put(UIDataName.MAX_PRICE, maxMaxPrice);
+            searchData.put(UIDataName.FILTERS_CONTAINER, emptyFiltersContainer);
+
+            Set<String> filteredIds = searchEngine.filterItems(searchData);
+            assert filteredIds.size() == table.rowCount() : "Expected all items to be returned when min price value is missing, but got a different number of results.";
+        }
+
+        //Triggers the branch in applyPrice filters with null max price and non-null min price
+        @Test
+        @DisplayName("Test max price only null handling - direct method call")
+        public void testMaxPriceNullHandlingDirect() {
+            Map<UIDataName, Object> searchData = new HashMap<>();
+            searchData.put(UIDataName.MIN_STAR_RATING, 0);
+            searchData.put(UIDataName.MIN_PRICE, minMinPrice);
+            searchData.put(UIDataName.FILTERS_CONTAINER, emptyFiltersContainer);
+
+            Selection result = searchEngine.applyPriceFilters(searchData);
+            assert result.size() == table.rowCount() : "Expected all items to be returned when max price value is missing, but got a different number of results.";
+        }
+
+        //Triggers the branch in applyPrice filters with null max price and non-null min price
+        @Test
+        @DisplayName("Test max price only null handling - method call through filterItems")
+        public void testMaxPriceNullHandlingIndirect() {
+            Map<UIDataName, Object> searchData = new HashMap<>();
+            searchData.put(UIDataName.MIN_STAR_RATING, 0);
+            searchData.put(UIDataName.MIN_PRICE, minMinPrice);
+            searchData.put(UIDataName.FILTERS_CONTAINER, emptyFiltersContainer);
+
+            Set<String> filteredIds = searchEngine.filterItems(searchData);
+            assert filteredIds.size() == table.rowCount() : "Expected all items to be returned when max price value is missing, but got a different number of results.";
+        }
+
+        //Triggers the branch in applyPrice filters where both min and max price are null
+        @Test
+        @DisplayName("Test price filter handling of null values when both min and max price are missing - direct method call")
+        public void testPriceFilterNullHandlingDirect() {
+            Map<UIDataName, Object> searchData = new HashMap<>(priceClassCastErrorData);
+            searchData.remove(UIDataName.MIN_PRICE);
+            searchData.remove(UIDataName.MAX_PRICE);
+
+            Selection result = searchEngine.applyPriceFilters(searchData);
+            assert result.size() == table.rowCount() : "Expected all items to be returned when min and max price values are missing, but got a different number of results.";
+        }
+
+        //Triggers the branch in applyPrice filters where both min and max price are null
+        @Test
+        @DisplayName("Test price filter handling of null values when both min and max price are missing - method call through filterItems")
+        public void testPriceFilterNullHandlingIndirect() {
+            Map<UIDataName, Object> searchData = new HashMap<>(priceClassCastErrorData);
+            searchData.remove(UIDataName.MIN_PRICE);
+            searchData.remove(UIDataName.MAX_PRICE);
+
+            Set<String> filteredIds = searchEngine.filterItems(searchData);
+            assert filteredIds.size() == table.rowCount() : "Expected all items to be returned when min and max price values are missing, but got a different number of results.";
+        }
+        
+
+        private static final Map<UIDataName, Object> categoricalClassCastErrorData = Map.of(
+                UIDataName.MIN_STAR_RATING, 0,
+                UIDataName.MIN_PRICE, minMinPrice,
+                UIDataName.MAX_PRICE, maxMaxPrice,
+                UIDataName.FILTERS_CONTAINER, "NotAMap"
+            );
+        @Test
+        public void testCategoricalFilterClassCastExceptionHandlingDirect() {
+            Selection result = searchEngine.applyCategoricalFilters(categoricalClassCastErrorData);
+            assert result.size() == table.rowCount() : "Expected all items to be returned when categorical filters container is of wrong type, but got a different number of results.";
+        }
+        @Test
+        public void testCategoricalFilterClassCastExceptionHandlingIndirect() {
+            Set<String> filteredIds = searchEngine.filterItems(categoricalClassCastErrorData);
+            assert filteredIds.size() == table.rowCount() : "Expected all items to be returned when categorical filters container is of wrong type, but got a different number of results.";
+        }
+
+        private static final Map<UIDataName, Object> categoricalNullErrorData = Map.of(
+                UIDataName.MIN_STAR_RATING, 0,
+                UIDataName.MIN_PRICE, minMinPrice,
+                UIDataName.MAX_PRICE, maxMaxPrice
+            );
+        @Test
+        public void testCategoricalFilterNullHandlingDirect() {
+            Selection result = searchEngine.applyCategoricalFilters(categoricalNullErrorData);
+            assert result.size() == table.rowCount() : "Expected all items to be returned when categorical filters container is missing, but got a different number of results.";
+        }
+        @Test
+        public void testCategoricalFilterNullHandlingIndirect() {
+            Set<String> filteredIds = searchEngine.filterItems(categoricalNullErrorData);
+            assert filteredIds.size() == table.rowCount() : "Expected all items to be returned when categorical filters container is missing, but got a different number of results.";
+        }
+
+    }
+    
 }
