@@ -370,11 +370,14 @@ public class SearchEngineTest {
         }
         private static final Map<UIDataName, Object> categoricalClassCastErrorData = createCategoricalClassCastErrorData();
         @Test
+        @DisplayName("Test categorical filters handling of ClassCastException when filters container is of wrong type - direct method call")
         public void testCategoricalFilterClassCastExceptionHandlingDirect() {
             Selection result = searchEngine.applyCategoricalFilters(categoricalClassCastErrorData);
             assert result.size() == table.rowCount() : "Expected all items to be returned when categorical filters container is of wrong type, but got a different number of results.";
         }
+
         @Test
+        @DisplayName("Test categorical filters handling of ClassCastException when filters container is of wrong type - method call through filterItems")
         public void testCategoricalFilterClassCastExceptionHandlingIndirect() {
             Set<String> filteredIds = searchEngine.filterItems(categoricalClassCastErrorData);
             assert filteredIds.size() == table.rowCount() : "Expected all items to be returned when categorical filters container is of wrong type, but got a different number of results.";
@@ -387,8 +390,11 @@ public class SearchEngineTest {
             data.put(UIDataName.MAX_PRICE, maxMaxPrice);
             return data;
         }
+
         private static final Map<UIDataName, Object> categoricalNullErrorData = createCategoricalNullErrorData();
+
         @Test
+        @DisplayName("Test categorical filters handling of null value when filters container is missing - direct method call")
         public void testCategoricalFilterNullHandlingDirect() {
             Selection result = searchEngine.applyCategoricalFilters(categoricalNullErrorData);
             assert result.size() == table.rowCount() : "Expected all items to be returned when categorical filters container is missing, but got a different number of results.";
@@ -398,6 +404,27 @@ public class SearchEngineTest {
             Set<String> filteredIds = searchEngine.filterItems(categoricalNullErrorData);
             assert filteredIds.size() == table.rowCount() : "Expected all items to be returned when categorical filters container is missing, but got a different number of results.";
         }
+
+        @Test
+        @DisplayName("Test categorical filters handling of empty sets in filters container - direct method call")
+        public void testCategoricalFilterEmptySetsHandlingDirect() {
+            Map<UIDataName, Object> searchData = new HashMap<>(categoricalNullErrorData);
+            searchData.put(UIDataName.FILTERS_CONTAINER, Map.of());
+
+            Selection result = searchEngine.applyCategoricalFilters(searchData);
+            assert result.size() == table.rowCount() : "Expected all items to be returned when categorical filters container has empty sets, but got a different number of results.";
+        }
+
+        @Test
+        @DisplayName("Test categorical filters handling of empty sets in filters container - method call through filterItems")
+        public void testCategoricalFilterEmptySetsHandlingIndirect() {
+            Map<UIDataName, Object> searchData = new HashMap<>(categoricalNullErrorData);
+            searchData.put(UIDataName.FILTERS_CONTAINER, Map.of());
+
+            Set<String> filteredIds = searchEngine.filterItems(searchData);
+            assert filteredIds.size() == table.rowCount() : "Expected all items to be returned when categorical filters container has empty sets, but got a different number of results.";
+        }
+
 
     }
     

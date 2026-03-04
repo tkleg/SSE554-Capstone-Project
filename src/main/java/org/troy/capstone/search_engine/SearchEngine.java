@@ -29,31 +29,19 @@ public class SearchEngine {
 
         //Filter price
         Selection priceResult = applyPriceFilters(searchData);
-        if( priceResult != null ) {
-            selection = priceResult;
-            System.out.println("After price filter: " + selection.size() + " items");
-        } else {
-            System.out.println("Price filter not applied.");
-            selection = Selection.withRange(0, table.rowCount());
-        }
+        selection = priceResult;
+        System.out.println("After price filter: " + selection.size() + " items");
         
         //Filter star rating
         Selection starResult = applyStarFilter(searchData);
-        if( starResult != null ) {
-            selection = selection.and(starResult);
+        selection = selection.and(starResult);
             System.out.println("After star rating filter: " + selection.size() + " items");
-        } else {
-            System.out.println("Star rating filter not applied.");
-        }
 
         //Apply categorical filters
         Selection categoricalResult = applyCategoricalFilters(searchData);
-        if( categoricalResult != null ) {
-            selection = selection.and(categoricalResult);
-            System.out.println("After categorical filters: " + selection.size() + " items");
-        } else {
-            System.out.println("Categorical filters not applied.");
-        }
+        selection = selection.and(categoricalResult);
+        System.out.println("After categorical filters: " + selection.size() + " items");
+
         System.out.println("Number of results: " + selection.size());
         System.out.println("Total Data Size: " + table.rowCount());
 
@@ -61,14 +49,8 @@ public class SearchEngine {
     }
 
     Selection applyTagFilters(Map<String, Set<String>> filtersContainer) {
-        Set<String> selectedTags;
-        Selection tagSelection = Selection.withRange(0, table.rowCount());
-        try{
-            selectedTags = filtersContainer.get("Tags");
-        }catch(ClassCastException e){
-            System.out.println("Selected tags value in filters container is not of type Set<String>. Skipping tag filter.");
-            return ALL_ITEMS;
-        }
+        Set<String> selectedTags = filtersContainer.get("Tags");
+        Selection tagSelection = ALL_ITEMS;
 
         if( selectedTags == null ){
             System.out.println("Selected tags value not found in filters container. Skipping tag filter.");
@@ -184,11 +166,10 @@ public class SearchEngine {
                     categoricalSelection = categoricalSelection.and(columnSelection);
                     System.out.println("After applying " + filterKey + " filter: " + categoricalSelection.size() + " items selected for cateogries. Not including non-categorical filters.");
                 }
-            } else if( selectedValues == null ) {
-                System.out.println("Filter key " + filterKey + " not found in filters container, skipping " + filterKey + " filter.");
-            } else {
+            }else if( selectedValues != null )//Empty but not null
                 System.out.println("No values selected for " + filterKey + ", skipping " + filterKey + " filter.");
-            }
+            else//Null, meaning the key was not found in the filters container
+                System.out.println("Filter key " + filterKey + " not found in filters container, skipping " + filterKey + " filter.");
         }
 
         System.out.println("Final categorical filter result: " + categoricalSelection.size() + " items");
