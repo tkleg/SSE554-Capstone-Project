@@ -1,4 +1,4 @@
-package org.troy.capstone.uiComponents.searchBar;
+package org.troy.capstone.ui_components.searchBar;
 
 import java.util.ArrayList;
 import java.util.List;

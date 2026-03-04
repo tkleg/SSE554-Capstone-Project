@@ -1,11 +1,11 @@
-package org.troy.capstone.uiComponents.items.searched;
+package org.troy.capstone.ui_components.items.searched;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.troy.capstone.constants.UISizeControl;
 import org.troy.capstone.entities.Item;
-import org.troy.capstone.uiComponents.items.AttributedItemContainer;
+import org.troy.capstone.ui_components.items.AttributedItemContainer;
 import org.troy.capstone.utils.UIUtils;
 
 import javafx.geometry.Insets;

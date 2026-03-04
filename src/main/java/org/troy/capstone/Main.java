@@ -4,11 +4,11 @@ import org.troy.capstone.constants.TableColumnName;
 import org.troy.capstone.constants.UISizeControl;
 import org.troy.capstone.data_structures.ItemTable.ItemHashMap;
 import org.troy.capstone.managers.GeneralManager;
-import org.troy.capstone.uiComponents.filters.categorical.FiltersContainer;
-import org.troy.capstone.uiComponents.filters.stars.StarRatingFilter;
-import org.troy.capstone.uiComponents.items.searched.SearchedItemPagination;
-import org.troy.capstone.uiComponents.priceSlider.PriceSlider;
-import org.troy.capstone.uiComponents.searchBar.SearchBar;
+import org.troy.capstone.ui_components.filters.categorical.FiltersContainer;
+import org.troy.capstone.ui_components.filters.stars.StarRatingFilter;
+import org.troy.capstone.ui_components.items.searched.SearchedItemPagination;
+import org.troy.capstone.ui_components.priceSlider.PriceSlider;
+import org.troy.capstone.ui_components.searchBar.SearchBar;
 import org.troy.capstone.utils.TableUtils;
 
 import javafx.application.Application;

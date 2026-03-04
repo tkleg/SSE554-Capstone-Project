@@ -1,4 +1,4 @@
-package org.troy.capstone.uiComponents.items;
+package org.troy.capstone.ui_components.items;
 
 import java.awt.Desktop;
 import java.net.URI;

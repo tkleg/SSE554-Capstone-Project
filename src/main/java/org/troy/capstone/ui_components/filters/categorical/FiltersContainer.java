@@ -1,4 +1,4 @@
-package org.troy.capstone.uiComponents.filters.categorical;
+package org.troy.capstone.ui_components.filters.categorical;
 
 import java.util.HashMap;
 import java.util.HashSet;

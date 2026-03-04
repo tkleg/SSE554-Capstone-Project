@@ -1,4 +1,4 @@
-package org.troy.capstone.uiComponents.items.searched;
+package org.troy.capstone.ui_components.items.searched;
 
 import java.util.List;
 

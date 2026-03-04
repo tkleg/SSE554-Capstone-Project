@@ -1,4 +1,4 @@
-package org.troy.capstone.uiComponents.priceSlider;
+package org.troy.capstone.ui_components.priceSlider;
 
 import org.troy.capstone.constants.UIElementName;
 import org.troy.capstone.managers.GeneralManager;

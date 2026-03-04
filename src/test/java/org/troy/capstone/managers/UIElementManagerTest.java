@@ -11,9 +11,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.troy.capstone.constants.UIElementName;
 import org.troy.capstone.data_structures.ItemTable.ItemHashMap;
-import org.troy.capstone.uiComponents.filters.categorical.FiltersContainer;
-import org.troy.capstone.uiComponents.filters.stars.StarRatingFilter;
-import org.troy.capstone.uiComponents.items.searched.SearchedItemPagination;
+import org.troy.capstone.ui_components.filters.categorical.FiltersContainer;
+import org.troy.capstone.ui_components.filters.stars.StarRatingFilter;
+import org.troy.capstone.ui_components.items.searched.SearchedItemPagination;
 import org.troy.capstone.utils.TableUtils;
 
 import org.junit.jupiter.api.Nested;

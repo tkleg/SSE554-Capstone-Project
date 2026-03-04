@@ -1,4 +1,4 @@
-package org.troy.capstone.uiComponents.filters.stars;
+package org.troy.capstone.ui_components.filters.stars;
 
 import org.troy.capstone.constants.UIElementName;
 import org.troy.capstone.managers.GeneralManager;

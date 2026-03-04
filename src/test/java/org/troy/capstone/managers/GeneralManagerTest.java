@@ -9,8 +9,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.troy.capstone.constants.UIElementName;
 import org.troy.capstone.data_structures.ItemTable.ItemHashMap;
-import org.troy.capstone.uiComponents.filters.categorical.FiltersContainer;
-import org.troy.capstone.uiComponents.filters.stars.StarRatingFilter;
+import org.troy.capstone.ui_components.filters.categorical.FiltersContainer;
+import org.troy.capstone.ui_components.filters.stars.StarRatingFilter;
 import org.troy.capstone.utils.TableUtils;
 
 import javafx.embed.swing.JFXPanel;
