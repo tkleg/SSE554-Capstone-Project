@@ -46,6 +46,10 @@ public class FiltersContainer extends ScrollPane {
         createFiltersFromTable(itemHashMap);
     }
 
+    public Map<String, Set<CheckBox>> getFilterOptions() {
+        return filterOptions;
+    }
+
     private void createFiltersFromTable(ItemHashMap itemHashMap) {
         for (TableColumnName column : TableColumnName.getCategoricalColumns()) {
             Set<String> uniqueValues;

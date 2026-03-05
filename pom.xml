@@ -213,6 +213,8 @@
                         <exclude>**/data_manipulation/**</exclude>
                         <!-- Exclude classes/methods with TestExclusionGenerated annotation -->
                         <exclude>**/*Generated*.class</exclude>
+                        <!-- Exclude ENV.java -->
+                        <exclude>**/ENV.class</exclude>
                     </excludes>
                 </configuration>
                 <executions>
