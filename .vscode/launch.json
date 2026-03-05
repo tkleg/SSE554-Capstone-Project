@@ -8,6 +8,13 @@
             "type": "java",
             "name": "MyBM25",
             "request": "launch",
+            "mainClass": "org.troy.capstone.search_engine.query.MyBM25",
+            "projectName": "Project"
+        },
+        {
+            "type": "java",
+            "name": "MyBM25",
+            "request": "launch",
             "mainClass": "org.troy.capstone.searchEngine.query.MyBM25",
             "projectName": "Project"
         },
