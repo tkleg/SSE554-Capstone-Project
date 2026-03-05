@@ -18,9 +18,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
-
 import static org.mockito.ArgumentMatchers.any;
-
 import java.awt.Desktop;
 import java.net.URI;
 
@@ -84,6 +82,7 @@ public class AttributedItemContainerTest {
                 MouseEvent clickEvent = new MouseEvent(MouseEvent.MOUSE_CLICKED, 0, 0, 0, 0, 
                     null, 1, false, false, false, false, false, false, false, false, false, false, null);
                 
+                //Simulate clicking the author name, source name, and image
                 authorName.fireEvent(clickEvent);
                 sourceName.fireEvent(clickEvent);
                 imageView.fireEvent(clickEvent);

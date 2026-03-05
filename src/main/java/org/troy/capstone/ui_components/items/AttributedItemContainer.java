@@ -98,9 +98,8 @@ public class AttributedItemContainer extends VBox {
         
         imageTask.setOnSucceeded(e -> {
             Image image = imageTask.getValue();
-            if (image != null && !image.isError()) {
+            if (image != null)
                 imageView.setImage(image);
-            }
         });
         
         imageTask.setOnFailed(e -> {
