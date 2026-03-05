@@ -218,17 +218,8 @@
                 <version>0.8.14</version>
                 <configuration>
                     <excludes>
-                        <!-- Exclude test classes -->
-                        <exclude>**/*Test.class</exclude>
-                        <exclude>**/Test*.class</exclude>
-                        <!-- Exclude basictests package -->
-                        <exclude>**/basictests/**</exclude>
-                        <!-- Exclude data_manipulation package -->
-                        <exclude>**/data_manipulation/**</exclude>
                         <!-- Exclude classes/methods with TestExclusionGenerated annotation -->
                         <exclude>**/*Generated*.class</exclude>
-                        <!-- Exclude ENV.java -->
-                        <exclude>**/ENV.class</exclude>
                     </excludes>
                 </configuration>
                 <executions>
