@@ -1,27 +1,14 @@
 package org.troy.capstone.ui_components.items.searched;
 
-import java.util.List;
-
-import org.troy.capstone.constants.TableColumnName;
-import org.troy.capstone.constants.UISizeControl;
-import org.troy.capstone.data_structures.ItemTable.ItemHashMap;
-import org.troy.capstone.utils.UIUtils;
-
+import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
-import tech.tablesaw.api.Row;
-import tech.tablesaw.api.Table;
 
 public class SearchedItemContainer extends ScrollPane {
     private final VBox itemContainer;
     
-    public static SearchedItemContainer create(){
-        SearchedItemContainer container = new SearchedItemContainer();
-        UIUtils.setSize(container, UISizeControl.SEARCHED_ITEM_CONTAINER_WIDTH.getValue(), UISizeControl.SEARCHED_ITEM_CONTAINER_HEIGHT.getValue());
-        return container;
-    }
-
     public SearchedItemContainer() {
         super();
         itemContainer = new VBox(5); // 5px spacing between items
@@ -40,36 +27,13 @@ public class SearchedItemContainer extends ScrollPane {
     }
 
     public void addItemPanel(SearchedItemPanel itemPanel) {
-        itemContainer.getChildren().add(itemPanel);
+        if( itemPanel != null )
+            itemContainer.getChildren().add(itemPanel);
     }
 
-    public void addItemPanels(List<SearchedItemPanel> itemPanels) {
-        itemContainer.getChildren().addAll(itemPanels);
+    //Used to get the size of the list in a test
+    public ObservableList<Node> getContainerChildren() {
+        return itemContainer.getChildren();
     }
 
-    /**
-     * Optimized method to add item directly from table row.
-     * Avoids redundant row processing for better performance.
-     */
-    public void addItemFromRow(Row row, ItemHashMap itemHashMap) {
-        String itemId = row.getString(TableColumnName.ID.getColumnName());
-        itemHashMap.getItem(itemId).ifPresent(item -> {
-            SearchedItemPanel itemPanel = new SearchedItemPanel(item);
-            addItemPanel(itemPanel);
-        });
-    }
-
-    public static SearchedItemContainer createFilledContainer(Table table, ItemHashMap itemHashMap) {
-        SearchedItemContainer container = new SearchedItemContainer();
-        for (Row row : table) {
-            String itemId = row.getString(TableColumnName.ID.getColumnName());
-            SearchedItemPanel itemPanel = new SearchedItemPanel( itemHashMap.getItem(itemId).orElseThrow() );
-            container.addItemPanel(itemPanel);
-        }
-        return container;
-    }
-
-    public void clearItems() {
-        itemContainer.getChildren().clear();
-    }
 }
