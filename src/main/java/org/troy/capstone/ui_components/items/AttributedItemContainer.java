@@ -56,7 +56,7 @@ public class AttributedItemContainer extends VBox {
         getChildren().addAll(imageView, attributionFlow);
     }
 
-    private TextFlow makeAttributionFlow(Item item) {
+    TextFlow makeAttributionFlow(Item item) {
         Text text1 = new Text("Photo by ");
         Text authorName = new Text(item.getPhotoAuthor());
         authorName.setUnderline(true);
