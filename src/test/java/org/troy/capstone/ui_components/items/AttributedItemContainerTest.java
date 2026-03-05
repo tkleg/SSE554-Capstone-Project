@@ -14,6 +14,7 @@ import org.troy.capstone.entities.Item;
 import org.troy.capstone.utils.TableUtils;
 
 import javafx.embed.swing.JFXPanel;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
@@ -71,7 +72,8 @@ public class AttributedItemContainerTest {
                 
                 Text authorName = (Text) flow.getChildren().get(1); // Author name
                 Text sourceName = (Text) flow.getChildren().get(3); // "Unsplash"
-                
+                ImageView imageView = attributedItemContainer.getImageView(); // ImageView from the container
+
                 //Used to get both branches of the link clicking code covered
                 if( scenario.equals("failure") )
                     Mockito.doThrow(new RuntimeException("Mocked browse exception"))
@@ -84,10 +86,12 @@ public class AttributedItemContainerTest {
                 
                 authorName.fireEvent(clickEvent);
                 sourceName.fireEvent(clickEvent);
+                imageView.fireEvent(clickEvent);
                 
                 //Verify each specific URL was called once
                 Mockito.verify(mockDesktop, Mockito.times(1)).browse(new URI(item.getPhotoAuthorUrl()));
                 Mockito.verify(mockDesktop, Mockito.times(1)).browse(new URI(URL.UNSPLASH_ATTRIBUTION.getUrl()));
+                Mockito.verify(mockDesktop, Mockito.times(1)).browse(new URI(item.getImageUrl()));
             }catch (Exception e) {
                 assert false : "Expected no exception to be thrown, but got: " + e.getMessage();
             }finally {

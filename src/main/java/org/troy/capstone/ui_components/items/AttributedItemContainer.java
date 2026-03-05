@@ -83,6 +83,10 @@ public class AttributedItemContainer extends VBox {
         return new TextFlow(text1, authorName, text2, sourceName);
     }
     
+    public ImageView getImageView() {
+        return imageView;
+    }
+    
     private void loadImageAsync(String imageUrl) {
         Task<Image> imageTask = new Task<Image>() {
             @Override
