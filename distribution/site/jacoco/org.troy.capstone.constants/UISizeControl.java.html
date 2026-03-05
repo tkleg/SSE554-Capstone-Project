@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UISizeControl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Project</a> &gt; <a href="index.source.html" class="el_package">org.troy.capstone.constants</a> &gt; <span class="el_source">UISizeControl.java</span></div><h1>UISizeControl.java</h1><pre class="source lang-java linenums">package org.troy.capstone.constants;
+
+<span class="fc" id="L3">public enum UISizeControl {</span>
+
+<span class="fc" id="L5">    HEIGHT_PADDING(10),</span>
+<span class="fc" id="L6">    WIDTH_PADDING(10),</span>
+    
+<span class="fc" id="L8">    LEFT_SIDE_MAIN_PAGE_WIDTH(550),</span>
+<span class="fc" id="L9">    RIGHT_SIDE_MAIN_PAGE_WIDTH(500),</span>
+<span class="fc" id="L10">    MAIN_PAGE_HEIGHT(800),</span>
+    
+<span class="fc" id="L12">    SEARCH_BAR_WIDTH(LEFT_SIDE_MAIN_PAGE_WIDTH.value),</span>
+<span class="fc" id="L13">    SEARCH_BAR_HEIGHT(50),</span>
+    
+<span class="fc" id="L15">    SEARCHED_ITEM_PAGINATION_WIDTH(LEFT_SIDE_MAIN_PAGE_WIDTH.value),</span>
+<span class="fc" id="L16">    SEARCHED_ITEM_PAGINATION_HEIGHT(MAIN_PAGE_HEIGHT.value - SEARCH_BAR_HEIGHT.value - 100),</span>
+<span class="fc" id="L17">    SEARCHED_ITEM_CONTAINER_WIDTH(SEARCHED_ITEM_PAGINATION_WIDTH.value),</span>
+<span class="fc" id="L18">    SEARCHED_ITEM_CONTAINER_HEIGHT(SEARCHED_ITEM_PAGINATION_HEIGHT.value),</span>
+<span class="fc" id="L19">    SEARCHED_ITEM_SPACING(5),</span>
+    
+<span class="fc" id="L21">    SEARCHED_ITEM_PANEL_WIDTH(SEARCHED_ITEM_CONTAINER_WIDTH.value - WIDTH_PADDING.value * 2),</span>
+<span class="fc" id="L22">    SEARCHED_ITEM_PANEL_HEIGHT(150),</span>
+    
+<span class="fc" id="L24">    ATTRIBUTED_ITEM_IMAGE_WIDTH(150),</span>
+<span class="fc" id="L25">    ATTRIBUTED_ITEM_IMAGE_HEIGHT(150),</span>
+    
+<span class="fc" id="L27">    ATTRIBUTED_ITEM_CONTAINER_WIDTH(ATTRIBUTED_ITEM_IMAGE_WIDTH.value + 50),</span>
+    
+<span class="fc" id="L29">    SEARCHED_ITEM_LABEL_MAX_WIDTH(SEARCHED_ITEM_PANEL_WIDTH.value - ATTRIBUTED_ITEM_IMAGE_WIDTH.value - WIDTH_PADDING.value * 3),</span>
+    
+<span class="fc" id="L31">    FILTERS_CONTAINER_WIDTH(RIGHT_SIDE_MAIN_PAGE_WIDTH.value),</span>
+<span class="fc" id="L32">    FILTERS_CONTAINER_HEIGHT(MAIN_PAGE_HEIGHT.value / 2);</span>
+
+    private final int value;
+
+<span class="fc" id="L36">    UISizeControl(int value) {</span>
+<span class="fc" id="L37">        this.value = value;</span>
+<span class="fc" id="L38">    }</span>
+
+    public int getValue() {
+<span class="fc" id="L41">        return value;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

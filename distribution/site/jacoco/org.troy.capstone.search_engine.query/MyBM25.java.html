@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MyBM25.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Project</a> &gt; <a href="index.source.html" class="el_package">org.troy.capstone.search_engine.query</a> &gt; <span class="el_source">MyBM25.java</span></div><h1>MyBM25.java</h1><pre class="source lang-java linenums">package org.troy.capstone.search_engine.query;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.CharArraySet;
+import org.apache.lucene.analysis.core.StopAnalyzer;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Field;
+import org.apache.lucene.document.StoredField;
+import org.apache.lucene.document.TextField;
+import org.apache.lucene.index.DirectoryReader;
+import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.index.IndexWriter;
+import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.index.StoredFields;
+import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
+import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.Query;
+import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.search.similarities.BM25Similarity;
+import org.apache.lucene.store.ByteBuffersDirectory;
+import org.apache.lucene.store.Directory;
+
+<span class="nc" id="L27">public class MyBM25 {</span>
+    public static void main() throws Exception{
+        //Lucene https://www.baeldung.com/lucene
+        //Highly optimized, better than if I implemented the algorithms myself due to optimizations, data structures
+        //See https://www.baeldung.com/lucene-analyzers for details on analyzers
+        //Base code source is https://medium.com/@dhruvsharma2600/integrating-search-in-your-application-with-apache-lucene-d11c6fb84ab4
+        //Stop used to remove common words
+
+        //Hardcoded CharArraySet for custom stop words
+<span class="nc" id="L36">        CharArraySet customStopWords = new CharArraySet(</span>
+<span class="nc" id="L37">            Arrays.asList(&quot;the&quot;, &quot;and&quot;, &quot;or&quot;, &quot;but&quot;, &quot;in&quot;, &quot;on&quot;, &quot;at&quot;, &quot;to&quot;, &quot;for&quot;, &quot;of&quot;, &quot;with&quot;, &quot;by&quot;), </span>
+            true  //ignoreCase = true
+        );
+<span class="nc" id="L40">        Analyzer analyzer = new StopAnalyzer(customStopWords);</span>
+
+        /**
+         * ByteBuffersDirectory chosen to keep data in RAM for speed and simplicicty
+         * All data in RAM
+         */
+<span class="nc" id="L46">        Directory directory = new ByteBuffersDirectory();</span>
+
+<span class="nc" id="L48">        IndexWriterConfig config = new IndexWriterConfig(analyzer);</span>
+
+        /**
+         * BM25 used intead of default TF-IDF for better relevance scoring,
+         * saturation effect, length normalization, better ranking quality,
+         * and widely used in modern search engines.
+         */
+<span class="nc" id="L55">        config.setSimilarity(new BM25Similarity());</span>
+<span class="nc" id="L56">        try(IndexWriter writer = new IndexWriter(directory, config)) {</span>
+<span class="nc" id="L57">            addDoc(writer, &quot;101&quot;, &quot;Apple iPhone 15 Pro Max&quot;, &quot;Latest flagship smartphone from Apple&quot;);</span>
+<span class="nc" id="L58">            addDoc(writer, &quot;102&quot;, &quot;Samsung Galaxy S23 Ultra&quot;, &quot;High-end Android phone with stylus&quot;);</span>
+<span class="nc" id="L59">            addDoc(writer, &quot;103&quot;, &quot;Google Pixel 8&quot;, &quot;Google's latest smartphone with AI features&quot;);</span>
+        }
+
+<span class="nc" id="L62">        IndexReader reader = DirectoryReader.open(directory);</span>
+<span class="nc" id="L63">        IndexSearcher searcher = new IndexSearcher(reader);</span>
+<span class="nc" id="L64">        searcher.setSimilarity(new BM25Similarity());</span>
+        
+        // Create field boosts - name field gets 2x weight compared to description
+<span class="nc" id="L67">        String[] fields = {&quot;name&quot;, &quot;description&quot;};</span>
+<span class="nc" id="L68">        Map&lt;String, Float&gt; boosts = Map.of(</span>
+<span class="nc" id="L69">            &quot;name&quot;, 2.0f,</span>
+<span class="nc" id="L70">            &quot;description&quot;, 1.0f</span>
+        );
+        
+<span class="nc" id="L73">        MultiFieldQueryParser parser = new MultiFieldQueryParser(fields, analyzer, boosts);</span>
+
+        // Make parsing more generous
+<span class="nc" id="L76">        parser.setDefaultOperator(MultiFieldQueryParser.Operator.OR); // OR instead of AND (default)</span>
+<span class="nc" id="L77">        parser.setFuzzyMinSim(0.8f); // Allow fuzzy matching for typos (80% similarity - more lenient)</span>
+
+        // Simple user search string - this is what you'd get from user input
+        // For fuzzy search, append ~ to terms with potential typos
+<span class="nc" id="L81">        String userQuery = &quot;galxy smartphone&quot;; // Test with typo</span>
+        
+        // Option 1: Manual fuzzy query (as shown above)
+        // String manualFuzzyQuery = &quot;galxy~2 smartphone&quot;;
+        
+        // Option 2: Automatic fuzzy query conversion
+<span class="nc" id="L87">        String autoFuzzyQuery = makeFuzzyQuery(userQuery);</span>
+<span class="nc" id="L88">        System.out.println(&quot;Original query: '&quot; + userQuery + &quot;'&quot;);</span>
+<span class="nc" id="L89">        System.out.println(&quot;Auto fuzzy query: '&quot; + autoFuzzyQuery + &quot;'&quot;);</span>
+        
+        // Parse the user query to search across both name and description fields
+<span class="nc" id="L92">        Query query = parser.parse(autoFuzzyQuery); // Use the fuzzy version</span>
+
+<span class="nc" id="L94">        TopDocs results = searcher.search(query, 50);</span>
+        
+<span class="nc" id="L96">        System.out.println(&quot;Total Hits: &quot; + results.totalHits + &quot; for search term: '&quot; + userQuery + &quot;' (fuzzy: '&quot; + autoFuzzyQuery + &quot;')&quot;);</span>
+        
+        // All results already meet minimum score - no manual filtering needed
+<span class="nc" id="L99">        StoredFields storedFields = searcher.storedFields();</span>
+<span class="nc" id="L100">        List&lt;String&gt; ids =</span>
+<span class="nc" id="L101">        Arrays.stream(results.scoreDocs).map(scoreDoc -&gt; {</span>
+<span class="nc" id="L102">            Document doc = null;</span>
+            try {
+<span class="nc" id="L104">                doc = storedFields.document(scoreDoc.doc);</span>
+<span class="nc" id="L105">            } catch (Exception e) {</span>
+<span class="nc" id="L106">                e.printStackTrace();</span>
+<span class="nc" id="L107">            }</span>
+<span class="nc" id="L108">            return doc.get(&quot;id&quot;);</span>
+<span class="nc" id="L109">        }).toList();</span>
+<span class="nc" id="L110">        System.out.println(&quot;Matching Document IDs: &quot; + ids);</span>
+<span class="nc" id="L111">    }</span>
+
+    // Helper method to automatically add fuzzy search to terms
+    private static String makeFuzzyQuery(String originalQuery) {
+        // Split query into words and add ~2 to each word (allows up to 2 character edits)
+<span class="nc" id="L116">        String[] words = originalQuery.trim().split(&quot;\\s+&quot;);</span>
+<span class="nc" id="L117">        StringBuilder fuzzyQuery = new StringBuilder();</span>
+        
+<span class="nc bnc" id="L119" title="All 2 branches missed.">        for (int i = 0; i &lt; words.length; i++) {</span>
+<span class="nc" id="L120">            String word = words[i];</span>
+            // Don't make very short words fuzzy (less than 4 characters)
+<span class="nc bnc" id="L122" title="All 2 branches missed.">            if (word.length() &gt;= 4) {</span>
+<span class="nc" id="L123">                fuzzyQuery.append(word).append(&quot;~4&quot;);</span>
+            } else {
+<span class="nc" id="L125">                fuzzyQuery.append(word);</span>
+            }
+            
+<span class="nc bnc" id="L128" title="All 2 branches missed.">            if (i &lt; words.length - 1) {</span>
+<span class="nc" id="L129">                fuzzyQuery.append(&quot; &quot;);</span>
+            }
+        }
+        
+<span class="nc" id="L133">        return fuzzyQuery.toString();</span>
+    }
+
+    private static void addDoc(IndexWriter w, String id, String name, String desc) throws Exception {
+<span class="nc" id="L137">        Document doc = new Document();</span>
+<span class="nc" id="L138">        doc.add(new StoredField(&quot;id&quot;, id)); // ID field - stored but not indexed for searching</span>
+<span class="nc" id="L139">        doc.add(new TextField(&quot;name&quot;, name, Field.Store.YES));    // Searchable and stored</span>
+<span class="nc" id="L140">        doc.add(new TextField(&quot;description&quot;, desc, Field.Store.YES)); // Searchable and stored  </span>
+<span class="nc" id="L141">        w.addDocument(doc);</span>
+<span class="nc" id="L142">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

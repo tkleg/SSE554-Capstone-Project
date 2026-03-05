@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PriceRangeFinder.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Project</a> &gt; <a href="index.source.html" class="el_package">org.troy.capstone.data_structures</a> &gt; <span class="el_source">PriceRangeFinder.java</span></div><h1>PriceRangeFinder.java</h1><pre class="source lang-java linenums">package org.troy.capstone.data_structures;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.TreeMap;
+
+import org.troy.capstone.annotations.TestExclusionGenerated;
+import org.troy.capstone.constants.TableColumnName;
+import org.troy.capstone.utils.TableUtils;
+
+import tech.tablesaw.api.Table;
+
+public class PriceRangeFinder extends TreeMap&lt;Float, Short&gt; {
+
+    @TestExclusionGenerated
+    public static void main(String[] args) {
+        Table table = TableUtils.readCleanedData();
+        PriceRangeFinder finder = new PriceRangeFinder(table);
+        int[] itemsInRange = finder.findItemsInPriceRange(10.0f, 20.0f);
+        System.out.println(&quot;Items in price range 10-20: &quot; + Arrays.toString(itemsInRange));
+    }
+    
+    /**
+     * Creates a PriceRangeFinder from a Table.
+     *
+     * pre-conditions: table is not null and contains the expected columns for prices and item indices.
+     *
+     * @param table (Table): a tablesaw Table containing the item data, with each row representing an item and containing a price column and an index column.
+     * @return finder (PriceRangeFinder): a PriceRangeFinder containing all items from the table, with prices as keys and item indices as values.
+     */
+<span class="fc" id="L31">    public PriceRangeFinder(Table table) {</span>
+<span class="fc" id="L32">        List&lt;Float&gt; prices = table.floatColumn(TableColumnName.PRICE.getColumnName()).asList();</span>
+<span class="fc" id="L33">        List&lt;Short&gt; itemIndices = table.shortColumn(TableColumnName.INDEX.getColumnName()).asList(); </span>
+<span class="fc" id="L34">        addAllItems(prices, itemIndices);</span>
+<span class="fc" id="L35">    }</span>
+
+    /**
+     * Adds an item to the PriceRangeFinder given its price and index.
+     *
+     * pre-conditions: price is a non-negative float representing the price of the item, and itemIndex is a short representing the index of the item in the original table.
+     *
+     * @param price (float): the price of the item to add
+     * @param itemIndex (short): the index of the item in the original table to add
+     */
+    private void addItem(float price, Short itemIndex) {
+<span class="fc" id="L46">        put(price, itemIndex);</span>
+<span class="fc" id="L47">    }</span>
+
+    /**
+     * Finds items within a specified price range.
+     *
+     * pre-conditions: minPrice and maxPrice are non-negative floats, and minPrice is less than or equal to maxPrice.
+     *
+     * @param minPrice (float): the minimum price of the range
+     * @param maxPrice (float): the maximum price of the range
+     * @return itemsInRange (int[]): an array of item indices that fall within the specified price range
+     */
+    public int[] findItemsInPriceRange(float minPrice, float maxPrice) {
+<span class="fc" id="L59">        return subMap(minPrice, true, maxPrice, true).values().stream().mapToInt(Short::intValue).toArray();</span>
+    }
+
+    /**
+     * Adds all items from lists of prices and indices to the PriceRangeFinder.
+     *
+     * pre-conditions: prices and itemIndices are not null and have the same size.
+     *
+     * @param prices (List&lt;Float&gt;): a list of prices for the items to add
+     * @param itemIndices (List&lt;Short&gt;): a list of item indices corresponding to the prices
+     */
+    private void addAllItems(List&lt;Float&gt; prices, List&lt;Short&gt; itemIndices) {
+<span class="fc bfc" id="L71" title="All 2 branches covered.">        for (int i = 0; i &lt; prices.size(); i++)</span>
+<span class="fc" id="L72">            addItem(prices.get(i), itemIndices.get(i));</span>
+<span class="fc" id="L73">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

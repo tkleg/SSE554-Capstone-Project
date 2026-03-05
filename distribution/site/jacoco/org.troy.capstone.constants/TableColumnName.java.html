@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TableColumnName.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Project</a> &gt; <a href="index.source.html" class="el_package">org.troy.capstone.constants</a> &gt; <span class="el_source">TableColumnName.java</span></div><h1>TableColumnName.java</h1><pre class="source lang-java linenums">package org.troy.capstone.constants;
+
+import java.util.Set;
+
+<span class="fc" id="L5">public enum TableColumnName {</span>
+<span class="fc" id="L6">    INDEX(&quot;index&quot;),</span>
+<span class="fc" id="L7">    ID(&quot;id&quot;),</span>
+<span class="fc" id="L8">    IMAGE_URL(&quot;imageUrl&quot;),</span>
+<span class="fc" id="L9">    NAME(&quot;name&quot;),</span>
+<span class="fc" id="L10">    PUBLISHER(&quot;publisher&quot;),</span>
+<span class="fc" id="L11">    DESCRIPTION(&quot;description&quot;),</span>
+<span class="fc" id="L12">    CATEGORY(&quot;category&quot;),</span>
+<span class="fc" id="L13">    TAGS(&quot;tags&quot;),</span>
+<span class="fc" id="L14">    PRICE(&quot;price&quot;),</span>
+<span class="fc" id="L15">    REVIEW_SCORE(&quot;reviewScore&quot;),</span>
+<span class="fc" id="L16">    REVIEW_COUNT(&quot;reviewCount&quot;),</span>
+<span class="fc" id="L17">    STOCK_QUANTITY(&quot;stockQuantity&quot;),</span>
+<span class="fc" id="L18">    DATE_ADDED(&quot;dateAdded&quot;),</span>
+<span class="fc" id="L19">    PHOTO_AUTHOR(&quot;photoAuthor&quot;),</span>
+<span class="fc" id="L20">    PHOTO_AUTHOR_URL(&quot;photoAuthorUrl&quot;);</span>
+
+    private final String columnName;
+
+<span class="fc" id="L24">    private static final Set&lt;TableColumnName&gt; categoricalColumns = Set.of(TableColumnName.PUBLISHER, TableColumnName.CATEGORY, TableColumnName.TAGS);</span>
+
+    public static Set&lt;TableColumnName&gt; getCategoricalColumns() {
+<span class="fc" id="L27">        return categoricalColumns;</span>
+    }
+
+<span class="fc" id="L30">    TableColumnName(String columnName) {</span>
+<span class="fc" id="L31">        this.columnName = columnName;</span>
+<span class="fc" id="L32">    }</span>
+
+    public String getColumnName() {
+<span class="fc" id="L35">        return columnName;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

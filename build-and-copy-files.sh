@@ -7,3 +7,4 @@ mvn clean package
 cp target/Project-1.0-SNAPSHOT-with-dependencies.jar distribution
 cp -r target/dependency distribution
 cp -r data distribution
+cp -r target/site distribution
