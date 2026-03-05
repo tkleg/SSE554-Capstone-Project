@@ -92,7 +92,7 @@ public class UIElementManager {
      * pre-conditions: a searched item pagination component should be added to the manager with the expected key and type before this method is called.
      *  itemIDs should be a set of valid item IDs corresponding to search results.
      * 
-     * @param itemIDs (Set<String>): a set of item IDs corresponding to search results to update the pagination component with.
+     * @param itemIDs (Set<String>): a set of item IDs corresponding to search results to update the pagination component with..
      */
     public void updateSearchedItemPagination(Set<String> itemIDs) {
         try{
