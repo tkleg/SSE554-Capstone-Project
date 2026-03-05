@@ -86,10 +86,8 @@ public class SearchEngineTest {
         System.out.println("Testing tag filter with tags: " + filtersContainer.get("Tags") + ", Expected Count: " + expectedCount);
         Selection result = searchEngine.applyTagFilters(filtersContainer);
         
-        if( expectedCount == 0 )
-            assert result == null: "Expected no results for tags: " + filtersContainer.get("Tags") + ", but got some results.";
-        else
-            assert result.size() == expectedCount : "Expected " + expectedCount + " results, but got " + result.size();
+
+        assert result.size() == expectedCount : "Expected " + expectedCount + " results, but got " + result.size();
     }
 
     @ParameterizedTest

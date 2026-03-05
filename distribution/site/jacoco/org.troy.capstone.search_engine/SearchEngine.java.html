@@ -11,8 +11,6 @@ import tech.tablesaw.api.Table;
 import tech.tablesaw.selection.Selection;
 
 public class SearchEngine {
-    private final Selection ALL_ITEMS;
-<span class="fc" id="L15">    private static final Selection NO_ITEMS = Selection.withRange(0, 0);</span>
     private final Table table;
     private final PriceRangeFinder priceRangeFinder;
 
@@ -21,11 +19,10 @@ public class SearchEngine {
      * 
      * @param table (Table) : The table containing the data to be searched
      */
-<span class="fc" id="L24">    public SearchEngine(Table table) {</span>
-<span class="fc" id="L25">        this.table = table;</span>
-<span class="fc" id="L26">        this.priceRangeFinder = new PriceRangeFinder(table);</span>
-<span class="fc" id="L27">        this.ALL_ITEMS = Selection.withRange(0, table.rowCount());</span>
-<span class="fc" id="L28">    }</span>
+<span class="fc" id="L22">    public SearchEngine(Table table) {</span>
+<span class="fc" id="L23">        this.table = table;</span>
+<span class="fc" id="L24">        this.priceRangeFinder = new PriceRangeFinder(table);</span>
+<span class="fc" id="L25">    }</span>
 
     /**
      * For tags, we use AND so all tags are there as multiple can be selected
@@ -41,24 +38,24 @@ public class SearchEngine {
         Selection selection;
 
         //Filter price
-<span class="fc" id="L44">        Selection priceResult = applyPriceFilters(searchData);</span>
-<span class="fc" id="L45">        selection = priceResult;</span>
-<span class="fc" id="L46">        System.out.println(&quot;After price filter: &quot; + selection.size() + &quot; items&quot;);</span>
+<span class="fc" id="L41">        Selection priceResult = applyPriceFilters(searchData);</span>
+<span class="fc" id="L42">        selection = priceResult;</span>
+<span class="fc" id="L43">        System.out.println(&quot;After price filter: &quot; + selection.size() + &quot; items&quot;);</span>
         
         //Filter star rating
-<span class="fc" id="L49">        Selection starResult = applyStarFilter(searchData);</span>
-<span class="fc" id="L50">        selection = selection.and(starResult);</span>
-<span class="fc" id="L51">            System.out.println(&quot;After star rating filter: &quot; + selection.size() + &quot; items&quot;);</span>
+<span class="fc" id="L46">        Selection starResult = applyStarFilter(searchData);</span>
+<span class="fc" id="L47">        selection = selection.and(starResult);</span>
+<span class="fc" id="L48">            System.out.println(&quot;After star rating filter: &quot; + selection.size() + &quot; items&quot;);</span>
 
         //Apply categorical filters
-<span class="fc" id="L54">        Selection categoricalResult = applyCategoricalFilters(searchData);</span>
-<span class="fc" id="L55">        selection = selection.and(categoricalResult);</span>
-<span class="fc" id="L56">        System.out.println(&quot;After categorical filters: &quot; + selection.size() + &quot; items&quot;);</span>
+<span class="fc" id="L51">        Selection categoricalResult = applyCategoricalFilters(searchData);</span>
+<span class="fc" id="L52">        selection = selection.and(categoricalResult);</span>
+<span class="fc" id="L53">        System.out.println(&quot;After categorical filters: &quot; + selection.size() + &quot; items&quot;);</span>
 
-<span class="fc" id="L58">        System.out.println(&quot;Number of results: &quot; + selection.size());</span>
-<span class="fc" id="L59">        System.out.println(&quot;Total Data Size: &quot; + table.rowCount());</span>
+<span class="fc" id="L55">        System.out.println(&quot;Number of results: &quot; + selection.size());</span>
+<span class="fc" id="L56">        System.out.println(&quot;Total Data Size: &quot; + table.rowCount());</span>
 
-<span class="fc" id="L61">        return table.where(selection).stringColumn(TableColumnName.ID.getColumnName()).asSet();</span>
+<span class="fc" id="L58">        return table.where(selection).stringColumn(TableColumnName.ID.getColumnName()).asSet();</span>
     }
 
     /**
@@ -68,25 +65,25 @@ public class SearchEngine {
      * @return Selection : The selection of items that match the selected tags, or null if more than 4 tags are selected since it's impossible to satisfy that criteria
      */
     Selection applyTagFilters(Map&lt;String, Set&lt;String&gt;&gt; filtersContainer) {
-<span class="fc" id="L71">        Set&lt;String&gt; selectedTags = filtersContainer.get(&quot;Tags&quot;);</span>
-<span class="fc" id="L72">        Selection tagSelection = ALL_ITEMS;</span>
+<span class="fc" id="L68">        Set&lt;String&gt; selectedTags = filtersContainer.get(&quot;Tags&quot;);</span>
+<span class="fc" id="L69">        Selection tagSelection = selectAll();</span>
 
-<span class="fc bfc" id="L74" title="All 2 branches covered.">        if( selectedTags == null ){</span>
-<span class="fc" id="L75">            System.out.println(&quot;Selected tags value not found in filters container. Skipping tag filter.&quot;);</span>
-<span class="fc" id="L76">            return ALL_ITEMS;</span>
+<span class="fc bfc" id="L71" title="All 2 branches covered.">        if( selectedTags == null ){</span>
+<span class="fc" id="L72">            System.out.println(&quot;Selected tags value not found in filters container. Skipping tag filter.&quot;);</span>
+<span class="fc" id="L73">            return selectAll();</span>
         }
 
-<span class="fc bfc" id="L79" title="All 2 branches covered.">        if( selectedTags.size() &gt; 4 ){</span>
-<span class="fc" id="L80">            System.out.println(&quot;More than 4 tags selected, no items are possibly matching since max tags per item is 4.&quot;);</span>
-<span class="fc" id="L81">            return null;//Indicates removing all results</span>
+<span class="fc bfc" id="L76" title="All 2 branches covered.">        if( selectedTags.size() &gt; 4 ){</span>
+<span class="fc" id="L77">            System.out.println(&quot;More than 4 tags selected, no items are possibly matching since max tags per item is 4.&quot;);</span>
+<span class="fc" id="L78">            return selectNone();//Indicates removing all results</span>
         }
-<span class="fc bfc" id="L83" title="All 2 branches covered.">        if( !selectedTags.isEmpty() )</span>
-<span class="fc bfc" id="L84" title="All 2 branches covered.">            for( String selectedTag : selectedTags )</span>
-<span class="fc" id="L85">                tagSelection = tagSelection.and( table.stringColumn(TableColumnName.TAGS.getColumnName()).lowerCase().containsString(selectedTag.toLowerCase()) );</span>
+<span class="fc bfc" id="L80" title="All 2 branches covered.">        if( !selectedTags.isEmpty() )</span>
+<span class="fc bfc" id="L81" title="All 2 branches covered.">            for( String selectedTag : selectedTags )</span>
+<span class="fc" id="L82">                tagSelection = tagSelection.and( table.stringColumn(TableColumnName.TAGS.getColumnName()).lowerCase().containsString(selectedTag.toLowerCase()) );</span>
         else
-<span class="fc" id="L87">            System.out.println(&quot;No tags selected, skipping tags filter.&quot;);</span>
+<span class="fc" id="L84">            System.out.println(&quot;No tags selected, skipping tags filter.&quot;);</span>
 
-<span class="fc" id="L89">        return tagSelection;</span>
+<span class="fc" id="L86">        return tagSelection;</span>
     }
 
     /**
@@ -98,18 +95,18 @@ public class SearchEngine {
     Selection applyStarFilter(Map&lt;UIDataName, Object&gt; searchData) {
         Integer minStarRating;
         try{
-<span class="fc" id="L101">            minStarRating = (Integer) searchData.get(UIDataName.MIN_STAR_RATING);</span>
-<span class="fc" id="L102">        }catch(ClassCastException e){</span>
-<span class="fc" id="L103">            System.out.println(&quot;Min star rating value in search data is not of type Integer. Skipping star rating filter.&quot;);</span>
-<span class="fc" id="L104">            return ALL_ITEMS;</span>
-<span class="fc" id="L105">        }</span>
+<span class="fc" id="L98">            minStarRating = (Integer) searchData.get(UIDataName.MIN_STAR_RATING);</span>
+<span class="fc" id="L99">        }catch(ClassCastException e){</span>
+<span class="fc" id="L100">            System.out.println(&quot;Min star rating value in search data is not of type Integer. Skipping star rating filter.&quot;);</span>
+<span class="fc" id="L101">            return selectAll();</span>
+<span class="fc" id="L102">        }</span>
 
-<span class="fc bfc" id="L107" title="All 2 branches covered.">        if( minStarRating == null ){</span>
-<span class="fc" id="L108">            System.out.println(&quot;Min star rating value not found in search data. Skipping star rating filter.&quot;);</span>
-<span class="fc" id="L109">            return ALL_ITEMS;</span>
+<span class="fc bfc" id="L104" title="All 2 branches covered.">        if( minStarRating == null ){</span>
+<span class="fc" id="L105">            System.out.println(&quot;Min star rating value not found in search data. Skipping star rating filter.&quot;);</span>
+<span class="fc" id="L106">            return selectAll();</span>
         }
 
-<span class="fc" id="L112">        return table.floatColumn(TableColumnName.REVIEW_SCORE.getColumnName()).isGreaterThanOrEqualTo(minStarRating.doubleValue());</span>
+<span class="fc" id="L109">        return table.floatColumn(TableColumnName.REVIEW_SCORE.getColumnName()).isGreaterThanOrEqualTo(minStarRating.doubleValue());</span>
     }
 
     /**
@@ -121,28 +118,28 @@ public class SearchEngine {
     Selection applyPriceFilters(Map&lt;UIDataName, Object&gt; searchData) {
         Float minPrice, maxPrice;
         try{
-<span class="fc" id="L124">            minPrice = (Float) searchData.get(UIDataName.MIN_PRICE);</span>
-<span class="fc" id="L125">            maxPrice = (Float) searchData.get(UIDataName.MAX_PRICE);</span>
-<span class="fc" id="L126">        }catch(ClassCastException e){</span>
-<span class="fc" id="L127">            System.out.println(&quot;min and/or max price values in search data are not of type Float. Skipping price filter.&quot;);</span>
-<span class="fc" id="L128">            return ALL_ITEMS;</span>
-<span class="fc" id="L129">        }</span>
-<span class="fc bfc" id="L130" title="All 4 branches covered.">        if( minPrice == null &amp;&amp; maxPrice != null ){</span>
-<span class="fc" id="L131">            System.out.println(&quot;Min price value not found in search data. Getting min from table&quot;);</span>
-<span class="fc" id="L132">            minPrice = (float) table.floatColumn(TableColumnName.PRICE.getColumnName()).min();</span>
-<span class="fc" id="L133">            int[] itemIndicesInRange = priceRangeFinder.findItemsInPriceRange(minPrice, maxPrice);</span>
-<span class="fc" id="L134">            return Selection.with(itemIndicesInRange);</span>
-<span class="fc bfc" id="L135" title="All 4 branches covered.">        }else if( maxPrice == null &amp;&amp; minPrice != null ){</span>
-<span class="fc" id="L136">            System.out.println(&quot;Max price value not found in search data. Getting max from table&quot;);</span>
-<span class="fc" id="L137">            maxPrice = (float) table.floatColumn(TableColumnName.PRICE.getColumnName()).max();</span>
-<span class="fc" id="L138">            int[] itemIndicesInRange = priceRangeFinder.findItemsInPriceRange(minPrice, maxPrice);</span>
-<span class="fc" id="L139">            return Selection.with(itemIndicesInRange);</span>
-<span class="pc bpc" id="L140" title="1 of 4 branches missed.">        }else if( minPrice == null &amp;&amp; maxPrice == null ){</span>
-<span class="fc" id="L141">            System.out.println(&quot;Min and max price values not found in search data. Skipping price filter.&quot;);</span>
-<span class="fc" id="L142">            return ALL_ITEMS;</span>
+<span class="fc" id="L121">            minPrice = (Float) searchData.get(UIDataName.MIN_PRICE);</span>
+<span class="fc" id="L122">            maxPrice = (Float) searchData.get(UIDataName.MAX_PRICE);</span>
+<span class="fc" id="L123">        }catch(ClassCastException e){</span>
+<span class="fc" id="L124">            System.out.println(&quot;min and/or max price values in search data are not of type Float. Skipping price filter.&quot;);</span>
+<span class="fc" id="L125">            return selectAll();</span>
+<span class="fc" id="L126">        }</span>
+<span class="fc bfc" id="L127" title="All 4 branches covered.">        if( minPrice == null &amp;&amp; maxPrice != null ){</span>
+<span class="fc" id="L128">            System.out.println(&quot;Min price value not found in search data. Getting min from table&quot;);</span>
+<span class="fc" id="L129">            minPrice = (float) table.floatColumn(TableColumnName.PRICE.getColumnName()).min();</span>
+<span class="fc" id="L130">            int[] itemIndicesInRange = priceRangeFinder.findItemsInPriceRange(minPrice, maxPrice);</span>
+<span class="fc" id="L131">            return Selection.with(itemIndicesInRange);</span>
+<span class="fc bfc" id="L132" title="All 4 branches covered.">        }else if( maxPrice == null &amp;&amp; minPrice != null ){</span>
+<span class="fc" id="L133">            System.out.println(&quot;Max price value not found in search data. Getting max from table&quot;);</span>
+<span class="fc" id="L134">            maxPrice = (float) table.floatColumn(TableColumnName.PRICE.getColumnName()).max();</span>
+<span class="fc" id="L135">            int[] itemIndicesInRange = priceRangeFinder.findItemsInPriceRange(minPrice, maxPrice);</span>
+<span class="fc" id="L136">            return Selection.with(itemIndicesInRange);</span>
+<span class="pc bpc" id="L137" title="1 of 4 branches missed.">        }else if( minPrice == null &amp;&amp; maxPrice == null ){</span>
+<span class="fc" id="L138">            System.out.println(&quot;Min and max price values not found in search data. Skipping price filter.&quot;);</span>
+<span class="fc" id="L139">            return selectAll();</span>
         }else{
-<span class="fc" id="L144">            int[] itemIndicesInRange = priceRangeFinder.findItemsInPriceRange(minPrice, maxPrice);</span>
-<span class="fc" id="L145">            return Selection.with(itemIndicesInRange);</span>
+<span class="fc" id="L141">            int[] itemIndicesInRange = priceRangeFinder.findItemsInPriceRange(minPrice, maxPrice);</span>
+<span class="fc" id="L142">            return Selection.with(itemIndicesInRange);</span>
         }
     }
 
@@ -153,61 +150,70 @@ public class SearchEngine {
      * @return Selection : The selection of items that match the selected categorical filters, or ALL_ITEMS if no valid filters are found in the search data
      */
     Selection applyCategoricalFilters(Map&lt;UIDataName, Object&gt; searchData) {
-<span class="fc" id="L156">        Set&lt;TableColumnName&gt; categoricalColumns = TableColumnName.getCategoricalColumns();</span>
-<span class="fc" id="L157">        Selection categoricalSelection = ALL_ITEMS;</span>
-<span class="fc" id="L158">        System.out.println(&quot;Starting categorical filters with &quot; + categoricalSelection.size() + &quot; items&quot;);</span>
+<span class="fc" id="L153">        Set&lt;TableColumnName&gt; categoricalColumns = TableColumnName.getCategoricalColumns();</span>
+<span class="fc" id="L154">        Selection categoricalSelection = selectAll();</span>
+<span class="fc" id="L155">        System.out.println(&quot;Starting categorical filters with &quot; + categoricalSelection.size() + &quot; items&quot;);</span>
         Map&lt;String, Set&lt;String&gt;&gt; filtersContainer;
         try{ 
-<span class="fc" id="L161">            filtersContainer = (Map&lt;String, Set&lt;String&gt;&gt;)searchData.get(UIDataName.FILTERS_CONTAINER);</span>
-<span class="fc" id="L162">        }catch(ClassCastException e){</span>
-<span class="fc" id="L163">            System.out.println(&quot;Filters container in search data is not of type Map&lt;String, Set&lt;String&gt;&gt;. Skipping categorical filters.&quot;);</span>
-<span class="fc" id="L164">            return ALL_ITEMS;</span>
-<span class="fc" id="L165">        }</span>
-<span class="fc bfc" id="L166" title="All 2 branches covered.">        if( filtersContainer == null ){</span>
-<span class="fc" id="L167">            System.out.println(&quot;Filters container not found in search data. Skipping categorical filters.&quot;);</span>
-<span class="fc" id="L168">            return ALL_ITEMS;</span>
+<span class="fc" id="L158">            filtersContainer = (Map&lt;String, Set&lt;String&gt;&gt;)searchData.get(UIDataName.FILTERS_CONTAINER);</span>
+<span class="fc" id="L159">            System.out.println(&quot;Retrieved filters container from search data for categorical filters: &quot; + filtersContainer);</span>
+<span class="fc" id="L160">        }catch(ClassCastException e){</span>
+<span class="fc" id="L161">            System.out.println(&quot;Filters container in search data is not of type Map&lt;String, Set&lt;String&gt;&gt;. Skipping categorical filters.&quot;);</span>
+<span class="fc" id="L162">            return selectAll();</span>
+<span class="fc" id="L163">        }</span>
+<span class="fc bfc" id="L164" title="All 2 branches covered.">        if( filtersContainer == null ){</span>
+<span class="fc" id="L165">            System.out.println(&quot;Filters container not found in search data. Skipping categorical filters.&quot;);</span>
+<span class="fc" id="L166">            return selectAll();</span>
         }
 
-<span class="fc bfc" id="L171" title="All 2 branches covered.">        for( TableColumnName column : categoricalColumns ) {</span>
+<span class="fc bfc" id="L169" title="All 2 branches covered.">        for( TableColumnName column : categoricalColumns ) {</span>
             //Tags has special handling since it's a set of strings, so outsource the handling
-<span class="fc bfc" id="L173" title="All 2 branches covered.">            if( column == TableColumnName.TAGS ){</span>
-<span class="fc" id="L174">                Selection tagResult = applyTagFilters(filtersContainer);</span>
-<span class="fc bfc" id="L175" title="All 2 branches covered.">                if( tagResult != null )</span>
-<span class="fc" id="L176">                    categoricalSelection = categoricalSelection.and(tagResult);</span>
+<span class="fc bfc" id="L171" title="All 2 branches covered.">            if( column == TableColumnName.TAGS ){</span>
+<span class="fc" id="L172">                Selection tagResult = applyTagFilters(filtersContainer);</span>
+<span class="pc bpc" id="L173" title="1 of 2 branches missed.">                if( tagResult != null )</span>
+<span class="fc" id="L174">                    categoricalSelection = categoricalSelection.and(tagResult);</span>
                 else
-<span class="fc" id="L178">                    return NO_ITEMS;//If tag result is null, it means more than 4 tags were selected which is impossible to satisfy since max tags per item is 4, so return empty selection</span>
+<span class="nc" id="L176">                    return selectNone();//If tag result is null, it means more than 4 tags were selected which is impossible to satisfy since max tags per item is 4, so return empty selection</span>
                 continue;
             }
 
             //Convert enum to the string key format used by FiltersContainer
-<span class="fc" id="L183">            String filterKey = column.getColumnName().substring(0, 1).toUpperCase() + column.getColumnName().substring(1).toLowerCase();</span>
-<span class="fc" id="L184">            Set&lt;String&gt; selectedValues = filtersContainer.get(filterKey);</span>
+<span class="fc" id="L181">            String filterKey = column.getColumnName().substring(0, 1).toUpperCase() + column.getColumnName().substring(1).toLowerCase();</span>
+<span class="fc" id="L182">            Set&lt;String&gt; selectedValues = filtersContainer.get(filterKey);</span>
 
-<span class="fc bfc" id="L186" title="All 4 branches covered.">            if( selectedValues != null &amp;&amp; !selectedValues.isEmpty() ) {</span>
-<span class="fc" id="L187">                Selection columnSelection = null;</span>
+<span class="fc bfc" id="L184" title="All 4 branches covered.">            if( selectedValues != null &amp;&amp; !selectedValues.isEmpty() ) {</span>
+<span class="fc" id="L185">                Selection columnSelection = null;</span>
 
                 //Combine selected values for the column with OR
-<span class="fc bfc" id="L190" title="All 2 branches covered.">                for( String value : selectedValues ) {</span>
-<span class="fc" id="L191">                    Selection valueSelection = table.stringColumn(column.getColumnName()).lowerCase().isEqualTo(value.toLowerCase());</span>
-<span class="fc bfc" id="L192" title="All 2 branches covered.">                    if( columnSelection == null )</span>
-<span class="fc" id="L193">                        columnSelection = valueSelection;</span>
+<span class="fc bfc" id="L188" title="All 2 branches covered.">                for( String value : selectedValues ) {</span>
+<span class="fc" id="L189">                    Selection valueSelection = table.stringColumn(column.getColumnName()).lowerCase().isEqualTo(value.toLowerCase());</span>
+<span class="fc bfc" id="L190" title="All 2 branches covered.">                    if( columnSelection == null )</span>
+<span class="fc" id="L191">                        columnSelection = valueSelection;</span>
                     else
-<span class="fc" id="L195">                        columnSelection = columnSelection.or(valueSelection);</span>
-<span class="fc" id="L196">                }</span>
+<span class="fc" id="L193">                        columnSelection = columnSelection.or(valueSelection);</span>
+<span class="fc" id="L194">                }</span>
 
                 //Ensure that one of the selected values for the column is present with AND
-<span class="pc bpc" id="L199" title="1 of 2 branches missed.">                if( columnSelection != null ) {</span>
-<span class="fc" id="L200">                    categoricalSelection = categoricalSelection.and(columnSelection);</span>
-<span class="fc" id="L201">                    System.out.println(&quot;After applying &quot; + filterKey + &quot; filter: &quot; + categoricalSelection.size() + &quot; items selected for cateogries. Not including non-categorical filters.&quot;);</span>
+<span class="pc bpc" id="L197" title="1 of 2 branches missed.">                if( columnSelection != null ) {</span>
+<span class="fc" id="L198">                    categoricalSelection = categoricalSelection.and(columnSelection);</span>
+<span class="fc" id="L199">                    System.out.println(&quot;After applying &quot; + filterKey + &quot; filter: &quot; + categoricalSelection.size() + &quot; items selected for cateogries. Not including non-categorical filters.&quot;);</span>
                 }
-<span class="fc bfc" id="L203" title="All 2 branches covered.">            }else if( selectedValues != null )//Empty but not null</span>
-<span class="fc" id="L204">                System.out.println(&quot;No values selected for &quot; + filterKey + &quot;, skipping &quot; + filterKey + &quot; filter.&quot;);</span>
+<span class="fc bfc" id="L201" title="All 2 branches covered.">            }else if( selectedValues != null )//Empty but not null</span>
+<span class="fc" id="L202">                System.out.println(&quot;No values selected for &quot; + filterKey + &quot;, skipping &quot; + filterKey + &quot; filter.&quot;);</span>
             else//Null, meaning the key was not found in the filters container
-<span class="fc" id="L206">                System.out.println(&quot;Filter key &quot; + filterKey + &quot; not found in filters container, skipping &quot; + filterKey + &quot; filter.&quot;);</span>
-<span class="fc" id="L207">        }</span>
+<span class="fc" id="L204">                System.out.println(&quot;Filter key &quot; + filterKey + &quot; not found in filters container, skipping &quot; + filterKey + &quot; filter.&quot;);</span>
+<span class="fc" id="L205">        }</span>
 
-<span class="fc" id="L209">        System.out.println(&quot;Final categorical filter result: &quot; + categoricalSelection.size() + &quot; items&quot;);</span>
-<span class="fc" id="L210">        return categoricalSelection;</span>
+<span class="fc" id="L207">        System.out.println(&quot;Final categorical filter result: &quot; + categoricalSelection.size() + &quot; items&quot;);</span>
+<span class="fc" id="L208">        return categoricalSelection;</span>
+    }
+
+    private Selection selectAll(){
+<span class="fc" id="L212">        return Selection.withRange(0, table.rowCount());</span>
+    }
+
+    private Selection selectNone(){
+<span class="fc" id="L216">        return Selection.withRange(0, 0);</span>
     }
 
 }
