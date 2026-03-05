@@ -51,13 +51,6 @@ public class PriceSlider extends VBox {
                 minSlider.setValue(maxVal);
             updateLabel();
         });
-
-        /*// Layout
-        VBox sliderBox = new VBox(5);
-        sliderBox.getChildren().addAll(
-            new Label("Min: "), minSlider,
-            new Label("Max: "), maxSlider
-        );*///Removed extra labels for change in layout design
         
         this.getChildren().addAll(label, minSlider, maxSlider);
         this.setSpacing(10);

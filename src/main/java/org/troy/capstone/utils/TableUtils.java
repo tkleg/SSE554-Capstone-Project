@@ -3,20 +3,23 @@ package org.troy.capstone.utils;
 import java.util.Map;
 import java.util.stream.IntStream;
 
-import javax.swing.JTable;
 
 import org.troy.capstone.constants.DataPath;
 import org.troy.capstone.constants.TableColumnName;
 
+/*
+import javax.swing.JTable;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import tech.tablesaw.columns.Column;
+*/
+
 import tech.tablesaw.api.ColumnType;
 import tech.tablesaw.api.ShortColumn;
 import tech.tablesaw.api.Table;
-import tech.tablesaw.columns.Column;
 import tech.tablesaw.io.csv.CsvReadOptions;
 
 public class TableUtils {
@@ -26,7 +29,8 @@ public class TableUtils {
         TableColumnName.PRICE.getColumnName(), ColumnType.FLOAT,
         TableColumnName.REVIEW_SCORE.getColumnName(), ColumnType.FLOAT,
         TableColumnName.REVIEW_COUNT.getColumnName(), ColumnType.SHORT,
-        TableColumnName.STOCK_QUANTITY.getColumnName(), ColumnType.SHORT
+        TableColumnName.STOCK_QUANTITY.getColumnName(), ColumnType.SHORT,
+        TableColumnName.INDEX.getColumnName(), ColumnType.SHORT
     );
 
     // Helper method to create CSV read options with specified path
@@ -51,12 +55,15 @@ public class TableUtils {
         return data;
     }
 
-    public static JTable toJTable(Table table) {
+    //Used in a very old version in order to test the dependencies tablesaw and javaSwing
+    /*public static JTable toJTable(Table table) {
         Object[] columnNames = table.columnNames().toArray(new Object[0]);
         Object[][] data = to2DArray(table);
         return new JTable(data, columnNames);
-    }
+    }*/
 
+    //Used in a very old version in order to test the dependencies tablesaw and javafx
+    /*
     public static TableView<ObservableList<Object>> tablesawTableToTableView(Table table) {
         TableView<ObservableList<Object>> tableView = new TableView<>();
         for( int column = 0; column < table.columnCount(); column++ ) {
@@ -78,6 +85,7 @@ public class TableUtils {
         
         return tableView;
     }
+    */
 
     public static Table readCleanedData() {
         CsvReadOptions options = createCsvReadOptions(DataPath.CLEANED_DATA_CSV.getPath());

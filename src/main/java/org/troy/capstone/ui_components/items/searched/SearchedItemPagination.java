@@ -26,10 +26,16 @@ public class SearchedItemPagination extends Pagination {
         this.itemHashMap = itemHashMap;
     }
 
-    public static int getItemsPerPage() {
-        return ITEMS_PER_PAGE;
-    }
-
+    /**
+     * Factory method to create a SearchedItemPagination with the appropriate size and add it to the UIElementManager.
+     * 
+     * pre-conditions: itemHashMap should contain valid item data to populate the pagination content,
+     *  and the generalManager should be properly initialized to allow for adding the created SearchedItemPagination to it.
+     * 
+     * @param itemHashMap (ItemHashMap) : The item hash map containing all items, used to populate the pagination content.
+     * @param generalManager (GeneralManager) : The general manager to add the created SearchedItemPagination to for access by other components.
+     * @return pagination (SearchedItemPagination) : The created SearchedItemPagination instance with content populated from the item data and added to the UIElementManager.
+     */
     public static SearchedItemPagination create(ItemHashMap itemHashMap, GeneralManager generalManager) {
         //Get keys, pull the strings out, set to list
         Set<String> itemIDs = itemHashMap.keySet().stream()
@@ -42,6 +48,15 @@ public class SearchedItemPagination extends Pagination {
         return pagination;
     }
 
+    /**
+     * Updates the pagination content based on the provided set of item IDs.
+     * This method should be called whenever the search results change to refresh the displayed items.
+     * 
+     * pre-conditions: itemIDs should be a set of valid item IDs corresponding to the current search results,
+     *  and the itemHashMap should contain the corresponding item data for those IDs.
+     * 
+     * @param itemIDs (Set<String>) : A set of item IDs corresponding to the current search results to update the pagination content with.
+     */
     public void updateContent(Set<String> itemIDs) {
         if( ! itemIDs.isEmpty() ) {
             updatePageCount(itemIDs.size());
@@ -55,6 +70,15 @@ public class SearchedItemPagination extends Pagination {
     /**
      * Creates page content with optimized row access for dynamic content.
      * Always creates fresh content to reflect runtime changes.
+     * 
+     * pre-conditions: pageIndex should be a valid index corresponding to the current page count,
+     *  and itemIDs should be a set of valid item IDs corresponding to the current search
+     *  results, with the itemHashMap containing the corresponding item data for those IDs.
+     * 
+     * @param pageIndex (int) : The index of the page to create content for, used to determine which items to display on that page.
+     * @param itemIDs (Set<String>) : A set of item IDs corresponding to the current search results, used to determine which items to display on the page.
+     * @return container (SearchedItemContainer) : A container with the item panels for the items to be displayed on the page,
+     *  created based on the provided item IDs and their corresponding data in the itemHashMap.
      */
     private SearchedItemContainer createPageContent(int pageIndex, Set<String> itemIDs) {
         SearchedItemContainer container = new SearchedItemContainer();

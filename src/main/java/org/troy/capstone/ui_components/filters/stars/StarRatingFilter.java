@@ -113,6 +113,7 @@ public class StarRatingFilter extends VBox {
     
     /**
      * Updates the display to show the current selected rating.
+     * Stars to the left of the selected rating are filled, and stars to the right are empty.
      */
     private void updateDisplay() {
         for (int i = 0; i < MAX_STARS; i++) {

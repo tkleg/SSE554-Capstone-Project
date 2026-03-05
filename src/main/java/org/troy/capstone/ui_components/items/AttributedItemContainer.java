@@ -18,7 +18,6 @@ import javafx.scene.text.TextFlow;
 
 public class AttributedItemContainer extends VBox {
 
-
     private final ImageView imageView;
 
     public static AttributedItemContainer createFromItem(Item item) {
@@ -56,6 +55,14 @@ public class AttributedItemContainer extends VBox {
         getChildren().addAll(imageView, attributionFlow);
     }
 
+    /**
+     * Creates a TextFlow for the attribution text with clickable links for the author and source.
+     * 
+     * pre-conditions: item should contain valid data for the photo author and their URL, as well as the source URL for Unsplash.
+     * 
+     * @param item (Item) : The item whose data is being used to create the attribution flow, specifically the photo author and their URL.
+     * @return TextFlow : A TextFlow containing the attribution text with clickable links for the author and source.
+     */
     TextFlow makeAttributionFlow(Item item) {
         Text text1 = new Text("Photo by ");
         Text authorName = new Text(item.getPhotoAuthor());
@@ -87,7 +94,12 @@ public class AttributedItemContainer extends VBox {
         return imageView;
     }
 
-    //Helper method to load image asynchronously
+    /**
+     * Loads an image from a URL asynchronously to avoid blocking the UI thread,
+     *  and sets it to the imageView once loaded.
+     * 
+     * @param imageUrl (String) : The URL of the image to be loaded.
+     */
     private void loadImageAsync(String imageUrl) {
         Task<Image> imageTask = new Task<Image>() {
             @Override

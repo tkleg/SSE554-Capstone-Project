@@ -6,7 +6,6 @@ import java.util.Date;
 import org.troy.capstone.constants.UISizeControl;
 import org.troy.capstone.entities.Item;
 import org.troy.capstone.ui_components.items.AttributedItemContainer;
-import org.troy.capstone.utils.UIUtils;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -22,16 +21,10 @@ import javafx.scene.paint.Color;
 
 public class SearchedItemPanel extends HBox{
 
-    private static final SimpleDateFormat dateAddedFormatter = new SimpleDateFormat("MMMM dd, yyyy");
+    static final SimpleDateFormat dateAddedFormatter = new SimpleDateFormat("MMMM dd, yyyy");
 
     private final AttributedItemContainer attributedImage;
     private final VBox rightPanel;
-
-    public static SearchedItemPanel createFromItem(Item item) {
-        SearchedItemPanel panel =  new SearchedItemPanel(item);
-        UIUtils.setSize(panel, UISizeControl.SEARCHED_ITEM_PANEL_WIDTH.getValue(), UISizeControl.SEARCHED_ITEM_PANEL_HEIGHT.getValue());
-        return panel;
-    }
     
     public SearchedItemPanel(Item item) {
 
@@ -60,6 +53,14 @@ public class SearchedItemPanel extends HBox{
         setSnapToPixel(true);
     }
 
+    /**
+     * Fills the right panel with some of the data from the item.
+     * 
+     * pre-conditions: item should contain valid data for all the attributes being displayed,
+     *  and the rightPanel should be properly initialized to add the labels to.
+     * 
+     * @param item ( Item ) : The item whose data is being displayed in the right panel.
+     */
     private void fillRightPanel(Item item) {
         //Name label done separately so we can style it
         Label nameLabel = new Label(item.getName());
@@ -68,37 +69,18 @@ public class SearchedItemPanel extends HBox{
         nameLabel.setMaxWidth(UISizeControl.SEARCHED_ITEM_LABEL_MAX_WIDTH.getValue()); // Allow space for image on left
         nameLabel.setAlignment(Pos.CENTER_LEFT);
 
-        // Create labels with text wrapping enabled
-        Label publisherLabel = new Label("Publisher: " + item.getPublisher());
-        publisherLabel.setWrapText(true);
-        publisherLabel.setMaxWidth(UISizeControl.SEARCHED_ITEM_LABEL_MAX_WIDTH.getValue());
-        publisherLabel.setAlignment(Pos.CENTER_LEFT);
+        Label publisherLabel = createLabel("Publisher: " + item.getPublisher());
         
-        Label categoryLabel = new Label("Category: " + item.getCategory());
-        categoryLabel.setWrapText(true);
-        categoryLabel.setMaxWidth(UISizeControl.SEARCHED_ITEM_LABEL_MAX_WIDTH.getValue());
-        categoryLabel.setAlignment(Pos.CENTER_LEFT);
+        Label categoryLabel = createLabel("Category: " + item.getCategory());
         
-        Label priceLabel = new Label("Price: $" + String.format("%.2f", item.getPrice()));
-        priceLabel.setWrapText(true);
-        priceLabel.setMaxWidth(UISizeControl.SEARCHED_ITEM_LABEL_MAX_WIDTH.getValue());
-        priceLabel.setAlignment(Pos.CENTER_LEFT);
+        Label priceLabel = createLabel("Price: $" + String.format("%.2f", item.getPrice()));
         
-        Label ratingLabel = new Label("Rating: " + item.getReviewScore() + "/5.0 (" + item.getReviewCount() + " reviews)");
-        ratingLabel.setWrapText(true);
-        ratingLabel.setMaxWidth(UISizeControl.SEARCHED_ITEM_LABEL_MAX_WIDTH.getValue());
-        ratingLabel.setAlignment(Pos.CENTER_LEFT);
+        Label ratingLabel = createLabel("Rating: " + item.getReviewScore() + "/5.0 (" + item.getReviewCount() + " reviews)");
         
-        Label stockLabel = new Label("Stock: " + item.getStockQuantity());
-        stockLabel.setWrapText(true);
-        stockLabel.setMaxWidth(UISizeControl.SEARCHED_ITEM_LABEL_MAX_WIDTH.getValue());
-        stockLabel.setAlignment(Pos.CENTER_LEFT);
+        Label stockLabel = createLabel("Stock: " + item.getStockQuantity());
         
         Date dateAdded = item.getDateAdded();
-        Label dateLabel = new Label("Date Added: " + dateAddedFormatter.format(dateAdded));
-        dateLabel.setWrapText(true);
-        dateLabel.setMaxWidth(UISizeControl.SEARCHED_ITEM_LABEL_MAX_WIDTH.getValue());
-        dateLabel.setAlignment(Pos.CENTER_LEFT);
+        Label dateLabel = createLabel("Date Added: " + dateAddedFormatter.format(dateAdded));
 
         rightPanel.getChildren().addAll(
             nameLabel,
@@ -110,7 +92,23 @@ public class SearchedItemPanel extends HBox{
             dateLabel
         );
     }
+
+    private Label createLabel(String text) {
+        Label label = new Label(text);
+        label.setWrapText(true);
+        label.setMaxWidth(UISizeControl.SEARCHED_ITEM_LABEL_MAX_WIDTH.getValue());
+        label.setAlignment(Pos.CENTER_LEFT);
+        return label;
+    }
+
+    public VBox getRightPanel() {
+        return rightPanel;
+    }
     
+    public AttributedItemContainer getAttributedImage() {
+        return attributedImage;
+    }
+
     private void setBorder(){
         setBorder(new Border(new BorderStroke(
             Color.BLACK, 

@@ -30,7 +30,7 @@ public class SerchedItemContainerTest {
         assertNotNull(container, "SearchedItemContainer should be created successfully");
         
         //Create a dummy item panel and add it to the container
-        SearchedItemPanel dummyPanel = SearchedItemPanel.createFromItem(Item.randomItem());
+        SearchedItemPanel dummyPanel = new SearchedItemPanel(Item.randomItem());
         container.addItemPanel(dummyPanel);
         
         //Verify that the item panel was added to the container

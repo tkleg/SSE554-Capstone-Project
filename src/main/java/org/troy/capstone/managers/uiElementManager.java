@@ -32,6 +32,14 @@ public class UIElementManager {
         uiElements.put(key, element);
     }
 
+    /**
+     * Gathers current values of UI elements and returns them in a map for use
+     * in search queries. Logs any missing elements or type errors but continues gathering other data.
+     * 
+     * pre-conditions: UI elements should be added to the manager with the expected keys and types before this method is called.
+     * 
+     * @return searchData (Map<UIDataName, Object>): a map containing the current values of UI elements for use in search queries
+     */
     public Map<UIDataName, Object> getSearchData(){
         Map<UIDataName, Object> searchData = new HashMap<>();
         
@@ -77,6 +85,15 @@ public class UIElementManager {
         return searchData;
     }
 
+    /**
+     * Updates the searched item pagination component with new search results.
+     * Logs missing pagination component or type error with the component.
+     * 
+     * pre-conditions: a searched item pagination component should be added to the manager with the expected key and type before this method is called.
+     *  itemIDs should be a set of valid item IDs corresponding to search results.
+     * 
+     * @param itemIDs (Set<String>): a set of item IDs corresponding to search results to update the pagination component with.
+     */
     public void updateSearchedItemPagination(Set<String> itemIDs) {
         try{
             getElement(UIElementName.SEARCHED_ITEM_PAGINATION)
