@@ -86,12 +86,13 @@ public class AttributedItemContainer extends VBox {
     public ImageView getImageView() {
         return imageView;
     }
-    
+
+    //Helper method to load image asynchronously
     private void loadImageAsync(String imageUrl) {
         Task<Image> imageTask = new Task<Image>() {
             @Override
             protected Image call() throws Exception {
-                return new Image(imageUrl, true); // true = load in background
+                return new Image(imageUrl, true);
             }
         };
         
