@@ -170,12 +170,10 @@ public class SearchEngine {
             //Tags has special handling since it's a set of strings, so outsource the handling
             if( column == TableColumnName.TAGS ){
                 Selection tagResult = applyTagFilters(filtersContainer);
-                if( tagResult != null )
-                    categoricalSelection = categoricalSelection.and(tagResult);
-                else
-                    return selectNone();//If tag result is null, it means more than 4 tags were selected which is impossible to satisfy since max tags per item is 4, so return empty selection
+                categoricalSelection = categoricalSelection.and(tagResult);
                 continue;
             }
+
 
             //Convert enum to the string key format used by FiltersContainer
             String filterKey = column.getColumnName().substring(0, 1).toUpperCase() + column.getColumnName().substring(1).toLowerCase();
