@@ -1,6 +1,7 @@
 package org.troy.capstone.managers;
 
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 import org.troy.capstone.constants.UIDataName;
@@ -23,6 +24,11 @@ public class GeneralManager {
     //Not used in main program, useful for testing to reset the GeneralManager state between tests
     public void clearUIElements() {
         uiManager.clearElements();
+    }
+
+
+    public Optional<Node> getUIElement(UIElementName key) {
+        return uiManager.getElement(key);
     }
 
     /**

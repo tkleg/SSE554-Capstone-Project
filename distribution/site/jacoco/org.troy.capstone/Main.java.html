@@ -8,7 +8,7 @@ import org.troy.capstone.ui_components.filters.categorical.FiltersContainer;
 import org.troy.capstone.ui_components.filters.stars.StarRatingFilter;
 import org.troy.capstone.ui_components.items.searched.SearchedItemPagination;
 import org.troy.capstone.ui_components.price_slider.PriceSlider;
-import org.troy.capstone.ui_components.searchBar.SearchBar;
+import org.troy.capstone.ui_components.search_bar.SearchBar;
 import org.troy.capstone.utils.TableUtils;
 
 import javafx.application.Application;
