@@ -2,12 +2,10 @@
 # Allowing distribution so that users can package the project easily if needed
 target/
 
-# Distribution files
-*.zip
-*.tar.gz
-*.msi
-*.exe
-target/*
 response.json
+
+# The distribution zip is very large
+*.zip 
+
 #Holds an API key
 *ENV.java

@@ -72,7 +72,7 @@ public class IdHashKey {
             int rankingOfChar = str.charAt(i) - '!';
             hash = hash.add(BigInteger.valueOf(rankingOfChar).multiply(b.pow(L - i - 1)));
         }
-        return hash.mod(P); // Mod by a prime to keep the hash value manageable
+        return hash.mod(P);
     }
 
     @Override

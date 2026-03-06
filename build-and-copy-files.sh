@@ -9,3 +9,6 @@ cp target/search-engine-standalone.jar distribution
 cp -r target/dependency distribution
 cp -r data distribution
 cp -r target/site distribution
+
+#Zip distribution using PowerShell
+powershell.exe "Compress-Archive -Path \"distribution\" -DestinationPath \"distribution.zip\" -Force"
