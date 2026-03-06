@@ -5,9 +5,9 @@ Project,org.troy.capstone.entities,Item,0,223,0,15,0,50,0,18,0,4
 Project,org.troy.capstone.ui_components.items,AttributedItemContainer.new Task() {...},0,18,0,0,0,2,0,2,0,2
 Project,org.troy.capstone.ui_components.items,AttributedItemContainer,5,207,1,1,2,52,2,9,1,9
 Project,org.troy.capstone,Main,126,0,0,0,28,0,3,0,3,0
-Project,org.troy.capstone.utils,Converters,3,6,0,0,1,1,1,1,1,1
-Project,org.troy.capstone.utils,UIUtils,3,25,1,3,1,7,2,2,1,1
-Project,org.troy.capstone.utils,TableUtils,122,80,4,0,36,23,14,7,12,7
+Project,org.troy.capstone.utils,Converters,0,6,0,0,0,1,0,1,0,1
+Project,org.troy.capstone.utils,UIUtils,0,25,0,4,0,7,0,3,0,1
+Project,org.troy.capstone.utils,TableUtils,0,125,0,0,0,38,0,10,0,10
 Project,org.troy.capstone.constants,UISizeControl,0,186,0,0,0,25,0,3,0,3
 Project,org.troy.capstone.constants,DataPath,0,78,0,0,0,13,0,4,0,4
 Project,org.troy.capstone.constants,URL,0,42,0,0,0,9,0,3,0,3
@@ -22,7 +22,7 @@ Project,org.troy.capstone.ui_components.items.searched,SearchedItemContainer,0,5
 Project,org.troy.capstone.ui_components.items.searched,SearchedItemPagination,8,124,0,4,0,31,2,9,2,7
 Project,org.troy.capstone.search_engine.query,MyBM25,288,0,6,0,56,0,8,0,5,0
 Project,org.troy.capstone.ui_components.search_bar,SearchBar,0,69,0,0,0,14,0,4,0,4
-Project,org.troy.capstone.data_structures.ItemTable,ItemHashMap,1,307,1,17,0,45,1,18,0,10
+Project,org.troy.capstone.data_structures.ItemTable,ItemHashMap,2,306,2,16,0,45,2,17,0,10
 Project,org.troy.capstone.data_structures.ItemTable,IdHashKey,0,126,0,8,0,33,0,15,0,11
 Project,org.troy.capstone.data_structures.ItemTable,SieveOfEratosthenes,0,115,0,16,0,29,0,13,0,5
 Project,org.troy.capstone.search_engine,SearchEngine,0,407,2,38,0,97,2,26,0,8

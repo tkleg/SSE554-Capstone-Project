@@ -3,58 +3,50 @@
 import java.util.Map;
 import java.util.stream.IntStream;
 
-
+import org.troy.capstone.annotations.TestExclusionGenerated;
 import org.troy.capstone.constants.DataPath;
 import org.troy.capstone.constants.TableColumnName;
-
-/*
-import javax.swing.JTable;
-import javafx.beans.property.ReadOnlyObjectWrapper;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import tech.tablesaw.columns.Column;
-*/
 
 import tech.tablesaw.api.ColumnType;
 import tech.tablesaw.api.ShortColumn;
 import tech.tablesaw.api.Table;
 import tech.tablesaw.io.csv.CsvReadOptions;
 
-<span class="nc" id="L25">public class TableUtils {</span>
+public class TableUtils {
 
-    // Base column type mapping for CSV reading
-<span class="fc" id="L28">    private static final Map&lt;String, ColumnType&gt; COLUMN_TYPES = Map.of(</span>
-<span class="fc" id="L29">        TableColumnName.PRICE.getColumnName(), ColumnType.FLOAT,</span>
-<span class="fc" id="L30">        TableColumnName.REVIEW_SCORE.getColumnName(), ColumnType.FLOAT,</span>
-<span class="fc" id="L31">        TableColumnName.REVIEW_COUNT.getColumnName(), ColumnType.SHORT,</span>
-<span class="fc" id="L32">        TableColumnName.STOCK_QUANTITY.getColumnName(), ColumnType.SHORT,</span>
-<span class="fc" id="L33">        TableColumnName.INDEX.getColumnName(), ColumnType.SHORT</span>
-    );
+    //Never called, just prevents Jacoco from complaining about missing code coverage for the default constructor
+    @TestExclusionGenerated
+    private TableUtils() {
+    }
 
     // Helper method to create CSV read options with specified path
     private static CsvReadOptions createCsvReadOptions(String path) {
-<span class="fc" id="L38">        return CsvReadOptions.builder(path)</span>
-<span class="fc" id="L39">            .columnTypesPartial(COLUMN_TYPES)</span>
-<span class="fc" id="L40">            .build();</span>
+<span class="fc" id="L24">        return CsvReadOptions.builder(path)</span>
+<span class="fc" id="L25">            .columnTypesPartial(Map.of(</span>
+<span class="fc" id="L26">                TableColumnName.PRICE.getColumnName(), ColumnType.FLOAT,</span>
+<span class="fc" id="L27">                TableColumnName.REVIEW_SCORE.getColumnName(), ColumnType.FLOAT,</span>
+<span class="fc" id="L28">                TableColumnName.REVIEW_COUNT.getColumnName(), ColumnType.SHORT,</span>
+<span class="fc" id="L29">                TableColumnName.STOCK_QUANTITY.getColumnName(), ColumnType.SHORT,</span>
+<span class="fc" id="L30">                TableColumnName.INDEX.getColumnName(), ColumnType.SHORT</span>
+<span class="fc" id="L31">            )).build();</span>
     }
 
+    /**
     public static Object[][] to2DArray(Table table) {
         
         // Setup 2D array
-<span class="nc" id="L46">        int rowCount = (int) table.rowCount();</span>
-<span class="nc" id="L47">        int colCount = table.columnCount();</span>
-<span class="nc" id="L48">        Object[][] data = new Object[rowCount][colCount];</span>
+        int rowCount = (int) table.rowCount();
+        int colCount = table.columnCount();
+        Object[][] data = new Object[rowCount][colCount];
 
         // Populate 2D array with Table data
-<span class="nc bnc" id="L51" title="All 2 branches missed.">        for (int r = 0; r &lt; rowCount; r++)</span>
-<span class="nc bnc" id="L52" title="All 2 branches missed.">            for (int c = 0; c &lt; colCount; c++)</span>
-<span class="nc" id="L53">                data[r][c] = table.get(r, c);</span>
+        for (int r = 0; r &lt; rowCount; r++)
+            for (int c = 0; c &lt; colCount; c++)
+                data[r][c] = table.get(r, c);
 
-<span class="nc" id="L55">        return data;</span>
+        return data;
     }
-
+    */
     //Used in a very old version in order to test the dependencies tablesaw and javaSwing
     /*public static JTable toJTable(Table table) {
         Object[] columnNames = table.columnNames().toArray(new Object[0]);
@@ -88,78 +80,84 @@ import tech.tablesaw.io.csv.CsvReadOptions;
     */
 
     public static Table readCleanedData() {
-<span class="fc" id="L91">        CsvReadOptions options = createCsvReadOptions(DataPath.CLEANED_DATA_CSV.getPath());</span>
-<span class="fc" id="L92">        Table table = Table.read().usingOptions(options);  </span>
-<span class="fc" id="L93">        insertIndexColumn(table);</span>
-<span class="fc" id="L94">        return table;</span>
+<span class="fc" id="L83">        CsvReadOptions options = createCsvReadOptions(DataPath.CLEANED_DATA_CSV.getPath());</span>
+<span class="fc" id="L84">        Table table = Table.read().usingOptions(options);  </span>
+<span class="fc" id="L85">        insertIndexColumn(table);</span>
+<span class="fc" id="L86">        return table;</span>
     }
 
     public static Table readCleanedDataLongPath() {
-<span class="nc" id="L98">        CsvReadOptions options = createCsvReadOptions(DataPath.CLEANED_DATA_CSV_LONG.getPath());</span>
-<span class="nc" id="L99">        Table table = Table.read().usingOptions(options);  </span>
-<span class="nc" id="L100">        insertIndexColumn(table);</span>
-<span class="nc" id="L101">        return table;</span>
+<span class="fc" id="L90">        CsvReadOptions options = createCsvReadOptions(DataPath.CLEANED_DATA_CSV_LONG.getPath());</span>
+<span class="fc" id="L91">        Table table = Table.read().usingOptions(options);  </span>
+<span class="fc" id="L92">        insertIndexColumn(table);</span>
+<span class="fc" id="L93">        return table;</span>
     }
 
     public static Table readAttributedData(){
-<span class="nc" id="L105">        CsvReadOptions options = createCsvReadOptions(DataPath.ATTRIBUTED_DATA_CSV.getPath());</span>
-<span class="nc" id="L106">        Table table = Table.read().usingOptions(options);</span>
-<span class="nc" id="L107">        insertIndexColumn(table);</span>
-<span class="nc" id="L108">        return table;</span>
+<span class="fc" id="L97">        CsvReadOptions options = createCsvReadOptions(DataPath.ATTRIBUTED_DATA_CSV.getPath());</span>
+<span class="fc" id="L98">        Table table = Table.read().usingOptions(options);</span>
+<span class="fc" id="L99">        insertIndexColumn(table);</span>
+<span class="fc" id="L100">        return table;</span>
     }
 
     public static Table readAttributedDataLongPath(){
-<span class="nc" id="L112">        CsvReadOptions options = createCsvReadOptions(DataPath.ATTRIBUTED_DATA_CSV_LONG.getPath());</span>
-<span class="nc" id="L113">        Table table = Table.read().usingOptions(options);</span>
-<span class="nc" id="L114">        insertIndexColumn(table);</span>
-<span class="nc" id="L115">        return table;</span>
+<span class="fc" id="L104">        CsvReadOptions options = createCsvReadOptions(DataPath.ATTRIBUTED_DATA_CSV_LONG.getPath());</span>
+<span class="fc" id="L105">        Table table = Table.read().usingOptions(options);</span>
+<span class="fc" id="L106">        insertIndexColumn(table);</span>
+<span class="fc" id="L107">        return table;</span>
     }
 
     public static Table readCleanedAttributedData(){
-<span class="fc" id="L119">        CsvReadOptions options = createCsvReadOptions(DataPath.CLEANED_ATTRIBUTED_DATA_CSV.getPath());</span>
-<span class="fc" id="L120">        Table table = Table.read().usingOptions(options);</span>
-<span class="fc" id="L121">        insertIndexColumn(table);</span>
-<span class="fc" id="L122">        return table;</span>
+<span class="fc" id="L111">        CsvReadOptions options = createCsvReadOptions(DataPath.CLEANED_ATTRIBUTED_DATA_CSV.getPath());</span>
+<span class="fc" id="L112">        Table table = Table.read().usingOptions(options);</span>
+<span class="fc" id="L113">        insertIndexColumn(table);</span>
+<span class="fc" id="L114">        return table;</span>
     }
 
     public static Table readCleanedAttributedDataLongPath(){
-<span class="nc" id="L126">        CsvReadOptions options = createCsvReadOptions(DataPath.CLEANED_ATTRIBUTED_DATA_CSV_LONG.getPath());</span>
-<span class="nc" id="L127">        Table table = Table.read().usingOptions(options);</span>
-<span class="nc" id="L128">        insertIndexColumn(table);</span>
-<span class="nc" id="L129">        return table;</span>
+<span class="fc" id="L118">        CsvReadOptions options = createCsvReadOptions(DataPath.CLEANED_ATTRIBUTED_DATA_CSV_LONG.getPath());</span>
+<span class="fc" id="L119">        Table table = Table.read().usingOptions(options);</span>
+<span class="fc" id="L120">        insertIndexColumn(table);</span>
+<span class="fc" id="L121">        return table;</span>
+    }
+
+    @TestExclusionGenerated
+    public static void writeCleanedData(Table table) {
+        table.write().csv(DataPath.CLEANED_DATA_CSV.getPath());
+    }
+
+    @TestExclusionGenerated
+    public static void writeCleanedDataLongPath(Table table) {
+        table.write().csv(DataPath.CLEANED_DATA_CSV_LONG.getPath());
+    }
+
+    @TestExclusionGenerated
+    public static void writeAttributedData(Table table) {
+        table.write().csv(DataPath.ATTRIBUTED_DATA_CSV.getPath());
+    }
+
+    @TestExclusionGenerated
+    public static void writeAttributedDataLongPath(Table table) {
+        table.write().csv(DataPath.ATTRIBUTED_DATA_CSV_LONG.getPath());
+    }
+
+    @TestExclusionGenerated
+    public static void writeCleanedAttributedData(Table table) {
+        table.write().csv(DataPath.CLEANED_ATTRIBUTED_DATA_CSV.getPath());
+    }
+
+    @TestExclusionGenerated
+    public static void writeCleanedAttributedDataLongPath(Table table) {
+        table.write().csv(DataPath.CLEANED_ATTRIBUTED_DATA_CSV_LONG.getPath());
     }
     
-    public static void writeCleanedData(Table table) {
-<span class="nc" id="L133">        table.write().csv(DataPath.CLEANED_DATA_CSV.getPath());</span>
-<span class="nc" id="L134">    }</span>
-
-    public static void writeCleanedDataLongPath(Table table) {
-<span class="nc" id="L137">        table.write().csv(DataPath.CLEANED_DATA_CSV_LONG.getPath());</span>
-<span class="nc" id="L138">    }</span>
-
-    public static void writeAttributedData(Table table) {
-<span class="nc" id="L141">        table.write().csv(DataPath.ATTRIBUTED_DATA_CSV.getPath());</span>
-<span class="nc" id="L142">    }</span>
-
-    public static void writeAttributedDataLongPath(Table table) {
-<span class="nc" id="L145">        table.write().csv(DataPath.ATTRIBUTED_DATA_CSV_LONG.getPath());</span>
-<span class="nc" id="L146">    }</span>
-
-    public static void writeCleanedAttributedData(Table table) {
-<span class="nc" id="L149">        table.write().csv(DataPath.CLEANED_ATTRIBUTED_DATA_CSV.getPath());</span>
-<span class="nc" id="L150">    }</span>
-
-    public static void writeCleanedAttributedDataLongPath(Table table) {
-<span class="nc" id="L153">        table.write().csv(DataPath.CLEANED_ATTRIBUTED_DATA_CSV_LONG.getPath());</span>
-<span class="nc" id="L154">    }</span>
-    
     private static void insertIndexColumn(Table table) {
-<span class="fc" id="L157">        int rowCount = table.rowCount();</span>
-<span class="fc" id="L158">        ShortColumn indexColumn = ShortColumn.create(</span>
-<span class="fc" id="L159">            TableColumnName.INDEX.getColumnName(), </span>
-<span class="fc" id="L160">            IntStream.range(0, rowCount).mapToObj(i -&gt; (short) i).toArray(Short[]::new)</span>
+<span class="fc" id="L155">        int rowCount = table.rowCount();</span>
+<span class="fc" id="L156">        ShortColumn indexColumn = ShortColumn.create(</span>
+<span class="fc" id="L157">            TableColumnName.INDEX.getColumnName(), </span>
+<span class="fc" id="L158">            IntStream.range(0, rowCount).mapToObj(i -&gt; (short) i).toArray(Short[]::new)</span>
         );
-<span class="fc" id="L162">        table.addColumns( indexColumn );</span>
-<span class="fc" id="L163">    }</span>
+<span class="fc" id="L160">        table.addColumns( indexColumn );</span>
+<span class="fc" id="L161">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

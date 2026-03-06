@@ -21,7 +21,7 @@ public class ItemHashMap extends HashMap&lt;IdHashKey, Item&gt; {
     
     @TestExclusionGenerated
     public static void main(String[] args) {
-        Table table = TableUtils.readCleanedData();
+        Table table = TableUtils.readCleanedAttributedData();
         ItemHashMap itemMap = fromTable(table);
         itemMap.printBucketSizeCountsCustomVsBuiltIn();
     }
@@ -147,7 +147,7 @@ public class ItemHashMap extends HashMap&lt;IdHashKey, Item&gt; {
 <span class="fc" id="L147">        int maxSize = Math.max(customBucketSizeCounts.length, builtInBucketSizeCounts.length);</span>
 <span class="fc bfc" id="L148" title="All 2 branches covered.">        for (int i = 0; i &lt; maxSize; i++){</span>
 <span class="pc bpc" id="L149" title="1 of 2 branches missed.">            int customCount = i &lt; customBucketSizeCounts.length ? customBucketSizeCounts[i] : 0;</span>
-<span class="fc bfc" id="L150" title="All 2 branches covered.">            int builtInCount = i &lt; builtInBucketSizeCounts.length ? builtInBucketSizeCounts[i] : 0;</span>
+<span class="pc bpc" id="L150" title="1 of 2 branches missed.">            int builtInCount = i &lt; builtInBucketSizeCounts.length ? builtInBucketSizeCounts[i] : 0;</span>
 <span class="fc" id="L151">            System.out.printf(&quot;%-&quot; + col1.length() + &quot;d %s %-&quot; + col2.length() + &quot;d %s %-&quot; + col3.length() + &quot;d%n&quot;, i, &quot;|&quot;, customCount, &quot;|&quot;, builtInCount);</span>
         }
 <span class="fc" id="L153">    }</span>
