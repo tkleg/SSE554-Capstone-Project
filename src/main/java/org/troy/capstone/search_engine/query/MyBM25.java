@@ -33,7 +33,7 @@ import tech.tablesaw.api.Row;
 import tech.tablesaw.api.Table;
 
 public class MyBM25 {
-    public static void main() throws Exception{
+    public static void main(String[] args) throws Exception{
         //Lucene https://www.baeldung.com/lucene
         //Highly optimized, better than if I implemented the algorithms myself due to optimizations, data structures
         //See https://www.baeldung.com/lucene-analyzers for details on analyzers
