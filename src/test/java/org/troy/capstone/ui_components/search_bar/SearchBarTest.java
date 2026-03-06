@@ -1,20 +1,20 @@
 package org.troy.capstone.ui_components.search_bar;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.troy.capstone.constants.UIElementName;
 import org.troy.capstone.managers.GeneralManager;
 import org.troy.capstone.utils.TableUtils;
 
-import java.util.Optional;
-import javafx.scene.Node;
-
 import javafx.embed.swing.JFXPanel;
+import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import tech.tablesaw.api.Table;
 
@@ -48,7 +48,7 @@ public class SearchBarTest {
     @DisplayName("Test SearchBar UI elements are registered in GeneralManager")
     public void testSearchBarUIElementsRegisteredInGeneralManager() {
         assertNotNull(generalManager.getUIElement(UIElementName.SEARCH_FIELD), "Search field should be registered in GeneralManager");
-        assertNotNull(generalManager.getUIElement(UIElementName.SEARCH_BUTTON), "Search button should be registered in GeneralManager");
+        assertNotNull(generalManager.getButton(), "Search button should be registered in UIElementManager through GeneralManager");
     }
 
     @Test
@@ -66,6 +66,14 @@ public class SearchBarTest {
         assert node instanceof TextField : "Node retrieved is a textfield for the searchField";
         TextField textField = (TextField) node;
         assertEquals(query, textField.getText(), "Search field should contain the correct text after clicking search button");
+    }
+
+    @Test
+    @DisplayName("Test that generalManager has the search button and it is cast properly")
+    public void testSearchButtonInGeneralManager() {
+        Button searchButton = generalManager.getButton();
+        assertNotNull(searchButton, "Expected generalManager to have a search button, but it was not found.");
+        assert searchButton instanceof Button : "Expected search button to be an instance of Button, but got: " + searchButton.getClass();
     }
 
 }

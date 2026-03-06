@@ -12,6 +12,10 @@ import org.troy.capstone.managers.GeneralManager;
 import org.troy.capstone.utils.TableUtils;
 import tech.tablesaw.api.Table;
 
+import java.util.Optional;
+import javafx.scene.Node;
+import org.troy.capstone.constants.UIElementName;
+
 public class StarRatingFilterTest {
     private StarRatingFilter starRatingFilter;
     private Table table;
@@ -96,5 +100,11 @@ public class StarRatingFilterTest {
         assert starRatingFilter.stars[3].getText().equals(StarRatingFilter.EMPTY_STAR) : "Fourth star should be empty after hover exit";
     }
 
+    @Test
+    @DisplayName("Test that generalManager has the star rating filter and it is cast properly")
+    public void testStarRatingFilterInGeneralManager(){
+        assert generalManager.getUIElement(UIElementName.STAR_RATING_FILTER).isPresent() : "Expected generalManager to have a STAR_RATING_FILTER element, but it was not found.";
+        assert generalManager.getUIElement(UIElementName.STAR_RATING_FILTER).get() instanceof StarRatingFilter : "Expected STAR_RATING_FILTER element to be an instance of StarRatingFilter, but got: " + generalManager.getUIElement(UIElementName.STAR_RATING_FILTER).get().getClass();
+    }
     
 }

@@ -26,9 +26,8 @@ public class GeneralManager {
 <span class="fc" id="L26">        uiManager.clearElements();</span>
 <span class="fc" id="L27">    }</span>
 
-
     public Optional&lt;Node&gt; getUIElement(UIElementName key) {
-<span class="fc" id="L31">        return uiManager.getElement(key);</span>
+<span class="fc" id="L30">        return uiManager.getElement(key);</span>
     }
 
     /**
@@ -39,7 +38,7 @@ public class GeneralManager {
       * @return Map&lt;UIDataName, Object&gt; : The search data containing the filters to be applied
      */
     public Map&lt;UIDataName, Object&gt; getSearchData() {
-<span class="fc" id="L42">        return uiManager.getSearchData();</span>
+<span class="fc" id="L41">        return uiManager.getSearchData();</span>
     }
 
     /**
@@ -51,12 +50,17 @@ public class GeneralManager {
      * @param element (Node) : The UI element to be added
      */
     public void addUIElement(UIElementName key, Node element) {
-<span class="fc" id="L54">        uiManager.addElement(key, element);</span>
-<span class="fc" id="L55">    }</span>
+<span class="fc" id="L53">        uiManager.addElement(key, element);</span>
+<span class="fc" id="L54">    }</span>
 
     public void setButton(Button button) {
+<span class="fc" id="L57">        uiManager.setButton(button);</span>
 <span class="fc" id="L58">        button.setOnAction(e -&gt; filterAndPrintNumberOfResults());</span>
 <span class="fc" id="L59">    }</span>
+
+    public Button getButton() {
+<span class="fc" id="L62">        return uiManager.getButton();</span>
+    }
 
     /**
      * Gets a UI element from the UIElementManager, filters data, and updates the UI with the filtered results.
@@ -66,11 +70,11 @@ public class GeneralManager {
      * post-conditions: The UI is updated with the filtered results based on the current search data from the UIElementManager
      */
     public void filterAndPrintNumberOfResults() {
-<span class="fc" id="L69">        Map&lt;UIDataName, Object&gt; searchData = getSearchData();</span>
-<span class="fc" id="L70">        System.out.println(&quot;Search Data: &quot; + searchData);</span>
-<span class="fc" id="L71">        Set&lt;String&gt; filteredIDs = searchEngine.filterItems(searchData);</span>
-<span class="fc" id="L72">        uiManager.updateSearchedItemPagination(filteredIDs);</span>
-<span class="fc" id="L73">    }</span>
+<span class="fc" id="L73">        Map&lt;UIDataName, Object&gt; searchData = getSearchData();</span>
+<span class="fc" id="L74">        System.out.println(&quot;Search Data: &quot; + searchData);</span>
+<span class="fc" id="L75">        Set&lt;String&gt; filteredIDs = searchEngine.filterItems(searchData);</span>
+<span class="fc" id="L76">        uiManager.updateSearchedItemPagination(filteredIDs);</span>
+<span class="fc" id="L77">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

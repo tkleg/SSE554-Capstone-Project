@@ -1,15 +1,20 @@
 package org.troy.capstone.ui_components.price_slider;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.troy.capstone.constants.UIElementName;
 import org.troy.capstone.managers.GeneralManager;
 import org.troy.capstone.utils.TableUtils;
 
 import javafx.embed.swing.JFXPanel;
+import javafx.scene.Node;
+import javafx.scene.control.Slider;
 import tech.tablesaw.api.Table;
 
 public class PriceSliderTest {
@@ -78,5 +83,17 @@ public class PriceSliderTest {
         assertEquals(300, priceSlider.getHighValue(), "Max slider should update to 300");
         assertEquals(299, priceSlider.getLowValue(), "Min slider should automatically adjust to maintain at least 1 unit below max slider");
         assertEquals("Price: $299 - $300", priceSlider.getLabelText(), "Label should update to reflect new price range");
+    }
+
+    @Test
+    @DisplayName("Test that generalManager has the price sliders and they are cast properly")
+    public void testPriceSlidersInGeneralManager(){
+        Optional<Node> minSliderNode = generalManager.getUIElement(UIElementName.MIN_PRICE_SLIDER);
+        Optional<Node> maxSliderNode = generalManager.getUIElement(UIElementName.MAX_PRICE_SLIDER);
+
+        assert minSliderNode.isPresent() : "Expected generalManager to have a MIN_PRICE_SLIDER element, but it was not found.";
+        assert minSliderNode.get() instanceof Slider : "Expected MIN_PRICE_SLIDER element to be an instance of Slider, but got: " + minSliderNode.get().getClass();
+        assert maxSliderNode.isPresent() : "Expected generalManager to have a MAX_PRICE_SLIDER element, but it was not found.";
+        assert maxSliderNode.get() instanceof Slider : "Expected MAX_PRICE_SLIDER element to be an instance of Slider, but got: " + maxSliderNode.get().getClass();
     }
 }

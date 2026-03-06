@@ -26,7 +26,6 @@ public class GeneralManager {
         uiManager.clearElements();
     }
 
-
     public Optional<Node> getUIElement(UIElementName key) {
         return uiManager.getElement(key);
     }
@@ -55,7 +54,12 @@ public class GeneralManager {
     }
 
     public void setButton(Button button) {
+        uiManager.setButton(button);
         button.setOnAction(e -> filterAndPrintNumberOfResults());
+    }
+
+    public Button getButton() {
+        return uiManager.getButton();
     }
 
     /**

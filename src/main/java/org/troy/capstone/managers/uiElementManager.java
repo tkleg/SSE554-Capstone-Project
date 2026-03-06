@@ -12,11 +12,13 @@ import org.troy.capstone.ui_components.filters.stars.StarRatingFilter;
 import org.troy.capstone.ui_components.items.searched.SearchedItemPagination;
 
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 
 public class UIElementManager {
     private final Map<UIElementName, Node> uiElements;
+    private Button searchButton;
     
     public UIElementManager() {
         uiElements = new HashMap<>();
@@ -32,6 +34,14 @@ public class UIElementManager {
         uiElements.put(key, element);
     }
 
+    public Button getButton() {
+        return searchButton;
+    }
+
+    public void setButton(Button button) {
+        this.searchButton = button;
+    }
+    
     /**
      * Gathers current values of UI elements and returns them in a map for use
      * in search queries. Logs any missing elements or type errors but continues gathering other data.

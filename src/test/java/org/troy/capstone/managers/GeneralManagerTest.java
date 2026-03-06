@@ -50,18 +50,11 @@ public class GeneralManagerTest {
     }
 
     @Test
-    @DisplayName("Test addUIElement with only invalid Button UI element added")
-    public void testAddUIElementWithOnlyInvalidButtonUIElement() {
-        GM.addUIElement(UIElementName.SEARCH_BUTTON, new HBox());
-        assert GM.getSearchData().isEmpty() : "Expected empty search data when only invalid UI elements are added, but got: " + GM.getSearchData();
-    }
-
-    @Test
     @DisplayName("Test addUIElement with valid and invalid UI elements added")
     public void testAddUIElementWithValidAndInvalidUIElements() {
         GM.addUIElement(UIElementName.MIN_PRICE_SLIDER, new HBox());
-        GM.addUIElement(UIElementName.SEARCH_BUTTON, new Button("Search"));
-        assert GM.getSearchData().isEmpty() : "Expected empty search data when only invalid UI elements are added, but got: " + GM.getSearchData();
+        GM.addUIElement(UIElementName.SEARCH_FIELD, new TextField("Test Query"));
+        assert GM.getSearchData().size()  == 1 : "Expected search data to contain 1 entry when only invalid UI elements are added, but got: " + GM.getSearchData();
     }
 
     @Test

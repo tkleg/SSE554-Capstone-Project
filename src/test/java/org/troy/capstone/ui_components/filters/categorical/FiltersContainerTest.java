@@ -13,6 +13,10 @@ import org.troy.capstone.utils.TableUtils;
 import javafx.embed.swing.JFXPanel;
 import tech.tablesaw.api.Table;
 
+import java.util.Optional;
+import javafx.scene.Node;
+import org.troy.capstone.constants.UIElementName;
+
 public class FiltersContainerTest {
     private Table table;
     private ItemHashMap itemHashMap;
@@ -51,5 +55,13 @@ public class FiltersContainerTest {
         assert filtersContainer.getSelectedFilters().get("Tags").size() == 1 : "Expected 1 selected tag filter, but got: " + filtersContainer.getSelectedFilters().get("Tags").size();
         assert filtersContainer.getSelectedFilters().get("Category").isEmpty() : "Expected no selected category filters, but got: " + filtersContainer.getSelectedFilters().get("Category");
         assert filtersContainer.getSelectedFilters().get("Publisher").isEmpty() : "Expected no selected publisher filters, but got: " + filtersContainer.getSelectedFilters().get("Publisher");
+    }
+
+    @Test
+    @DisplayName("Test that the generalManager has the filtersContainer and it is cast properly")
+    public void testFilterContainerInGeneralManager(){
+        Optional<Node> filterContainerNode = generalManager.getUIElement(UIElementName.FILTERS_CONTAINER);
+        assert filterContainerNode.isPresent() : "Expected generalManager to have a filter container node present, but it was not found.";
+        assert filterContainerNode.get() instanceof FiltersContainer : "Expected filter container node to be an instance of FiltersContainer, but got: " + filterContainerNode.get().getClass();
     }
 }

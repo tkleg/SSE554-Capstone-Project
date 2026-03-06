@@ -1,22 +1,24 @@
 package org.troy.capstone.ui_components.items.searched;
 
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
-import org.troy.capstone.data_structures.ItemTable.ItemHashMap;
-import org.troy.capstone.data_structures.ItemTable.IdHashKey;
-import org.troy.capstone.managers.GeneralManager;
-import org.troy.capstone.utils.TableUtils;
-
-import static org.junit.jupiter.api.Assertions.*;
-
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
+import org.troy.capstone.constants.UIElementName;
+import org.troy.capstone.data_structures.ItemTable.IdHashKey;
+import org.troy.capstone.data_structures.ItemTable.ItemHashMap;
+import org.troy.capstone.managers.GeneralManager;
+import org.troy.capstone.utils.TableUtils;
+
 import javafx.embed.swing.JFXPanel;
+import javafx.scene.Node;
 import tech.tablesaw.api.Table;
 
 public class SearchedItemPaginationTest {
@@ -198,5 +200,13 @@ public class SearchedItemPaginationTest {
             assertEquals(expectedMaxPages, pagination.getPageCount(), 
                 "All items should result in correctly calculated page count");
         }
+    }
+
+    @Test
+    @DisplayName("Test that generalManager has the pagination component and it is cast properly")
+    public void testPaginationComponentInGeneralManager() {
+        Optional<Node> paginationNode = generalManager.getUIElement(UIElementName.SEARCHED_ITEM_PAGINATION);
+        assert paginationNode.isPresent() : "Expected generalManager to have a SEARCHED_ITEM_PAGINATION element, but it was not found.";
+        assert paginationNode.get() instanceof SearchedItemPagination : "Expected SEARCHED_ITEM_PAGINATION element to be an instance of SearchedItemPagination, but got: " + paginationNode.get().getClass();    
     }
 }
