@@ -1,20 +1,16 @@
 package org.troy.capstone.ui_components.filters.stars;
 
 import org.junit.jupiter.api.BeforeAll;
-
-import javafx.embed.swing.JFXPanel;
-import javafx.scene.input.MouseEvent;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.troy.capstone.constants.UIElementName;
 import org.troy.capstone.managers.GeneralManager;
 import org.troy.capstone.utils.TableUtils;
-import tech.tablesaw.api.Table;
 
-import java.util.Optional;
-import javafx.scene.Node;
-import org.troy.capstone.constants.UIElementName;
+import javafx.embed.swing.JFXPanel;
+import javafx.scene.input.MouseEvent;
+import tech.tablesaw.api.Table;
 
 public class StarRatingFilterTest {
     private StarRatingFilter starRatingFilter;
