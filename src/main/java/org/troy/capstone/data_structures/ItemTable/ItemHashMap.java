@@ -21,7 +21,7 @@ public class ItemHashMap extends HashMap<IdHashKey, Item> {
     
     @TestExclusionGenerated
     public static void main(String[] args) {
-        Table table = TableUtils.readCleanedData();
+        Table table = TableUtils.readCleanedAttributedData();
         ItemHashMap itemMap = fromTable(table);
         itemMap.printBucketSizeCountsCustomVsBuiltIn();
     }

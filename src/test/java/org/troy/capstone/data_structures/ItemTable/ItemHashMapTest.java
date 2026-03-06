@@ -1,5 +1,7 @@
 package org.troy.capstone.data_structures.ItemTable;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.math.BigInteger;
 import java.util.List;
 import java.util.Optional;
@@ -7,17 +9,14 @@ import java.util.regex.Pattern;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.troy.capstone.constants.TableColumnName;
 import org.troy.capstone.entities.Item;
 import org.troy.capstone.utils.TableUtils;
-
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 
 import tech.tablesaw.api.Table;
 
@@ -30,7 +29,7 @@ public class ItemHashMapTest {
     @BeforeAll
     static void setup() {
         //We can use the fromTable method to create an ItemHashMap with optimized hash parameters for the test data
-        table = TableUtils.readCleanedData();
+        table = TableUtils.readCleanedAttributedData();
         map = ItemHashMap.fromTable( table );
     }
 
@@ -58,10 +57,10 @@ public class ItemHashMapTest {
 
 
     @Test
-    @DisplayName("Test table size to be 1000")
+    @DisplayName("Test table size to be 961")
     void testBucketSizeDistribution(){
-        assertEquals( 1000, map.size(), "ItemHashMap should contain 1000 items after initialization from the table" );
-        assertEquals( 1000, table.rowCount(), "Table should contain 1000 rows" );
+        assertEquals( 961, map.size(), "ItemHashMap should contain 1000 items after initialization from the table" );
+        assertEquals( 961, table.rowCount(), "Table should contain 1000 rows" );
     }
 
     @Test
@@ -72,14 +71,14 @@ public class ItemHashMapTest {
         assert itemIds.size() > 0 : "There should be item IDs in the map";
 
         //Distribution depends slightly on the found I and J, which may differ
-        IdHashKey.setI(new BigInteger("97110425") );
-        IdHashKey.setJ(new BigInteger("43152856") );
+        IdHashKey.setI(new BigInteger("77507594") );
+        IdHashKey.setJ(new BigInteger("99688092") );
 
         int[] customBucketDistribution = map.getFreshBucketSizeCount( itemIds, true );
         int[] builtInBucketDistribution = map.getFreshBucketSizeCount( itemIds, false );
 
-        int[] expectedCustomDistribution = {1249, 626, 149, 21, 2, 1};
-        int[] expectedBuiltInDistribution = {1280, 572, 165, 26, 5};
+        int[] expectedCustomDistribution = {1409, 394, 179, 55, 11};
+        int[] expectedBuiltInDistribution = {1301, 563, 158, 22, 4};
 
         // Check that we have at least the minimum expected length
         assert customBucketDistribution.length >= expectedCustomDistribution.length : 
@@ -109,8 +108,8 @@ public class ItemHashMapTest {
             ByteArrayOutputStream outContent = new ByteArrayOutputStream();
             System.setOut(new PrintStream(outContent));
 
-            IdHashKey.setI(new BigInteger("97110425") );
-            IdHashKey.setJ(new BigInteger("43152856") );
+            IdHashKey.setI(new BigInteger("77507594") );
+            IdHashKey.setJ(new BigInteger("99688092") );
 
             map.printBucketSizeCountsCustomVsBuiltIn();
 
@@ -132,12 +131,11 @@ public class ItemHashMapTest {
         @DisplayName("Test printing of bucketsize comparison table")
         @ParameterizedTest
         @CsvSource({
-            "0, 1249, 1280",
-            "1, 626, 572",
-            "2, 149, 165",
-            "3, 21, 26",
-            "4, 2, 5",
-            "5, 1, 0"
+            "0, 1409, 1301",
+            "1, 394, 563",
+            "2, 179, 158",
+            "3, 55, 22",
+            "4, 11, 4"
         })
         void testBucketDistributionComparisonPrintout(int numEntriesHashingToBucket, int customCount, int builtInCount){
 

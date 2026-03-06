@@ -21,7 +21,7 @@ public class PriceRangeFinderTest {
 
     @BeforeAll
     public static void setup() {
-        table = TableUtils.readCleanedData();
+        table = TableUtils.readCleanedAttributedData();
         finder = new PriceRangeFinder(table);
     }
 
