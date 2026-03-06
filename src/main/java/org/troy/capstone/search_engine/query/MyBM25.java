@@ -6,8 +6,9 @@ import java.util.Map;
 import java.util.Scanner;
 
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.CharArraySet;
-import org.apache.lucene.analysis.core.StopAnalyzer;
+import org.apache.lucene.analysis.custom.CustomAnalyzer;
+import org.apache.lucene.analysis.ngram.NGramTokenizerFactory;
+import org.apache.lucene.analysis.core.StopFilterFactory;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.StoredField;
@@ -20,6 +21,7 @@ import org.apache.lucene.index.StoredFields;
 import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
+import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.search.similarities.BM25Similarity;
 import org.apache.lucene.store.ByteBuffersDirectory;
@@ -36,22 +38,21 @@ public class MyBM25 {
         //Highly optimized, better than if I implemented the algorithms myself due to optimizations, data structures
         //See https://www.baeldung.com/lucene-analyzers for details on analyzers
         //Base code source is https://medium.com/@dhruvsharma2600/integrating-search-in-your-application-with-apache-lucene-d11c6fb84ab4
-        //Stop used to remove common words
 
-        //Hardcoded CharArraySet for custom stop words
-        CharArraySet customStopWords = new CharArraySet(
-            Arrays.asList("the", "and", "or", "but", "in", "on", "at", "to", "for", "of", "with", "by"), 
-            true  //ignoreCase = true
-        );
-        Analyzer analyzer = new StopAnalyzer(customStopWords);
+        //NgramTokenizer tokenizes to get tokens to be all substrings of length 2-5, gives better typo tolerance and partial matching
+        //StopFilter Filters out common english words, also splits on non-letter cars and sets all tokens to lowercase
+        Analyzer ngramAnalyzer = CustomAnalyzer.builder()
+            .withTokenizer(NGramTokenizerFactory.class, "minGramSize", "2", "maxGramSize", "5")
+            .addTokenFilter(StopFilterFactory.class)
+            .build();
 
         /**
-         * ByteBuffersDirectory chosen to keep data in RAM for speed and simplicicty
+         * ByteBuffersDirectory chosen to keep data in RAM for speed and simplicity
          * All data in RAM
          */
         Directory directory = new ByteBuffersDirectory();
 
-        IndexWriterConfig config = new IndexWriterConfig(analyzer);
+        IndexWriterConfig config = new IndexWriterConfig(ngramAnalyzer);
 
         System.out.println("Indexing data and building search engine...");
         /**
@@ -75,18 +76,17 @@ public class MyBM25 {
         IndexSearcher searcher = new IndexSearcher(reader);
         searcher.setSimilarity(new BM25Similarity());
         
-        // Create field boosts - name field gets 2x weight compared to description
+        //Boosts the name field
         String[] fields = {"name", "description"};
         Map<String, Float> boosts = Map.of(
             "name", 2.0f,
             "description", 1.0f
         );
         
-        MultiFieldQueryParser parser = new MultiFieldQueryParser(fields, analyzer, boosts);
+        MultiFieldQueryParser parser = new MultiFieldQueryParser(fields, ngramAnalyzer, boosts);
 
-        // Make parsing more generous
-        parser.setDefaultOperator(MultiFieldQueryParser.Operator.OR); // OR instead of AND (default)
-        parser.setFuzzyMinSim(0.8f); // Allow fuzzy matching for typos (80% similarity - more lenient)
+        //Set default operator to OR for better recall, so that if any of the terms match, it will be included in results
+        parser.setDefaultOperator(MultiFieldQueryParser.Operator.OR);
 
         Scanner scan = new Scanner(System.in);
         while (true) {
@@ -94,53 +94,32 @@ public class MyBM25 {
             String userQuery = scan.nextLine();
             if( userQuery.trim().equals("exit") )
                 break;
-            // Option 2: Automatic fuzzy query conversion
-            String autoFuzzyQuery = makeFuzzyQuery(userQuery);
-            System.out.println("Original query: '" + userQuery + "'");
-            System.out.println("Auto fuzzy query: '" + autoFuzzyQuery + "'");
+                
+            System.out.println("Searching for: '" + userQuery + "' (using n-gram analysis)");
             
-            // Parse the user query to search across both name and description fields
-            Query query = parser.parse(autoFuzzyQuery); // Use the fuzzy version
-
-            TopDocs results = searcher.search(query, 50);
+            // N-gram parsing handles both exact matches and typos automatically
+            Query query = parser.parse(userQuery);
+            TopDocs results = searcher.search(query, 1000);
             
-            System.out.println("Total Hits: " + results.totalHits + " for search term: '" + userQuery + "' (fuzzy: '" + autoFuzzyQuery + "')");
+            System.out.println("Total Hits: " + results.scoreDocs.length + " for search term: '" + userQuery + "'");
             
-            // All results already meet minimum score - no manual filtering needed
+            // Print results with names and scores side by side
             StoredFields storedFields = searcher.storedFields();
-            List<String> names =
-            Arrays.stream(results.scoreDocs).map(scoreDoc -> {
-                Document doc = null;
+            System.out.println("Document Name | Score");
+            System.out.println("----------------------------------------");
+            
+            for (int i = 0; i < results.scoreDocs.length; i++) {
                 try {
-                    doc = storedFields.document(scoreDoc.doc);
+                    ScoreDoc scoreDoc = results.scoreDocs[i];
+                    Document doc = storedFields.document(scoreDoc.doc);
+                    String name = doc.get("name");
+                    float score = scoreDoc.score;
+                    System.out.printf("%-25s | %.4f%n", name, score);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                return doc.get("name");
-            }).toList();
-            System.out.println("Matching Document Names: ");
-            names.forEach(System.out::println);
+            }
         }
-    }
-
-    // Helper method to automatically add fuzzy search to terms
-    private static String makeFuzzyQuery(String originalQuery) {
-        // Split query into words and add ~2 to each word (allows up to 2 character edits)
-        String[] words = originalQuery.trim().split("\\s+");
-        StringBuilder fuzzyQuery = new StringBuilder();
-        
-        for (int i = 0; i < words.length; i++) {
-            String word = words[i];
-            // Don't make very short words fuzzy (less than 4 characters)
-            fuzzyQuery.append(word);
-            if (word.length() >= 4) 
-                fuzzyQuery.append("~4");
-            
-            if (i < words.length - 1)
-                fuzzyQuery.append(" ");
-        }
-        
-        return fuzzyQuery.toString();
     }
 
     private static void addDoc(IndexWriter w, String id, String name, String desc) throws Exception {
