@@ -3,6 +3,7 @@ package org.troy.capstone.search_engine.query;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.CharArraySet;
@@ -23,6 +24,11 @@ import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.search.similarities.BM25Similarity;
 import org.apache.lucene.store.ByteBuffersDirectory;
 import org.apache.lucene.store.Directory;
+import org.troy.capstone.constants.TableColumnName;
+import org.troy.capstone.utils.TableUtils;
+
+import tech.tablesaw.api.Row;
+import tech.tablesaw.api.Table;
 
 public class MyBM25 {
     public static void main() throws Exception{
@@ -47,17 +53,23 @@ public class MyBM25 {
 
         IndexWriterConfig config = new IndexWriterConfig(analyzer);
 
+        System.out.println("Indexing data and building search engine...");
         /**
          * BM25 used intead of default TF-IDF for better relevance scoring,
          * saturation effect, length normalization, better ranking quality,
          * and widely used in modern search engines.
          */
         config.setSimilarity(new BM25Similarity());
+        Table table = TableUtils.readCleanedAttributedData();
         try(IndexWriter writer = new IndexWriter(directory, config)) {
-            addDoc(writer, "101", "Apple iPhone 15 Pro Max", "Latest flagship smartphone from Apple");
-            addDoc(writer, "102", "Samsung Galaxy S23 Ultra", "High-end Android phone with stylus");
-            addDoc(writer, "103", "Google Pixel 8", "Google's latest smartphone with AI features");
+            for(Row row : table)
+                addDoc(writer, 
+                    row.getString(TableColumnName.ID.getColumnName()),
+                    row.getString(TableColumnName.NAME.getColumnName()),
+                    row.getString(TableColumnName.DESCRIPTION.getColumnName())
+                );
         }
+        System.out.println("Indexing complete. You can now enter search queries.");
 
         IndexReader reader = DirectoryReader.open(directory);
         IndexSearcher searcher = new IndexSearcher(reader);
@@ -76,38 +88,39 @@ public class MyBM25 {
         parser.setDefaultOperator(MultiFieldQueryParser.Operator.OR); // OR instead of AND (default)
         parser.setFuzzyMinSim(0.8f); // Allow fuzzy matching for typos (80% similarity - more lenient)
 
-        // Simple user search string - this is what you'd get from user input
-        // For fuzzy search, append ~ to terms with potential typos
-        String userQuery = "galxy smartphone"; // Test with typo
-        
-        // Option 1: Manual fuzzy query (as shown above)
-        // String manualFuzzyQuery = "galxy~2 smartphone";
-        
-        // Option 2: Automatic fuzzy query conversion
-        String autoFuzzyQuery = makeFuzzyQuery(userQuery);
-        System.out.println("Original query: '" + userQuery + "'");
-        System.out.println("Auto fuzzy query: '" + autoFuzzyQuery + "'");
-        
-        // Parse the user query to search across both name and description fields
-        Query query = parser.parse(autoFuzzyQuery); // Use the fuzzy version
+        Scanner scan = new Scanner(System.in);
+        while (true) {
+            System.out.print("Enter search query (or 'exit' to quit): ");
+            String userQuery = scan.nextLine();
+            if( userQuery.trim().equals("exit") )
+                break;
+            // Option 2: Automatic fuzzy query conversion
+            String autoFuzzyQuery = makeFuzzyQuery(userQuery);
+            System.out.println("Original query: '" + userQuery + "'");
+            System.out.println("Auto fuzzy query: '" + autoFuzzyQuery + "'");
+            
+            // Parse the user query to search across both name and description fields
+            Query query = parser.parse(autoFuzzyQuery); // Use the fuzzy version
 
-        TopDocs results = searcher.search(query, 50);
-        
-        System.out.println("Total Hits: " + results.totalHits + " for search term: '" + userQuery + "' (fuzzy: '" + autoFuzzyQuery + "')");
-        
-        // All results already meet minimum score - no manual filtering needed
-        StoredFields storedFields = searcher.storedFields();
-        List<String> ids =
-        Arrays.stream(results.scoreDocs).map(scoreDoc -> {
-            Document doc = null;
-            try {
-                doc = storedFields.document(scoreDoc.doc);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return doc.get("id");
-        }).toList();
-        System.out.println("Matching Document IDs: " + ids);
+            TopDocs results = searcher.search(query, 50);
+            
+            System.out.println("Total Hits: " + results.totalHits + " for search term: '" + userQuery + "' (fuzzy: '" + autoFuzzyQuery + "')");
+            
+            // All results already meet minimum score - no manual filtering needed
+            StoredFields storedFields = searcher.storedFields();
+            List<String> names =
+            Arrays.stream(results.scoreDocs).map(scoreDoc -> {
+                Document doc = null;
+                try {
+                    doc = storedFields.document(scoreDoc.doc);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return doc.get("name");
+            }).toList();
+            System.out.println("Matching Document Names: ");
+            names.forEach(System.out::println);
+        }
     }
 
     // Helper method to automatically add fuzzy search to terms
@@ -119,15 +132,12 @@ public class MyBM25 {
         for (int i = 0; i < words.length; i++) {
             String word = words[i];
             // Don't make very short words fuzzy (less than 4 characters)
-            if (word.length() >= 4) {
-                fuzzyQuery.append(word).append("~4");
-            } else {
-                fuzzyQuery.append(word);
-            }
+            fuzzyQuery.append(word);
+            if (word.length() >= 4) 
+                fuzzyQuery.append("~4");
             
-            if (i < words.length - 1) {
+            if (i < words.length - 1)
                 fuzzyQuery.append(" ");
-            }
         }
         
         return fuzzyQuery.toString();
@@ -136,8 +146,8 @@ public class MyBM25 {
     private static void addDoc(IndexWriter w, String id, String name, String desc) throws Exception {
         Document doc = new Document();
         doc.add(new StoredField("id", id)); // ID field - stored but not indexed for searching
-        doc.add(new TextField("name", name, Field.Store.YES));    // Searchable and stored
-        doc.add(new TextField("description", desc, Field.Store.YES)); // Searchable and stored  
+        doc.add(new TextField("name", name, Field.Store.YES));    // Searchable and stored. Will be removed prior to use in main program
+        doc.add(new TextField("description", desc, Field.Store.NO)); // Searchable but not stored  
         w.addDocument(doc);
     }
 }
