@@ -2,6 +2,7 @@ package org.troy.capstone.data_structures.ItemTable;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.lang.reflect.Field;
 import java.math.BigInteger;
 import java.util.List;
 import java.util.Optional;
@@ -71,8 +72,17 @@ public class ItemHashMapTest {
         assert itemIds.size() > 0 : "There should be item IDs in the map";
 
         //Distribution depends slightly on the found I and J, which may differ
-        IdHashKey.setI(new BigInteger("77507594") );
-        IdHashKey.setJ(new BigInteger("99688092") );
+        try{
+            Field fieldI = IdHashKey.class.getDeclaredField("I");
+            fieldI.setAccessible(true);
+            //Pass null since it is static, this no object reference is needed to set the value
+            fieldI.set(null, new BigInteger("77507594") );
+            Field fieldJ = IdHashKey.class.getDeclaredField("J");
+            fieldJ.setAccessible(true);
+            fieldJ.set(null, new BigInteger("99688092") );
+        }catch(IllegalAccessException | IllegalArgumentException | NoSuchFieldException e){
+            throw new RuntimeException("Failed to set hash parameters via reflection", e);
+        }
 
         int[] customBucketDistribution = map.getFreshBucketSizeCount( itemIds, true );
         int[] builtInBucketDistribution = map.getFreshBucketSizeCount( itemIds, false );
@@ -108,8 +118,18 @@ public class ItemHashMapTest {
             ByteArrayOutputStream outContent = new ByteArrayOutputStream();
             System.setOut(new PrintStream(outContent));
 
-            IdHashKey.setI(new BigInteger("77507594") );
-            IdHashKey.setJ(new BigInteger("99688092") );
+            try {
+                // Use reflection to set I and J
+                Field fieldI = IdHashKey.class.getDeclaredField("I");
+                fieldI.setAccessible(true);
+                fieldI.set(null, new BigInteger("77507594"));
+                
+                Field fieldJ = IdHashKey.class.getDeclaredField("J");
+                fieldJ.setAccessible(true);
+                fieldJ.set(null, new BigInteger("99688092"));
+            } catch (IllegalAccessException | IllegalArgumentException | NoSuchFieldException e) {
+                throw new RuntimeException("Failed to set hash parameters via reflection", e);
+            }
 
             map.printBucketSizeCountsCustomVsBuiltIn();
 

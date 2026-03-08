@@ -34,14 +34,6 @@ public class IdHashKey {
     static BigInteger getP() {
         return P;
     }
-
-    static void setI(BigInteger newI) {
-        I = newI;
-    }
-
-    static void setJ(BigInteger newJ) {
-        J = newJ;
-    }
     
     //Using universal hashing code from textbook, with small alterations
     @Override
