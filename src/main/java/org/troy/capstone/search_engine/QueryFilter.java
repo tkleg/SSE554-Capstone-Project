@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.core.StopAnalyzer;
@@ -33,8 +31,10 @@ import org.apache.lucene.store.ByteBuffersDirectory;
 import org.apache.lucene.store.Directory;
 import org.troy.capstone.annotations.TestExclusionGenerated;
 import org.troy.capstone.constants.TableColumnName;
-import org.troy.capstone.entities.Item;
 import org.troy.capstone.utils.TableUtils;
+
+import tech.tablesaw.api.Row;
+import tech.tablesaw.api.Table;
 
 public class QueryFilter {
 
@@ -62,12 +62,13 @@ public class QueryFilter {
         TableColumnName.DESCRIPTION.getColumnName(), DESCRIPTION_FIELD_BOOST
     );
     private MultiFieldQueryParser parser;
+    private Table table;
 
     @TestExclusionGenerated
     public static void main(String[] args) {
         
-        Set<Item> items = TableUtils.readCleanedAttributedData().stream().map(Item::fromRow).collect(Collectors.toSet());
-        QueryFilter queryFilter = new QueryFilter(items);
+        Table table = TableUtils.readCleanedAttributedData();
+        QueryFilter queryFilter = new QueryFilter(table);
 
         try (Scanner scan = new Scanner(System.in)) {
             while (true) {
@@ -82,8 +83,9 @@ public class QueryFilter {
         }
     }
 
-    public QueryFilter(Set<Item> items){
+    public QueryFilter(Table table){
         try{
+        this.table = table;
         createNgramAnalyzer();
 
         /**
@@ -103,7 +105,7 @@ public class QueryFilter {
 
         writer = new IndexWriter(directory, config);
 
-        items.forEach(this::addDoc);
+        table.stream().forEach(this::addDoc);
 
         reader = DirectoryReader.open(writer);
         searcher = new IndexSearcher(reader);
@@ -179,12 +181,12 @@ public class QueryFilter {
         }
     }
 
-    private void addDoc(Item item){
+    private void addDoc(Row row){
         try{
             Document doc = new Document();
-            doc.add(new StoredField("id", item.getId())); // ID field - stored but not indexed for searching
-            doc.add(new TextField("name", item.getName(), Field.Store.YES));    // Searchable and stored. Will be removed prior to use in main program
-            doc.add(new TextField("description", item.getDescription(), Field.Store.NO)); // Searchable but not stored  
+            doc.add(new StoredField(TableColumnName.ID.getColumnName(), row.getString(TableColumnName.ID.getColumnName()))); //ID field - stored but not indexed for searching
+            doc.add(new TextField(TableColumnName.NAME.getColumnName(), row.getString(TableColumnName.NAME.getColumnName()), Field.Store.YES));    //Searchable and stored. Will be removed prior to use in main program
+            doc.add(new TextField(TableColumnName.DESCRIPTION.getColumnName(), row.getString(TableColumnName.DESCRIPTION.getColumnName()), Field.Store.NO)); //Searchable but not stored  
             writer.addDocument(doc);
         }catch (IOException e){
             System.out.println("Error adding document to index: " + e.getMessage());

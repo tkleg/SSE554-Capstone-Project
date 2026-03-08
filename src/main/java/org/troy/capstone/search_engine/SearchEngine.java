@@ -52,6 +52,9 @@ public class SearchEngine {
         selection = selection.and(categoricalResult);
         System.out.println("After categorical filters: " + selection.size() + " items");
 
+        Table preQueryFilteredTable = table.where(selection);
+
+        //List<SearchResult> searchResults = new QueryFilter(preQueryFilteredTable).search((String)searchData.get(UIDataName.QUERY_STRING));
         System.out.println("Number of results: " + selection.size());
         System.out.println("Total Data Size: " + table.rowCount());
 

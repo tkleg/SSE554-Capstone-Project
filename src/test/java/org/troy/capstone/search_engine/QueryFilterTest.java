@@ -6,7 +6,6 @@ import java.io.PrintStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.apache.lucene.analysis.core.StopAnalyzer;
 import org.apache.lucene.analysis.custom.CustomAnalyzer;
@@ -32,23 +31,25 @@ import static org.mockito.Mockito.mockConstruction;
 import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.when;
 import org.mockito.Spy;
-import org.troy.capstone.entities.Item;
 import org.troy.capstone.utils.TableUtils;
+
+import tech.tablesaw.api.Row;
+import tech.tablesaw.api.Table;
 
 public class QueryFilterTest {
     private QueryFilter queryFilter;
-    private static List<Item> items;
+    private static Table table;
 
     @BeforeAll
     public static void setup() {
-        items = TableUtils.readCleanedAttributedData().stream().map(Item::fromRow).collect(Collectors.toList());
+        table = TableUtils.readCleanedAttributedData();
     }
 
     @Test
     @DisplayName("Test that the constructor does not throw an error")
     public void testConstructorNotThrow() {
         assertDoesNotThrow(() -> {
-            queryFilter = new QueryFilter(items.stream().collect(Collectors.toSet()));
+            queryFilter = new QueryFilter(table);
         });
     }
 
@@ -81,7 +82,7 @@ public class QueryFilterTest {
 
         @BeforeAll
         public static void setup() {
-            goodQueryFilter = new QueryFilter(items.stream().collect(Collectors.toSet()));
+            goodQueryFilter = new QueryFilter(table);
         }
         
         @ParameterizedTest
@@ -184,7 +185,7 @@ public class QueryFilterTest {
         System.setOut(new PrintStream(outContent));
         
         try {
-            QueryFilter queryFilter = new QueryFilter(items.stream().collect(Collectors.toSet()));
+            QueryFilter queryFilter = new QueryFilter(table);
             
             //Create a mock IndexWriter that throws IOException on addDocument
             IndexWriter mockWriter = mock(IndexWriter.class);
@@ -197,11 +198,11 @@ public class QueryFilterTest {
             writerField.set(queryFilter, mockWriter);
 
             //Mock the method
-            Method addDocMethod = QueryFilter.class.getDeclaredMethod("addDoc", Item.class);
+            Method addDocMethod = QueryFilter.class.getDeclaredMethod("addDoc", Row.class);
             addDocMethod.setAccessible(true);
    
             //Call addDoc on queryFilter with a valid item - should trigger the IOException and print the error message
-            addDocMethod.invoke(queryFilter, items.get(0));
+            addDocMethod.invoke(queryFilter, table.row(0));
 
             //Verify the expected error message was printed
             String output = outContent.toString();
