@@ -20,11 +20,13 @@ Project,org.troy.capstone.ui_components.price_slider,PriceSlider,0,228,0,4,0,43,
 Project,org.troy.capstone.ui_components.items.searched,SearchedItemPanel,0,221,0,0,0,38,0,7,0,7
 Project,org.troy.capstone.ui_components.items.searched,SearchedItemContainer,0,50,0,2,0,15,0,4,0,3
 Project,org.troy.capstone.ui_components.items.searched,SearchedItemPagination,8,124,0,4,0,31,2,9,2,7
-Project,org.troy.capstone.search_engine.query,MyBM25,251,0,6,0,55,0,6,0,3,0
+Project,org.troy.capstone.search_engine.query,MyBM25,278,0,10,0,59,0,8,0,3,0
 Project,org.troy.capstone.ui_components.search_bar,SearchBar,0,69,0,0,0,14,0,4,0,4
 Project,org.troy.capstone.data_structures.ItemTable,ItemHashMap,2,306,2,16,0,45,2,17,0,10
 Project,org.troy.capstone.data_structures.ItemTable,IdHashKey,0,126,0,8,0,33,0,15,0,11
 Project,org.troy.capstone.data_structures.ItemTable,SieveOfEratosthenes,0,115,0,16,0,29,0,13,0,5
 Project,org.troy.capstone.search_engine,SearchEngine,0,407,2,38,0,97,2,26,0,8
+Project,org.troy.capstone.search_engine,QueryFilter,31,313,1,7,7,62,2,7,1,4
+Project,org.troy.capstone.search_engine,QueryFilter.SearchResult,0,15,0,0,0,6,0,3,0,3
 Project,org.troy.capstone.data_structures,PriceRangeFinder,0,60,0,2,0,11,0,5,0,4
 Project,org.troy.capstone.ui_components.filters.stars,StarRatingFilter,0,229,0,14,0,48,0,17,0,10

@@ -1,5 +1,6 @@
 package org.troy.capstone.search_engine;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +31,7 @@ import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.search.similarities.BM25Similarity;
 import org.apache.lucene.store.ByteBuffersDirectory;
 import org.apache.lucene.store.Directory;
+import org.troy.capstone.annotations.TestExclusionGenerated;
 import org.troy.capstone.constants.TableColumnName;
 import org.troy.capstone.entities.Item;
 import org.troy.capstone.utils.TableUtils;
@@ -47,6 +49,7 @@ public class QueryFilter {
     private static final float DEFAULT_NORMALIZATION_FACTOR = 1.0f; //Default normalization factor for BM25, can be tuned based on dataset characteristics
     private static final float SELECTED_SATURATION_PARAMETER = 1.75f; //Selected saturation parameter for BM25, can be tuned based on dataset characteristics
 
+    private List<SearchResult> resultsList;
     private Analyzer ngramAnalyzer;
     private Directory directory;
     private IndexWriterConfig config;
@@ -60,6 +63,7 @@ public class QueryFilter {
     );
     private MultiFieldQueryParser parser;
 
+    @TestExclusionGenerated
     public static void main(String[] args) {
         
         Set<Item> items = TableUtils.readCleanedAttributedData().stream().map(Item::fromRow).collect(Collectors.toSet());
@@ -72,7 +76,8 @@ public class QueryFilter {
                 if (userQuery.equalsIgnoreCase("exit"))
                     break;
                 List<SearchResult> results = queryFilter.search(userQuery);
-                results.forEach(result -> System.out.println("ID: " + result.getId() + ", Score: " + result.getScore()));
+                for(SearchResult result : results)
+                    System.out.println("ID: " + result.getId() + ", Score: " + result.getScore());
             }
         }
     }
@@ -109,10 +114,12 @@ public class QueryFilter {
         parser.setDefaultOperator(MultiFieldQueryParser.Operator.OR);
         }catch (Exception e){
             System.out.println("Error initializing QueryFilter: " + e.getMessage());
+            throw new RuntimeException("Failed to initialize QueryFilter", e);
         }
+        
     }
 
-    public class SearchResult {
+    public static class SearchResult {
         private String id;
         private float score;
 
@@ -132,7 +139,7 @@ public class QueryFilter {
 
     public List<SearchResult> search(String userQuery){
         try{
-            List<SearchResult> resultsList = new ArrayList<>();
+            resultsList = new ArrayList<>();
 
             Query query = parser.parse(userQuery.trim());
             TopDocs results = searcher.search(query, 1000);
@@ -140,6 +147,13 @@ public class QueryFilter {
             double minimumAllowableScore = results.scoreDocs.length > 0 ?
                 results.scoreDocs[0].score * SCORE_THRESHOLD_FACTOR :
                 0.0;
+
+            System.out.println("Total hits: " + results.totalHits.value() + ", Minimum score for inclusion: " + minimumAllowableScore);
+            
+            if( results.totalHits.value() == 0){
+                System.out.println("No results found for query: " + userQuery);
+                return resultsList;
+            }
 
             StoredFields storedFields = searcher.getIndexReader().leaves().get(0).reader().storedFields();
 
@@ -157,7 +171,7 @@ public class QueryFilter {
                     return resultsList; //Return results found so far if there's an error retrieving a document
                 }
             }
-            
+            System.out.println("Search completed with " + resultsList.size() + " results above score threshold.");
             return resultsList;
         }catch (Exception e){
             System.out.println("Error executing search: " + e.getMessage());
@@ -172,8 +186,8 @@ public class QueryFilter {
             doc.add(new TextField("name", item.getName(), Field.Store.YES));    // Searchable and stored. Will be removed prior to use in main program
             doc.add(new TextField("description", item.getDescription(), Field.Store.NO)); // Searchable but not stored  
             writer.addDocument(doc);
-        }catch (Exception e){
-            System.out.println("Error adding document with ID " + item.getId() + " to index: " + e.getMessage());
+        }catch (IOException e){
+            System.out.println("Error adding document to index: " + e.getMessage());
         }
     }
 
@@ -185,7 +199,7 @@ public class QueryFilter {
                 .withTokenizer(NGramTokenizerFactory.class, "minGramSize", "" + MIN_NGRAM_SIZE, "maxGramSize",  "" + MAX_NGRAM_SIZE)
                 .addTokenFilter(StopFilterFactory.class)
                 .build();
-        }catch (Exception e){
+        }catch (IOException e){
             System.out.println("Error creating ngram analyzer: " + e.getMessage());
             System.out.println("Falling back to Stop analyzer with basic English stop words.");
             ngramAnalyzer = new StopAnalyzer(EnglishAnalyzer.ENGLISH_STOP_WORDS_SET);
