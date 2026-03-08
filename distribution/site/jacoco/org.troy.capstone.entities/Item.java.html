@@ -48,7 +48,7 @@ public class Item {
      * @throws IllegalArgumentException if the provided column does not correspond to a valid attribute of the Item class.
      */
     public Object getAttribute( TableColumnName column ){
-<span class="fc bfc" id="L51" title="All 15 branches covered.">        return switch(column){</span>
+<span class="pc bpc" id="L51" title="1 of 16 branches missed.">        return switch(column){</span>
 <span class="fc" id="L52">            case INDEX -&gt; index;</span>
 <span class="fc" id="L53">            case ID -&gt; id;</span>
 <span class="fc" id="L54">            case IMAGE_URL -&gt; imageUrl;</span>
@@ -64,6 +64,7 @@ public class Item {
 <span class="fc" id="L64">            case DATE_ADDED -&gt; dateAdded;</span>
 <span class="fc" id="L65">            case PHOTO_AUTHOR -&gt; photoAuthor;</span>
 <span class="fc" id="L66">            case PHOTO_AUTHOR_URL -&gt; photoAuthorUrl;</span>
+<span class="nc" id="L67">            case RELEVANCE -&gt; null; //Relevance is not a part of the item class, but is added later during search query filteringsearch query filtering</span>
         };
     }
     
@@ -73,22 +74,22 @@ public class Item {
      * @return Item: a randomly generated Item object with all attributes populated with realistic random values.
      */
     public static Item randomItem(){
-<span class="fc" id="L76">        return Item.builder()</span>
-<span class="fc" id="L77">            .imageUrl( URL.DEFAULT_IMAGE_URL.getUrl() )</span>
-<span class="fc" id="L78">            .name( faker.commerce().productName() )</span>
-<span class="fc" id="L79">            .publisher( faker.company().name() )</span>
-<span class="fc" id="L80">            .description( String.join(&quot; &quot;, faker.lorem().sentences(2) ) )</span>
-<span class="fc" id="L81">            .category( faker.commerce().department() )</span>
-<span class="fc" id="L82">            .tags( Set.copyOf( faker.lorem().words(3) ) )</span>
-<span class="fc" id="L83">            .price( (float) faker.number().randomDouble(2, 5, 500) )</span>
-<span class="fc" id="L84">            .reviewScore( (float) faker.number().randomDouble(1, 1, 5) )</span>
-<span class="fc" id="L85">            .reviewCount( (short) faker.number().numberBetween(0, 1000) )</span>
-<span class="fc" id="L86">            .stockQuantity( (short) faker.number().numberBetween(0, 100) )</span>
-<span class="fc" id="L87">            .dateAdded( Date.from( faker.timeAndDate().future(365, TimeUnit.DAYS) ) )</span>
-<span class="fc" id="L88">            .photoAuthor( URL.DEFAULT_AUTHOR_NAME.getUrl() )</span>
-<span class="fc" id="L89">            .photoAuthorUrl( URL.DEFAULT_AUTHOR_URL.getUrl() )</span>
-<span class="fc" id="L90">            .id( faker.internet().uuid() )</span>
-<span class="fc" id="L91">            .build();</span>
+<span class="fc" id="L77">        return Item.builder()</span>
+<span class="fc" id="L78">            .imageUrl( URL.DEFAULT_IMAGE_URL.getUrl() )</span>
+<span class="fc" id="L79">            .name( faker.commerce().productName() )</span>
+<span class="fc" id="L80">            .publisher( faker.company().name() )</span>
+<span class="fc" id="L81">            .description( String.join(&quot; &quot;, faker.lorem().sentences(2) ) )</span>
+<span class="fc" id="L82">            .category( faker.commerce().department() )</span>
+<span class="fc" id="L83">            .tags( Set.copyOf( faker.lorem().words(3) ) )</span>
+<span class="fc" id="L84">            .price( (float) faker.number().randomDouble(2, 5, 500) )</span>
+<span class="fc" id="L85">            .reviewScore( (float) faker.number().randomDouble(1, 1, 5) )</span>
+<span class="fc" id="L86">            .reviewCount( (short) faker.number().numberBetween(0, 1000) )</span>
+<span class="fc" id="L87">            .stockQuantity( (short) faker.number().numberBetween(0, 100) )</span>
+<span class="fc" id="L88">            .dateAdded( Date.from( faker.timeAndDate().future(365, TimeUnit.DAYS) ) )</span>
+<span class="fc" id="L89">            .photoAuthor( URL.DEFAULT_AUTHOR_NAME.getUrl() )</span>
+<span class="fc" id="L90">            .photoAuthorUrl( URL.DEFAULT_AUTHOR_URL.getUrl() )</span>
+<span class="fc" id="L91">            .id( faker.internet().uuid() )</span>
+<span class="fc" id="L92">            .build();</span>
     }
 
     /**
@@ -100,23 +101,23 @@ public class Item {
      * @return Item: an Item object created from the data in the provided Row.
      */
     public static Item fromRow( Row itemRow ){
-<span class="fc" id="L103">        return Item.builder()</span>
-<span class="fc" id="L104">                .index( itemRow.getShort(TableColumnName.INDEX.getColumnName()) )</span>
-<span class="fc" id="L105">                .imageUrl( itemRow.getString(TableColumnName.IMAGE_URL.getColumnName()) )</span>
-<span class="fc" id="L106">                .name( itemRow.getString(TableColumnName.NAME.getColumnName()) )</span>
-<span class="fc" id="L107">                .publisher( itemRow.getString(TableColumnName.PUBLISHER.getColumnName()) )</span>
-<span class="fc" id="L108">                .description( itemRow.getString(TableColumnName.DESCRIPTION.getColumnName()) )</span>
-<span class="fc" id="L109">                .category( itemRow.getString(TableColumnName.CATEGORY.getColumnName()) )</span>
-<span class="fc" id="L110">                .tags( new HashSet&lt;&gt;( Arrays.asList( itemRow.getString(TableColumnName.TAGS.getColumnName()).split(&quot;, &quot;) ) ) )</span>
-<span class="fc" id="L111">                .price( itemRow.getFloat(TableColumnName.PRICE.getColumnName()) )</span>
-<span class="fc" id="L112">                .reviewScore( itemRow.getFloat(TableColumnName.REVIEW_SCORE.getColumnName()) )</span>
-<span class="fc" id="L113">                .reviewCount( itemRow.getShort(TableColumnName.REVIEW_COUNT.getColumnName()) )</span>
-<span class="fc" id="L114">                .stockQuantity( itemRow.getShort(TableColumnName.STOCK_QUANTITY.getColumnName()) )</span>
-<span class="fc" id="L115">                .id( itemRow.getString(TableColumnName.ID.getColumnName()) )</span>
-<span class="fc" id="L116">                .photoAuthor( itemRow.getString(TableColumnName.PHOTO_AUTHOR.getColumnName()) )</span>
-<span class="fc" id="L117">                .photoAuthorUrl( itemRow.getString(TableColumnName.PHOTO_AUTHOR_URL.getColumnName()) )</span>
-<span class="fc" id="L118">                .dateAdded( Converters.localDateToDate(itemRow.getDate(TableColumnName.DATE_ADDED.getColumnName())) )</span>
-<span class="fc" id="L119">            .build();</span>
+<span class="fc" id="L104">        return Item.builder()</span>
+<span class="fc" id="L105">                .index( itemRow.getShort(TableColumnName.INDEX.getColumnName()) )</span>
+<span class="fc" id="L106">                .imageUrl( itemRow.getString(TableColumnName.IMAGE_URL.getColumnName()) )</span>
+<span class="fc" id="L107">                .name( itemRow.getString(TableColumnName.NAME.getColumnName()) )</span>
+<span class="fc" id="L108">                .publisher( itemRow.getString(TableColumnName.PUBLISHER.getColumnName()) )</span>
+<span class="fc" id="L109">                .description( itemRow.getString(TableColumnName.DESCRIPTION.getColumnName()) )</span>
+<span class="fc" id="L110">                .category( itemRow.getString(TableColumnName.CATEGORY.getColumnName()) )</span>
+<span class="fc" id="L111">                .tags( new HashSet&lt;&gt;( Arrays.asList( itemRow.getString(TableColumnName.TAGS.getColumnName()).split(&quot;, &quot;) ) ) )</span>
+<span class="fc" id="L112">                .price( itemRow.getFloat(TableColumnName.PRICE.getColumnName()) )</span>
+<span class="fc" id="L113">                .reviewScore( itemRow.getFloat(TableColumnName.REVIEW_SCORE.getColumnName()) )</span>
+<span class="fc" id="L114">                .reviewCount( itemRow.getShort(TableColumnName.REVIEW_COUNT.getColumnName()) )</span>
+<span class="fc" id="L115">                .stockQuantity( itemRow.getShort(TableColumnName.STOCK_QUANTITY.getColumnName()) )</span>
+<span class="fc" id="L116">                .id( itemRow.getString(TableColumnName.ID.getColumnName()) )</span>
+<span class="fc" id="L117">                .photoAuthor( itemRow.getString(TableColumnName.PHOTO_AUTHOR.getColumnName()) )</span>
+<span class="fc" id="L118">                .photoAuthorUrl( itemRow.getString(TableColumnName.PHOTO_AUTHOR_URL.getColumnName()) )</span>
+<span class="fc" id="L119">                .dateAdded( Converters.localDateToDate(itemRow.getDate(TableColumnName.DATE_ADDED.getColumnName())) )</span>
+<span class="fc" id="L120">            .build();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

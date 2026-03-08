@@ -1,12 +1,12 @@
 package org.troy.capstone.utils;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -22,7 +22,8 @@ public class TableUtilsTest {
 
     @BeforeAll
     public static void setup() {
-        expectedColumns = Arrays.stream(TableColumnName.values()).toList();
+        expectedColumns = new ArrayList<>(Arrays.asList(TableColumnName.values()));
+        expectedColumns.remove(TableColumnName.RELEVANCE); //Relevance is not a column in the original dataset when read, but is added later during search query filtering
     }
     
     @ParameterizedTest

@@ -1,23 +1,23 @@
 package org.troy.capstone.entities;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.Set;
+
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 import org.troy.capstone.constants.TableColumnName;
 
 import tech.tablesaw.api.DateColumn;
 import tech.tablesaw.api.FloatColumn;
+import tech.tablesaw.api.Row;
 import tech.tablesaw.api.ShortColumn;
 import tech.tablesaw.api.StringColumn;
-import tech.tablesaw.api.Row;
 import tech.tablesaw.api.Table;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-
-import java.util.Date;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.params.provider.EnumSource;
 
 public class ItemTest {
     private static Item testItem;
@@ -44,7 +44,10 @@ public class ItemTest {
     }
 
     @ParameterizedTest
-    @EnumSource(TableColumnName.class)
+    @EnumSource(value = TableColumnName.class,
+        names = {"RELEVANCE"}, //Exclude relevance since it's not a part of the item class, but is added later during search query filtering
+        mode = EnumSource.Mode.EXCLUDE
+    )
     @DisplayName("Test that getAttribute returns the correct value for each column")
     public void testGetAttribute(TableColumnName column){
         Object data = testItem.getAttribute(column);

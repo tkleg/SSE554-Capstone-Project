@@ -1,6 +1,5 @@
 package org.troy.capstone.search_engine;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -8,6 +7,8 @@ import org.troy.capstone.constants.TableColumnName;
 import org.troy.capstone.constants.UIDataName;
 import org.troy.capstone.data_structures.PriceRangeFinder;
 
+import tech.tablesaw.api.FloatColumn;
+import tech.tablesaw.api.StringColumn;
 import tech.tablesaw.api.Table;
 import tech.tablesaw.selection.Selection;
 
@@ -55,21 +56,19 @@ public class SearchEngine {
         selection = selection.and(categoricalResult);
         System.out.println("After categorical filters: " + selection.size() + " items");
 
+        //Apply filters prior to the search query so the query is only applied to filterd items to reduce time to apply the search query filter
         Table preQueryFilteredTable = table.where(selection);
 
-        Map<String, Float> searchResults = applySearchQueryFilter((String)searchData.get(UIDataName.SEARCH_QUERY));
-
-        Table queryFilteredTable; 
-        if( searchResults == null )
-            queryFilteredTable = preQueryFilteredTable;
-        else
-            queryFilteredTable = preQueryFilteredTable.where(preQueryFilteredTable.stringColumn(TableColumnName.ID.getColumnName())
-            .isIn(searchResults.keySet()));
+        //Filter search query
+        Table queryFilteredTable = applySearchQueryFilter((String)searchData.get(UIDataName.SEARCH_QUERY), preQueryFilteredTable);
+        if( queryFilteredTable != preQueryFilteredTable ){
+            System.out.println("After applying search query filter: " + queryFilteredTable.rowCount() + " items");
+            System.out.print(queryFilteredTable.selectColumns(TableColumnName.NAME.getColumnName(), TableColumnName.RELEVANCE.getColumnName()));
+        }else
+            System.out.println("Search query filter not applied.");
 
         System.out.println("Number of results: " + queryFilteredTable.rowCount());
         System.out.println("Total Data Size: " + table.rowCount());
-
-        System.out.println(queryFilteredTable.selectColumns(TableColumnName.NAME.getColumnName()));
 
         return queryFilteredTable.stringColumn(TableColumnName.ID.getColumnName()).asSet();
     }
@@ -78,16 +77,28 @@ public class SearchEngine {
      * Helper method to apply the search query results as a filter on the table
      * 
      * @param userQuery (String) : The user query to be applied as a filter
-     * @return (Map<String, Float>) : A map of item IDs to their relevance scores for the search query, or null if the user query is null or empty
+     * @param preQueryFilteredTable (Table) : The table after applying all filters except the search query filter, so that the search query filter is only applied to the already filtered items for better performance
+     * @return (Table) : The filtered table with search results, or the original table if no filtering was applied
      */
-    public Map<String, Float> applySearchQueryFilter(String userQuery) {
+    public Table applySearchQueryFilter(String userQuery, Table preQueryFilteredTable) {
         System.out.println("Applying search query filter with user query: \"" + userQuery + "\"");
         if( userQuery == null || userQuery.trim().isEmpty() ){
             System.out.println("User query is null or empty, skipping search query filter.");
-            return null;
+            return preQueryFilteredTable;
         }
 
-        return queryFilter.search(userQuery);
+        Map<String, Float> searchResults = queryFilter.search(userQuery);
+
+        if( searchResults == null || searchResults.isEmpty() )
+            return preQueryFilteredTable;
+        else{
+            StringColumn idColumn = preQueryFilteredTable.stringColumn(TableColumnName.ID.getColumnName());
+            FloatColumn relevanceColumn = FloatColumn.create(TableColumnName.RELEVANCE.getColumnName(), preQueryFilteredTable.rowCount());
+            for( int i = 0; i < idColumn.size(); i++ )
+                relevanceColumn.set(i, searchResults.getOrDefault(idColumn.get(i), 0f));
+            Table tableWithRelevance = preQueryFilteredTable.addColumns(relevanceColumn);
+            return tableWithRelevance.where( tableWithRelevance.floatColumn(TableColumnName.RELEVANCE.getColumnName()).isGreaterThan(0) );
+        }
     }
 
     /**

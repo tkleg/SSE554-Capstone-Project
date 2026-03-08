@@ -17,7 +17,9 @@ public enum TableColumnName {
     STOCK_QUANTITY("stockQuantity"),
     DATE_ADDED("dateAdded"),
     PHOTO_AUTHOR("photoAuthor"),
-    PHOTO_AUTHOR_URL("photoAuthorUrl");
+    PHOTO_AUTHOR_URL("photoAuthorUrl"),
+    RELEVANCE("relevance"); //Column for relevance scores from search engine, not present in original dataset when read
+
 
     private final String columnName;
 

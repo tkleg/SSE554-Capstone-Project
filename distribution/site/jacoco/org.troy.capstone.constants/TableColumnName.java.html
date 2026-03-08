@@ -17,22 +17,24 @@ import java.util.Set;
 <span class="fc" id="L17">    STOCK_QUANTITY(&quot;stockQuantity&quot;),</span>
 <span class="fc" id="L18">    DATE_ADDED(&quot;dateAdded&quot;),</span>
 <span class="fc" id="L19">    PHOTO_AUTHOR(&quot;photoAuthor&quot;),</span>
-<span class="fc" id="L20">    PHOTO_AUTHOR_URL(&quot;photoAuthorUrl&quot;);</span>
+<span class="fc" id="L20">    PHOTO_AUTHOR_URL(&quot;photoAuthorUrl&quot;),</span>
+<span class="fc" id="L21">    RELEVANCE(&quot;relevance&quot;); //Column for relevance scores from search engine, not present in original dataset when read</span>
+
 
     private final String columnName;
 
-<span class="fc" id="L24">    private static final Set&lt;TableColumnName&gt; categoricalColumns = Set.of(TableColumnName.PUBLISHER, TableColumnName.CATEGORY, TableColumnName.TAGS);</span>
+<span class="fc" id="L26">    private static final Set&lt;TableColumnName&gt; categoricalColumns = Set.of(TableColumnName.PUBLISHER, TableColumnName.CATEGORY, TableColumnName.TAGS);</span>
 
     public static Set&lt;TableColumnName&gt; getCategoricalColumns() {
-<span class="fc" id="L27">        return categoricalColumns;</span>
+<span class="fc" id="L29">        return categoricalColumns;</span>
     }
 
-<span class="fc" id="L30">    TableColumnName(String columnName) {</span>
-<span class="fc" id="L31">        this.columnName = columnName;</span>
-<span class="fc" id="L32">    }</span>
+<span class="fc" id="L32">    TableColumnName(String columnName) {</span>
+<span class="fc" id="L33">        this.columnName = columnName;</span>
+<span class="fc" id="L34">    }</span>
 
     public String getColumnName() {
-<span class="fc" id="L35">        return columnName;</span>
+<span class="fc" id="L37">        return columnName;</span>
     }
 
 }

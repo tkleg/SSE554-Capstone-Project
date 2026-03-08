@@ -64,6 +64,7 @@ public class Item {
             case DATE_ADDED -> dateAdded;
             case PHOTO_AUTHOR -> photoAuthor;
             case PHOTO_AUTHOR_URL -> photoAuthorUrl;
+            case RELEVANCE -> null; //Relevance is not a part of the item class, but is added later during search query filteringsearch query filtering
         };
     }
     
