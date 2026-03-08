@@ -21,8 +21,8 @@ import tech.tablesaw.selection.Selection;
 public class SearchEngineTest {
     private SearchEngine searchEngine;
     private Table table;
-    private static final float minMinPrice = 8.619999885559082f;
-    private static final float maxMaxPrice = 799.0599975585938f;
+    private static final float MIN_MIN_PRICE = 8.619999885559082f;
+    private static final float MAX_MAX_PRICE = 799.0599975585938f;
 
     @BeforeEach
     public void setup() {
@@ -182,8 +182,8 @@ public class SearchEngineTest {
             searchData.put(UIDataName.MIN_PRICE, minPrice);
             searchData.put(UIDataName.MAX_PRICE, maxPrice);
         } else {
-            searchData.put(UIDataName.MIN_PRICE, minMinPrice);
-            searchData.put(UIDataName.MAX_PRICE, maxMaxPrice);
+            searchData.put(UIDataName.MIN_PRICE, MIN_MIN_PRICE);
+            searchData.put(UIDataName.MAX_PRICE, MAX_MAX_PRICE);
         }
         if( minStarRating != -1 )
             searchData.put(UIDataName.MIN_STAR_RATING, minStarRating);
@@ -205,6 +205,7 @@ public class SearchEngineTest {
 
     @Nested
     @DisplayName("Edge Cases for Search Engine Filters")
+    @SuppressWarnings("unused")
     class SearchEngineEdgeCasesTest {
         //I looked at the code coverage report and looked for edge cases that need covering.
 
@@ -218,8 +219,8 @@ public class SearchEngineTest {
         private static Map<UIDataName, Object> createStarClassCastErrorData() {
             Map<UIDataName, Object> data = new HashMap<>();
             data.put(UIDataName.MIN_STAR_RATING, "NotAnInteger");
-            data.put(UIDataName.MIN_PRICE, minMinPrice);
-            data.put(UIDataName.MAX_PRICE, maxMaxPrice);
+            data.put(UIDataName.MIN_PRICE, MIN_MIN_PRICE);
+            data.put(UIDataName.MAX_PRICE, MAX_MAX_PRICE);
             data.put(UIDataName.FILTERS_CONTAINER, emptyFiltersContainer);
             return data;
         }
@@ -241,8 +242,8 @@ public class SearchEngineTest {
 
         private static Map<UIDataName, Object> createStarNullErrorData() {
             Map<UIDataName, Object> data = new HashMap<>();
-            data.put(UIDataName.MIN_PRICE, minMinPrice);
-            data.put(UIDataName.MAX_PRICE, maxMaxPrice);
+            data.put(UIDataName.MIN_PRICE, MIN_MIN_PRICE);
+            data.put(UIDataName.MAX_PRICE, MAX_MAX_PRICE);
             data.put(UIDataName.FILTERS_CONTAINER, emptyFiltersContainer);
             return data;
         }
@@ -288,7 +289,7 @@ public class SearchEngineTest {
         public void testMinPriceNullHandlingDirect() {
             Map<UIDataName, Object> searchData = new HashMap<>();
             searchData.put(UIDataName.MIN_STAR_RATING, 0);
-            searchData.put(UIDataName.MAX_PRICE, maxMaxPrice);
+            searchData.put(UIDataName.MAX_PRICE, MAX_MAX_PRICE);
             searchData.put(UIDataName.FILTERS_CONTAINER, emptyFiltersContainer);
 
             Selection result = searchEngine.applyPriceFilters(searchData);
@@ -301,7 +302,7 @@ public class SearchEngineTest {
         public void testMinPriceNullHandlingIndirect() {
             Map<UIDataName, Object> searchData = new HashMap<>();
             searchData.put(UIDataName.MIN_STAR_RATING, 0);
-            searchData.put(UIDataName.MAX_PRICE, maxMaxPrice);
+            searchData.put(UIDataName.MAX_PRICE, MAX_MAX_PRICE);
             searchData.put(UIDataName.FILTERS_CONTAINER, emptyFiltersContainer);
 
             Set<String> filteredIds = searchEngine.filterItems(searchData);
@@ -314,7 +315,7 @@ public class SearchEngineTest {
         public void testMaxPriceNullHandlingDirect() {
             Map<UIDataName, Object> searchData = new HashMap<>();
             searchData.put(UIDataName.MIN_STAR_RATING, 0);
-            searchData.put(UIDataName.MIN_PRICE, minMinPrice);
+            searchData.put(UIDataName.MIN_PRICE, MIN_MIN_PRICE);
             searchData.put(UIDataName.FILTERS_CONTAINER, emptyFiltersContainer);
 
             Selection result = searchEngine.applyPriceFilters(searchData);
@@ -327,7 +328,7 @@ public class SearchEngineTest {
         public void testMaxPriceNullHandlingIndirect() {
             Map<UIDataName, Object> searchData = new HashMap<>();
             searchData.put(UIDataName.MIN_STAR_RATING, 0);
-            searchData.put(UIDataName.MIN_PRICE, minMinPrice);
+            searchData.put(UIDataName.MIN_PRICE, MIN_MIN_PRICE);
             searchData.put(UIDataName.FILTERS_CONTAINER, emptyFiltersContainer);
 
             Set<String> filteredIds = searchEngine.filterItems(searchData);
@@ -362,8 +363,8 @@ public class SearchEngineTest {
         private static Map<UIDataName, Object> createCategoricalClassCastErrorData() {
             Map<UIDataName, Object> data = new HashMap<>();
             data.put(UIDataName.MIN_STAR_RATING, 0);
-            data.put(UIDataName.MIN_PRICE, minMinPrice);
-            data.put(UIDataName.MAX_PRICE, maxMaxPrice);
+            data.put(UIDataName.MIN_PRICE, MIN_MIN_PRICE);
+            data.put(UIDataName.MAX_PRICE, MAX_MAX_PRICE);
             data.put(UIDataName.FILTERS_CONTAINER, "NotAMap");
             return data;
         }
@@ -385,8 +386,8 @@ public class SearchEngineTest {
         private static Map<UIDataName, Object> createCategoricalNullErrorData() {
             Map<UIDataName, Object> data = new HashMap<>();
             data.put(UIDataName.MIN_STAR_RATING, 0);
-            data.put(UIDataName.MIN_PRICE, minMinPrice);
-            data.put(UIDataName.MAX_PRICE, maxMaxPrice);
+            data.put(UIDataName.MIN_PRICE, MIN_MIN_PRICE);
+            data.put(UIDataName.MAX_PRICE, MAX_MAX_PRICE);
             return data;
         }
 
@@ -399,6 +400,7 @@ public class SearchEngineTest {
             assert result.size() == table.rowCount() : "Expected all items to be returned when categorical filters container is missing, but got a different number of results.";
         }
         @Test
+        @DisplayName("Test categorical filters handling of null value when filters container is missing - method call through filterItems")
         public void testCategoricalFilterNullHandlingIndirect() {
             Set<String> filteredIds = searchEngine.filterItems(categoricalNullErrorData);
             assert filteredIds.size() == table.rowCount() : "Expected all items to be returned when categorical filters container is missing, but got a different number of results.";

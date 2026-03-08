@@ -1,21 +1,23 @@
 package org.troy.capstone.ui_components.filters.categorical;
 
+import java.lang.reflect.Field;
+import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.troy.capstone.constants.UIElementName;
 import org.troy.capstone.data_structures.ItemTable.ItemHashMap;
 import org.troy.capstone.managers.GeneralManager;
 import org.troy.capstone.utils.TableUtils;
 
 import javafx.embed.swing.JFXPanel;
-import tech.tablesaw.api.Table;
-
-import java.util.Optional;
 import javafx.scene.Node;
-import org.troy.capstone.constants.UIElementName;
+import javafx.scene.control.CheckBox;
+import tech.tablesaw.api.Table;
 
 public class FiltersContainerTest {
     private Table table;
@@ -24,6 +26,7 @@ public class FiltersContainerTest {
     private FiltersContainer filtersContainer;
 
     @BeforeAll
+    @SuppressWarnings("ResultOfObjectAllocationIgnored")
     public static void setup() {
         new JFXPanel();
     }
@@ -45,12 +48,22 @@ public class FiltersContainerTest {
 
     @Test
     @DisplayName("Test getSelectedFilters with a selected filter")
+    @SuppressWarnings("unchecked")
     public void testGetSelectedFiltersWithSelectedFilter() {
         //Access the checkbox directly from the filtersContainer's filterOptions
-        filtersContainer.getFilterOptions().get("Tags").stream()
-            .findFirst()
-            .ifPresent(checkbox -> checkbox.setSelected(true));
-        
+        try {
+            Field filterOptionsField = FiltersContainer.class.getDeclaredField("filterOptions");
+            filterOptionsField.setAccessible(true);
+            Map<String, Set<CheckBox>> filterOptions = (Map<String, Set<CheckBox>>) filterOptionsField.get(filtersContainer);
+
+            filterOptions.get("Tags").stream()
+                .findFirst()
+                .ifPresent(checkbox -> checkbox.setSelected(true));
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            System.err.println("Failed to access filterOptions via reflection: " + e.getMessage());
+            throw new RuntimeException("Failed to access filterOptions via reflection", e);
+        }
+
         System.out.println("Selected filters after selecting a tag: " + filtersContainer.getSelectedFilters());
         assert filtersContainer.getSelectedFilters().get("Tags").size() == 1 : "Expected 1 selected tag filter, but got: " + filtersContainer.getSelectedFilters().get("Tags").size();
         assert filtersContainer.getSelectedFilters().get("Category").isEmpty() : "Expected no selected category filters, but got: " + filtersContainer.getSelectedFilters().get("Category");

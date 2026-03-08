@@ -1,5 +1,7 @@
 package org.troy.capstone.ui_components.filters.stars;
 
+import java.lang.reflect.Field;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -16,6 +18,9 @@ public class StarRatingFilterTest {
     private StarRatingFilter starRatingFilter;
     private Table table;
     private GeneralManager generalManager;
+    private static int MAX_STARS;
+    private static String FILLED_STAR;
+    private static String EMPTY_STAR;
 
     //Why MouseEvents do not have simpler constructors... I guess we will never know
     private MouseEvent clickEvent() {
@@ -31,8 +36,22 @@ public class StarRatingFilterTest {
     }
 
     @BeforeAll
+    @SuppressWarnings("ResultOfObjectAllocationIgnored")
     public static void setup() {
         new JFXPanel();
+        try{
+            Field maxStarsField = StarRatingFilter.class.getDeclaredField("MAX_STARS");
+            maxStarsField.setAccessible(true);
+            MAX_STARS = maxStarsField.getInt(null);
+            Field filledStarField = StarRatingFilter.class.getDeclaredField("FILLED_STAR");
+            filledStarField.setAccessible(true);
+            FILLED_STAR = (String) filledStarField.get(null);
+            Field emptyStarField = StarRatingFilter.class.getDeclaredField("EMPTY_STAR");
+            emptyStarField.setAccessible(true);
+            EMPTY_STAR = (String) emptyStarField.get(null);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            throw new RuntimeException("Failed to access StarRatingFilter constants via reflection", e);
+        }
     }
 
     @BeforeEach
@@ -53,8 +72,8 @@ public class StarRatingFilterTest {
     public void testPreviewRating() {
         starRatingFilter.previewRating(3);
         assert starRatingFilter.getRating() == 0 : "Expected rating to still be 0 after previewing, but got: " + starRatingFilter.getRating();
-        for( int x = 0; x < StarRatingFilter.MAX_STARS; x++) {
-            String expectedStar = x < 3 ? StarRatingFilter.FILLED_STAR : StarRatingFilter.EMPTY_STAR;
+        for( int x = 0; x < MAX_STARS; x++) {
+            String expectedStar = x < 3 ? FILLED_STAR : EMPTY_STAR;
             assert starRatingFilter.stars[x].getText().equals(expectedStar) : "Expected star " + (x+1) + " to be '" + expectedStar + "', but got: '" + starRatingFilter.stars[x].getText() + "'";
         }
     }
@@ -64,8 +83,8 @@ public class StarRatingFilterTest {
     public void testSetRatingAndUpdateDisplay() {
         starRatingFilter.setRating(1);
         assert starRatingFilter.getRating() == 1 : "Expected rating to be 1 after setting, but got: " + starRatingFilter.getRating();
-        for( int x = 0; x < StarRatingFilter.MAX_STARS; x++) {
-            String expectedStar = x < 1 ? StarRatingFilter.FILLED_STAR : StarRatingFilter.EMPTY_STAR;
+        for( int x = 0; x < MAX_STARS; x++) {
+            String expectedStar = x < 1 ? FILLED_STAR : EMPTY_STAR;
             assert starRatingFilter.stars[x].getText().equals(expectedStar) : "Expected star " + (x+1) + " to be '" + expectedStar + "', but got: '" + starRatingFilter.stars[x].getText() + "'";
         }
     }
@@ -90,10 +109,10 @@ public class StarRatingFilterTest {
     @DisplayName("Test mouse hover events on star")
     public void testStarHover() {
         starRatingFilter.stars[3].fireEvent(hoverEnterEvent());
-        assert starRatingFilter.stars[3].getText().equals(StarRatingFilter.FILLED_STAR) : "Fourth star should be filled on hover";
+        assert starRatingFilter.stars[3].getText().equals(FILLED_STAR) : "Fourth star should be filled on hover";
         
         starRatingFilter.stars[3].fireEvent(hoverExitEvent());
-        assert starRatingFilter.stars[3].getText().equals(StarRatingFilter.EMPTY_STAR) : "Fourth star should be empty after hover exit";
+        assert starRatingFilter.stars[3].getText().equals(EMPTY_STAR) : "Fourth star should be empty after hover exit";
     }
 
     @Test

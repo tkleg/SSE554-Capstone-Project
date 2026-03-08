@@ -11,9 +11,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 public class StarRatingFilter extends VBox {
-    static final int MAX_STARS = 5;
-    static final String FILLED_STAR = "★";
-    static final String EMPTY_STAR = "☆";
+    private static final int MAX_STARS = 5;
+    private static final String FILLED_STAR = "★";
+    private static final String EMPTY_STAR = "☆";
     
     //Holds the stars
     private final HBox starContainer = new HBox();

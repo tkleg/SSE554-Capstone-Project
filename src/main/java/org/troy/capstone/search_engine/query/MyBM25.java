@@ -1,5 +1,6 @@
 package org.troy.capstone.search_engine.query;
 
+import java.io.IOException;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -86,44 +87,45 @@ public class MyBM25 {
         //Set default operator to OR for better recall, so that if any of the terms match, it will be included in results
         parser.setDefaultOperator(MultiFieldQueryParser.Operator.OR);
 
-        Scanner scan = new Scanner(System.in);
-        while (true) {
-            System.out.print("Enter search query (or 'exit' to quit): ");
-            String userQuery = scan.nextLine();
-            if( userQuery.trim().equals("exit") )
-                break;
+        try (Scanner scan = new Scanner(System.in)) {
+            while (true) {
+                System.out.print("Enter search query (or 'exit' to quit): ");
+                String userQuery = scan.nextLine();
+                if( userQuery.trim().equals("exit") )
+                    break;
                 
-            System.out.println("Searching for: '" + userQuery + "' (using n-gram analysis)");
-            
-            // N-gram parsing handles both exact matches and typos automatically
-            Query query = parser.parse(userQuery);
-            TopDocs results = searcher.search(query, 1000);
-            
-            //Allowing scores that are at least 20% of the top score to be included
-            double minimumAllowableScore = results.scoreDocs.length > 0 ? results.scoreDocs[0].score * 0.2 : 0.0;
-
-            System.out.println("Total Hits: " + results.scoreDocs.length + " for search term: '" + userQuery + "'");
-            
-            // Print results with names and scores side by side
-            StoredFields storedFields = searcher.storedFields();
-            System.out.println("Document Name | Score");
-            System.out.println("----------------------------------------");
-            
-            int i;
-            for (i = 0; i < results.scoreDocs.length; i++) {
-                try {
-                    ScoreDoc scoreDoc = results.scoreDocs[i];
-                    if (scoreDoc.score < minimumAllowableScore)
-                        break;
-                    Document doc = storedFields.document(scoreDoc.doc);
-                    String name = doc.get("name");
-                    float score = scoreDoc.score;
-                    System.out.printf("%-25s | %.4f%n", name, score);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                System.out.println("Searching for: '" + userQuery + "' (using n-gram analysis)");
+                
+                // N-gram parsing handles both exact matches and typos automatically
+                Query query = parser.parse(userQuery);
+                TopDocs results = searcher.search(query, 1000);
+                
+                //Allowing scores that are at least 20% of the top score to be included
+                double minimumAllowableScore = results.scoreDocs.length > 0 ? results.scoreDocs[0].score * 0.2 : 0.0;
+                
+                System.out.println("Total Hits: " + results.scoreDocs.length + " for search term: '" + userQuery + "'");
+                
+                // Print results with names and scores side by side
+                StoredFields storedFields = searcher.storedFields();
+                System.out.println("Document Name | Score");
+                System.out.println("----------------------------------------");
+                
+                int i;
+                for (i = 0; i < results.scoreDocs.length; i++) {
+                    try {
+                        ScoreDoc scoreDoc = results.scoreDocs[i];
+                        if (scoreDoc.score < minimumAllowableScore)
+                            break;
+                        Document doc = storedFields.document(scoreDoc.doc);
+                        String name = doc.get("name");
+                        float score = scoreDoc.score;
+                        System.out.printf("%-25s | %.4f%n", name, score);
+                    } catch (IOException e) {
+                        System.err.println("Error retrieving document: " + e.getMessage());
+                    }
                 }
+                System.out.println("Displayed " + i + " results with scores above the threshold of " + minimumAllowableScore);
             }
-            System.out.println("Displayed " + i + " results with scores above the threshold of " + minimumAllowableScore);
         }
     }
 

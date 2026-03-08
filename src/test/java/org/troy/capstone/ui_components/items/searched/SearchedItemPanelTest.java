@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test;
 import org.troy.capstone.entities.Item;
 import org.troy.capstone.ui_components.items.AttributedItemContainer;
 
+import java.text.SimpleDateFormat;
+import java.lang.reflect.Field;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
@@ -68,7 +70,17 @@ public class SearchedItemPanelTest {
 
         //Verify that the date label is correct
         Label dateLabel = (Label) rightPanel.getChildren().get(6);
-        String expectedDateText = "Date Added: " + SearchedItemPanel.dateAddedFormatter.format(dummyItem.getDateAdded());
+        SimpleDateFormat dateAddedFormatter;
+        try{
+            Field dateAddedFormatterField = SearchedItemPanel.class.getDeclaredField("dateAddedFormatter");
+            dateAddedFormatterField.setAccessible(true);
+            Object dateAddedFormatterObj = dateAddedFormatterField.get(null);
+            assert dateAddedFormatterObj instanceof SimpleDateFormat : "Expected dateAddedFormatter to be a SimpleDateFormat, but got: " + dateAddedFormatterObj.getClass();
+            dateAddedFormatter = (SimpleDateFormat) dateAddedFormatterObj;  
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            throw new RuntimeException("Failed to access dateAddedFormatter field", e);
+        }
+        String expectedDateText = "Date Added: " + dateAddedFormatter.format(dummyItem.getDateAdded());
         assertEquals(expectedDateText, dateLabel.getText(), "Date label should display the formatted date added");
     
         //Ensure the attributed panel has 2 children (image and attribution flow)

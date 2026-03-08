@@ -1,5 +1,10 @@
 package org.troy.capstone.ui_components.items;
 
+import java.awt.Desktop;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -7,6 +12,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import static org.mockito.ArgumentMatchers.any;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.troy.capstone.constants.URL;
@@ -18,15 +24,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
-import static org.mockito.ArgumentMatchers.any;
-import java.awt.Desktop;
-import java.net.URI;
 
 public class AttributedItemContainerTest {
     private static Item item;
     private AttributedItemContainer attributedItemContainer;
 
     @BeforeAll
+    @SuppressWarnings("ResultOfObjectAllocationIgnored")
     public static void setup() {
         new JFXPanel();
         item = Item.fromRow(TableUtils.readCleanedAttributedData().row(0));
@@ -50,6 +54,7 @@ public class AttributedItemContainerTest {
 
     @Nested
     @DisplayName("Test link clicking with mocked Desktop")
+    @SuppressWarnings("unused")
     class MockedDesktopTests {
         MockedStatic<Desktop> desktopMock;
         Desktop mockDesktop;
@@ -91,7 +96,7 @@ public class AttributedItemContainerTest {
                 Mockito.verify(mockDesktop, Mockito.times(1)).browse(new URI(item.getPhotoAuthorUrl()));
                 Mockito.verify(mockDesktop, Mockito.times(1)).browse(new URI(URL.UNSPLASH_ATTRIBUTION.getUrl()));
                 Mockito.verify(mockDesktop, Mockito.times(1)).browse(new URI(item.getImageUrl()));
-            }catch (Exception e) {
+            }catch (IOException | URISyntaxException e) {
                 assert false : "Expected no exception to be thrown, but got: " + e.getMessage();
             }finally {
                 desktopMock.close();

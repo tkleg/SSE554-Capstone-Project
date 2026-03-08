@@ -10,14 +10,12 @@ import org.troy.capstone.constants.TableColumnName;
 import org.troy.capstone.constants.URL;
 import org.troy.capstone.utils.Converters;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import net.datafaker.Faker;
 import tech.tablesaw.api.Row;
 
 @Data
-@AllArgsConstructor
 @Builder
 public class Item {
     private static final Faker faker = new Faker();

@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>QueryFilter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Project</a> &gt; <a href="index.source.html" class="el_package">org.troy.capstone.search_engine</a> &gt; <span class="el_source">QueryFilter.java</span></div><h1>QueryFilter.java</h1><pre class="source lang-java linenums">package org.troy.capstone.search_engine;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -23,6 +21,7 @@ import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.StoredFields;
 import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
+import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
@@ -57,13 +56,12 @@ public class QueryFilter {
     private IndexWriter writer;
     private IndexReader reader;
     private IndexSearcher searcher;
-<span class="fc" id="L60">    private String[] searchedFields = {TableColumnName.NAME.getColumnName(), TableColumnName.DESCRIPTION.getColumnName()}; // Fields to search on</span>
-<span class="fc" id="L61">    private Map&lt;String, Float&gt; fieldBoosts = Map.of(</span>
-<span class="fc" id="L62">        TableColumnName.NAME.getColumnName(), NAME_FIELD_BOOST, //Boost name field higher for better relevance</span>
-<span class="fc" id="L63">        TableColumnName.DESCRIPTION.getColumnName(), DESCRIPTION_FIELD_BOOST</span>
+<span class="fc" id="L59">    private String[] searchedFields = {TableColumnName.NAME.getColumnName(), TableColumnName.DESCRIPTION.getColumnName()}; // Fields to search on</span>
+<span class="fc" id="L60">    private Map&lt;String, Float&gt; fieldBoosts = Map.of(</span>
+<span class="fc" id="L61">        TableColumnName.NAME.getColumnName(), NAME_FIELD_BOOST, //Boost name field higher for better relevance</span>
+<span class="fc" id="L62">        TableColumnName.DESCRIPTION.getColumnName(), DESCRIPTION_FIELD_BOOST</span>
     );
     private MultiFieldQueryParser parser;
-    private Table table;
 
     @TestExclusionGenerated
     public static void main(String[] args) {
@@ -84,112 +82,112 @@ public class QueryFilter {
         }
     }
 
-<span class="fc" id="L87">    public QueryFilter(Table table){</span>
+<span class="fc" id="L85">    public QueryFilter(Table table){</span>
         try{
-<span class="fc" id="L89">        this.table = table;</span>
-<span class="fc" id="L90">        createNgramAnalyzer();</span>
+<span class="fc bfc" id="L87" title="All 2 branches covered.">        if( table == null )</span>
+<span class="fc" id="L88">            throw new IOException(&quot;Input tablenput table cannot be null&quot;);</span>
+<span class="fc" id="L89">        createNgramAnalyzer();</span>
 
         /**
          *c ByteBuffersDirectory chosen to keep data in RAM for speed and simplicity
          * All data in RAM
          */
-<span class="fc" id="L96">        directory = new ByteBuffersDirectory();</span>
+<span class="fc" id="L95">        directory = new ByteBuffersDirectory();</span>
 
-<span class="fc" id="L98">        config = new IndexWriterConfig(ngramAnalyzer);</span>
+<span class="fc" id="L97">        config = new IndexWriterConfig(ngramAnalyzer);</span>
 
         /**
          * BM25 used intead of default TF-IDF for better relevance scoring,
          * saturation effect, length normalization, better ranking quality,
          * and widely used in modern search engines.
          */
-<span class="fc" id="L105">        config.setSimilarity(new BM25Similarity(SELECTED_SATURATION_PARAMETER, DEFAULT_NORMALIZATION_FACTOR));</span>
+<span class="fc" id="L104">        config.setSimilarity(new BM25Similarity(SELECTED_SATURATION_PARAMETER, DEFAULT_NORMALIZATION_FACTOR));</span>
 
-<span class="fc" id="L107">        writer = new IndexWriter(directory, config);</span>
+<span class="fc" id="L106">        writer = new IndexWriter(directory, config);</span>
 
-<span class="fc" id="L109">        table.stream().forEach(this::addDoc);</span>
+<span class="fc" id="L108">        table.stream().forEach(this::addDoc);</span>
 
-<span class="fc" id="L111">        reader = DirectoryReader.open(writer);</span>
-<span class="fc" id="L112">        searcher = new IndexSearcher(reader);</span>
-<span class="fc" id="L113">        searcher.setSimilarity(new BM25Similarity(SELECTED_SATURATION_PARAMETER, DEFAULT_NORMALIZATION_FACTOR));</span>
+<span class="fc" id="L110">        reader = DirectoryReader.open(writer);</span>
+<span class="fc" id="L111">        searcher = new IndexSearcher(reader);</span>
+<span class="fc" id="L112">        searcher.setSimilarity(new BM25Similarity(SELECTED_SATURATION_PARAMETER, DEFAULT_NORMALIZATION_FACTOR));</span>
         
-<span class="fc" id="L115">        parser = new MultiFieldQueryParser(searchedFields, ngramAnalyzer, fieldBoosts);</span>
+<span class="fc" id="L114">        parser = new MultiFieldQueryParser(searchedFields, ngramAnalyzer, fieldBoosts);</span>
         //Set default operator to OR for better recall, so that if any of the terms match, it will be included in results
-<span class="fc" id="L117">        parser.setDefaultOperator(MultiFieldQueryParser.Operator.OR);</span>
-<span class="fc" id="L118">        }catch (Exception e){</span>
-<span class="fc" id="L119">            System.out.println(&quot;Error initializing QueryFilter: &quot; + e.getMessage());</span>
-<span class="fc" id="L120">            throw new RuntimeException(&quot;Failed to initialize QueryFilter&quot;, e);</span>
-<span class="fc" id="L121">        }</span>
+<span class="fc" id="L116">        parser.setDefaultOperator(MultiFieldQueryParser.Operator.OR);</span>
+<span class="fc" id="L117">        }catch (IOException e){</span>
+<span class="fc" id="L118">            System.out.println(&quot;Error initializing QueryFilter: &quot; + e.getMessage());</span>
+<span class="fc" id="L119">            throw new RuntimeException(&quot;Failed to initialize QueryFilter&quot;, e);</span>
+<span class="fc" id="L120">        }</span>
         
-<span class="fc" id="L123">    }</span>
+<span class="fc" id="L122">    }</span>
 
     public Map&lt;String, Float&gt; search(String userQuery){
         try{
             // Handle null or empty query
-<span class="pc bpc" id="L128" title="1 of 4 branches missed.">            if (userQuery == null || userQuery.trim().isEmpty()) {</span>
-<span class="fc" id="L129">                System.out.println(&quot;Empty or null query provided, returning no results&quot;);</span>
-<span class="fc" id="L130">                return new HashMap&lt;&gt;();</span>
+<span class="pc bpc" id="L127" title="1 of 4 branches missed.">            if (userQuery == null || userQuery.trim().isEmpty()) {</span>
+<span class="fc" id="L128">                System.out.println(&quot;Empty or null query provided, returning no results&quot;);</span>
+<span class="fc" id="L129">                return new HashMap&lt;&gt;();</span>
             }
             
-<span class="fc" id="L133">            filteredItems = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L132">            filteredItems = new HashMap&lt;&gt;();</span>
 
-<span class="fc" id="L135">            Query query = parser.parse(userQuery.trim());</span>
-<span class="fc" id="L136">            TopDocs results = searcher.search(query, 1000);</span>
+<span class="fc" id="L134">            Query query = parser.parse(userQuery.trim());</span>
+<span class="fc" id="L135">            TopDocs results = searcher.search(query, 1000);</span>
 
-<span class="fc bfc" id="L138" title="All 2 branches covered.">            double minimumAllowableScore = results.scoreDocs.length &gt; 0 ?</span>
-<span class="fc" id="L139">                results.scoreDocs[0].score * SCORE_THRESHOLD_FACTOR :</span>
-<span class="fc" id="L140">                0.0;</span>
+<span class="fc bfc" id="L137" title="All 2 branches covered.">            double minimumAllowableScore = results.scoreDocs.length &gt; 0 ?</span>
+<span class="fc" id="L138">                results.scoreDocs[0].score * SCORE_THRESHOLD_FACTOR :</span>
+<span class="fc" id="L139">                0.0;</span>
 
-<span class="fc" id="L142">            System.out.println(&quot;Total hits: &quot; + results.totalHits.value() + &quot;, Minimum score for inclusion: &quot; + minimumAllowableScore);</span>
+<span class="fc" id="L141">            System.out.println(&quot;Total hits: &quot; + results.totalHits.value() + &quot;, Minimum score for inclusion: &quot; + minimumAllowableScore);</span>
             
-<span class="fc bfc" id="L144" title="All 2 branches covered.">            if( results.totalHits.value() == 0){</span>
-<span class="fc" id="L145">                System.out.println(&quot;No results found for query: &quot; + userQuery);</span>
-<span class="fc" id="L146">                return filteredItems;</span>
+<span class="fc bfc" id="L143" title="All 2 branches covered.">            if( results.totalHits.value() == 0){</span>
+<span class="fc" id="L144">                System.out.println(&quot;No results found for query: &quot; + userQuery);</span>
+<span class="fc" id="L145">                return filteredItems;</span>
             }
 
-<span class="fc" id="L149">            StoredFields storedFields = searcher.getIndexReader().leaves().get(0).reader().storedFields();</span>
+<span class="fc" id="L148">            StoredFields storedFields = searcher.getIndexReader().leaves().get(0).reader().storedFields();</span>
 
-<span class="pc bpc" id="L151" title="1 of 2 branches missed.">            for (int i = 0; i &lt; results.scoreDocs.length; i++) {</span>
-<span class="fc" id="L152">                ScoreDoc scoreDoc = results.scoreDocs[i];</span>
-<span class="fc bfc" id="L153" title="All 2 branches covered.">                if (scoreDoc.score &lt; minimumAllowableScore)</span>
-<span class="fc" id="L154">                    break;</span>
-<span class="fc" id="L155">                Document doc = storedFields.document(scoreDoc.doc);</span>
-<span class="fc" id="L156">                String id = doc.get(&quot;id&quot;);</span>
-<span class="fc" id="L157">                float score = scoreDoc.score;</span>
-<span class="fc" id="L158">                filteredItems.put(id, score);</span>
+<span class="pc bpc" id="L150" title="1 of 2 branches missed.">            for (ScoreDoc scoreDoc : results.scoreDocs) {</span>
+<span class="fc bfc" id="L151" title="All 2 branches covered.">                if (scoreDoc.score &lt; minimumAllowableScore)</span>
+<span class="fc" id="L152">                    break;</span>
+<span class="fc" id="L153">                Document doc = storedFields.document(scoreDoc.doc);</span>
+<span class="fc" id="L154">                String id = doc.get(&quot;id&quot;);</span>
+<span class="fc" id="L155">                float score = scoreDoc.score;</span>
+<span class="fc" id="L156">                filteredItems.put(id, score);</span>
             }
-<span class="fc" id="L160">            System.out.println(&quot;Search completed with &quot; + filteredItems.size() + &quot; results above score threshold.&quot;);</span>
-<span class="fc" id="L161">            return filteredItems;</span>
-<span class="nc" id="L162">        }catch (Exception e){</span>
-<span class="nc" id="L163">            System.out.println(&quot;Error executing search: &quot; + e.getMessage());</span>
-<span class="nc" id="L164">            return new HashMap&lt;&gt;();</span>
+<span class="fc" id="L158">            System.out.println(&quot;Search completed with &quot; + filteredItems.size() + &quot; results above score threshold.&quot;);</span>
+<span class="fc" id="L159">            return filteredItems;</span>
+<span class="nc" id="L160">        }catch (IOException | ParseException e){</span>
+<span class="nc" id="L161">            System.out.println(&quot;Error executing search: &quot; + e.getMessage());</span>
+<span class="nc" id="L162">            return new HashMap&lt;&gt;();</span>
         }
     }
 
     private void addDoc(Row row){
         try{
-<span class="fc" id="L170">            Document doc = new Document();</span>
-<span class="fc" id="L171">            doc.add(new StoredField(TableColumnName.ID.getColumnName(), row.getString(TableColumnName.ID.getColumnName()))); //ID field - stored but not indexed for searching</span>
-<span class="fc" id="L172">            doc.add(new TextField(TableColumnName.NAME.getColumnName(), row.getString(TableColumnName.NAME.getColumnName()), Field.Store.YES));    //Searchable and stored. Will be removed prior to use in main program</span>
-<span class="fc" id="L173">            doc.add(new TextField(TableColumnName.DESCRIPTION.getColumnName(), row.getString(TableColumnName.DESCRIPTION.getColumnName()), Field.Store.NO)); //Searchable but not stored  </span>
-<span class="fc" id="L174">            writer.addDocument(doc);</span>
-<span class="fc" id="L175">        }catch (IOException e){</span>
-<span class="fc" id="L176">            System.out.println(&quot;Error adding document to index: &quot; + e.getMessage());</span>
-<span class="fc" id="L177">        }</span>
-<span class="fc" id="L178">    }</span>
+<span class="fc" id="L168">            Document doc = new Document();</span>
+<span class="fc" id="L169">            doc.add(new StoredField(TableColumnName.ID.getColumnName(), row.getString(TableColumnName.ID.getColumnName()))); //ID field - stored but not indexed for searching</span>
+<span class="fc" id="L170">            doc.add(new TextField(TableColumnName.NAME.getColumnName(), row.getString(TableColumnName.NAME.getColumnName()), Field.Store.YES));    //Searchable and stored. Will be removed prior to use in main program</span>
+<span class="fc" id="L171">            doc.add(new TextField(TableColumnName.DESCRIPTION.getColumnName(), row.getString(TableColumnName.DESCRIPTION.getColumnName()), Field.Store.NO)); //Searchable but not stored  </span>
+<span class="fc" id="L172">            writer.addDocument(doc);</span>
+<span class="fc" id="L173">        }catch (IOException e){</span>
+<span class="fc" id="L174">            System.out.println(&quot;Error adding document to index: &quot; + e.getMessage());</span>
+<span class="fc" id="L175">        }</span>
+<span class="fc" id="L176">    }</span>
 
     private void createNgramAnalyzer(){
         try{
             //NgramTokenizer tokenizes to get tokens to be all substrings of length 2-5, gives better typo tolerance and partial matching
             //StopFilter Filters out common english words, also splits on non-letter cars and sets all tokens to lowercase
-<span class="fc" id="L184">            ngramAnalyzer = CustomAnalyzer.builder()</span>
-<span class="fc" id="L185">                .withTokenizer(NGramTokenizerFactory.class, &quot;minGramSize&quot;, &quot;&quot; + MIN_NGRAM_SIZE, &quot;maxGramSize&quot;,  &quot;&quot; + MAX_NGRAM_SIZE)</span>
-<span class="fc" id="L186">                .addTokenFilter(StopFilterFactory.class)</span>
-<span class="fc" id="L187">                .build();</span>
-<span class="fc" id="L188">        }catch (IOException e){</span>
-<span class="fc" id="L189">            System.out.println(&quot;Error creating ngram analyzer: &quot; + e.getMessage());</span>
-<span class="fc" id="L190">            System.out.println(&quot;Falling back to Stop analyzer with basic English stop words.&quot;);</span>
-<span class="fc" id="L191">            ngramAnalyzer = new StopAnalyzer(EnglishAnalyzer.ENGLISH_STOP_WORDS_SET);</span>
-<span class="fc" id="L192">        }</span>
-<span class="fc" id="L193">    }</span>
+<span class="fc" id="L182">            ngramAnalyzer = CustomAnalyzer.builder()</span>
+<span class="fc" id="L183">                .withTokenizer(NGramTokenizerFactory.class, &quot;minGramSize&quot;, &quot;&quot; + MIN_NGRAM_SIZE, &quot;maxGramSize&quot;,  &quot;&quot; + MAX_NGRAM_SIZE)</span>
+<span class="fc" id="L184">                .addTokenFilter(StopFilterFactory.class)</span>
+<span class="fc" id="L185">                .build();</span>
+<span class="fc" id="L186">        }catch (IOException e){</span>
+<span class="fc" id="L187">            System.out.println(&quot;Error creating ngram analyzer: &quot; + e.getMessage());</span>
+<span class="fc" id="L188">            System.out.println(&quot;Falling back to Stop analyzer with basic English stop words.&quot;);</span>
+<span class="fc" id="L189">            ngramAnalyzer = new StopAnalyzer(EnglishAnalyzer.ENGLISH_STOP_WORDS_SET);</span>
+<span class="fc" id="L190">        }</span>
+<span class="fc" id="L191">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

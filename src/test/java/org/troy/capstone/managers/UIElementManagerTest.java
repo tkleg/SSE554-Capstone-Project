@@ -4,19 +4,18 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.Set;
 
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import org.troy.capstone.constants.UIElementName;
 import org.troy.capstone.data_structures.ItemTable.ItemHashMap;
 import org.troy.capstone.ui_components.filters.categorical.FiltersContainer;
 import org.troy.capstone.ui_components.filters.stars.StarRatingFilter;
 import org.troy.capstone.ui_components.items.searched.SearchedItemPagination;
 import org.troy.capstone.utils.TableUtils;
-
-import org.junit.jupiter.api.Nested;
 
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.control.Slider;
@@ -32,6 +31,7 @@ public class UIElementManagerTest {
     private static FiltersContainer dummyFiltersContainer;
 
     @BeforeAll
+    @SuppressWarnings("ResultOfObjectAllocationIgnored")
     public static void setupAll() {
         // Initialize JavaFX environment
         new JFXPanel();
@@ -117,6 +117,7 @@ public class UIElementManagerTest {
 
     @Nested
     @DisplayName("Tests for updateSearchedItemPagination")
+    @SuppressWarnings("unused")
     class UpdateSearchedItemPaginationTests {
         private PrintStream originalOut;
         private ByteArrayOutputStream outContent;

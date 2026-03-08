@@ -3,6 +3,8 @@ package org.troy.capstone.data_structures.ItemTable;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.math.BigInteger;
 import java.util.List;
 import java.util.Optional;
@@ -28,6 +30,7 @@ public class ItemHashMapTest {
     private static Table table;
 
     @BeforeAll
+    @SuppressWarnings("unused")
     static void setup() {
         //We can use the fromTable method to create an ItemHashMap with optimized hash parameters for the test data
         table = TableUtils.readCleanedAttributedData();
@@ -69,14 +72,14 @@ public class ItemHashMapTest {
     void testHashParametersSet(){
         // Just check that I and J are not null and are within the expected range (1 to PRIME-1 for I, 0 to PRIME-1 for J)
         List<String> itemIds = map.getItemIdsAsList();
-        assert itemIds.size() > 0 : "There should be item IDs in the map";
+        assert !itemIds.isEmpty() : "There should be item IDs in the map";
 
         //Distribution depends slightly on the found I and J, which may differ
         try{
             Field fieldI = IdHashKey.class.getDeclaredField("I");
             fieldI.setAccessible(true);
-            //Pass null since it is static, this no object reference is needed to set the value
             fieldI.set(null, new BigInteger("77507594") );
+            
             Field fieldJ = IdHashKey.class.getDeclaredField("J");
             fieldJ.setAccessible(true);
             fieldJ.set(null, new BigInteger("99688092") );
@@ -109,9 +112,11 @@ public class ItemHashMapTest {
 
     @Nested
     @DisplayName("Bucket Size Distribution Comparison Tests")
+    @SuppressWarnings("unused")
     class bucketSizeComparisonTests{
         //Enables newline chars to be matched
-        private static Pattern pattern = Pattern.compile(".*", Pattern.DOTALL);
+        private final static Pattern PATTERN = Pattern.compile(".*", Pattern.DOTALL);
+        
         @BeforeAll
         static void setup(){
             PrintStream originalOut = System.out;
@@ -131,9 +136,15 @@ public class ItemHashMapTest {
                 throw new RuntimeException("Failed to set hash parameters via reflection", e);
             }
 
-            map.printBucketSizeCountsCustomVsBuiltIn();
-
-            System.setOut(originalOut); // Restore original System.out
+            try{
+                Method printMethod = ItemHashMap.class.getDeclaredMethod("printBucketSizeCountsCustomVsBuiltIn");
+                printMethod.setAccessible(true);
+                printMethod.invoke(map);
+            }catch(IllegalAccessException | NoSuchMethodException | InvocationTargetException e){
+                throw new RuntimeException("Failed to invoke printBucketSizeCountsCustomVsBuiltIn via reflection", e);
+            }finally{
+                System.setOut(originalOut); // Restore original System.out
+            }
 
         }
 
@@ -145,7 +156,7 @@ public class ItemHashMapTest {
             String header3 = "Buckets with N entries (Built-in Hash)";
             
             String patternString = ".*" + header1 + "\\s*\\|\\s*" + header2 + "\\s*\\|\\s*" + header3 + ".*";
-            assert pattern.matcher(patternString).matches() : String.format("Output should contain headers in the format: '%s | %s | %s'", header1, header2, header3);
+            assert PATTERN.matcher(patternString).matches() : String.format("Output should contain headers in the format: '%s | %s | %s'", header1, header2, header3);
         }
 
         @DisplayName("Test printing of bucketsize comparison table")
@@ -160,7 +171,7 @@ public class ItemHashMapTest {
         void testBucketDistributionComparisonPrintout(int numEntriesHashingToBucket, int customCount, int builtInCount){
 
             String patternToMatch = String.format(".*%d\\s*\\|\\s*%d\\s*\\|\\s*%d.*", numEntriesHashingToBucket, customCount, builtInCount);
-            assert pattern.matcher(patternToMatch).matches() : String.format("Output should contain a line with bucket %d, custom count %d, and built-in count %d", numEntriesHashingToBucket, customCount, builtInCount);
+            assert PATTERN.matcher(patternToMatch).matches() : String.format("Output should contain a line with bucket %d, custom count %d, and built-in count %d", numEntriesHashingToBucket, customCount, builtInCount);
 
         }
     }

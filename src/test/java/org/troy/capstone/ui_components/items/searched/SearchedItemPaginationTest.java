@@ -1,5 +1,6 @@
 package org.troy.capstone.ui_components.items.searched;
 
+import java.lang.reflect.Field;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -19,6 +20,7 @@ import org.troy.capstone.utils.TableUtils;
 
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Node;
+import javafx.scene.layout.VBox;
 import tech.tablesaw.api.Table;
 
 public class SearchedItemPaginationTest {
@@ -29,6 +31,7 @@ public class SearchedItemPaginationTest {
     private static final int ITEMS_PER_PAGE = 10; // Match the constant in SearchedItemPagination
     
     @BeforeAll
+    @SuppressWarnings("ResultOfObjectAllocationIgnored")
     public static void setup() {
         new JFXPanel();
     }
@@ -52,7 +55,20 @@ public class SearchedItemPaginationTest {
         
         SearchedItemContainer container = pagination.createPageContent(0, itemIDs);
         
-        assertEquals( container.getContainerChildren().size(), ITEMS_PER_PAGE, 
+        Field itemContainerField;
+        VBox itemContainer;
+        try {
+            itemContainerField = SearchedItemContainer.class.getDeclaredField("itemContainer");
+            itemContainerField.setAccessible(true);
+            Object itemContainerObj = itemContainerField.get(container);
+            assert itemContainerObj instanceof javafx.scene.layout.VBox : "Expected itemContainer to be a VBox, but got: " + itemContainerObj.getClass();
+            itemContainer = (VBox) itemContainerObj;
+            
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            throw new RuntimeException("Failed to access itemContainer field via reflection", e);
+        }
+        
+        assertEquals( itemContainer.getChildren().size(), ITEMS_PER_PAGE, 
             "Page content should contain exactly the number of items per page when there are more items than can be displayed");
     }
 
@@ -67,13 +83,25 @@ public class SearchedItemPaginationTest {
         
         SearchedItemContainer container = pagination.createPageContent(0, itemIDs);
         
+        Field itemContainerField;
+        VBox itemContainer;
+        try {
+            itemContainerField = SearchedItemContainer.class.getDeclaredField("itemContainer");
+            itemContainerField.setAccessible(true);
+            Object itemContainerObj = itemContainerField.get(container);
+            assert itemContainerObj instanceof VBox : "Expected itemContainer to be a VBox, but got: " + itemContainerObj.getClass();
+            itemContainer = (VBox) itemContainerObj;
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            throw new RuntimeException("Failed to access itemContainer field via reflection", e);
+        }
         //Verify that the page content size is correct (should be less than ITEMS_PER_PAGE)
-        assertEquals( container.getContainerChildren().size(), ITEMS_PER_PAGE - 3, 
+        assertEquals( itemContainer.getChildren().size(), ITEMS_PER_PAGE - 3, 
             "Page content should contain exactly the number of items per page when there are fewer items than can be displayed");
     }
 
     @Nested
     @DisplayName("Tests for pagination content amount after creation")
+    @SuppressWarnings("unused")
     class PaginationContentAmountTests {
 
         @Test

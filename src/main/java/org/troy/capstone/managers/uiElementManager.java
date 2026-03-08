@@ -114,9 +114,5 @@ public class UIElementManager {
         }
     }
 
-    //Useful for testing to reset the UIElementManager state between tests
-    public void clearElements() {
-        uiElements.clear();
-    }
     
 }

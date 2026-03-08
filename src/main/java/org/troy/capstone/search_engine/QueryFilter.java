@@ -1,9 +1,7 @@
 package org.troy.capstone.search_engine;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -23,6 +21,7 @@ import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.StoredFields;
 import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
+import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
@@ -63,7 +62,6 @@ public class QueryFilter {
         TableColumnName.DESCRIPTION.getColumnName(), DESCRIPTION_FIELD_BOOST
     );
     private MultiFieldQueryParser parser;
-    private Table table;
 
     @TestExclusionGenerated
     public static void main(String[] args) {
@@ -86,7 +84,8 @@ public class QueryFilter {
 
     public QueryFilter(Table table){
         try{
-        this.table = table;
+        if( table == null )
+            throw new IOException("Input tablenput table cannot be null");
         createNgramAnalyzer();
 
         /**
@@ -115,7 +114,7 @@ public class QueryFilter {
         parser = new MultiFieldQueryParser(searchedFields, ngramAnalyzer, fieldBoosts);
         //Set default operator to OR for better recall, so that if any of the terms match, it will be included in results
         parser.setDefaultOperator(MultiFieldQueryParser.Operator.OR);
-        }catch (Exception e){
+        }catch (IOException e){
             System.out.println("Error initializing QueryFilter: " + e.getMessage());
             throw new RuntimeException("Failed to initialize QueryFilter", e);
         }
@@ -148,8 +147,7 @@ public class QueryFilter {
 
             StoredFields storedFields = searcher.getIndexReader().leaves().get(0).reader().storedFields();
 
-            for (int i = 0; i < results.scoreDocs.length; i++) {
-                ScoreDoc scoreDoc = results.scoreDocs[i];
+            for (ScoreDoc scoreDoc : results.scoreDocs) {
                 if (scoreDoc.score < minimumAllowableScore)
                     break;
                 Document doc = storedFields.document(scoreDoc.doc);
@@ -159,7 +157,7 @@ public class QueryFilter {
             }
             System.out.println("Search completed with " + filteredItems.size() + " results above score threshold.");
             return filteredItems;
-        }catch (Exception e){
+        }catch (IOException | ParseException e){
             System.out.println("Error executing search: " + e.getMessage());
             return new HashMap<>();
         }

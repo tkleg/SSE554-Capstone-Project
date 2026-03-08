@@ -1,10 +1,10 @@
 package org.troy.capstone.data_structures.ItemTable;
 import java.math.BigInteger;
 
-import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 
 public class IdHashKeyTest {
     
@@ -36,6 +36,7 @@ public class IdHashKeyTest {
 
     @Nested
     @DisplayName("Test entire equals method")
+    @SuppressWarnings("unused")
     class EqualsMethodTests {
 
         @Test
@@ -64,18 +65,20 @@ public class IdHashKeyTest {
         }
 
         @Test
-        @DisplayName("Test equals with second variable being null")
+        @DisplayName("Test equals method correctly handles null parameter")
         void testEqualsWithNull() {
             IdHashKey key = new IdHashKey("test-item-id");
-            assert !key.equals(null) : "Equals should return false when comparing with null";
+            IdHashKey nullKey = null;
+            assert !key.equals(nullKey) : "Equals method should return false when parameter is null";
         }
 
         @Test
         @DisplayName("Test equals with different class")
+        @SuppressWarnings("UnlikelyEqualsArguments")
         void testEqualsWithDifferentClass() {
             IdHashKey key = new IdHashKey("test-item-id");
             String other = "test-item-id";
-            assert !key.equals(other) : "Equals should return false when compared with different class";
+            assert !key.equals( (Object) other) : "Equals should return false when compared with different class";
         }
     }
 

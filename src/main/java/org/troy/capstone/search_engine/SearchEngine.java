@@ -159,31 +159,25 @@ public class SearchEngine {
      * @return Selection : The selection of items that match the price criteria
      */
     Selection applyPriceFilters(Map<UIDataName, Object> searchData) {
-        Float minPrice, maxPrice;
+        float minPrice, maxPrice;
         try{
-            minPrice = (Float) searchData.get(UIDataName.MIN_PRICE);
-            maxPrice = (Float) searchData.get(UIDataName.MAX_PRICE);
+            minPrice = (float) searchData.getOrDefault(UIDataName.MIN_PRICE,
+                (float) table.floatColumn(TableColumnName.PRICE.getColumnName()).min()
+            );
         }catch(ClassCastException e){
-            System.out.println("min and/or max price values in search data are not of type Float. Skipping price filter.");
+            System.out.println("Min price value in search data is not of type Float. Skipping min price filter.");
             return selectAll();
         }
-        if( minPrice == null && maxPrice != null ){
-            System.out.println("Min price value not found in search data. Getting min from table");
-            minPrice = (float) table.floatColumn(TableColumnName.PRICE.getColumnName()).min();
-            int[] itemIndicesInRange = priceRangeFinder.findItemsInPriceRange(minPrice, maxPrice);
-            return Selection.with(itemIndicesInRange);
-        }else if( maxPrice == null && minPrice != null ){
-            System.out.println("Max price value not found in search data. Getting max from table");
-            maxPrice = (float) table.floatColumn(TableColumnName.PRICE.getColumnName()).max();
-            int[] itemIndicesInRange = priceRangeFinder.findItemsInPriceRange(minPrice, maxPrice);
-            return Selection.with(itemIndicesInRange);
-        }else if( minPrice == null && maxPrice == null ){
-            System.out.println("Min and max price values not found in search data. Skipping price filter.");
+        try{
+            maxPrice = (float) searchData.getOrDefault(UIDataName.MAX_PRICE,
+                (float) table.floatColumn(TableColumnName.PRICE.getColumnName()).max()
+            );
+        }catch(ClassCastException e){
+            System.out.println("Max price value in search data is not of type Float. Skipping max price filter.");
             return selectAll();
-        }else{
-            int[] itemIndicesInRange = priceRangeFinder.findItemsInPriceRange(minPrice, maxPrice);
-            return Selection.with(itemIndicesInRange);
         }
+        int[] itemIndicesInRange = priceRangeFinder.findItemsInPriceRange(minPrice, maxPrice);
+        return Selection.with(itemIndicesInRange);
     }
 
     /**
@@ -192,6 +186,7 @@ public class SearchEngine {
      * @param searchData (Map<UIDataName, Object>) : The search data containing the selected categorical filters under the FILTERS_CONTAINER key
      * @return Selection : The selection of items that match the selected categorical filters, or ALL_ITEMS if no valid filters are found in the search data
      */
+    @SuppressWarnings("unchecked")
     Selection applyCategoricalFilters(Map<UIDataName, Object> searchData) {
         Set<TableColumnName> categoricalColumns = TableColumnName.getCategoricalColumns();
         Selection categoricalSelection = selectAll();

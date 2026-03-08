@@ -104,17 +104,6 @@ public class SearchedItemPagination extends Pagination {
 <span class="fc" id="L104">        int newPageCount = (int) Math.ceil((double) totalItems / ITEMS_PER_PAGE);</span>
 <span class="fc" id="L105">        setPageCount(Math.max(1, newPageCount)); // Ensure at least 1 page</span>
 <span class="fc" id="L106">    }</span>
-    
-    /**
-     * Refreshes the current page to reflect data changes.
-     * Useful after runtime modifications to display updated content.
-     */
-    /*public void refreshCurrentPage() {
-        int currentPage = getCurrentPageIndex();
-        // Force recreation by setting page factory again
-        setPageFactory(pageIndex -&gt; createPageContent(pageIndex, List.copyOf(itemHashMap.keySet())));
-        setCurrentPageIndex(currentPage);
-    }*/
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

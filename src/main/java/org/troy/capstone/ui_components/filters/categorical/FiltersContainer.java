@@ -64,10 +64,6 @@ public class FiltersContainer extends ScrollPane {
         createFiltersFromTable(itemHashMap);
     }
 
-    public Map<String, Set<CheckBox>> getFilterOptions() {
-        return filterOptions;
-    }
-
     /**
      * Generates filter panels based on the unique values of categorical attributes in the item data.
      * For each categorical column defined in TableColumnName, it extracts the unique values from the

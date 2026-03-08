@@ -1,5 +1,6 @@
 package org.troy.capstone.ui_components.price_slider;
 
+import java.lang.reflect.Field;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -14,6 +15,7 @@ import org.troy.capstone.utils.TableUtils;
 
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import tech.tablesaw.api.Table;
 
@@ -23,8 +25,22 @@ public class PriceSliderTest {
     private PriceSlider priceSlider;
     private static final double MIN_PRICE = 0;
     private static final double MAX_PRICE = 1000;
+    private Field minSliderField, maxSliderField, labelField;
+    private Slider minSlider, maxSlider;
+    private double minSliderValue, maxSliderValue;
+    private Label label;
+
+    private void recalculatePriceSliderValues() {
+        try {
+            minSliderValue = minSlider.getValue();
+            maxSliderValue = maxSlider.getValue();
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to recalculate slider values", e);
+        }
+    }
 
     @BeforeAll
+    @SuppressWarnings("ResultOfObjectAllocationIgnored")
     public static void setup() {
         new JFXPanel();
         table = TableUtils.readCleanedAttributedData();
@@ -34,55 +50,81 @@ public class PriceSliderTest {
     @BeforeEach
     public void setUp() {
         priceSlider = new PriceSlider(MIN_PRICE, MAX_PRICE, generalManager);
+        try {
+            minSliderField = PriceSlider.class.getDeclaredField("minSlider");
+            minSliderField.setAccessible(true);
+            Object minSliderObj = minSliderField.get(priceSlider);
+            assert minSliderObj instanceof Slider : "Expected minSlider to be an instance of Slider, but got: " + minSliderObj.getClass();
+            minSlider = (Slider) minSliderObj;
+            minSliderValue = minSlider.getValue();
+
+            maxSliderField = PriceSlider.class.getDeclaredField("maxSlider");
+            maxSliderField.setAccessible(true);
+            Object maxSliderObj = maxSliderField.get(priceSlider);
+            assert maxSliderObj instanceof Slider : "Expected maxSlider to be an instance of Slider, but got: " + maxSliderObj.getClass();
+            maxSlider = (Slider) maxSliderObj;
+            maxSliderValue = maxSlider.getValue();
+
+            labelField = PriceSlider.class.getDeclaredField("label");
+            labelField.setAccessible(true);
+            Object labelObj = labelField.get(priceSlider);
+            assert labelObj instanceof Label : "Expected label to be an instance of Label, but got: " + labelObj.getClass();
+            label = (Label) labelObj;
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            throw new RuntimeException("Failed to access minSlider or maxSlider field via reflection", e);
+        }
     }
     
     @Test
     @DisplayName("Test PriceSlider creation, and initial data")
     public void testPriceSliderCreation() {
         assertNotNull(priceSlider, "PriceSlider should be created successfully");
-        assertNotNull(priceSlider.getMinSlider(), "Min slider should be initialized");
-        assertNotNull(priceSlider.getMaxSlider(), "Max slider should be initialized");
-        assertEquals(MIN_PRICE, priceSlider.getLowValue(), "Min slider should be initialized to min price");
-        assertEquals(MAX_PRICE, priceSlider.getHighValue(), "Max slider should be initialized to max price");
-        assertEquals("Price: $0 - $1000", priceSlider.getLabelText(), "Label should display the correct initial price range");
+        assertNotNull(minSlider, "Min slider should be initialized");
+        assertNotNull(maxSlider, "Max slider should be initialized");
+        assertEquals(MIN_PRICE, minSliderValue, "Min slider should be initialized to min price");
+        assertEquals(MAX_PRICE, maxSliderValue, "Max slider should be initialized to max price");
+        assertEquals("Price: $0 - $1000", label.getText(), "Label should display the correct initial price range");
     }
 
     @Test
     @DisplayName("Test setting min slider and max slider to values not crossing each other")
     public void testPriceSliderMinMaxNotCrossing() {
-        priceSlider.getMinSlider().setValue(200);
-        assertEquals(200, priceSlider.getLowValue(), "Min slider should update to 200");
-        assertEquals(MAX_PRICE, priceSlider.getHighValue(), "Max slider should remain at max price when min slider is set below it");
+        minSlider.setValue(200);
+        recalculatePriceSliderValues();
+        assertEquals(200, minSliderValue, "Min slider should update to 200");
+        assertEquals(MAX_PRICE, maxSliderValue, "Max slider should remain at max price when min slider is set below it");
 
-        priceSlider.getMaxSlider().setValue(800);
-        assertEquals(800, priceSlider.getHighValue(), "Max slider should update to 800");
-        assertEquals(200, priceSlider.getLowValue(), "Min slider should remain at 200 when max slider is set above it");
+        maxSlider.setValue(800);
+        recalculatePriceSliderValues();
+        assertEquals(800, maxSliderValue, "Max slider should update to 800");
+        assertEquals(200, minSliderValue, "Min slider should remain at 200 when max slider is set above it");
     
-        assertEquals("Price: $200 - $800", priceSlider.getLabelText(), "Label should update to reflect new price range");
+        assertEquals("Price: $200 - $800", label.getText(), "Label should update to reflect new price range");
     }
 
     @Test
     @DisplayName("Test setting min slider above maxSlider value")
     public void testPriceSliderMinAboveMax() {
-        priceSlider.getMaxSlider().setValue(500);
+        maxSlider.setValue(500);
         //Should trigger max slider to change to 501 to maintain 1 dollar gap
-        priceSlider.getMinSlider().setValue(900);
-        
-        assertEquals(900, priceSlider.getLowValue(), "Min slider should update to 900");
-        assertEquals(901, priceSlider.getHighValue(), "Max slider should automatically adjust to maintain at least 1 unit above min slider");
-        assertEquals("Price: $900 - $901", priceSlider.getLabelText(), "Label should update to reflect new price range");
+        minSlider.setValue(900);
+        recalculatePriceSliderValues();
+        assertEquals(900, minSliderValue, "Min slider should update to 900");
+        assertEquals(901, maxSliderValue, "Max slider should automatically adjust to maintain at least 1 unit above min slider");
+        assertEquals("Price: $900 - $901", label.getText(), "Label should update to reflect new price range");
     }
 
     @Test
     @DisplayName("Test setting max slider below minSlider value")
     public void testPriceSliderMaxBelowMin() {
-        priceSlider.getMinSlider().setValue(400);
+        minSlider.setValue(400);
         //Should trigger min slider to change to 399 to maintain 1 dollar gap
-        priceSlider.getMaxSlider().setValue(300);
+        maxSlider.setValue(300);
+        recalculatePriceSliderValues();
         
-        assertEquals(300, priceSlider.getHighValue(), "Max slider should update to 300");
-        assertEquals(299, priceSlider.getLowValue(), "Min slider should automatically adjust to maintain at least 1 unit below max slider");
-        assertEquals("Price: $299 - $300", priceSlider.getLabelText(), "Label should update to reflect new price range");
+        assertEquals(300, maxSliderValue, "Max slider should update to 300");
+        assertEquals(299, minSliderValue, "Min slider should automatically adjust to maintain at least 1 unit below max slider");
+        assertEquals("Price: $299 - $300", label.getText(), "Label should update to reflect new price range");
     }
 
     @Test

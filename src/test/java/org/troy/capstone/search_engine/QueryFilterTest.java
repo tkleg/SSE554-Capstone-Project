@@ -92,6 +92,7 @@ public class QueryFilterTest {
             assertTrue(results.isEmpty(), "Expected empty results for null query");
         }
 
+        @SuppressWarnings("unchecked")
         @Test
         @DisplayName("Test that the createNGramAnalyzer method sets the nGramAnalyzer properly when an exception is thrown")
         public void testCreateNGramAnalyzer() throws Exception {
@@ -136,7 +137,7 @@ public class QueryFilterTest {
         System.setOut(new PrintStream(outContent));
         
         try {
-            QueryFilter queryFilter = new QueryFilter(table);
+            QueryFilter testQueryFilter = new QueryFilter(table);
             
             //Create a mock IndexWriter that throws IOException on addDocument
             IndexWriter mockWriter = mock(IndexWriter.class);
@@ -146,14 +147,14 @@ public class QueryFilterTest {
             //Set the mock IndexWriter in our QueryFilter instance
             Field writerField = QueryFilter.class.getDeclaredField("writer");
             writerField.setAccessible(true);
-            writerField.set(queryFilter, mockWriter);
+            writerField.set(testQueryFilter, mockWriter);
 
             //Mock the method
             Method addDocMethod = QueryFilter.class.getDeclaredMethod("addDoc", Row.class);
             addDocMethod.setAccessible(true);
    
             //Call addDoc on queryFilter with a valid item - should trigger the IOException and print the error message
-            addDocMethod.invoke(queryFilter, table.row(0));
+            addDocMethod.invoke(testQueryFilter, table.row(0));
 
             //Verify the expected error message was printed
             String output = outContent.toString();

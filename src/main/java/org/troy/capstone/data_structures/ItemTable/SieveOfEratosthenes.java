@@ -8,7 +8,7 @@ import org.troy.capstone.annotations.TestExclusionGenerated;
 //Code originally sourced from the MindTap assignment, but modified
 public class SieveOfEratosthenes {
 
-    BitSet notAPrime;
+    private BitSet notAPrime;
 
     public SieveOfEratosthenes(int maxValue) {
         notAPrime = new BitSet(maxValue + 1);
@@ -40,7 +40,7 @@ public class SieveOfEratosthenes {
      * Releases the internal array to be eligible for garbage collection.
      * After calling this, isPrime() will throw NullPointerException.
      */
-    public void releaseMemory() {
+    private void releaseMemory() {
         notAPrime = null;
     }
 

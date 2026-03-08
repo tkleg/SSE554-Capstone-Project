@@ -1,8 +1,6 @@
 package org.troy.capstone.ui_components.items.searched;
 
-import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 
@@ -29,11 +27,6 @@ public class SearchedItemContainer extends ScrollPane {
     public void addItemPanel(SearchedItemPanel itemPanel) {
         if( itemPanel != null )
             itemContainer.getChildren().add(itemPanel);
-    }
-
-    //Used to get the size of the list in a test
-    public ObservableList<Node> getContainerChildren() {
-        return itemContainer.getChildren();
     }
 
 }

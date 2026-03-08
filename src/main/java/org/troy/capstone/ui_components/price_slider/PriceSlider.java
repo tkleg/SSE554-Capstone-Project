@@ -12,11 +12,8 @@ public class PriceSlider extends VBox {
     private Slider minSlider;
     private Slider maxSlider;
     private final Label label;
-    private double min, max;
     
     public PriceSlider(double min, double max, GeneralManager generalManager) {
-        this.min = min;
-        this.max = max;
 
         // Min slider
         minSlider = new Slider(min, max, min);
@@ -65,23 +62,4 @@ public class PriceSlider extends VBox {
                                    maxSlider.getValue()));
     }
     
-    public double getLowValue() {
-        return minSlider.getValue();
-    }
-    
-    public double getHighValue() {
-        return maxSlider.getValue();
-    }
-
-    public Slider getMinSlider() {
-        return minSlider;
-    }
-
-    public Slider getMaxSlider() {
-        return maxSlider;
-    }
-
-    public String getLabelText() {
-        return label.getText();
-    }
 }

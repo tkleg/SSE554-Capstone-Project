@@ -13,12 +13,16 @@ import org.troy.capstone.ui_components.filters.categorical.FiltersContainer;
 import org.troy.capstone.ui_components.filters.stars.StarRatingFilter;
 import org.troy.capstone.utils.TableUtils;
 
+import javafx.scene.Node;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import tech.tablesaw.api.Table;
+
+import java.lang.reflect.Field;
+import java.util.Map;
 
 public class GeneralManagerTest {
 
@@ -28,6 +32,7 @@ public class GeneralManagerTest {
     private static Button fullGMButton;
 
     @BeforeAll
+    @SuppressWarnings("ResultOfObjectAllocationIgnored")
     public static void setup() {
         // Initialize JavaFX environment
         new JFXPanel(); // This will initialize the JavaFX toolkit
@@ -45,8 +50,14 @@ public class GeneralManagerTest {
     }
 
     @BeforeEach
-    public void clearGM(){
-        GM.clearUIElements();
+    @SuppressWarnings("unchecked")
+    public void clearGM() throws NoSuchFieldException, IllegalAccessException {
+        Field uiManagerField = GeneralManager.class.getDeclaredField("uiManager");
+        uiManagerField.setAccessible(true);
+        UIElementManager uiManager = (UIElementManager) uiManagerField.get(GM);
+        Field uiElementsField = UIElementManager.class.getDeclaredField("uiElements");
+        uiElementsField.setAccessible(true);
+        ((Map<UIElementName, Node>) uiElementsField.get(uiManager)).clear();
     }
 
     @Test

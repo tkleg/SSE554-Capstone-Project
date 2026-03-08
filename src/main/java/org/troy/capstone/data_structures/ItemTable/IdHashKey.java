@@ -6,8 +6,10 @@ public class IdHashKey {
     private final String value;
     // A prime number larger than the maximum possible hash value from collapsing the strings, to ensure good distribution in universal hashing
     private static final BigInteger P = BigInteger.valueOf(SieveOfEratosthenes.staticPrimeUnder100mil().orElseThrow());
+    @SuppressWarnings("FieldMayBeFinal")
     private static BigInteger I = BigInteger.
         valueOf( (long) (Math.random() * P.longValue()) + 1 );
+    @SuppressWarnings("FieldMayBeFinal")
     private static BigInteger J = BigInteger.
         valueOf( (long) (Math.random() * (P.longValue() - 1L)) );
 

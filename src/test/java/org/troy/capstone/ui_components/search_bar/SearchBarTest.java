@@ -25,6 +25,7 @@ public class SearchBarTest {
     private SearchBar searchBar;
 
     @BeforeAll
+    @SuppressWarnings("ResultOfObjectAllocationIgnored")
     public static void setup() {
         new JFXPanel();
         table = TableUtils.readCleanedAttributedData();

@@ -139,7 +139,7 @@ public class ItemHashMap extends HashMap<IdHashKey, Item> {
      * and the internal state of the ItemHashMap is not modified between the two distribution calculations (i.e. no items are added or removed).
      * Additionally, the same item IDs are used for both calculations. Finally, the map must be filled.
      */
-    void printBucketSizeCountsCustomVsBuiltIn(){
+    private void printBucketSizeCountsCustomVsBuiltIn(){
         String col1 = "Entries in Bucket (N)", col2 = "Buckets with N entries (Custom Hash)", col3 = "Buckets with N entries (Built-in Hash)";
         System.out.printf("%-" + col1.length() + "s %s %-" + col2.length() + "s %s %-" + col3.length() + "s%n", col1, "|", col2, "|", col3);
         int[] customBucketSizeCounts = getFreshBucketSizeCount(getItemIdsAsList(), true); // Use fresh calculation with current I,J

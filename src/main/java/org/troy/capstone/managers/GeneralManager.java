@@ -20,11 +20,6 @@ public class GeneralManager {
         uiManager = new UIElementManager();
         searchEngine = new SearchEngine(table);
     }
-    
-    //Not used in main program, useful for testing to reset the GeneralManager state between tests
-    public void clearUIElements() {
-        uiManager.clearElements();
-    }
 
     public Optional<Node> getUIElement(UIElementName key) {
         return uiManager.getElement(key);

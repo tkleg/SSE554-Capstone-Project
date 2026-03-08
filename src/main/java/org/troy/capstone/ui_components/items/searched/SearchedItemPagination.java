@@ -104,16 +104,5 @@ public class SearchedItemPagination extends Pagination {
         int newPageCount = (int) Math.ceil((double) totalItems / ITEMS_PER_PAGE);
         setPageCount(Math.max(1, newPageCount)); // Ensure at least 1 page
     }
-    
-    /**
-     * Refreshes the current page to reflect data changes.
-     * Useful after runtime modifications to display updated content.
-     */
-    /*public void refreshCurrentPage() {
-        int currentPage = getCurrentPageIndex();
-        // Force recreation by setting page factory again
-        setPageFactory(pageIndex -> createPageContent(pageIndex, List.copyOf(itemHashMap.keySet())));
-        setCurrentPageIndex(currentPage);
-    }*/
 
 }

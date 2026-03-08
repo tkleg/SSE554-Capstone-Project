@@ -21,7 +21,7 @@ import javafx.scene.paint.Color;
 
 public class SearchedItemPanel extends HBox{
 
-    static final SimpleDateFormat dateAddedFormatter = new SimpleDateFormat("MMMM dd, yyyy");
+    private static final SimpleDateFormat dateAddedFormatter = new SimpleDateFormat("MMMM dd, yyyy");
 
     private final AttributedItemContainer attributedImage;
     private final VBox rightPanel;
