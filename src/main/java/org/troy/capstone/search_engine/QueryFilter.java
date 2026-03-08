@@ -2,6 +2,7 @@ package org.troy.capstone.search_engine;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -49,7 +50,7 @@ public class QueryFilter {
     private static final float DEFAULT_NORMALIZATION_FACTOR = 1.0f; //Default normalization factor for BM25, can be tuned based on dataset characteristics
     private static final float SELECTED_SATURATION_PARAMETER = 1.75f; //Selected saturation parameter for BM25, can be tuned based on dataset characteristics
 
-    private List<SearchResult> resultsList;
+    private Map<String, Float> filteredItems;
     private Analyzer ngramAnalyzer;
     private Directory directory;
     private IndexWriterConfig config;
@@ -76,9 +77,9 @@ public class QueryFilter {
                 String userQuery = scan.nextLine().trim();
                 if (userQuery.equalsIgnoreCase("exit"))
                     break;
-                List<SearchResult> results = queryFilter.search(userQuery);
-                for(SearchResult result : results)
-                    System.out.println("ID: " + result.getId() + ", Score: " + result.getScore());
+                Map<String, Float> results = queryFilter.search(userQuery);
+                for(Map.Entry<String, Float> entry : results.entrySet())
+                    System.out.println("ID: " + entry.getKey() + ", Score: " + entry.getValue());
             }
         }
     }
@@ -121,27 +122,15 @@ public class QueryFilter {
         
     }
 
-    public static class SearchResult {
-        private String id;
-        private float score;
-
-        public SearchResult(String id, float score) {
-            this.id = id;
-            this.score = score;
-        }
-
-        public String getId() {
-            return id;
-        }
-
-        public float getScore() {
-            return score;
-        }
-    }
-
-    public List<SearchResult> search(String userQuery){
+    public Map<String, Float> search(String userQuery){
         try{
-            resultsList = new ArrayList<>();
+            // Handle null or empty query
+            if (userQuery == null || userQuery.trim().isEmpty()) {
+                System.out.println("Empty or null query provided, returning no results");
+                return new HashMap<>();
+            }
+            
+            filteredItems = new HashMap<>();
 
             Query query = parser.parse(userQuery.trim());
             TopDocs results = searcher.search(query, 1000);
@@ -154,30 +143,25 @@ public class QueryFilter {
             
             if( results.totalHits.value() == 0){
                 System.out.println("No results found for query: " + userQuery);
-                return resultsList;
+                return filteredItems;
             }
 
             StoredFields storedFields = searcher.getIndexReader().leaves().get(0).reader().storedFields();
 
             for (int i = 0; i < results.scoreDocs.length; i++) {
-                try {
-                    ScoreDoc scoreDoc = results.scoreDocs[i];
-                    if (scoreDoc.score < minimumAllowableScore)
-                        break;
-                    Document doc = storedFields.document(scoreDoc.doc);
-                    String id = doc.get("id");
-                    float score = scoreDoc.score;
-                    resultsList.add(new SearchResult(id, score));
-                } catch (Exception e) {
-                    System.out.println("Error retrieving document for result " + i + ": " + e.getMessage());
-                    return resultsList; //Return results found so far if there's an error retrieving a document
-                }
+                ScoreDoc scoreDoc = results.scoreDocs[i];
+                if (scoreDoc.score < minimumAllowableScore)
+                    break;
+                Document doc = storedFields.document(scoreDoc.doc);
+                String id = doc.get("id");
+                float score = scoreDoc.score;
+                filteredItems.put(id, score);
             }
-            System.out.println("Search completed with " + resultsList.size() + " results above score threshold.");
-            return resultsList;
+            System.out.println("Search completed with " + filteredItems.size() + " results above score threshold.");
+            return filteredItems;
         }catch (Exception e){
             System.out.println("Error executing search: " + e.getMessage());
-            return new ArrayList<>();
+            return new HashMap<>();
         }
     }
 

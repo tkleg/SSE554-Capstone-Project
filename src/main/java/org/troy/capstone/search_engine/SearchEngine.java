@@ -1,5 +1,6 @@
 package org.troy.capstone.search_engine;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -13,6 +14,7 @@ import tech.tablesaw.selection.Selection;
 public class SearchEngine {
     private final Table table;
     private final PriceRangeFinder priceRangeFinder;
+    private final QueryFilter queryFilter;
 
     /**
      * Constructor for SearchEngine
@@ -22,6 +24,7 @@ public class SearchEngine {
     public SearchEngine(Table table) {
         this.table = table;
         this.priceRangeFinder = new PriceRangeFinder(table);
+        this.queryFilter = new QueryFilter(table);
     }
 
     /**
@@ -54,18 +57,44 @@ public class SearchEngine {
 
         Table preQueryFilteredTable = table.where(selection);
 
-        //List<SearchResult> searchResults = new QueryFilter(preQueryFilteredTable).search((String)searchData.get(UIDataName.QUERY_STRING));
-        System.out.println("Number of results: " + selection.size());
+        Map<String, Float> searchResults = applySearchQueryFilter((String)searchData.get(UIDataName.SEARCH_QUERY));
+
+        Table queryFilteredTable; 
+        if( searchResults == null )
+            queryFilteredTable = preQueryFilteredTable;
+        else
+            queryFilteredTable = preQueryFilteredTable.where(preQueryFilteredTable.stringColumn(TableColumnName.ID.getColumnName())
+            .isIn(searchResults.keySet()));
+
+        System.out.println("Number of results: " + queryFilteredTable.rowCount());
         System.out.println("Total Data Size: " + table.rowCount());
 
-        return table.where(selection).stringColumn(TableColumnName.ID.getColumnName()).asSet();
+        System.out.println(queryFilteredTable.selectColumns(TableColumnName.NAME.getColumnName()));
+
+        return queryFilteredTable.stringColumn(TableColumnName.ID.getColumnName()).asSet();
+    }
+
+    /**
+     * Helper method to apply the search query results as a filter on the table
+     * 
+     * @param userQuery (String) : The user query to be applied as a filter
+     * @return (Map<String, Float>) : A map of item IDs to their relevance scores for the search query, or null if the user query is null or empty
+     */
+    public Map<String, Float> applySearchQueryFilter(String userQuery) {
+        System.out.println("Applying search query filter with user query: \"" + userQuery + "\"");
+        if( userQuery == null || userQuery.trim().isEmpty() ){
+            System.out.println("User query is null or empty, skipping search query filter.");
+            return null;
+        }
+
+        return queryFilter.search(userQuery);
     }
 
     /**
      * Helper method to apply tag filters since they have special handling compared to other categorical filters
      * 
      * @param filtersContainer (Map<String, Set<String>>) : The filters container containing the selected tags under the "Tags" key
-     * @return Selection : The selection of items that match the selected tags, or null if more than 4 tags are selected since it's impossible to satisfy that criteria
+     * @return (Selection) : The selection of items that match the selected tags, or null if more than 4 tags are selected since it's impossible to satisfy that criteria
      */
     Selection applyTagFilters(Map<String, Set<String>> filtersContainer) {
         Set<String> selectedTags = filtersContainer.get("Tags");

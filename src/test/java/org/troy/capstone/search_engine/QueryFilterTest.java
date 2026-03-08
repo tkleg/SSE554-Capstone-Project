@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.List;
+import java.util.Map;
 
 import org.apache.lucene.analysis.core.StopAnalyzer;
 import org.apache.lucene.analysis.custom.CustomAnalyzer;
@@ -22,15 +22,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import static org.mockito.ArgumentMatchers.any;
-import org.mockito.InjectMocks;
-import org.mockito.MockedConstruction;
 import org.mockito.MockedStatic;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.mockConstruction;
 import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.when;
-import org.mockito.Spy;
 import org.troy.capstone.utils.TableUtils;
 
 import tech.tablesaw.api.Row;
@@ -56,28 +52,19 @@ public class QueryFilterTest {
     @Test
     @DisplayName("Test that the constructor returns null when an exception is thrown")
     public void testConstructorThrow(){
-        assertThrows(RuntimeException.class, () -> {
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
             queryFilter = new QueryFilter(null);
         });
+        // Verify the exception was thrown
+        assertTrue(exception.getMessage().contains("Failed to initialize QueryFilter"));
         assertNull(queryFilter);
-    }
-
-    @Test
-    @DisplayName("Test the SearchResult class")
-    public void testSearchResult() {
-        QueryFilter.SearchResult searchResult = new QueryFilter.SearchResult("1", 0.5f);
-        assertEquals("1", searchResult.getId());
-        assertEquals(0.5f, searchResult.getScore());
     }
 
     @Nested
     @DisplayName("Tests needing a pre-instantiated QueryFilter instance")
+    @SuppressWarnings("unused")
     class PreInstantiatedQueryFilterTests {
         
-        @Spy
-        List<QueryFilter.SearchResult> resultsList;
-
-        @InjectMocks
         private static QueryFilter goodQueryFilter;
 
         @BeforeAll
@@ -94,59 +81,23 @@ public class QueryFilterTest {
             "., 0",
         })
         public void testSearchValidQuery(String query, int expectedSize) {
-            List<QueryFilter.SearchResult> results = goodQueryFilter.search(query);
+            Map<String, Float> results = goodQueryFilter.search(query);
             assertEquals(expectedSize, results.size()); //Expecting results based on the query
-        }
-
-        @Test
-        @DisplayName("Test that the search method exits with some items when an exception is thrown part way through adding results")
-        public void testSearchResultsException() {
-            //First get some normal results to identify an ID to target
-            List<QueryFilter.SearchResult> normalResults = goodQueryFilter.search("elec");
-            assertTrue(normalResults.size() > 3, "Need more than 3 results for this test");
-            
-            //Get the ID of the 3rd result to use as our trigger
-            String targetId = normalResults.get(2).getId();
-            
-            //Use mockConstruction to intercept SearchResult constructor calls
-            try (MockedConstruction<QueryFilter.SearchResult> mockedConstruction = 
-                 mockConstruction(QueryFilter.SearchResult.class, 
-                     (mock, context) -> {
-                         String id = (String) context.arguments().get(0);
-                         
-                         //Throw exception if this is our target ID
-                         if (targetId.equals(id))
-                             throw new RuntimeException("Simulated exception for ID: " + id);
-                })) {
-                
-                // Execute the search - should get partial results due to constructor exception
-                List<QueryFilter.SearchResult> partialResults = goodQueryFilter.search("elec");
-                
-                // Verify we got fewer results than normal (should stop at the exception point)
-                assertTrue(partialResults.size() < normalResults.size(), 
-                    "Should have fewer results due to exception. Expected < " + normalResults.size() + 
-                    " but got " + partialResults.size());
-                
-                // Verify we got at least some results before the exception
-                assertTrue(partialResults.size() >= 2, 
-                    "Should have at least 2 results before exception occurred");
-                
-                //Verify the constructed mocks were actually called
-                assertTrue(mockedConstruction.constructed().size() >= 2, 
-                    "Should have attempted to construct at least 2 SearchResult objects");
-            }
         }
 
         @Test
         @DisplayName("Test that the search method returns an empty list when the query is null")
         public void testSearchNullQuery() {
-            List<QueryFilter.SearchResult> results = goodQueryFilter.search(null);
+            Map<String, Float> results = goodQueryFilter.search(null);
             assertTrue(results.isEmpty(), "Expected empty results for null query");
         }
 
         @Test
         @DisplayName("Test that the createNGramAnalyzer method sets the nGramAnalyzer properly when an exception is thrown")
         public void testCreateNGramAnalyzer() throws Exception {
+            // Create a fresh QueryFilter instance for this test to avoid interference
+            QueryFilter testQueryFilter = new QueryFilter(table);
+            
             //Forcing CustomAnalyzer.builder().build() to throw an IOException to test the fallback logic in createNgramAnalyzer
             try(MockedStatic<CustomAnalyzer> mocked = mockStatic(CustomAnalyzer.class)){
 
@@ -154,7 +105,7 @@ public class QueryFilterTest {
                 CustomAnalyzer.Builder mockBuilder = mock(CustomAnalyzer.Builder.class);
                 
                 //Mock the static builder() method to return our mock builder
-                mocked.when(() -> CustomAnalyzer.builder()).thenReturn(mockBuilder);
+                mocked.when(CustomAnalyzer::builder).thenReturn(mockBuilder);
                 
                 //Mock withTokenizer to throw IOException when called with any parameters
                 when(mockBuilder.withTokenizer(any(Class.class), any(String.class), any(String.class), any(String.class), any(String.class)))
@@ -163,12 +114,12 @@ public class QueryFilterTest {
                 //Use reflection to call the private createNgramAnalyzer method
                 Method createNgramAnalyzerMethod = QueryFilter.class.getDeclaredMethod("createNgramAnalyzer");
                 createNgramAnalyzerMethod.setAccessible(true);
-                createNgramAnalyzerMethod.invoke(goodQueryFilter);
+                createNgramAnalyzerMethod.invoke(testQueryFilter);
 
                 //Use reflection to access the private ngramAnalyzer field and verify it was set to a StopAnalyzer
                 Field ngramAnalyzerField = QueryFilter.class.getDeclaredField("ngramAnalyzer");
                 ngramAnalyzerField.setAccessible(true);
-                Object ngramAnalyzerValue = ngramAnalyzerField.get(goodQueryFilter);
+                Object ngramAnalyzerValue = ngramAnalyzerField.get(testQueryFilter);
                 
                 assertTrue(ngramAnalyzerValue instanceof StopAnalyzer, 
                     "Expected ngramAnalyzer to be an instance of StopAnalyzer when CustomAnalyzer creation fails");

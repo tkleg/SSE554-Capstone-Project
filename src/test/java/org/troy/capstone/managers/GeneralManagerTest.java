@@ -88,7 +88,7 @@ public class GeneralManagerTest {
         assert output.contains("SEARCH_QUERY=Test Query") : "Expected output to contain 'SEARCH_QUERY=Test Query', but got: " + output;
         assert output.contains("MIN_PRICE=25.0") : "Expected output to contain 'MIN_PRICE=25.0', but got: " + output;
         assert output.contains("MAX_PRICE=75.0") : "Expected output to contain 'MAX_PRICE=75.0', but got: " + output;
-        assert output.contains("Number of results: 64") : "Expected output to contain 'Number of results: 64', but got: " + output;
+        assert output.contains("Number of results: 39") : "Expected output to contain 'Number of results: 39', but got: " + output;
         assert output.contains("FILTERS_CONTAINER") : "Expected output to contain 'FILTERS_CONTAINER', but got: " + output;
         assert output.contains("MIN_STAR_RATING=0") : "Expected output to contain 'MIN_STAR_RATING=0', but got: " + output;
         assert output.contains("Category=[]") : "Expected output to contain 'Category=[]', but got: " + output;
