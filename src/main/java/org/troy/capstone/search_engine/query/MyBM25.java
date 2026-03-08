@@ -1,14 +1,12 @@
 package org.troy.capstone.search_engine.query;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
 import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.core.StopFilterFactory;
 import org.apache.lucene.analysis.custom.CustomAnalyzer;
 import org.apache.lucene.analysis.ngram.NGramTokenizerFactory;
-import org.apache.lucene.analysis.core.StopFilterFactory;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.StoredField;
@@ -101,6 +99,9 @@ public class MyBM25 {
             Query query = parser.parse(userQuery);
             TopDocs results = searcher.search(query, 1000);
             
+            //Allowing scores that are at least 20% of the top score to be included
+            double minimumAllowableScore = results.scoreDocs.length > 0 ? results.scoreDocs[0].score * 0.2 : 0.0;
+
             System.out.println("Total Hits: " + results.scoreDocs.length + " for search term: '" + userQuery + "'");
             
             // Print results with names and scores side by side
@@ -108,9 +109,12 @@ public class MyBM25 {
             System.out.println("Document Name | Score");
             System.out.println("----------------------------------------");
             
-            for (int i = 0; i < results.scoreDocs.length; i++) {
+            int i;
+            for (i = 0; i < results.scoreDocs.length; i++) {
                 try {
                     ScoreDoc scoreDoc = results.scoreDocs[i];
+                    if (scoreDoc.score < minimumAllowableScore)
+                        break;
                     Document doc = storedFields.document(scoreDoc.doc);
                     String name = doc.get("name");
                     float score = scoreDoc.score;
@@ -119,6 +123,7 @@ public class MyBM25 {
                     e.printStackTrace();
                 }
             }
+            System.out.println("Displayed " + i + " results with scores above the threshold of " + minimumAllowableScore);
         }
     }
 
