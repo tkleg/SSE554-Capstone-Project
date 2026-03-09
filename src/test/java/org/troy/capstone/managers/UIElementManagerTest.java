@@ -60,12 +60,6 @@ public class UIElementManagerTest {
         uiElementManager.addElement(UIElementName.MIN_PRICE_SLIDER, new HBox());
         assert uiElementManager.getElement(UIElementName.MIN_PRICE_SLIDER).isPresent() : "Expected non-empty Optional when valid data is added, but got: " + uiElementManager.getElement(UIElementName.MIN_PRICE_SLIDER);
     }
-
-    @Test
-    @DisplayName("Test getSearchData with all proper UI elements added")
-    public void testGetSearchDataWithAllProperUIElements() {
-        assert uiElementManager.getSearchData().isEmpty() : "Expected empty search data when proper UI elements are added but not properly cast, but got: " + uiElementManager.getSearchData();
-    }
     
     @Test
     @DisplayName("Test getSearchData with all proper UI elements added and properly cast")

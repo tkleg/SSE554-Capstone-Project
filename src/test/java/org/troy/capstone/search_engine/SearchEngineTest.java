@@ -130,13 +130,6 @@ public class SearchEngineTest {
 
         Selection result = searchEngine.applyCategoricalFilters(searchData);
 
-        System.out.println("=== Categorical Filter Debug ===");
-        System.out.println("Tags: '" + tagsString + "' -> " + filtersContainer.get("Tags"));
-        System.out.println("Categories: '" + categoriesString + "' -> " + filtersContainer.get("Category"));  
-        System.out.println("Publishers: '" + publisherString + "' -> " + filtersContainer.get("Publisher"));
-        System.out.println("Expected: " + expectedCount + ", Actual: " + result.size());
-        System.out.println("=================================");
-
         assert result != null;
         assert result.size() == expectedCount : "Expected " + expectedCount + " results, but got " + result.size();
     }
@@ -144,17 +137,19 @@ public class SearchEngineTest {
     @ParameterizedTest
     @DisplayName("Test combined filters count")
     @CsvSource({
-        "'Compact', 'Clothing, Books', 'NorthPeak, UrbanNest', -1, -1, -1, 19",
-        "'Durable, New Arrival, Versatile', 'Clothing, Sports & Outdoors', 'NorthPeak, Maple Street Press, UrbanNest', -1, -1, -1, 1",
-        "'', 'Clothing, Books, Office Supplies, Sports & Outdoors', 'Maple Street Press, Silverline Electronics, NorthPeak, UrbanNest', 118.26167424649577, 676.6693076949581, 2, 159",
-        "'Durable, New Arrival, Versatile', '', '', -1, -1, -1, 20",
-        "'', 'Home & Kitchen, Books, Clothing', '', -1, -1, -1, 482",
-        "'', '', 'Maple Street Press, BlueRiver Outfitters, Horizon Tech, UrbanNest, NorthPeak', -1, -1, -1, 601",
-        "'', '', '', -1, -1, 4, 350",
-        "'', '', '', 115.92435440837701, 522.830966113716, -1, 481",
-        "'', '', '', 115.92435440837701, 522.830966113716, 5, 83"
+        "'Compact', 'Clothing, Books', 'NorthPeak, UrbanNest', -1, -1, -1, '', 19",
+        "'Durable, New Arrival, Versatile', 'Clothing, Sports & Outdoors', 'NorthPeak, Maple Street Press, UrbanNest', -1, -1, -1, '', 1",
+        "'Wireless, Bestseller', 'Clothing, Books, Office Supplies, Sports & Outdoors', 'Maple Street Press, Silverline Electronics, Summit Gear Co., BrightLeaf Publishing', 118.26167424649577, 676.6693076949581, 2, '', 15",
+        "'Wireless, Bestseller', 'Clothing, Books, Office Supplies, Sports & Outdoors', 'Maple Street Press, Silverline Electronics, Summit Gear Co., BrightLeaf Publishing', 118.26167424649577, 676.6693076949581, 2, 'elec', 1",
+        "'Durable, New Arrival, Versatile', '', '', -1, -1, -1, '', 20",
+        "'', 'Home & Kitchen, Books, Clothing', '', -1, -1, -1, '', 482",
+        "'', '', 'Maple Street Press, BlueRiver Outfitters, Horizon Tech, UrbanNest, NorthPeak', -1, -1, -1, '', 601",
+        "'', '', '', -1, -1, 4, '', 350",
+        "'', '', '', 115.92435440837701, 522.830966113716, -1, '', 481",
+        "'', '', '', 115.92435440837701, 522.830966113716, 5, '', 83",
+        "'', '', '', -1, -1, -1, 'elec', 304"
     })
-    public void testCombinedFilters(String tagsString, String categoriesString, String publisherString, float minPrice, float maxPrice, int minStarRating, int expectedCount) {
+    public void testCombinedFilters(String tagsString, String categoriesString, String publisherString, float minPrice, float maxPrice, int minStarRating, String query, int expectedCount) {
         Map<String, Set<String>> filtersContainer = new HashMap<>();
         
         // Handle empty strings properly to avoid creating sets with empty string elements
@@ -190,15 +185,11 @@ public class SearchEngineTest {
         else
             searchData.put(UIDataName.MIN_STAR_RATING, 0);
 
+        if( query != null && !query.isEmpty() )
+            searchData.put(UIDataName.SEARCH_QUERY, query);
+
         Set<String> filteredIds = searchEngine.filterItems(searchData);
-
-        System.out.println("=== Test Case Debug ===");
-        System.out.println("Tags: '" + tagsString + "'");
-        System.out.println("Categories: '" + categoriesString + "'");  
-        System.out.println("Publishers: '" + publisherString + "'");
-        System.out.println("Expected: " + expectedCount + ", Actual: " + filteredIds.size());
-        System.out.println("========================");
-
+        
         assert filteredIds != null;
         assert filteredIds.size() == expectedCount : "Expected " + expectedCount + " results, but got " + filteredIds.size();
     }
