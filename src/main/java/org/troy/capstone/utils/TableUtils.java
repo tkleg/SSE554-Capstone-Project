@@ -80,42 +80,42 @@ public class TableUtils {
     */
 
     public static Table readCleanedData() {
-        CsvReadOptions options = createCsvReadOptions(DataPath.CLEANED_DATA_CSV.getPath());
+        CsvReadOptions options = createCsvReadOptions(DataPath.CLEANED_DATA_CSV.toString());
         Table table = Table.read().usingOptions(options);  
         insertIndexColumn(table);
         return table;
     }
 
     public static Table readCleanedDataLongPath() {
-        CsvReadOptions options = createCsvReadOptions(DataPath.CLEANED_DATA_CSV_LONG.getPath());
+        CsvReadOptions options = createCsvReadOptions(DataPath.CLEANED_DATA_CSV_LONG.toString());
         Table table = Table.read().usingOptions(options);  
         insertIndexColumn(table);
         return table;
     }
 
     public static Table readAttributedData(){
-        CsvReadOptions options = createCsvReadOptions(DataPath.ATTRIBUTED_DATA_CSV.getPath());
+        CsvReadOptions options = createCsvReadOptions(DataPath.ATTRIBUTED_DATA_CSV.toString());
         Table table = Table.read().usingOptions(options);
         insertIndexColumn(table);
         return table;
     }
 
     public static Table readAttributedDataLongPath(){
-        CsvReadOptions options = createCsvReadOptions(DataPath.ATTRIBUTED_DATA_CSV_LONG.getPath());
+        CsvReadOptions options = createCsvReadOptions(DataPath.ATTRIBUTED_DATA_CSV_LONG.toString());
         Table table = Table.read().usingOptions(options);
         insertIndexColumn(table);
         return table;
     }
 
     public static Table readCleanedAttributedData(){
-        CsvReadOptions options = createCsvReadOptions(DataPath.CLEANED_ATTRIBUTED_DATA_CSV.getPath());
+        CsvReadOptions options = createCsvReadOptions(DataPath.CLEANED_ATTRIBUTED_DATA_CSV.toString());
         Table table = Table.read().usingOptions(options);
         insertIndexColumn(table);
         return table;
     }
 
     public static Table readCleanedAttributedDataLongPath(){
-        CsvReadOptions options = createCsvReadOptions(DataPath.CLEANED_ATTRIBUTED_DATA_CSV_LONG.getPath());
+        CsvReadOptions options = createCsvReadOptions(DataPath.CLEANED_ATTRIBUTED_DATA_CSV_LONG.toString());
         Table table = Table.read().usingOptions(options);
         insertIndexColumn(table);
         return table;
@@ -123,32 +123,32 @@ public class TableUtils {
 
     @TestExclusionGenerated
     public static void writeCleanedData(Table table) {
-        table.write().csv(DataPath.CLEANED_DATA_CSV.getPath());
+        table.write().csv(DataPath.CLEANED_DATA_CSV.toString());
     }
 
     @TestExclusionGenerated
     public static void writeCleanedDataLongPath(Table table) {
-        table.write().csv(DataPath.CLEANED_DATA_CSV_LONG.getPath());
+        table.write().csv(DataPath.CLEANED_DATA_CSV_LONG.toString());
     }
 
     @TestExclusionGenerated
     public static void writeAttributedData(Table table) {
-        table.write().csv(DataPath.ATTRIBUTED_DATA_CSV.getPath());
+        table.write().csv(DataPath.ATTRIBUTED_DATA_CSV.toString());
     }
 
     @TestExclusionGenerated
     public static void writeAttributedDataLongPath(Table table) {
-        table.write().csv(DataPath.ATTRIBUTED_DATA_CSV_LONG.getPath());
+        table.write().csv(DataPath.ATTRIBUTED_DATA_CSV_LONG.toString());
     }
 
     @TestExclusionGenerated
     public static void writeCleanedAttributedData(Table table) {
-        table.write().csv(DataPath.CLEANED_ATTRIBUTED_DATA_CSV.getPath());
+        table.write().csv(DataPath.CLEANED_ATTRIBUTED_DATA_CSV.toString());
     }
 
     @TestExclusionGenerated
     public static void writeCleanedAttributedDataLongPath(Table table) {
-        table.write().csv(DataPath.CLEANED_ATTRIBUTED_DATA_CSV_LONG.getPath());
+        table.write().csv(DataPath.CLEANED_ATTRIBUTED_DATA_CSV_LONG.toString());
     }
     
     private static void insertIndexColumn(Table table) {

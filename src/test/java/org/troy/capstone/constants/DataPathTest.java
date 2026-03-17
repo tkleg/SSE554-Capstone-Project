@@ -12,6 +12,6 @@ public class DataPathTest {
     @EnumSource(DataPath.class)
     @DisplayName("Test that all data paths in DataPaths enum point to existing files")
     public void testDataPaths(DataPath dataPath) {
-        assert new File( dataPath.getPath() ).exists() : "File should exist at path: " + dataPath.getPath();
+        assert new File( dataPath.toString() ).exists() : "File should exist at path: " + dataPath.toString();
     }
 }
