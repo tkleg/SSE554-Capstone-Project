@@ -12,7 +12,7 @@ mkdir distribution
 
 #Copy test coverage and javadocs to docs directory
 cp -r target/site/jacoco/* docs/coverage
-cp -r target/reports/apidocs docs/javadocs
+cp -r target/reports/apidocs/* docs/javadocs
 
 #Copy jar file, dependencies, data, docs, and run scripts to distribution directory
 cp target/Project-1.0-SNAPSHOT-with-dependencies.jar distribution
