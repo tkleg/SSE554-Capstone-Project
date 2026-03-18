@@ -17,33 +17,52 @@ import tech.tablesaw.api.Row;
 
 @Data
 @Builder
+/**
+ * A shopping item with various attributes. Main entity of the application.
+ */
 public class Item {
+    /** Faker instance for generating random data */
     private static final Faker faker = new Faker();
 
+    /** Unique identifier for the item */
     private String id;
+    /** Index of the item in the collection */
     private short index;
+    /** URL of the item's image */
     private String imageUrl;
+    /** Name of the item */
     private String name;
+    /** Publisher of the item */
     private String publisher;
+    /** Description of the item */
     private String description;
+    /** Category of the item */
     private String category;
+    /** Tags associated with the item */
     private Set<String> tags;
+    /** Author of the item's photo */
     private String photoAuthor;
+    /** URL of the photo's author */
     private String photoAuthorUrl;
+    /** Price of the item */
     private float price;
+    /** Review score of the item */
     private float reviewScore;
+    /** Number of reviews for the item */
     private short reviewCount;
+    /** Quantity of the item in stock */
     private short stockQuantity;
+    /** Date the item was added to the collection */
     private Date dateAdded;
 
     /**
      * Returns the value of the specified attribute for this item. The attribute is determined by the provided TableColumnName enum value.
      * 
-     * pre-conditions: column is not null and corresponds to a valid attribute of the Item class.
+     * @pre <ul><li>column is not null and corresponds to a valid attribute of the Item class.</li></ul>
      * 
-     * @param column (TableColumnName): an enum value representing the attribute to retrieve from this item.
-     * @return Object: the value of the specified attribute for this item, returned as an Object. The caller must cast result.
-     * @throws IllegalArgumentException if the provided column does not correspond to a valid attribute of the Item class.
+     * @param column An enum value representing the attribute to retrieve from this item.
+     * @return The value of the specified attribute for this item, returned as an Object. The caller must cast result.
+     * @throws IllegalArgumentException If the provided column does not correspond to a valid attribute of the Item class.
      */
     public Object getAttribute( TableColumnName column ){
         return switch(column){
@@ -62,14 +81,14 @@ public class Item {
             case DATE_ADDED -> dateAdded;
             case PHOTO_AUTHOR -> photoAuthor;
             case PHOTO_AUTHOR_URL -> photoAuthorUrl;
-            case RELEVANCE -> null; //Relevance is not a part of the item class, but is added later during search query filteringsearch query filtering
+            case RELEVANCE -> null; //Relevance is not a part of the item class, but is added later during search query filtering
         };
     }
     
     /**
      * Generates a random Item object with realistic values for each attribute using the Faker library.
      * 
-     * @return Item: a randomly generated Item object with all attributes populated with realistic random values.
+     * @return A randomly generated Item object with all attributes populated with realistic random values.
      */
     public static Item randomItem(){
         return Item.builder()
@@ -93,10 +112,10 @@ public class Item {
     /**
      * Creates an Item object from a tablesaw Row. The Row must contain columns corresponding to the attributes of the Item class.
      * 
-     * pre-conditions: itemRow is not null and contains the expected columns for creating an Item (ID, Name, etc.).
+     * @pre <ul><li>itemRow is not null and contains the expected columns for creating an Item (ID, Name, etc.).</li></ul>
      * 
-     * @param itemRow (Row): a Row from a tablesaw Table containing item info
-     * @return Item: an Item object created from the data in the provided Row.
+     * @param itemRow A Row from a tablesaw Table containing item info.
+     * @return An Item object created from the data in the provided Row.
      */
     public static Item fromRow( Row itemRow ){
         return Item.builder()

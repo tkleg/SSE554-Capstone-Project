@@ -1,11 +1,14 @@
 package org.troy.capstone.search_engine;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -24,8 +27,23 @@ public class SearchEngineTest {
     private static final float MIN_MIN_PRICE = 8.619999885559082f;
     private static final float MAX_MAX_PRICE = 799.0599975585938f;
 
+    //Make method variables to reference private methods in order to get coverage on those methods, since they contain branches that need testing and are not called directly by the public filterItems method, which is already well covered by the parameterized tests.
+    private static Method applyPriceFiltersTest, applyStarFilterTest, applyTagFiltersTest, applyCategoricalFiltersTest;
+
+    @BeforeAll
+    public static void setupAll() throws NoSuchMethodException {
+        applyPriceFiltersTest = SearchEngine.class.getDeclaredMethod("applyPriceFilters", Map.class);
+        applyPriceFiltersTest.setAccessible(true);
+        applyStarFilterTest = SearchEngine.class.getDeclaredMethod("applyStarFilter", Map.class);
+        applyStarFilterTest.setAccessible(true);
+        applyTagFiltersTest = SearchEngine.class.getDeclaredMethod("applyTagFilters", Map.class);
+        applyTagFiltersTest.setAccessible(true);
+        applyCategoricalFiltersTest = SearchEngine.class.getDeclaredMethod("applyCategoricalFilters", Map.class);
+        applyCategoricalFiltersTest.setAccessible(true);
+    }
+    
     @BeforeEach
-    public void setup() {
+    public void setupEach() {
         table = TableUtils.readCleanedAttributedData();
         searchEngine = new SearchEngine(table);
     }
@@ -38,12 +56,13 @@ public class SearchEngineTest {
         "146.73451560799788, 231.7280637448834, 97",
         "8.619999885559082, 38.36773464105467, 47"
     })
-    public void testPriceRangeFilter(float minPrice, float maxPrice, int expectedCount) {
+    public void testPriceRangeFilter(float minPrice, float maxPrice, int expectedCount) throws IllegalAccessException, InvocationTargetException {
         Map<UIDataName, Object> searchData = new HashMap<>();
         searchData.put(UIDataName.MIN_PRICE, minPrice);
         searchData.put(UIDataName.MAX_PRICE, maxPrice);
 
-        Selection result = searchEngine.applyPriceFilters(searchData);
+        Selection result = (Selection) applyPriceFiltersTest.invoke(searchEngine, searchData);
+        
         assert result != null;
         assert result.size() == expectedCount : "Expected " + expectedCount + " results, but got " + result.size();
     }
@@ -58,11 +77,11 @@ public class SearchEngineTest {
         "4, 350",
         "5, 150"
     })
-    public void testStarRatingFilter(int minStarRating, int expectedCount) {
+    public void testStarRatingFilter(int minStarRating, int expectedCount) throws IllegalAccessException, InvocationTargetException {
         Map<UIDataName, Object> searchData = new HashMap<>();
         searchData.put(UIDataName.MIN_STAR_RATING, minStarRating);
 
-        Selection result = searchEngine.applyStarFilter(searchData);
+        Selection result = (Selection) applyStarFilterTest.invoke(searchEngine, searchData);
         System.out.println("Min Star Rating: " + minStarRating + ", Result Count: " + result.size());
         assert result != null;
         assert result.size() == expectedCount : "Expected " + expectedCount + " results, but got " + result.size();
@@ -75,7 +94,7 @@ public class SearchEngineTest {
         "'Versatile, Modern, Bestseller, Premium', 3",
         "'Versatile, Modern, Bestseller, Premium, Giftable', 0",
     })
-    public void testTagFilter(String tagsString, int expectedCount) {
+    public void testTagFilter(String tagsString, int expectedCount) throws IllegalAccessException, InvocationTargetException {
         Map<String, Set<String>> filtersContainer = new HashMap<>();
         
         if(!tagsString.isEmpty())
@@ -84,8 +103,7 @@ public class SearchEngineTest {
             filtersContainer.put("Tags", new HashSet<>());
         
         System.out.println("Testing tag filter with tags: " + filtersContainer.get("Tags") + ", Expected Count: " + expectedCount);
-        Selection result = searchEngine.applyTagFilters(filtersContainer);
-        
+        Selection result = (Selection) applyTagFiltersTest.invoke(searchEngine, filtersContainer);
 
         assert result.size() == expectedCount : "Expected " + expectedCount + " results, but got " + result.size();
     }
@@ -104,7 +122,7 @@ public class SearchEngineTest {
         "'Versatile, Modern, Bestseller, Premium', '', '', 3",
         "'Versatile, Modern, Bestseller, Premium, Giftable', '', '', 0",
     })
-    public void testCategoricalFilters(String tagsString, String categoriesString, String publisherString, int expectedCount) {
+    public void testCategoricalFilters(String tagsString, String categoriesString, String publisherString, int expectedCount) throws IllegalAccessException, InvocationTargetException {
         Map<String, Set<String>> filtersContainer = new HashMap<>();
         
         // Handle empty strings properly to avoid creating sets with empty string elements
@@ -128,7 +146,7 @@ public class SearchEngineTest {
             UIDataName.FILTERS_CONTAINER, filtersContainer
         );
 
-        Selection result = searchEngine.applyCategoricalFilters(searchData);
+        Selection result = (Selection) applyCategoricalFiltersTest.invoke(searchEngine, searchData);
 
         assert result != null;
         assert result.size() == expectedCount : "Expected " + expectedCount + " results, but got " + result.size();
@@ -149,7 +167,7 @@ public class SearchEngineTest {
         "'', '', '', 115.92435440837701, 522.830966113716, 5, '', 83",
         "'', '', '', -1, -1, -1, 'elec', 304"
     })
-    public void testCombinedFilters(String tagsString, String categoriesString, String publisherString, float minPrice, float maxPrice, int minStarRating, String query, int expectedCount) {
+    public void testCombinedFilters(String tagsString, String categoriesString, String publisherString, float minPrice, float maxPrice, int minStarRating, String query, int expectedCount) throws IllegalAccessException, InvocationTargetException {
         Map<String, Set<String>> filtersContainer = new HashMap<>();
         
         // Handle empty strings properly to avoid creating sets with empty string elements
@@ -219,8 +237,8 @@ public class SearchEngineTest {
         
         @Test
         @DisplayName("Test star rating filter handling of ClassCastException when value is of wrong type - direct method call")
-        public void testStarFilterClassCastExceptionHandlingDirect() {
-            Selection result = searchEngine.applyStarFilter(starClassCastErrorData);
+        public void testStarFilterClassCastExceptionHandlingDirect() throws IllegalAccessException, InvocationTargetException {
+            Selection result = (Selection) applyStarFilterTest.invoke(searchEngine, starClassCastErrorData);
             assert result.size() == table.rowCount() : "Expected all items to be returned when star rating filter value is of wrong type, but got a different number of results.";
         }
 
@@ -241,8 +259,8 @@ public class SearchEngineTest {
         private static final Map<UIDataName, Object> starNullErrorData = createStarNullErrorData();
         @Test
         @DisplayName("Test star rating filter handling of null value when star rating is missing - direct method call")
-        public void testStarFilterNullHandlingDirect() {
-            Selection result = searchEngine.applyStarFilter(starNullErrorData);
+        public void testStarFilterNullHandlingDirect() throws IllegalAccessException, InvocationTargetException {
+            Selection result = (Selection) applyStarFilterTest.invoke(searchEngine, starNullErrorData);
             assert result.size() == table.rowCount() : "Expected all items to be returned when star rating filter value is missing, but got a different number of results.";
         }
         @Test
@@ -263,8 +281,8 @@ public class SearchEngineTest {
         private static final Map<UIDataName, Object> priceClassCastErrorData = createPriceClassCastErrorData();
         @Test
         @DisplayName("Test price filter handling of ClassCastException when values are of wrong type - direct method call")
-        public void testPriceFilterClassCastExceptionHandlingDirect() {
-            Selection result = searchEngine.applyPriceFilters(priceClassCastErrorData);
+        public void testPriceFilterClassCastExceptionHandlingDirect() throws IllegalAccessException, InvocationTargetException {
+            Selection result = (Selection) applyPriceFiltersTest.invoke(searchEngine, priceClassCastErrorData);
             assert result.size() == table.rowCount() : "Expected all items to be returned when price filter values are of wrong type, but got a different number of results.";
         }
         @Test
@@ -277,13 +295,13 @@ public class SearchEngineTest {
         //Triggers the branch in applyPrice filters with null min price and non-null max price
         @Test
         @DisplayName("Test min price only null handling - direct method call")
-        public void testMinPriceNullHandlingDirect() {
+        public void testMinPriceNullHandlingDirect() throws IllegalAccessException, InvocationTargetException {
             Map<UIDataName, Object> searchData = new HashMap<>();
             searchData.put(UIDataName.MIN_STAR_RATING, 0);
             searchData.put(UIDataName.MAX_PRICE, MAX_MAX_PRICE);
             searchData.put(UIDataName.FILTERS_CONTAINER, emptyFiltersContainer);
 
-            Selection result = searchEngine.applyPriceFilters(searchData);
+            Selection result = (Selection) applyPriceFiltersTest.invoke(searchEngine, searchData);
             assert result.size() == table.rowCount() : "Expected all items to be returned when min price value is missing, but got a different number of results.";
         }
 
@@ -303,13 +321,13 @@ public class SearchEngineTest {
         //Triggers the branch in applyPrice filters with null max price and non-null min price
         @Test
         @DisplayName("Test max price only null handling - direct method call")
-        public void testMaxPriceNullHandlingDirect() {
+        public void testMaxPriceNullHandlingDirect() throws IllegalAccessException, InvocationTargetException {
             Map<UIDataName, Object> searchData = new HashMap<>();
             searchData.put(UIDataName.MIN_STAR_RATING, 0);
             searchData.put(UIDataName.MIN_PRICE, MIN_MIN_PRICE);
             searchData.put(UIDataName.FILTERS_CONTAINER, emptyFiltersContainer);
 
-            Selection result = searchEngine.applyPriceFilters(searchData);
+            Selection result = (Selection) applyPriceFiltersTest.invoke(searchEngine, searchData);
             assert result.size() == table.rowCount() : "Expected all items to be returned when max price value is missing, but got a different number of results.";
         }
 
@@ -329,12 +347,12 @@ public class SearchEngineTest {
         //Triggers the branch in applyPrice filters where both min and max price are null
         @Test
         @DisplayName("Test price filter handling of null values when both min and max price are missing - direct method call")
-        public void testPriceFilterNullHandlingDirect() {
+        public void testPriceFilterNullHandlingDirect() throws IllegalAccessException, InvocationTargetException {
             Map<UIDataName, Object> searchData = new HashMap<>(priceClassCastErrorData);
             searchData.remove(UIDataName.MIN_PRICE);
             searchData.remove(UIDataName.MAX_PRICE);
 
-            Selection result = searchEngine.applyPriceFilters(searchData);
+            Selection result = (Selection) applyPriceFiltersTest.invoke(searchEngine, searchData);
             assert result.size() == table.rowCount() : "Expected all items to be returned when min and max price values are missing, but got a different number of results.";
         }
 
@@ -362,8 +380,8 @@ public class SearchEngineTest {
         private static final Map<UIDataName, Object> categoricalClassCastErrorData = createCategoricalClassCastErrorData();
         @Test
         @DisplayName("Test categorical filters handling of ClassCastException when filters container is of wrong type - direct method call")
-        public void testCategoricalFilterClassCastExceptionHandlingDirect() {
-            Selection result = searchEngine.applyCategoricalFilters(categoricalClassCastErrorData);
+        public void testCategoricalFilterClassCastExceptionHandlingDirect() throws IllegalAccessException, InvocationTargetException {
+            Selection result = (Selection) applyCategoricalFiltersTest.invoke(searchEngine, categoricalClassCastErrorData);
             assert result.size() == table.rowCount() : "Expected all items to be returned when categorical filters container is of wrong type, but got a different number of results.";
         }
 
@@ -386,8 +404,8 @@ public class SearchEngineTest {
 
         @Test
         @DisplayName("Test categorical filters handling of null value when filters container is missing - direct method call")
-        public void testCategoricalFilterNullHandlingDirect() {
-            Selection result = searchEngine.applyCategoricalFilters(categoricalNullErrorData);
+        public void testCategoricalFilterNullHandlingDirect() throws IllegalAccessException, InvocationTargetException {
+            Selection result = (Selection) applyCategoricalFiltersTest.invoke(searchEngine, categoricalNullErrorData);
             assert result.size() == table.rowCount() : "Expected all items to be returned when categorical filters container is missing, but got a different number of results.";
         }
         @Test
@@ -399,11 +417,11 @@ public class SearchEngineTest {
 
         @Test
         @DisplayName("Test categorical filters handling of empty sets in filters container - direct method call")
-        public void testCategoricalFilterEmptySetsHandlingDirect() {
+        public void testCategoricalFilterEmptySetsHandlingDirect() throws IllegalAccessException, InvocationTargetException {
             Map<UIDataName, Object> searchData = new HashMap<>(categoricalNullErrorData);
             searchData.put(UIDataName.FILTERS_CONTAINER, Map.of());
 
-            Selection result = searchEngine.applyCategoricalFilters(searchData);
+            Selection result = (Selection) applyCategoricalFiltersTest.invoke(searchEngine, searchData);
             assert result.size() == table.rowCount() : "Expected all items to be returned when categorical filters container has empty sets, but got a different number of results.";
         }
 

@@ -2,6 +2,7 @@ package org.troy.capstone.ui_components.items;
 
 import java.awt.Desktop;
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -28,12 +29,16 @@ import javafx.scene.text.TextFlow;
 public class AttributedItemContainerTest {
     private static Item item;
     private AttributedItemContainer attributedItemContainer;
-
+    private static Method makeAttributionFlowTest;
+    
     @BeforeAll
     @SuppressWarnings("ResultOfObjectAllocationIgnored")
-    public static void setup() {
+    public static void setup() throws NoSuchMethodException {
         new JFXPanel();
         item = Item.fromRow(TableUtils.readCleanedAttributedData().row(0));
+        makeAttributionFlowTest = AttributedItemContainer.class.getDeclaredMethod("makeAttributionFlow", Item.class);
+        makeAttributionFlowTest.setAccessible(true);
+
     }
 
     @BeforeEach
@@ -43,8 +48,8 @@ public class AttributedItemContainerTest {
 
     @Test
     @DisplayName("Test makeAttributionFlow with valid item")
-    public void testMakeAttributionFlow() {
-        TextFlow flow = attributedItemContainer.makeAttributionFlow(item);
+    public void testMakeAttributionFlow() throws Exception {
+        TextFlow flow = (TextFlow) makeAttributionFlowTest.invoke(attributedItemContainer, item);
         assert flow.getChildren().size() == 4 : "Expected 4 children in the attribution flow, but got: " + flow.getChildren().size();
         String fullText = flow.getChildren().stream()
             .map(node -> ((Text) node).getText())
@@ -69,28 +74,46 @@ public class AttributedItemContainerTest {
         @ParameterizedTest
         @ValueSource(strings = {"success", "failure"})
         @DisplayName("Test link clicking author and source links with mocked Desktop")
-        public void testLinkClickingWithMock(String scenario) {
+        public void testLinkClickingWithMock(String scenario) throws Exception {
             try{
-                TextFlow flow = attributedItemContainer.makeAttributionFlow(item);
+                TextFlow flow = (TextFlow) makeAttributionFlowTest.invoke(attributedItemContainer, item);
                 
                 Text authorName = (Text) flow.getChildren().get(1); // Author name
                 Text sourceName = (Text) flow.getChildren().get(3); // "Unsplash"
                 ImageView imageView = attributedItemContainer.getImageView(); // ImageView from the container
 
-                //Used to get both branches of the link clicking code covered
-                if( scenario.equals("failure") )
+                if (scenario.equals("failure")) {
                     Mockito.doThrow(new RuntimeException("Mocked browse exception"))
                            .when(mockDesktop).browse(any(URI.class));
-                else
+                } else {
                     Mockito.doNothing().when(mockDesktop).browse(any(URI.class));
+                }
 
                 MouseEvent clickEvent = new MouseEvent(MouseEvent.MOUSE_CLICKED, 0, 0, 0, 0, 
                     null, 1, false, false, false, false, false, false, false, false, false, false, null);
-                
+
                 //Simulate clicking the author name, source name, and image
-                authorName.fireEvent(clickEvent);
-                sourceName.fireEvent(clickEvent);
-                imageView.fireEvent(clickEvent);
+                boolean authorNameThrows = false;
+                try{
+                    authorName.fireEvent(clickEvent);
+                }catch (RuntimeException e) {
+                    authorNameThrows = true;
+                    assert e.getMessage().equals("Mocked browse exception") : "Expected exception message to be 'Mocked browse exception', but got: " + e.getMessage();
+                }
+                boolean sourceNameThrows = false;
+                try{
+                    sourceName.fireEvent(clickEvent);
+                }catch (RuntimeException e) {
+                    sourceNameThrows = true;
+                    assert e.getMessage().equals("Mocked browse exception") : "Expected exception message to be 'Mocked browse exception', but got: " + e.getMessage();
+                }
+                boolean imageViewThrows = false;
+                try{
+                    imageView.fireEvent(clickEvent);
+                }catch (RuntimeException e) {
+                    imageViewThrows = true;
+                    assert e.getMessage().equals("Mocked browse exception") : "Expected exception message to be 'Mocked browse exception', but got: " + e.getMessage();
+                }
                 
                 //Verify each specific URL was called once
                 Mockito.verify(mockDesktop, Mockito.times(1)).browse(new URI(item.getPhotoAuthorUrl()));

@@ -23,17 +23,23 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
+/**
+ * The FiltersContainer class represents a UI component that contains multiple FilterPanel instances, each corresponding to a categorical attribute of the items.
+ * It is the main container for all categorical filters in the UI and provides methods to generate filters based on item data and retrieve the currently selected filters.
+ */
 public class FiltersContainer extends ScrollPane {
+    /** A map of filter types to their corresponding sets of CheckBox options in the filter panels */
     private final Map<String, Set<CheckBox>> filterOptions;
+    /** The container for all filter panels */
     private final VBox contentContainer;
     //Define which columns are categorical for filter generation
 
     /**
      * Factory method to create a FiltersContainer with the appropriate size and add it to the UIElementManager.
      * 
-     * @param generalManager (GeneralManager) : The general manager to add the created FiltersContainer to for access by other components.
-     * @param itemHashMap (ItemHashMap) : The item hash map containing all items, used to extract unique values for filter generation.
-     * @return container (FiltersContainer) : The created FiltersContainer instance with filters generated from the item data.
+     * @param generalManager The general manager to add the created FiltersContainer to for access by other components.
+     * @param itemHashMap The item hash map containing all items, used to extract unique values for filter generation.
+     * @return The created FiltersContainer instance with filters generated from the item data.
      */
     public static FiltersContainer create( GeneralManager generalManager, ItemHashMap itemHashMap ) {
         FiltersContainer container = new FiltersContainer(generalManager, itemHashMap);
@@ -47,11 +53,11 @@ public class FiltersContainer extends ScrollPane {
      * Constructor for FiltersContainer. Initializes the filter options map and content container, 
      *  then generates filters based on the provided item data.
      * 
-     * pre-conditions: itemHashMap should contain valid item data with categorical attributes corresponding to the expected filter types.
+     * @pre <ul><li>itemHashMap should contain valid item data with categorical attributes corresponding to the expected filter types.</li></ul>
      *  and the generalManager should be properly initialized to allow for adding the created FiltersContainer to it.
      * 
-     * @param generalManager (GeneralManager) : The general manager to add the created FiltersContainer to for access by other components.
-     * @param itemHashMap (ItemHashMap) : The item hash map containing all items, used to extract unique values for filter generation.
+     * @param generalManager The general manager to add the created FiltersContainer to for access by other components.
+     * @param itemHashMap The item hash map containing all items, used to extract unique values for filter generation.
      */
     public FiltersContainer( GeneralManager generalManager, ItemHashMap itemHashMap ) {
         filterOptions = new HashMap<>();
@@ -70,9 +76,9 @@ public class FiltersContainer extends ScrollPane {
      *  itemHashMap and creates a FilterPanel with CheckBoxes for each unique value. Special handling is included for the TAGS column, 
      *  which contains sets of strings.
      * 
-     * pre-conditions: itemHashMap should contain valid item data with categorical attributes corresponding to the expected filter types.
+     * @pre <ul><li>itemHashMap should contain valid item data with categorical attributes corresponding to the expected filter types.</li></ul>
      * 
-     * @param itemHashMap (ItemHashMap) : The item hash map containing all items, used to extract unique values for filter generation.
+     * @param itemHashMap The item hash map containing all items, used to extract unique values for filter generation.
      */
     private void createFiltersFromTable(ItemHashMap itemHashMap) {
         for (TableColumnName column : TableColumnName.getCategoricalColumns()) {
@@ -95,11 +101,11 @@ public class FiltersContainer extends ScrollPane {
      * Adds a filter panel to the FiltersContainer with the given title and options. Each option is represented as a CheckBox.
      * The created FilterPanel is styled with a border and added to the content container of the FiltersContainer.
      * 
-     * pre-conditions: title should be a non-null string representing the filter type,
-     *  and options should be a non-null set of strings representing the filter options to create CheckBoxes for.
+     * @pre <ul><li>title should be a non-null string representing the filter type.</li>
+     *      <li>options should be a non-null set of strings representing the filter options to create CheckBoxes for.</li></ul>
      * 
-     * @param title (String) : The title of the filter panel
-     * @param options (Set<String>) : The set of strings representing the filter options to create CheckBoxes for.
+     * @param title The title of the filter panel
+     * @param options The set of strings representing the filter options to create CheckBoxes for.
      */
     public void addFilterPanel( String title, Set<String> options ) {
         Set<CheckBox> checkBoxes = new HashSet<>();
@@ -121,10 +127,10 @@ public class FiltersContainer extends ScrollPane {
      * Retrieves the currently selected filters as a map where the keys are filter types (e.g., "Publisher", "Category")
      *  and the values are sets of selected options for each filter type respectively.
      * 
-     * pre-conditions: filterOptions should be properly populated with filter types and their corresponding CheckBoxes,
-     *  and the CheckBoxes should reflect the current user selections.
+     * @pre <ul><li>filterOptions should be properly populated with filter types and their corresponding CheckBoxes.</li>
+     *      <li>The CheckBoxes should reflect the current user selections.</li></ul>
      * 
-     * @return selectedFilters (Map<String, Set<String>>) : A map containing the currently selected filters.
+     * @return selectedFilters A map containing the currently selected filters.
      */
     public Map<String, Set<String>> getSelectedFilters() {
         Map<String, Set<String>> selectedFilters = new HashMap<>();

@@ -14,12 +14,20 @@ import org.troy.capstone.utils.TableUtils;
 import tech.tablesaw.api.Row;
 import tech.tablesaw.api.Table;
 
+/**
+ * Custom HashMap implementation for storing Items with their IDs as keys, using a custom universal hash function (IdHashKey) to optimize bucket distribution for the specific set of item IDs in our dataset.
+ */
 public class ItemHashMap extends HashMap<IdHashKey, Item> {
 
+    /** Maximum load factor for the hashmap */
     private static final float MAX_LOAD_FACTOR = 0.75f;
+    /** Table size for the hashmap, chosen to be a power of 2 for efficient modulo operations, and large enough to maintain a load factor of 0.75 for our expected number of items (961) */
     private static final int TABLE_SIZE = 2048;
     
     @TestExclusionGenerated
+    /** 
+     * @hidden
+     */
     public static void main(String[] args) {
         Table table = TableUtils.readCleanedAttributedData();
         ItemHashMap itemMap = fromTable(table);
@@ -30,10 +38,10 @@ public class ItemHashMap extends HashMap<IdHashKey, Item> {
      * Creates an ItemHashMap from a Table.
      * The map is initialized with the optimal hash parameters for the current item IDs.
      * 
-     * pre-conditions: table is not null and contains the expected columns for creating Items (ID, Name, etc.), and contains no duplicate IDs.
+     * @pre <ul><li>table is not null and contains the expected columns for creating Items (ID, Name, etc.), and contains no duplicate IDs.</li></ul>
      *
-     * @param table (Table): a tablesaw Table containing the item data, with each row representing an item
-     * @return itemMap (ItemHashMap): an ItemHashMap containing all items from the table, with hash parameters optimized for the item IDs in the table.
+     * @param table A tablesaw Table containing the item data, with each row representing an item
+     * @return itemMap An ItemHashMap containing all items from the table, with hash parameters optimized for the item IDs in the table.
      */
     public static ItemHashMap fromTable(Table table) {
         ItemHashMap itemMap = new ItemHashMap(table.rowCount());
@@ -45,10 +53,9 @@ public class ItemHashMap extends HashMap<IdHashKey, Item> {
     /**
      * Make initial capacity so that we have just over a 0.75 load factor 
      *
-     * pre-conditions: data_size is the expected number of items that will be added to the map, and is a positive integer.
+     * @pre <ul><li>data_size is the expected number of items that will be added to the map, and is a positive integer.</li></ul>
      *
-     * @param data_size (int): the number of items that will be added to the map, used to get a 0.75 load factor.
-     *  @return itemMap (ItemHashMap): an ItemHashMap with initial capacity set to maintain a 0.75 load factor for the expected number of items.
+     * @param data_size The number of items that will be added to the map, used to get a 0.75 load factor.
      */
     public ItemHashMap(int data_size) {
         super((int) (data_size / MAX_LOAD_FACTOR) + 1); // Calculate initial capacity based on expected data size and load factor
@@ -57,9 +64,9 @@ public class ItemHashMap extends HashMap<IdHashKey, Item> {
     /**
      * Adds an item to the hashmap given a tablesaw Row
      *
-     * pre-conditions: itemRow is not null and contains the expected columns for creating an Item (ID, Name, etc.).
+     * @pre <ul><li>itemRow is not null and contains the expected columns for creating an Item (ID, Name, etc.).</li></ul>
      *
-     * @param itemRow (Row): a Row from a tablesaw Table containing item info
+     * @param itemRow A Row from a tablesaw Table containing item info
      */
     private void addItem(Row itemRow) {
         String itemId = itemRow.getString(TableColumnName.ID.getColumnName());        
@@ -69,9 +76,9 @@ public class ItemHashMap extends HashMap<IdHashKey, Item> {
     /**
      * Adds all rows from a tablesaw Table to the hashmap as Items
      *
-     * pre-conditions: table is not null and contains the expected columns for creating Items (ID, Name, etc.), and contains no duplicate IDs.
+     * @pre <ul><li>table is not null and contains the expected columns for creating Items (ID, Name, etc.), and contains no duplicate IDs.</li></ul>
      *
-     * @param table (Table): a tablesaw Table with each row being an item to add to the map
+     * @param table A tablesaw Table with each row being an item to add to the map
      */
     private void addAllItems(Table table) {
         table.stream().forEach(this::addItem);
@@ -82,8 +89,10 @@ public class ItemHashMap extends HashMap<IdHashKey, Item> {
      * Retrieves an item from the hashmap given its ID
      * Prints a message if the item is not found in the map
      *
-     * @param itemId (String): the ID of the item to retrieve
-     * @return item (Optional<Item>): an Optional containing the Item if found, or empty if not found
+     * @pre <ul><li>itemId is not null and corresponds to a valid item ID in the map.</li></ul>
+     *
+     * @param itemId The ID of the item to retrieve
+     * @return An Optional containing the Item if found, or empty if not found
      */
     public Optional<Item> getItem(String itemId) {
         IdHashKey key = new IdHashKey(itemId);
@@ -96,8 +105,11 @@ public class ItemHashMap extends HashMap<IdHashKey, Item> {
     /**
      * Calculate bucket distribution with current I and J values (fresh hash calculation) 
      *
-     * @param useCustomHash (boolean): whether to use the custom IdHashKey hash function or the built-in String hashCode
-     * @return bucketSizeCounts (int[]): an array where the value at index N is the number of buckets that have N items in them, according to the specified hash function
+     * @pre <ul><li>itemIds is not null and contains valid item IDs.</li></ul>
+     * 
+     * @param itemIds A list of item IDs to calculate the bucket distribution for
+     * @param useCustomHash Whether to use the custom IdHashKey hash function or the built-in String hashCode
+     * @return bucketSizeCounts An array where the value at index N is the number of buckets that have N items in them, according to the specified hash function
      */
     public int[] getFreshBucketSizeCount( List<String> itemIds, boolean useCustomHash ){
         List<Integer> buckets = itemIds.stream() //List of the buckets that get hashed to
@@ -119,10 +131,20 @@ public class ItemHashMap extends HashMap<IdHashKey, Item> {
         return bucketSizeCounts;
     }
 
+    /**
+     * Retrieves the keys of the hashmap as a list of IdHashKey objects.
+     *
+     * @return A list of IdHashKey objects representing the keys in the hashmap
+     */
     private List<IdHashKey> getKeysAsList() {
         return new ArrayList<>(keySet());
     }
 
+    /**
+     * Retrieves the item IDs of the hashmap as a list of strings.
+     *
+     * @return A list of strings representing the item IDs in the hashmap
+     */
     public List<String> getItemIdsAsList() {
         return getKeysAsList().stream()
             .map(IdHashKey::getValue)
@@ -135,9 +157,11 @@ public class ItemHashMap extends HashMap<IdHashKey, Item> {
      * This allows us to see how well our custom universal hash function is performing in terms of distributing
      * items across buckets compared to the built-in hash function.
      *
-     * pre-conditions: findBestHashParameters() has already been called to optimize I and J for the current item IDs,
-     * and the internal state of the ItemHashMap is not modified between the two distribution calculations (i.e. no items are added or removed).
-     * Additionally, the same item IDs are used for both calculations. Finally, the map must be filled.
+     * <dl class="notes">
+     * @pre <ul><li>findBestHashParameters() has already been called to optimize I and J for the current item IDs.</li>
+     * <li>The internal state of the ItemHashMap is not modified between the two distribution calculations (i.e. no items are added or removed).</li>
+     * <li>The same item IDs are used for both calculations.</li>
+     * <li>The map must be filled.</li></ul>
      */
     private void printBucketSizeCountsCustomVsBuiltIn(){
         String col1 = "Entries in Bucket (N)", col2 = "Buckets with N entries (Custom Hash)", col3 = "Buckets with N entries (Built-in Hash)";

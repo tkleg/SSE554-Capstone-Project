@@ -253,6 +253,34 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.12.0</version>
+                <configuration>
+                    <source>1.8</source>
+                    <subpackages>org.troy.capstone</subpackages>
+                    <excludePackageNames>org.troy.capstone.data_manipulation</excludePackageNames>
+                    <sourceFileExcludes>
+                        <sourceFileExclude>**/Main.java</sourceFileExclude>
+                        <sourceFileExclude>**/ENV.java</sourceFileExclude>
+                        <sourceFileExclude>**/MyBM25.java</sourceFileExclude>
+                    </sourceFileExcludes>
+                    <tags>
+                        <tag>
+                            <name>pre</name>
+                            <placement>a</placement>
+                            <head>Preconditions:</head>
+                        </tag>
+                        <tag>
+                            <name>post</name>
+                            <placement>a</placement>
+                            <head>Postconditions:</head>
+                        </tag>
+                    </tags>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 

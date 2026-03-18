@@ -81,10 +81,7 @@ public class IdHashKey {
      * Algorithm source is https://www.tutorialspoint.com/data_structures_algorithms/rabin_karp_algorithm.htm
      * Rabin-Karp style string to int collapse, using polynomial rolling hash method
      * 
-     * <dl class="notes">
-     * <dt>Pre-Conditions:</dt> 
-     * <dd>str is not null and only contains ASCII characters from '!' to '~' (printable characters excluding space and delete)</dd>
-     * </dl>
+     * @pre <ul><li>str is not null and only contains ASCII characters from '!' to '~' (printable characters excluding space and delete)</li></ul>
      * 
      * @param str The string to collapse into an integer hash value
      * @return A hash value representing the input string collapsed via Rabin-Karp rolling hash

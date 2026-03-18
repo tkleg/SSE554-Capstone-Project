@@ -7,12 +7,27 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.VBox;
 
+/**
+ * The PriceSlider class represents a UI component that allows users to select a price range for filtering search results.
+ */
 public class PriceSlider extends VBox {
 
+    /** The slider for selecting the minimum price in the range. */
     private Slider minSlider;
+    /** The slider for selecting the maximum price in the range. */
     private Slider maxSlider;
+    /** The label that displays the currently selected price range. */
     private final Label label;
     
+    /** Constructor for PriceSlider. Initializes the sliders and label, and registers them with the GeneralManager.
+     * @pre <ul><li>min should be less than max to ensure valid slider ranges.</li>
+     *      <li>The PriceSlider should be properly initialized to allow for user interaction with the sliders and display of the selected price range.</li>
+     *      <li>generalManager should be properly initialized to allow for adding the created PriceSlider to it.</li></ul>
+     *
+     * @param min The minimum price value for the sliders.
+     * @param max The maximum price value for the sliders.
+     * @param generalManager The GeneralManager instance used to register the sliders.
+     */
     public PriceSlider(double min, double max, GeneralManager generalManager) {
 
         // Min slider
@@ -56,6 +71,7 @@ public class PriceSlider extends VBox {
         this.setSpacing(10);
     }
     
+    /** Updates the label to display the currently selected price range based on the values of the min and max sliders. */
     private void updateLabel() {
         label.setText(String.format("Price: $%.0f - $%.0f", 
                                    minSlider.getValue(), 

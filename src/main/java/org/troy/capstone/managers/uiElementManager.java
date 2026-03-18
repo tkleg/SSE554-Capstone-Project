@@ -16,28 +16,63 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 
+/**
+ * The UIElementManager class is responsible for managing the UI elements in the application.
+ * It provides methods to add and retrieve UI elements, gather search data from the UI, and update the UI with search results.
+ */
 public class UIElementManager {
+    /** A map of UI element names to their corresponding nodes */
     private final Map<UIElementName, Node> uiElements;
+    /** The search button in the UI */
     private Button searchButton;
     
+    /** Constructor for UIElementManager, initializes the map for storing UI elements */
     public UIElementManager() {
         uiElements = new HashMap<>();
     }
 
+    /** Retrieves a UI element based on the provided key.
+     * Logs a message if the element is not found in the manager.
+     * 
+     * @pre <ul><li>key is not null.</li></ul>
+     *
+     * @param key The key representing the UI element to retrieve
+     * @return An Optional containing the UI element if found, or an empty Optional if not found
+     */
     public Optional<Node> getElement(UIElementName key) {
         if (!uiElements.containsKey(key))
             System.out.println("UI element with key " + key + " not found in UIElementManager.");
         return Optional.ofNullable(uiElements.get(key));
     }
 
+    /** Adds a UI element to the manager with the specified key.
+     * Logs a message if the key or element is null.
+     * 
+     * @pre <ul><li>key and element are not null.</li></ul>
+     *
+     * @param key The key representing the UI element
+     * @param element The UI element to be added
+     */
     public void addElement(UIElementName key, Node element) {
         uiElements.put(key, element);
     }
 
+    /** Gets the search button from the manager.
+     * 
+     * @pre <ul><li>button is not null.</li></ul>
+     *
+     * @return The Button that was set in the manager
+     */
     public Button getButton() {
         return searchButton;
     }
 
+    /** Sets the search button in the manager and assigns an action to it that filters the search results and updates the UI when clicked.
+     * Logs a message if the button is null.
+     * 
+     *
+     * @param button The Button to be set in the manager
+     */
     public void setButton(Button button) {
         this.searchButton = button;
     }
@@ -46,9 +81,9 @@ public class UIElementManager {
      * Gathers current values of UI elements and returns them in a map for use
      * in search queries. Logs any missing elements or type errors but continues gathering other data.
      * 
-     * pre-conditions: UI elements should be added to the manager with the expected keys and types before this method is called.
+     * @pre <ul><li>UI elements should be added to the manager with the expected keys and types before this method is called.</li></ul>
      * 
-     * @return searchData (Map<UIDataName, Object>): a map containing the current values of UI elements for use in search queries
+     * @return A map containing the current values of UI elements for use in search queries
      */
     public Map<UIDataName, Object> getSearchData(){
         Map<UIDataName, Object> searchData = new HashMap<>();
@@ -99,10 +134,10 @@ public class UIElementManager {
      * Updates the searched item pagination component with new search results.
      * Logs missing pagination component or type error with the component.
      * 
-     * pre-conditions: a searched item pagination component should be added to the manager with the expected key and type before this method is called.
-     *  itemIDs should be a set of valid item IDs corresponding to search results.
+     * @pre <ul><li>A searched item pagination component should be added to the manager with the expected key and type before this method is called.</li></ul>
+     *      <ul><li>itemIDs should be a set of valid item IDs corresponding to search results.</li></ul>
      * 
-     * @param itemIDs (Set<String>): a set of item IDs corresponding to search results to update the pagination component with..
+     * @param itemIDs A set of item IDs corresponding to search results to update the pagination component with.
      */
     public void updateSearchedItemPagination(Set<String> itemIDs) {
         try{
