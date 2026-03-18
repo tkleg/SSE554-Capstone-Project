@@ -47,7 +47,7 @@ public class SieveOfEratosthenes {
         return !notAPrime.get(value);
     }
 
-    /*
+    /**
      * Releases the internal array to be eligible for garbage collection.
      * After calling this, isPrime() will throw NullPointerException.
      */
