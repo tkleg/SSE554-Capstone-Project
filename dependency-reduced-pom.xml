@@ -32,9 +32,6 @@
             </goals>
             <configuration>
               <outputDirectory>${project.build.directory}/dependency</outputDirectory>
-              <overWriteReleases>false</overWriteReleases>
-              <overWriteSnapshots>false</overWriteSnapshots>
-              <overWriteIfNewer>true</overWriteIfNewer>
             </configuration>
           </execution>
         </executions>
@@ -56,21 +53,6 @@
                 </transformer>
               </transformers>
               <finalName>${project.artifactId}-${project.version}-with-dependencies</finalName>
-            </configuration>
-          </execution>
-          <execution>
-            <id>search-engine</id>
-            <phase>package</phase>
-            <goals>
-              <goal>shade</goal>
-            </goals>
-            <configuration>
-              <transformers>
-                <transformer>
-                  <mainClass>org.troy.capstone.search_engine.query.MyBM25</mainClass>
-                </transformer>
-              </transformers>
-              <finalName>search-engine-standalone</finalName>
             </configuration>
           </execution>
         </executions>
