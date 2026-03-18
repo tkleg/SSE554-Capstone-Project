@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MyBM25.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Project</a> &gt; <a href="index.source.html" class="el_package">org.troy.capstone.search_engine.query</a> &gt; <span class="el_source">MyBM25.java</span></div><h1>MyBM25.java</h1><pre class="source lang-java linenums">package org.troy.capstone.search_engine.query;
+
+import java.io.IOException;
+import java.util.Map;
+import java.util.Scanner;
+
+import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.core.StopFilterFactory;
+import org.apache.lucene.analysis.custom.CustomAnalyzer;
+import org.apache.lucene.analysis.ngram.NGramTokenizerFactory;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Field;
+import org.apache.lucene.document.StoredField;
+import org.apache.lucene.document.TextField;
+import org.apache.lucene.index.DirectoryReader;
+import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.index.IndexWriter;
+import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.index.StoredFields;
+import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
+import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.Query;
+import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.search.similarities.BM25Similarity;
+import org.apache.lucene.store.ByteBuffersDirectory;
+import org.apache.lucene.store.Directory;
+import org.troy.capstone.constants.TableColumnName;
+import org.troy.capstone.utils.TableUtils;
+
+import tech.tablesaw.api.Row;
+import tech.tablesaw.api.Table;
+
+<span class="nc" id="L34">public class MyBM25 {</span>
+    public static void main(String[] args) throws Exception{
+        //Lucene https://www.baeldung.com/lucene
+        //Highly optimized, better than if I implemented the algorithms myself due to optimizations, data structures
+        //See https://www.baeldung.com/lucene-analyzers for details on analyzers
+        //Base code source is https://medium.com/@dhruvsharma2600/integrating-search-in-your-application-with-apache-lucene-d11c6fb84ab4
+
+        //NgramTokenizer tokenizes to get tokens to be all substrings of length 2-5, gives better typo tolerance and partial matching
+        //StopFilter Filters out common english words, also splits on non-letter cars and sets all tokens to lowercase
+<span class="nc" id="L43">        Analyzer ngramAnalyzer = CustomAnalyzer.builder()</span>
+<span class="nc" id="L44">            .withTokenizer(NGramTokenizerFactory.class, &quot;minGramSize&quot;, &quot;2&quot;, &quot;maxGramSize&quot;, &quot;5&quot;)</span>
+<span class="nc" id="L45">            .addTokenFilter(StopFilterFactory.class)</span>
+<span class="nc" id="L46">            .build();</span>
+
+        /**
+         * ByteBuffersDirectory chosen to keep data in RAM for speed and simplicity
+         * All data in RAM
+         */
+<span class="nc" id="L52">        Directory directory = new ByteBuffersDirectory();</span>
+
+<span class="nc" id="L54">        IndexWriterConfig config = new IndexWriterConfig(ngramAnalyzer);</span>
+
+<span class="nc" id="L56">        System.out.println(&quot;Indexing data and building search engine...&quot;);</span>
+        /**
+         * BM25 used intead of default TF-IDF for better relevance scoring,
+         * saturation effect, length normalization, better ranking quality,
+         * and widely used in modern search engines.
+         */
+<span class="nc" id="L62">        config.setSimilarity(new BM25Similarity());</span>
+<span class="nc" id="L63">        Table table = TableUtils.readCleanedAttributedData();</span>
+<span class="nc" id="L64">        try(IndexWriter writer = new IndexWriter(directory, config)) {</span>
+<span class="nc bnc" id="L65" title="All 2 branches missed.">            for(Row row : table)</span>
+<span class="nc" id="L66">                addDoc(writer, </span>
+<span class="nc" id="L67">                    row.getString(TableColumnName.ID.getColumnName()),</span>
+<span class="nc" id="L68">                    row.getString(TableColumnName.NAME.getColumnName()),</span>
+<span class="nc" id="L69">                    row.getString(TableColumnName.DESCRIPTION.getColumnName())</span>
+                );
+        }
+<span class="nc" id="L72">        System.out.println(&quot;Indexing complete. You can now enter search queries.&quot;);</span>
+
+<span class="nc" id="L74">        IndexReader reader = DirectoryReader.open(directory);</span>
+<span class="nc" id="L75">        IndexSearcher searcher = new IndexSearcher(reader);</span>
+<span class="nc" id="L76">        searcher.setSimilarity(new BM25Similarity());</span>
+        
+        //Boosts the name field
+<span class="nc" id="L79">        String[] fields = {&quot;name&quot;, &quot;description&quot;};</span>
+<span class="nc" id="L80">        Map&lt;String, Float&gt; boosts = Map.of(</span>
+<span class="nc" id="L81">            &quot;name&quot;, 2.0f,</span>
+<span class="nc" id="L82">            &quot;description&quot;, 1.0f</span>
+        );
+        
+<span class="nc" id="L85">        MultiFieldQueryParser parser = new MultiFieldQueryParser(fields, ngramAnalyzer, boosts);</span>
+
+        //Set default operator to OR for better recall, so that if any of the terms match, it will be included in results
+<span class="nc" id="L88">        parser.setDefaultOperator(MultiFieldQueryParser.Operator.OR);</span>
+
+<span class="nc" id="L90">        try (Scanner scan = new Scanner(System.in)) {</span>
+            while (true) {
+<span class="nc" id="L92">                System.out.print(&quot;Enter search query (or 'exit' to quit): &quot;);</span>
+<span class="nc" id="L93">                String userQuery = scan.nextLine();</span>
+<span class="nc bnc" id="L94" title="All 2 branches missed.">                if( userQuery.trim().equals(&quot;exit&quot;) )</span>
+<span class="nc" id="L95">                    break;</span>
+                
+<span class="nc" id="L97">                System.out.println(&quot;Searching for: '&quot; + userQuery + &quot;' (using n-gram analysis)&quot;);</span>
+                
+                // N-gram parsing handles both exact matches and typos automatically
+<span class="nc" id="L100">                Query query = parser.parse(userQuery);</span>
+<span class="nc" id="L101">                TopDocs results = searcher.search(query, 1000);</span>
+                
+                //Allowing scores that are at least 20% of the top score to be included
+<span class="nc bnc" id="L104" title="All 2 branches missed.">                double minimumAllowableScore = results.scoreDocs.length &gt; 0 ? results.scoreDocs[0].score * 0.2 : 0.0;</span>
+                
+<span class="nc" id="L106">                System.out.println(&quot;Total Hits: &quot; + results.scoreDocs.length + &quot; for search term: '&quot; + userQuery + &quot;'&quot;);</span>
+                
+                // Print results with names and scores side by side
+<span class="nc" id="L109">                StoredFields storedFields = searcher.storedFields();</span>
+<span class="nc" id="L110">                System.out.println(&quot;Document Name | Score&quot;);</span>
+<span class="nc" id="L111">                System.out.println(&quot;----------------------------------------&quot;);</span>
+                
+                int i;
+<span class="nc bnc" id="L114" title="All 2 branches missed.">                for (i = 0; i &lt; results.scoreDocs.length; i++) {</span>
+                    try {
+<span class="nc" id="L116">                        ScoreDoc scoreDoc = results.scoreDocs[i];</span>
+<span class="nc bnc" id="L117" title="All 2 branches missed.">                        if (scoreDoc.score &lt; minimumAllowableScore)</span>
+<span class="nc" id="L118">                            break;</span>
+<span class="nc" id="L119">                        Document doc = storedFields.document(scoreDoc.doc);</span>
+<span class="nc" id="L120">                        String name = doc.get(&quot;name&quot;);</span>
+<span class="nc" id="L121">                        float score = scoreDoc.score;</span>
+<span class="nc" id="L122">                        System.out.printf(&quot;%-25s | %.4f%n&quot;, name, score);</span>
+<span class="nc" id="L123">                    } catch (IOException e) {</span>
+<span class="nc" id="L124">                        System.err.println(&quot;Error retrieving document: &quot; + e.getMessage());</span>
+<span class="nc" id="L125">                    }</span>
+                }
+<span class="nc" id="L127">                System.out.println(&quot;Displayed &quot; + i + &quot; results with scores above the threshold of &quot; + minimumAllowableScore);</span>
+<span class="nc" id="L128">            }</span>
+        }
+<span class="nc" id="L130">    }</span>
+
+    private static void addDoc(IndexWriter w, String id, String name, String desc) throws Exception {
+<span class="nc" id="L133">        Document doc = new Document();</span>
+<span class="nc" id="L134">        doc.add(new StoredField(&quot;id&quot;, id)); // ID field - stored but not indexed for searching</span>
+<span class="nc" id="L135">        doc.add(new TextField(&quot;name&quot;, name, Field.Store.YES));    // Searchable and stored. Will be removed prior to use in main program</span>
+<span class="nc" id="L136">        doc.add(new TextField(&quot;description&quot;, desc, Field.Store.NO)); // Searchable but not stored  </span>
+<span class="nc" id="L137">        w.addDocument(doc);</span>
+<span class="nc" id="L138">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

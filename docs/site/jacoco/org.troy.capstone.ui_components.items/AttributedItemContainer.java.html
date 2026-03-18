@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AttributedItemContainer.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Project</a> &gt; <a href="index.source.html" class="el_package">org.troy.capstone.ui_components.items</a> &gt; <span class="el_source">AttributedItemContainer.java</span></div><h1>AttributedItemContainer.java</h1><pre class="source lang-java linenums">package org.troy.capstone.ui_components.items;
+
+import java.awt.Desktop;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+
+import org.troy.capstone.constants.URL;
+import org.troy.capstone.constants.UISizeControl;
+import org.troy.capstone.entities.Item;
+import org.troy.capstone.utils.UIUtils;
+
+import javafx.concurrent.Task;
+import javafx.geometry.Pos;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
+
+/**
+ * The AttributedItemContainer class represents a UI component that displays an item's image along with its attribution information.
+ */
+public class AttributedItemContainer extends VBox {
+
+    /** The ImageView for displaying the item's image. */
+    private final ImageView imageView;
+
+    /** Creates an AttributedItemContainer from the given item, setting its size based on UISizeControl constants.
+     * 
+     * @pre item should contain valid data for the image URL and attribution information.
+     *      The AttributedItemContainer should be properly initialized to display the item's image and attribution information.
+     * 
+     * @param item The item whose image and attribution information are being displayed in this container, used to populate the image and attribution flow.
+     * @return An AttributedItemContainer instance with the item's image and attribution information displayed, and sized according to UISizeControl constants. 
+    */
+    public static AttributedItemContainer createFromItem(Item item) {
+<span class="fc" id="L38">        AttributedItemContainer container = new AttributedItemContainer(item);</span>
+<span class="fc" id="L39">        UIUtils.setSize(container, UISizeControl.ATTRIBUTED_ITEM_CONTAINER_WIDTH.getValue(), null);</span>
+<span class="fc" id="L40">        return container;</span>
+    }
+
+    /** Creates an AttributedItemContainer for the given item, initializing the image view and attribution flow.
+     * 
+     * @pre item should contain valid data for the image URL and attribution information.
+     *      The AttributedItemContainer should be properly initialized to display the item's image and attribution information.
+     * 
+     * @param item The item whose image and attribution information are being displayed in this container.
+     */
+    public AttributedItemContainer(Item item) {
+<span class="fc" id="L51">        super(5); //5px spacing between items</span>
+<span class="fc" id="L52">        setAlignment(Pos.TOP_CENTER); // Center-align the image and attribution</span>
+
+<span class="fc" id="L54">        TextFlow attributionFlow = makeAttributionFlow(item);</span>
+
+<span class="fc" id="L56">        imageView = new ImageView();</span>
+<span class="fc" id="L57">        imageView.setFitWidth(UISizeControl.ATTRIBUTED_ITEM_IMAGE_WIDTH.getValue());</span>
+<span class="fc" id="L58">        imageView.setFitHeight(UISizeControl.ATTRIBUTED_ITEM_IMAGE_HEIGHT.getValue());</span>
+<span class="fc" id="L59">        imageView.setPreserveRatio(true);</span>
+        
+        //Load image asynchronously to avoid blocking scroll
+<span class="fc" id="L62">        loadImageAsync(item.getImageUrl());</span>
+        
+<span class="fc" id="L64">        imageView.setOnMouseClicked(e -&gt; {</span>
+            try {
+<span class="fc" id="L66">                Desktop.getDesktop().browse(new URI(item.getImageUrl()));</span>
+<span class="nc" id="L67">            } catch (IOException | URISyntaxException ex) {</span>
+<span class="nc" id="L68">                System.err.println(&quot;Failed to open image URL: &quot; + item.getImageUrl());</span>
+<span class="fc" id="L69">            }</span>
+<span class="fc" id="L70">        });</span>
+        
+        //Optimize rendering
+<span class="fc" id="L73">        setCache(true);</span>
+<span class="fc" id="L74">        setCacheHint(javafx.scene.CacheHint.SPEED);</span>
+
+<span class="fc" id="L76">        getChildren().addAll(imageView, attributionFlow);</span>
+<span class="fc" id="L77">    }</span>
+
+    /**
+     * Creates a TextFlow for the attribution text with clickable links for the author and source.
+     * 
+     * @pre item should contain valid data for the photo author and their URL, as well as the source URL for Unsplash.
+     * 
+     * @param item The item whose data is being used to create the attribution flow, specifically the photo author and their URL.
+     * @return A TextFlow containing the attribution text with clickable links for the author and source.
+     */
+    @SuppressWarnings(&quot;FinalPrivateMethod&quot;)
+    private final TextFlow makeAttributionFlow(Item item) {
+<span class="fc" id="L89">        Text text1 = new Text(&quot;Photo by &quot;);</span>
+<span class="fc" id="L90">        Text authorName = new Text(item.getPhotoAuthor());</span>
+<span class="fc" id="L91">        authorName.setUnderline(true);</span>
+<span class="fc" id="L92">        Text text2 = new Text(&quot; on &quot;);</span>
+<span class="fc" id="L93">        Text sourceName = new Text(&quot;Unsplash&quot;); </span>
+<span class="fc" id="L94">        sourceName.setUnderline(true); </span>
+
+<span class="fc" id="L96">        authorName.setOnMouseClicked(e -&gt;{</span>
+            try {
+<span class="fc" id="L98">                Desktop.getDesktop().browse(new URI(item.getPhotoAuthorUrl()));</span>
+<span class="nc" id="L99">            } catch (IOException | URISyntaxException ex) {</span>
+<span class="nc" id="L100">                System.err.println(&quot;Failed to open author URL: &quot; + item.getPhotoAuthorUrl());</span>
+<span class="fc" id="L101">            }</span>
+<span class="fc" id="L102">        });</span>
+<span class="fc" id="L103">        sourceName.setOnMouseClicked(e -&gt;{</span>
+            try {
+<span class="fc" id="L105">                Desktop.getDesktop().browse( new URI( URL.UNSPLASH_ATTRIBUTION.getUrl() ) );</span>
+<span class="nc" id="L106">            } catch (IOException | URISyntaxException ex) {</span>
+<span class="nc" id="L107">                System.err.println(&quot;Failed to open source URL: &quot; + URL.UNSPLASH_ATTRIBUTION.getUrl());</span>
+<span class="fc" id="L108">            }</span>
+<span class="fc" id="L109">        });</span>
+        
+        //Create the TextFlow and add all the text nodes to it
+<span class="fc" id="L112">        return new TextFlow(text1, authorName, text2, sourceName);</span>
+    }
+    
+    /**
+     * Getter for the ImageView in the AttributedItemContainer, which displays the item's image.
+     * @return The ImageView displaying the item's image in the AttributedItemContainer.
+     */
+    public ImageView getImageView() {
+<span class="fc" id="L120">        return imageView;</span>
+    }
+
+    /**
+     * Loads an image from a URL asynchronously to avoid blocking the UI thread,
+     *  and sets it to the imageView once loaded.
+     * 
+     * @param imageUrl The URL of the image to be loaded.
+     */
+    private void loadImageAsync(String imageUrl) {
+<span class="fc" id="L130">        Task&lt;Image&gt; imageTask = new Task&lt;Image&gt;() {</span>
+            @Override
+            protected Image call() throws Exception {
+<span class="fc" id="L133">                return new Image(imageUrl, true);</span>
+            }
+        };
+        
+<span class="fc" id="L137">        imageTask.setOnSucceeded(e -&gt; {</span>
+<span class="fc" id="L138">            Image image = imageTask.getValue();</span>
+<span class="pc bpc" id="L139" title="1 of 2 branches missed.">            if (image != null)</span>
+<span class="fc" id="L140">                imageView.setImage(image);</span>
+<span class="fc" id="L141">        });</span>
+        
+<span class="fc" id="L143">        imageTask.setOnFailed(e -&gt; {</span>
+<span class="nc" id="L144">            System.err.println(&quot;Failed to load image: &quot; + imageUrl);</span>
+<span class="nc" id="L145">        });</span>
+        
+<span class="fc" id="L147">        Thread imageThread = new Thread(imageTask);</span>
+<span class="fc" id="L148">        imageThread.setDaemon(true);//Allow JVM to exit if these threads are the only ones left</span>
+<span class="fc" id="L149">        imageThread.start();</span>
+<span class="fc" id="L150">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

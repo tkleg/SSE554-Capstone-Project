@@ -109,7 +109,7 @@ public class QueryFilter {
     /**
      * Creates a QueryFilter from a Table. The constructor initializes the Lucene index with the item data from the table, using a custom n-gram analyzer for better search performance and relevance scoring.
      * 
-     * @pre <ul><li>table is not null and contains the expected columns for creating Items (ID, Name, Description, etc.).</li></ul>
+     * @pre table is not null and contains the expected columns for creating Items (ID, Name, Description, etc.).
      * 
      * @param table A tablesaw Table containing the item data, with each row representing an item and containing columns for ID, Name, Description, etc. The constructor will create a Lucene index from this data for performing search queries.
      */
@@ -156,7 +156,7 @@ public class QueryFilter {
      * Searches the index for items matching the user query and returns a map of item IDs to their relevance scores for the results that meet the score threshold.
      * Logs any errors during search execution and returns an empty map in case of errors.
      * 
-     * @pre <ul><li>userQuery is not null or empty, and is a valid query string that can be parsed by the MultiFieldQueryParser.</li></ul>
+     * @pre userQuery is not null or empty, and is a valid query string that can be parsed by the MultiFieldQueryParser.
      * 
      * @param userQuery The search query input by the user
      * @return A map of item IDs to their relevance scores for the search results that meet the score threshold. If no results are found or if there is an error during search execution, an empty map is returned
@@ -205,7 +205,7 @@ public class QueryFilter {
 
     /** Adds a document to the Lucene index based on a tablesaw Row of item data. The document includes the item ID, name, and description, with the name and description fields being indexed for searching and the ID field being stored for retrieval. Logs any errors during document addition. 
      * 
-     * @pre <ul><li>row is not null and contains the expected columns for creating a Document (ID, Name, Description, etc.).</li></ul>
+     * @pre row is not null and contains the expected columns for creating a Document (ID, Name, Description, etc.).
      *
      * @param row A Row from a tablesaw Table containing item info to be added to the Lucene index as a Document
      */

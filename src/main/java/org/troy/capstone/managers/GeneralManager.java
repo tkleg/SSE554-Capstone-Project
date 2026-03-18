@@ -33,7 +33,7 @@ public class GeneralManager {
     /**
      * Gets a UI element from the UIElementManager based on the provided key.
      * 
-     * @pre <ul><li>key is not null.</li></ul>
+     * @pre key is not null.
       *
       * @param key The key representing the UI element to retrieve
       * @return An Optional containing the UI element if found, or an empty Optional if not found
@@ -45,7 +45,7 @@ public class GeneralManager {
     /**
      * Gets the search data from the UIElementManager.
      * 
-     * @pre <ul><li>None, error handling is done within the UIElementManager.</li></ul>
+     * @pre None, error handling is done within the UIElementManager.
       *
       * @return The search data containing the filters to be applied
      */
@@ -56,7 +56,7 @@ public class GeneralManager {
     /**
      * Adds a UI element to the UIElementManager
      * 
-     * @pre <ul><li>key and element are not null.</li></ul>
+     * @pre key and element are not null.
      *
      * @param key The key representing the UI element
      * @param element The UI element to be added
@@ -68,7 +68,7 @@ public class GeneralManager {
     /**
      * Sets the button in the UIElementManager and assigns an action to it that filters the search results and updates the UI when clicked.
      * 
-     * @pre <ul><li>button is not null.</li></ul>
+     * @pre button is not null.
      *
      * @param button The Button to be set in the UIElementManager
      */
@@ -80,7 +80,7 @@ public class GeneralManager {
     /**
      * Gets the button from the UIElementManager.
      * 
-     * @pre <ul><li>None, error handling is done within the UIElementManager.</li></ul>
+     * @pre None, error handling is done within the UIElementManager.
      *
      * @return The Button from the UIElementManager
      */
@@ -91,9 +91,9 @@ public class GeneralManager {
     /**
      * Gets a UI element from the UIElementManager, filters data, and updates the UI with the filtered results.
      * 
-     * @pre <ul><li>None, error handling is done within the SearchEngine and UIElementManager.</li></ul>
+     * @pre None, error handling is done within the SearchEngine and UIElementManager.
      * 
-     * @post <ul><li>The UI is updated with the filtered results based on the current search data from the UIElementManager.</li></ul>
+     * @post The UI is updated with the filtered results based on the current search data from the UIElementManager.
      */
     public void filterAndPrintNumberOfResults() {
         Map<UIDataName, Object> searchData = getSearchData();

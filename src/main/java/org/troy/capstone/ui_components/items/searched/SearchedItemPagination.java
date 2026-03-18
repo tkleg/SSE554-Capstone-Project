@@ -31,7 +31,7 @@ public class SearchedItemPagination extends Pagination {
 
     /**
      * Constructor for SearchedItemPagination. Initializes the item hash map and sets up the pagination component.
-     * @pre <ul><li>itemHashMap should contain valid item data to populate the pagination content.</li></ul>
+     * @pre itemHashMap should contain valid item data to populate the pagination content.
      * @param itemHashMap The item hash map containing all items, used to populate the pagination content based on the current search results.
     */
     private SearchedItemPagination(ItemHashMap itemHashMap) {
@@ -41,8 +41,8 @@ public class SearchedItemPagination extends Pagination {
     /**
      * Factory method to create a SearchedItemPagination with the appropriate size and add it to the UIElementManager.
      * 
-     * @pre <ul><li>itemHashMap should contain valid item data to populate the pagination content.</li>
-     *      <li>generalManager should be properly initialized to allow for adding the created SearchedItemPagination to it.</li></ul>
+     * @pre itemHashMap should contain valid item data to populate the pagination content.
+     *      generalManager should be properly initialized to allow for adding the created SearchedItemPagination to it.
      * 
      * @param itemHashMap The item hash map containing all items, used to populate the pagination content.
      * @param generalManager The general manager to add the created SearchedItemPagination to for access by other components.
@@ -64,8 +64,8 @@ public class SearchedItemPagination extends Pagination {
      * Updates the pagination content based on the provided set of item IDs.
      * This method should be called whenever the search results change to refresh the displayed items.
      * 
-     * @pre <ul><li>itemIDs should be a set of valid item IDs corresponding to the current search results.</li>
-     *      <li>itemHashMap should contain the corresponding item data for those IDs.</li></ul>
+     * @pre itemIDs should be a set of valid item IDs corresponding to the current search results.
+     *      itemHashMap should contain the corresponding item data for those IDs.
      * 
      * @param itemIDs A set of item IDs corresponding to the current search results to update the pagination content with.
      */
@@ -83,9 +83,9 @@ public class SearchedItemPagination extends Pagination {
      * Creates page content with optimized row access for dynamic content.
      * Always creates fresh content to reflect runtime changes.
      * 
-     * @pre <ul><li>pageIndex should be a valid index corresponding to the current page count.</li>
-     *      <li>itemIDs should be a set of valid item IDs corresponding to the current search
-     *      results, with the itemHashMap containing the corresponding item data for those IDs.</li></ul>
+     * @pre pageIndex should be a valid index corresponding to the current page count.
+     *      itemIDs should be a set of valid item IDs corresponding to the current search
+     *      results, with the itemHashMap containing the corresponding item data for those IDs.
      * 
      * @param pageIndex The index of the page to create content for, used to determine which items to display on that page.
      * @param itemIDs A set of item IDs corresponding to the current search results, used to determine which items to display on the page.

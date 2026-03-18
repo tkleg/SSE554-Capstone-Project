@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>IdHashKey.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Project</a> &gt; <a href="index.source.html" class="el_package">org.troy.capstone.data_structures.ItemTable</a> &gt; <span class="el_source">IdHashKey.java</span></div><h1>IdHashKey.java</h1><pre class="source lang-java linenums">package org.troy.capstone.data_structures.ItemTable;
+
+import java.math.BigInteger;
+
+/**
+ * Class representing a hash key for item IDs, using universal hashing to minimize collisions in the item table. The hash code is computed by collapsing the string ID into an integer using a Rabin-Karp style polynomial rolling hash method, and then applying a universal hash function with random coefficients I and J and a prime modulus P. This approach helps ensure a good distribution of hash values even for similar string IDs, which is important for maintaining efficient lookups in the item table.
+ */
+public class IdHashKey {
+    /** The original string value of the item ID, stored for equality checks and potential debugging purposes */
+    private final String value;
+
+    /** A prime number larger than the maximum possible hash value from collapsing the strings, to ensure good distribution in universal hashing */
+<span class="fc" id="L13">    private static final BigInteger P = BigInteger.valueOf(SieveOfEratosthenes.staticPrimeUnder100mil().orElseThrow());</span>
+    /**
+     * A random coefficient for the universal hash function, chosen uniformly from 1 to P-1.
+     * Used as the multiplier in the universal hash formula.
+     */
+    @SuppressWarnings(&quot;FieldMayBeFinal&quot;)
+<span class="fc" id="L19">    private static BigInteger I = BigInteger.valueOf((long) (Math.random() * P.longValue()) + 1);</span>
+
+    /**
+     * A random coefficient for the universal hash function, chosen uniformly from 0 to P-1.
+     * Used as the additive constant in the universal hash formula.
+     */
+    @SuppressWarnings(&quot;FieldMayBeFinal&quot;)
+<span class="fc" id="L26">    private static BigInteger J = BigInteger.valueOf((long) (Math.random() * (P.longValue() - 1L)));</span>
+
+    /** 961 entries, 0.75 load factor -&gt; 2048 table size
+    2048 is the lowest power of 2 above 961/0.75.
+    The table size is chosen to be a power of 2 for efficient modulo operations */
+    private static final int TABLE_SIZE = 2048;
+
+    /** Constructor for the IdHashKey class
+     * @param value The original string value of the item ID to be hashed
+    */
+<span class="fc" id="L36">    public IdHashKey(String value) {</span>
+<span class="fc" id="L37">        this.value = value;</span>
+<span class="fc" id="L38">    }</span>
+
+    /** Getter for the original string value of the item ID
+     * @return The original string value of the item ID
+    */
+    public String getValue() {
+<span class="fc" id="L44">        return value;</span>
+    }
+    
+    /** Getter for the random coefficient I used in the universal hash function
+     * @return The random coefficient I
+    */
+    static BigInteger getI() {
+<span class="fc" id="L51">        return I;</span>
+    }
+    
+    /** Getter for the random coefficient J used in the universal hash function
+     * @return The random coefficient J
+    */
+    static BigInteger getJ() {
+<span class="fc" id="L58">        return J;</span>
+    }
+    
+    /** Getter for the prime modulus P used in the universal hash function
+     * @return The prime modulus P
+    */
+    static BigInteger getP() {
+<span class="fc" id="L65">        return P;</span>
+    }
+    
+    /** Using universal hashing code from textbook, with small alterations
+     * @return The hash code for the item ID
+     */
+    @Override
+    public int hashCode() {
+<span class="fc" id="L73">        BigInteger collapsed = collapseStringToInt(value);</span>
+<span class="fc" id="L74">        return I.multiply(collapsed)</span>
+<span class="fc" id="L75">            .add(J)</span>
+<span class="fc" id="L76">            .mod(BigInteger.valueOf(TABLE_SIZE))</span>
+<span class="fc" id="L77">            .intValue();</span>
+    }
+
+    /**
+     * Algorithm source is https://www.tutorialspoint.com/data_structures_algorithms/rabin_karp_algorithm.htm
+     * Rabin-Karp style string to int collapse, using polynomial rolling hash method
+     * 
+     * @pre str is not null and only contains ASCII characters from '!' to '~' (printable characters excluding space and delete)
+     * 
+     * @param str The string to collapse into an integer hash value
+     * @return A hash value representing the input string collapsed via Rabin-Karp rolling hash
+     */
+    private BigInteger collapseStringToInt(String str) {
+        //Number of possible characters (ASCII chars from '!' to '~', printables excluding space and delete)
+<span class="fc" id="L91">        BigInteger b = BigInteger.valueOf('~' - '!' + 1);</span>
+<span class="fc" id="L92">        int L = str.length();</span>
+<span class="fc" id="L93">        BigInteger hash = BigInteger.ZERO;</span>
+<span class="fc bfc" id="L94" title="All 2 branches covered.">        for (int i = 0; i &lt; L; i++){</span>
+            //Map '!' to 0, '&quot;' to 1, ..., '~' to 93
+<span class="fc" id="L96">            int rankingOfChar = str.charAt(i) - '!';</span>
+<span class="fc" id="L97">            hash = hash.add(BigInteger.valueOf(rankingOfChar).multiply(b.pow(L - i - 1)));</span>
+        }
+<span class="fc" id="L99">        return hash.mod(P);</span>
+    }
+
+    /**
+     * Checks if this IdHashKey is equal to another object.
+     * @param obj The object to compare with
+     * @return true if the objects are equal, false otherwise
+     */
+    @Override
+    public boolean equals(Object obj) {
+<span class="fc bfc" id="L109" title="All 2 branches covered.">        if (this == obj)</span>
+<span class="fc" id="L110">            return true;</span>
+<span class="fc bfc" id="L111" title="All 4 branches covered.">        if (obj == null || getClass() != obj.getClass())</span>
+<span class="fc" id="L112">            return false;</span>
+<span class="fc" id="L113">        IdHashKey other = (IdHashKey) obj;</span>
+<span class="fc" id="L114">        return value.equals(other.value);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

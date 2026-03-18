@@ -259,6 +259,7 @@
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>3.12.0</version>
                 <configuration>
+                    <show>private</show>
                     <source>1.8</source>
                     <excludePackageNames>org.troy.capstone.data_manipulation</excludePackageNames>
                     <sourceFileExcludes>

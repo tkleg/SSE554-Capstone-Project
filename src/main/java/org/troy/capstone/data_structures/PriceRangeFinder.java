@@ -30,7 +30,7 @@ public class PriceRangeFinder extends TreeMap<Float, Short> {
     /**
      * Creates a PriceRangeFinder from a Table.
      *
-     * @pre <ul><li>table is not null and contains the expected columns for prices and item indices.</li></ul>
+     * @pre table is not null and contains the expected columns for prices and item indices.
      *
      * @param table A tablesaw Table containing the item data, with each row representing an item and containing a price column and an index column.
      */
@@ -43,8 +43,8 @@ public class PriceRangeFinder extends TreeMap<Float, Short> {
     /**
      * Adds an item to the PriceRangeFinder given its price and index.
      *
-     * @pre <ul><li>price is a non-negative float representing the price of the item.</li>
-     *      <li>itemIndex is a short representing the index of the item in the original table.</li></ul>
+     * @pre price is a non-negative float representing the price of the item.
+     *      itemIndex is a short representing the index of the item in the original table.
      *
      * @param price The price of the item to add.
      * @param itemIndex The index of the item in the original table to add.
@@ -56,8 +56,8 @@ public class PriceRangeFinder extends TreeMap<Float, Short> {
     /**
      * Finds items within a specified price range.
      *
-     * @pre <ul><li>minPrice and maxPrice are non-negative floats.</li>
-     *      <li>minPrice is less than or equal to maxPrice.</li></ul>
+     * @pre minPrice and maxPrice are non-negative floats.
+     *      minPrice is less than or equal to maxPrice.
      *
      * @param minPrice The minimum price of the range.
      * @param maxPrice The maximum price of the range.
@@ -70,8 +70,8 @@ public class PriceRangeFinder extends TreeMap<Float, Short> {
     /**
      * Adds all items from lists of prices and indices to the PriceRangeFinder.
      *
-     * @pre <ul><li>prices and itemIndices are not null.</li>
-     *      <li>prices and itemIndices have the same size.</li></ul>
+     * @pre prices and itemIndices are not null.
+     *      prices and itemIndices have the same size.
      *
      * @param prices A list of prices for the items to add.
      * @param itemIndices A list of item indices corresponding to the prices.

@@ -38,7 +38,7 @@ public class ItemHashMap extends HashMap<IdHashKey, Item> {
      * Creates an ItemHashMap from a Table.
      * The map is initialized with the optimal hash parameters for the current item IDs.
      * 
-     * @pre <ul><li>table is not null and contains the expected columns for creating Items (ID, Name, etc.), and contains no duplicate IDs.</li></ul>
+     * @pre table is not null and contains the expected columns for creating Items (ID, Name, etc.), and contains no duplicate IDs.
      *
      * @param table A tablesaw Table containing the item data, with each row representing an item
      * @return itemMap An ItemHashMap containing all items from the table, with hash parameters optimized for the item IDs in the table.
@@ -53,7 +53,7 @@ public class ItemHashMap extends HashMap<IdHashKey, Item> {
     /**
      * Make initial capacity so that we have just over a 0.75 load factor 
      *
-     * @pre <ul><li>data_size is the expected number of items that will be added to the map, and is a positive integer.</li></ul>
+     * @pre data_size is the expected number of items that will be added to the map, and is a positive integer.
      *
      * @param data_size The number of items that will be added to the map, used to get a 0.75 load factor.
      */
@@ -64,7 +64,7 @@ public class ItemHashMap extends HashMap<IdHashKey, Item> {
     /**
      * Adds an item to the hashmap given a tablesaw Row
      *
-     * @pre <ul><li>itemRow is not null and contains the expected columns for creating an Item (ID, Name, etc.).</li></ul>
+     * @pre itemRow is not null and contains the expected columns for creating an Item (ID, Name, etc.).
      *
      * @param itemRow A Row from a tablesaw Table containing item info
      */
@@ -76,7 +76,7 @@ public class ItemHashMap extends HashMap<IdHashKey, Item> {
     /**
      * Adds all rows from a tablesaw Table to the hashmap as Items
      *
-     * @pre <ul><li>table is not null and contains the expected columns for creating Items (ID, Name, etc.), and contains no duplicate IDs.</li></ul>
+     * @pre table is not null and contains the expected columns for creating Items (ID, Name, etc.), and contains no duplicate IDs.
      *
      * @param table A tablesaw Table with each row being an item to add to the map
      */
@@ -89,7 +89,7 @@ public class ItemHashMap extends HashMap<IdHashKey, Item> {
      * Retrieves an item from the hashmap given its ID
      * Prints a message if the item is not found in the map
      *
-     * @pre <ul><li>itemId is not null and corresponds to a valid item ID in the map.</li></ul>
+     * @pre itemId is not null and corresponds to a valid item ID in the map.
      *
      * @param itemId The ID of the item to retrieve
      * @return An Optional containing the Item if found, or empty if not found
@@ -105,7 +105,7 @@ public class ItemHashMap extends HashMap<IdHashKey, Item> {
     /**
      * Calculate bucket distribution with current I and J values (fresh hash calculation) 
      *
-     * @pre <ul><li>itemIds is not null and contains valid item IDs.</li></ul>
+     * @pre itemIds is not null and contains valid item IDs.
      * 
      * @param itemIds A list of item IDs to calculate the bucket distribution for
      * @param useCustomHash Whether to use the custom IdHashKey hash function or the built-in String hashCode
@@ -157,11 +157,10 @@ public class ItemHashMap extends HashMap<IdHashKey, Item> {
      * This allows us to see how well our custom universal hash function is performing in terms of distributing
      * items across buckets compared to the built-in hash function.
      *
-     * <dl class="notes">
-     * @pre <ul><li>findBestHashParameters() has already been called to optimize I and J for the current item IDs.</li>
-     * <li>The internal state of the ItemHashMap is not modified between the two distribution calculations (i.e. no items are added or removed).</li>
-     * <li>The same item IDs are used for both calculations.</li>
-     * <li>The map must be filled.</li></ul>
+     * @pre findBestHashParameters() has already been called to optimize I and J for the current item IDs.
+     * The internal state of the ItemHashMap is not modified between the two distribution calculations (i.e. no items are added or removed).
+     * The same item IDs are used for both calculations.
+     * The map must be filled.
      */
     private void printBucketSizeCountsCustomVsBuiltIn(){
         String col1 = "Entries in Bucket (N)", col2 = "Buckets with N entries (Custom Hash)", col3 = "Buckets with N entries (Built-in Hash)";

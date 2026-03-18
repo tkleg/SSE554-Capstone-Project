@@ -53,7 +53,7 @@ public class FiltersContainer extends ScrollPane {
      * Constructor for FiltersContainer. Initializes the filter options map and content container, 
      *  then generates filters based on the provided item data.
      * 
-     * @pre <ul><li>itemHashMap should contain valid item data with categorical attributes corresponding to the expected filter types.</li></ul>
+     * @pre itemHashMap should contain valid item data with categorical attributes corresponding to the expected filter types.
      *  and the generalManager should be properly initialized to allow for adding the created FiltersContainer to it.
      * 
      * @param generalManager The general manager to add the created FiltersContainer to for access by other components.
@@ -76,7 +76,7 @@ public class FiltersContainer extends ScrollPane {
      *  itemHashMap and creates a FilterPanel with CheckBoxes for each unique value. Special handling is included for the TAGS column, 
      *  which contains sets of strings.
      * 
-     * @pre <ul><li>itemHashMap should contain valid item data with categorical attributes corresponding to the expected filter types.</li></ul>
+     * @pre itemHashMap should contain valid item data with categorical attributes corresponding to the expected filter types.
      * 
      * @param itemHashMap The item hash map containing all items, used to extract unique values for filter generation.
      */
@@ -101,8 +101,8 @@ public class FiltersContainer extends ScrollPane {
      * Adds a filter panel to the FiltersContainer with the given title and options. Each option is represented as a CheckBox.
      * The created FilterPanel is styled with a border and added to the content container of the FiltersContainer.
      * 
-     * @pre <ul><li>title should be a non-null string representing the filter type.</li>
-     *      <li>options should be a non-null set of strings representing the filter options to create CheckBoxes for.</li></ul>
+     * @pre title should be a non-null string representing the filter type.
+     *      options should be a non-null set of strings representing the filter options to create CheckBoxes for.
      * 
      * @param title The title of the filter panel
      * @param options The set of strings representing the filter options to create CheckBoxes for.
@@ -127,8 +127,8 @@ public class FiltersContainer extends ScrollPane {
      * Retrieves the currently selected filters as a map where the keys are filter types (e.g., "Publisher", "Category")
      *  and the values are sets of selected options for each filter type respectively.
      * 
-     * @pre <ul><li>filterOptions should be properly populated with filter types and their corresponding CheckBoxes.</li>
-     *      <li>The CheckBoxes should reflect the current user selections.</li></ul>
+     * @pre filterOptions should be properly populated with filter types and their corresponding CheckBoxes.
+     *      The CheckBoxes should reflect the current user selections.
      * 
      * @return selectedFilters A map containing the currently selected filters.
      */

@@ -28,8 +28,8 @@ public class AttributedItemContainer extends VBox {
 
     /** Creates an AttributedItemContainer from the given item, setting its size based on UISizeControl constants.
      * 
-     * @pre <ul><li>item should contain valid data for the image URL and attribution information.</li>
-     *      <li>The AttributedItemContainer should be properly initialized to display the item's image and attribution information.</li></ul>
+     * @pre item should contain valid data for the image URL and attribution information.
+     *      The AttributedItemContainer should be properly initialized to display the item's image and attribution information.
      * 
      * @param item The item whose image and attribution information are being displayed in this container, used to populate the image and attribution flow.
      * @return An AttributedItemContainer instance with the item's image and attribution information displayed, and sized according to UISizeControl constants. 
@@ -42,8 +42,8 @@ public class AttributedItemContainer extends VBox {
 
     /** Creates an AttributedItemContainer for the given item, initializing the image view and attribution flow.
      * 
-     * @pre <ul><li>item should contain valid data for the image URL and attribution information.</li>
-     *      <li>The AttributedItemContainer should be properly initialized to display the item's image and attribution information.</li></ul>
+     * @pre item should contain valid data for the image URL and attribution information.
+     *      The AttributedItemContainer should be properly initialized to display the item's image and attribution information.
      * 
      * @param item The item whose image and attribution information are being displayed in this container.
      */
@@ -79,7 +79,7 @@ public class AttributedItemContainer extends VBox {
     /**
      * Creates a TextFlow for the attribution text with clickable links for the author and source.
      * 
-     * @pre <ul><li>item should contain valid data for the photo author and their URL, as well as the source URL for Unsplash.</li></ul>
+     * @pre item should contain valid data for the photo author and their URL, as well as the source URL for Unsplash.
      * 
      * @param item The item whose data is being used to create the attribution flow, specifically the photo author and their URL.
      * @return A TextFlow containing the attribution text with clickable links for the author and source.

@@ -20,9 +20,9 @@ public class PriceSlider extends VBox {
     private final Label label;
     
     /** Constructor for PriceSlider. Initializes the sliders and label, and registers them with the GeneralManager.
-     * @pre <ul><li>min should be less than max to ensure valid slider ranges.</li>
-     *      <li>The PriceSlider should be properly initialized to allow for user interaction with the sliders and display of the selected price range.</li>
-     *      <li>generalManager should be properly initialized to allow for adding the created PriceSlider to it.</li></ul>
+     * @pre min should be less than max to ensure valid slider ranges.
+     *      The PriceSlider should be properly initialized to allow for user interaction with the sliders and display of the selected price range.
+     *      generalManager should be properly initialized to allow for adding the created PriceSlider to it.
      *
      * @param min The minimum price value for the sliders.
      * @param max The maximum price value for the sliders.

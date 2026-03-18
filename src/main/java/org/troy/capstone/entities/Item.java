@@ -58,7 +58,7 @@ public class Item {
     /**
      * Returns the value of the specified attribute for this item. The attribute is determined by the provided TableColumnName enum value.
      * 
-     * @pre <ul><li>column is not null and corresponds to a valid attribute of the Item class.</li></ul>
+     * @pre column is not null and corresponds to a valid attribute of the Item class.
      * 
      * @param column An enum value representing the attribute to retrieve from this item.
      * @return The value of the specified attribute for this item, returned as an Object. The caller must cast result.
@@ -112,7 +112,7 @@ public class Item {
     /**
      * Creates an Item object from a tablesaw Row. The Row must contain columns corresponding to the attributes of the Item class.
      * 
-     * @pre <ul><li>itemRow is not null and contains the expected columns for creating an Item (ID, Name, etc.).</li></ul>
+     * @pre itemRow is not null and contains the expected columns for creating an Item (ID, Name, etc.).
      * 
      * @param itemRow A Row from a tablesaw Table containing item info.
      * @return An Item object created from the data in the provided Row.

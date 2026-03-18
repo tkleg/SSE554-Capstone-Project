@@ -39,9 +39,9 @@ public class SearchedItemPanel extends HBox{
      * The panel consists of a left side with the attributed image and a right side with textual details about the item.
      * It also includes styling such as borders and spacing to enhance the visual presentation of the item information.
      * 
-     * @pre <ul><li>item should contain valid data for all attributes being displayed.</li>
-     *      <li>The AttributedItemContainer should be properly initialized to display the item's image and attributes.</li>
-     *      <li>The rightPanel should be properly initialized to display the item's textual details.</li></ul>
+     * @pre item should contain valid data for all attributes being displayed.
+     *      The AttributedItemContainer should be properly initialized to display the item's image and attributes.
+     *      The rightPanel should be properly initialized to display the item's textual details.
      * 
      * @param item The item whose details are being displayed in this panel, used to populate both the attributed image and the other details.
      */
@@ -75,8 +75,8 @@ public class SearchedItemPanel extends HBox{
     /**
      * Fills the right panel with some of the data from the item.
      * 
-     * @pre <ul><li>item should contain valid data for all the attributes being displayed.</li>
-     *      <li>rightPanel should be properly initialized to add the labels to.</li></ul>
+     * @pre item should contain valid data for all the attributes being displayed.
+     *      rightPanel should be properly initialized to add the labels to.
      * 
      * @param item The item whose data is being displayed in the right panel.
      */

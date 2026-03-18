@@ -19,8 +19,8 @@ public class SearchBar extends HBox {
     private final Button searchButton;
     
     /** Factory method to create a SearchBar with the appropriate size and add it to the UIElementManager.
-     * @pre <ul><li>The SearchBar should be properly initialized to allow for user interaction with the search field and button.</li>
-     *      <li>generalManager should be properly initialized to allow for adding the created SearchBar to it.</li></ul>
+     * @pre The SearchBar should be properly initialized to allow for user interaction with the search field and button.
+     *      generalManager should be properly initialized to allow for adding the created SearchBar to it.
      * 
      * @param generalManager The GeneralManager to register the SearchBar with.
      * @return The created SearchBar instance with the search field and button initialized and added to the UIElementManager.
@@ -33,8 +33,8 @@ public class SearchBar extends HBox {
 
     /**
      * Constructor for SearchBar. Initializes the search field and button, adds them to the HBox, and registers them with the GeneralManager.
-     * @pre <ul><li>The SearchBar should be properly initialized to allow for user interaction with the search field and button.</li>
-     *      <li>generalManager should be properly initialized to allow for adding the created SearchBar to it.</li></ul>
+     * @pre The SearchBar should be properly initialized to allow for user interaction with the search field and button.
+     *      generalManager should be properly initialized to allow for adding the created SearchBar to it.
      * 
      * @param generalManager The GeneralManager to register the SearchBar with.
      */

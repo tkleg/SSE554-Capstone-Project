@@ -101,7 +101,7 @@ public class TableUtils {
     /**
      * Reads the cleaned data CSV file into a Tablesaw Table, and adds an index column to the table.
       * 
-      * @pre <ul><li>The cleaned data CSV file exists with the right data.</li></ul>
+      * @pre The cleaned data CSV file exists with the right data.
       *
      * @return A Tablesaw Table containing the data from the cleaned data CSV file, with an added index column.
      */
@@ -115,7 +115,7 @@ public class TableUtils {
     /**
      * Reads the cleaned data CSV file from the long path into a Tablesaw Table, and adds an index column to the table.
       * 
-      * @pre <ul><li>The cleaned data CSV file exists at the long path with the right data.</li></ul>
+      * @pre The cleaned data CSV file exists at the long path with the right data.
       *
      * @return A Tablesaw Table containing the data from the cleaned data CSV file at the long path, with an added index column.
      */
@@ -128,7 +128,7 @@ public class TableUtils {
 
     /**
      * Reads the attributed data CSV file into a Tablesaw Table, and adds an index column to the table. 
-     * @pre <ul><li>The attributed data CSV file exists with the right data.</li></ul>
+     * @pre The attributed data CSV file exists with the right data.
      * @return A Tablesaw Table containing the data from the attributed data CSV file, with an added index column.
      */
     public static Table readAttributedData(){
@@ -141,7 +141,7 @@ public class TableUtils {
     /**
      * Reads the attributed data CSV file from the long path into a Tablesaw Table, and adds an index column to the table.
       * 
-      * @pre <ul><li>The attributed data CSV file exists at the long path with the right data.</li></ul>
+      * @pre The attributed data CSV file exists at the long path with the right data.
       *
      * @return A Tablesaw Table containing the data from the attributed data CSV file at the long path, with an added index column.
      */
@@ -155,7 +155,7 @@ public class TableUtils {
     /**
      * Reads the cleaned and attributed data CSV file into a Tablesaw Table, and adds an index column to the table.
       * 
-      * @pre <ul><li>The cleaned and attributed data CSV file exists with the right data.</li></ul>
+      * @pre The cleaned and attributed data CSV file exists with the right data.
       *
      * @return A Tablesaw Table containing the data from the cleaned and attributed data CSV file, with an added index column.
      */
@@ -169,7 +169,7 @@ public class TableUtils {
     /**
      * Reads the cleaned and attributed data CSV file from the long path into a Tablesaw Table, and adds an index column to the table.
       * 
-      * @pre <ul><li>The cleaned and attributed data CSV file exists at the long path with the right data.</li></ul>
+      * @pre The cleaned and attributed data CSV file exists at the long path with the right data.
       *
      * @return A Tablesaw Table containing the data from the cleaned and attributed data CSV file at the long path, with an added index column.
      */

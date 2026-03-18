@@ -34,7 +34,7 @@ public class UIElementManager {
     /** Retrieves a UI element based on the provided key.
      * Logs a message if the element is not found in the manager.
      * 
-     * @pre <ul><li>key is not null.</li></ul>
+     * @pre key is not null.
      *
      * @param key The key representing the UI element to retrieve
      * @return An Optional containing the UI element if found, or an empty Optional if not found
@@ -48,7 +48,7 @@ public class UIElementManager {
     /** Adds a UI element to the manager with the specified key.
      * Logs a message if the key or element is null.
      * 
-     * @pre <ul><li>key and element are not null.</li></ul>
+     * @pre key and element are not null.
      *
      * @param key The key representing the UI element
      * @param element The UI element to be added
@@ -59,7 +59,7 @@ public class UIElementManager {
 
     /** Gets the search button from the manager.
      * 
-     * @pre <ul><li>button is not null.</li></ul>
+     * @pre button is not null.
      *
      * @return The Button that was set in the manager
      */
@@ -81,7 +81,7 @@ public class UIElementManager {
      * Gathers current values of UI elements and returns them in a map for use
      * in search queries. Logs any missing elements or type errors but continues gathering other data.
      * 
-     * @pre <ul><li>UI elements should be added to the manager with the expected keys and types before this method is called.</li></ul>
+     * @pre UI elements should be added to the manager with the expected keys and types before this method is called.
      * 
      * @return A map containing the current values of UI elements for use in search queries
      */
@@ -134,8 +134,8 @@ public class UIElementManager {
      * Updates the searched item pagination component with new search results.
      * Logs missing pagination component or type error with the component.
      * 
-     * @pre <ul><li>A searched item pagination component should be added to the manager with the expected key and type before this method is called.</li></ul>
-     *      <ul><li>itemIDs should be a set of valid item IDs corresponding to search results.</li></ul>
+     * @pre A searched item pagination component should be added to the manager with the expected key and type before this method is called.
+     *      itemIDs should be a set of valid item IDs corresponding to search results.
      * 
      * @param itemIDs A set of item IDs corresponding to search results to update the pagination component with.
      */
