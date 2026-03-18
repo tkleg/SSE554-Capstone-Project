@@ -2,9 +2,6 @@ package org.troy.capstone.data_manipulation;
 
 import java.util.List;
 
-import org.troy.capstone.annotations.TestExclusionGenerated;
-
-@TestExclusionGenerated
 @SuppressWarnings("unused")
 public class ManualDataWriter {
     private static final List<String> categories = List.of(

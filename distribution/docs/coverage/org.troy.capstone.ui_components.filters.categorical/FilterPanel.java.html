@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FilterPanel.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Project</a> &gt; <a href="index.source.html" class="el_package">org.troy.capstone.ui_components.filters.categorical</a> &gt; <span class="el_source">FilterPanel.java</span></div><h1>FilterPanel.java</h1><pre class="source lang-java linenums">package org.troy.capstone.ui_components.filters.categorical;
+
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import javafx.geometry.Pos;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.TitledPane;
+import javafx.scene.layout.VBox;
+
+/**
+ * The FilterPanel class represents a UI component that displays a set of categorical filter options as checkboxes within a titled pane.
+ */
+public class FilterPanel extends TitledPane{
+    /** A set of CheckBox objects representing the filter options in this panel */
+    private final Set&lt;CheckBox&gt; optionCheckBoxes;//Not the same as the tile pane that holds them
+    //This list is meant to make it easier to retrieve which options are selected
+
+    /**
+     * Creates a filter panel with the given title and options.
+     * The options are expected to be CheckBoxes that are already configured with the appropriate text and event handlers.
+     * 
+     * @param title The title of the filter panel
+     * @param options The set of CheckBoxes representing the filter options.
+     */
+    public FilterPanel(String title, Set&lt;CheckBox&gt; options) {
+<span class="fc" id="L28">        optionCheckBoxes = new HashSet&lt;&gt;(options);</span>
+<span class="fc" id="L29">        VBox contentBox = new VBox(5); // 5px spacing between checkboxes</span>
+<span class="fc" id="L30">        super(title, contentBox);</span>
+
+<span class="fc" id="L32">        setExpanded(false);</span>
+
+<span class="fc" id="L34">        setAlignment(Pos.CENTER_LEFT);</span>
+
+        //Style only the title text, not the content
+<span class="fc" id="L37">        setStyle(&quot;-fx-font-weight: bold&quot;);</span>
+        
+        //Ensure the content (checkboxes) use normal font weight
+<span class="fc" id="L40">        contentBox.setStyle(&quot;-fx-font-weight: normal;&quot;);</span>
+
+<span class="fc" id="L42">        contentBox.getChildren().addAll(optionCheckBoxes);</span>
+
+<span class="fc" id="L44">    }</span>
+
+    /**
+     * Gets the currently checked options in the filter panel.
+     * @return The set of option texts that are currently selected (checked).
+     */
+    public Set&lt;String&gt; getCheckedOptions() {
+<span class="fc" id="L51">        return optionCheckBoxes.stream()</span>
+<span class="fc" id="L52">            .filter(CheckBox::isSelected)</span>
+<span class="fc" id="L53">            .map(CheckBox::getText)</span>
+<span class="fc" id="L54">            .collect(Collectors.toSet());</span>
+    }
+
+    /**
+     * Gets the CheckBox objects representing the filter options.
+     * @return The set of CheckBox objects representing the filter options.
+     */
+    public Set&lt;CheckBox&gt; getOptionCheckBoxes() {
+<span class="nc" id="L62">        return optionCheckBoxes;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

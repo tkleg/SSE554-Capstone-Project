@@ -234,8 +234,9 @@
                 <version>0.8.14</version>
                 <configuration>
                     <excludes>
-                        <!-- Exclude classes/methods with TestExclusionGenerated annotation -->
-                        <exclude>**/*Generated*.class</exclude>
+                        <exclude>**/capstone/*.class</exclude>
+                        <exclude>**/data_manipulation/**.class</exclude>
+                        <exclude>**/search_engine/query/MyBM25.class</exclude>
                     </excludes>
                 </configuration>
                 <executions>
@@ -282,6 +283,15 @@
                         </tag>
                     </tags>
                 </configuration>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>javadoc</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

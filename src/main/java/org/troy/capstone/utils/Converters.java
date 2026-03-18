@@ -4,13 +4,10 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 
-import org.troy.capstone.annotations.TestExclusionGenerated;
-
 /** Utility class for converting between different date types. */
 public class Converters {
 
     //Never called, just prevents Jacoco from complaining about missing code coverage for the default constructor
-    @TestExclusionGenerated
     private Converters() {
     }
 

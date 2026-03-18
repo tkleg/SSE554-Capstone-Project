@@ -3,7 +3,6 @@ package org.troy.capstone.utils;
 import java.util.Map;
 import java.util.stream.IntStream;
 
-import org.troy.capstone.annotations.TestExclusionGenerated;
 import org.troy.capstone.constants.DataPath;
 import org.troy.capstone.constants.TableColumnName;
 
@@ -16,7 +15,6 @@ import tech.tablesaw.io.csv.CsvReadOptions;
 public class TableUtils {
 
     //Never called, just prevents Jacoco from complaining about missing code coverage for the default constructor
-    @TestExclusionGenerated
     private TableUtils() {
     }
 
@@ -185,7 +183,6 @@ public class TableUtils {
      *
      * @param table The Tablesaw Table containing the data to be written.
      */
-    @TestExclusionGenerated
     public static void writeCleanedData(Table table) {
         table.write().csv(DataPath.CLEANED_DATA_CSV.toString());
     }
@@ -195,7 +192,6 @@ public class TableUtils {
      *
      * @param table The Tablesaw Table containing the data to be written.
      */
-    @TestExclusionGenerated
     public static void writeCleanedDataLongPath(Table table) {
         table.write().csv(DataPath.CLEANED_DATA_CSV_LONG.toString());
     }
@@ -205,7 +201,6 @@ public class TableUtils {
      *
      * @param table The Tablesaw Table containing the data to be written.
      */
-    @TestExclusionGenerated
     public static void writeAttributedData(Table table) {
         table.write().csv(DataPath.ATTRIBUTED_DATA_CSV.toString());
     }
@@ -215,7 +210,6 @@ public class TableUtils {
      *
      * @param table The Tablesaw Table containing the data to be written.
      */
-    @TestExclusionGenerated
     public static void writeAttributedDataLongPath(Table table) {
         table.write().csv(DataPath.ATTRIBUTED_DATA_CSV_LONG.toString());
     }
@@ -225,7 +219,6 @@ public class TableUtils {
      *
      * @param table The Tablesaw Table containing the data to be written.
      */
-    @TestExclusionGenerated
     public static void writeCleanedAttributedData(Table table) {
         table.write().csv(DataPath.CLEANED_ATTRIBUTED_DATA_CSV.toString());
     }
@@ -235,7 +228,6 @@ public class TableUtils {
      *
      * @param table The Tablesaw Table containing the data to be written.
      */
-    @TestExclusionGenerated
     public static void writeCleanedAttributedDataLongPath(Table table) {
         table.write().csv(DataPath.CLEANED_ATTRIBUTED_DATA_CSV_LONG.toString());
     }

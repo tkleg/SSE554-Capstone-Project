@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Scanner;
 
-import org.troy.capstone.annotations.TestExclusionGenerated;
 import org.troy.capstone.data_structures.PriceRangeFinder;
 import org.troy.capstone.data_structures.ItemTable.ItemHashMap;
 import org.troy.capstone.data_structures.ItemTable.SieveOfEratosthenes;
@@ -16,7 +15,6 @@ import org.troy.capstone.utils.TableUtils;
 
 import tech.tablesaw.api.Table;
 
-@TestExclusionGenerated
 public class EntryPoints {
 
     public static void PriceRangeFinderMain(String[] args) {

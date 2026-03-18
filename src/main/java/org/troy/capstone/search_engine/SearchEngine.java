@@ -167,16 +167,11 @@ public class SearchEngine {
             minPrice = (float) searchData.getOrDefault(UIDataName.MIN_PRICE,
                 (float) table.floatColumn(TableColumnName.PRICE.getColumnName()).min()
             );
-        }catch(ClassCastException e){
-            System.out.println("Min price value in search data is not of type Float. Skipping min price filter.");
-            return selectAll();
-        }
-        try{
             maxPrice = (float) searchData.getOrDefault(UIDataName.MAX_PRICE,
                 (float) table.floatColumn(TableColumnName.PRICE.getColumnName()).max()
             );
         }catch(ClassCastException e){
-            System.out.println("Max price value in search data is not of type Float. Skipping max price filter.");
+            System.out.println("Min price value in search data is not of type Float. Skipping min price filter.");
             return selectAll();
         }
         int[] itemIndicesInRange = priceRangeFinder.findItemsInPriceRange(minPrice, maxPrice);
