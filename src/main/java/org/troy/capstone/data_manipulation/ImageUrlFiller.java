@@ -24,6 +24,7 @@ import tech.tablesaw.selection.Selection;
 
 @TestExclusionGenerated
 public class ImageUrlFiller {
+
     public static void main(String[] args) {
         //Load csv file
         Table productData = TableUtils.readCleanedData();

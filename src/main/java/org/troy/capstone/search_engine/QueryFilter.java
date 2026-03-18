@@ -3,7 +3,6 @@ package org.troy.capstone.search_engine;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Scanner;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.core.StopAnalyzer;
@@ -29,9 +28,7 @@ import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.search.similarities.BM25Similarity;
 import org.apache.lucene.store.ByteBuffersDirectory;
 import org.apache.lucene.store.Directory;
-import org.troy.capstone.annotations.TestExclusionGenerated;
 import org.troy.capstone.constants.TableColumnName;
-import org.troy.capstone.utils.TableUtils;
 
 import tech.tablesaw.api.Row;
 import tech.tablesaw.api.Table;
@@ -84,27 +81,7 @@ public class QueryFilter {
     /** The MultiFieldQueryParser used to parse user queries across multiple fields with the specified boosts and analyzer */
     private MultiFieldQueryParser parser;
 
-    @TestExclusionGenerated
-    /**
-     * @hidden
-     */
-    public static void main(String[] args) {
-        
-        Table table = TableUtils.readCleanedAttributedData();
-        QueryFilter queryFilter = new QueryFilter(table);
-
-        try (Scanner scan = new Scanner(System.in)) {
-            while (true) {
-                System.out.print("Enter search query (or 'exit' to quit): ");
-                String userQuery = scan.nextLine().trim();
-                if (userQuery.equalsIgnoreCase("exit"))
-                    break;
-                Map<String, Float> results = queryFilter.search(userQuery);
-                for(Map.Entry<String, Float> entry : results.entrySet())
-                    System.out.println("ID: " + entry.getKey() + ", Score: " + entry.getValue());
-            }
-        }
-    }
+    //Main in EntryPoints.java to stop Javadocs from including it
 
     /**
      * Creates a QueryFilter from a Table. The constructor initializes the Lucene index with the item data from the table, using a custom n-gram analyzer for better search performance and relevance scoring.

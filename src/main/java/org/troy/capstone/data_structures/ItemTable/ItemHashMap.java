@@ -6,10 +6,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.troy.capstone.annotations.TestExclusionGenerated;
 import org.troy.capstone.constants.TableColumnName;
 import org.troy.capstone.entities.Item;
-import org.troy.capstone.utils.TableUtils;
 
 import tech.tablesaw.api.Row;
 import tech.tablesaw.api.Table;
@@ -19,20 +17,12 @@ import tech.tablesaw.api.Table;
  */
 public class ItemHashMap extends HashMap<IdHashKey, Item> {
 
+    //Main in EntryPoints.java to stop Javadocs from including it
+    
     /** Maximum load factor for the hashmap */
     private static final float MAX_LOAD_FACTOR = 0.75f;
     /** Table size for the hashmap, chosen to be a power of 2 for efficient modulo operations, and large enough to maintain a load factor of 0.75 for our expected number of items (961) */
     private static final int TABLE_SIZE = 2048;
-    
-    @TestExclusionGenerated
-    /** 
-     * @hidden
-     */
-    public static void main(String[] args) {
-        Table table = TableUtils.readCleanedAttributedData();
-        ItemHashMap itemMap = fromTable(table);
-        itemMap.printBucketSizeCountsCustomVsBuiltIn();
-    }
 
     /**
      * Creates an ItemHashMap from a Table.
@@ -162,6 +152,7 @@ public class ItemHashMap extends HashMap<IdHashKey, Item> {
      * The same item IDs are used for both calculations.
      * The map must be filled.
      */
+    @SuppressWarnings("unused")
     private void printBucketSizeCountsCustomVsBuiltIn(){
         String col1 = "Entries in Bucket (N)", col2 = "Buckets with N entries (Custom Hash)", col3 = "Buckets with N entries (Built-in Hash)";
         System.out.printf("%-" + col1.length() + "s %s %-" + col2.length() + "s %s %-" + col3.length() + "s%n", col1, "|", col2, "|", col3);

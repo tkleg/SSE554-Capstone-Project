@@ -3,8 +3,6 @@ package org.troy.capstone.data_structures.ItemTable;
 import java.util.BitSet;
 import java.util.Optional;
 
-import org.troy.capstone.annotations.TestExclusionGenerated;
-
 /**
  * Code originally sourced from the MindTap assignment, but modified to be more memory efficient by using a BitSet to track which numbers are not prime, and to include a method for getting the largest prime under 100 million.
  * This Class implements the Sieve of Eratosthenes algorithm to find prime numbers up to a set max value.
@@ -83,19 +81,6 @@ public class SieveOfEratosthenes {
         //Defensive programming, should never be reached with a properly functioning sieve of sufficient size
         //as there will always be primes in the range [2, 99,999,999]
         return Optional.empty();
-    }
-
-    @TestExclusionGenerated
-    /**
-     * @hidden
-     */
-    public static void main(String[] args) {
-        SieveOfEratosthenes s = new SieveOfEratosthenes(100_000_000);
-        Optional<Integer> primeUnder100mil = s.maxPrimeUnder100mil();
-        if( primeUnder100mil.isPresent() )
-            System.out.println("Largest prime under 100 million: " + primeUnder100mil.get());
-        else
-            System.out.println("No prime found under 100 million.");
     }
 
 }
