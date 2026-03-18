@@ -124,6 +124,7 @@ public class AttributedItemContainer extends VBox {
      * Loads an image from a URL asynchronously to avoid blocking the UI thread,
      *  and sets it to the imageView once loaded.
      * 
+     * @post The image from the specified URL will be loaded and displayed in the imageView of the AttributedItemContainer.
      * @param imageUrl The URL of the image to be loaded.
      */
     private void loadImageAsync(String imageUrl) {

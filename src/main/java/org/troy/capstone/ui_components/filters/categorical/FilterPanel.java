@@ -13,7 +13,7 @@ import javafx.scene.layout.VBox;
  * The FilterPanel class represents a UI component that displays a set of categorical filter options as checkboxes within a titled pane.
  */
 public class FilterPanel extends TitledPane{
-    /** A set of CheckBox objects representing the filter options in this panel */
+    /** A set of CheckBox objects representing the filter options in this panel. */
     private final Set<CheckBox> optionCheckBoxes;//Not the same as the tile pane that holds them
     //This list is meant to make it easier to retrieve which options are selected
 
@@ -21,7 +21,7 @@ public class FilterPanel extends TitledPane{
      * Creates a filter panel with the given title and options.
      * The options are expected to be CheckBoxes that are already configured with the appropriate text and event handlers.
      * 
-     * @param title The title of the filter panel
+     * @param title The title of the filter panel.
      * @param options The set of CheckBoxes representing the filter options.
      */
     public FilterPanel(String title, Set<CheckBox> options) {

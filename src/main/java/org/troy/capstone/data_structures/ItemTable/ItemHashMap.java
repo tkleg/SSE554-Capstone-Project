@@ -19,9 +19,9 @@ public class ItemHashMap extends HashMap<IdHashKey, Item> {
 
     //Main in EntryPoints.java to stop Javadocs from including it
     
-    /** Maximum load factor for the hashmap */
+    /** Maximum load factor for the hashmap. */
     private static final float MAX_LOAD_FACTOR = 0.75f;
-    /** Table size for the hashmap, chosen to be a power of 2 for efficient modulo operations, and large enough to maintain a load factor of 0.75 for our expected number of items (961) */
+    /** Table size for the hashmap, chosen to be a power of 2 for efficient modulo operations, and large enough to maintain a load factor of 0.75 for our expected number of items (961). */
     private static final int TABLE_SIZE = 2048;
 
     /**
@@ -30,7 +30,7 @@ public class ItemHashMap extends HashMap<IdHashKey, Item> {
      * 
      * @pre table is not null and contains the expected columns for creating Items (ID, Name, etc.), and contains no duplicate IDs.
      *
-     * @param table A tablesaw Table containing the item data, with each row representing an item
+     * @param table A tablesaw Table containing the item data, with each row representing an item.
      * @return itemMap An ItemHashMap containing all items from the table, with hash parameters optimized for the item IDs in the table.
      */
     public static ItemHashMap fromTable(Table table) {
@@ -41,9 +41,9 @@ public class ItemHashMap extends HashMap<IdHashKey, Item> {
     }
 
     /**
-     * Make initial capacity so that we have just over a 0.75 load factor 
+     * Make initial capacity so that we have just over a 0.75 load factor.
      *
-     * @pre data_size is the expected number of items that will be added to the map, and is a positive integer.
+     * @pre data_size is a positive integer.
      *
      * @param data_size The number of items that will be added to the map, used to get a 0.75 load factor.
      */
@@ -52,11 +52,11 @@ public class ItemHashMap extends HashMap<IdHashKey, Item> {
     }
     
     /**
-     * Adds an item to the hashmap given a tablesaw Row
+     * Adds an item to the hashmap given a tablesaw Row.
      *
      * @pre itemRow is not null and contains the expected columns for creating an Item (ID, Name, etc.).
      *
-     * @param itemRow A Row from a tablesaw Table containing item info
+     * @param itemRow A Row from a tablesaw Table containing item info.
      */
     private void addItem(Row itemRow) {
         String itemId = itemRow.getString(TableColumnName.ID.getColumnName());        
@@ -64,11 +64,11 @@ public class ItemHashMap extends HashMap<IdHashKey, Item> {
     }
 
     /**
-     * Adds all rows from a tablesaw Table to the hashmap as Items
+     * Adds all rows from a tablesaw Table to the hashmap as Items.
      *
      * @pre table is not null and contains the expected columns for creating Items (ID, Name, etc.), and contains no duplicate IDs.
      *
-     * @param table A tablesaw Table with each row being an item to add to the map
+     * @param table A tablesaw Table with each row being an item to add to the map.
      */
     private void addAllItems(Table table) {
         table.stream().forEach(this::addItem);
@@ -76,13 +76,13 @@ public class ItemHashMap extends HashMap<IdHashKey, Item> {
     }
 
     /**
-     * Retrieves an item from the hashmap given its ID
-     * Prints a message if the item is not found in the map
+     * Retrieves an item from the hashmap given its ID.
+     * Prints a message if the item is not found in the map.
      *
      * @pre itemId is not null and corresponds to a valid item ID in the map.
      *
-     * @param itemId The ID of the item to retrieve
-     * @return An Optional containing the Item if found, or empty if not found
+     * @param itemId The ID of the item to retrieve.
+     * @return An Optional containing the Item if found, or empty if not found.
      */
     public Optional<Item> getItem(String itemId) {
         IdHashKey key = new IdHashKey(itemId);
@@ -93,13 +93,13 @@ public class ItemHashMap extends HashMap<IdHashKey, Item> {
     }
 
     /**
-     * Calculate bucket distribution with current I and J values (fresh hash calculation) 
+     * Calculate bucket distribution with current I and J values (fresh hash calculation).
      *
      * @pre itemIds is not null and contains valid item IDs.
      * 
-     * @param itemIds A list of item IDs to calculate the bucket distribution for
-     * @param useCustomHash Whether to use the custom IdHashKey hash function or the built-in String hashCode
-     * @return bucketSizeCounts An array where the value at index N is the number of buckets that have N items in them, according to the specified hash function
+     * @param itemIds A list of item IDs to calculate the bucket distribution for.
+     * @param useCustomHash Whether to use the custom IdHashKey hash function or the built-in String hashCode.
+     * @return bucketSizeCounts An array where the value at index N is the number of buckets that have N items in them, according to the specified hash function.
      */
     public int[] getFreshBucketSizeCount( List<String> itemIds, boolean useCustomHash ){
         List<Integer> buckets = itemIds.stream() //List of the buckets that get hashed to
@@ -124,7 +124,7 @@ public class ItemHashMap extends HashMap<IdHashKey, Item> {
     /**
      * Retrieves the keys of the hashmap as a list of IdHashKey objects.
      *
-     * @return A list of IdHashKey objects representing the keys in the hashmap
+     * @return A list of IdHashKey objects representing the keys in the hashmap.
      */
     private List<IdHashKey> getKeysAsList() {
         return new ArrayList<>(keySet());
@@ -133,7 +133,7 @@ public class ItemHashMap extends HashMap<IdHashKey, Item> {
     /**
      * Retrieves the item IDs of the hashmap as a list of strings.
      *
-     * @return A list of strings representing the item IDs in the hashmap
+     * @return A list of strings representing the item IDs in the hashmap.
      */
     public List<String> getItemIdsAsList() {
         return getKeysAsList().stream()
@@ -142,15 +142,14 @@ public class ItemHashMap extends HashMap<IdHashKey, Item> {
     }
 
     /**
-     * Prints a table comparing the distribution of bucket sizes (number of buckets with 0 items, 1 item, 2 items, etc.) 
-     * for the custom hash function vs Java's built in String hashCode, using the same item IDs. 
+     * Prints a table comparing the distribution of bucket sizes (number of buckets with 0 items, 1 item, 2 items, etc.) for the custom hash function vs Java's built in String hashCode, using the same item IDs. 
      * This allows us to see how well our custom universal hash function is performing in terms of distributing
      * items across buckets compared to the built-in hash function.
      *
-     * @pre findBestHashParameters() has already been called to optimize I and J for the current item IDs.
-     * The internal state of the ItemHashMap is not modified between the two distribution calculations (i.e. no items are added or removed).
-     * The same item IDs are used for both calculations.
-     * The map must be filled.
+     * @pre findBestHashParameters() has already been called to optimize I and J for the current item IDs,
+     * the internal state of the ItemHashMap is not modified between the two distribution calculations (i.e. no items are added or removed),
+     * the same item IDs are used for both calculations,
+     * and the map must be filled.
      */
     @SuppressWarnings("unused")
     private void printBucketSizeCountsCustomVsBuiltIn(){

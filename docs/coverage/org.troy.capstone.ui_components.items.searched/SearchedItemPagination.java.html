@@ -92,7 +92,7 @@ public class SearchedItemPagination extends Pagination {
      * @return A container with the item panels for the items to be displayed on the page,
      *  created based on the provided item IDs and their corresponding data in the itemHashMap.
      */
-    SearchedItemContainer createPageContent(int pageIndex, Set&lt;String&gt; itemIDs) {
+    private SearchedItemContainer createPageContent(int pageIndex, Set&lt;String&gt; itemIDs) {
 <span class="fc" id="L96">        SearchedItemContainer container = new SearchedItemContainer();</span>
 <span class="fc" id="L97">        List&lt;String&gt; itemIDList = new ArrayList&lt;&gt;(itemIDs); // Convert set to list for indexed access</span>
 <span class="fc" id="L98">        int fromIndex = pageIndex * ITEMS_PER_PAGE;</span>

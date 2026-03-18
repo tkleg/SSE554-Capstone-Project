@@ -33,7 +33,7 @@ public class SearchBar extends HBox {
 
     /**
      * Constructor for SearchBar. Initializes the search field and button, adds them to the HBox, and registers them with the GeneralManager.
-     * @pre The SearchBar should be properly initialized to allow for user interaction with the search field and button.
+     * @pre The SearchBar should be properly initialized to allow for user interaction with the search field and button and the
      *      generalManager should be properly initialized to allow for adding the created SearchBar to it.
      * 
      * @param generalManager The GeneralManager to register the SearchBar with.

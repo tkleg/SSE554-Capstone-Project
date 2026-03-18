@@ -1,6 +1,7 @@
 package org.troy.capstone.ui_components.items.searched;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -29,11 +30,14 @@ public class SearchedItemPaginationTest {
     private Table table;
     private ItemHashMap itemHashMap;
     private static final int ITEMS_PER_PAGE = 10; // Match the constant in SearchedItemPagination
-    
+    private static Method createPageContentMethod;
+
     @BeforeAll
     @SuppressWarnings("ResultOfObjectAllocationIgnored")
-    public static void setup() {
+    public static void setup() throws NoSuchMethodException {
         new JFXPanel();
+        createPageContentMethod = SearchedItemPagination.class.getDeclaredMethod("createPageContent", int.class, Set.class);
+        createPageContentMethod.setAccessible(true);
     }
 
     @BeforeEach
@@ -46,14 +50,14 @@ public class SearchedItemPaginationTest {
 
     @Test
     @DisplayName("Test createPageContent for page with more items than can be displayed")
-    public void testCreatePageContentForPageWithMoreItemsThanCanBeDisplayed() {
+    public void testCreatePageContentForPageWithMoreItemsThanCanBeDisplayed() throws Exception {
         //Create a set of item IDs that exceeds the items per page limit
         Set<String> itemIDs = itemHashMap.keySet().stream()
             .map(IdHashKey::getValue)
             .limit(ITEMS_PER_PAGE + 5) //Exceed by 5 items to ensure more than 1 page
             .collect(Collectors.toSet());
         
-        SearchedItemContainer container = pagination.createPageContent(0, itemIDs);
+        SearchedItemContainer container = (SearchedItemContainer) createPageContentMethod.invoke(pagination, 0, itemIDs);
         
         Field itemContainerField;
         VBox itemContainer;
@@ -74,14 +78,14 @@ public class SearchedItemPaginationTest {
 
     @Test
     @DisplayName("Test createPageContent for page with fewer items than can be displayed")
-    public void testCreatePageContentForPageWithFewerItemsThanCanBeDisplayed() {
+    public void testCreatePageContentForPageWithFewerItemsThanCanBeDisplayed() throws Exception {
         //Create a set of item IDs that is less than the items per page limit
         Set<String> itemIDs = itemHashMap.keySet().stream()
             .map(IdHashKey::getValue)
             .limit(ITEMS_PER_PAGE - 3) //Less by 3 items to ensure only 1 page with empty space
             .collect(Collectors.toSet());
         
-        SearchedItemContainer container = pagination.createPageContent(0, itemIDs);
+        SearchedItemContainer container = (SearchedItemContainer) createPageContentMethod.invoke(pagination, 0, itemIDs);
         
         Field itemContainerField;
         VBox itemContainer;

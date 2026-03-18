@@ -9,7 +9,7 @@ import java.util.Optional;
  */
 public class SieveOfEratosthenes {
 
-    /** A BitSet where the value at index i indicates whether i is not a prime number (true means not prime, false means potentially prime) */
+    /** A BitSet where the value at index i indicates whether i is not a prime number (true means not prime, false means potentially prime). */
     private BitSet notAPrime;
 
     /** Constructor for the SieveOfEratosthenes class, which initializes the sieve up to the specified maximum value.
@@ -41,7 +41,7 @@ public class SieveOfEratosthenes {
      * Checks if a given value is a prime number.
      * 
      * @param value The value to check for primality. Must be a non-negative integer.
-     * @return true if the value is prime, false otherwise
+     * @return true if the value is prime, false otherwise.
      */
     public boolean isPrime(int value) {
         return !notAPrime.get(value);
@@ -49,7 +49,7 @@ public class SieveOfEratosthenes {
 
     /**
      * Releases the internal array to be eligible for garbage collection.
-     * After calling this, isPrime() will throw NullPointerException.
+     * @post isPrime() will throw NullPointerException.
      */
     private void releaseMemory() {
         notAPrime = null;
@@ -57,6 +57,8 @@ public class SieveOfEratosthenes {
 
     /**
      * Gets the largest prime number under 100 million using the Sieve of Eratosthenes algorithm.
+     * 
+     * @post isPrime() will throw NullPointerException due to memory release, as the sieve is no longer needed after finding the largest prime under 100 million.
      * 
      * @return prime An Optional containing the largest prime number under 100 million, or empty if there was an error during calculation.
      */

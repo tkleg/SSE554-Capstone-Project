@@ -78,6 +78,7 @@ public class SearchedItemPanel extends HBox{
      * @pre item should contain valid data for all the attributes being displayed.
      *      rightPanel should be properly initialized to add the labels to.
      * 
+     * @post rightPanel will contain labels displaying the name, publisher, category, price, rating, stock quantity, and date added for the item, with consistent styling and formatting.
      * @param item The item whose data is being displayed in the right panel.
      */
     private void fillRightPanel(Item item) {
@@ -146,7 +147,9 @@ public class SearchedItemPanel extends HBox{
     /**
      * Sets the border for the SearchedItemPanel with a consistent style.
      * This method creates a black solid border with rounded corners and a specified width.
-     */
+     * @pre The SearchedItemPanel should be properly initialized to allow for setting the border.
+     * @post The SearchedItemPanel will have a black solid border with rounded corners and a width of 2 pixels.
+    */
     private void setBorder(){
         setBorder(new Border(new BorderStroke(
             Color.BLACK, 

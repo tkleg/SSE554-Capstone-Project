@@ -4,29 +4,29 @@
  * Enum for UI data names, to avoid hardcoding strings throughout the codebase and reduce risk of typos.
  */
 <span class="fc" id="L6">public enum UIDataName {</span>
-    /** UI data name for the minimum price filter */
+    /** UI data name for the minimum price filter. */
 <span class="fc" id="L8">    MIN_PRICE(&quot;MIN_PRICE&quot;),</span>
-    /** UI data name for the maximum price filter */
+    /** UI data name for the maximum price filter. */
 <span class="fc" id="L10">    MAX_PRICE(&quot;MAX_PRICE&quot;),</span>
-    /** UI data name for the search query input */
+    /** UI data name for the search query input. */
 <span class="fc" id="L12">    SEARCH_QUERY(&quot;SEARCH_QUERY&quot;),</span>
-    /** UI data name for the selected category filter */
+    /** UI data name for the selected category filter. */
 <span class="fc" id="L14">    FILTERS_CONTAINER(&quot;FILTERS_CONTAINER&quot;),</span>
-    /** UI data name for the minimum star rating filter */
+    /** UI data name for the minimum star rating filter. */
 <span class="fc" id="L16">    MIN_STAR_RATING(&quot;MIN_STAR_RATING&quot;);</span>
 
-    /** The string value associated with this enum constant, used for UI data keys */
+    /** The string value associated with this enum constant, used for UI data keys. */
     private final String value;
 
-    /** Constructor for the enum constants
-     * @param value The string value to associate with this enum constant
+    /** Constructor for the enum constants.
+     * @param value The string value to associate with this enum constant.
     */
 <span class="fc" id="L24">    UIDataName(String value) {</span>
 <span class="fc" id="L25">        this.value = value;</span>
 <span class="fc" id="L26">    }</span>
 
-    /** Getter for the string value associated with this enum constant
-     * @return The string value that can be used as a key in UI data storage
+    /** Getter for the string value associated with this enum constant.
+     * @return The string value that can be used as a key in UI data storage.
     */
     public String getValue() {
 <span class="fc" id="L32">        return value;</span>

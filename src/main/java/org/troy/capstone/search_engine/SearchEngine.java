@@ -13,20 +13,20 @@ import tech.tablesaw.api.Table;
 import tech.tablesaw.selection.Selection;
 
 /**
- * The SearchEngine class is responsible for filtering items based on various criteria such as price range, star rating, categorical filters, and search queries. It utilizes a PriceRangeFinder for efficient price range filtering and a QueryFilter for handling search queries with Lucene
+ * The SearchEngine class is responsible for filtering items based on various criteria such as price range, star rating, categorical filters, and search queries. It utilizes a PriceRangeFinder for efficient price range filtering and a QueryFilter for handling search queries with Lucene.
  */
 public class SearchEngine {
-    /** The original table containing all item data, used for filtering and retrieving item information */
+    /** The original table containing all item data, used for filtering and retrieving item information. */
     private final Table table;
-    /** The PriceRangeFinder for efficiently finding items within a specified price range */
+    /** The PriceRangeFinder for efficiently finding items within a specified price range. */
     private final PriceRangeFinder priceRangeFinder;
-    /** The QueryFilter for handling search queries using a Lucene index built from the item data */
+    /** The QueryFilter for handling search queries using a Lucene index built from the item data. */
     private final QueryFilter queryFilter;
 
     /**
-     * Constructor for SearchEngine
+     * Constructor for SearchEngine, filled from a tablesaw Table.
      * 
-     * @param table The table containing the data to be searched
+     * @param table The table containing the data to be searched.
      */
     public SearchEngine(Table table) {
         this.table = table;
@@ -35,11 +35,10 @@ public class SearchEngine {
     }
 
     /**
-     * For tags, we use AND so all tags are there as multiple can be selected
-     * For other categorical filters, we use OR since only one value is there
+     * Filters the data by categorical filter selections. For tags, we use AND so all tags are there as multiple can be selected. For other categorical filters, we use OR since only one value is there.
      * 
-     * @param searchData The search data containing the filters to be applied
-     * @return The set of item IDs that match the search criteria
+     * @param searchData The search data containing the filters to be applied.
+     * @return The set of item IDs that match the search criteria.
     */
     public Set<String> filterItems(Map<UIDataName, Object> searchData) {
         Selection selection;
@@ -77,11 +76,11 @@ public class SearchEngine {
     }
 
     /**
-     * Helper method to apply the search query results as a filter on the table
+     * Helper method to apply the search query results as a filter on the table.
      * 
-     * @param userQuery The user query to be applied as a filter
-     * @param preQueryFilteredTable The table after applying all filters except the search query filter, so that the search query filter is only applied to the already filtered items for better performance
-     * @return The filtered table with search results, or the original table if no filtering was applied
+     * @param userQuery The user query to be applied as a filter.
+     * @param preQueryFilteredTable The table after applying all filters except the search query filter, so that the search query filter is only applied to the already filtered items for better performance.
+     * @return The filtered table with search results, or the original table if no filtering was applied.
      */
     public Table applySearchQueryFilter(String userQuery, Table preQueryFilteredTable) {
         System.out.println("Applying search query filter with user query: \"" + userQuery + "\"");
@@ -105,10 +104,10 @@ public class SearchEngine {
     }
 
     /**
-     * Helper method to apply tag filters since they have special handling compared to other categorical filters
+     * Helper method to apply tag filters since they have special handling compared to other categorical filters.
      * 
-     * @param filtersContainer The filters container containing the selected tags under the "Tags" key
-     * @return The selection of items that match the selected tags, or null if more than 4 tags are selected since it's impossible to satisfy that criteria
+     * @param filtersContainer The filters container containing the selected tags under the "Tags" key.
+     * @return The selection of items that match the selected tags. Returns ALL items if no tags are selected or if the selected tags value is not found in the filters container.
      */
     private Selection applyTagFilters(Map<String, Set<String>> filtersContainer) {
         Set<String> selectedTags = filtersContainer.get("Tags");
@@ -133,10 +132,10 @@ public class SearchEngine {
     }
 
     /**
-     * Helper method to apply star rating filter
+     * Helper method to apply star rating filter.
      * 
-     * @param searchData The search data containing the minimum star rating
-     * @return The selection of items that match the minimum star rating
+     * @param searchData The search data containing the minimum star rating.
+     * @return The selection of items that match the minimum star rating. Returns ALL items if the minimum star rating value is not found in the search data or is not of the expected type.
      */
     private Selection applyStarFilter(Map<UIDataName, Object> searchData) {
         Integer minStarRating;
@@ -156,10 +155,10 @@ public class SearchEngine {
     }
 
     /**
-     * Helper method to apply price filters
+     * Helper method to apply price filters.
      * 
-     * @param searchData The search data containing the minimum and/or maximum price
-     * @return The selection of items that match the price criteria
+     * @param searchData The search data containing the minimum and/or maximum price.
+     * @return The selection of items that match the price criteria. Returns ALL items if the minimum or maximum price value are not of the expected type.
      */
     private Selection applyPriceFilters(Map<UIDataName, Object> searchData) {
         float minPrice, maxPrice;
@@ -171,7 +170,7 @@ public class SearchEngine {
                 (float) table.floatColumn(TableColumnName.PRICE.getColumnName()).max()
             );
         }catch(ClassCastException e){
-            System.out.println("Min price value in search data is not of type Float. Skipping min price filter.");
+            System.out.println("Min or max price value in search data is not of type Float. Skipping price filters.");
             return selectAll();
         }
         int[] itemIndicesInRange = priceRangeFinder.findItemsInPriceRange(minPrice, maxPrice);
@@ -179,10 +178,10 @@ public class SearchEngine {
     }
 
     /**
-     * Helper method to apply categorical filters (other than tags which have special handling)
+     * Helper method to apply categorical filters (other than tags which have special handling).
      * 
-     * @param searchData The search data containing the selected categorical filters under the FILTERS_CONTAINER key
-     * @return The selection of items that match the selected categorical filters, or ALL_ITEMS if no valid filters are found in the search data
+     * @param searchData The search data containing the selected categorical filters under the FILTERS_CONTAINER key.
+     * @return The selection of items that match the selected categorical filters, or ALL_ITEMS if no valid filters are found in the search data.
      */
     @SuppressWarnings("unchecked")
     private Selection applyCategoricalFilters(Map<UIDataName, Object> searchData) {
@@ -242,17 +241,17 @@ public class SearchEngine {
         return categoricalSelection;
     }
 
-    /** Select all rows in the table 
+    /** Select all rows in the table.
      * 
-     * @return A Selection object that includes all rows in the table, used as a starting point for applying filters where we want to include all items before filtering down
+     * @return A Selection object that includes all rows in the table.
     */
     private Selection selectAll(){
         return Selection.withRange(0, table.rowCount());
     }
 
-    /** Select no rows in the table 
+    /** Select no rows in the table.
      * 
-     * @return A Selection object that includes no rows in the table, used to indicate that no items match the criteria when applying filters
+     * @return A Selection object that includes no rows in the table.
     */
     private Selection selectNone(){
         return Selection.withRange(0, 0);

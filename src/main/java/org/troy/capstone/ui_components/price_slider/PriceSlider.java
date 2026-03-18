@@ -71,7 +71,10 @@ public class PriceSlider extends VBox {
         this.setSpacing(10);
     }
     
-    /** Updates the label to display the currently selected price range based on the values of the min and max sliders. */
+    /** Updates the label to display the currently selected price range based on the values of the min and max sliders.
+     * 
+     * @post The label will be updated to reflect the current values of the min and max sliders, displaying the selected price range in a formatted manner.
+     */
     private void updateLabel() {
         label.setText(String.format("Price: $%.0f - $%.0f", 
                                    minSlider.getValue(), 

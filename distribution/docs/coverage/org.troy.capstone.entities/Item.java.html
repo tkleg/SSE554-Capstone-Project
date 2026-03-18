@@ -21,38 +21,38 @@ import tech.tablesaw.api.Row;
  * A shopping item with various attributes. Main entity of the application.
  */
 public class Item {
-    /** Faker instance for generating random data */
+    /** Faker instance for generating random data. */
 <span class="fc" id="L25">    private static final Faker faker = new Faker();</span>
 
-    /** Unique identifier for the item */
+    /** Unique identifier for the item. */
     private String id;
-    /** Index of the item in the collection */
+    /** Index of the item in the collection. */
     private short index;
-    /** URL of the item's image */
+    /** URL of the item's image. */
     private String imageUrl;
-    /** Name of the item */
+    /** Name of the item. */
     private String name;
-    /** Publisher of the item */
+    /** Publisher of the item. */
     private String publisher;
-    /** Description of the item */
+    /** Description of the item. */
     private String description;
-    /** Category of the item */
+    /** Category of the item. */
     private String category;
-    /** Tags associated with the item */
+    /** Tags associated with the item. */
     private Set&lt;String&gt; tags;
-    /** Author of the item's photo */
+    /** Author of the item's photo. */
     private String photoAuthor;
-    /** URL of the photo's author */
+    /** URL of the photo's author. */
     private String photoAuthorUrl;
-    /** Price of the item */
+    /** Price of the item. */
     private float price;
-    /** Review score of the item */
+    /** Review score of the item. */
     private float reviewScore;
-    /** Number of reviews for the item */
+    /** Number of reviews for the item. */
     private short reviewCount;
-    /** Quantity of the item in stock */
+    /** Quantity of the item in stock. */
     private short stockQuantity;
-    /** Date the item was added to the collection */
+    /** Date the item was added to the collection. */
     private Date dateAdded;
 
     /**

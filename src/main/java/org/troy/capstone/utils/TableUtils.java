@@ -14,7 +14,10 @@ import tech.tablesaw.io.csv.CsvReadOptions;
 /** Utility class for working with Tablesaw tables, including reading and writing CSV files. */
 public class TableUtils {
 
-    //Never called, just prevents Jacoco from complaining about missing code coverage for the default constructor
+    /**
+     * Only exists to prevent Jacoco from complaining about the default constructor not being tested.
+     * As the only function of this class is to provide static methods, there is no reason for it to be instantiated, so the constructor is private.
+     */
     private TableUtils() {
     }
 

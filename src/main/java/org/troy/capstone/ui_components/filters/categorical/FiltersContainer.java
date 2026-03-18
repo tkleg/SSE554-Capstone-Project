@@ -28,9 +28,9 @@ import javafx.scene.paint.Color;
  * It is the main container for all categorical filters in the UI and provides methods to generate filters based on item data and retrieve the currently selected filters.
  */
 public class FiltersContainer extends ScrollPane {
-    /** A map of filter types to their corresponding sets of CheckBox options in the filter panels */
+    /** A map of filter types to their corresponding sets of CheckBox options in the filter panels. */
     private final Map<String, Set<CheckBox>> filterOptions;
-    /** The container for all filter panels */
+    /** The container for all filter panels. */
     private final VBox contentContainer;
     //Define which columns are categorical for filter generation
 
@@ -53,7 +53,7 @@ public class FiltersContainer extends ScrollPane {
      * Constructor for FiltersContainer. Initializes the filter options map and content container, 
      *  then generates filters based on the provided item data.
      * 
-     * @pre itemHashMap should contain valid item data with categorical attributes corresponding to the expected filter types.
+     * @pre itemHashMap should contain valid item data with categorical attributes corresponding to the expected filter types
      *  and the generalManager should be properly initialized to allow for adding the created FiltersContainer to it.
      * 
      * @param generalManager The general manager to add the created FiltersContainer to for access by other components.
@@ -104,7 +104,7 @@ public class FiltersContainer extends ScrollPane {
      * @pre title should be a non-null string representing the filter type.
      *      options should be a non-null set of strings representing the filter options to create CheckBoxes for.
      * 
-     * @param title The title of the filter panel
+     * @param title The title of the filter panel.
      * @param options The set of strings representing the filter options to create CheckBoxes for.
      */
     public void addFilterPanel( String title, Set<String> options ) {

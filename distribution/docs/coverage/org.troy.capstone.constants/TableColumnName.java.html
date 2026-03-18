@@ -6,62 +6,62 @@ import java.util.Set;
  * Enum for column names in the dataset, to avoid hardcoding strings throughout the codebase and reduce risk of typos.
  */
 <span class="fc" id="L8">public enum TableColumnName {</span>
-    /** Column name for the index of the item */
+    /** Column name for the index of the item. */
 <span class="fc" id="L10">    INDEX(&quot;index&quot;),</span>
-    /** Column name for the ID of the item */
+    /** Column name for the ID of the item. */
 <span class="fc" id="L12">    ID(&quot;id&quot;),</span>
-    /** Column name for the URL of the item's image */
+    /** Column name for the URL of the item's image. */
 <span class="fc" id="L14">    IMAGE_URL(&quot;imageUrl&quot;),</span>
-    /** Column name for the name of the item */
+    /** Column name for the name of the item. */
 <span class="fc" id="L16">    NAME(&quot;name&quot;),</span>
-    /** Column name for the publisher of the item */
+    /** Column name for the publisher of the item. */
 <span class="fc" id="L18">    PUBLISHER(&quot;publisher&quot;),</span>
-    /** Column name for the description of the item */
+    /** Column name for the description of the item. */
 <span class="fc" id="L20">    DESCRIPTION(&quot;description&quot;),</span>
-    /** Column name for the category of the item */
+    /** Column name for the category of the item. */
 <span class="fc" id="L22">    CATEGORY(&quot;category&quot;),</span>
-    /** Column name for the tags associated with the item */
+    /** Column name for the tags associated with the item. */
 <span class="fc" id="L24">    TAGS(&quot;tags&quot;),</span>
-    /** Column name for the price of the item */
+    /** Column name for the price of the item. */
 <span class="fc" id="L26">    PRICE(&quot;price&quot;),</span>
-    /** Column name for the review score of the item */
+    /** Column name for the review score of the item. */
 <span class="fc" id="L28">    REVIEW_SCORE(&quot;reviewScore&quot;),</span>
-    /** Column name for the review count of the item */
+    /** Column name for the review count of the item. */
 <span class="fc" id="L30">    REVIEW_COUNT(&quot;reviewCount&quot;),</span>
-    /** Column name for the stock quantity of the item */
+    /** Column name for the stock quantity of the item. */
 <span class="fc" id="L32">    STOCK_QUANTITY(&quot;stockQuantity&quot;),</span>
-    /** Column name for the date the item was added */
+    /** Column name for the date the item was added. */
 <span class="fc" id="L34">    DATE_ADDED(&quot;dateAdded&quot;),</span>
-    /** Column name for the author of the item's photo */
+    /** Column name for the author of the item's photo. */
 <span class="fc" id="L36">    PHOTO_AUTHOR(&quot;photoAuthor&quot;),</span>
-    /** Column name for the URL of the page for the author of the item's photo */
+    /** Column name for the URL of the page for the author of the item's photo. */
 <span class="fc" id="L38">    PHOTO_AUTHOR_URL(&quot;photoAuthorUrl&quot;),</span>
-    /** Column name for the relevance score of the item */
+    /** Column name for the relevance score of the item. */
 <span class="fc" id="L40">    RELEVANCE(&quot;relevance&quot;);</span>
 
 
-    /** The column name represented by this enum constant */
+    /** The column name represented by this enum constant. */
     private final String columnName;
 
-    /** Set of column names that are considered categorical variables */
+    /** Set of column names that are considered categorical variables. */
 <span class="fc" id="L47">    private static final Set&lt;TableColumnName&gt; categoricalColumns = Set.of(TableColumnName.PUBLISHER, TableColumnName.CATEGORY, TableColumnName.TAGS);</span>
 
-    /** Getter for the set of categorical column names 
-     * @return A set of TableColumnName enums that are considered categorical variables
+    /** Getter for the set of categorical column names.
+     * @return A set of TableColumnName enums that are considered categorical variables.
     */
     public static Set&lt;TableColumnName&gt; getCategoricalColumns() {
 <span class="fc" id="L53">        return categoricalColumns;</span>
     }
 
-    /** Constructor for the enum constants
-     * @param columnName The string representation of the column name associated with this enum constant
+    /** Constructor for the enum constants.
+     * @param columnName The string representation of the column name associated with this enum constant.
     */
 <span class="fc" id="L59">    TableColumnName(String columnName) {</span>
 <span class="fc" id="L60">        this.columnName = columnName;</span>
 <span class="fc" id="L61">    }</span>
 
-    /** Getter for the column name associated with this enum constant
-    * @return The column name as a string
+    /** Getter for the column name associated with this enum constant.
+    * @return The column name as a string.
     */
     public String getColumnName() {
 <span class="fc" id="L67">        return columnName;</span>

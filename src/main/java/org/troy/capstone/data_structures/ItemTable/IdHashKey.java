@@ -6,10 +6,10 @@ import java.math.BigInteger;
  * Class representing a hash key for item IDs, using universal hashing to minimize collisions in the item table. The hash code is computed by collapsing the string ID into an integer using a Rabin-Karp style polynomial rolling hash method, and then applying a universal hash function with random coefficients I and J and a prime modulus P. This approach helps ensure a good distribution of hash values even for similar string IDs, which is important for maintaining efficient lookups in the item table.
  */
 public class IdHashKey {
-    /** The original string value of the item ID, stored for equality checks and potential debugging purposes */
+    /** The original string value of the item ID, stored for equality checks and potential debugging purposes. */
     private final String value;
 
-    /** A prime number larger than the maximum possible hash value from collapsing the strings, to ensure good distribution in universal hashing */
+    /** A prime number larger than the maximum possible hash value from collapsing the strings, to ensure good distribution in universal hashing. */
     private static final BigInteger P = BigInteger.valueOf(SieveOfEratosthenes.staticPrimeUnder100mil().orElseThrow());
     /**
      * A random coefficient for the universal hash function, chosen uniformly from 1 to P-1.
@@ -27,46 +27,46 @@ public class IdHashKey {
 
     /** 961 entries, 0.75 load factor -> 2048 table size
     2048 is the lowest power of 2 above 961/0.75.
-    The table size is chosen to be a power of 2 for efficient modulo operations */
+    The table size is chosen to be a power of 2 for efficient modulo operations. */
     private static final int TABLE_SIZE = 2048;
 
-    /** Constructor for the IdHashKey class
-     * @param value The original string value of the item ID to be hashed
+    /** Constructor for the IdHashKey class.
+     * @param value The original string value of the item ID to be hashed.
     */
     public IdHashKey(String value) {
         this.value = value;
     }
 
-    /** Getter for the original string value of the item ID
-     * @return The original string value of the item ID
+    /** Getter for the original string value of the item ID.
+     * @return The original string value of the item ID.
     */
     public String getValue() {
         return value;
     }
     
-    /** Getter for the random coefficient I used in the universal hash function
-     * @return The random coefficient I
+    /** Getter for the random coefficient I used in the universal hash function.
+     * @return The random coefficient I.
     */
     static BigInteger getI() {
         return I;
     }
     
-    /** Getter for the random coefficient J used in the universal hash function
-     * @return The random coefficient J
+    /** Getter for the random coefficient J used in the universal hash function.
+     * @return The random coefficient J.
     */
     static BigInteger getJ() {
         return J;
     }
     
-    /** Getter for the prime modulus P used in the universal hash function
-     * @return The prime modulus P
+    /** Getter for the prime modulus P used in the universal hash function.
+     * @return The prime modulus P.
     */
     static BigInteger getP() {
         return P;
     }
     
-    /** Using universal hashing code from textbook, with small alterations
-     * @return The hash code for the item ID
+    /** Using universal hashing code from textbook, with small alterations.
+     * @return The hash code for the item ID.
      */
     @Override
     public int hashCode() {
@@ -78,13 +78,12 @@ public class IdHashKey {
     }
 
     /**
-     * Algorithm source is https://www.tutorialspoint.com/data_structures_algorithms/rabin_karp_algorithm.htm
-     * Rabin-Karp style string to int collapse, using polynomial rolling hash method
+     * Rabin-Karp style string to int collapse, using polynomial rolling hash method.
+     * Algorithm source is https://www.tutorialspoint.com/data_structures_algorithms/rabin_karp_algorithm.htm.
+     * @pre str is not null and only contains ASCII characters from '!' to '~' (printable characters excluding space and delete).
      * 
-     * @pre str is not null and only contains ASCII characters from '!' to '~' (printable characters excluding space and delete)
-     * 
-     * @param str The string to collapse into an integer hash value
-     * @return A hash value representing the input string collapsed via Rabin-Karp rolling hash
+     * @param str The string to collapse into an integer hash value.
+     * @return A hash value representing the input string collapsed via Rabin-Karp rolling hash.
      */
     private BigInteger collapseStringToInt(String str) {
         //Number of possible characters (ASCII chars from '!' to '~', printables excluding space and delete)
@@ -101,8 +100,8 @@ public class IdHashKey {
 
     /**
      * Checks if this IdHashKey is equal to another object.
-     * @param obj The object to compare with
-     * @return true if the objects are equal, false otherwise
+     * @param obj The object to compare with.
+     * @return true if the objects are equal, false otherwise.
      */
     @Override
     public boolean equals(Object obj) {

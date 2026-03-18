@@ -7,7 +7,10 @@ import java.util.Date;
 /** Utility class for converting between different date types. */
 public class Converters {
 
-    //Never called, just prevents Jacoco from complaining about missing code coverage for the default constructor
+    /**
+     * Only exists to prevent Jacoco from complaining about the default constructor not being tested.
+     * As the only function of this class is to provide static methods, there is no reason for it to be instantiated, so the constructor is private.
+     */
     private Converters() {
     }
 

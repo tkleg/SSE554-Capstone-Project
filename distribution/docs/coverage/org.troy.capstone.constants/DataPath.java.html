@@ -4,28 +4,28 @@
  * This enum defines the file paths for the cleaned, attributed, and cleaned &amp;amp; attributed CSV files. It also includes the root path for use in Jupyter notebooks, which cannot access files through the same relative paths as the Java code.
  */
 <span class="fc" id="L6">public enum DataPath {</span>
-    /** Path to the cleaned data CSV file starting from the project root */
+    /** Path to the cleaned data CSV file starting from the project root. */
 <span class="fc" id="L8">    CLEANED_DATA_CSV(&quot;data\\1000_items_catalog_v2_cleaned.csv&quot;),</span>
-    /** Path to the attributed data CSV file starting from the project root */
+    /** Path to the attributed data CSV file starting from the project root. */
 <span class="fc" id="L10">    ATTRIBUTED_DATA_CSV(&quot;data\\1000_items_catalog_v2_attributed.csv&quot;),</span>
-    /** Path to the cleaned and attributed data CSV file starting from the project root */
+    /** Path to the cleaned and attributed data CSV file starting from the project root. */
 <span class="fc" id="L12">    CLEANED_ATTRIBUTED_DATA_CSV(&quot;data\\1000_items_catalog_v2_cleaned_attributed.csv&quot;),</span>
 
-    /** Root path for use in Jupyter notebooks */
+    /** Root path for use in Jupyter notebooks. */
 <span class="fc" id="L15">    ROOT(&quot;C:\\Users\\thkle\\SSE554\\SSE554-Capstone-Project\\&quot;),</span>
-    /** Full path to the cleaned data CSV file */
+    /** Full path to the cleaned data CSV file. */
 <span class="fc" id="L17">    CLEANED_DATA_CSV_LONG(ROOT.path + CLEANED_DATA_CSV.path),</span>
-    /** Full path to the attributed data CSV file */
+    /** Full path to the attributed data CSV file. */
 <span class="fc" id="L19">    ATTRIBUTED_DATA_CSV_LONG(ROOT.path + ATTRIBUTED_DATA_CSV.path),</span>
-    /** Full path to the cleaned and attributed data CSV file */
+    /** Full path to the cleaned and attributed data CSV file. */
 <span class="fc" id="L21">    CLEANED_ATTRIBUTED_DATA_CSV_LONG(ROOT.path + CLEANED_ATTRIBUTED_DATA_CSV.path);</span>
 
-    /** The path represented by this enum constant */
+    /** The path represented by this enum constant. */
     private final String path;
 
-    /** Constructor for the enum constant 
+    /** Constructor for the enum constant. 
      * 
-     * @param path The file path associated with the enum constant
+     * @param path The file path associated with the enum constant.
     */
 <span class="fc" id="L30">    DataPath(String path) {</span>
 <span class="fc" id="L31">        this.path = path;</span>
@@ -33,12 +33,13 @@
 
 
     /**
-     * Getter for the path associated with this enum constant
-     * @return The file path as a string
+     * Getter for the path associated with this enum constant.
+     * 
+     * @return The file path as a string.
      */
     @Override
     public String toString() {
-<span class="fc" id="L41">        return path;</span>
+<span class="fc" id="L42">        return path;</span>
     }
 
 }

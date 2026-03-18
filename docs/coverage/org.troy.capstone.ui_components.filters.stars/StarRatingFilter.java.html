@@ -14,22 +14,22 @@ import javafx.scene.text.Font;
  * The StarRatingFilter class represents a UI component that allows users to select a minimum star rating for filtering search results. It displays a row of stars that can be clicked to set the desired rating, and it updates the display to show the selected rating.
  */
 public class StarRatingFilter extends VBox {
-    /** The maximum number of stars in the filter (5) */
+    /** The maximum number of stars in the filter. */
     private static final int MAX_STARS = 5;
-    /** Unicode character for a filled star */
+    /** Unicode character for a filled star. */
     private static final String FILLED_STAR = &quot;★&quot;;
-    /** Unicode character for an empty star */
+    /** Unicode character for an empty star. */
     private static final String EMPTY_STAR = &quot;☆&quot;;
     
-    /** The container for the star labels */
+    /** The container for the star labels. */
 <span class="fc" id="L25">    private final HBox starContainer = new HBox();</span>
 
-    /** The label that displays the current minimum rating selected by the user */
+    /** The label that displays the current minimum rating selected by the user. */
 <span class="fc" id="L28">    private final Label ratingLabel = new Label(&quot;Minimum Rating: 0 stars&quot;);</span>
 
-    /** An array of Labels representing the star icons in the filter */
+    /** An array of Labels representing the star icons in the filter. */
     final Label[] stars;
-    /** The currently selected minimum rating */
+    /** The currently selected minimum rating. */
 <span class="fc" id="L33">    private int selectedRating = 0;</span>
 
     /**
@@ -46,7 +46,7 @@ public class StarRatingFilter extends VBox {
     }
 
     /**
-     * Initializes a StarRatingFilter with 5 clickable stars and a label. The filter starts with no rating selected (0 stars).
+     * Constructor for StarRatingFilter with 5 clickable stars and a label. The filter starts with no rating selected (0 stars).
      */
 <span class="fc" id="L51">    public StarRatingFilter() {</span>
 <span class="fc" id="L52">        stars = new Label[MAX_STARS];</span>
@@ -77,69 +77,76 @@ public class StarRatingFilter extends VBox {
 <span class="fc" id="L77">    }</span>
     
     /**
-     * Sets the minimum rating (1-5). Use 0 to clear the filter.
+     * Sets the minimum rating (1-5).
+     * 
+     * @post The star labels are updated to reflect the selected rating, and the rating label is updated to show the current minimum rating. If the selected rating is clicked again, it resets to 0 (no filter).
      * 
      * @param rating The rating to set to, resets to 0 if the selected rating is clicked again.
      */
     public void setRating(int rating) {
         //If clicking the same star that's already selected, clear the rating
-<span class="fc bfc" id="L86" title="All 2 branches covered.">        if (selectedRating == rating)</span>
-<span class="fc" id="L87">            selectedRating = 0;</span>
+<span class="fc bfc" id="L88" title="All 2 branches covered.">        if (selectedRating == rating)</span>
+<span class="fc" id="L89">            selectedRating = 0;</span>
         else
-<span class="fc" id="L89">            selectedRating = rating;</span>
+<span class="fc" id="L91">            selectedRating = rating;</span>
         
-<span class="fc" id="L91">        updateDisplay();</span>
+<span class="fc" id="L93">        updateDisplay();</span>
 
-<span class="fc bfc" id="L93" title="All 2 branches covered.">        String starText = selectedRating == 1 ? &quot;star&quot; : &quot;stars&quot;;</span>
-<span class="fc" id="L94">        ratingLabel.setText(&quot;Minimum Rating: &quot; + selectedRating + &quot; &quot; + starText);</span>
-<span class="fc" id="L95">    }</span>
+<span class="fc bfc" id="L95" title="All 2 branches covered.">        String starText = selectedRating == 1 ? &quot;star&quot; : &quot;stars&quot;;</span>
+<span class="fc" id="L96">        ratingLabel.setText(&quot;Minimum Rating: &quot; + selectedRating + &quot; &quot; + starText);</span>
+<span class="fc" id="L97">    }</span>
     
     /**
-     * Gets the current minimum rating (0-5, where 0 means no filter)
+     * Gets the current minimum rating (0-5, where 0 means no filter).
      * @return The current minimum rating selected in the filter.
      */
     public int getRating() {
-<span class="fc" id="L102">        return selectedRating;</span>
+<span class="fc" id="L104">        return selectedRating;</span>
     }
     
     /**
      * Shows a preview of what the rating would look like on hover.
+     * 
+     * @post The star labels are updated to reflect the hovered rating, but the selectedRating is not changed until a click occurs. When the hover ends, the display reverts to showing the currently selected rating.
+     * 
      * @param rating The rating to preview (1-5)
      */
     void previewRating(int rating) {
-<span class="fc bfc" id="L110" title="All 2 branches covered.">        for (int i = 0; i &lt; MAX_STARS; i++) {</span>
-<span class="fc bfc" id="L111" title="All 2 branches covered.">            if (i &lt; rating) {</span>
-<span class="fc" id="L112">                stars[i].setText(FILLED_STAR);</span>
-<span class="fc" id="L113">                stars[i].setTextFill(Color.GOLD);</span>
+<span class="fc bfc" id="L115" title="All 2 branches covered.">        for (int i = 0; i &lt; MAX_STARS; i++) {</span>
+<span class="fc bfc" id="L116" title="All 2 branches covered.">            if (i &lt; rating) {</span>
+<span class="fc" id="L117">                stars[i].setText(FILLED_STAR);</span>
+<span class="fc" id="L118">                stars[i].setTextFill(Color.GOLD);</span>
             } else {
-<span class="fc" id="L115">                stars[i].setText(EMPTY_STAR);</span>
-<span class="fc" id="L116">                stars[i].setTextFill(Color.GRAY);</span>
+<span class="fc" id="L120">                stars[i].setText(EMPTY_STAR);</span>
+<span class="fc" id="L121">                stars[i].setTextFill(Color.GRAY);</span>
             }
         }
-<span class="fc" id="L119">    }</span>
+<span class="fc" id="L124">    }</span>
     
     /**
      * Updates the display to show the current selected rating.
      * Stars to the left of the selected rating are filled, and stars to the right are empty.
+     * 
+     * @post The star labels are updated to reflect the currently selected rating.
      */
     private void updateDisplay() {
-<span class="fc bfc" id="L126" title="All 2 branches covered.">        for (int i = 0; i &lt; MAX_STARS; i++) {</span>
-<span class="fc bfc" id="L127" title="All 2 branches covered.">            if (i &lt; selectedRating) {</span>
-<span class="fc" id="L128">                stars[i].setText(FILLED_STAR);</span>
-<span class="fc" id="L129">                stars[i].setTextFill(Color.GOLD);</span>
+<span class="fc bfc" id="L133" title="All 2 branches covered.">        for (int i = 0; i &lt; MAX_STARS; i++) {</span>
+<span class="fc bfc" id="L134" title="All 2 branches covered.">            if (i &lt; selectedRating) {</span>
+<span class="fc" id="L135">                stars[i].setText(FILLED_STAR);</span>
+<span class="fc" id="L136">                stars[i].setTextFill(Color.GOLD);</span>
             } else {
-<span class="fc" id="L131">                stars[i].setText(EMPTY_STAR);</span>
-<span class="fc" id="L132">                stars[i].setTextFill(Color.GRAY);</span>
+<span class="fc" id="L138">                stars[i].setText(EMPTY_STAR);</span>
+<span class="fc" id="L139">                stars[i].setTextFill(Color.GRAY);</span>
             }
         }
-<span class="fc" id="L135">    }</span>
+<span class="fc" id="L142">    }</span>
 
     /**
      * Gets the currently selected minimum star rating.
      * @return The currently selected minimum star rating.
      */
     public int getSelectedRating() {
-<span class="fc" id="L142">        return selectedRating;</span>
+<span class="fc" id="L149">        return selectedRating;</span>
     }
 
 }

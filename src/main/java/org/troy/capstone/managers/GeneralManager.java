@@ -17,13 +17,13 @@ import tech.tablesaw.api.Table;
  * It provides methods to interact with the UI elements, retrieve search data, and perform search operations.
  */
 public class GeneralManager {
-    /** The UIElementManager instance for managing UI elements */
+    /** The UIElementManager instance for managing UI elements. */
     private final UIElementManager uiManager;
-    /** The SearchEngine instance for performing search operations */
+    /** The SearchEngine instance for performing search operations. */
     private final SearchEngine searchEngine;
 
-    /** Constructor for GeneralManager
-     * @param table The tablesaw Table containing the item data to be used by the SearchEngine
+    /** Constructor for GeneralManager, filled from a tablesaw Table.
+     * @param table The tablesaw Table containing the item data to be used by the SearchEngine.
      */
     public GeneralManager(Table table) {
         uiManager = new UIElementManager();
@@ -35,8 +35,8 @@ public class GeneralManager {
      * 
      * @pre key is not null.
       *
-      * @param key The key representing the UI element to retrieve
-      * @return An Optional containing the UI element if found, or an empty Optional if not found
+      * @param key The key representing the UI element to retrieve.
+      * @return An Optional containing the UI element if found, or an empty Optional if not found.
      */
     public Optional<Node> getUIElement(UIElementName key) {
         return uiManager.getElement(key);
@@ -47,19 +47,19 @@ public class GeneralManager {
      * 
      * @pre None, error handling is done within the UIElementManager.
       *
-      * @return The search data containing the filters to be applied
+      * @return The search data containing the filters to be applied.
      */
     public Map<UIDataName, Object> getSearchData() {
         return uiManager.getSearchData();
     }
 
     /**
-     * Adds a UI element to the UIElementManager
+     * Adds a UI element to the UIElementManager.
      * 
      * @pre key and element are not null.
-     *
-     * @param key The key representing the UI element
-     * @param element The UI element to be added
+     * @post The UI element is added to the UIElementManager and can be retrieved using the provided key.
+     * @param key The key representing the UI element.
+     * @param element The UI element to be added.
      */
     public void addUIElement(UIElementName key, Node element) {
         uiManager.addElement(key, element);
@@ -69,7 +69,7 @@ public class GeneralManager {
      * Sets the button in the UIElementManager and assigns an action to it that filters the search results and updates the UI when clicked.
      * 
      * @pre button is not null.
-     *
+     * @post The button is set in the UIElementManager and its action is assigned to filter and update the UI when clicked.
      * @param button The Button to be set in the UIElementManager
      */
     public void setButton(Button button) {
@@ -79,8 +79,6 @@ public class GeneralManager {
 
     /**
      * Gets the button from the UIElementManager.
-     * 
-     * @pre None, error handling is done within the UIElementManager.
      *
      * @return The Button from the UIElementManager
      */

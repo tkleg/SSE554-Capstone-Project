@@ -33,8 +33,10 @@ public class SearchedItemContainer extends ScrollPane {
 
     /**
      * Adds a new SearchedItemPanel to the container.
+     * 
+     * @pre itemPanel is not null and is properly initialized with the data to display for a search result.
      * @param itemPanel The SearchedItemPanel to add.
-     */
+     */ 
     public void addItemPanel(SearchedItemPanel itemPanel) {
         if( itemPanel != null )
             itemContainer.getChildren().add(itemPanel);

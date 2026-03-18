@@ -33,12 +33,14 @@ public class SearchedItemContainer extends ScrollPane {
 
     /**
      * Adds a new SearchedItemPanel to the container.
+     * 
+     * @pre itemPanel is not null and is properly initialized with the data to display for a search result.
      * @param itemPanel The SearchedItemPanel to add.
-     */
+     */ 
     public void addItemPanel(SearchedItemPanel itemPanel) {
-<span class="fc bfc" id="L39" title="All 2 branches covered.">        if( itemPanel != null )</span>
-<span class="fc" id="L40">            itemContainer.getChildren().add(itemPanel);</span>
-<span class="fc" id="L41">    }</span>
+<span class="fc bfc" id="L41" title="All 2 branches covered.">        if( itemPanel != null )</span>
+<span class="fc" id="L42">            itemContainer.getChildren().add(itemPanel);</span>
+<span class="fc" id="L43">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>
