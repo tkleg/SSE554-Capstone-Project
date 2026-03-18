@@ -73,7 +73,7 @@
           </execution>
           <execution>
             <id>report</id>
-            <phase>test</phase>
+            <phase>prepare-package</phase>
             <goals>
               <goal>report</goal>
             </goals>
@@ -100,6 +100,7 @@
           </execution>
         </executions>
         <configuration>
+          <sourcepath>delomboked/main/java</sourcepath>
           <links>
             <link>https://javadoc.io/doc/tech.tablesaw/tablesaw-core/0.44.4</link>
             <link>https://openjfx.io/javadoc/21/</link>
@@ -129,6 +130,19 @@
             </tag>
           </tags>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.projectlombok</groupId>
+        <artifactId>lombok-maven-plugin</artifactId>
+        <version>1.18.20.0</version>
+        <executions>
+          <execution>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>delombok</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
