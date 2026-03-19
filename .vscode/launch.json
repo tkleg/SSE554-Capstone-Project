@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "EntryPoints",
+            "request": "launch",
+            "mainClass": "org.troy.capstone.EntryPoints",
+            "projectName": "Project"
+        },
+        {
+            "type": "java",
             "name": "QueryFilter",
             "request": "launch",
             "mainClass": "org.troy.capstone.search_engine.QueryFilter",

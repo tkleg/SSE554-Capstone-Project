@@ -15,13 +15,25 @@ import org.troy.capstone.utils.UIUtils;
 import javafx.scene.control.Label;
 import javafx.scene.control.Pagination;
 
+/**
+ * The SearchedItemPagination class represents a UI component that provides pagination for search results.
+ * It allows users to navigate through multiple pages of search results, displaying a fixed number of items per page.
+ */
 public class SearchedItemPagination extends Pagination {
+    /** The number of items to display per page in the pagination */
     private static final int ITEMS_PER_PAGE = 10;
     
+    /** The item hash map containing all items, used to populate the pagination content based on the current search results. */
     private final ItemHashMap itemHashMap;
 
+    /** A label to display when no items are found in the search results. */
     private static final Label EMPTY_LABEL = new Label("No items found.");
 
+    /**
+     * Constructor for SearchedItemPagination. Initializes the item hash map and sets up the pagination component.
+     * @pre itemHashMap should contain valid item data to populate the pagination content.
+     * @param itemHashMap The item hash map containing all items, used to populate the pagination content based on the current search results.
+    */
     private SearchedItemPagination(ItemHashMap itemHashMap) {
         this.itemHashMap = itemHashMap;
     }
@@ -29,12 +41,12 @@ public class SearchedItemPagination extends Pagination {
     /**
      * Factory method to create a SearchedItemPagination with the appropriate size and add it to the UIElementManager.
      * 
-     * pre-conditions: itemHashMap should contain valid item data to populate the pagination content,
-     *  and the generalManager should be properly initialized to allow for adding the created SearchedItemPagination to it.
+     * @pre itemHashMap should contain valid item data to populate the pagination content.
+     *      generalManager should be properly initialized to allow for adding the created SearchedItemPagination to it.
      * 
-     * @param itemHashMap (ItemHashMap) : The item hash map containing all items, used to populate the pagination content.
-     * @param generalManager (GeneralManager) : The general manager to add the created SearchedItemPagination to for access by other components.
-     * @return pagination (SearchedItemPagination) : The created SearchedItemPagination instance with content populated from the item data and added to the UIElementManager.
+     * @param itemHashMap The item hash map containing all items, used to populate the pagination content.
+     * @param generalManager The general manager to add the created SearchedItemPagination to for access by other components.
+     * @return The created SearchedItemPagination instance with content populated from the item data and added to the UIElementManager.
      */
     public static SearchedItemPagination create(ItemHashMap itemHashMap, GeneralManager generalManager) {
         //Get keys, pull the strings out, set to list
@@ -52,10 +64,10 @@ public class SearchedItemPagination extends Pagination {
      * Updates the pagination content based on the provided set of item IDs.
      * This method should be called whenever the search results change to refresh the displayed items.
      * 
-     * pre-conditions: itemIDs should be a set of valid item IDs corresponding to the current search results,
-     *  and the itemHashMap should contain the corresponding item data for those IDs.
+     * @pre itemIDs should be a set of valid item IDs corresponding to the current search results.
+     *      itemHashMap should contain the corresponding item data for those IDs.
      * 
-     * @param itemIDs (Set<String>) : A set of item IDs corresponding to the current search results to update the pagination content with.
+     * @param itemIDs A set of item IDs corresponding to the current search results to update the pagination content with.
      */
     public void updateContent(Set<String> itemIDs) {
         if( ! itemIDs.isEmpty() ) {
@@ -71,16 +83,16 @@ public class SearchedItemPagination extends Pagination {
      * Creates page content with optimized row access for dynamic content.
      * Always creates fresh content to reflect runtime changes.
      * 
-     * pre-conditions: pageIndex should be a valid index corresponding to the current page count,
-     *  and itemIDs should be a set of valid item IDs corresponding to the current search
-     *  results, with the itemHashMap containing the corresponding item data for those IDs.
+     * @pre pageIndex should be a valid index corresponding to the current page count.
+     *      itemIDs should be a set of valid item IDs corresponding to the current search
+     *      results, with the itemHashMap containing the corresponding item data for those IDs.
      * 
-     * @param pageIndex (int) : The index of the page to create content for, used to determine which items to display on that page.
-     * @param itemIDs (Set<String>) : A set of item IDs corresponding to the current search results, used to determine which items to display on the page.
-     * @return container (SearchedItemContainer) : A container with the item panels for the items to be displayed on the page,
+     * @param pageIndex The index of the page to create content for, used to determine which items to display on that page.
+     * @param itemIDs A set of item IDs corresponding to the current search results, used to determine which items to display on the page.
+     * @return A container with the item panels for the items to be displayed on the page,
      *  created based on the provided item IDs and their corresponding data in the itemHashMap.
      */
-    SearchedItemContainer createPageContent(int pageIndex, Set<String> itemIDs) {
+    private SearchedItemContainer createPageContent(int pageIndex, Set<String> itemIDs) {
         SearchedItemContainer container = new SearchedItemContainer();
         List<String> itemIDList = new ArrayList<>(itemIDs); // Convert set to list for indexed access
         int fromIndex = pageIndex * ITEMS_PER_PAGE;
@@ -99,6 +111,7 @@ public class SearchedItemPagination extends Pagination {
     /**
      * Updates the page count when table content changes.
      * Call this method after modifying the table data.
+     * @param totalItems The current total number of items in the search results, used to calculate the new page count for the pagination component.
      */
     public void updatePageCount(int totalItems) {
         int newPageCount = (int) Math.ceil((double) totalItems / ITEMS_PER_PAGE);

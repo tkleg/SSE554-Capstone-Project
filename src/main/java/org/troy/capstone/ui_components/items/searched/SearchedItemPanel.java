@@ -19,13 +19,32 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
+/**
+ * The SearchedItemPanel class represents a UI component that displays the details of a single item in the search results.
+ */
 public class SearchedItemPanel extends HBox{
 
+    /**
+     * Date formatter for displaying the date added attribute of the item in a user-friendly format. The format used is "MMMM dd, yyyy" (e.g., "January 01, 2020").
+     */
     private static final SimpleDateFormat dateAddedFormatter = new SimpleDateFormat("MMMM dd, yyyy");
 
+    /** The container for the attributed image of the item, displaying the item's image along with any relevant attributes. */
     private final AttributedItemContainer attributedImage;
+    /** The container for the textual details of the item, displayed on the right side of the panel. */
     private final VBox rightPanel;
     
+    /**
+     * Creates a SearchedItemPanel for the given item, displaying its image and details in a structured layout.
+     * The panel consists of a left side with the attributed image and a right side with textual details about the item.
+     * It also includes styling such as borders and spacing to enhance the visual presentation of the item information.
+     * 
+     * @pre item should contain valid data for all attributes being displayed.
+     *      The AttributedItemContainer should be properly initialized to display the item's image and attributes.
+     *      The rightPanel should be properly initialized to display the item's textual details.
+     * 
+     * @param item The item whose details are being displayed in this panel, used to populate both the attributed image and the other details.
+     */
     public SearchedItemPanel(Item item) {
 
         //Set up the left side
@@ -56,10 +75,11 @@ public class SearchedItemPanel extends HBox{
     /**
      * Fills the right panel with some of the data from the item.
      * 
-     * pre-conditions: item should contain valid data for all the attributes being displayed,
-     *  and the rightPanel should be properly initialized to add the labels to.
+     * @pre item should contain valid data for all the attributes being displayed.
+     *      rightPanel should be properly initialized to add the labels to.
      * 
-     * @param item ( Item ) : The item whose data is being displayed in the right panel.
+     * @post rightPanel will contain labels displaying the name, publisher, category, price, rating, stock quantity, and date added for the item, with consistent styling and formatting.
+     * @param item The item whose data is being displayed in the right panel.
      */
     private void fillRightPanel(Item item) {
         //Name label done separately so we can style it
@@ -93,6 +113,13 @@ public class SearchedItemPanel extends HBox{
         );
     }
 
+    /**
+     * Helper method to create a label with consistent styling for the item details in the right panel.
+     * This method sets properties such as wrapping, maximum width, and alignment to ensure that the labels are displayed consistently.
+     * 
+     * @param text The text to display in the label.
+     * @return A label with the specified text and consistent styling.
+     */
     private Label createLabel(String text) {
         Label label = new Label(text);
         label.setWrapText(true);
@@ -101,14 +128,28 @@ public class SearchedItemPanel extends HBox{
         return label;
     }
 
+    /**
+     * Getter for the right panel of the SearchedItemPanel, which contains the textual details of the item.
+     * @return The VBox containing the textual details of the item, displayed on the right side of the panel.
+     */
     public VBox getRightPanel() {
         return rightPanel;
     }
     
+    /**
+     * Getter for the attributed image container of the SearchedItemPanel, which displays the item's image and relevant attributes.
+     * @return The AttributedItemContainer containing the item's image and relevant attributes, displayed on the left side of the panel.
+     */
     public AttributedItemContainer getAttributedImage() {
         return attributedImage;
     }
 
+    /**
+     * Sets the border for the SearchedItemPanel with a consistent style.
+     * This method creates a black solid border with rounded corners and a specified width.
+     * @pre The SearchedItemPanel should be properly initialized to allow for setting the border.
+     * @post The SearchedItemPanel will have a black solid border with rounded corners and a width of 2 pixels.
+    */
     private void setBorder(){
         setBorder(new Border(new BorderStroke(
             Color.BLACK, 

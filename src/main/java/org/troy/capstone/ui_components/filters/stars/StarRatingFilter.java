@@ -10,24 +10,32 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
+/**
+ * The StarRatingFilter class represents a UI component that allows users to select a minimum star rating for filtering search results. It displays a row of stars that can be clicked to set the desired rating, and it updates the display to show the selected rating.
+ */
 public class StarRatingFilter extends VBox {
+    /** The maximum number of stars in the filter. */
     private static final int MAX_STARS = 5;
+    /** Unicode character for a filled star. */
     private static final String FILLED_STAR = "★";
+    /** Unicode character for an empty star. */
     private static final String EMPTY_STAR = "☆";
     
-    //Holds the stars
+    /** The container for the star labels. */
     private final HBox starContainer = new HBox();
 
-    //Says "Minimum Rating" above the stars
+    /** The label that displays the current minimum rating selected by the user. */
     private final Label ratingLabel = new Label("Minimum Rating: 0 stars");
 
+    /** An array of Labels representing the star icons in the filter. */
     final Label[] stars;
+    /** The currently selected minimum rating. */
     private int selectedRating = 0;
 
     /**
      * Creates a StarRatingFilter and registers it with the GeneralManager.
-      * @param generalManager (GeneralManager) : The GeneralManager to register the filter with.
-      * @return filter (StarRatingFilter) : The created StarRatingFilter instance.
+      * @param generalManager The GeneralManager to register the filter with.
+      * @return The created StarRatingFilter instance.
      */
     public static StarRatingFilter create(GeneralManager generalManager) {
         StarRatingFilter filter = new StarRatingFilter();
@@ -38,8 +46,7 @@ public class StarRatingFilter extends VBox {
     }
 
     /**
-     * Initializes a StarRatingFilter with 5 clickable stars and a label. The filter starts with no rating selected (0 stars).
-     * @return StarRatingFilter : The created StarRatingFilter instance.
+     * Constructor for StarRatingFilter with 5 clickable stars and a label. The filter starts with no rating selected (0 stars).
      */
     public StarRatingFilter() {
         stars = new Label[MAX_STARS];
@@ -70,9 +77,11 @@ public class StarRatingFilter extends VBox {
     }
     
     /**
-     * Sets the minimum rating (1-5). Use 0 to clear the filter.
+     * Sets the minimum rating (1-5).
      * 
-     * @param rating (int) : The rating to set to, resets to 0 if the selected rating is clicked again.
+     * @post The star labels are updated to reflect the selected rating, and the rating label is updated to show the current minimum rating. If the selected rating is clicked again, it resets to 0 (no filter).
+     * 
+     * @param rating The rating to set to, resets to 0 if the selected rating is clicked again.
      */
     public void setRating(int rating) {
         //If clicking the same star that's already selected, clear the rating
@@ -88,8 +97,8 @@ public class StarRatingFilter extends VBox {
     }
     
     /**
-     * Gets the current minimum rating (0-5, where 0 means no filter)
-     * @return selectedRating (int) : The current minimum rating selected in the filter.
+     * Gets the current minimum rating (0-5, where 0 means no filter).
+     * @return The current minimum rating selected in the filter.
      */
     public int getRating() {
         return selectedRating;
@@ -97,7 +106,10 @@ public class StarRatingFilter extends VBox {
     
     /**
      * Shows a preview of what the rating would look like on hover.
-     * @param rating (int) : The rating to preview (1-5)
+     * 
+     * @post The star labels are updated to reflect the hovered rating, but the selectedRating is not changed until a click occurs. When the hover ends, the display reverts to showing the currently selected rating.
+     * 
+     * @param rating The rating to preview (1-5)
      */
     void previewRating(int rating) {
         for (int i = 0; i < MAX_STARS; i++) {
@@ -114,6 +126,8 @@ public class StarRatingFilter extends VBox {
     /**
      * Updates the display to show the current selected rating.
      * Stars to the left of the selected rating are filled, and stars to the right are empty.
+     * 
+     * @post The star labels are updated to reflect the currently selected rating.
      */
     private void updateDisplay() {
         for (int i = 0; i < MAX_STARS; i++) {
@@ -127,6 +141,10 @@ public class StarRatingFilter extends VBox {
         }
     }
 
+    /**
+     * Gets the currently selected minimum star rating.
+     * @return The currently selected minimum star rating.
+     */
     public int getSelectedRating() {
         return selectedRating;
     }

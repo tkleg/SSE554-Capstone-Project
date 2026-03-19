@@ -32,9 +32,6 @@
             </goals>
             <configuration>
               <outputDirectory>${project.build.directory}/dependency</outputDirectory>
-              <overWriteReleases>false</overWriteReleases>
-              <overWriteSnapshots>false</overWriteSnapshots>
-              <overWriteIfNewer>true</overWriteIfNewer>
             </configuration>
           </execution>
         </executions>
@@ -58,21 +55,6 @@
               <finalName>${project.artifactId}-${project.version}-with-dependencies</finalName>
             </configuration>
           </execution>
-          <execution>
-            <id>search-engine</id>
-            <phase>package</phase>
-            <goals>
-              <goal>shade</goal>
-            </goals>
-            <configuration>
-              <transformers>
-                <transformer>
-                  <mainClass>org.troy.capstone.search_engine.query.MyBM25</mainClass>
-                </transformer>
-              </transformers>
-              <finalName>search-engine-standalone</finalName>
-            </configuration>
-          </execution>
         </executions>
       </plugin>
       <plugin>
@@ -91,7 +73,7 @@
           </execution>
           <execution>
             <id>report</id>
-            <phase>test</phase>
+            <phase>prepare-package</phase>
             <goals>
               <goal>report</goal>
             </goals>
@@ -99,8 +81,54 @@
         </executions>
         <configuration>
           <excludes>
-            <exclude>**/*Generated*.class</exclude>
+            <exclude>**/capstone/*.class</exclude>
+            <exclude>**/data_manipulation/**.class</exclude>
+            <exclude>**/search_engine/query/MyBM25.class</exclude>
           </excludes>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>3.12.0</version>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <phase>package</phase>
+            <goals>
+              <goal>javadoc</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <links>
+            <link>https://javadoc.io/doc/tech.tablesaw/tablesaw-core/0.44.4</link>
+            <link>https://openjfx.io/javadoc/21/</link>
+            <link>https://javadoc.io/doc/org.apache.lucene/lucene-core/10.4.0/</link>
+            <link>https://javadoc.io/doc/org.apache.lucene/lucene-queryparser/10.4.0/</link>
+            <link>https://javadoc.io/doc/org.apache.lucene/lucene-analysis-common/10.4.0/</link>
+            <link>https://javadoc.io/doc/net.datafaker/datafaker/2.5.2/</link>
+          </links>
+          <show>private</show>
+          <source>1.8</source>
+          <excludePackageNames>org.troy.capstone.data_manipulation</excludePackageNames>
+          <sourceFileExcludes>
+            <sourceFileExclude>**/Main.java</sourceFileExclude>
+            <sourceFileExclude>**/ENV.java</sourceFileExclude>
+            <sourceFileExclude>**/MyBM25.java</sourceFileExclude>
+            <sourceFileExclude>**/EntryPoints.java</sourceFileExclude>
+          </sourceFileExcludes>
+          <tags>
+            <tag>
+              <name>pre</name>
+              <placement>a</placement>
+              <head>Preconditions:</head>
+            </tag>
+            <tag>
+              <name>post</name>
+              <placement>a</placement>
+              <head>Postconditions:</head>
+            </tag>
+          </tags>
         </configuration>
       </plugin>
     </plugins>

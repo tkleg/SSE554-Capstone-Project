@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FiltersContainer.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Project</a> &gt; <a href="index.source.html" class="el_package">org.troy.capstone.ui_components.filters.categorical</a> &gt; <span class="el_source">FiltersContainer.java</span></div><h1>FiltersContainer.java</h1><pre class="source lang-java linenums">package org.troy.capstone.ui_components.filters.categorical;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import org.troy.capstone.constants.TableColumnName;
+import org.troy.capstone.constants.UIElementName;
+import org.troy.capstone.constants.UISizeControl;
+import org.troy.capstone.data_structures.ItemTable.ItemHashMap;
+import org.troy.capstone.managers.GeneralManager;
+import org.troy.capstone.utils.UIUtils;
+
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+
+/**
+ * The FiltersContainer class represents a UI component that contains multiple FilterPanel instances, each corresponding to a categorical attribute of the items.
+ * It is the main container for all categorical filters in the UI and provides methods to generate filters based on item data and retrieve the currently selected filters.
+ */
+public class FiltersContainer extends ScrollPane {
+    /** A map of filter types to their corresponding sets of CheckBox options in the filter panels. */
+    private final Map&lt;String, Set&lt;CheckBox&gt;&gt; filterOptions;
+    /** The container for all filter panels. */
+    private final VBox contentContainer;
+    //Define which columns are categorical for filter generation
+
+    /**
+     * Factory method to create a FiltersContainer with the appropriate size and add it to the UIElementManager.
+     * 
+     * @param generalManager The general manager to add the created FiltersContainer to for access by other components.
+     * @param itemHashMap The item hash map containing all items, used to extract unique values for filter generation.
+     * @return The created FiltersContainer instance with filters generated from the item data.
+     */
+    public static FiltersContainer create( GeneralManager generalManager, ItemHashMap itemHashMap ) {
+<span class="fc" id="L45">        FiltersContainer container = new FiltersContainer(generalManager, itemHashMap);</span>
+<span class="fc" id="L46">        UIUtils.setSize(container, UISizeControl.FILTERS_CONTAINER_WIDTH.getValue(), UISizeControl.FILTERS_CONTAINER_HEIGHT.getValue());</span>
+<span class="fc" id="L47">        generalManager.addUIElement(UIElementName.FILTERS_CONTAINER, container);</span>
+
+<span class="fc" id="L49">        return container;</span>
+    }
+
+    /**
+     * Constructor for FiltersContainer. Initializes the filter options map and content container, 
+     *  then generates filters based on the provided item data.
+     * 
+     * @pre itemHashMap should contain valid item data with categorical attributes corresponding to the expected filter types
+     *  and the generalManager should be properly initialized to allow for adding the created FiltersContainer to it.
+     * 
+     * @param generalManager The general manager to add the created FiltersContainer to for access by other components.
+     * @param itemHashMap The item hash map containing all items, used to extract unique values for filter generation.
+     */
+<span class="fc" id="L62">    public FiltersContainer( GeneralManager generalManager, ItemHashMap itemHashMap ) {</span>
+<span class="fc" id="L63">        filterOptions = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L64">        contentContainer = new VBox();</span>
+<span class="fc" id="L65">        contentContainer.setSpacing(10);</span>
+<span class="fc" id="L66">        contentContainer.setFillWidth(true);</span>
+<span class="fc" id="L67">        setContent(contentContainer);</span>
+<span class="fc" id="L68">        setFitToWidth(true);</span>
+
+<span class="fc" id="L70">        createFiltersFromTable(itemHashMap);</span>
+<span class="fc" id="L71">    }</span>
+
+    /**
+     * Generates filter panels based on the unique values of categorical attributes in the item data.
+     * For each categorical column defined in TableColumnName, it extracts the unique values from the
+     *  itemHashMap and creates a FilterPanel with CheckBoxes for each unique value. Special handling is included for the TAGS column, 
+     *  which contains sets of strings.
+     * 
+     * @pre itemHashMap should contain valid item data with categorical attributes corresponding to the expected filter types.
+     * 
+     * @param itemHashMap The item hash map containing all items, used to extract unique values for filter generation.
+     */
+    private void createFiltersFromTable(ItemHashMap itemHashMap) {
+<span class="fc bfc" id="L84" title="All 2 branches covered.">        for (TableColumnName column : TableColumnName.getCategoricalColumns()) {</span>
+            Set&lt;String&gt; uniqueValues;
+<span class="fc bfc" id="L86" title="All 2 branches covered.">            if( column.getColumnName().equals(TableColumnName.TAGS.getColumnName()) ){// Special handling for tags since it's a set of strings</span>
+<span class="fc" id="L87">                uniqueValues = itemHashMap.values().stream()</span>
+<span class="fc" id="L88">                .flatMap(item -&gt; item.getTags().stream())</span>
+<span class="fc" id="L89">                .collect(Collectors.toSet());</span>
+            } else {
+<span class="fc" id="L91">                uniqueValues = itemHashMap.values().stream()</span>
+<span class="fc" id="L92">                    .map(item -&gt; (String) item.getAttribute(column))</span>
+<span class="fc" id="L93">                    .collect(Collectors.toSet());</span>
+            }
+<span class="fc" id="L95">            String filterTitle = column.getColumnName().substring(0, 1).toUpperCase() + column.getColumnName().substring(1).toLowerCase();</span>
+<span class="fc" id="L96">            addFilterPanel(filterTitle, uniqueValues);</span>
+<span class="fc" id="L97">        }</span>
+<span class="fc" id="L98">    }</span>
+
+    /**
+     * Adds a filter panel to the FiltersContainer with the given title and options. Each option is represented as a CheckBox.
+     * The created FilterPanel is styled with a border and added to the content container of the FiltersContainer.
+     * 
+     * @pre title should be a non-null string representing the filter type.
+     *      options should be a non-null set of strings representing the filter options to create CheckBoxes for.
+     * 
+     * @param title The title of the filter panel.
+     * @param options The set of strings representing the filter options to create CheckBoxes for.
+     */
+    public void addFilterPanel( String title, Set&lt;String&gt; options ) {
+<span class="fc" id="L111">        Set&lt;CheckBox&gt; checkBoxes = new HashSet&lt;&gt;();</span>
+<span class="fc bfc" id="L112" title="All 2 branches covered.">        for (String option : options)</span>
+<span class="fc" id="L113">            checkBoxes.add(new CheckBox(option));</span>
+<span class="fc" id="L114">        filterOptions.put( title, checkBoxes );</span>
+<span class="fc" id="L115">        FilterPanel filterPanel = new FilterPanel(title, checkBoxes);</span>
+<span class="fc" id="L116">        filterPanel.setBorder(new Border(new BorderStroke(</span>
+            Color.BLACK, 
+            BorderStrokeStyle.SOLID, 
+            new CornerRadii(2), 
+            new BorderWidths(2)
+        )));
+<span class="fc" id="L122">        filterPanel.setMaxWidth(Double.MAX_VALUE); // Allow the panel to expand to fill available width</span>
+<span class="fc" id="L123">        contentContainer.getChildren().add(filterPanel);</span>
+<span class="fc" id="L124">    }</span>
+
+    /**
+     * Retrieves the currently selected filters as a map where the keys are filter types (e.g., &quot;Publisher&quot;, &quot;Category&quot;)
+     *  and the values are sets of selected options for each filter type respectively.
+     * 
+     * @pre filterOptions should be properly populated with filter types and their corresponding CheckBoxes.
+     *      The CheckBoxes should reflect the current user selections.
+     * 
+     * @return selectedFilters A map containing the currently selected filters.
+     */
+    public Map&lt;String, Set&lt;String&gt;&gt; getSelectedFilters() {
+<span class="fc" id="L136">        Map&lt;String, Set&lt;String&gt;&gt; selectedFilters = new HashMap&lt;&gt;();</span>
+<span class="fc bfc" id="L137" title="All 2 branches covered.">        for (String filterType : filterOptions.keySet()) {</span>
+<span class="fc" id="L138">            Set&lt;String&gt; selectedOptions = filterOptions.get(filterType)</span>
+<span class="fc" id="L139">                    .stream()</span>
+<span class="fc" id="L140">                    .filter(CheckBox::isSelected)</span>
+<span class="fc" id="L141">                    .map(CheckBox::getText)</span>
+<span class="fc" id="L142">                    .collect(Collectors.toSet());</span>
+<span class="fc" id="L143">            selectedFilters.put(filterType, selectedOptions);</span>
+<span class="fc" id="L144">        }</span>
+<span class="fc" id="L145">        return selectedFilters;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

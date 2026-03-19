@@ -1,7 +1,9 @@
 package org.troy.capstone.ui_components.items;
 
 import java.awt.Desktop;
+import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 
 import org.troy.capstone.constants.URL;
 import org.troy.capstone.constants.UISizeControl;
@@ -16,16 +18,35 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
+/**
+ * The AttributedItemContainer class represents a UI component that displays an item's image along with its attribution information.
+ */
 public class AttributedItemContainer extends VBox {
 
+    /** The ImageView for displaying the item's image. */
     private final ImageView imageView;
 
+    /** Creates an AttributedItemContainer from the given item, setting its size based on UISizeControl constants.
+     * 
+     * @pre item should contain valid data for the image URL and attribution information.
+     *      The AttributedItemContainer should be properly initialized to display the item's image and attribution information.
+     * 
+     * @param item The item whose image and attribution information are being displayed in this container, used to populate the image and attribution flow.
+     * @return An AttributedItemContainer instance with the item's image and attribution information displayed, and sized according to UISizeControl constants. 
+    */
     public static AttributedItemContainer createFromItem(Item item) {
         AttributedItemContainer container = new AttributedItemContainer(item);
         UIUtils.setSize(container, UISizeControl.ATTRIBUTED_ITEM_CONTAINER_WIDTH.getValue(), null);
         return container;
     }
 
+    /** Creates an AttributedItemContainer for the given item, initializing the image view and attribution flow.
+     * 
+     * @pre item should contain valid data for the image URL and attribution information.
+     *      The AttributedItemContainer should be properly initialized to display the item's image and attribution information.
+     * 
+     * @param item The item whose image and attribution information are being displayed in this container.
+     */
     public AttributedItemContainer(Item item) {
         super(5); //5px spacing between items
         setAlignment(Pos.TOP_CENTER); // Center-align the image and attribution
@@ -43,8 +64,8 @@ public class AttributedItemContainer extends VBox {
         imageView.setOnMouseClicked(e -> {
             try {
                 Desktop.getDesktop().browse(new URI(item.getImageUrl()));
-            } catch (Exception ex) {
-                ex.printStackTrace();
+            } catch (IOException | URISyntaxException ex) {
+                System.err.println("Failed to open image URL: " + item.getImageUrl());
             }
         });
         
@@ -58,12 +79,13 @@ public class AttributedItemContainer extends VBox {
     /**
      * Creates a TextFlow for the attribution text with clickable links for the author and source.
      * 
-     * pre-conditions: item should contain valid data for the photo author and their URL, as well as the source URL for Unsplash.
+     * @pre item should contain valid data for the photo author and their URL, as well as the source URL for Unsplash.
      * 
-     * @param item (Item) : The item whose data is being used to create the attribution flow, specifically the photo author and their URL.
-     * @return TextFlow : A TextFlow containing the attribution text with clickable links for the author and source.
+     * @param item The item whose data is being used to create the attribution flow, specifically the photo author and their URL.
+     * @return A TextFlow containing the attribution text with clickable links for the author and source.
      */
-    TextFlow makeAttributionFlow(Item item) {
+    @SuppressWarnings("FinalPrivateMethod")
+    private final TextFlow makeAttributionFlow(Item item) {
         Text text1 = new Text("Photo by ");
         Text authorName = new Text(item.getPhotoAuthor());
         authorName.setUnderline(true);
@@ -74,15 +96,15 @@ public class AttributedItemContainer extends VBox {
         authorName.setOnMouseClicked(e ->{
             try {
                 Desktop.getDesktop().browse(new URI(item.getPhotoAuthorUrl()));
-            } catch (Exception ex) {
-                ex.printStackTrace();
+            } catch (IOException | URISyntaxException ex) {
+                System.err.println("Failed to open author URL: " + item.getPhotoAuthorUrl());
             }
         });
         sourceName.setOnMouseClicked(e ->{
             try {
                 Desktop.getDesktop().browse( new URI( URL.UNSPLASH_ATTRIBUTION.getUrl() ) );
-            } catch (Exception ex) {
-                ex.printStackTrace();
+            } catch (IOException | URISyntaxException ex) {
+                System.err.println("Failed to open source URL: " + URL.UNSPLASH_ATTRIBUTION.getUrl());
             }
         });
         
@@ -90,6 +112,10 @@ public class AttributedItemContainer extends VBox {
         return new TextFlow(text1, authorName, text2, sourceName);
     }
     
+    /**
+     * Getter for the ImageView in the AttributedItemContainer, which displays the item's image.
+     * @return The ImageView displaying the item's image in the AttributedItemContainer.
+     */
     public ImageView getImageView() {
         return imageView;
     }
@@ -98,7 +124,8 @@ public class AttributedItemContainer extends VBox {
      * Loads an image from a URL asynchronously to avoid blocking the UI thread,
      *  and sets it to the imageView once loaded.
      * 
-     * @param imageUrl (String) : The URL of the image to be loaded.
+     * @post The image from the specified URL will be loaded and displayed in the imageView of the AttributedItemContainer.
+     * @param imageUrl The URL of the image to be loaded.
      */
     private void loadImageAsync(String imageUrl) {
         Task<Image> imageTask = new Task<Image>() {

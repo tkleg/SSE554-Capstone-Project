@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Item.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Project</a> &gt; <a href="index.source.html" class="el_package">org.troy.capstone.entities</a> &gt; <span class="el_source">Item.java</span></div><h1>Item.java</h1><pre class="source lang-java linenums">package org.troy.capstone.entities;
+
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
+
+import org.troy.capstone.constants.TableColumnName;
+import org.troy.capstone.constants.URL;
+import org.troy.capstone.utils.Converters;
+
+import lombok.Builder;
+import lombok.Data;
+import net.datafaker.Faker;
+import tech.tablesaw.api.Row;
+
+@Data
+@Builder
+/**
+ * A shopping item with various attributes. Main entity of the application.
+ */
+public class Item {
+    /** Faker instance for generating random data. */
+<span class="fc" id="L25">    private static final Faker faker = new Faker();</span>
+
+    /** Unique identifier for the item. */
+    private String id;
+    /** Index of the item in the collection. */
+    private short index;
+    /** URL of the item's image. */
+    private String imageUrl;
+    /** Name of the item. */
+    private String name;
+    /** Publisher of the item. */
+    private String publisher;
+    /** Description of the item. */
+    private String description;
+    /** Category of the item. */
+    private String category;
+    /** Tags associated with the item. */
+    private Set&lt;String&gt; tags;
+    /** Author of the item's photo. */
+    private String photoAuthor;
+    /** URL of the photo's author. */
+    private String photoAuthorUrl;
+    /** Price of the item. */
+    private float price;
+    /** Review score of the item. */
+    private float reviewScore;
+    /** Number of reviews for the item. */
+    private short reviewCount;
+    /** Quantity of the item in stock. */
+    private short stockQuantity;
+    /** Date the item was added to the collection. */
+    private Date dateAdded;
+
+    /**
+     * Returns the value of the specified attribute for this item. The attribute is determined by the provided TableColumnName enum value.
+     * 
+     * @pre column is not null and corresponds to a valid attribute of the Item class.
+     * 
+     * @param column An enum value representing the attribute to retrieve from this item.
+     * @return The value of the specified attribute for this item, returned as an Object. The caller must cast result.
+     * @throws IllegalArgumentException If the provided column does not correspond to a valid attribute of the Item class.
+     */
+    public Object getAttribute( TableColumnName column ){
+<span class="pc bpc" id="L68" title="1 of 16 branches missed.">        return switch(column){</span>
+<span class="fc" id="L69">            case INDEX -&gt; index;</span>
+<span class="fc" id="L70">            case ID -&gt; id;</span>
+<span class="fc" id="L71">            case IMAGE_URL -&gt; imageUrl;</span>
+<span class="fc" id="L72">            case NAME -&gt; name;</span>
+<span class="fc" id="L73">            case PUBLISHER -&gt; publisher;</span>
+<span class="fc" id="L74">            case DESCRIPTION -&gt; description;</span>
+<span class="fc" id="L75">            case CATEGORY -&gt; category;</span>
+<span class="fc" id="L76">            case TAGS -&gt; tags;</span>
+<span class="fc" id="L77">            case PRICE -&gt; price;</span>
+<span class="fc" id="L78">            case REVIEW_SCORE -&gt; reviewScore;</span>
+<span class="fc" id="L79">            case REVIEW_COUNT -&gt; reviewCount;</span>
+<span class="fc" id="L80">            case STOCK_QUANTITY -&gt; stockQuantity;</span>
+<span class="fc" id="L81">            case DATE_ADDED -&gt; dateAdded;</span>
+<span class="fc" id="L82">            case PHOTO_AUTHOR -&gt; photoAuthor;</span>
+<span class="fc" id="L83">            case PHOTO_AUTHOR_URL -&gt; photoAuthorUrl;</span>
+<span class="nc" id="L84">            case RELEVANCE -&gt; null; //Relevance is not a part of the item class, but is added later during search query filtering</span>
+        };
+    }
+    
+    /**
+     * Generates a random Item object with realistic values for each attribute using the Faker library.
+     * 
+     * @return A randomly generated Item object with all attributes populated with realistic random values.
+     */
+    public static Item randomItem(){
+<span class="fc" id="L94">        return Item.builder()</span>
+<span class="fc" id="L95">            .imageUrl( URL.DEFAULT_IMAGE_URL.getUrl() )</span>
+<span class="fc" id="L96">            .name( faker.commerce().productName() )</span>
+<span class="fc" id="L97">            .publisher( faker.company().name() )</span>
+<span class="fc" id="L98">            .description( String.join(&quot; &quot;, faker.lorem().sentences(2) ) )</span>
+<span class="fc" id="L99">            .category( faker.commerce().department() )</span>
+<span class="fc" id="L100">            .tags( Set.copyOf( faker.lorem().words(3) ) )</span>
+<span class="fc" id="L101">            .price( (float) faker.number().randomDouble(2, 5, 500) )</span>
+<span class="fc" id="L102">            .reviewScore( (float) faker.number().randomDouble(1, 1, 5) )</span>
+<span class="fc" id="L103">            .reviewCount( (short) faker.number().numberBetween(0, 1000) )</span>
+<span class="fc" id="L104">            .stockQuantity( (short) faker.number().numberBetween(0, 100) )</span>
+<span class="fc" id="L105">            .dateAdded( Date.from( faker.timeAndDate().future(365, TimeUnit.DAYS) ) )</span>
+<span class="fc" id="L106">            .photoAuthor( URL.DEFAULT_AUTHOR_NAME.getUrl() )</span>
+<span class="fc" id="L107">            .photoAuthorUrl( URL.DEFAULT_AUTHOR_URL.getUrl() )</span>
+<span class="fc" id="L108">            .id( faker.internet().uuid() )</span>
+<span class="fc" id="L109">            .build();</span>
+    }
+
+    /**
+     * Creates an Item object from a tablesaw Row. The Row must contain columns corresponding to the attributes of the Item class.
+     * 
+     * @pre itemRow is not null and contains the expected columns for creating an Item (ID, Name, etc.).
+     * 
+     * @param itemRow A Row from a tablesaw Table containing item info.
+     * @return An Item object created from the data in the provided Row.
+     */
+    public static Item fromRow( Row itemRow ){
+<span class="fc" id="L121">        return Item.builder()</span>
+<span class="fc" id="L122">                .index( itemRow.getShort(TableColumnName.INDEX.getColumnName()) )</span>
+<span class="fc" id="L123">                .imageUrl( itemRow.getString(TableColumnName.IMAGE_URL.getColumnName()) )</span>
+<span class="fc" id="L124">                .name( itemRow.getString(TableColumnName.NAME.getColumnName()) )</span>
+<span class="fc" id="L125">                .publisher( itemRow.getString(TableColumnName.PUBLISHER.getColumnName()) )</span>
+<span class="fc" id="L126">                .description( itemRow.getString(TableColumnName.DESCRIPTION.getColumnName()) )</span>
+<span class="fc" id="L127">                .category( itemRow.getString(TableColumnName.CATEGORY.getColumnName()) )</span>
+<span class="fc" id="L128">                .tags( new HashSet&lt;&gt;( Arrays.asList( itemRow.getString(TableColumnName.TAGS.getColumnName()).split(&quot;, &quot;) ) ) )</span>
+<span class="fc" id="L129">                .price( itemRow.getFloat(TableColumnName.PRICE.getColumnName()) )</span>
+<span class="fc" id="L130">                .reviewScore( itemRow.getFloat(TableColumnName.REVIEW_SCORE.getColumnName()) )</span>
+<span class="fc" id="L131">                .reviewCount( itemRow.getShort(TableColumnName.REVIEW_COUNT.getColumnName()) )</span>
+<span class="fc" id="L132">                .stockQuantity( itemRow.getShort(TableColumnName.STOCK_QUANTITY.getColumnName()) )</span>
+<span class="fc" id="L133">                .id( itemRow.getString(TableColumnName.ID.getColumnName()) )</span>
+<span class="fc" id="L134">                .photoAuthor( itemRow.getString(TableColumnName.PHOTO_AUTHOR.getColumnName()) )</span>
+<span class="fc" id="L135">                .photoAuthorUrl( itemRow.getString(TableColumnName.PHOTO_AUTHOR_URL.getColumnName()) )</span>
+<span class="fc" id="L136">                .dateAdded( Converters.localDateToDate(itemRow.getDate(TableColumnName.DATE_ADDED.getColumnName())) )</span>
+<span class="fc" id="L137">            .build();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>
