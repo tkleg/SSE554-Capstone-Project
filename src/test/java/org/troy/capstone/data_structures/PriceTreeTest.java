@@ -15,24 +15,24 @@ import tech.tablesaw.api.Table;
 
 // Parameterized test info found on https://www.baeldung.com/parameterized-tests-junit-5
 
-public class PriceRangeFinderTest {
-    private static PriceRangeFinder finder;
+public class PriceTreeTest {
+    private static PriceTree tree;
     private static Table table;
 
     @BeforeAll
     public static void setup() {
-        table = TableUtils.readCleanedAttributedData();
-        finder = new PriceRangeFinder(table);
+        table = TableUtils.readCleanedAttributedData().selectColumns(TableColumnName.PRICE.getColumnName(), TableColumnName.INDEX.getColumnName());
+        tree = new PriceTree(table);
     }
 
     @Test
-    @DisplayName("Ensure PriceRangeFinder is properly initialized")
-    public void testPriceRangeFinderInitialization() {
-        assertNotNull(finder, "PriceRangeFinder should not be null");
+    @DisplayName("Ensure PriceTree is properly initialized")
+    public void testPriceTreeInitialization() {
+        assertNotNull(tree, "PriceTree should not be null");
         assertNotNull(table, "Table should not be null");
         
-        assertTrue(!finder.isEmpty(), "PriceRangeFinder should contain items after initialization");
-        assertEquals( finder.size(), table.rowCount(), "PriceRangeFinder should contain the same number of items as the table rows" );
+        assertTrue(!tree.isEmpty(), "PriceTree should contain items after initialization");
+        assertEquals( tree.size(), table.rowCount(), "PriceTree should contain the same number of items as the table rows" );
     }
   
     
@@ -42,12 +42,12 @@ public class PriceRangeFinderTest {
         "10.0, 20.0, '10-20'", 
         "50.0, 250.0, '50-250'"
     })
-    @DisplayName("Test Price Range Finder with various price ranges")
-    public void testPriceRangeFinder(double minPrice, double maxPrice, String rangeDescription) {
+    @DisplayName("Test PriceTree with various price ranges")
+    public void testPriceTree(double minPrice, double maxPrice, String rangeDescription) {
         Table filteredTable = table.where(table.floatColumn(TableColumnName.PRICE.getColumnName()).isBetweenInclusive(minPrice, maxPrice));
         assertNotNull(filteredTable);
         
-        int[] filteredByRange = finder.findItemsInPriceRange((float)minPrice, (float)maxPrice);
+        int[] filteredByRange = tree.findItemsInPriceRange((float)minPrice, (float)maxPrice);
         assertNotNull(filteredByRange);
 
         assertEquals(filteredTable.rowCount(), filteredByRange.length, 

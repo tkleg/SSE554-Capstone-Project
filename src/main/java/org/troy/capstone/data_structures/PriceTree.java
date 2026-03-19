@@ -8,28 +8,27 @@ import org.troy.capstone.constants.TableColumnName;
 import tech.tablesaw.api.Table;
 
 /**
- * A data structure for efficiently finding items within a specified price range.
- * Extends TreeMap with prices as keys and item indices as values.
+ * A data TreeMap holding keys of prices and values of item indices, allowing for efficient retrieval of items within a specified price range.
  */
-public class PriceRangeFinder extends TreeMap<Float, Short> {
+public class PriceTree extends TreeMap<Float, Short> {
 
     //Main in EntryPoints.java to stop Javadocs from including it
     
     /**
-     * Creates a PriceRangeFinder from a Table.
+     * Creates a PriceTree from a Table.
      *
      * @pre table is not null and contains the expected columns for prices and item indices.
      *
      * @param table A tablesaw Table containing the item data, with each row representing an item and containing a price column and an index column.
      */
-    public PriceRangeFinder(Table table) {
+    public PriceTree(Table table) {
         List<Float> prices = table.floatColumn(TableColumnName.PRICE.getColumnName()).asList();
         List<Short> itemIndices = table.shortColumn(TableColumnName.INDEX.getColumnName()).asList(); 
         addAllItems(prices, itemIndices);
     }
 
     /**
-     * Adds an item to the PriceRangeFinder given its price and index.
+     * Adds an item to the PriceTree given its price and index.
      *
      * @pre price is a non-negative float representing the price of the item.
      *      itemIndex is a short representing the index of the item in the original table.
@@ -56,7 +55,7 @@ public class PriceRangeFinder extends TreeMap<Float, Short> {
     }
 
     /**
-     * Adds all items from lists of prices and indices to the PriceRangeFinder.
+     * Adds all items from lists of prices and indices to the PriceTree.
      *
      * @pre prices and itemIndices are not null.
      *      prices and itemIndices have the same size.
