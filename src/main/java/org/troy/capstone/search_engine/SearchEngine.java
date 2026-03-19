@@ -5,7 +5,6 @@ import java.util.Set;
 
 import org.troy.capstone.constants.TableColumnName;
 import org.troy.capstone.constants.UIDataName;
-import org.troy.capstone.data_structures.PriceRangeFinder;
 
 import tech.tablesaw.api.FloatColumn;
 import tech.tablesaw.api.StringColumn;
@@ -18,8 +17,8 @@ import tech.tablesaw.selection.Selection;
 public class SearchEngine {
     /** The original table containing all item data, used for filtering and retrieving item information. */
     private final Table table;
-    /** The PriceRangeFinder for efficiently finding items within a specified price range. */
-    private final PriceRangeFinder priceRangeFinder;
+    /** The PriceFilter for efficiently finding items within a specified price range. */
+    private final PriceFilter priceFilter;
     /** The QueryFilter for handling search queries using a Lucene index built from the item data. */
     private final QueryFilter queryFilter;
 
@@ -30,7 +29,7 @@ public class SearchEngine {
      */
     public SearchEngine(Table table) {
         this.table = table;
-        this.priceRangeFinder = new PriceRangeFinder(table);
+        this.priceFilter = new PriceFilter(table);
         this.queryFilter = new QueryFilter(table);
     }
 
@@ -173,7 +172,7 @@ public class SearchEngine {
             System.out.println("Min or max price value in search data is not of type Float. Skipping price filters.");
             return selectAll();
         }
-        int[] itemIndicesInRange = priceRangeFinder.findItemsInPriceRange(minPrice, maxPrice);
+        int[] itemIndicesInRange = priceFilter.filterByPriceRange(minPrice, maxPrice);
         return Selection.with(itemIndicesInRange);
     }
 

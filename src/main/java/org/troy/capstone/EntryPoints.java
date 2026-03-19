@@ -2,12 +2,10 @@ package org.troy.capstone;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Scanner;
 
-import org.troy.capstone.data_structures.PriceRangeFinder;
 import org.troy.capstone.data_structures.ItemTable.ItemHashMap;
 import org.troy.capstone.data_structures.ItemTable.SieveOfEratosthenes;
 import org.troy.capstone.search_engine.QueryFilter;
@@ -20,28 +18,19 @@ public class EntryPoints {
     public static void main(String[] args) throws Exception {
         System.out.println("""
         Enter the number for the main method to run:
-        1: PriceRangeFinderMain
-        2: ItemHashMapMain
-        3: SieveOfEratosthenesMain
-        4: QueryFilterMain
+        1: ItemHashMapMain
+        2: SieveOfEratosthenesMain
+        3: QueryFilterMain
         """);
         try (Scanner scan = new Scanner(System.in)) {
             String choice = scan.nextLine().trim();
             switch (choice) {
-                case "1" -> PriceRangeFinderMain(args);
-                case "2" -> ItemHashMapMain(args);
-                case "3" -> SieveOfEratosthenesMain(args);
-                case "4" -> QueryFilterMain(args);
-                default -> System.out.println("Invalid choice. Please enter a number from 1 to 4.");
+                case "1" -> ItemHashMapMain(args);
+                case "2" -> SieveOfEratosthenesMain(args);
+                case "3" -> QueryFilterMain(args);
+                default -> System.out.println("Invalid choice. Please enter a number from 1 to 3.");
             }
         }
-    }
-
-    public static void PriceRangeFinderMain(String[] args) {
-        Table table = TableUtils.readCleanedData();
-        PriceRangeFinder finder = new PriceRangeFinder(table);
-        int[] itemsInRange = finder.findItemsInPriceRange(10.0f, 20.0f);
-        System.out.println("Items in price range 10-20: " + Arrays.toString(itemsInRange));
     }
 
     public static void ItemHashMapMain(String[] args) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {

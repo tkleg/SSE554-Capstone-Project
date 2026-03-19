@@ -24,6 +24,7 @@ Project,org.troy.capstone.data_structures.ItemTable,ItemHashMap,2,306,2,16,0,45,
 Project,org.troy.capstone.data_structures.ItemTable,IdHashKey,0,120,0,8,0,28,0,13,0,9
 Project,org.troy.capstone.data_structures.ItemTable,SieveOfEratosthenes,0,115,0,16,0,29,0,13,0,5
 Project,org.troy.capstone.search_engine,SearchEngine,2,477,4,36,1,105,4,25,0,9
+Project,org.troy.capstone.search_engine,PriceFilter,0,15,0,0,0,4,0,2,0,2
 Project,org.troy.capstone.search_engine,QueryFilter,10,344,2,12,3,65,2,9,0,4
-Project,org.troy.capstone.data_structures,PriceRangeFinder,0,60,0,2,0,11,0,5,0,4
+Project,org.troy.capstone.data_structures,PriceTree,0,60,0,2,0,11,0,5,0,4
 Project,org.troy.capstone.ui_components.filters.stars,StarRatingFilter,0,229,0,14,0,48,0,17,0,10
