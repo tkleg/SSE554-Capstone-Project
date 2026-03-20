@@ -6,7 +6,14 @@ import java.util.Optional;
 import org.troy.capstone.data_structures.ItemTable.ItemHashMap;
 import org.troy.capstone.entities.Item;
 
-public class SearchedItemsLinkedList {
+public class SearchedItemsLinkedList{
+        /**
+         * Returns the items on the current page without moving the pointer.
+         */
+        public List<Item> getCurrent() {
+            if (current == null) return null;
+            return current.getItems();
+        }
     
     private ItemListNode head, current;
 
@@ -42,25 +49,32 @@ public class SearchedItemsLinkedList {
         current = head;
     }
 
-    public List<Item> getCurrentListAndGoBack() {
-        ItemListNode temp = current;
-        if (current.getPrev() != null)
-            current = current.getPrev();
-        else
+    public List<Item> getHead() {
+        if (head == null)
             return null;
-        return temp.getItems();
+        return head.getItems();
     }
     
-    public List<Item> getCurrentListAndAdvance() {
-        ItemListNode temp = current;
-        if (current.getNext() != null)
-            current = current.getNext();
-        else
+    public List<Item> getNext(){
+        if (current == null || current.getNext() == null) {
+            System.out.println("Already at the end of the list, cannot advance further.");
             return null;
-        return temp.getItems();
+        }
+        current = current.getNext();
+        System.out.println("Advanced to next page of results.");
+        return current.getItems();
     }
-    
-    
+
+    public List<Item> getPrevious(){
+        if (current == null || current.getPrev() == null) {
+            System.out.println("Already at the beginning of the list, cannot go back further.");
+            return null;
+        }
+        current = current.getPrev();
+        System.out.println("Went back to previous page of results.");
+        return current.getItems();
+    }
+     
     private static class ItemListNode{
         private final List<Item> items;
         private ItemListNode next, prev;
