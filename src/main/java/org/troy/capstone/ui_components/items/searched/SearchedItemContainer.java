@@ -1,6 +1,13 @@
 package org.troy.capstone.ui_components.items.searched;
 
+import java.util.List;
+import java.util.Optional;
+
+import org.troy.capstone.data_structures.ItemTable.ItemHashMap;
+import org.troy.capstone.entities.Item;
+
 import javafx.geometry.Pos;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 
@@ -14,7 +21,7 @@ public class SearchedItemContainer extends ScrollPane {
     /**
      * Creates a SearchedItemContainer with a vertical box layout for displaying search result panels.
      */
-    public SearchedItemContainer() {
+    public SearchedItemContainer(List<Item> items) {
         super();
         itemContainer = new VBox(5); // 5px spacing between items
         itemContainer.setAlignment(Pos.TOP_CENTER); // Center-align items consistently
@@ -29,6 +36,9 @@ public class SearchedItemContainer extends ScrollPane {
         //Cache nodes to improve scroll performance
         itemContainer.setCache(true);
         itemContainer.setCacheHint(javafx.scene.CacheHint.SPEED);
+
+        //Populate with items
+        updateItems(items);
     }
 
     /**
@@ -40,6 +50,18 @@ public class SearchedItemContainer extends ScrollPane {
     public void addItemPanel(SearchedItemPanel itemPanel) {
         if( itemPanel != null )
             itemContainer.getChildren().add(itemPanel);
+    }
+
+    public void updateItems(List<Item> items) {
+        itemContainer.getChildren().clear();
+        if (items == null || items.isEmpty()) {
+            itemContainer.getChildren().add(new Label("No items found."));
+            return;
+        }
+        items.forEach(item -> {
+            if (item != null)
+                addItemPanel(new SearchedItemPanel(item));
+        });
     }
 
 }

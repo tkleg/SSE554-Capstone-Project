@@ -17,6 +17,7 @@ import javafx.scene.layout.VBox;
 public class SearchedItemPanelTest {
 
     @BeforeAll
+    @SuppressWarnings("ResultOfObjectAllocationIgnored")
     public static void setup() {
         new JFXPanel();
     }

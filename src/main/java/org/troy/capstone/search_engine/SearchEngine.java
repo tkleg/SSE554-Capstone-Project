@@ -2,6 +2,7 @@ package org.troy.capstone.search_engine;
 
 import java.util.Map;
 import java.util.Set;
+import java.util.List;
 
 import org.troy.capstone.constants.TableColumnName;
 import org.troy.capstone.constants.UIDataName;
@@ -37,9 +38,9 @@ public class SearchEngine {
      * Filters the data by categorical filter selections. For tags, we use AND so all tags are there as multiple can be selected. For other categorical filters, we use OR since only one value is there.
      * 
      * @param searchData The search data containing the filters to be applied.
-     * @return The set of item IDs that match the search criteria.
+     * @return The list of item IDs that match the search criteria.
     */
-    public Set<String> filterItems(Map<UIDataName, Object> searchData) {
+    public List<String> filterItems(Map<UIDataName, Object> searchData) {
         Selection selection;
 
         //Filter price
@@ -71,7 +72,7 @@ public class SearchEngine {
         System.out.println("Number of results: " + queryFilteredTable.rowCount());
         System.out.println("Total Data Size: " + table.rowCount());
 
-        return queryFilteredTable.stringColumn(TableColumnName.ID.getColumnName()).asSet();
+        return queryFilteredTable.stringColumn(TableColumnName.ID.getColumnName()).asList();
     }
 
     /**

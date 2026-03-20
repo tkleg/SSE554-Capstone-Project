@@ -1,9 +1,9 @@
 package org.troy.capstone.managers;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 
 import org.troy.capstone.constants.UIDataName;
 import org.troy.capstone.constants.UIElementName;
@@ -135,14 +135,14 @@ public class UIElementManager {
      * Logs missing pagination component or type error with the component.
      * 
      * @pre A searched item pagination component should be added to the manager with the expected key and type before this method is called.
-     *      itemIDs should be a set of valid item IDs corresponding to search results.
+     *      itemIDs should be a list of valid item IDs corresponding to search results.
      * 
-     * @param itemIDs A set of item IDs corresponding to search results to update the pagination component with.
+     * @param itemIDs A list of item IDs corresponding to search results to update the pagination component with.
      */
-    public void updateSearchedItemPagination(Set<String> itemIDs) {
+    public void updateSearchedItemPagination(List<String> itemIDs) {
         try{
             getElement(UIElementName.SEARCHED_ITEM_PAGINATION)
-            .ifPresentOrElse( e -> ((SearchedItemPagination)e).updateContent(itemIDs),
+            .ifPresentOrElse( e -> ((SearchedItemPagination)e).update(itemIDs),
             () -> System.out.println("Searched item pagination not found in UIElementManager, cannot update search results.") );
         }catch (ClassCastException ex) {
             System.out.println("Error retrieving searched item pagination value: " + ex.getMessage());

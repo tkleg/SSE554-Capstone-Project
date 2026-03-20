@@ -1,5 +1,7 @@
 package org.troy.capstone.ui_components.items.searched;
 
+import java.lang.reflect.Field;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -9,15 +11,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.troy.capstone.entities.Item;
 
-import javafx.scene.layout.VBox;
 import javafx.embed.swing.JFXPanel;
+import javafx.scene.layout.VBox;
 
-import java.lang.reflect.Field;
-
-public class SerchedItemContainerTest {
+public class SearchedItemContainerTest {
     private SearchedItemContainer container;
 
     @BeforeAll
+    @SuppressWarnings("ResultOfObjectAllocationIgnored")
     public static void setup() {
         new JFXPanel();
     }
