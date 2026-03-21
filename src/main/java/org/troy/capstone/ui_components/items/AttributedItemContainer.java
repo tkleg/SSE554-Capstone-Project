@@ -8,7 +8,6 @@ import java.net.URISyntaxException;
 import org.troy.capstone.constants.URL;
 import org.troy.capstone.constants.UISizeControl;
 import org.troy.capstone.entities.Item;
-import org.troy.capstone.utils.UIUtils;
 
 import javafx.concurrent.Task;
 import javafx.geometry.Pos;
@@ -26,24 +25,15 @@ public class AttributedItemContainer extends VBox {
     /** The ImageView for displaying the item's image. */
     private final ImageView imageView;
 
-    /** Creates an AttributedItemContainer from the given item, setting its size based on UISizeControl constants.
-     * 
-     * @pre item should contain valid data for the image URL and attribution information.
-     *      The AttributedItemContainer should be properly initialized to display the item's image and attribution information.
-     * 
-     * @param item The item whose image and attribution information are being displayed in this container, used to populate the image and attribution flow.
-     * @return An AttributedItemContainer instance with the item's image and attribution information displayed, and sized according to UISizeControl constants. 
-    */
-    public static AttributedItemContainer createFromItem(Item item) {
-        AttributedItemContainer container = new AttributedItemContainer(item);
-        UIUtils.setSize(container, UISizeControl.ATTRIBUTED_ITEM_CONTAINER_WIDTH.getValue(), null);
-        return container;
-    }
+    /** The task used to load the image asynchronously. */
+    private Task<Image> loadImageTask;
 
     /** Creates an AttributedItemContainer for the given item, initializing the image view and attribution flow.
      * 
      * @pre item should contain valid data for the image URL and attribution information.
      *      The AttributedItemContainer should be properly initialized to display the item's image and attribution information.
+     *      The loadImageTask should be not initialized, it will be set up to load the image asynchronously within this constructor.
+     * @post The variable passed into loadImageTask will be initialized to a Task that loads the image from the item's image URL asynchronously.
      * 
      * @param item The item whose image and attribution information are being displayed in this container.
      */
@@ -59,7 +49,7 @@ public class AttributedItemContainer extends VBox {
         imageView.setPreserveRatio(true);
         
         //Load image asynchronously to avoid blocking scroll
-        loadImageAsync(item.getImageUrl());
+        loadImageTask = loadImageAsync(item.getImageUrl());
         
         imageView.setOnMouseClicked(e -> {
             try {
@@ -74,6 +64,14 @@ public class AttributedItemContainer extends VBox {
         setCacheHint(javafx.scene.CacheHint.SPEED);
 
         getChildren().addAll(imageView, attributionFlow);
+    }
+
+    /** Stops the asynchronous loading of the image in this AttributedItemContainer. This method can be called when the container is no longer visible or needed, to free up resources and prevent unnecessary loading of images that are not being displayed. 
+     * @post The asynchronous image loading task for this AttributedItemContainer is stopped, preventing any further loading of the image that is not being displayed.
+    */
+    public void stopLoadingImage() {
+        if (loadImageTask != null && loadImageTask.isRunning())
+            loadImageTask.cancel();
     }
 
     /**
@@ -126,27 +124,29 @@ public class AttributedItemContainer extends VBox {
      * 
      * @post The image from the specified URL will be loaded and displayed in the imageView of the AttributedItemContainer.
      * @param imageUrl The URL of the image to be loaded.
+     * @return A Task that loads the image from the specified URL and updates the imageView upon completion.
      */
-    private void loadImageAsync(String imageUrl) {
-        Task<Image> imageTask = new Task<Image>() {
+    private Task<Image> loadImageAsync(String imageUrl) {
+        loadImageTask = new Task<Image>() {
             @Override
             protected Image call() throws Exception {
                 return new Image(imageUrl, true);
             }
         };
         
-        imageTask.setOnSucceeded(e -> {
-            Image image = imageTask.getValue();
+        loadImageTask.setOnSucceeded(e -> {
+            Image image = loadImageTask.getValue();
             if (image != null)
                 imageView.setImage(image);
         });
         
-        imageTask.setOnFailed(e -> {
+        loadImageTask.setOnFailed(e -> {
             System.err.println("Failed to load image: " + imageUrl);
         });
         
-        Thread imageThread = new Thread(imageTask);
+        Thread imageThread = new Thread(loadImageTask);
         imageThread.setDaemon(true);//Allow JVM to exit if these threads are the only ones left
         imageThread.start();
+        return loadImageTask;
     }
 }

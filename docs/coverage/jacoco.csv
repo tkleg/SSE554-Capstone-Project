@@ -3,7 +3,7 @@ Project,org.troy.capstone.managers,UIElementManager,0,204,0,2,0,50,0,20,0,19
 Project,org.troy.capstone.managers,GeneralManager,0,63,0,0,0,17,0,8,0,8
 Project,org.troy.capstone.entities,Item,1,224,1,15,1,50,1,18,0,4
 Project,org.troy.capstone.ui_components.items,AttributedItemContainer.new Task() {...},0,18,0,0,0,2,0,2,0,2
-Project,org.troy.capstone.ui_components.items,AttributedItemContainer,23,198,1,1,8,46,2,9,1,9
+Project,org.troy.capstone.ui_components.items,AttributedItemContainer,27,201,3,3,9,45,4,9,1,9
 Project,org.troy.capstone.utils,Converters,0,6,0,0,0,1,0,1,0,1
 Project,org.troy.capstone.utils,UIUtils,0,25,0,4,0,7,0,3,0,1
 Project,org.troy.capstone.utils,TableUtils,36,125,0,0,12,38,6,10,6,10
@@ -16,8 +16,8 @@ Project,org.troy.capstone.constants,UIDataName,0,49,0,0,0,10,0,3,0,3
 Project,org.troy.capstone.ui_components.filters.categorical,FilterPanel,3,45,0,0,1,13,1,2,1,2
 Project,org.troy.capstone.ui_components.filters.categorical,FiltersContainer,0,220,0,8,0,44,0,11,0,7
 Project,org.troy.capstone.ui_components.price_slider,PriceSlider,0,204,0,4,0,36,0,6,0,4
-Project,org.troy.capstone.ui_components.items.searched,SearchedItemPanel,0,232,0,0,0,38,0,7,0,7
-Project,org.troy.capstone.ui_components.items.searched,SearchedItemContainer,0,121,0,8,0,31,0,9,0,5
+Project,org.troy.capstone.ui_components.items.searched,SearchedItemPanel,0,236,0,0,0,40,0,8,0,8
+Project,org.troy.capstone.ui_components.items.searched,SearchedItemContainer,0,135,0,8,0,37,0,11,0,7
 Project,org.troy.capstone.ui_components.items.searched,SearchedItemPagination,0,138,0,0,0,26,0,7,0,7
 Project,org.troy.capstone.ui_components.search_bar,SearchBar,0,69,0,0,0,14,0,4,0,4
 Project,org.troy.capstone.data_structures.ItemTable,ItemHashMap,2,306,2,16,0,45,2,17,0,10

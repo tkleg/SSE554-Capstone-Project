@@ -43,7 +43,7 @@ public class AttributedItemContainerTest {
 
     @BeforeEach
     public void setUp() {
-        attributedItemContainer = AttributedItemContainer.createFromItem(item);
+        attributedItemContainer = new AttributedItemContainer(item);
     }
 
     @Test

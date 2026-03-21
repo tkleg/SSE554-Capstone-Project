@@ -40,6 +40,7 @@ public class SearchedItemsLinkedListTest {
         assert firstPage == firstPageAgain : "Expected to return to the first page, but got a different page of items.";
     }
 
+    
     @ParameterizedTest
     @CsvSource({
         "1, 1", //Single item ID

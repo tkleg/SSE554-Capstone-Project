@@ -15,11 +15,12 @@ import lombok.Data;
 import net.datafaker.Faker;
 import tech.tablesaw.api.Row;
 
-@Data
-@Builder
+
 /**
  * A shopping item with various attributes. Main entity of the application.
  */
+@Data
+@Builder
 public class Item {
     /** Faker instance for generating random data. */
     private static final Faker faker = new Faker();

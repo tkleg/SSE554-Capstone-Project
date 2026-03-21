@@ -73,6 +73,15 @@ public class SearchedItemPanel extends HBox{
     }
 
     /**
+     * Stops the asynchronous loading of the image in the attributed image container. This method can be called when the panel is no longer visible or needed, to free up resources and prevent unnecessary loading of images that are not being displayed.
+     * 
+     * @post The asynchronous image loading task for the attributed image container is stopped, preventing any further loading of the image that is not being displayed.
+     */
+    public void stopLoadingImage() {
+        attributedImage.stopLoadingImage();
+    }
+
+    /**
      * Fills the right panel with some of the data from the item.
      * 
      * @pre item should contain valid data for all the attributes being displayed.

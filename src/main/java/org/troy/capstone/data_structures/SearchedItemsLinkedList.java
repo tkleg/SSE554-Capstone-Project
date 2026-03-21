@@ -21,12 +21,12 @@ public class SearchedItemsLinkedList{
     /** The number of items to display per page. */
     private static final int ITEMS_PER_PAGE = 10;
 
-    @SuppressWarnings("null")
     /** Constructor for SearchedItemsLinkedList. Initializes the linked list based on a list of item IDs and an item hash map.
      * @pre itemHashMap should contain valid item data for all item IDs in itemIdList, and itemIdList should not be null.
      * @param itemHashMap The item hash map containing all items, used to populate the linked list nodes based on the provided item IDs.
      * @param itemIdList The list of item IDs representing the search results to be organized into pages in the linked list.
     */
+    @SuppressWarnings("null")
     public SearchedItemsLinkedList(ItemHashMap itemHashMap, List<String> itemIdList){
         if (itemIdList == null || itemIdList.isEmpty()) {
             head = null;

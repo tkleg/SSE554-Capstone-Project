@@ -83,17 +83,30 @@ public class SearchedItemContainer extends ScrollPane {
 <span class="fc" id="L83">            System.out.println(&quot;Warning: updateItems called with null list. Doing nothing.&quot;);</span>
 <span class="fc" id="L84">            return;</span>
 <span class="fc bfc" id="L85" title="All 2 branches covered.">        }else if (items.isEmpty()) {</span>
-<span class="fc" id="L86">            itemContainer.getChildren().clear();</span>
-<span class="fc" id="L87">            itemContainer.getChildren().add(new Label(&quot;No items found.&quot;));</span>
-<span class="fc" id="L88">            return;</span>
+<span class="fc" id="L86">            stopAllImagesLoading();</span>
+<span class="fc" id="L87">            itemContainer.getChildren().clear();</span>
+<span class="fc" id="L88">            itemContainer.getChildren().add(new Label(&quot;No items found.&quot;));</span>
+<span class="fc" id="L89">            return;</span>
         }else{
-<span class="fc" id="L90">            itemContainer.getChildren().clear();</span>
-<span class="fc" id="L91">            items.forEach(item -&gt; {</span>
-<span class="fc bfc" id="L92" title="All 2 branches covered.">                if (item != null)</span>
-<span class="fc" id="L93">                    addItemPanel(new SearchedItemPanel(item));</span>
-<span class="fc" id="L94">            });</span>
+<span class="fc" id="L91">            stopAllImagesLoading();</span>
+<span class="fc" id="L92">            itemContainer.getChildren().clear();</span>
+<span class="fc" id="L93">            items.forEach(item -&gt; {</span>
+<span class="fc bfc" id="L94" title="All 2 branches covered.">                if (item != null)</span>
+<span class="fc" id="L95">                    addItemPanel(new SearchedItemPanel(item));</span>
+<span class="fc" id="L96">            });</span>
         }
-<span class="fc" id="L96">    }</span>
+<span class="fc" id="L98">    }</span>
+
+    /**
+     * Stops all image loading tasks from running
+     * 
+     * @post All asynchronous image loading tasks for the SearchedItemPanel instances currently displayed in the container are stopped, preventing any further loading of images that are not being displayed.
+     */
+    public void stopAllImagesLoading() {
+<span class="fc" id="L106">        itemContainer.getChildren().forEach(node -&gt; {</span>
+<span class="fc" id="L107">            ((SearchedItemPanel) node).stopLoadingImage();</span>
+<span class="fc" id="L108">        });</span>
+<span class="fc" id="L109">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

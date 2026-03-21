@@ -83,16 +83,29 @@ public class SearchedItemContainer extends ScrollPane {
             System.out.println("Warning: updateItems called with null list. Doing nothing.");
             return;
         }else if (items.isEmpty()) {
+            stopAllImagesLoading();
             itemContainer.getChildren().clear();
             itemContainer.getChildren().add(new Label("No items found."));
             return;
         }else{
+            stopAllImagesLoading();
             itemContainer.getChildren().clear();
             items.forEach(item -> {
                 if (item != null)
                     addItemPanel(new SearchedItemPanel(item));
             });
         }
+    }
+
+    /**
+     * Stops all image loading tasks from running
+     * 
+     * @post All asynchronous image loading tasks for the SearchedItemPanel instances currently displayed in the container are stopped, preventing any further loading of images that are not being displayed.
+     */
+    public void stopAllImagesLoading() {
+        itemContainer.getChildren().forEach(node -> {
+            ((SearchedItemPanel) node).stopLoadingImage();
+        });
     }
 
 }
