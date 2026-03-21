@@ -43,8 +43,8 @@ public class SearchedItemPagination extends VBox {
         prevButton = new Button("Previous");
         nextButton = new Button("Next");
 
-        setSpacing(10 );
-        
+        setSpacing(10);
+
         pageList = new SearchedItemsLinkedList(itemHashMap, initialIds);
         mySearchedItemContainer = SearchedItemContainer.create(pageList.getHead());
         this.getChildren().clear();
@@ -53,8 +53,8 @@ public class SearchedItemPagination extends VBox {
         buttonContainer.getChildren().addAll(prevButton, nextButton);
         this.getChildren().add(buttonContainer);
 
-        prevButton.setOnAction(event -> { showPreviousPage(); });
-        nextButton.setOnAction(event -> { showNextPage(); });
+        prevButton.setOnAction(event -> { mySearchedItemContainer.updateItems(getPreviousPage()); });
+        nextButton.setOnAction(event -> { mySearchedItemContainer.updateItems(getNextPage()); });
 
     }
 
@@ -79,18 +79,12 @@ public class SearchedItemPagination extends VBox {
         mySearchedItemContainer.updateItems( pageList.getHead() );
     }
 
-    private void showPreviousPage() {
-        List<Item> previousItems = pageList.getPrevious();
-        if (previousItems != null) {
-            mySearchedItemContainer.updateItems(previousItems);
-        }
+    private List<Item> getPreviousPage() {
+        return pageList.getPrevious();
     }
 
-    private void showNextPage() {
-        List<Item> nextItems = pageList.getNext();
-        if (nextItems != null) {
-            mySearchedItemContainer.updateItems(nextItems);
-        }
+    private List<Item> getNextPage() {
+        return pageList.getNext();
     }
     
 }

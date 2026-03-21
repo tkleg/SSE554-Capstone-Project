@@ -1,18 +1,29 @@
 package org.troy.capstone.ui_components.items.searched;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
 import org.troy.capstone.constants.UIElementName;
+import org.troy.capstone.data_structures.SearchedItemsLinkedList;
 import org.troy.capstone.data_structures.ItemTable.ItemHashMap;
+import org.troy.capstone.entities.Item;
 import org.troy.capstone.managers.GeneralManager;
 import org.troy.capstone.utils.TableUtils;
 
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import tech.tablesaw.api.Table;
 
 public class SearchedItemPaginationTest {
@@ -21,14 +32,11 @@ public class SearchedItemPaginationTest {
     private GeneralManager generalManager;
     private Table table;
     private ItemHashMap itemHashMap;
-    //private static Method createPageContentMethod;
 
     @BeforeAll
     @SuppressWarnings("ResultOfObjectAllocationIgnored")
     public static void setup() throws NoSuchMethodException {
         new JFXPanel();
-        //createPageContentMethod = SearchedItemPagination.class.getDeclaredMethod("createPageContent", int.class, List.class);
-        //createPageContentMethod.setAccessible(true);
     }
 
     @BeforeEach
@@ -39,190 +47,131 @@ public class SearchedItemPaginationTest {
         pagination = SearchedItemPagination.create(itemHashMap, generalManager);
     }
 
-    /*
-    @Test
-    @DisplayName("Test createPageContent for page with more items than can be displayed")
-    public void testCreatePageContentForPageWithMoreItemsThanCanBeDisplayed() throws Exception {
-        //Create a set of item IDs that exceeds the items per page limit
-        Set<String> itemIDs = itemHashMap.keySet().stream()
-            .map(IdHashKey::getValue)
-            .limit(ITEMS_PER_PAGE + 5) //Exceed by 5 items to ensure more than 1 page
-            .collect(Collectors.toSet());
-        
-        SearchedItemContainer container = (SearchedItemContainer) createPageContentMethod.invoke(pagination, 0, itemIDs);
-        
-        Field itemContainerField;
-        VBox itemContainer;
-        try {
-            itemContainerField = SearchedItemContainer.class.getDeclaredField("itemContainer");
-            itemContainerField.setAccessible(true);
-            Object itemContainerObj = itemContainerField.get(container);
-            assert itemContainerObj instanceof javafx.scene.layout.VBox : "Expected itemContainer to be a VBox, but got: " + itemContainerObj.getClass();
-            itemContainer = (VBox) itemContainerObj;
-            
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            throw new RuntimeException("Failed to access itemContainer field via reflection", e);
-        }
-        
-        assertEquals( itemContainer.getChildren().size(), ITEMS_PER_PAGE, 
-            "Page content should contain exactly the number of items per page when there are more items than can be displayed");
-    }
-
-    @Test
-    @DisplayName("Test createPageContent for page with fewer items than can be displayed")
-    public void testCreatePageContentForPageWithFewerItemsThanCanBeDisplayed() throws Exception {
-        //Create a set of item IDs that is less than the items per page limit
-        Set<String> itemIDs = itemHashMap.keySet().stream()
-            .map(IdHashKey::getValue)
-            .limit(ITEMS_PER_PAGE - 3) //Less by 3 items to ensure only 1 page with empty space
-            .collect(Collectors.toSet());
-        
-        SearchedItemContainer container = (SearchedItemContainer) createPageContentMethod.invoke(pagination, 0, itemIDs);
-        
-        Field itemContainerField;
-        VBox itemContainer;
-        try {
-            itemContainerField = SearchedItemContainer.class.getDeclaredField("itemContainer");
-            itemContainerField.setAccessible(true);
-            Object itemContainerObj = itemContainerField.get(container);
-            assert itemContainerObj instanceof VBox : "Expected itemContainer to be a VBox, but got: " + itemContainerObj.getClass();
-            itemContainer = (VBox) itemContainerObj;
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            throw new RuntimeException("Failed to access itemContainer field via reflection", e);
-        }
-        //Verify that the page content size is correct (should be less than ITEMS_PER_PAGE)
-        assertEquals( itemContainer.getChildren().size(), ITEMS_PER_PAGE - 3, 
-            "Page content should contain exactly the number of items per page when there are fewer items than can be displayed");
-    }
-    */
-    /*
-    @Nested
-    @DisplayName("Tests for pagination content amount after creation")
-    @SuppressWarnings("unused")
-    class PaginationContentAmountTests {
-
-        @Test
-        @DisplayName("Test page count with empty item set")
-        public void testPageCountWithEmptyItemSet() {
-            Set<String> emptyItemIDs = new HashSet<>();
-            pagination.updateContent(emptyItemIDs);
-            
-            assertEquals(1, pagination.getPageCount(), 
-                "Page count should be 1 when there are no items");
-        }
-
-        @Test
-        @DisplayName("Test page count with exactly one page of items")
-        public void testPageCountWithExactlyOnePageOfItems() {
-            Set<String> itemIDs = itemHashMap.keySet().stream()
-                .map(IdHashKey::getValue)
-                .limit(ITEMS_PER_PAGE)
-                .collect(Collectors.toSet());
-            
-            pagination.updateContent(itemIDs);
-            
-            assertEquals(1, pagination.getPageCount(), 
-                "Page count should be 1 when items exactly fill one page");
-        }
-
-        @Test
-        @DisplayName("Test page count with one more than one page of items")
-        public void testPageCountWithOneMoreThanOnePageOfItems() {
-            Set<String> itemIDs = itemHashMap.keySet().stream()
-                .map(IdHashKey::getValue)
-                .limit(ITEMS_PER_PAGE + 1)
-                .collect(Collectors.toSet());
-            
-            pagination.updateContent(itemIDs);
-            
-            assertEquals(2, pagination.getPageCount(), 
-                "Page count should be 2 when items exceed one page by one item");
-        }
-
-        @Test
-        @DisplayName("Test page count with exactly two pages of items")
-        public void testPageCountWithExactlyTwoPagesOfItems() {
-            Set<String> itemIDs = itemHashMap.keySet().stream()
-                .map(IdHashKey::getValue)
-                .limit(ITEMS_PER_PAGE * 2)
-                .collect(Collectors.toSet());
-            
-            pagination.updateContent(itemIDs);
-            
-            assertEquals(2, pagination.getPageCount(), 
-                "Page count should be 2 when items exactly fill two pages");
-        }
-
-        @Test
-        @DisplayName("Test updatePageCount method calculates correctly")
-        public void testUpdatePageCountCalculation() {
-            //Test various total item counts
-            int[] testCounts = {0, 1, 5, 10, 11, 20, 25, 100};
-            int[] expectedPages = {1, 1, 1, 1, 2, 2, 3, 10};
-            
-            for (int i = 0; i < testCounts.length; i++) {
-                pagination.updatePageCount(testCounts[i]);
-                assertEquals(expectedPages[i], pagination.getPageCount(), 
-                    String.format("For %d items, expected %d pages but got %d", 
-                        testCounts[i], expectedPages[i], pagination.getPageCount()));
-            }
-        }
-
-        @Test
-        @DisplayName("Test pagination maintains correct page count after content updates")
-        public void testPageCountAfterContentUpdates() {
-            //Start with a large set
-            Set<String> largeItemSet = itemHashMap.keySet().stream()
-                .map(IdHashKey::getValue)
-                .limit(25)
-                .collect(Collectors.toSet());
-            
-            pagination.updateContent(largeItemSet);
-            int largeSetPageCount = pagination.getPageCount();
-            
-            //Update to a smaller set
-            Set<String> smallItemSet = itemHashMap.keySet().stream()
-                .map(IdHashKey::getValue)
-                .limit(5)
-                .collect(Collectors.toSet());
-            
-            pagination.updateContent(smallItemSet);
-            int smallSetPageCount = pagination.getPageCount();
-            
-            assertEquals(3, largeSetPageCount, "Large set should have 3 pages");
-            assertEquals(1, smallSetPageCount, "Small set should have 1 page");
-        }
-
-        @Test
-        @DisplayName("Test pagination handles boundary cases correctly")
-        public void testPaginationBoundaryCases() {
-            //Test with single item
-            Set<String> singleItem = itemHashMap.keySet().stream()
-                .map(IdHashKey::getValue)
-                .limit(1)
-                .collect(Collectors.toSet());
-            
-            pagination.updateContent(singleItem);
-            assertEquals(1, pagination.getPageCount(), "Single item should result in 1 page");
-            
-            //Test with maximum available items from the hash map
-            Set<String> allItems = itemHashMap.keySet().stream()
-                .map(IdHashKey::getValue)
-                .collect(Collectors.toSet());
-            
-            pagination.updateContent(allItems);
-            int expectedMaxPages = (int) Math.ceil((double) allItems.size() / ITEMS_PER_PAGE);
-            assertEquals(expectedMaxPages, pagination.getPageCount(), 
-                "All items should result in correctly calculated page count");
-        }
-    }
-    */
-   
     @Test
     @DisplayName("Test that generalManager has the pagination component and it is cast properly")
     public void testPaginationComponentInGeneralManager() {
         Optional<Node> paginationNode = generalManager.getUIElement(UIElementName.SEARCHED_ITEM_PAGINATION);
         assert paginationNode.isPresent() : "Expected generalManager to have a SEARCHED_ITEM_PAGINATION element, but it was not found.";
         assert paginationNode.get() instanceof SearchedItemPagination : "Expected SEARCHED_ITEM_PAGINATION element to be an instance of SearchedItemPagination, but got: " + paginationNode.get().getClass();    
+    }
+
+    @Nested
+    @DisplayName("Tests for getPreviousPage and getNextPage")
+    class TestGetPreviousAndNextPage {
+        private static Method getNextPageMethod, getPreviousPageMethod;
+
+        @BeforeAll
+        public static void setup() throws NoSuchMethodException {
+            getNextPageMethod = SearchedItemPagination.class.getDeclaredMethod("getNextPage");
+            getNextPageMethod.setAccessible(true);
+            getPreviousPageMethod = SearchedItemPagination.class.getDeclaredMethod("getPreviousPage");
+            getPreviousPageMethod.setAccessible(true);
+        }
+        
+        @Test
+        @DisplayName("Test showNextPage normally")
+        public void testShowNextPageNormal() throws IllegalAccessException, InvocationTargetException {
+            @SuppressWarnings("unchecked")
+            List<Item> secondPageItems = (List<Item>) getNextPageMethod.invoke(pagination);
+            
+            assert secondPageItems != null : "Expected getNextPage to return a list of items for the next page, but got null.";
+            assert secondPageItems.size() == 10 : "Expected getNextPage to return a list of 10 items for the next page, but got: " + secondPageItems.size();
+        }
+
+        @Test
+        @DisplayName("Test showNextPage at end of pages")
+        public void testShowNextPageAtEnd() throws IllegalAccessException, InvocationTargetException {
+            int numberOfPages = 97;//note that the first page is already loaded, so we only need to call getNextPage 96 more times to reach the end
+            for (int i = 1; i < numberOfPages; i++)
+                getNextPageMethod.invoke(pagination);
+
+            @SuppressWarnings("unchecked")
+            List<Item> result = (List<Item>) getNextPageMethod.invoke(pagination);
+
+            assert result == null : "Expected getNextPage to return null when trying to go past the end of the pages, but got: " + result;
+        }
+
+        @Test
+        @DisplayName("Test showPreviousPage at start of pages")
+        public void testShowPreviousPageAtStart() throws IllegalAccessException, InvocationTargetException {
+            @SuppressWarnings("unchecked")
+            List<Item> result = (List<Item>) getPreviousPageMethod.invoke(pagination);
+
+            assert result == null : "Expected getPreviousPage to return null when trying to go before the start of the pages, but got: " + result;
+        }
+
+        @Test
+        @DisplayName("Test showPreviousPage normally")
+        public void testShowPreviousPageNormal() throws IllegalAccessException, InvocationTargetException {
+            //First go to the second page
+            getNextPageMethod.invoke(pagination);
+
+            @SuppressWarnings("unchecked")
+            List<Item> firstPageItems = (List<Item>) getPreviousPageMethod.invoke(pagination);
+            
+            assert firstPageItems != null : "Expected getPreviousPage to return a list of items for the previous page, but got null.";
+            assert firstPageItems.size() == 10 : "Expected getPreviousPage to return a list of 10 items for the previous page, but got: " + firstPageItems.size();
+        }
+    }
+
+    @Nested
+    @DisplayName("Tests for the previous and next buttons in the pagination UI")
+    class TestPaginationButtons {
+        //Tests for the pagination buttons would go here, but would require more extensive setup to properly test the UI interactions, so they are not included in this test suite.
+        private static Field prevButtonField, nextButtonField;
+
+        @BeforeAll
+        public static void setup() throws NoSuchFieldException {
+            prevButtonField = SearchedItemPagination.class.getDeclaredField("prevButton");
+            prevButtonField.setAccessible(true);
+            nextButtonField = SearchedItemPagination.class.getDeclaredField("nextButton");
+            nextButtonField.setAccessible(true);
+        }
+
+        @Test
+        @DisplayName("Test that Previous button is set up to call getPreviousPage and update items")
+        public void testPreviousButtonAction() throws Exception {
+            try (MockedStatic<SearchedItemContainer> mockSearchedItemContainerCreate = Mockito.mockStatic(SearchedItemContainer.class)) {
+                SearchedItemContainer mockContainer = Mockito.mock(SearchedItemContainer.class);
+                mockSearchedItemContainerCreate.when(() -> SearchedItemContainer.create(Mockito.anyList())).thenReturn(mockContainer);
+
+                SearchedItemPagination paginationWithMockContainer = SearchedItemPagination.create(itemHashMap, generalManager);
+
+                //Inject a mock pageList that returns a non-null list for getPrevious()
+                Field pageListField = SearchedItemPagination.class.getDeclaredField("pageList");
+                pageListField.setAccessible(true);
+                SearchedItemsLinkedList mockPageList = Mockito.mock(SearchedItemsLinkedList.class);
+                Mockito.when(mockPageList.getPrevious()).thenReturn(Collections.singletonList(Mockito.mock(Item.class)));
+                pageListField.set(paginationWithMockContainer, mockPageList);
+
+                Button prevButton = (Button) prevButtonField.get(paginationWithMockContainer);
+                prevButton.fire();
+
+                Mockito.verify(mockContainer).updateItems(Mockito.anyList());
+            }
+        }
+
+        @Test
+        @DisplayName("Test that Next button is set up to call getNextPage and update items")
+        public void testNextButtonAction() throws Exception {
+            try (MockedStatic<SearchedItemContainer> mockSearchedItemContainerCreate = Mockito.mockStatic(SearchedItemContainer.class)) {
+                SearchedItemContainer mockContainer = Mockito.mock(SearchedItemContainer.class);
+                mockSearchedItemContainerCreate.when(() -> SearchedItemContainer.create(Mockito.anyList())).thenReturn(mockContainer);
+
+                SearchedItemPagination paginationWithMockContainer = SearchedItemPagination.create(itemHashMap, generalManager);
+
+                //Inject a mock pageList that returns a non-null list for getNext()
+                Field pageListField = SearchedItemPagination.class.getDeclaredField("pageList");
+                pageListField.setAccessible(true);
+                SearchedItemsLinkedList mockPageList = Mockito.mock(SearchedItemsLinkedList.class);
+                Mockito.when(mockPageList.getNext()).thenReturn(Collections.singletonList(Mockito.mock(Item.class)));
+                pageListField.set(paginationWithMockContainer, mockPageList);
+
+                Button nextButton = (Button) nextButtonField.get(paginationWithMockContainer);
+                nextButton.fire();
+
+                Mockito.verify(mockContainer).updateItems(Mockito.anyList());
+            }
+        }
     }
 }
