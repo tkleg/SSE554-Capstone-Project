@@ -10,12 +10,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.troy.capstone.TestDataHolder;
 import org.troy.capstone.constants.UIElementName;
 import org.troy.capstone.data_structures.ItemTable.ItemHashMap;
 import org.troy.capstone.ui_components.filters.categorical.FiltersContainer;
 import org.troy.capstone.ui_components.filters.stars.StarRatingFilter;
 import org.troy.capstone.ui_components.items.searched.SearchedItemPagination;
-import org.troy.capstone.utils.TableUtils;
 
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.control.Slider;
@@ -25,20 +25,16 @@ import tech.tablesaw.api.Table;
 
 public class UIElementManagerTest {
     private UIElementManager uiElementManager;
-    private static Table table;
-    private static ItemHashMap itemHashMap;
+    private static Table table = TestDataHolder.getTableCopy();
+    private static ItemHashMap itemHashMap = TestDataHolder.getItemHashMapCopy();
     private static GeneralManager generalManager;
     private static FiltersContainer dummyFiltersContainer;
 
     @BeforeAll
     @SuppressWarnings("ResultOfObjectAllocationIgnored")
     public static void setupAll() {
-        // Initialize JavaFX environment
         new JFXPanel();
         
-        // Now safely create JavaFX components
-        table = TableUtils.readCleanedAttributedData();
-        itemHashMap = ItemHashMap.fromTable(table);
         generalManager = new GeneralManager(table);
         dummyFiltersContainer = FiltersContainer.create(generalManager, itemHashMap);
     }

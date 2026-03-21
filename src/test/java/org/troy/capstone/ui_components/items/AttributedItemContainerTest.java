@@ -16,9 +16,9 @@ import org.junit.jupiter.params.provider.ValueSource;
 import static org.mockito.ArgumentMatchers.any;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
+import org.troy.capstone.TestDataHolder;
 import org.troy.capstone.constants.URL;
 import org.troy.capstone.entities.Item;
-import org.troy.capstone.utils.TableUtils;
 
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.image.ImageView;
@@ -35,7 +35,7 @@ public class AttributedItemContainerTest {
     @SuppressWarnings("ResultOfObjectAllocationIgnored")
     public static void setup() throws NoSuchMethodException {
         new JFXPanel();
-        item = Item.fromRow(TableUtils.readCleanedAttributedData().row(0));
+        item = Item.fromRow(TestDataHolder.getTableCopy().row(0));
         makeAttributionFlowTest = AttributedItemContainer.class.getDeclaredMethod("makeAttributionFlow", Item.class);
         makeAttributionFlowTest.setAccessible(true);
 

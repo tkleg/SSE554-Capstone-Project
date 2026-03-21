@@ -9,10 +9,10 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.troy.capstone.TestDataHolder;
 import org.troy.capstone.constants.UIElementName;
 import org.troy.capstone.data_structures.ItemTable.ItemHashMap;
 import org.troy.capstone.managers.GeneralManager;
-import org.troy.capstone.utils.TableUtils;
 
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Node;
@@ -20,8 +20,8 @@ import javafx.scene.control.CheckBox;
 import tech.tablesaw.api.Table;
 
 public class FiltersContainerTest {
-    private Table table;
-    private ItemHashMap itemHashMap;
+    private Table table = TestDataHolder.getTableCopy();
+    private ItemHashMap itemHashMap = TestDataHolder.getItemHashMapCopy();
     private GeneralManager generalManager;
     private FiltersContainer filtersContainer;
 
@@ -33,8 +33,6 @@ public class FiltersContainerTest {
 
     @BeforeEach
     public void setUp() {
-        table = TableUtils.readCleanedAttributedData();
-        itemHashMap = ItemHashMap.fromTable(table);
         generalManager = new GeneralManager(table);
         filtersContainer = FiltersContainer.create(generalManager, itemHashMap);
     }

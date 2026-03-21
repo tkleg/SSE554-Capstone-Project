@@ -8,28 +8,25 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.troy.capstone.TestDataHolder;
 import org.troy.capstone.constants.UIElementName;
 import org.troy.capstone.managers.GeneralManager;
-import org.troy.capstone.utils.TableUtils;
 
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import tech.tablesaw.api.Table;
 
 public class SearchBarTest {
 
     private static GeneralManager generalManager;
-    private static Table table;
     private SearchBar searchBar;
 
     @BeforeAll
     @SuppressWarnings("ResultOfObjectAllocationIgnored")
     public static void setup() {
         new JFXPanel();
-        table = TableUtils.readCleanedAttributedData();
-        generalManager = new GeneralManager(table);
+        generalManager = new GeneralManager(TestDataHolder.getTableCopy());
     }
 
     @BeforeEach

@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.troy.capstone.TestDataHolder;
 import org.troy.capstone.constants.UIElementName;
 import org.troy.capstone.data_structures.ItemTable.ItemHashMap;
 import org.troy.capstone.ui_components.filters.categorical.FiltersContainer;
@@ -26,7 +27,7 @@ import java.util.Map;
 
 public class GeneralManagerTest {
 
-    private static final Table table = TableUtils.readCleanedAttributedData();
+    private static final Table table = TestDataHolder.getTableCopy();
     private static final GeneralManager GM = new GeneralManager(table);
     private static final GeneralManager fullGM = new GeneralManager(table);
     private static Button fullGMButton;

@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "TestDataHolder",
+            "request": "launch",
+            "mainClass": "org.troy.capstone.TestDataHolder",
+            "projectName": "Project"
+        },
+        {
+            "type": "java",
             "name": "EntryPoints",
             "request": "launch",
             "mainClass": "org.troy.capstone.EntryPoints",

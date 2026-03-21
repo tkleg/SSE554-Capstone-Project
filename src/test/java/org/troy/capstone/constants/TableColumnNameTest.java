@@ -1,21 +1,14 @@
 package org.troy.capstone.constants;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
-import org.troy.capstone.utils.TableUtils;
+import org.troy.capstone.TestDataHolder;
 
 import tech.tablesaw.api.Table;
 
 public class TableColumnNameTest {
-    private static Table table;
-
-    //Load table to allow checking for column names
-    @BeforeAll
-    public static void setup() {
-        table = TableUtils.readCleanedAttributedData();
-    }
+    private static Table table = TestDataHolder.getTableCopy();
     
     @ParameterizedTest
     @EnumSource(value = TableColumnName.class,

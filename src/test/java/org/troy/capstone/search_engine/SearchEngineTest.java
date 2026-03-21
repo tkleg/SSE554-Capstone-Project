@@ -16,15 +16,15 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.troy.capstone.TestDataHolder;
 import org.troy.capstone.constants.UIDataName;
-import org.troy.capstone.utils.TableUtils;
 
 import tech.tablesaw.api.Table;
 import tech.tablesaw.selection.Selection;
 
 public class SearchEngineTest {
     private SearchEngine searchEngine;
-    private Table table;
+    private Table table = TestDataHolder.getTableCopy();
     private static final float MIN_MIN_PRICE = 8.619999885559082f;
     private static final float MAX_MAX_PRICE = 799.0599975585938f;
 
@@ -45,7 +45,6 @@ public class SearchEngineTest {
     
     @BeforeEach
     public void setupEach() {
-        table = TableUtils.readCleanedAttributedData();
         searchEngine = new SearchEngine(table);
     }
 

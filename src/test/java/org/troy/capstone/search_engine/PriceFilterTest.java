@@ -6,18 +6,17 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.troy.capstone.TestDataHolder;
 import org.troy.capstone.constants.TableColumnName;
-import org.troy.capstone.utils.TableUtils;
 
 import tech.tablesaw.api.Table;
 
 public class PriceFilterTest {
     private static PriceFilter priceFilter;
-    private static Table table;
+    private static Table table = TestDataHolder.getTableCopy();
 
     @BeforeAll
     public static void setup() {
-        table = TableUtils.readCleanedAttributedData().selectColumns(TableColumnName.PRICE.getColumnName(), TableColumnName.INDEX.getColumnName());
         priceFilter = new PriceFilter(table);
     }
 

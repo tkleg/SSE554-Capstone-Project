@@ -6,9 +6,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.troy.capstone.TestDataHolder;
 import org.troy.capstone.constants.UIElementName;
 import org.troy.capstone.managers.GeneralManager;
-import org.troy.capstone.utils.TableUtils;
 
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.input.MouseEvent;
@@ -16,7 +16,7 @@ import tech.tablesaw.api.Table;
 
 public class StarRatingFilterTest {
     private StarRatingFilter starRatingFilter;
-    private Table table;
+    private static Table table = TestDataHolder.getTableCopy();
     private GeneralManager generalManager;
     private static int MAX_STARS;
     private static String FILLED_STAR;
@@ -56,7 +56,6 @@ public class StarRatingFilterTest {
 
     @BeforeEach
     public void setUp() {
-        table = TableUtils.readCleanedAttributedData();
         generalManager = new GeneralManager(table);
         starRatingFilter = StarRatingFilter.create(generalManager);
     }

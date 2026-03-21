@@ -165,4 +165,11 @@ public class ItemHashMap extends HashMap<IdHashKey, Item> {
         }
     }
 
+    public ItemHashMap copy() {
+        ItemHashMap copy = new ItemHashMap(size());
+        for (Entry<IdHashKey, Item> entry : entrySet())
+            copy.put(entry.getKey(), entry.getValue());
+        return copy;
+    }
+
 }

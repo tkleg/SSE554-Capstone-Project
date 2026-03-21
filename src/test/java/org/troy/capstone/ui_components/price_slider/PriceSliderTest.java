@@ -9,19 +9,17 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.troy.capstone.TestDataHolder;
 import org.troy.capstone.constants.UIElementName;
 import org.troy.capstone.managers.GeneralManager;
-import org.troy.capstone.utils.TableUtils;
 
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
-import tech.tablesaw.api.Table;
 
 public class PriceSliderTest {
     private static GeneralManager generalManager;
-    private static Table table;
     private PriceSlider priceSlider;
     private static final double MIN_PRICE = 0;
     private static final double MAX_PRICE = 1000;
@@ -43,8 +41,7 @@ public class PriceSliderTest {
     @SuppressWarnings("ResultOfObjectAllocationIgnored")
     public static void setup() {
         new JFXPanel();
-        table = TableUtils.readCleanedAttributedData();
-        generalManager = new GeneralManager(table);
+        generalManager = new GeneralManager(TestDataHolder.getTableCopy());
     }
 
     @BeforeEach

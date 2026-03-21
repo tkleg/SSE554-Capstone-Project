@@ -14,24 +14,22 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
+import org.troy.capstone.TestDataHolder;
 import org.troy.capstone.constants.UIElementName;
 import org.troy.capstone.data_structures.SearchedItemsLinkedList;
 import org.troy.capstone.data_structures.ItemTable.ItemHashMap;
 import org.troy.capstone.entities.Item;
 import org.troy.capstone.managers.GeneralManager;
-import org.troy.capstone.utils.TableUtils;
 
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import tech.tablesaw.api.Table;
 
 public class SearchedItemPaginationTest {
     @SuppressWarnings("unused")
     private SearchedItemPagination pagination;
     private GeneralManager generalManager;
-    private Table table;
-    private ItemHashMap itemHashMap;
+    private ItemHashMap itemHashMap = TestDataHolder.getItemHashMapCopy();
 
     @BeforeAll
     @SuppressWarnings("ResultOfObjectAllocationIgnored")
@@ -41,9 +39,7 @@ public class SearchedItemPaginationTest {
 
     @BeforeEach
     public void setUp() {
-        table = TableUtils.readCleanedAttributedData();
-        generalManager = new GeneralManager(table);
-        itemHashMap = ItemHashMap.fromTable(table);
+        generalManager = new GeneralManager(TestDataHolder.getTableCopy());
         pagination = SearchedItemPagination.create(itemHashMap, generalManager);
     }
 

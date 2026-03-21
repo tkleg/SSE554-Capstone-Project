@@ -165,5 +165,12 @@ public class ItemHashMap extends HashMap&lt;IdHashKey, Item&gt; {
         }
 <span class="fc" id="L166">    }</span>
 
+    public ItemHashMap copy() {
+<span class="fc" id="L169">        ItemHashMap copy = new ItemHashMap(size());</span>
+<span class="fc bfc" id="L170" title="All 2 branches covered.">        for (Entry&lt;IdHashKey, Item&gt; entry : entrySet())</span>
+<span class="fc" id="L171">            copy.put(entry.getKey(), entry.getValue());</span>
+<span class="fc" id="L172">        return copy;</span>
+    }
+
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

@@ -8,8 +8,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.troy.capstone.TestDataHolder;
 import org.troy.capstone.constants.TableColumnName;
-import org.troy.capstone.utils.TableUtils;
 
 import tech.tablesaw.api.Table;
 
@@ -17,11 +17,10 @@ import tech.tablesaw.api.Table;
 
 public class PriceTreeTest {
     private static PriceTree tree;
-    private static Table table;
+    private static Table table = TestDataHolder.getTableCopy();
 
     @BeforeAll
     public static void setup() {
-        table = TableUtils.readCleanedAttributedData().selectColumns(TableColumnName.PRICE.getColumnName(), TableColumnName.INDEX.getColumnName());
         tree = new PriceTree(table);
     }
 
@@ -29,7 +28,6 @@ public class PriceTreeTest {
     @DisplayName("Ensure PriceTree is properly initialized")
     public void testPriceTreeInitialization() {
         assertNotNull(tree, "PriceTree should not be null");
-        assertNotNull(table, "Table should not be null");
         
         assertTrue(!tree.isEmpty(), "PriceTree should contain items after initialization");
         assertEquals( tree.size(), table.rowCount(), "PriceTree should contain the same number of items as the table rows" );

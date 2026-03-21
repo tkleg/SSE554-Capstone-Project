@@ -17,25 +17,17 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.troy.capstone.TestDataHolder;
 import org.troy.capstone.constants.TableColumnName;
 import org.troy.capstone.entities.Item;
-import org.troy.capstone.utils.TableUtils;
 
 import tech.tablesaw.api.Table;
 
 
 public class ItemHashMapTest {
     
-    private static ItemHashMap map;
-    private static Table table;
-
-    @BeforeAll
-    @SuppressWarnings("unused")
-    static void setup() {
-        //We can use the fromTable method to create an ItemHashMap with optimized hash parameters for the test data
-        table = TableUtils.readCleanedAttributedData();
-        map = ItemHashMap.fromTable( table );
-    }
+    private static ItemHashMap map = TestDataHolder.getItemHashMapCopy();
+    private static Table table = TestDataHolder.getTableCopy();
 
     @Test
     @DisplayName("Test simple item retrieval")
@@ -63,8 +55,8 @@ public class ItemHashMapTest {
     @Test
     @DisplayName("Test table size to be 961")
     void testBucketSizeDistribution(){
-        assertEquals( 961, map.size(), "ItemHashMap should contain 1000 items after initialization from the table" );
-        assertEquals( 961, table.rowCount(), "Table should contain 1000 rows" );
+        assertEquals( 961, map.size(), "ItemHashMap should contain 961 items after initialization from the table" );
+        assertEquals( 961, table.rowCount(), "Table should contain 961 rows" );
     }
 
     @Test

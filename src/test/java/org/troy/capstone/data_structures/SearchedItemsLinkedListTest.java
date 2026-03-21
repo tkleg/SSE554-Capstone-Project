@@ -4,34 +4,26 @@ import org.troy.capstone.entities.Item;
 
 import java.util.List;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.troy.capstone.TestDataHolder;
 import org.troy.capstone.data_structures.ItemTable.ItemHashMap;
-import org.troy.capstone.utils.TableUtils;
-
-import tech.tablesaw.api.Table;
 
 public class SearchedItemsLinkedListTest {
-    private static Table table;
-    private static ItemHashMap itemHashMap;
-    
-    @BeforeAll
-    public static void setup() {
-        table = TableUtils.readCleanedAttributedData();
-        itemHashMap = ItemHashMap.fromTable(table);
-    }
+    List<String> itemIds = TestDataHolder.getAllItemIdsCopy();
+    ItemHashMap itemHashMap = TestDataHolder.getItemHashMapCopy();
 
     @Test
     public void testInitilizationWithEmptyList() {
-        SearchedItemsLinkedList list = new SearchedItemsLinkedList(itemHashMap, List.of());
+        SearchedItemsLinkedList list = new SearchedItemsLinkedList(TestDataHolder.getItemHashMapCopy(), List.of());
         assert list.getHead() == null : "Expected head to be null for empty item ID list, but got: " + list.getHead();
     }
 
     @Test
     public void testNextAndPreviousBackAndForth(){
-        List<String> itemIds = itemHashMap.getItemIdsAsList();
+        System.out.println("Hashmap size: " + itemHashMap.size());
+        System.out.println("Item IDs size: " + itemIds.size());
         SearchedItemsLinkedList list = new SearchedItemsLinkedList(itemHashMap, itemIds.subList(0, 30)); //3 pages of items
         List<Item> firstPage = list.getHead();
         list.getNext();

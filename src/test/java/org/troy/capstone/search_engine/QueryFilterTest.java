@@ -27,19 +27,16 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.when;
-import org.troy.capstone.utils.TableUtils;
+
+import org.troy.capstone.TestDataHolder;
 
 import tech.tablesaw.api.Row;
 import tech.tablesaw.api.Table;
 
 public class QueryFilterTest {
     private QueryFilter queryFilter;
-    private static Table table;
+    private static Table table = TestDataHolder.getTableCopy();
 
-    @BeforeAll
-    public static void setup() {
-        table = TableUtils.readCleanedAttributedData();
-    }
 
     @Test
     @DisplayName("Test that the constructor does not throw an error")
