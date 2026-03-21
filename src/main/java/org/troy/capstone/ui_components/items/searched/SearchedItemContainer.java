@@ -49,6 +49,10 @@ public class SearchedItemContainer extends ScrollPane {
         )));
     }
 
+    /** Factory method to create a SearchedItemContainer with the given list of items.
+     * @param items The list of items to display in the container.
+     * @return A new instance of SearchedItemContainer populated with the given items.
+     */
     public static SearchedItemContainer create(List<Item> items) {
         SearchedItemContainer container = new SearchedItemContainer();
         container.updateItems(items);
@@ -59,6 +63,8 @@ public class SearchedItemContainer extends ScrollPane {
      * Adds a new SearchedItemPanel to the container.
      * 
      * @pre itemPanel is not null and is properly initialized with the data to display for a search result.
+     * 
+     * @post If itemPanel is not null, it is added to the itemContainer and becomes visible in the UI.
      * @param itemPanel The SearchedItemPanel to add.
      */ 
     private void addItemPanel(SearchedItemPanel itemPanel) {
@@ -66,6 +72,11 @@ public class SearchedItemContainer extends ScrollPane {
             itemContainer.getChildren().add(itemPanel);
     }
 
+    /** Updates the items displayed in the container with a new list of items.
+     * @pre items should be a valid list of Item objects to display in the container. The SearchedItemContainer should be properly initialized to allow for updating the displayed items.
+     * @post The itemContainer is cleared and repopulated with new SearchedItemPanel instances corresponding to the provided list of items. If the list is null or empty, a message indicating that no items were found is displayed instead.
+     * @param items The new list of items to display in the container.
+     */
     public final void updateItems(List<Item> items) {
         itemContainer.getChildren().clear();
         if (items == null || items.isEmpty()) {

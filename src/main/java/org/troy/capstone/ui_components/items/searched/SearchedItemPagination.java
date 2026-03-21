@@ -15,17 +15,24 @@ import javafx.scene.layout.VBox;
 
 /**
  * The SearchedItemPagination class represents a UI component that provides pagination for search results.
- * It allows users to navigate through multiple pages of search results, displaying a fixed number of items per page.
+ * It allows users to navigate through multiple pages of search results, with buttons to go back and forth.
  */
 public class SearchedItemPagination extends VBox {
 
+    /** The item hash map containing all items, used to populate the pagination content. */
     private final ItemHashMap itemHashMap;
 
+    /** The linked list representing the pages of search results. */
     private SearchedItemsLinkedList pageList;
 
+    /** The SearchedItemContainer instance that displays the current page of search results. */
     private final SearchedItemContainer mySearchedItemContainer;
 
-    private final Button prevButton, nextButton;
+    /** The button to navigate to the previous page of search results. */
+    private final Button prevButton;
+
+    /** The button to navigate to the next page of search results. */
+    private final Button nextButton;
 
     /**
      * Constructor for SearchedItemPagination. Initializes the item hash map and sets up the pagination component.
@@ -58,6 +65,11 @@ public class SearchedItemPagination extends VBox {
 
     }
 
+    /** Factory method to create a SearchedItemPagination instance and register it with the GeneralManager.
+     * @param itemHashMap The item hash map containing all items, used to populate the pagination content.
+     * @param generalManager The GeneralManager instance to register the pagination component with.
+     * @return A new instance of SearchedItemPagination.
+     */
     public static SearchedItemPagination create(ItemHashMap itemHashMap, GeneralManager generalManager) {
         SearchedItemPagination pagination =  new SearchedItemPagination(itemHashMap);
         generalManager.addUIElement(UIElementName.SEARCHED_ITEM_PAGINATION, pagination);
@@ -73,16 +85,27 @@ public class SearchedItemPagination extends VBox {
       *      itemIDs should be a list of valid item IDs corresponding to search results.
       * @param itemIdList A list of item IDs corresponding to search results to update the pagination component with.
      */
-
     public final void update(List<String> itemIdList) {
         pageList = new SearchedItemsLinkedList(itemHashMap, itemIdList);
         mySearchedItemContainer.updateItems( pageList.getHead() );
     }
 
+    /**
+     * Returns the list of items in the previous page of search results.
+     * @pre The pagination component should be properly initialized and the linked list should be set up to allow for navigating to the previous page.
+     * @post If there is a previous page, the current page is updated to the previous page and the corresponding items are returned. If there is no previous page, null is returned.
+     * @return The list of items in the previous page of search results, or null if there is no previous page.
+     */
     private List<Item> getPreviousPage() {
         return pageList.getPrevious();
     }
 
+    /**
+     * Returns the list of items in the next page of search results.
+     * @pre The pagination component should be properly initialized and the linked list should be set up to allow for navigating to the next page.
+     * @post If there is a next page, the current page is updated to the next page and the corresponding items are returned. If there is no next page, null is returned.
+     * @return The list of items in the next page of search results, or null if there is no next page.
+     */
     private List<Item> getNextPage() {
         return pageList.getNext();
     }
