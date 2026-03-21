@@ -2,6 +2,7 @@ package org.troy.capstone.ui_components.items.searched;
 
 import java.util.List;
 
+import org.troy.capstone.constants.UISizeControl;
 import org.troy.capstone.entities.Item;
 
 import javafx.geometry.Pos;
@@ -27,7 +28,7 @@ public class SearchedItemContainer extends ScrollPane {
      */
     private SearchedItemContainer() {
         super();
-        itemContainer = new VBox(5); // 5px spacing between items
+        itemContainer = new VBox(UISizeControl.SEARCHED_ITEM_PANEL_SPACING.getValue()); // 5px spacing between items
         itemContainer.setAlignment(Pos.TOP_CENTER); // Center-align items consistently
         setContent(itemContainer);
         setFitToWidth(true);
@@ -78,15 +79,20 @@ public class SearchedItemContainer extends ScrollPane {
      * @param items The new list of items to display in the container.
      */
     public final void updateItems(List<Item> items) {
-        itemContainer.getChildren().clear();
-        if (items == null || items.isEmpty()) {
+        if( items == null ){
+            System.out.println("Warning: updateItems called with null list. Doing nothing.");
+            return;
+        }else if (items.isEmpty()) {
+            itemContainer.getChildren().clear();
             itemContainer.getChildren().add(new Label("No items found."));
             return;
+        }else{
+            itemContainer.getChildren().clear();
+            items.forEach(item -> {
+                if (item != null)
+                    addItemPanel(new SearchedItemPanel(item));
+            });
         }
-        items.forEach(item -> {
-            if (item != null)
-                addItemPanel(new SearchedItemPanel(item));
-        });
     }
 
 }

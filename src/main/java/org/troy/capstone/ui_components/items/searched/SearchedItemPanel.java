@@ -64,7 +64,7 @@ public class SearchedItemPanel extends HBox{
         setBorder();
         
         //Add padding inside the border
-        setPadding(new Insets(10));
+        setPadding(new Insets(UISizeControl.HEIGHT_PADDING.getValue(), UISizeControl.WIDTH_PADDING.getValue(), UISizeControl.HEIGHT_PADDING.getValue(), UISizeControl.WIDTH_PADDING.getValue()));
         
         //Optimize rendering performance
         setCache(true);

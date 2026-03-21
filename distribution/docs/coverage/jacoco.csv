@@ -7,7 +7,7 @@ Project,org.troy.capstone.ui_components.items,AttributedItemContainer,23,198,1,1
 Project,org.troy.capstone.utils,Converters,0,6,0,0,0,1,0,1,0,1
 Project,org.troy.capstone.utils,UIUtils,0,25,0,4,0,7,0,3,0,1
 Project,org.troy.capstone.utils,TableUtils,36,125,0,0,12,38,6,10,6,10
-Project,org.troy.capstone.constants,UISizeControl,0,186,0,0,0,25,0,3,0,3
+Project,org.troy.capstone.constants,UISizeControl,0,207,0,0,0,28,0,3,0,3
 Project,org.troy.capstone.constants,DataPath,0,75,0,0,0,12,0,3,0,3
 Project,org.troy.capstone.constants,URL,0,42,0,0,0,9,0,3,0,3
 Project,org.troy.capstone.constants,UIElementName,0,63,0,0,0,12,0,3,0,3
@@ -16,9 +16,9 @@ Project,org.troy.capstone.constants,UIDataName,0,49,0,0,0,10,0,3,0,3
 Project,org.troy.capstone.ui_components.filters.categorical,FilterPanel,3,45,0,0,1,13,1,2,1,2
 Project,org.troy.capstone.ui_components.filters.categorical,FiltersContainer,0,220,0,8,0,44,0,11,0,7
 Project,org.troy.capstone.ui_components.price_slider,PriceSlider,0,204,0,4,0,36,0,6,0,4
-Project,org.troy.capstone.ui_components.items.searched,SearchedItemPanel,0,221,0,0,0,38,0,7,0,7
-Project,org.troy.capstone.ui_components.items.searched,SearchedItemContainer,0,46,0,2,0,14,0,3,0,2
-Project,org.troy.capstone.ui_components.items.searched,SearchedItemPagination,8,124,0,4,0,31,2,9,2,7
+Project,org.troy.capstone.ui_components.items.searched,SearchedItemPanel,0,232,0,0,0,38,0,7,0,7
+Project,org.troy.capstone.ui_components.items.searched,SearchedItemContainer,0,121,0,8,0,31,0,9,0,5
+Project,org.troy.capstone.ui_components.items.searched,SearchedItemPagination,0,138,0,0,0,26,0,7,0,7
 Project,org.troy.capstone.ui_components.search_bar,SearchBar,0,69,0,0,0,14,0,4,0,4
 Project,org.troy.capstone.data_structures.ItemTable,ItemHashMap,2,306,2,16,0,45,2,17,0,10
 Project,org.troy.capstone.data_structures.ItemTable,IdHashKey,0,120,0,8,0,28,0,13,0,9
@@ -27,4 +27,6 @@ Project,org.troy.capstone.search_engine,SearchEngine,2,477,4,36,1,105,4,25,0,9
 Project,org.troy.capstone.search_engine,PriceFilter,0,15,0,0,0,4,0,2,0,2
 Project,org.troy.capstone.search_engine,QueryFilter,10,344,2,12,3,65,2,9,0,4
 Project,org.troy.capstone.data_structures,PriceTree,0,60,0,2,0,11,0,5,0,4
+Project,org.troy.capstone.data_structures,SearchedItemsLinkedList.ItemListNode,0,23,0,0,0,10,0,6,0,6
+Project,org.troy.capstone.data_structures,SearchedItemsLinkedList,0,128,3,15,0,36,3,10,0,4
 Project,org.troy.capstone.ui_components.filters.stars,StarRatingFilter,0,229,0,14,0,48,0,17,0,10

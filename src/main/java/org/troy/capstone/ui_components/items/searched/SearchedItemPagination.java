@@ -3,6 +3,7 @@ package org.troy.capstone.ui_components.items.searched;
 import java.util.List;
 
 import org.troy.capstone.constants.UIElementName;
+import org.troy.capstone.constants.UISizeControl;
 import org.troy.capstone.data_structures.ItemTable.ItemHashMap;
 import org.troy.capstone.data_structures.SearchedItemsLinkedList;
 import org.troy.capstone.entities.Item;
@@ -45,12 +46,12 @@ public class SearchedItemPagination extends VBox {
 
         List<String> initialIds = itemHashMap.getItemIdsAsList();
 
-        HBox buttonContainer = new HBox(10); // small gap between buttons
-        buttonContainer.setAlignment(Pos.CENTER); // center the buttons
+        HBox buttonContainer = new HBox(UISizeControl.SEARCHED_ITEM_PAGINATION_BUTTON_SPACING.getValue());
+        buttonContainer.setAlignment(Pos.CENTER);
         prevButton = new Button("Previous");
         nextButton = new Button("Next");
 
-        setSpacing(10);
+        setSpacing(UISizeControl.HEIGHT_PADDING.getValue());
 
         pageList = new SearchedItemsLinkedList(itemHashMap, initialIds);
         mySearchedItemContainer = SearchedItemContainer.create(pageList.getHead());

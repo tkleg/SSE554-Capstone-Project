@@ -1,5 +1,6 @@
 package org.troy.capstone.constants;
 
+
 /**
  * Enum for UI size control, to centralize all size-related constants for the UI in one place. This allows for easy adjustments to the UI layout and ensures consistency across different components.
  */
@@ -30,6 +31,8 @@ public enum UISizeControl {
     SEARCHED_ITEM_CONTAINER_WIDTH(SEARCHED_ITEM_PAGINATION_WIDTH.value),
     /** Height of the container holding the searched items, calculated as the pagination height minus some additional padding. */
     SEARCHED_ITEM_CONTAINER_HEIGHT(SEARCHED_ITEM_PAGINATION_HEIGHT.value),
+    /** Spacing between pagination buttons. */
+    SEARCHED_ITEM_PAGINATION_BUTTON_SPACING(10),
     /** Spacing between individual searched item panels within the container. */
     SEARCHED_ITEM_SPACING(5),
     
@@ -37,6 +40,10 @@ public enum UISizeControl {
     SEARCHED_ITEM_PANEL_WIDTH(SEARCHED_ITEM_CONTAINER_WIDTH.value - WIDTH_PADDING.value * 2),
     /** Height of each individual searched item panel, set to a fixed value for consistency. */
     SEARCHED_ITEM_PANEL_HEIGHT(150),
+    /** Spacing between individual searched item panels within the container. */
+    SEARCHED_ITEM_PANEL_SPACING(20),
+    /** Spacing between elements within the right panel of a searched item. */
+    RIGHT_ITEM_PANEL_SPACING(5),
     /** Width of the image displayed for each attributed item, set to a fixed value for consistency. */
     ATTRIBUTED_ITEM_IMAGE_WIDTH(150),
     /** Height of the image displayed for each attributed item, set to a fixed value for consistency. */

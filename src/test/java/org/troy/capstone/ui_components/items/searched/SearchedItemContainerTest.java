@@ -104,6 +104,7 @@ public class SearchedItemContainerTest {
     @Test
     @DisplayName("Test updateItems with null list")
     public void testUpdateItemsWithNullList() {
+        container.updateItems(List.of(Item.randomItem(), Item.randomItem()));
         container.updateItems(null);
         
         Field itemContainerField;
@@ -117,9 +118,8 @@ public class SearchedItemContainerTest {
         } catch (NoSuchFieldException | IllegalAccessException e) {
             throw new RuntimeException("Failed to access itemContainer field via reflection", e);
         }
-        //Verify that the container shows the "No items found." message when updated with a null list
-        assertEquals(1, itemContainer.getChildren().size(), "Container should have exactly one child when updated with a null list");
-        assert itemContainer.getChildren().get(0) instanceof Label : "Expected child to be a Label, but got: " + itemContainer.getChildren().get(0).getClass();
+        //On null list, the container does nothing
+        assertEquals(2, itemContainer.getChildren().size(), "Container should not change the number of children when updated with a null list, but got: " + itemContainer.getChildren().size());
     }
 
     @Test

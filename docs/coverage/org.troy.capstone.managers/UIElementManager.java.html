@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UIElementManager.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Project</a> &gt; <a href="index.source.html" class="el_package">org.troy.capstone.managers</a> &gt; <span class="el_source">UIElementManager.java</span></div><h1>UIElementManager.java</h1><pre class="source lang-java linenums">package org.troy.capstone.managers;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 
 import org.troy.capstone.constants.UIDataName;
 import org.troy.capstone.constants.UIElementName;
@@ -135,14 +135,14 @@ public class UIElementManager {
      * Logs missing pagination component or type error with the component.
      * 
      * @pre A searched item pagination component should be added to the manager with the expected key and type before this method is called.
-     *      itemIDs should be a set of valid item IDs corresponding to search results.
+     *      itemIDs should be a list of valid item IDs corresponding to search results.
      * 
-     * @param itemIDs A set of item IDs corresponding to search results to update the pagination component with.
+     * @param itemIDs A list of item IDs corresponding to search results to update the pagination component with.
      */
-    public void updateSearchedItemPagination(Set&lt;String&gt; itemIDs) {
+    public void updateSearchedItemPagination(List&lt;String&gt; itemIDs) {
         try{
 <span class="fc" id="L144">            getElement(UIElementName.SEARCHED_ITEM_PAGINATION)</span>
-<span class="fc" id="L145">            .ifPresentOrElse( e -&gt; ((SearchedItemPagination)e).updateContent(itemIDs),</span>
+<span class="fc" id="L145">            .ifPresentOrElse( e -&gt; ((SearchedItemPagination)e).update(itemIDs),</span>
 <span class="fc" id="L146">            () -&gt; System.out.println(&quot;Searched item pagination not found in UIElementManager, cannot update search results.&quot;) );</span>
 <span class="fc" id="L147">        }catch (ClassCastException ex) {</span>
 <span class="fc" id="L148">            System.out.println(&quot;Error retrieving searched item pagination value: &quot; + ex.getMessage());</span>
