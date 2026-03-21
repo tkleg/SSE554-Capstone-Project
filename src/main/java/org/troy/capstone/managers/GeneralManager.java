@@ -4,9 +4,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.troy.capstone.constants.TableColumnName;
 import org.troy.capstone.constants.UIDataName;
 import org.troy.capstone.constants.UIElementName;
 import org.troy.capstone.search_engine.SearchEngine;
+import org.troy.capstone.search_engine.sorting.Sorter;
 
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -96,7 +98,9 @@ public class GeneralManager {
     public void filterAndPrintNumberOfResults() {
         Map<UIDataName, Object> searchData = getSearchData();
         System.out.println("Search Data: " + searchData);
-        List<String> filteredIDs = searchEngine.filterItems(searchData);
+        Table filteredTable = searchEngine.filterItems(searchData);
+        List<String> filteredIDs = filteredTable.stringColumn(TableColumnName.ID.getColumnName()).asList();
+        Sorter.testSorts(filteredTable);
         uiManager.updateSearchedItemPagination(filteredIDs);
     }
 
