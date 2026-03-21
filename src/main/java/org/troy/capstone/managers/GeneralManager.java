@@ -1,8 +1,8 @@
 package org.troy.capstone.managers;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 
 import org.troy.capstone.constants.UIDataName;
 import org.troy.capstone.constants.UIElementName;
@@ -96,7 +96,7 @@ public class GeneralManager {
     public void filterAndPrintNumberOfResults() {
         Map<UIDataName, Object> searchData = getSearchData();
         System.out.println("Search Data: " + searchData);
-        Set<String> filteredIDs = searchEngine.filterItems(searchData);
+        List<String> filteredIDs = searchEngine.filterItems(searchData);
         uiManager.updateSearchedItemPagination(filteredIDs);
     }
 

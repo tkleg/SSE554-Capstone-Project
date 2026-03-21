@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SearchedItemsLinkedList.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Project</a> &gt; <a href="index.source.html" class="el_package">org.troy.capstone.data_structures</a> &gt; <span class="el_source">SearchedItemsLinkedList.java</span></div><h1>SearchedItemsLinkedList.java</h1><pre class="source lang-java linenums">package org.troy.capstone.data_structures;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.troy.capstone.data_structures.ItemTable.ItemHashMap;
+import org.troy.capstone.entities.Item;
+
+/**
+ * The SearchedItemsLinkedList class represents a custom linked list data structure that organizes search results into pages.
+ * Each node in the linked list contains a list of items corresponding to a page of search results, and the list provides methods to navigate between pages.
+ */
+public class SearchedItemsLinkedList{
+    
+    /** The head node of the linked list. */
+    private ItemListNode head;
+
+    /** The current node in the linked list, representing the current page of search results. */
+    private ItemListNode current;
+
+    /** The number of items to display per page. */
+    private static final int ITEMS_PER_PAGE = 10;
+
+    @SuppressWarnings(&quot;null&quot;)
+    /** Constructor for SearchedItemsLinkedList. Initializes the linked list based on a list of item IDs and an item hash map.
+     * @pre itemHashMap should contain valid item data for all item IDs in itemIdList, and itemIdList should not be null.
+     * @param itemHashMap The item hash map containing all items, used to populate the linked list nodes based on the provided item IDs.
+     * @param itemIdList The list of item IDs representing the search results to be organized into pages in the linked list.
+    */
+<span class="fc" id="L30">    public SearchedItemsLinkedList(ItemHashMap itemHashMap, List&lt;String&gt; itemIdList){</span>
+<span class="pc bpc" id="L31" title="1 of 4 branches missed.">        if (itemIdList == null || itemIdList.isEmpty()) {</span>
+<span class="fc" id="L32">            head = null;</span>
+<span class="fc" id="L33">            return;</span>
+        }
+<span class="fc" id="L35">        ItemListNode currentNode = null;</span>
+<span class="fc bfc" id="L36" title="All 2 branches covered.">        for (int startIndex = 0; startIndex &lt; itemIdList.size(); startIndex += ITEMS_PER_PAGE) {</span>
+            
+            //Get items to a list
+<span class="fc" id="L39">            int endIndex = Math.min(startIndex + ITEMS_PER_PAGE, itemIdList.size());</span>
+<span class="fc" id="L40">            List&lt;Item&gt; pageItems</span>
+<span class="fc" id="L41">            = itemIdList.subList(startIndex, endIndex).stream()</span>
+<span class="fc" id="L42">                    .map(itemHashMap::getItem)</span>
+<span class="fc" id="L43">                    .map(Optional::orElseThrow)</span>
+<span class="fc" id="L44">                    .toList();</span>
+
+<span class="fc" id="L46">            ItemListNode newNode = new ItemListNode(pageItems);</span>
+<span class="fc bfc" id="L47" title="All 2 branches covered.">            if (head == null) {</span>
+<span class="fc" id="L48">                head = newNode;</span>
+<span class="fc" id="L49">                currentNode = head;</span>
+            } else {
+<span class="fc" id="L51">                currentNode.setNext(newNode);</span>
+<span class="fc" id="L52">                newNode.setPrev(currentNode);</span>
+<span class="fc" id="L53">                currentNode = newNode;</span>
+            }
+        }
+<span class="fc" id="L56">        current = head;</span>
+<span class="fc" id="L57">    }</span>
+
+    /** Returns the list of items in the head node of the linked list.
+     * @return The list of items in the head node, or null if the linked list is empty.
+     */
+    public List&lt;Item&gt; getHead() {
+<span class="fc bfc" id="L63" title="All 2 branches covered.">        if (head == null)</span>
+<span class="fc" id="L64">            return null;</span>
+<span class="fc" id="L65">        return head.getItems();</span>
+    }
+    
+    /** Returns the list of items in the next node of the linked list.
+     * 
+     * @post If there is a next node, the current node is advanced to the next node.
+     * 
+     * @return The list of items in the next node, or null if there is no next node.
+     */
+    public List&lt;Item&gt; getNext(){
+<span class="pc bpc" id="L75" title="1 of 4 branches missed.">        if (current == null || current.getNext() == null) {</span>
+<span class="fc" id="L76">            System.out.println(&quot;Already at the end of the list, cannot advance further.&quot;);</span>
+<span class="fc" id="L77">            return null;</span>
+        }
+<span class="fc" id="L79">        current = current.getNext();</span>
+<span class="fc" id="L80">        System.out.println(&quot;Advanced to next page of results.&quot;);</span>
+<span class="fc" id="L81">        return current.getItems();</span>
+    }
+
+    /** Returns the list of items in the previous node of the linked list.
+     * @post If there is a previous node, the current node is moved to the previous node.
+      *
+     * @return The list of items in the previous node, or null if there is no previous node.
+     */
+    public List&lt;Item&gt; getPrevious(){
+<span class="pc bpc" id="L90" title="1 of 4 branches missed.">        if (current == null || current.getPrev() == null) {</span>
+<span class="fc" id="L91">            System.out.println(&quot;Already at the beginning of the list, cannot go back further.&quot;);</span>
+<span class="fc" id="L92">            return null;</span>
+        }
+<span class="fc" id="L94">        current = current.getPrev();</span>
+<span class="fc" id="L95">        System.out.println(&quot;Went back to previous page of results.&quot;);</span>
+<span class="fc" id="L96">        return current.getItems();</span>
+    }
+     
+    /** Private inner class representing a node in the linked list. */
+    private static class ItemListNode{
+        /** The list of items corresponding to a page of search results contained in this node. */
+        private final List&lt;Item&gt; items;
+
+        /** The next node in the linked list. */
+        private ItemListNode next;
+
+        /** The previous node in the linked list. */
+        private ItemListNode prev;
+
+        /** Constructor for ItemListNode.
+         * @pre items should be a valid list of items corresponding to a page of search results, and should not be null.
+         * @param items The list of items to be contained in this node, representing a page of search results.
+        */
+<span class="fc" id="L114">        public ItemListNode(List&lt;Item&gt; items) {</span>
+<span class="fc" id="L115">            this.items = items;</span>
+<span class="fc" id="L116">        }</span>
+
+        /** Returns the list of items contained in this node.
+         * @return The list of items in this node.
+         */
+        public List&lt;Item&gt; getItems() {
+<span class="fc" id="L122">            return items;</span>
+        }
+
+        /** Returns the next node in the linked list.
+         * @return The next node in the linked list, or null if there is none.
+         */
+        public ItemListNode getNext() {
+<span class="fc" id="L129">            return next;</span>
+        }
+
+        /** Returns the previous node in the linked list.
+         * @return The previous node in the linked list, or null if there is none.
+         */
+        public ItemListNode getPrev() {
+<span class="fc" id="L136">            return prev;</span>
+        }
+
+        /** Sets the next node in the linked list.
+         * @pre next should be a valid ItemListNode or null.
+         * @param next The node to set as the next node in the linked list.
+         */
+        public void setNext(ItemListNode next) {
+<span class="fc" id="L144">            this.next = next;</span>
+<span class="fc" id="L145">        }</span>
+
+        /** Sets the previous node in the linked list.
+         * @pre prev should be a valid ItemListNode or null.
+         * @param prev The node to set as the previous node in the linked list.
+         */
+        public void setPrev(ItemListNode prev) {
+<span class="fc" id="L152">            this.prev = prev;</span>
+<span class="fc" id="L153">        }</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>
