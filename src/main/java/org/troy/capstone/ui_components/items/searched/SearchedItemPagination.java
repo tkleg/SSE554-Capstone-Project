@@ -43,6 +43,8 @@ public class SearchedItemPagination extends VBox {
         prevButton = new Button("Previous");
         nextButton = new Button("Next");
 
+        setSpacing(10 );
+        
         pageList = new SearchedItemsLinkedList(itemHashMap, initialIds);
         mySearchedItemContainer = SearchedItemContainer.create(pageList.getHead());
         this.getChildren().clear();

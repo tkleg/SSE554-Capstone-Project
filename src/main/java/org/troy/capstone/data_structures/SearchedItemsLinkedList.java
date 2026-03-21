@@ -7,13 +7,6 @@ import org.troy.capstone.data_structures.ItemTable.ItemHashMap;
 import org.troy.capstone.entities.Item;
 
 public class SearchedItemsLinkedList{
-        /**
-         * Returns the items on the current page without moving the pointer.
-         */
-        public List<Item> getCurrent() {
-            if (current == null) return null;
-            return current.getItems();
-        }
     
     private ItemListNode head, current;
 

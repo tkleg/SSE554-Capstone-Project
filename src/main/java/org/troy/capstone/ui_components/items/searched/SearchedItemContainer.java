@@ -7,7 +7,13 @@ import org.troy.capstone.entities.Item;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 
 /**
  * The SearchedItemContainer class represents a UI component that contains and displays the search results as a list of SearchedItemPanel instances. It is a scrollable container that allows users to view all search results, and it provides methods to add new search result panels to the container.
@@ -35,6 +41,12 @@ public class SearchedItemContainer extends ScrollPane {
         itemContainer.setCache(true);
         itemContainer.setCacheHint(javafx.scene.CacheHint.SPEED);
 
+        setBorder(new Border(new BorderStroke(
+            Color.BLACK, 
+            BorderStrokeStyle.SOLID, 
+            new CornerRadii(5), 
+            new BorderWidths(1)
+        )));
     }
 
     public static SearchedItemContainer create(List<Item> items) {
