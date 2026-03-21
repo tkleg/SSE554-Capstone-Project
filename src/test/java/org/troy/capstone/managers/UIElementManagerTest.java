@@ -2,7 +2,7 @@ package org.troy.capstone.managers;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.util.Set;
+import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -133,7 +133,7 @@ public class UIElementManagerTest {
         public void testUpdateSearchedItemPaginationWithPagination() {
             uiElementManager.addElement(UIElementName.SEARCHED_ITEM_PAGINATION, SearchedItemPagination.create(itemHashMap, generalManager));
 
-            uiElementManager.updateSearchedItemPagination(Set.of());
+            uiElementManager.updateSearchedItemPagination(List.of());
 
             String output = outContent.toString();
 
@@ -144,7 +144,7 @@ public class UIElementManagerTest {
         @Test
         @DisplayName("Test updateSearchedItemPagination with no pagination added to the manager")
         public void testUpdateSearchedItemPaginationWithNoPagination() {
-            uiElementManager.updateSearchedItemPagination(Set.of());
+            uiElementManager.updateSearchedItemPagination(List.of());
 
             String output = outContent.toString();
 
@@ -157,7 +157,7 @@ public class UIElementManagerTest {
         public void testUpdateSearchedItemPaginationWithPaginationNotProperlyCast() {
             uiElementManager.addElement(UIElementName.SEARCHED_ITEM_PAGINATION, new HBox());
 
-            uiElementManager.updateSearchedItemPagination(Set.of());
+            uiElementManager.updateSearchedItemPagination(List.of());
 
             String output = outContent.toString();
 

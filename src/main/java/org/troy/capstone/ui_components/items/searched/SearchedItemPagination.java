@@ -2,13 +2,15 @@ package org.troy.capstone.ui_components.items.searched;
 
 import java.util.List;
 
+import org.troy.capstone.constants.UIElementName;
 import org.troy.capstone.data_structures.ItemTable.ItemHashMap;
 import org.troy.capstone.data_structures.SearchedItemsLinkedList;
 import org.troy.capstone.entities.Item;
 import org.troy.capstone.managers.GeneralManager;
-import org.troy.capstone.constants.UIElementName;
 
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 /**
@@ -17,11 +19,11 @@ import javafx.scene.layout.VBox;
  */
 public class SearchedItemPagination extends VBox {
 
-    private ItemHashMap itemHashMap;
+    private final ItemHashMap itemHashMap;
 
     private SearchedItemsLinkedList pageList;
 
-    private SearchedItemContainer mySearchedItemContainer;
+    private final SearchedItemContainer mySearchedItemContainer;
 
     private final Button prevButton, nextButton;
 
@@ -36,17 +38,20 @@ public class SearchedItemPagination extends VBox {
 
         List<String> initialIds = itemHashMap.getItemIdsAsList();
 
+        HBox buttonContainer = new HBox(10); // small gap between buttons
+        buttonContainer.setAlignment(Pos.CENTER); // center the buttons
         prevButton = new Button("Previous");
         nextButton = new Button("Next");
 
         pageList = new SearchedItemsLinkedList(itemHashMap, initialIds);
-        mySearchedItemContainer = new SearchedItemContainer(pageList.getHead());
+        mySearchedItemContainer = SearchedItemContainer.create(pageList.getHead());
         this.getChildren().clear();
+        this.setAlignment(Pos.TOP_CENTER);
         this.getChildren().add(mySearchedItemContainer);
-        this.getChildren().addAll(prevButton, nextButton);
+        buttonContainer.getChildren().addAll(prevButton, nextButton);
+        this.getChildren().add(buttonContainer);
 
         prevButton.setOnAction(event -> { showPreviousPage(); });
-
         nextButton.setOnAction(event -> { showNextPage(); });
 
     }

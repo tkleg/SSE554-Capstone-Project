@@ -5,6 +5,7 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -206,7 +207,7 @@ public class SearchEngineTest {
         if( query != null && !query.isEmpty() )
             searchData.put(UIDataName.SEARCH_QUERY, query);
 
-        Set<String> filteredIds = searchEngine.filterItems(searchData);
+        List<String> filteredIds = searchEngine.filterItems(searchData);
         
         assert filteredIds != null;
         assert filteredIds.size() == expectedCount : "Expected " + expectedCount + " results, but got " + filteredIds.size();
@@ -245,7 +246,7 @@ public class SearchEngineTest {
         @Test
         @DisplayName("Test star rating filter handling of ClassCastException when value is of wrong type - method call through filterItems")
         public void testStarFilterClassCastExceptionHandlingIndirect() {
-            Set<String> filteredIds = searchEngine.filterItems(starClassCastErrorData);
+            List<String> filteredIds = searchEngine.filterItems(starClassCastErrorData);
             assert filteredIds.size() == table.rowCount() : "Expected all items to be returned when star rating filter value is of wrong type, but got a different number of results.";
         }
 
@@ -266,7 +267,7 @@ public class SearchEngineTest {
         @Test
         @DisplayName("Test star rating filter handling of null value when star rating is missing - method call through filterItems")
         public void testStarFilterNullHandlingIndirect() {
-            Set<String> filteredIds = searchEngine.filterItems(starNullErrorData);
+            List<String> filteredIds = searchEngine.filterItems(starNullErrorData);
             assert filteredIds.size() == table.rowCount() : "Expected all items to be returned when star rating filter value is missing, but got a different number of results.";
         }
 
@@ -288,7 +289,7 @@ public class SearchEngineTest {
         @Test
         @DisplayName("Test price filter handling of ClassCastException when values are of wrong type - method call through filterItems")
         public void testPriceFilterClassCastExceptionHandlingIndirect() {
-            Set<String> filteredIds = searchEngine.filterItems(priceClassCastErrorData);
+            List<String> filteredIds = searchEngine.filterItems(priceClassCastErrorData);
             assert filteredIds.size() == table.rowCount() : "Expected all items to be returned when price filter values are of wrong type, but got a different number of results.";
         }
         
@@ -314,7 +315,7 @@ public class SearchEngineTest {
             searchData.put(UIDataName.MAX_PRICE, MAX_MAX_PRICE);
             searchData.put(UIDataName.FILTERS_CONTAINER, emptyFiltersContainer);
 
-            Set<String> filteredIds = searchEngine.filterItems(searchData);
+            List<String> filteredIds = searchEngine.filterItems(searchData);
             assert filteredIds.size() == table.rowCount() : "Expected all items to be returned when min price value is missing, but got a different number of results.";
         }
 
@@ -340,7 +341,7 @@ public class SearchEngineTest {
             searchData.put(UIDataName.MIN_PRICE, MIN_MIN_PRICE);
             searchData.put(UIDataName.FILTERS_CONTAINER, emptyFiltersContainer);
 
-            Set<String> filteredIds = searchEngine.filterItems(searchData);
+            List<String> filteredIds = searchEngine.filterItems(searchData);
             assert filteredIds.size() == table.rowCount() : "Expected all items to be returned when max price value is missing, but got a different number of results.";
         }
 
@@ -364,7 +365,7 @@ public class SearchEngineTest {
             searchData.remove(UIDataName.MIN_PRICE);
             searchData.remove(UIDataName.MAX_PRICE);
 
-            Set<String> filteredIds = searchEngine.filterItems(searchData);
+            List<String> filteredIds = searchEngine.filterItems(searchData);
             assert filteredIds.size() == table.rowCount() : "Expected all items to be returned when min and max price values are missing, but got a different number of results.";
         }
         
@@ -388,7 +389,7 @@ public class SearchEngineTest {
         @Test
         @DisplayName("Test categorical filters handling of ClassCastException when filters container is of wrong type - method call through filterItems")
         public void testCategoricalFilterClassCastExceptionHandlingIndirect() {
-            Set<String> filteredIds = searchEngine.filterItems(categoricalClassCastErrorData);
+            List<String> filteredIds = searchEngine.filterItems(categoricalClassCastErrorData);
             assert filteredIds.size() == table.rowCount() : "Expected all items to be returned when categorical filters container is of wrong type, but got a different number of results.";
         }
 
@@ -411,7 +412,7 @@ public class SearchEngineTest {
         @Test
         @DisplayName("Test categorical filters handling of null value when filters container is missing - method call through filterItems")
         public void testCategoricalFilterNullHandlingIndirect() {
-            Set<String> filteredIds = searchEngine.filterItems(categoricalNullErrorData);
+            List<String> filteredIds = searchEngine.filterItems(categoricalNullErrorData);
             assert filteredIds.size() == table.rowCount() : "Expected all items to be returned when categorical filters container is missing, but got a different number of results.";
         }
 
@@ -431,7 +432,7 @@ public class SearchEngineTest {
             Map<UIDataName, Object> searchData = new HashMap<>(categoricalNullErrorData);
             searchData.put(UIDataName.FILTERS_CONTAINER, Map.of());
 
-            Set<String> filteredIds = searchEngine.filterItems(searchData);
+            List<String> filteredIds = searchEngine.filterItems(searchData);
             assert filteredIds.size() == table.rowCount() : "Expected all items to be returned when categorical filters container has empty sets, but got a different number of results.";
         }
 
