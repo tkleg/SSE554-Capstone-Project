@@ -3,9 +3,14 @@ package org.troy.capstone.search_engine.sorting;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-
+import java.util.Map;
+import java.util.HashMap;
+import org.troy.capstone.utils.TableUtils;
 import tech.tablesaw.api.Row;
 import tech.tablesaw.api.Table;
+
+import java.io.File;
+import java.io.PrintWriter;
 
 /**
  * Code is sourced from a MindTap exercise from the course, but modified to fit the project.
@@ -28,13 +33,6 @@ public class QuickSort {
             time.setValue(end - start);
         }
         return newTable;
-    }
-
-    // Simple mutable long holder for timing
-    public static class MutableLong {
-        public long value;
-        public MutableLong() {}
-        public MutableLong(long v) { value = v; }
     }
 
     private static void quickSort(List<Row> rows, int low, int high, Comparator<Row> comparator) {
@@ -62,6 +60,38 @@ public class QuickSort {
         Row temp = rows.get(i);
         rows.set(i, rows.get(j));
         rows.set(j, temp);
+    }
+
+    public static void main(String[] args) throws Exception {
+        Table table = TableUtils.readCleanedAttributedData();
+        Map<Integer, Long> times = new HashMap<>();
+        File quickSortDataFile = new File("quick_sort_data.csv");
+        quickSortDataFile.delete(); // Ensure we start with a clean file
+        quickSortDataFile.createNewFile();
+        quickSortDataFile.setWritable(true);
+        PrintWriter writer = new PrintWriter(quickSortDataFile);
+        writer.println("Size,AverageTime(ns)");
+        int numberOfTrials = 20;
+        for( int size = 1; size <= table.rowCount(); size++) {
+            Table subset = Sorter.shuffleTable(table.inRange(0, Math.min(size, table.rowCount())));
+            List<LongWrapper> timeArr = new ArrayList<>(numberOfTrials);
+            LongWrapper time = new LongWrapper();
+            for( int x = 0; x < numberOfTrials; x++) {
+                timeArr.add(new LongWrapper());
+                QuickSort.quickSort(subset, Comparators.getComparators().get(0), timeArr.get(x));
+            }
+            Long sum = 0L;
+            List<LongWrapper> filteredTimes = Sorter.removeOutliers(timeArr);
+            for( int x = 0; x < filteredTimes.size(); x++ )
+                sum += filteredTimes.get(x).getValue();
+
+            time.setValue(sum / filteredTimes.size());
+            times.put(size, time.getValue());
+            System.out.println("Average time to sort " + size + " items: " + time.getValue() + " nanoseconds");
+            writer.println(size + "," + time.getValue());
+        }
+        writer.flush();
+        writer.close();
     }
 
 }

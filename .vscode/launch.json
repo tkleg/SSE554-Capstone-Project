@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "InsertionSort",
+            "request": "launch",
+            "mainClass": "org.troy.capstone.search_engine.sorting.InsertionSort",
+            "projectName": "Project"
+        },
+        {
+            "type": "java",
             "name": "QuickSort",
             "request": "launch",
             "mainClass": "org.troy.capstone.search_engine.sorting.QuickSort",
