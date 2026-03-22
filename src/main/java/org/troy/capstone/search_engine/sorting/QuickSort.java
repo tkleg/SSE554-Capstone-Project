@@ -14,21 +14,34 @@ import tech.tablesaw.api.Table;
  */
 public class QuickSort {
     public static Table quickSort(Table table, Comparator<Row> comparator) {
+        return quickSort(table, comparator, null);
+    }
+
+    public static Table quickSort(Table table, Comparator<Row> comparator, LongWrapper time) {
+        long start = System.nanoTime();
         List<Row> rows = new ArrayList<>(table.stream().toList());
-
-        quickSortHelper(rows, 0, table.rowCount() - 1, comparator);
-        
+        quickSort(rows, 0, table.rowCount() - 1, comparator);
         Table newTable = table.emptyCopy();
-        rows.stream().forEach(newTable::append);
-
+        rows.forEach(newTable::append);
+        if (time != null) {
+            long end = System.nanoTime();
+            time.setValue(end - start);
+        }
         return newTable;
     }
 
-    private static void quickSortHelper(List<Row> rows, int low, int high, Comparator<Row> comparator) {
+    // Simple mutable long holder for timing
+    public static class MutableLong {
+        public long value;
+        public MutableLong() {}
+        public MutableLong(long v) { value = v; }
+    }
+
+    private static void quickSort(List<Row> rows, int low, int high, Comparator<Row> comparator) {
         if (low < high) {
             int pivot = partition(rows, low, high, comparator);
-            quickSortHelper(rows, low, pivot - 1, comparator);
-            quickSortHelper(rows, pivot + 1, high, comparator);
+            quickSort(rows, low, pivot - 1, comparator);
+            quickSort(rows, pivot + 1, high, comparator);
         }
     }
 

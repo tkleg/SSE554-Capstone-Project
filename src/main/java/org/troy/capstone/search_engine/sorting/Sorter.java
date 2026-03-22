@@ -20,11 +20,12 @@ public class Sorter {
     public static void testSorts(Table table) {
         List<Comparator<Row>> comparators = Comparators.getComparators();
         for (Comparator<Row> comparator : comparators) {
-            Table sortedTable = QuickSort.quickSort(table, comparator);
+            LongWrapper time = new LongWrapper();
+            Table sortedTable = QuickSort.quickSort(table, comparator, time);
             if (!isSorted(sortedTable, comparator))
-                System.out.println("Sorting failed for comparator: " + Comparators.getComparatorName(comparator));
+                System.out.println("Sorting failed for comparator: " + Comparators.getComparatorName(comparator)+ " in " + time + " seconds");
             else
-                System.out.println("Sorting succeeded for comparator: " + Comparators.getComparatorName(comparator));
+                System.out.println("Sorting succeeded for comparator: " + Comparators.getComparatorName(comparator)+ " in " + time + " seconds");
         }
     }
 }
