@@ -1,18 +1,19 @@
 package org.troy.capstone.search_engine.sorting;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.ArrayList;
-import tech.tablesaw.api.Row;
-import tech.tablesaw.api.Table;
+
+import org.troy.capstone.constants.TableColumnName;
 import org.troy.capstone.utils.TableUtils;
 
-import tech.tablesaw.api.LongColumn;
-import tech.tablesaw.api.StringColumn;
-import tech.tablesaw.api.IntColumn;
 import tech.tablesaw.api.FloatColumn;
-import org.troy.capstone.constants.TableColumnName;
-import java.util.Collections;
+import tech.tablesaw.api.IntColumn;
+import tech.tablesaw.api.LongColumn;
+import tech.tablesaw.api.Row;
+import tech.tablesaw.api.StringColumn;
+import tech.tablesaw.api.Table;
 
 public class Sorter {
 
@@ -80,12 +81,11 @@ public class Sorter {
             LongWrapper time = new LongWrapper();
             for (int x = 0; x < numberOfTrials; x++) {
                 timeArr.add(new LongWrapper());
-                if (algorithm.equals("quick"))
-                    QuickSort.quickSort(subset, comparator, timeArr.get(x));
-                else if (algorithm.equals("insertion"))
-                    InsertionSort.insertionSort(subset, comparator, timeArr.get(x));
-                else
-                    throw new IllegalArgumentException("Unsupported sorting algorithm: " + algorithm);
+                switch (algorithm) {
+                    case "quick" -> QuickSort.quickSort(subset, comparator, timeArr.get(x));
+                    case "insertion" -> InsertionSort.insertionSort(subset, comparator, timeArr.get(x));
+                    default -> throw new IllegalArgumentException("Unsupported sorting algorithm: " + algorithm);
+                }
             }
             Long sum = 0L;
             List<LongWrapper> filteredTimes = removeOutliers(timeArr);

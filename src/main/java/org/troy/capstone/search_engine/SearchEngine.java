@@ -57,7 +57,7 @@ public class SearchEngine {
         selection = selection.and(categoricalResult);
         System.out.println("After categorical filters: " + selection.size() + " items");
 
-        //Apply filters prior to the search query so the query is only applied to filterd items to reduce time to apply the search query filter
+        //Apply filters prior to the search query so the query is only applied to filtered items to reduce time to apply the search query filter
         Table preQueryFilteredTable = table.where(selection);
 
         //Filter search query
