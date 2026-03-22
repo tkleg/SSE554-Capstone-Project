@@ -13,6 +13,7 @@ import org.troy.capstone.ui_components.items.searched.SearchedItemPagination;
 
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 
@@ -125,6 +126,14 @@ public class UIElementManager {
             () -> System.out.println("Star rating filter not found in UIElementManager, cannot include star rating in search data.") );
         }catch (ClassCastException ex) {
             System.out.println("Error retrieving star rating filter value: " + ex.getMessage());
+        }
+
+        try{
+            getElement(UIElementName.SORTING_OPTION_DROPDOWN)
+            .ifPresentOrElse( e -> searchData.put(UIDataName.SORTING_OPTION, ((ComboBox<?>)e).getValue()),
+            () -> System.out.println("Sorting option dropdown not found in UIElementManager, cannot include sorting option in search data.") );
+        }catch (ClassCastException ex) {
+            System.out.println("Error retrieving sorting option dropdown value: " + ex.getMessage());
         }
 
         return searchData;

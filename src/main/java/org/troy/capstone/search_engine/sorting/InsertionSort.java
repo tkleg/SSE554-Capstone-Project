@@ -13,6 +13,11 @@ import tech.tablesaw.api.Table;
  * Source is https://www.geeksforgeeks.org/dsa/insertion-sort-algorithm/. Modified to fit the data structure and compartors used in the project. 
  */
 public class InsertionSort {
+
+    public static Table insertionSort(Table table, Comparator<Row> comparator) {
+        return insertionSort(table, comparator, null);
+    }
+    
     public static Table insertionSort(Table table, Comparator<Row> comparator, LongWrapper time) {
         long start = System.nanoTime();
         List<Row> rows = new ArrayList<>(table.stream().toList());

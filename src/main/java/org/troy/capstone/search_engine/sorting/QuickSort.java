@@ -1,12 +1,8 @@
 package org.troy.capstone.search_engine.sorting;
 
-import java.io.File;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-
-import org.troy.capstone.utils.TableUtils;
 
 import tech.tablesaw.api.Row;
 import tech.tablesaw.api.Table;
@@ -62,7 +58,7 @@ public class QuickSort {
     }
 
     public static void main(String[] args) throws Exception {
-        Table table = TableUtils.readCleanedAttributedData();
+        /*Table table = TableUtils.readCleanedAttributedData();
         File quickSortDataFile = new File("quick_sort_data.csv");
         quickSortDataFile.delete(); // Ensure we start with a clean file
         quickSortDataFile.createNewFile();
@@ -88,7 +84,8 @@ public class QuickSort {
                 writer.println(size + "," + time.getValue());
             }
             writer.flush();
-        }
+        }*/
+       
     }
 
 }

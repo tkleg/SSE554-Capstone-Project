@@ -99,9 +99,10 @@ public class GeneralManager {
         Map<UIDataName, Object> searchData = getSearchData();
         System.out.println("Search Data: " + searchData);
         Table filteredTable = searchEngine.filterItems(searchData);
-        List<String> filteredIDs = filteredTable.stringColumn(TableColumnName.ID.getColumnName()).asList();
-        Sorter.testSorts(filteredTable);
-        uiManager.updateSearchedItemPagination(filteredIDs);
+        Table sortedTable = Sorter.sortTable(filteredTable, (String) searchData.get(UIDataName.SORTING_OPTION));
+        List<String> sortedAndFilteredItemIds = sortedTable.stringColumn(TableColumnName.ID.getColumnName()).asList();
+        System.out.println("Sorted and Filtered Item IDs: " + sortedAndFilteredItemIds);
+        uiManager.updateSearchedItemPagination( sortedAndFilteredItemIds );
     }
 
 }

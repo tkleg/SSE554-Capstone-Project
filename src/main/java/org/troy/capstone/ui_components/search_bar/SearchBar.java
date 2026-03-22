@@ -63,11 +63,17 @@ public class SearchBar extends VBox {
         bottomBox.setSpacing(UISizeControl.WIDTH_PADDING.getValue());
         bottomBox.setAlignment(Pos.CENTER_LEFT);
         Label sortByLabel = new Label("Sort By:");
+
         sortingOptionDropdown = new ComboBox<>();
-        sortingOptionDropdown.getItems().addAll(Comparators.getComparators().stream().map(Comparators::getComparatorName).toList());
+        sortingOptionDropdown.getItems().addAll(Comparators.getComparatorNames());
         sortingOptionDropdown.setPromptText("Sort By");
         sortingOptionDropdown.getSelectionModel().selectFirst();
+        sortingOptionDropdown.setEditable(false);
+        sortingOptionDropdown.setOnAction(e -> {
+            System.out.println("Selected sorting option: " + sortingOptionDropdown.getValue());
+        });
         generalManager.addUIElement(UIElementName.SORTING_OPTION_DROPDOWN, sortingOptionDropdown);
+        
         bottomBox.getChildren().addAll(sortByLabel, sortingOptionDropdown);
 
         this.getChildren().addAll(topRowBox, bottomBox);

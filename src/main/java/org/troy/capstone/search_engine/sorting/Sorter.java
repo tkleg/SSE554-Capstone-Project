@@ -32,10 +32,20 @@ public class Sorter {
             LongWrapper time = new LongWrapper();
             Table sortedTable = QuickSort.quickSort(table, comparator, time);
             if (!isSorted(sortedTable, comparator))
-                System.out.println("Sorting failed for comparator: " + Comparators.getComparatorName(comparator)+ " in " + time + " seconds");
+                System.out.println("Sorting failed for comparator: " + Comparators.getNameByComparator(comparator)+ " in " + time + " seconds");
             else
-                System.out.println("Sorting succeeded for comparator: " + Comparators.getComparatorName(comparator)+ " in " + time + " seconds");
+                System.out.println("Sorting succeeded for comparator: " + Comparators.getNameByComparator(comparator)+ " in " + time + " seconds");
         }
+    }
+
+
+    public static Table sortTable(Table table, String sortingOption){
+        Comparator<Row> comparator = Comparators.getComparatorByName(sortingOption);
+
+        if( table.rowCount() <= 25 )
+            return InsertionSort.insertionSort(table, comparator);
+        else
+            return QuickSort.quickSort(table, comparator);
     }
 
     public static Table shuffleTable(Table table) {
@@ -92,12 +102,12 @@ public class Sorter {
             for (int x = 0; x < filteredTimes.size(); x++)
                 sum += filteredTimes.get(x).getValue();
             time.setValue(sum / filteredTimes.size());
-            System.out.println("Algorithm: " + algorithm + " - Comparator: " + Comparators.getComparatorName(comparator) + " - Avg Time " + size + " items: " + time.getValue() + " nanoseconds");
+            System.out.println("Algorithm: " + algorithm + " - Comparator: " + Comparators.getNameByComparator(comparator) + " - Avg Time " + size + " items: " + time.getValue() + " nanoseconds");
 
             //Add a new row to the performance table
             tableSizeColumn.append(size);
             sortTypeColumn.append(algorithm);
-            comparatorColumn.append(Comparators.getComparatorName(comparator));
+            comparatorColumn.append(Comparators.getNameByComparator(comparator));
             avgTimeColumn.append(time.getValue());
         }
         return performanceTable;
