@@ -8,7 +8,6 @@ import java.util.List;
 import org.troy.capstone.constants.TableColumnName;
 import org.troy.capstone.utils.TableUtils;
 
-import tech.tablesaw.api.FloatColumn;
 import tech.tablesaw.api.IntColumn;
 import tech.tablesaw.api.LongColumn;
 import tech.tablesaw.api.Row;
@@ -30,7 +29,11 @@ public class Sorter {
         List<Comparator<Row>> comparators = Comparators.getComparators();
         for (Comparator<Row> comparator : comparators) {
             LongWrapper time = new LongWrapper();
-            Table sortedTable = QuickSort.quickSort(table, comparator, time);
+            List<Row> rows = new ArrayList<>();
+            table.stream().forEach(rows::add);
+            QuickSort.quickSort(rows, comparator, time);
+            Table sortedTable = table.emptyCopy();
+            rows.forEach(sortedTable::append);
             if (!isSorted(sortedTable, comparator))
                 System.out.println("Sorting failed for comparator: " + Comparators.getNameByComparator(comparator)+ " in " + time + " seconds");
             else
@@ -38,18 +41,26 @@ public class Sorter {
         }
     }
 
-
     public static Table sortTable(Table table, String sortingOption){
         Comparator<Row> comparator = Comparators.getComparatorByName(sortingOption);
-
-        if( table.rowCount() <= 25 )
-            return InsertionSort.insertionSort(table, comparator);
-        else
-            return QuickSort.quickSort(table, comparator);
+        System.out.println("Sorting using " + Comparators.getNameByComparator(comparator) + " comparator...");
+        List<Row> rows = TableUtils.tableToRowList(table);
+        if( rows.size() <= 25 ){
+            System.out.println("Using Insertion Sort for small table...");
+            InsertionSort.insertionSort(rows, comparator);
+        } else {
+            System.out.println("Using Quick Sort for larger table...");
+            QuickSort.quickSort(rows, comparator);
+        }
+        Table sortedTable = table.emptyCopy();
+        rows.forEach(sortedTable::append);
+        return sortedTable;
     }
 
+
+
     public static Table shuffleTable(Table table) {
-        List<Row> rows = new ArrayList<>(table.stream().toList());
+        List<Row> rows = TableUtils.tableToRowList(table);
         Collections.shuffle(rows);
         Table shuffledTable = table.emptyCopy();
         rows.forEach(shuffledTable::append);
@@ -87,13 +98,14 @@ public class Sorter {
 
         for (int size = 1; size <= table.rowCount(); size += step) {
             Table subset = shuffleTable(table.inRange(0, Math.min(size, table.rowCount())));
+            List<Row> rows = TableUtils.tableToRowList(subset);
             List<LongWrapper> timeArr = new ArrayList<>(numberOfTrials);
             LongWrapper time = new LongWrapper();
             for (int x = 0; x < numberOfTrials; x++) {
                 timeArr.add(new LongWrapper());
                 switch (algorithm) {
-                    case "quick" -> QuickSort.quickSort(subset, comparator, timeArr.get(x));
-                    case "insertion" -> InsertionSort.insertionSort(subset, comparator, timeArr.get(x));
+                    case "quick" -> QuickSort.quickSort(rows, comparator, timeArr.get(x));
+                    case "insertion" -> InsertionSort.insertionSort(rows, comparator, timeArr.get(x));
                     default -> throw new IllegalArgumentException("Unsupported sorting algorithm: " + algorithm);
                 }
             }
@@ -114,7 +126,11 @@ public class Sorter {
     }
 
     public static void main(String[] args) throws Exception {
-        Table table = TableUtils.readCleanedAttributedData();
+        Table table = TableUtils.readCleanedAttributedData().first(50);
+        Table sortedTable = sortTable(table, Comparators.getNameByComparator(Comparators.PRICE_ASCENDING));
+        for(int i = 0; i < sortedTable.rowCount(); i++)
+            System.out.println(sortedTable.row(i).getFloat(TableColumnName.PRICE.getColumnName()));
+        /*Table table = TableUtils.readCleanedAttributedData();
         // Add a column of random numbers (relevance) to the main table
         int tableSize = table.rowCount();
         java.util.Random rand = new java.util.Random();
@@ -143,5 +159,6 @@ public class Sorter {
                 performanceTable = analyzeSortingPerformance(table, performanceTable, algorithm, 5, comparator, 2);
 
         performanceTable.write().csv("sorting_performance.csv");
+        */
     }
 }

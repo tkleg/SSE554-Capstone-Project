@@ -1,8 +1,10 @@
 package org.troy.capstone.search_engine.sorting;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+
+import org.troy.capstone.constants.TableColumnName;
+import org.troy.capstone.utils.TableUtils;
 
 import tech.tablesaw.api.Row;
 import tech.tablesaw.api.Table;
@@ -13,21 +15,17 @@ import tech.tablesaw.api.Table;
  * Class provides QuickSort implementation for sorting tables based on a specified comparator.
  */
 public class QuickSort {
-    public static Table quickSort(Table table, Comparator<Row> comparator) {
-        return quickSort(table, comparator, null);
+    public static void quickSort(List<Row> rows, Comparator<Row> comparator) {
+        quickSort(rows, 0, rows.size() - 1, comparator);
     }
 
-    public static Table quickSort(Table table, Comparator<Row> comparator, LongWrapper time) {
-        long start = System.nanoTime();
-        List<Row> rows = new ArrayList<>(table.stream().toList());
-        quickSort(rows, 0, table.rowCount() - 1, comparator);
-        Table newTable = table.emptyCopy();
-        rows.forEach(newTable::append);
-        if (time != null) {
-            long end = System.nanoTime();
-            time.setValue(end - start);
-        }
-        return newTable;
+    public static void quickSort(List<Row> rows, Comparator<Row> comparator, LongWrapper time) {
+        long start = 0L;
+        if( time != null )
+            start = System.nanoTime();
+        quickSort(rows, 0, rows.size() - 1, comparator);
+        if (time != null)
+            time.setValue(System.nanoTime() - start);
     }
 
     private static void quickSort(List<Row> rows, int low, int high, Comparator<Row> comparator) {
@@ -58,6 +56,15 @@ public class QuickSort {
     }
 
     public static void main(String[] args) throws Exception {
+        Table table = TableUtils.readCleanedAttributedData();
+        for( int i = 0; i < table.rowCount(); i++ )
+            System.out.println(table.row(i).getFloat(TableColumnName.PRICE.getColumnName()));
+        System.out.println("Sorting...");
+        for( Row row : table.stream().toList() )
+            System.out.println(row.getFloat(TableColumnName.PRICE.getColumnName()));
+        //for( Row row : sortedTable.stream().toList() )
+        //    System.out.println(row.getFloat(TableColumnName.PRICE.toString()));
+        // 
         /*Table table = TableUtils.readCleanedAttributedData();
         File quickSortDataFile = new File("quick_sort_data.csv");
         quickSortDataFile.delete(); // Ensure we start with a clean file

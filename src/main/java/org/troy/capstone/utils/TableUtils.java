@@ -2,6 +2,8 @@ package org.troy.capstone.utils;
 
 import java.util.Map;
 import java.util.stream.IntStream;
+import java.util.List;
+import java.util.ArrayList;
 
 import org.troy.capstone.constants.DataPath;
 import org.troy.capstone.constants.TableColumnName;
@@ -10,6 +12,7 @@ import tech.tablesaw.api.ColumnType;
 import tech.tablesaw.api.ShortColumn;
 import tech.tablesaw.api.Table;
 import tech.tablesaw.io.csv.CsvReadOptions;
+import tech.tablesaw.api.Row;
 
 /** Utility class for working with Tablesaw tables, including reading and writing CSV files. */
 public class TableUtils {
@@ -246,5 +249,12 @@ public class TableUtils {
             IntStream.range(0, rowCount).mapToObj(i -> (short) i).toArray(Short[]::new)
         );
         table.addColumns( indexColumn );
+    }
+
+    public static List<Row> tableToRowList(Table table) {
+        List<Row> rows = new ArrayList<>();
+        for( int i = 0; i < table.rowCount(); i++ )
+            rows.add(table.row(i));
+        return rows;
     }
 }

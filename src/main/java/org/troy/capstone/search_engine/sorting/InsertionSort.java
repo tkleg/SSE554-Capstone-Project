@@ -13,22 +13,14 @@ import tech.tablesaw.api.Table;
  * Source is https://www.geeksforgeeks.org/dsa/insertion-sort-algorithm/. Modified to fit the data structure and compartors used in the project. 
  */
 public class InsertionSort {
-
-    public static Table insertionSort(Table table, Comparator<Row> comparator) {
-        return insertionSort(table, comparator, null);
-    }
     
-    public static Table insertionSort(Table table, Comparator<Row> comparator, LongWrapper time) {
-        long start = System.nanoTime();
-        List<Row> rows = new ArrayList<>(table.stream().toList());
+    public static void insertionSort(List<Row> rows, Comparator<Row> comparator, LongWrapper time) {
+        long start = 0;
+        if (time != null)
+            start = System.nanoTime();
         insertionSort(rows, comparator);
-        Table newTable = table.emptyCopy();
-        rows.forEach(newTable::append);
-        if (time != null) {
-            long end = System.nanoTime();
-            time.setValue(end - start);
-        }
-        return newTable;
+        if (time != null)
+            time.setValue(System.nanoTime() - start);
     }
 
     public static void insertionSort(List<Row> rows, Comparator<Row> comparator) {
@@ -47,7 +39,11 @@ public class InsertionSort {
     public static void main(String[] args) {
         Table table = TableUtils.readCleanedAttributedData();
         LongWrapper time = new LongWrapper();
-        Table sortedTable = insertionSort(table, Comparators.getComparators().get(0), time);
+        List<Row> rows = new ArrayList<>();
+        table.stream().forEach(rows::add);
+        insertionSort(rows, Comparators.getComparators().get(0), time);
+        Table sortedTable = Table.create("Sorted Table");
+        rows.forEach(sortedTable::append);
         System.out.println("Time taken to sort: " + time.getValue() + " nanoseconds");
         System.out.println("Is sorted: " + Sorter.isSorted(sortedTable, Comparators.getComparators().get(0)));
     }
