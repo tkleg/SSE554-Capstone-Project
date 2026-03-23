@@ -3,11 +3,8 @@ package org.troy.capstone.search_engine.sorting;
 import java.util.Comparator;
 import java.util.List;
 
-import org.troy.capstone.constants.TableColumnName;
-import org.troy.capstone.utils.TableUtils;
 
 import tech.tablesaw.api.Row;
-import tech.tablesaw.api.Table;
 
 /**
  * Code is sourced from a MindTap exercise from the course, but modified to fit the project.
@@ -15,6 +12,13 @@ import tech.tablesaw.api.Table;
  * Class provides QuickSort implementation for sorting tables based on a specified comparator.
  */
 public class QuickSort {
+    /**
+     * Sorts a list of rows using the QuickSort algorithm based on the provided comparator.
+      * @pre comparator is a valid Comparator<Row> that can compare the rows in the list.
+      * 
+      * @param rows The list of rows to be sorted.
+      * @param comparator The comparator used to determine the order of the rows.
+     */
     public static void quickSort(List<Row> rows, Comparator<Row> comparator) {
         quickSort(rows, 0, rows.size() - 1, comparator);
     }
@@ -53,46 +57,6 @@ public class QuickSort {
         Row temp = rows.get(i);
         rows.set(i, rows.get(j));
         rows.set(j, temp);
-    }
-
-    public static void main(String[] args) throws Exception {
-        Table table = TableUtils.readCleanedAttributedData();
-        for( int i = 0; i < table.rowCount(); i++ )
-            System.out.println(table.row(i).getFloat(TableColumnName.PRICE.getColumnName()));
-        System.out.println("Sorting...");
-        for( Row row : table.stream().toList() )
-            System.out.println(row.getFloat(TableColumnName.PRICE.getColumnName()));
-        //for( Row row : sortedTable.stream().toList() )
-        //    System.out.println(row.getFloat(TableColumnName.PRICE.toString()));
-        // 
-        /*Table table = TableUtils.readCleanedAttributedData();
-        File quickSortDataFile = new File("quick_sort_data.csv");
-        quickSortDataFile.delete(); // Ensure we start with a clean file
-        quickSortDataFile.createNewFile();
-        quickSortDataFile.setWritable(true);
-        try (PrintWriter writer = new PrintWriter(quickSortDataFile)) {
-            writer.println("Size,AverageTime(ns)");
-            int numberOfTrials = 20;
-            for( int size = 1; size <= table.rowCount(); size++) {
-                Table subset = Sorter.shuffleTable(table.inRange(0, Math.min(size, table.rowCount())));
-                List<LongWrapper> timeArr = new ArrayList<>(numberOfTrials);
-                LongWrapper time = new LongWrapper();
-                for( int x = 0; x < numberOfTrials; x++) {
-                    timeArr.add(new LongWrapper());
-                    QuickSort.quickSort(subset, Comparators.getComparators().get(0), timeArr.get(x));
-                }
-                Long sum = 0L;
-                List<LongWrapper> filteredTimes = Sorter.removeOutliers(timeArr);
-                for( int x = 0; x < filteredTimes.size(); x++ )
-                    sum += filteredTimes.get(x).getValue();
-                
-                time.setValue(sum / filteredTimes.size());
-                System.out.println("Average time to sort " + size + " items: " + time.getValue() + " nanoseconds");
-                writer.println(size + "," + time.getValue());
-            }
-            writer.flush();
-        }*/
-       
     }
 
 }

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import org.troy.capstone.constants.DataPath;
 import org.troy.capstone.constants.TableColumnName;
+import org.troy.capstone.anotations.Generated;
 
 import tech.tablesaw.api.ColumnType;
 import tech.tablesaw.api.ShortColumn;
@@ -21,6 +22,7 @@ public class TableUtils {
      * Only exists to prevent Jacoco from complaining about the default constructor not being tested.
      * As the only function of this class is to provide static methods, there is no reason for it to be instantiated, so the constructor is private.
      */
+    @Generated
     private TableUtils() {
     }
 

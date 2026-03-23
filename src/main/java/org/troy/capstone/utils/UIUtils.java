@@ -1,5 +1,6 @@
 package org.troy.capstone.utils;
 
+import org.troy.capstone.anotations.Generated;
 
 import javafx.scene.layout.Region;
 
@@ -12,6 +13,7 @@ public class UIUtils {
      * Only exists to prevent Jacoco from complaining about the default constructor not being tested.
      * As the only function of this class is to provide static methods, there is no reason for it to be instantiated, so the constructor is private.
      */
+    @Generated
     private UIUtils() {
     }
 

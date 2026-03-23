@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.troy.capstone.constants.TableColumnName;
 import org.troy.capstone.utils.TableUtils;
+import org.troy.capstone.anotations.Generated;
 
 import tech.tablesaw.api.IntColumn;
 import tech.tablesaw.api.LongColumn;
@@ -16,18 +17,19 @@ import tech.tablesaw.api.Table;
 
 public class Sorter {
 
+    @Generated
     public static boolean isSorted(Table table, Comparator<Row> comparator) {
         for (int i = 1; i < table.rowCount(); i++) {
-            if (comparator.compare(table.row(i - 1), table.row(i)) > 0) {
+            if (comparator.compare(table.row(i - 1), table.row(i)) > 0)
                 return false;
-            }
         }
         return true;
     }
 
+    @Generated
     public static void testSorts(Table table) {
-        List<Comparator<Row>> comparators = Comparators.getComparators();
-        for (Comparator<Row> comparator : comparators) {
+        for (RowComparator.SortType sortType : RowComparator.SortType.values()) {
+            RowComparator comparator = new RowComparator(sortType);
             LongWrapper time = new LongWrapper();
             List<Row> rows = new ArrayList<>();
             table.stream().forEach(rows::add);
@@ -35,15 +37,14 @@ public class Sorter {
             Table sortedTable = table.emptyCopy();
             rows.forEach(sortedTable::append);
             if (!isSorted(sortedTable, comparator))
-                System.out.println("Sorting failed for comparator: " + Comparators.getNameByComparator(comparator)+ " in " + time + " seconds");
+                System.out.println("Sorting failed for comparator: " + comparator.toString() + " in " + time + " seconds");
             else
-                System.out.println("Sorting succeeded for comparator: " + Comparators.getNameByComparator(comparator)+ " in " + time + " seconds");
+                System.out.println("Sorting succeeded for comparator: " + comparator.toString() + " in " + time + " seconds");
         }
     }
 
-    public static Table sortTable(Table table, String sortingOption){
-        Comparator<Row> comparator = Comparators.getComparatorByName(sortingOption);
-        System.out.println("Sorting using " + Comparators.getNameByComparator(comparator) + " comparator...");
+    public static Table sortTable(Table table, RowComparator comparator){
+        System.out.println("Sorting using " + comparator.toString() + " comparator...");
         List<Row> rows = TableUtils.tableToRowList(table);
         if( rows.size() <= 25 ){
             System.out.println("Using Insertion Sort for small table...");
@@ -57,8 +58,7 @@ public class Sorter {
         return sortedTable;
     }
 
-
-
+    @Generated
     public static Table shuffleTable(Table table) {
         List<Row> rows = TableUtils.tableToRowList(table);
         Collections.shuffle(rows);
@@ -67,6 +67,7 @@ public class Sorter {
         return shuffledTable;
     }
 
+    @Generated
     public static List<LongWrapper> removeOutliers(List<LongWrapper> times) {
         if (times.size() < 4) {
             return times; // Not enough data to remove outliers
@@ -90,7 +91,8 @@ public class Sorter {
         return filteredTimes;
     }
 
-    public static Table analyzeSortingPerformance(Table table, Table performanceTable, String algorithm, int numberOfTrials, Comparator<Row> comparator, int step ) throws Exception {
+    @Generated
+    public static Table analyzeSortingPerformance(Table table, Table performanceTable, String algorithm, int numberOfTrials, RowComparator comparator, int step ) throws Exception {
         IntColumn tableSizeColumn = performanceTable.intColumn("Table Size");
         StringColumn sortTypeColumn = performanceTable.stringColumn("Sort Type");
         StringColumn comparatorColumn = performanceTable.stringColumn("Comparator");
@@ -114,20 +116,22 @@ public class Sorter {
             for (int x = 0; x < filteredTimes.size(); x++)
                 sum += filteredTimes.get(x).getValue();
             time.setValue(sum / filteredTimes.size());
-            System.out.println("Algorithm: " + algorithm + " - Comparator: " + Comparators.getNameByComparator(comparator) + " - Avg Time " + size + " items: " + time.getValue() + " nanoseconds");
+            System.out.println("Algorithm: " + algorithm + " - Comparator: " + comparator.toString() + " - Avg Time " + size + " items: " + time.getValue() + " nanoseconds");
 
             //Add a new row to the performance table
             tableSizeColumn.append(size);
             sortTypeColumn.append(algorithm);
-            comparatorColumn.append(Comparators.getNameByComparator(comparator));
+            comparatorColumn.append(comparator.toString());
             avgTimeColumn.append(time.getValue());
         }
         return performanceTable;
     }
 
+    @Generated
     public static void main(String[] args) throws Exception {
         Table table = TableUtils.readCleanedAttributedData().first(50);
-        Table sortedTable = sortTable(table, Comparators.getNameByComparator(Comparators.PRICE_ASCENDING));
+        RowComparator comparator = new RowComparator(RowComparator.SortType.PRICE_ASCENDING);
+        Table sortedTable = sortTable(table, comparator);
         for(int i = 0; i < sortedTable.rowCount(); i++)
             System.out.println(sortedTable.row(i).getFloat(TableColumnName.PRICE.getColumnName()));
         /*Table table = TableUtils.readCleanedAttributedData();
@@ -154,7 +158,7 @@ public class Sorter {
         // }
 
         List<String> algorithms = List.of("quick", "insertion");
-        for(Comparator<Row> comparator : Comparators.getComparators())
+        for(RowComparator comparator : RowComparator.getComparators())
             for (String algorithm : algorithms)
                 performanceTable = analyzeSortingPerformance(table, performanceTable, algorithm, 5, comparator, 2);
 

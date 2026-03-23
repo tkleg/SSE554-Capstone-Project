@@ -41,10 +41,10 @@ public class InsertionSort {
         LongWrapper time = new LongWrapper();
         List<Row> rows = new ArrayList<>();
         table.stream().forEach(rows::add);
-        insertionSort(rows, Comparators.getComparators().get(0), time);
+        insertionSort(rows, new RowComparator(RowComparator.SortType.PRICE_ASCENDING), time);
         Table sortedTable = Table.create("Sorted Table");
         rows.forEach(sortedTable::append);
         System.out.println("Time taken to sort: " + time.getValue() + " nanoseconds");
-        System.out.println("Is sorted: " + Sorter.isSorted(sortedTable, Comparators.getComparators().get(0)));
+        System.out.println("Is sorted: " + Sorter.isSorted(sortedTable, new RowComparator(RowComparator.SortType.PRICE_ASCENDING)));
     }
 }

@@ -9,7 +9,7 @@ import org.troy.capstone.constants.UIDataName;
 import org.troy.capstone.constants.UIElementName;
 import org.troy.capstone.search_engine.SearchEngine;
 import org.troy.capstone.search_engine.sorting.Sorter;
-
+import org.troy.capstone.search_engine.sorting.RowComparator;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import tech.tablesaw.api.Table;
@@ -99,7 +99,10 @@ public class GeneralManager {
         Map<UIDataName, Object> searchData = getSearchData();
         System.out.println("Search Data: " + searchData);
         Table filteredTable = searchEngine.filterItems(searchData);
-        Table sortedTable = Sorter.sortTable(filteredTable, (String) searchData.get(UIDataName.SORTING_OPTION));
+        Table sortedTable = filteredTable;
+        RowComparator comparator = (RowComparator) searchData.get(UIDataName.SORTING_OPTION);
+        if( comparator != null )
+            sortedTable = Sorter.sortTable(filteredTable, comparator);
         List<String> sortedAndFilteredItemIds = sortedTable.stringColumn(TableColumnName.ID.getColumnName()).asList();
         System.out.println("Sorted and Filtered Item IDs: " + sortedAndFilteredItemIds);
         uiManager.updateSearchedItemPagination( sortedAndFilteredItemIds );
