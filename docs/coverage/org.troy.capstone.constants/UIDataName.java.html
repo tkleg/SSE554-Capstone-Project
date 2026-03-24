@@ -13,23 +13,25 @@
     /** UI data name for the selected category filter. */
 <span class="fc" id="L14">    FILTERS_CONTAINER(&quot;FILTERS_CONTAINER&quot;),</span>
     /** UI data name for the minimum star rating filter. */
-<span class="fc" id="L16">    MIN_STAR_RATING(&quot;MIN_STAR_RATING&quot;);</span>
-
+<span class="fc" id="L16">    MIN_STAR_RATING(&quot;MIN_STAR_RATING&quot;),</span>
+    /** UI data name for the sorting option. */
+<span class="fc" id="L18">    SORTING_OPTION(&quot;SORTING_OPTION&quot;);</span>
+    
     /** The string value associated with this enum constant, used for UI data keys. */
     private final String value;
 
     /** Constructor for the enum constants.
      * @param value The string value to associate with this enum constant.
     */
-<span class="fc" id="L24">    UIDataName(String value) {</span>
-<span class="fc" id="L25">        this.value = value;</span>
-<span class="fc" id="L26">    }</span>
+<span class="fc" id="L26">    UIDataName(String value) {</span>
+<span class="fc" id="L27">        this.value = value;</span>
+<span class="fc" id="L28">    }</span>
 
     /** Getter for the string value associated with this enum constant.
      * @return The string value that can be used as a key in UI data storage.
     */
     public String getValue() {
-<span class="fc" id="L32">        return value;</span>
+<span class="fc" id="L34">        return value;</span>
     }
 
 }

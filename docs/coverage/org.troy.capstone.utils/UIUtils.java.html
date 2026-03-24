@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UIUtils.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Project</a> &gt; <a href="index.source.html" class="el_package">org.troy.capstone.utils</a> &gt; <span class="el_source">UIUtils.java</span></div><h1>UIUtils.java</h1><pre class="source lang-java linenums">package org.troy.capstone.utils;
 
+import org.troy.capstone.annotations.Generated;
 
 import javafx.scene.layout.Region;
 
@@ -12,6 +13,7 @@ public class UIUtils {
      * Only exists to prevent Jacoco from complaining about the default constructor not being tested.
      * As the only function of this class is to provide static methods, there is no reason for it to be instantiated, so the constructor is private.
      */
+    @Generated
     private UIUtils() {
     }
 
@@ -25,14 +27,15 @@ public class UIUtils {
      * @param height The desired height to set for the region, or null to leave the height unchanged.
      */
     public static void setSize(Region region, Integer width, Integer height) {
-<span class="fc bfc" id="L28" title="All 2 branches covered.">        if (width != null) {</span>
-<span class="fc" id="L29">            region.setMaxWidth(width);</span>
-<span class="fc" id="L30">            region.setMinWidth(width);</span>
+<span class="fc bfc" id="L30" title="All 2 branches covered.">        if (width != null) {</span>
+<span class="fc" id="L31">            region.setMaxWidth(width);</span>
+<span class="fc" id="L32">            region.setMinWidth(width);</span>
         }
-<span class="fc bfc" id="L32" title="All 2 branches covered.">        if (height != null) {</span>
-<span class="fc" id="L33">            region.setMaxHeight(height);</span>
-<span class="fc" id="L34">            region.setMinHeight(height);</span>
+<span class="fc bfc" id="L34" title="All 2 branches covered.">        if (height != null) {</span>
+<span class="fc" id="L35">            region.setMaxHeight(height);</span>
+<span class="fc" id="L36">            region.setMinHeight(height);</span>
         }
-<span class="fc" id="L36">    }</span>
+<span class="fc" id="L38">    }</span>
+
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

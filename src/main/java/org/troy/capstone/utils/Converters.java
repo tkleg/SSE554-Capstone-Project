@@ -17,11 +17,12 @@ public class Converters {
     private Converters() {
     }
 
-    /**Algorithm sourced from https://www.tutorialspoint.com/java-program-to-convert-localdate-to-java-util-date
-     * Converts a LocalDate to a java.util.Date.
+    /** Converts a LocalDate to a java.util.Date.
+     * Algorithm sourced from https://www.tutorialspoint.com/java-program-to-convert-localdate-to-java-util-date
+     *
      * 
      * @param localDate The LocalDate to be converted.
-     * @return The corresponding java.util.Date.
+     * @return The corresponding Date object.
      */
     public static Date localDateToDate(LocalDate localDate) {
         return Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());

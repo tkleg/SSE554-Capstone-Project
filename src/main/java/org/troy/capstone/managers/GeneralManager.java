@@ -108,7 +108,6 @@ public class GeneralManager {
             System.out.println("Time taken to sort: " + time.getValue() / 1_000_000 + " ms");
         }
         List<String> sortedAndFilteredItemIds = sortedTable.stringColumn(TableColumnName.ID.getColumnName()).asList();
-        System.out.println("Sorted and Filtered Item IDs: " + sortedAndFilteredItemIds);
         uiManager.updateSearchedItemPagination( sortedAndFilteredItemIds );
     }
 

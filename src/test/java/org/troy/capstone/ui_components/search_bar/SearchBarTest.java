@@ -114,4 +114,18 @@ public class SearchBarTest extends ApplicationTest {
         assertEquals(expectedComparator, selectedComparator, "Selected RowComparator should be equal to the expected comparator after selecting an item from the dropdown, but got: " + selectedComparator);
         assertEquals(expectedText, selectedComparator.toString(), "Selected RowComparator should have the expected text representation after selecting an item from the dropdown, but got: " + selectedComparator.toString());
     }
+
+    @Test
+    @DisplayName("Test null options in the sortBy dropdown")
+    public void testNullOptionsInSortByDropdown() throws NoSuchFieldException, IllegalAccessException {
+        ComboBox<RowComparator> dropdown = TestUtils.lookupByTestFXId(TestFXId.SORT_OPTION_DROPDOWN);
+
+        assertNotNull(dropdown, "Sorting option dropdown should not be null");
+
+        //Add a null item to the dropdown and check that it is displayed as "None"
+        interact(() -> dropdown.getSelectionModel().clearSelection());
+        interact(() -> dropdown.setValue(null));
+
+        //No assertions needed, just checking that no exceptions are thrown
+    }
 }

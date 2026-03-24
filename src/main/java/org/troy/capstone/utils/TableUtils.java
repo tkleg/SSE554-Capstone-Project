@@ -253,6 +253,12 @@ public class TableUtils {
         table.addColumns( indexColumn );
     }
 
+    /** Converts a Tablesaw Table to a list of Rows. Uses a loop instead of stream due to stream returning a list of the same row repeated.
+     * 
+     * @pre table is not null and contains at least one row. The rows in the table are properly formatted and contain the expected columns for the application.
+     * @param table The Tablesaw Table to be converted.
+     * @return A list of Rows representing the data in the table.
+     */
     public static List<Row> tableToRowList(Table table) {
         List<Row> rows = new ArrayList<>();
         for( int i = 0; i < table.rowCount(); i++ )

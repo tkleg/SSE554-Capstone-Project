@@ -16,11 +16,17 @@ public class RowComparator implements Comparator<Row> {
      * Enum representing different sorting types for rows.
      */
     public enum SortType {
+        /** Sort by price in ascending order. */
         PRICE_ASCENDING,
+        /** Sort by price in descending order. */
         PRICE_DESCENDING,
+        /** Sort by relevance in ascending order. */
         RELEVANCE_ASCENDING,
+        /** Sort by relevance in descending order. */
         RELEVANCE_DESCENDING,
+        /** Sort by rating in ascending order. */
         RATING_ASCENDING,
+        /** Sort by rating in descending order. */
         RATING_DESCENDING;
     }
 

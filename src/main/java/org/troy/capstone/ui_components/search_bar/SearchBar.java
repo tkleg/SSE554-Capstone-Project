@@ -74,6 +74,14 @@ public class SearchBar extends VBox {
         
     }
 
+    /** Builds the dropdown for the Sort By selections.
+     * 
+     * @pre The sortingOptionDropdown should be properly initialized to allow for adding sorting options to it and the generalManager should be properly initialized to allow for adding the dropdown to it.
+     * @post The sortingOptionDropdown is built with the appropriate sorting options, callbacks are set for displaying the options and printing the selected option, and the dropdown is added to the generalManager and the provided bottomBox.
+     * @param generalManager The GeneralManager to register the sortingOptionDropdown with.
+     * @param bottomBox The HBox to add the sortingOptionDropdown to.
+     * @param sortByLabel The Label to associate with the sortingOptionDropdown in the UI.
+     */
     private void buildSortingOptionDropdown(GeneralManager generalManager, HBox bottomBox, Label sortByLabel) {
         sortingOptionDropdown.setId(TestFXId.SORT_OPTION_DROPDOWN.getId());
         sortingOptionDropdown.getItems().addAll(RowComparator.getComparators());

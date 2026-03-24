@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>InsertionSort.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Project</a> &gt; <a href="index.source.html" class="el_package">org.troy.capstone.search_engine.sorting</a> &gt; <span class="el_source">InsertionSort.java</span></div><h1>InsertionSort.java</h1><pre class="source lang-java linenums">package org.troy.capstone.search_engine.sorting;
+
+import java.util.List;
+
+import org.troy.capstone.annotations.Generated;
+
+import tech.tablesaw.api.Row;
+
+/**
+ * This is used to sort a list of Rows based on a custom RowComparator. Source is https://www.geeksforgeeks.org/dsa/insertion-sort-algorithm/ and modified to fit the data structure and comparators used in the project.
+ */
+public class InsertionSort {
+    
+    /** Only exists to prevent Jacoco from reporting this class as uncovered. */
+    private InsertionSort() {}
+
+    /**
+     * Sorts a list of rows using the Insertion Sort algorithm based on the provided comparator. Only used for analysis so it is ignored in code coverage.
+     * 
+     * @pre comparator is a valid RowComparator that can compare the rows in the list.
+     *  The rows in the list have the proper column that the comparator expects to compare.
+     * 
+     * @post The list of rows is sorted in place based on the order defined by the comparator.
+     * 
+     * @param rows The list of rows to be sorted.
+     * @param comparator The RowComparator used to compare the rows for sorting.
+      * @param time An optional LongWrapper to store the time taken to perform the sort. If null, time will not be recorded.
+     */
+    @Generated
+    public static void insertionSort(List&lt;Row&gt; rows, RowComparator comparator, LongWrapper time) {
+        long start = 0;
+        if (time != null)
+            start = System.nanoTime();
+        insertionSort(rows, comparator);
+        if (time != null)
+            time.setValue(System.nanoTime() - start);
+    }
+
+    /**
+     * Sorts a list of rows using the Insertion Sort algorithm based on the provided comparator.
+     * This method does not record the time taken for sorting.
+     * 
+     * @pre comparator is a valid RowComparator that can compare the rows in the list.
+     *  The rows in the list have the proper column that the comparator expects to compare.
+     * 
+     * @post The list of rows is sorted in place based on the order defined by the comparator.
+     * 
+     * @param rows The list of rows to be sorted.
+     * @param comparator The RowComparator used to compare the rows for sorting.
+     */
+    public static void insertionSort(List&lt;Row&gt; rows, RowComparator comparator) {
+<span class="fc" id="L52">        int n = rows.size();</span>
+<span class="fc bfc" id="L53" title="All 2 branches covered.">        for( int i = 1; i &lt; n; i++) {</span>
+<span class="fc" id="L54">            Row key = rows.get(i);</span>
+<span class="fc" id="L55">            int j = i - 1;</span>
+<span class="fc bfc" id="L56" title="All 4 branches covered.">            while(j &gt;= 0 &amp;&amp; comparator.compare(rows.get(j), key) &gt; 0) {</span>
+<span class="fc" id="L57">                rows.set(j + 1, rows.get(j));</span>
+<span class="fc" id="L58">                j--;</span>
+            }
+<span class="fc" id="L60">            rows.set(j + 1, key);</span>
+        }
+<span class="fc" id="L62">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>
