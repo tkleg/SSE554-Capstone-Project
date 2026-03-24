@@ -64,6 +64,14 @@ public class RowComparator implements Comparator<Row> {
     }
 
     /**
+     * Returns the SortType of this RowComparator.
+     * @return The SortType of this RowComparator.
+     */
+    public SortType getSortType() {
+        return sortType;
+    }
+
+    /**
      * Compares two Rows based on the SortType of this RowComparator.
      * @param r1 The first Row to be compared.
      * @param r2 The second Row to be compared.

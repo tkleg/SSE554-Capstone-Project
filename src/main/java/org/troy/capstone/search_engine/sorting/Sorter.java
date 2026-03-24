@@ -6,6 +6,9 @@ import org.troy.capstone.utils.TableUtils;
 import tech.tablesaw.api.Row;
 import tech.tablesaw.api.Table;
 
+/**
+ * The Sorter class provides a method to sort a Table based on a given RowComparator. It uses Insertion Sort for small tables (25 rows or fewer) and Quick Sort for larger tables. The sorting is performed on a copy of the original table, ensuring that the original data remains unchanged.
+ */
 public class Sorter {
 
     /**
