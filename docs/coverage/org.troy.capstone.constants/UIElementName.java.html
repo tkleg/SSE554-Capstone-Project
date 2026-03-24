@@ -17,23 +17,24 @@
     /** UI element name for the search query input field. */
 <span class="fc" id="L18">    SEARCH_FIELD(&quot;SEARCH_FIELD&quot;),</span>
     /** UI element name for the star rating filter. */
-<span class="fc" id="L20">    STAR_RATING_FILTER(&quot;STAR_RATING_FILTER&quot;);</span>
-
+<span class="fc" id="L20">    STAR_RATING_FILTER(&quot;STAR_RATING_FILTER&quot;),</span>
+    /** UI element name for the sorting option. */
+<span class="fc" id="L22">    SORTING_OPTION_DROPDOWN(&quot;SORTING_OPTION_DROPDOWN&quot;);</span>
     /** The string value associated with this enum constant, used for UI element identifiers. */
     private final String value;
 
     /** Constructor for the enum constants.
      * @param value The string value to associate with this enum constant.
     */
-<span class="fc" id="L28">    UIElementName(String value) {</span>
-<span class="fc" id="L29">        this.value = value;</span>
-<span class="fc" id="L30">    }</span>
+<span class="fc" id="L29">    UIElementName(String value) {</span>
+<span class="fc" id="L30">        this.value = value;</span>
+<span class="fc" id="L31">    }</span>
 
     /** Getter for the string value associated with this enum constant.
      * @return The string value that can be used as an identifier for UI elements.
     */
     public String getValue() {
-<span class="fc" id="L36">        return value;</span>
+<span class="fc" id="L37">        return value;</span>
     }
 
 }

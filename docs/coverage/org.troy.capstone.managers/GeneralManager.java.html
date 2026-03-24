@@ -4,10 +4,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.troy.capstone.constants.TableColumnName;
 import org.troy.capstone.constants.UIDataName;
 import org.troy.capstone.constants.UIElementName;
 import org.troy.capstone.search_engine.SearchEngine;
-
+import org.troy.capstone.search_engine.sorting.Sorter;
+import org.troy.capstone.search_engine.sorting.RowComparator;
+import org.troy.capstone.search_engine.sorting.LongWrapper;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import tech.tablesaw.api.Table;
@@ -25,10 +28,10 @@ public class GeneralManager {
     /** Constructor for GeneralManager, filled from a tablesaw Table.
      * @param table The tablesaw Table containing the item data to be used by the SearchEngine.
      */
-<span class="fc" id="L28">    public GeneralManager(Table table) {</span>
-<span class="fc" id="L29">        uiManager = new UIElementManager();</span>
-<span class="fc" id="L30">        searchEngine = new SearchEngine(table);</span>
-<span class="fc" id="L31">    }</span>
+<span class="fc" id="L31">    public GeneralManager(Table table) {</span>
+<span class="fc" id="L32">        uiManager = new UIElementManager();</span>
+<span class="fc" id="L33">        searchEngine = new SearchEngine(table);</span>
+<span class="fc" id="L34">    }</span>
 
     /**
      * Gets a UI element from the UIElementManager based on the provided key.
@@ -39,7 +42,7 @@ public class GeneralManager {
       * @return An Optional containing the UI element if found, or an empty Optional if not found.
      */
     public Optional&lt;Node&gt; getUIElement(UIElementName key) {
-<span class="fc" id="L42">        return uiManager.getElement(key);</span>
+<span class="fc" id="L45">        return uiManager.getElement(key);</span>
     }
 
     /**
@@ -50,7 +53,7 @@ public class GeneralManager {
       * @return The search data containing the filters to be applied.
      */
     public Map&lt;UIDataName, Object&gt; getSearchData() {
-<span class="fc" id="L53">        return uiManager.getSearchData();</span>
+<span class="fc" id="L56">        return uiManager.getSearchData();</span>
     }
 
     /**
@@ -62,8 +65,8 @@ public class GeneralManager {
      * @param element The UI element to be added.
      */
     public void addUIElement(UIElementName key, Node element) {
-<span class="fc" id="L65">        uiManager.addElement(key, element);</span>
-<span class="fc" id="L66">    }</span>
+<span class="fc" id="L68">        uiManager.addElement(key, element);</span>
+<span class="fc" id="L69">    }</span>
 
     /**
      * Sets the button in the UIElementManager and assigns an action to it that filters the search results and updates the UI when clicked.
@@ -73,9 +76,9 @@ public class GeneralManager {
      * @param button The Button to be set in the UIElementManager
      */
     public void setButton(Button button) {
-<span class="fc" id="L76">        uiManager.setButton(button);</span>
-<span class="fc" id="L77">        button.setOnAction(e -&gt; filterAndPrintNumberOfResults());</span>
-<span class="fc" id="L78">    }</span>
+<span class="fc" id="L79">        uiManager.setButton(button);</span>
+<span class="fc" id="L80">        button.setOnAction(e -&gt; filterAndPrintNumberOfResults());</span>
+<span class="fc" id="L81">    }</span>
 
     /**
      * Gets the button from the UIElementManager.
@@ -83,22 +86,30 @@ public class GeneralManager {
      * @return The Button from the UIElementManager
      */
     public Button getButton() {
-<span class="fc" id="L86">        return uiManager.getButton();</span>
+<span class="fc" id="L89">        return uiManager.getButton();</span>
     }
 
     /**
-     * Gets a UI element from the UIElementManager, filters data, and updates the UI with the filtered results.
+     * Gets a UI element from the UIElementManager, filters data, sorts it, and updates the UI with the filtered results.
      * 
      * @pre None, error handling is done within the SearchEngine and UIElementManager.
      * 
      * @post The UI is updated with the filtered results based on the current search data from the UIElementManager.
      */
     public void filterAndPrintNumberOfResults() {
-<span class="fc" id="L97">        Map&lt;UIDataName, Object&gt; searchData = getSearchData();</span>
-<span class="fc" id="L98">        System.out.println(&quot;Search Data: &quot; + searchData);</span>
-<span class="fc" id="L99">        List&lt;String&gt; filteredIDs = searchEngine.filterItems(searchData);</span>
-<span class="fc" id="L100">        uiManager.updateSearchedItemPagination(filteredIDs);</span>
-<span class="fc" id="L101">    }</span>
+<span class="fc" id="L100">        Map&lt;UIDataName, Object&gt; searchData = getSearchData();</span>
+<span class="fc" id="L101">        System.out.println(&quot;Search Data: &quot; + searchData);</span>
+<span class="fc" id="L102">        Table filteredTable = searchEngine.filterItems(searchData);</span>
+<span class="fc" id="L103">        Table sortedTable = filteredTable;</span>
+<span class="fc" id="L104">        RowComparator comparator = (RowComparator) searchData.get(UIDataName.SORTING_OPTION);</span>
+<span class="fc" id="L105">        LongWrapper time = new LongWrapper();</span>
+<span class="fc bfc" id="L106" title="All 2 branches covered.">        if( comparator != null ){</span>
+<span class="fc" id="L107">            sortedTable = Sorter.sortTable(filteredTable, comparator, time);</span>
+<span class="fc" id="L108">            System.out.println(&quot;Time taken to sort: &quot; + time.getValue() / 1_000_000 + &quot; ms&quot;);</span>
+        }
+<span class="fc" id="L110">        List&lt;String&gt; sortedAndFilteredItemIds = sortedTable.stringColumn(TableColumnName.ID.getColumnName()).asList();</span>
+<span class="fc" id="L111">        uiManager.updateSearchedItemPagination( sortedAndFilteredItemIds );</span>
+<span class="fc" id="L112">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

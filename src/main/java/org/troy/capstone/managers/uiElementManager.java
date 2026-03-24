@@ -13,6 +13,7 @@ import org.troy.capstone.ui_components.items.searched.SearchedItemPagination;
 
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 
@@ -90,7 +91,7 @@ public class UIElementManager {
         
         try{
             getElement(UIElementName.MIN_PRICE_SLIDER)
-            .ifPresentOrElse( e -> searchData.put(UIDataName.MIN_PRICE, (float) ((Slider)e).getValue()),
+            .ifPresentOrElse( e -> searchData.put(UIDataName.MIN_PRICE, (float) Math.floor(((Slider)e).getValue())),
             () -> System.out.println("Min price slider not found in UIElementManager, cannot include min price in search data.") );
         }catch (ClassCastException ex) {
             System.out.println("Error retrieving min price slider value: " + ex.getMessage());
@@ -98,7 +99,7 @@ public class UIElementManager {
 
         try{
             getElement(UIElementName.MAX_PRICE_SLIDER)
-            .ifPresentOrElse( e -> searchData.put(UIDataName.MAX_PRICE, (float) ((Slider)e).getValue()),
+            .ifPresentOrElse( e -> searchData.put(UIDataName.MAX_PRICE, (float) Math.floor(((Slider)e).getValue())),
             () -> System.out.println("Max price slider not found in UIElementManager, cannot include max price in search data.") );
         }catch (ClassCastException ex) {
             System.out.println("Error retrieving max price slider value: " + ex.getMessage());
@@ -125,6 +126,14 @@ public class UIElementManager {
             () -> System.out.println("Star rating filter not found in UIElementManager, cannot include star rating in search data.") );
         }catch (ClassCastException ex) {
             System.out.println("Error retrieving star rating filter value: " + ex.getMessage());
+        }
+
+        try{
+            getElement(UIElementName.SORTING_OPTION_DROPDOWN)
+            .ifPresentOrElse( e -> searchData.put(UIDataName.SORTING_OPTION, ((ComboBox<?>)e).getValue()),
+            () -> System.out.println("Sorting option dropdown not found in UIElementManager, cannot include sorting option in search data.") );
+        }catch (ClassCastException ex) {
+            System.out.println("Error retrieving sorting option dropdown value: " + ex.getMessage());
         }
 
         return searchData;

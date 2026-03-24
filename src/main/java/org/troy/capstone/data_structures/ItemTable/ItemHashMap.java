@@ -165,6 +165,11 @@ public class ItemHashMap extends HashMap<IdHashKey, Item> {
         }
     }
 
+    /**
+     * Creates a deep copy of the ItemHashMap.
+     *
+     * @return A new ItemHashMap containing the same entries as the original.
+     */
     public ItemHashMap copy() {
         ItemHashMap copy = new ItemHashMap(size());
         for (Entry<IdHashKey, Item> entry : entrySet())

@@ -165,11 +165,16 @@ public class ItemHashMap extends HashMap&lt;IdHashKey, Item&gt; {
         }
 <span class="fc" id="L166">    }</span>
 
+    /**
+     * Creates a deep copy of the ItemHashMap.
+     *
+     * @return A new ItemHashMap containing the same entries as the original.
+     */
     public ItemHashMap copy() {
-<span class="fc" id="L169">        ItemHashMap copy = new ItemHashMap(size());</span>
-<span class="fc bfc" id="L170" title="All 2 branches covered.">        for (Entry&lt;IdHashKey, Item&gt; entry : entrySet())</span>
-<span class="fc" id="L171">            copy.put(entry.getKey(), entry.getValue());</span>
-<span class="fc" id="L172">        return copy;</span>
+<span class="fc" id="L174">        ItemHashMap copy = new ItemHashMap(size());</span>
+<span class="fc bfc" id="L175" title="All 2 branches covered.">        for (Entry&lt;IdHashKey, Item&gt; entry : entrySet())</span>
+<span class="fc" id="L176">            copy.put(entry.getKey(), entry.getValue());</span>
+<span class="fc" id="L177">        return copy;</span>
     }
 
 }

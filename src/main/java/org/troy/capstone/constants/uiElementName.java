@@ -17,8 +17,9 @@ public enum UIElementName {
     /** UI element name for the search query input field. */
     SEARCH_FIELD("SEARCH_FIELD"),
     /** UI element name for the star rating filter. */
-    STAR_RATING_FILTER("STAR_RATING_FILTER");
-
+    STAR_RATING_FILTER("STAR_RATING_FILTER"),
+    /** UI element name for the sorting option. */
+    SORTING_OPTION_DROPDOWN("SORTING_OPTION_DROPDOWN");
     /** The string value associated with this enum constant, used for UI element identifiers. */
     private final String value;
 

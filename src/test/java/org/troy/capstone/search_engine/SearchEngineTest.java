@@ -17,6 +17,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.troy.capstone.TestDataHolder;
+import org.troy.capstone.constants.TableColumnName;
 import org.troy.capstone.constants.UIDataName;
 
 import tech.tablesaw.api.Table;
@@ -206,7 +207,7 @@ public class SearchEngineTest {
         if( query != null && !query.isEmpty() )
             searchData.put(UIDataName.SEARCH_QUERY, query);
 
-        List<String> filteredIds = searchEngine.filterItems(searchData);
+        List<String> filteredIds = searchEngine.filterItems(searchData).stringColumn(TableColumnName.ID.getColumnName()).asList();
         
         assert filteredIds != null;
         assert filteredIds.size() == expectedCount : "Expected " + expectedCount + " results, but got " + filteredIds.size();
@@ -245,7 +246,7 @@ public class SearchEngineTest {
         @Test
         @DisplayName("Test star rating filter handling of ClassCastException when value is of wrong type - method call through filterItems")
         public void testStarFilterClassCastExceptionHandlingIndirect() {
-            List<String> filteredIds = searchEngine.filterItems(starClassCastErrorData);
+            List<String> filteredIds = searchEngine.filterItems(starClassCastErrorData).stringColumn(TableColumnName.ID.getColumnName()).asList();
             assert filteredIds.size() == table.rowCount() : "Expected all items to be returned when star rating filter value is of wrong type, but got a different number of results.";
         }
 
@@ -266,7 +267,7 @@ public class SearchEngineTest {
         @Test
         @DisplayName("Test star rating filter handling of null value when star rating is missing - method call through filterItems")
         public void testStarFilterNullHandlingIndirect() {
-            List<String> filteredIds = searchEngine.filterItems(starNullErrorData);
+            List<String> filteredIds = searchEngine.filterItems(starNullErrorData).stringColumn(TableColumnName.ID.getColumnName()).asList();
             assert filteredIds.size() == table.rowCount() : "Expected all items to be returned when star rating filter value is missing, but got a different number of results.";
         }
 
@@ -288,7 +289,7 @@ public class SearchEngineTest {
         @Test
         @DisplayName("Test price filter handling of ClassCastException when values are of wrong type - method call through filterItems")
         public void testPriceFilterClassCastExceptionHandlingIndirect() {
-            List<String> filteredIds = searchEngine.filterItems(priceClassCastErrorData);
+            List<String> filteredIds = searchEngine.filterItems(priceClassCastErrorData).stringColumn(TableColumnName.ID.getColumnName()).asList();
             assert filteredIds.size() == table.rowCount() : "Expected all items to be returned when price filter values are of wrong type, but got a different number of results.";
         }
         
@@ -314,7 +315,7 @@ public class SearchEngineTest {
             searchData.put(UIDataName.MAX_PRICE, MAX_MAX_PRICE);
             searchData.put(UIDataName.FILTERS_CONTAINER, emptyFiltersContainer);
 
-            List<String> filteredIds = searchEngine.filterItems(searchData);
+            List<String> filteredIds = searchEngine.filterItems(searchData).stringColumn(TableColumnName.ID.getColumnName()).asList();
             assert filteredIds.size() == table.rowCount() : "Expected all items to be returned when min price value is missing, but got a different number of results.";
         }
 
@@ -340,7 +341,7 @@ public class SearchEngineTest {
             searchData.put(UIDataName.MIN_PRICE, MIN_MIN_PRICE);
             searchData.put(UIDataName.FILTERS_CONTAINER, emptyFiltersContainer);
 
-            List<String> filteredIds = searchEngine.filterItems(searchData);
+            List<String> filteredIds = searchEngine.filterItems(searchData).stringColumn(TableColumnName.ID.getColumnName()).asList();
             assert filteredIds.size() == table.rowCount() : "Expected all items to be returned when max price value is missing, but got a different number of results.";
         }
 
@@ -364,7 +365,7 @@ public class SearchEngineTest {
             searchData.remove(UIDataName.MIN_PRICE);
             searchData.remove(UIDataName.MAX_PRICE);
 
-            List<String> filteredIds = searchEngine.filterItems(searchData);
+            List<String> filteredIds = searchEngine.filterItems(searchData).stringColumn(TableColumnName.ID.getColumnName()).asList();
             assert filteredIds.size() == table.rowCount() : "Expected all items to be returned when min and max price values are missing, but got a different number of results.";
         }
         
@@ -388,7 +389,7 @@ public class SearchEngineTest {
         @Test
         @DisplayName("Test categorical filters handling of ClassCastException when filters container is of wrong type - method call through filterItems")
         public void testCategoricalFilterClassCastExceptionHandlingIndirect() {
-            List<String> filteredIds = searchEngine.filterItems(categoricalClassCastErrorData);
+            List<String> filteredIds = searchEngine.filterItems(categoricalClassCastErrorData).stringColumn(TableColumnName.ID.getColumnName()).asList();
             assert filteredIds.size() == table.rowCount() : "Expected all items to be returned when categorical filters container is of wrong type, but got a different number of results.";
         }
 
@@ -411,7 +412,7 @@ public class SearchEngineTest {
         @Test
         @DisplayName("Test categorical filters handling of null value when filters container is missing - method call through filterItems")
         public void testCategoricalFilterNullHandlingIndirect() {
-            List<String> filteredIds = searchEngine.filterItems(categoricalNullErrorData);
+            List<String> filteredIds = searchEngine.filterItems(categoricalNullErrorData).stringColumn(TableColumnName.ID.getColumnName()).asList();
             assert filteredIds.size() == table.rowCount() : "Expected all items to be returned when categorical filters container is missing, but got a different number of results.";
         }
 
@@ -431,7 +432,7 @@ public class SearchEngineTest {
             Map<UIDataName, Object> searchData = new HashMap<>(categoricalNullErrorData);
             searchData.put(UIDataName.FILTERS_CONTAINER, Map.of());
 
-            List<String> filteredIds = searchEngine.filterItems(searchData);
+            List<String> filteredIds = searchEngine.filterItems(searchData).stringColumn(TableColumnName.ID.getColumnName()).asList();
             assert filteredIds.size() == table.rowCount() : "Expected all items to be returned when categorical filters container has empty sets, but got a different number of results.";
         }
 

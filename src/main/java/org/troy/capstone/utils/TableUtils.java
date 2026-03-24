@@ -2,7 +2,10 @@ package org.troy.capstone.utils;
 
 import java.util.Map;
 import java.util.stream.IntStream;
+import java.util.List;
+import java.util.ArrayList;
 
+import org.troy.capstone.annotations.Generated;
 import org.troy.capstone.constants.DataPath;
 import org.troy.capstone.constants.TableColumnName;
 
@@ -10,6 +13,7 @@ import tech.tablesaw.api.ColumnType;
 import tech.tablesaw.api.ShortColumn;
 import tech.tablesaw.api.Table;
 import tech.tablesaw.io.csv.CsvReadOptions;
+import tech.tablesaw.api.Row;
 
 /** Utility class for working with Tablesaw tables, including reading and writing CSV files. */
 public class TableUtils {
@@ -18,6 +22,7 @@ public class TableUtils {
      * Only exists to prevent Jacoco from complaining about the default constructor not being tested.
      * As the only function of this class is to provide static methods, there is no reason for it to be instantiated, so the constructor is private.
      */
+    @Generated
     private TableUtils() {
     }
 
@@ -246,5 +251,18 @@ public class TableUtils {
             IntStream.range(0, rowCount).mapToObj(i -> (short) i).toArray(Short[]::new)
         );
         table.addColumns( indexColumn );
+    }
+
+    /** Converts a Tablesaw Table to a list of Rows. Uses a loop instead of stream due to stream returning a list of the same row repeated.
+     * 
+     * @pre table is not null and contains at least one row. The rows in the table are properly formatted and contain the expected columns for the application.
+     * @param table The Tablesaw Table to be converted.
+     * @return A list of Rows representing the data in the table.
+     */
+    public static List<Row> tableToRowList(Table table) {
+        List<Row> rows = new ArrayList<>();
+        for( int i = 0; i < table.rowCount(); i++ )
+            rows.add(table.row(i));
+        return rows;
     }
 }

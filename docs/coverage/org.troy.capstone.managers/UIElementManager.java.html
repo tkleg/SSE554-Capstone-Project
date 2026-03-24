@@ -13,6 +13,7 @@ import org.troy.capstone.ui_components.items.searched.SearchedItemPagination;
 
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 
@@ -27,9 +28,9 @@ public class UIElementManager {
     private Button searchButton;
     
     /** Constructor for UIElementManager, initializes the map for storing UI elements */
-<span class="fc" id="L30">    public UIElementManager() {</span>
-<span class="fc" id="L31">        uiElements = new HashMap&lt;&gt;();</span>
-<span class="fc" id="L32">    }</span>
+<span class="fc" id="L31">    public UIElementManager() {</span>
+<span class="fc" id="L32">        uiElements = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L33">    }</span>
 
     /** Retrieves a UI element based on the provided key.
      * Logs a message if the element is not found in the manager.
@@ -40,9 +41,9 @@ public class UIElementManager {
      * @return An Optional containing the UI element if found, or an empty Optional if not found
      */
     public Optional&lt;Node&gt; getElement(UIElementName key) {
-<span class="fc bfc" id="L43" title="All 2 branches covered.">        if (!uiElements.containsKey(key))</span>
-<span class="fc" id="L44">            System.out.println(&quot;UI element with key &quot; + key + &quot; not found in UIElementManager.&quot;);</span>
-<span class="fc" id="L45">        return Optional.ofNullable(uiElements.get(key));</span>
+<span class="fc bfc" id="L44" title="All 2 branches covered.">        if (!uiElements.containsKey(key))</span>
+<span class="fc" id="L45">            System.out.println(&quot;UI element with key &quot; + key + &quot; not found in UIElementManager.&quot;);</span>
+<span class="fc" id="L46">        return Optional.ofNullable(uiElements.get(key));</span>
     }
 
     /** Adds a UI element to the manager with the specified key.
@@ -54,8 +55,8 @@ public class UIElementManager {
      * @param element The UI element to be added
      */
     public void addElement(UIElementName key, Node element) {
-<span class="fc" id="L57">        uiElements.put(key, element);</span>
-<span class="fc" id="L58">    }</span>
+<span class="fc" id="L58">        uiElements.put(key, element);</span>
+<span class="fc" id="L59">    }</span>
 
     /** Gets the search button from the manager.
      * 
@@ -64,7 +65,7 @@ public class UIElementManager {
      * @return The Button that was set in the manager
      */
     public Button getButton() {
-<span class="fc" id="L67">        return searchButton;</span>
+<span class="fc" id="L68">        return searchButton;</span>
     }
 
     /** Sets the search button in the manager and assigns an action to it that filters the search results and updates the UI when clicked.
@@ -74,8 +75,8 @@ public class UIElementManager {
      * @param button The Button to be set in the manager
      */
     public void setButton(Button button) {
-<span class="fc" id="L77">        this.searchButton = button;</span>
-<span class="fc" id="L78">    }</span>
+<span class="fc" id="L78">        this.searchButton = button;</span>
+<span class="fc" id="L79">    }</span>
     
     /**
      * Gathers current values of UI elements and returns them in a map for use
@@ -86,48 +87,56 @@ public class UIElementManager {
      * @return A map containing the current values of UI elements for use in search queries
      */
     public Map&lt;UIDataName, Object&gt; getSearchData(){
-<span class="fc" id="L89">        Map&lt;UIDataName, Object&gt; searchData = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L90">        Map&lt;UIDataName, Object&gt; searchData = new HashMap&lt;&gt;();</span>
         
         try{
-<span class="fc" id="L92">            getElement(UIElementName.MIN_PRICE_SLIDER)</span>
-<span class="fc" id="L93">            .ifPresentOrElse( e -&gt; searchData.put(UIDataName.MIN_PRICE, (float) ((Slider)e).getValue()),</span>
-<span class="fc" id="L94">            () -&gt; System.out.println(&quot;Min price slider not found in UIElementManager, cannot include min price in search data.&quot;) );</span>
-<span class="fc" id="L95">        }catch (ClassCastException ex) {</span>
-<span class="fc" id="L96">            System.out.println(&quot;Error retrieving min price slider value: &quot; + ex.getMessage());</span>
-<span class="fc" id="L97">        }</span>
+<span class="fc" id="L93">            getElement(UIElementName.MIN_PRICE_SLIDER)</span>
+<span class="fc" id="L94">            .ifPresentOrElse( e -&gt; searchData.put(UIDataName.MIN_PRICE, (float) Math.floor(((Slider)e).getValue())),</span>
+<span class="fc" id="L95">            () -&gt; System.out.println(&quot;Min price slider not found in UIElementManager, cannot include min price in search data.&quot;) );</span>
+<span class="fc" id="L96">        }catch (ClassCastException ex) {</span>
+<span class="fc" id="L97">            System.out.println(&quot;Error retrieving min price slider value: &quot; + ex.getMessage());</span>
+<span class="fc" id="L98">        }</span>
 
         try{
-<span class="fc" id="L100">            getElement(UIElementName.MAX_PRICE_SLIDER)</span>
-<span class="fc" id="L101">            .ifPresentOrElse( e -&gt; searchData.put(UIDataName.MAX_PRICE, (float) ((Slider)e).getValue()),</span>
-<span class="fc" id="L102">            () -&gt; System.out.println(&quot;Max price slider not found in UIElementManager, cannot include max price in search data.&quot;) );</span>
-<span class="fc" id="L103">        }catch (ClassCastException ex) {</span>
-<span class="fc" id="L104">            System.out.println(&quot;Error retrieving max price slider value: &quot; + ex.getMessage());</span>
-<span class="fc" id="L105">        }</span>
+<span class="fc" id="L101">            getElement(UIElementName.MAX_PRICE_SLIDER)</span>
+<span class="fc" id="L102">            .ifPresentOrElse( e -&gt; searchData.put(UIDataName.MAX_PRICE, (float) Math.floor(((Slider)e).getValue())),</span>
+<span class="fc" id="L103">            () -&gt; System.out.println(&quot;Max price slider not found in UIElementManager, cannot include max price in search data.&quot;) );</span>
+<span class="fc" id="L104">        }catch (ClassCastException ex) {</span>
+<span class="fc" id="L105">            System.out.println(&quot;Error retrieving max price slider value: &quot; + ex.getMessage());</span>
+<span class="fc" id="L106">        }</span>
         try{
-<span class="fc" id="L107">            getElement(UIElementName.SEARCH_FIELD)</span>
-<span class="fc" id="L108">            .ifPresentOrElse( e -&gt; searchData.put(UIDataName.SEARCH_QUERY, ((TextField)e).getText()),</span>
-<span class="fc" id="L109">            () -&gt; System.out.println(&quot;Search field not found in UIElementManager, cannot include search query in search data.&quot;) );</span>
-<span class="fc" id="L110">        }catch (ClassCastException ex) {</span>
-<span class="fc" id="L111">            System.out.println(&quot;Error retrieving search field value: &quot; + ex.getMessage());</span>
-<span class="fc" id="L112">        }</span>
+<span class="fc" id="L108">            getElement(UIElementName.SEARCH_FIELD)</span>
+<span class="fc" id="L109">            .ifPresentOrElse( e -&gt; searchData.put(UIDataName.SEARCH_QUERY, ((TextField)e).getText()),</span>
+<span class="fc" id="L110">            () -&gt; System.out.println(&quot;Search field not found in UIElementManager, cannot include search query in search data.&quot;) );</span>
+<span class="fc" id="L111">        }catch (ClassCastException ex) {</span>
+<span class="fc" id="L112">            System.out.println(&quot;Error retrieving search field value: &quot; + ex.getMessage());</span>
+<span class="fc" id="L113">        }</span>
 
         try{
-<span class="fc" id="L115">            getElement(UIElementName.FILTERS_CONTAINER)</span>
-<span class="fc" id="L116">            .ifPresentOrElse( e -&gt; searchData.put(UIDataName.FILTERS_CONTAINER, ((FiltersContainer)e).getSelectedFilters()),</span>
-<span class="fc" id="L117">            () -&gt; System.out.println(&quot;Filters container not found in UIElementManager, cannot include filters in search data.&quot;) );</span>
-<span class="fc" id="L118">        }catch (ClassCastException ex) {</span>
-<span class="fc" id="L119">            System.out.println(&quot;Error retrieving filters container value: &quot; + ex.getMessage());</span>
-<span class="fc" id="L120">        }</span>
+<span class="fc" id="L116">            getElement(UIElementName.FILTERS_CONTAINER)</span>
+<span class="fc" id="L117">            .ifPresentOrElse( e -&gt; searchData.put(UIDataName.FILTERS_CONTAINER, ((FiltersContainer)e).getSelectedFilters()),</span>
+<span class="fc" id="L118">            () -&gt; System.out.println(&quot;Filters container not found in UIElementManager, cannot include filters in search data.&quot;) );</span>
+<span class="fc" id="L119">        }catch (ClassCastException ex) {</span>
+<span class="fc" id="L120">            System.out.println(&quot;Error retrieving filters container value: &quot; + ex.getMessage());</span>
+<span class="fc" id="L121">        }</span>
 
         try{
-<span class="fc" id="L123">            getElement(UIElementName.STAR_RATING_FILTER)</span>
-<span class="fc" id="L124">            .ifPresentOrElse( e -&gt; searchData.put(UIDataName.MIN_STAR_RATING, ((StarRatingFilter)e).getSelectedRating()),</span>
-<span class="fc" id="L125">            () -&gt; System.out.println(&quot;Star rating filter not found in UIElementManager, cannot include star rating in search data.&quot;) );</span>
-<span class="fc" id="L126">        }catch (ClassCastException ex) {</span>
-<span class="fc" id="L127">            System.out.println(&quot;Error retrieving star rating filter value: &quot; + ex.getMessage());</span>
-<span class="fc" id="L128">        }</span>
+<span class="fc" id="L124">            getElement(UIElementName.STAR_RATING_FILTER)</span>
+<span class="fc" id="L125">            .ifPresentOrElse( e -&gt; searchData.put(UIDataName.MIN_STAR_RATING, ((StarRatingFilter)e).getSelectedRating()),</span>
+<span class="fc" id="L126">            () -&gt; System.out.println(&quot;Star rating filter not found in UIElementManager, cannot include star rating in search data.&quot;) );</span>
+<span class="fc" id="L127">        }catch (ClassCastException ex) {</span>
+<span class="fc" id="L128">            System.out.println(&quot;Error retrieving star rating filter value: &quot; + ex.getMessage());</span>
+<span class="fc" id="L129">        }</span>
 
-<span class="fc" id="L130">        return searchData;</span>
+        try{
+<span class="fc" id="L132">            getElement(UIElementName.SORTING_OPTION_DROPDOWN)</span>
+<span class="fc" id="L133">            .ifPresentOrElse( e -&gt; searchData.put(UIDataName.SORTING_OPTION, ((ComboBox&lt;?&gt;)e).getValue()),</span>
+<span class="fc" id="L134">            () -&gt; System.out.println(&quot;Sorting option dropdown not found in UIElementManager, cannot include sorting option in search data.&quot;) );</span>
+<span class="nc" id="L135">        }catch (ClassCastException ex) {</span>
+<span class="nc" id="L136">            System.out.println(&quot;Error retrieving sorting option dropdown value: &quot; + ex.getMessage());</span>
+<span class="fc" id="L137">        }</span>
+
+<span class="fc" id="L139">        return searchData;</span>
     }
 
     /**
@@ -141,13 +150,13 @@ public class UIElementManager {
      */
     public void updateSearchedItemPagination(List&lt;String&gt; itemIDs) {
         try{
-<span class="fc" id="L144">            getElement(UIElementName.SEARCHED_ITEM_PAGINATION)</span>
-<span class="fc" id="L145">            .ifPresentOrElse( e -&gt; ((SearchedItemPagination)e).update(itemIDs),</span>
-<span class="fc" id="L146">            () -&gt; System.out.println(&quot;Searched item pagination not found in UIElementManager, cannot update search results.&quot;) );</span>
-<span class="fc" id="L147">        }catch (ClassCastException ex) {</span>
-<span class="fc" id="L148">            System.out.println(&quot;Error retrieving searched item pagination value: &quot; + ex.getMessage());</span>
-<span class="fc" id="L149">        }</span>
-<span class="fc" id="L150">    }</span>
+<span class="fc" id="L153">            getElement(UIElementName.SEARCHED_ITEM_PAGINATION)</span>
+<span class="fc" id="L154">            .ifPresentOrElse( e -&gt; ((SearchedItemPagination)e).update(itemIDs),</span>
+<span class="fc" id="L155">            () -&gt; System.out.println(&quot;Searched item pagination not found in UIElementManager, cannot update search results.&quot;) );</span>
+<span class="fc" id="L156">        }catch (ClassCastException ex) {</span>
+<span class="fc" id="L157">            System.out.println(&quot;Error retrieving searched item pagination value: &quot; + ex.getMessage());</span>
+<span class="fc" id="L158">        }</span>
+<span class="fc" id="L159">    }</span>
 
     
 }

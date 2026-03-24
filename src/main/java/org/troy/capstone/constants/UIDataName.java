@@ -13,8 +13,10 @@ public enum UIDataName {
     /** UI data name for the selected category filter. */
     FILTERS_CONTAINER("FILTERS_CONTAINER"),
     /** UI data name for the minimum star rating filter. */
-    MIN_STAR_RATING("MIN_STAR_RATING");
-
+    MIN_STAR_RATING("MIN_STAR_RATING"),
+    /** UI data name for the sorting option. */
+    SORTING_OPTION("SORTING_OPTION");
+    
     /** The string value associated with this enum constant, used for UI data keys. */
     private final String value;
 

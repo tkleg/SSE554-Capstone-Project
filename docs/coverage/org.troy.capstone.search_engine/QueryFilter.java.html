@@ -34,7 +34,7 @@ import tech.tablesaw.api.Row;
 import tech.tablesaw.api.Table;
 
 /**
- * The QueryFilter class is responsible for filtering search results based on a user query. It uses Apache Lucene to create an index of the item data and perform searches on it.
+ * The QueryFilter class is responsible for filtering search results based on a user query. It uses Apache Lucene to create an index of the item data and perform searches on it. Code was sourced from https://medium.com/@dhruvsharma2600/integrating-search-in-your-application-with-apache-lucene-d11c6fb84ab4 and very heavily modified to fit my case.
  */
 public class QueryFilter {
 
