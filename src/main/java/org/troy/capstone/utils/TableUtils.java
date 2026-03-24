@@ -5,9 +5,9 @@ import java.util.stream.IntStream;
 import java.util.List;
 import java.util.ArrayList;
 
+import org.troy.capstone.annotations.Generated;
 import org.troy.capstone.constants.DataPath;
 import org.troy.capstone.constants.TableColumnName;
-import org.troy.capstone.anotations.Generated;
 
 import tech.tablesaw.api.ColumnType;
 import tech.tablesaw.api.ShortColumn;

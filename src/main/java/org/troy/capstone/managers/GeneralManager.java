@@ -10,6 +10,7 @@ import org.troy.capstone.constants.UIElementName;
 import org.troy.capstone.search_engine.SearchEngine;
 import org.troy.capstone.search_engine.sorting.Sorter;
 import org.troy.capstone.search_engine.sorting.RowComparator;
+import org.troy.capstone.search_engine.sorting.LongWrapper;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import tech.tablesaw.api.Table;
@@ -89,7 +90,7 @@ public class GeneralManager {
     }
 
     /**
-     * Gets a UI element from the UIElementManager, filters data, and updates the UI with the filtered results.
+     * Gets a UI element from the UIElementManager, filters data, sorts it, and updates the UI with the filtered results.
      * 
      * @pre None, error handling is done within the SearchEngine and UIElementManager.
      * 
@@ -101,8 +102,11 @@ public class GeneralManager {
         Table filteredTable = searchEngine.filterItems(searchData);
         Table sortedTable = filteredTable;
         RowComparator comparator = (RowComparator) searchData.get(UIDataName.SORTING_OPTION);
-        if( comparator != null )
-            sortedTable = Sorter.sortTable(filteredTable, comparator);
+        LongWrapper time = new LongWrapper();
+        if( comparator != null ){
+            sortedTable = Sorter.sortTable(filteredTable, comparator, time);
+            System.out.println("Time taken to sort: " + time.getValue() / 1_000_000 + " ms");
+        }
         List<String> sortedAndFilteredItemIds = sortedTable.stringColumn(TableColumnName.ID.getColumnName()).asList();
         System.out.println("Sorted and Filtered Item IDs: " + sortedAndFilteredItemIds);
         uiManager.updateSearchedItemPagination( sortedAndFilteredItemIds );

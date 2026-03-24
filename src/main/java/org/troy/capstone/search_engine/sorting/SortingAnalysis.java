@@ -26,11 +26,7 @@ public class SortingAnalysis {
         for (RowComparator.SortType sortType : RowComparator.SortType.values()) {
             RowComparator comparator = new RowComparator(sortType);
             LongWrapper time = new LongWrapper();
-            List<Row> rows = new ArrayList<>();
-            table.stream().forEach(rows::add);
-            QuickSort.quickSort(rows, comparator, time);
-            Table sortedTable = table.emptyCopy();
-            rows.forEach(sortedTable::append);
+            Table sortedTable = Sorter.sortTable(table, comparator, time);
             if (!isSorted(sortedTable, comparator))
                 System.out.println("Sorting failed for comparator: " + comparator.toString() + " in " + time.getValue() + " nanoseconds");
             else

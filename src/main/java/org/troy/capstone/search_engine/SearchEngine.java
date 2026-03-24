@@ -60,7 +60,7 @@ public class SearchEngine {
         //Apply filters prior to the search query so the query is only applied to filtered items to reduce time to apply the search query filter
         Table preQueryFilteredTable = table.where(selection);
 
-        //Filter search query
+        //Filter search query. Add a relevance column in filterItems if not added by the search query filter to ensure that the column is always present for sorting in the UI.
         Table queryFilteredTable = applySearchQueryFilter((String)searchData.get(UIDataName.SEARCH_QUERY), preQueryFilteredTable);
         if( queryFilteredTable != preQueryFilteredTable ){
             System.out.println("After applying search query filter: " + queryFilteredTable.rowCount() + " items");

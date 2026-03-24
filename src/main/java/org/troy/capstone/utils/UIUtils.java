@@ -1,6 +1,6 @@
 package org.troy.capstone.utils;
 
-import org.troy.capstone.anotations.Generated;
+import org.troy.capstone.annotations.Generated;
 
 import javafx.scene.layout.Region;
 

@@ -2,6 +2,8 @@ package org.troy.capstone.search_engine.sorting;
 
 import java.util.List;
 
+import org.troy.capstone.annotations.Generated;
+
 import tech.tablesaw.api.Row;
 
 /**
@@ -9,8 +11,11 @@ import tech.tablesaw.api.Row;
  */
 public class InsertionSort {
     
+    /** Only exists to prevent Jacoco from reporting this class as uncovered. */
+    private InsertionSort() {}
+    
     /**
-     * Sorts a list of rows using the Insertion Sort algorithm based on the provided comparator.
+     * Sorts a list of rows using the Insertion Sort algorithm based on the provided comparator. Only used for analysis so it is ignored in code coverage.
      * 
      * @pre comparator is a valid RowComparator that can compare the rows in the list.
      *  The rows in the list have the proper column that the comparator expects to compare.
@@ -21,6 +26,7 @@ public class InsertionSort {
      * @param comparator The RowComparator used to compare the rows for sorting.
       * @param time An optional LongWrapper to store the time taken to perform the sort. If null, time will not be recorded.
      */
+    @Generated
     public static void insertionSort(List<Row> rows, RowComparator comparator, LongWrapper time) {
         long start = 0;
         if (time != null)

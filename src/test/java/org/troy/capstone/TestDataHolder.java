@@ -5,8 +5,6 @@ import java.util.List;
 import org.troy.capstone.data_structures.ItemTable.ItemHashMap;
 import org.troy.capstone.utils.TableUtils;
 import tech.tablesaw.api.Table;
-import tech.tablesaw.api.FloatColumn;
-import org.troy.capstone.constants.TableColumnName;
 
 public class TestDataHolder {
     private static final Table table;
@@ -15,10 +13,6 @@ public class TestDataHolder {
 
     static {
         table = TableUtils.readCleanedAttributedData();
-        FloatColumn relevanceColumn = FloatColumn.create(TableColumnName.RELEVANCE.getColumnName(), table.rowCount());
-        for (int i = 0; i < table.rowCount(); i++)
-            relevanceColumn.set(i, (float) Math.random());
-        table.addColumns(relevanceColumn);
         itemHashMap = ItemHashMap.fromTable(table);
         allItemIds = itemHashMap.getItemIdsAsList();
     }

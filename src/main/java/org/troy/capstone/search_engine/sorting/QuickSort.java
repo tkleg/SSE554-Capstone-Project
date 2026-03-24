@@ -1,6 +1,8 @@
 package org.troy.capstone.search_engine.sorting;
 import java.util.List;
 
+import org.troy.capstone.annotations.Generated;
+
 import tech.tablesaw.api.Row;
 
 /**
@@ -9,6 +11,10 @@ import tech.tablesaw.api.Row;
  * Class provides QuickSort implementation for sorting tables based on a specified comparator.
  */
 public class QuickSort {
+
+    /** Only exists to prevent Jacoco from reporting this class as uncovered. */
+    private QuickSort() {}
+    
     /**
      * Sorts a list of rows using the QuickSort algorithm based on the provided comparator.
       * @pre comparator is a valid RowComparator that can compare the rows in the list.
@@ -21,7 +27,7 @@ public class QuickSort {
     }
 
     /**
-     * Sorts a list of rows using the QuickSort algorithm based on the provided comparator and records the time taken for sorting.
+     * Sorts a list of rows using the QuickSort algorithm based on the provided comparator and records the time taken for sorting. Only used in testing so it is ignored in code coverage.
       * 
       * @pre comparator is a valid RowComparator that can compare the rows in the list.
       * @pre rows is not null and the rows container the correct column needed to do the sorting.
@@ -31,6 +37,7 @@ public class QuickSort {
       * @param comparator The RowComparator used to determine the order of the rows.
       * @param time An optional LongWrapper to store the time taken to perform the sort. If null, time will not be recorded.
      */
+    @Generated
     public static void quickSort(List<Row> rows, RowComparator comparator, LongWrapper time) {
         long start = 0L;
         if( time != null )

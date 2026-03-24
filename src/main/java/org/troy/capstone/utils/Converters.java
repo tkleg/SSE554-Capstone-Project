@@ -1,9 +1,10 @@
 package org.troy.capstone.utils;
 
-import org.troy.capstone.anotations.Generated;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
+
+import org.troy.capstone.annotations.Generated;
 
 /** Utility class for converting between different date types. */
 public class Converters {

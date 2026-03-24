@@ -78,7 +78,7 @@ public class RowComparator implements Comparator<Row> {
      * @return A negative integer, zero, or a positive integer as the first argument is less than, equal to, or greater than the second.
      */
     @Override
-    public int compare(Row r1, Row r2) {
+    public int compare(Row r1, Row r2){
         switch (sortType) {
             case PRICE_ASCENDING:
                 return Float.compare(r1.getFloat(TableColumnName.PRICE.getColumnName()), r2.getFloat(TableColumnName.PRICE.getColumnName()));
@@ -93,6 +93,7 @@ public class RowComparator implements Comparator<Row> {
             case RATING_DESCENDING:
                 return Float.compare(r2.getFloat(TableColumnName.REVIEW_SCORE.getColumnName()), r1.getFloat(TableColumnName.REVIEW_SCORE.getColumnName()));
             default:
+                System.out.println("Invalid SortType for RowComparator: " + sortType);
                 return 0;
         }
     }

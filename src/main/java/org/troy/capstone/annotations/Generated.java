@@ -1,4 +1,4 @@
-package org.troy.capstone.anotations;
+package org.troy.capstone.annotations;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;

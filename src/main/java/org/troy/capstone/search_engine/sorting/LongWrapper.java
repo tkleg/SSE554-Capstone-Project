@@ -1,7 +1,7 @@
 package org.troy.capstone.search_engine.sorting;
 
 /**
- * A simple wrapper class for a long value, this is used for tracking the speed of sorting algorithms.
+ * A simple wrapper class for a long value, this is used for tracking the speed of sorting algorithms. Needed for mutability when passing to a function to allow pass-by-reference.
  */
 public class LongWrapper {
     /**
