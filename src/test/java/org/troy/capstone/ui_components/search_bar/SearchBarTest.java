@@ -1,5 +1,9 @@
 package org.troy.capstone.ui_components.search_bar;
 
+import org.testfx.framework.junit5.ApplicationTest;
+import org.testfx.framework.junit5.Start;
+import javafx.stage.Stage;
+
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -11,16 +15,28 @@ import org.junit.jupiter.api.Test;
 import org.troy.capstone.TestDataHolder;
 import org.troy.capstone.constants.UIElementName;
 import org.troy.capstone.managers.GeneralManager;
+import org.troy.capstone.constants.TestFXId;
+import org.troy.capstone.search_engine.sorting.RowComparator;
 
+import javafx.scene.control.ComboBox;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import org.troy.capstone.TestUtils;
 
-public class SearchBarTest {
+public class SearchBarTest extends ApplicationTest {
 
     private static GeneralManager generalManager;
     private SearchBar searchBar;
+
+    @Start
+    public void start(Stage stage) {
+        searchBar = SearchBar.create(generalManager);
+        javafx.scene.Scene scene = new javafx.scene.Scene(searchBar, 800, 100);
+        stage.setScene(scene);
+        stage.show();
+    }
 
     @BeforeAll
     @SuppressWarnings("ResultOfObjectAllocationIgnored")
@@ -74,4 +90,28 @@ public class SearchBarTest {
         assert searchButton instanceof Button : "Expected search button to be an instance of Button, but got: " + searchButton.getClass();
     }
 
+    @Test
+    @DisplayName("Test the text shown when clicking the sortBy dropdown")
+    public void testSortByDropdownText() throws NoSuchFieldException, IllegalAccessException {
+        
+        ComboBox<RowComparator> dropdown = TestUtils.lookupByTestFXId(TestFXId.SORT_OPTION_DROPDOWN);
+
+        assertNotNull(dropdown, "Sorting option dropdown should not be null");
+
+        //Open the dropdown and check the text in the cell
+        interact(dropdown::show);
+        RowComparator thirdItem = dropdown.getItems().get(2);
+        RowComparator expectedComparator = new RowComparator(RowComparator.SortType.RELEVANCE_ASCENDING);
+        assertEquals(expectedComparator, thirdItem, "3rd item should be /\"" + expectedComparator.toString() + "/\" but got: " + thirdItem.toString());
+        String thirdItemText = thirdItem.toString();
+        String expectedText = "Relevance Ascending";
+        assertEquals(expectedText, thirdItemText, "3rd item text should by /\"" + expectedText + "/\" but got: " + thirdItemText);
+
+        //Click the 3rd item and check that the dropdown value is updated
+        interact(() -> dropdown.getSelectionModel().select(2));
+        RowComparator selectedComparator = dropdown.getValue();
+        assertNotNull(selectedComparator, "Selected RowComparator should not be null after selecting an item from the dropdown");
+        assertEquals(expectedComparator, selectedComparator, "Selected RowComparator should be equal to the expected comparator after selecting an item from the dropdown, but got: " + selectedComparator);
+        assertEquals(expectedText, selectedComparator.toString(), "Selected RowComparator should have the expected text representation after selecting an item from the dropdown, but got: " + selectedComparator.toString());
+    }
 }

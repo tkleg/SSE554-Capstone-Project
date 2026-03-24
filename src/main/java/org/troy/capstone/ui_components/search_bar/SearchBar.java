@@ -2,6 +2,7 @@ package org.troy.capstone.ui_components.search_bar;
 
 import org.troy.capstone.constants.UIElementName;
 import org.troy.capstone.constants.UISizeControl;
+import org.troy.capstone.constants.TestFXId;
 import org.troy.capstone.managers.GeneralManager;
 import org.troy.capstone.search_engine.sorting.RowComparator;
 import org.troy.capstone.utils.UIUtils;
@@ -74,16 +75,30 @@ public class SearchBar extends VBox {
     }
 
     private void buildSortingOptionDropdown(GeneralManager generalManager, HBox bottomBox, Label sortByLabel) {
+        sortingOptionDropdown.setId(TestFXId.SORT_OPTION_DROPDOWN.getId());
         sortingOptionDropdown.getItems().addAll(RowComparator.getComparators());
         sortingOptionDropdown.setPromptText("Sort By");
         sortingOptionDropdown.getSelectionModel().selectFirst();
         sortingOptionDropdown.setEditable(false);
-        //Display clean name when open
+
+        setSortingOptionCallbacks();
+
+        generalManager.addUIElement(UIElementName.SORTING_OPTION_DROPDOWN, sortingOptionDropdown);
+        bottomBox.getChildren().addAll(sortByLabel, sortingOptionDropdown);
+    }
+
+    /**
+     * Sets the callbacks for displaying a cell, selected item, and printing when an item is selected.
+     * @pre The sortingOptionDropdown should be properly initialized with the expected items for the callbacks to function correctly.
+     * @post The callbacks for displaying a cell, selected item, and printing when an item is selected are set for the sortingOptionDropdown.
+     */
+    private void setSortingOptionCallbacks() {
+         //Display clean name when open
         sortingOptionDropdown.setCellFactory(listView -> new ListCell<>() {
             @Override
             protected void updateItem(RowComparator item, boolean empty) {
                 super.updateItem(item, empty);
-                setText(empty || item == null ? null : item.toString());
+                setText(empty ? null : item.toString());
             }
         });
         //Display clean name when closed
@@ -91,16 +106,14 @@ public class SearchBar extends VBox {
             @Override
             protected void updateItem(RowComparator item, boolean empty) {
                 super.updateItem(item, empty);
-                setText(empty || item == null ? null : item.toString());
+                setText(empty ? null : item.toString());
             }
         });
+        //Print selected option when changed
         sortingOptionDropdown.setOnAction(e -> {
             RowComparator selectedComparator = sortingOptionDropdown.getValue();
             System.out.println("Selected sorting option: " + (selectedComparator == null ? "None" : selectedComparator.toString()));
         });
-        generalManager.addUIElement(UIElementName.SORTING_OPTION_DROPDOWN, sortingOptionDropdown);
-        
-        bottomBox.getChildren().addAll(sortByLabel, sortingOptionDropdown);
     }
 
     /**
