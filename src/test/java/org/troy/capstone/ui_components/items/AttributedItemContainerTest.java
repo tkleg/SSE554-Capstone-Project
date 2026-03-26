@@ -1,29 +1,17 @@
 package org.troy.capstone.ui_components.items;
 
-import java.awt.Desktop;
-import java.io.IOException;
 import java.lang.reflect.Method;
-import java.net.URI;
-import java.net.URISyntaxException;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
-import static org.mockito.ArgumentMatchers.any;
-import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.troy.capstone.TestDataHolder;
-import org.troy.capstone.constants.URL;
 import org.troy.capstone.entities.Item;
 import org.troy.capstone.managers.RecentlyViewedManager;
 
 import javafx.embed.swing.JFXPanel;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
@@ -60,74 +48,4 @@ public class AttributedItemContainerTest {
         assert fullText.equals( "Photo by " + item.getPhotoAuthor() + " on Unsplash" ) : "Expected full attribution text to be 'Photo by " + item.getPhotoAuthor() + " on Unsplash', but got: '" + fullText + "'";
     }
 
-    @Nested
-    @DisplayName("Test link clicking with mocked Desktop")
-    @SuppressWarnings("unused")
-    class MockedDesktopTests {
-        MockedStatic<Desktop> desktopMock;
-        Desktop mockDesktop;
-            
-        @BeforeEach
-        public void setupMock() {
-            desktopMock = Mockito.mockStatic(Desktop.class);
-            mockDesktop = Mockito.mock(Desktop.class);
-            desktopMock.when(Desktop::getDesktop).thenReturn(mockDesktop);
-        }
-
-        @ParameterizedTest
-        @ValueSource(strings = {"success", "failure"})
-        @DisplayName("Test link clicking author and source links with mocked Desktop")
-        public void testLinkClickingWithMock(String scenario) throws Exception {
-            try{
-                TextFlow flow = (TextFlow) makeAttributionFlowTest.invoke(attributedItemContainer, item);
-                
-                Text authorName = (Text) flow.getChildren().get(1); // Author name
-                Text sourceName = (Text) flow.getChildren().get(3); // "Unsplash"
-                ImageView imageView = attributedItemContainer.getImageView(); // ImageView from the container
-
-                if (scenario.equals("failure")) {
-                    Mockito.doThrow(new RuntimeException("Mocked browse exception"))
-                           .when(mockDesktop).browse(any(URI.class));
-                } else {
-                    Mockito.doNothing().when(mockDesktop).browse(any(URI.class));
-                }
-
-                MouseEvent clickEvent = new MouseEvent(MouseEvent.MOUSE_CLICKED, 0, 0, 0, 0, 
-                    null, 1, false, false, false, false, false, false, false, false, false, false, null);
-
-                //Simulate clicking the author name, source name, and image
-                boolean authorNameThrows = false;
-                try{
-                    authorName.fireEvent(clickEvent);
-                }catch (RuntimeException e) {
-                    authorNameThrows = true;
-                    assert e.getMessage().equals("Mocked browse exception") : "Expected exception message to be 'Mocked browse exception', but got: " + e.getMessage();
-                }
-                boolean sourceNameThrows = false;
-                try{
-                    sourceName.fireEvent(clickEvent);
-                }catch (RuntimeException e) {
-                    sourceNameThrows = true;
-                    assert e.getMessage().equals("Mocked browse exception") : "Expected exception message to be 'Mocked browse exception', but got: " + e.getMessage();
-                }
-                boolean imageViewThrows = false;
-                try{
-                    imageView.fireEvent(clickEvent);
-                }catch (RuntimeException e) {
-                    imageViewThrows = true;
-                    assert e.getMessage().equals("Mocked browse exception") : "Expected exception message to be 'Mocked browse exception', but got: " + e.getMessage();
-                }
-                
-                //Verify each specific URL was called once
-                Mockito.verify(mockDesktop, Mockito.times(1)).browse(new URI(item.getPhotoAuthorUrl()));
-                Mockito.verify(mockDesktop, Mockito.times(1)).browse(new URI(URL.UNSPLASH_ATTRIBUTION.getUrl()));
-                Mockito.verify(mockDesktop, Mockito.times(1)).browse(new URI(item.getImageUrl()));
-            }catch (IOException | URISyntaxException e) {
-                assert false : "Expected no exception to be thrown, but got: " + e.getMessage();
-            }finally {
-                desktopMock.close();
-            }
-            assert true;
-        }
-    }
 }

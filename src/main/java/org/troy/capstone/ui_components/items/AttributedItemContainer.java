@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import org.troy.capstone.constants.TestFXId;
 import org.troy.capstone.constants.URL;
 import org.troy.capstone.constants.UISizeControl;
 import org.troy.capstone.entities.Item;
@@ -46,6 +47,7 @@ public class AttributedItemContainer extends VBox {
         TextFlow attributionFlow = makeAttributionFlow(item);
 
         imageView = new ImageView();
+        imageView.setId(TestFXId.ATTRIBUTED_IMAGE_VIEW_PREFIX.getId() + item.getId());
         imageView.setFitWidth(UISizeControl.ATTRIBUTED_ITEM_IMAGE_WIDTH.getValue());
         imageView.setFitHeight(UISizeControl.ATTRIBUTED_ITEM_IMAGE_HEIGHT.getValue());
         imageView.setPreserveRatio(true);
@@ -90,9 +92,11 @@ public class AttributedItemContainer extends VBox {
         Text text1 = new Text("Photo by ");
         Text authorName = new Text(item.getPhotoAuthor());
         authorName.setUnderline(true);
+        authorName.setId(TestFXId.ATTRIBUTED_AUTHOR_NAME_PREFIX.getId() + item.getId());
         Text text2 = new Text(" on ");
         Text sourceName = new Text("Unsplash"); 
         sourceName.setUnderline(true); 
+        sourceName.setId(TestFXId.ATTRIBUTED_SOURCE_NAME_PREFIX.getId() + item.getId());
 
         authorName.setOnMouseClicked(e ->{
             try {
@@ -138,9 +142,7 @@ public class AttributedItemContainer extends VBox {
         };
         
         loadImageTask.setOnSucceeded(e -> {
-            Image image = loadImageTask.getValue();
-            if (image != null)
-                imageView.setImage(image);
+            imageView.setImage(loadImageTask.getValue());
         });
         
         loadImageTask.setOnFailed(e -> {
