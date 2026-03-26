@@ -25,8 +25,8 @@ import tech.tablesaw.api.Table;
 
 public class UIElementManagerTest {
     private UIElementManager uiElementManager;
-    private static Table table = TestDataHolder.getTableCopy();
-    private static ItemHashMap itemHashMap = TestDataHolder.getItemHashMapCopy();
+    private static final Table table = TestDataHolder.getTableCopy();
+    private static final ItemHashMap itemHashMap = TestDataHolder.getItemHashMapCopy();
     private static GeneralManager generalManager;
     private static FiltersContainer dummyFiltersContainer;
 
@@ -127,7 +127,7 @@ public class UIElementManagerTest {
         @Test
         @DisplayName("Test updateSearchedItemPagination with a pagination added to the manager")
         public void testUpdateSearchedItemPaginationWithPagination() {
-            uiElementManager.addElement(UIElementName.SEARCHED_ITEM_PAGINATION, SearchedItemPagination.create(itemHashMap, generalManager));
+            uiElementManager.addElement(UIElementName.SEARCHED_ITEM_PAGINATION, SearchedItemPagination.create(itemHashMap, generalManager, null));
 
             uiElementManager.updateSearchedItemPagination(List.of());
 

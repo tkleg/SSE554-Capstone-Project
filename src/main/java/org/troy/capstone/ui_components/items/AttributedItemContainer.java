@@ -8,6 +8,7 @@ import java.net.URISyntaxException;
 import org.troy.capstone.constants.URL;
 import org.troy.capstone.constants.UISizeControl;
 import org.troy.capstone.entities.Item;
+import org.troy.capstone.managers.RecentlyViewedManager;
 
 import javafx.concurrent.Task;
 import javafx.geometry.Pos;
@@ -36,8 +37,9 @@ public class AttributedItemContainer extends VBox {
      * @post The variable passed into loadImageTask will be initialized to a Task that loads the image from the item's image URL asynchronously.
      * 
      * @param item The item whose image and attribution information are being displayed in this container.
+     * @param recentlyViewedManager The manager for recently viewed items, used to update the recently viewed items window when interacting with the item.
      */
-    public AttributedItemContainer(Item item) {
+    public AttributedItemContainer(Item item, RecentlyViewedManager recentlyViewedManager) {
         super(5); //5px spacing between items
         setAlignment(Pos.TOP_CENTER); // Center-align the image and attribution
 
@@ -53,6 +55,7 @@ public class AttributedItemContainer extends VBox {
         
         imageView.setOnMouseClicked(e -> {
             try {
+                recentlyViewedManager.addRecentlyViewedItem(item.getId());
                 Desktop.getDesktop().browse(new URI(item.getImageUrl()));
             } catch (IOException | URISyntaxException ex) {
                 System.err.println("Failed to open image URL: " + item.getImageUrl());

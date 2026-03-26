@@ -27,7 +27,7 @@ public class SearchedItemPanelTest {
     public void testSearchedItemPanelCreation() {
         Item dummyItem = Item.randomItem();
         
-        SearchedItemPanel panel = new SearchedItemPanel(dummyItem);
+        SearchedItemPanel panel = new SearchedItemPanel(dummyItem, null);
         
         //Verify that the panel was created successfully
         assertNotNull(panel, "SearchedItemPanel should be created successfully");

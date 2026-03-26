@@ -11,7 +11,7 @@ public class RecentlyViewedManager{
     private final RecentlyViewedWindow recentlyViewedWindow;
 
     public RecentlyViewedManager(ItemHashMap itemHashMap, RecentlyViewedWindow recentlyViewedWindow) {
-        recentlyViewedQueue = new RecentlyViewedQueue(itemHashMap);
+        recentlyViewedQueue = new RecentlyViewedQueue(itemHashMap, this);
         this.recentlyViewedWindow = recentlyViewedWindow;
     }
 

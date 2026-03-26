@@ -5,6 +5,7 @@ import java.util.Date;
 
 import org.troy.capstone.constants.UISizeControl;
 import org.troy.capstone.entities.Item;
+import org.troy.capstone.managers.RecentlyViewedManager;
 import org.troy.capstone.ui_components.items.AttributedItemContainer;
 
 import javafx.geometry.Insets;
@@ -44,16 +45,17 @@ public class SearchedItemPanel extends HBox{
      *      The rightPanel should be properly initialized to display the item's textual details.
      * 
      * @param item The item whose details are being displayed in this panel, used to populate both the attributed image and the other details.
+     * @param recentlyViewedManager The manager for recently viewed items, used to update the recently viewed items window when interacting with the item.
      */
-    public SearchedItemPanel(Item item) {
+    public SearchedItemPanel(Item item, RecentlyViewedManager recentlyViewedManager) {
 
         //Set up the left side
-        attributedImage = new AttributedItemContainer(item);
+        attributedImage = new AttributedItemContainer(item, recentlyViewedManager);
 
         //Set up the right side - text content
         rightPanel = new VBox(5); // 5px spacing between elements
         rightPanel.setAlignment(Pos.TOP_LEFT); // Align content to top-left
-        fillRightPanel(item);
+        fillRightPanel(item, recentlyViewedManager);
         
         //Add both sides to the HBox
         getChildren().addAll(attributedImage, rightPanel);
@@ -89,14 +91,16 @@ public class SearchedItemPanel extends HBox{
      * 
      * @post rightPanel will contain labels displaying the name, publisher, category, price, rating, stock quantity, and date added for the item, with consistent styling and formatting.
      * @param item The item whose data is being displayed in the right panel.
+     * @param recentlyViewedManager The manager for recently viewed items, used to update the recently viewed items window when interacting with the item.
      */
-    private void fillRightPanel(Item item) {
+    private void fillRightPanel(Item item, RecentlyViewedManager recentlyViewedManager) {
         //Name label done separately so we can style it
         Label nameLabel = new Label(item.getName());
         nameLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14;");
         nameLabel.setWrapText(true);
         nameLabel.setMaxWidth(UISizeControl.SEARCHED_ITEM_LABEL_MAX_WIDTH.getValue()); // Allow space for image on left
         nameLabel.setAlignment(Pos.CENTER_LEFT);
+        nameLabel.setOnMouseClicked(e -> { recentlyViewedManager.addRecentlyViewedItem(item.getId());});
 
         Label publisherLabel = createLabel("Publisher: " + item.getPublisher());
         

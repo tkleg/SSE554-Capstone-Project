@@ -19,6 +19,7 @@ import org.mockito.Mockito;
 import org.troy.capstone.TestDataHolder;
 import org.troy.capstone.constants.URL;
 import org.troy.capstone.entities.Item;
+import org.troy.capstone.managers.RecentlyViewedManager;
 
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.image.ImageView;
@@ -30,6 +31,7 @@ public class AttributedItemContainerTest {
     private static Item item;
     private AttributedItemContainer attributedItemContainer;
     private static Method makeAttributionFlowTest;
+    private RecentlyViewedManager mockRecentlyViewedManager;
     
     @BeforeAll
     @SuppressWarnings("ResultOfObjectAllocationIgnored")
@@ -38,12 +40,13 @@ public class AttributedItemContainerTest {
         item = Item.fromRow(TestDataHolder.getTableCopy().row(0));
         makeAttributionFlowTest = AttributedItemContainer.class.getDeclaredMethod("makeAttributionFlow", Item.class);
         makeAttributionFlowTest.setAccessible(true);
-
     }
 
     @BeforeEach
     public void setUp() {
-        attributedItemContainer = new AttributedItemContainer(item);
+        mockRecentlyViewedManager = Mockito.mock(RecentlyViewedManager.class);
+        //Mockito.doNothing().when(mockRecentlyViewedManager).addRecentlyViewedItem(Mockito.anyString());
+        attributedItemContainer = new AttributedItemContainer(item, mockRecentlyViewedManager);
     }
 
     @Test
