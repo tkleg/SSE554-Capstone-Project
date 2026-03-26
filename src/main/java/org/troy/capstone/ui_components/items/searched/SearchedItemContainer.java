@@ -5,6 +5,7 @@ import java.util.List;
 import org.troy.capstone.constants.UISizeControl;
 import org.troy.capstone.entities.Item;
 import org.troy.capstone.managers.RecentlyViewedManager;
+import org.troy.capstone.utils.UIUtils;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -65,6 +66,7 @@ public class SearchedItemContainer extends ScrollPane {
      */
     public static SearchedItemContainer create(List<Item> items, RecentlyViewedManager recentlyViewedManager) {
         SearchedItemContainer container = new SearchedItemContainer(recentlyViewedManager);
+        UIUtils.setSize(container, UISizeControl.SEARCHED_ITEM_CONTAINER_WIDTH.getValue(), UISizeControl.SEARCHED_ITEM_CONTAINER_HEIGHT.getValue());
         container.updateItems(items);
         return container;
     }

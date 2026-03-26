@@ -7,9 +7,9 @@ package org.troy.capstone.constants;
 public enum UISizeControl {
 
     /** Padding height for UI elements. */
-    HEIGHT_PADDING(10),
+    HEIGHT_PADDING(20),
     /** Padding width for UI elements. */
-    WIDTH_PADDING(10),
+    WIDTH_PADDING(20),
     
     /** Width of the left side of the main page, which contains the search results and filters. */
     LEFT_SIDE_MAIN_PAGE_WIDTH(550),
@@ -19,7 +19,7 @@ public enum UISizeControl {
     MAIN_PAGE_HEIGHT(800),
     
     /** Width of the search bar at the top of the main page. */
-    SEARCH_BAR_WIDTH(LEFT_SIDE_MAIN_PAGE_WIDTH.value),
+    SEARCH_BAR_WIDTH(LEFT_SIDE_MAIN_PAGE_WIDTH.value / 2),
     /** Height of the search bar at the top of the main page. */
     SEARCH_BAR_HEIGHT(50),
     

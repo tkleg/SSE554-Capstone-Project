@@ -50,7 +50,7 @@ public class Main extends Application {
 
         //Get and setup the SearchBar
         SearchBar searchBar = SearchBar.create(generalManager);
-        gridPane.add(searchBar, 0, 0, 2, 1);
+        gridPane.add(searchBar, 0, 0, 1, 1);
 
         //Insert a FiltersContainer
         FiltersContainer filtersContainer = FiltersContainer.create(generalManager, itemHashMap);
@@ -61,11 +61,11 @@ public class Main extends Application {
         double minPrice = table.floatColumn(TableColumnName.PRICE.getColumnName()).min() - 1;
         double maxPrice = table.floatColumn(TableColumnName.PRICE.getColumnName()).max() + 1;
         PriceSlider priceSlider = new PriceSlider(minPrice, maxPrice, generalManager );
-        gridPane.add(priceSlider, 2, 0, 2, 1);
+        gridPane.add(priceSlider, 1, 0, 2, 1);
 
         //Get and setup the StarRatingFilter
         StarRatingFilter starRatingFilter = StarRatingFilter.create(generalManager);
-        gridPane.add(starRatingFilter, 2, 2, 1, 1);
+        gridPane.add(starRatingFilter, 3, 0, 1, 1);
         
 
         gridPane.setPrefSize(1000, 700);
