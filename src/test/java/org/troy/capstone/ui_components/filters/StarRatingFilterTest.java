@@ -1,4 +1,4 @@
-package org.troy.capstone.ui_components.filters.stars;
+package org.troy.capstone.ui_components.filters;
 
 import java.lang.reflect.Field;
 
@@ -16,7 +16,7 @@ import tech.tablesaw.api.Table;
 
 public class StarRatingFilterTest {
     private StarRatingFilter starRatingFilter;
-    private static Table table = TestDataHolder.getTableCopy();
+    private static final Table table = TestDataHolder.getTableCopy();
     private GeneralManager generalManager;
     private static int MAX_STARS;
     private static String FILLED_STAR;

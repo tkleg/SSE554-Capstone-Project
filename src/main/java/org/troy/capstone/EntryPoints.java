@@ -10,8 +10,8 @@ import java.util.Scanner;
 
 import org.troy.capstone.search_engine.sorting.*;
 import org.troy.capstone.constants.TableColumnName;
-import org.troy.capstone.data_structures.ItemTable.ItemHashMap;
-import org.troy.capstone.data_structures.ItemTable.SieveOfEratosthenes;
+import org.troy.capstone.data_structures.item_table.ItemHashMap;
+import org.troy.capstone.data_structures.item_table.SieveOfEratosthenes;
 import org.troy.capstone.search_engine.QueryFilter;
 import org.troy.capstone.utils.TableUtils;
 

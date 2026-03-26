@@ -2,13 +2,15 @@ package org.troy.capstone;
 
 import org.troy.capstone.constants.TableColumnName;
 import org.troy.capstone.constants.UISizeControl;
-import org.troy.capstone.data_structures.ItemTable.ItemHashMap;
+import org.troy.capstone.data_structures.item_table.ItemHashMap;
 import org.troy.capstone.managers.GeneralManager;
+import org.troy.capstone.managers.RecentlyViewedManager;
+import org.troy.capstone.ui_components.PriceSlider;
+import org.troy.capstone.ui_components.SearchBar;
+import org.troy.capstone.ui_components.filters.StarRatingFilter;
 import org.troy.capstone.ui_components.filters.categorical.FiltersContainer;
-import org.troy.capstone.ui_components.filters.stars.StarRatingFilter;
+import org.troy.capstone.ui_components.items.RecentlyViewedWindow;
 import org.troy.capstone.ui_components.items.searched.SearchedItemPagination;
-import org.troy.capstone.ui_components.price_slider.PriceSlider;
-import org.troy.capstone.ui_components.search_bar.SearchBar;
 import org.troy.capstone.utils.TableUtils;
 
 import javafx.application.Application;
@@ -42,7 +44,7 @@ public class Main extends Application {
 
         //Get and setup the SearchBar
         SearchBar searchBar = SearchBar.create(generalManager);
-        gridPane.add(searchBar, 0, 0, 1, 1);
+        gridPane.add(searchBar, 0, 0, 2, 1);
 
         //Insert a FiltersContainer
         FiltersContainer filtersContainer = FiltersContainer.create(generalManager, itemHashMap);
@@ -59,6 +61,11 @@ public class Main extends Application {
         StarRatingFilter starRatingFilter = StarRatingFilter.create(generalManager);
         gridPane.add(starRatingFilter, 2, 2, 1, 1);
         
+
+        RecentlyViewedWindow recentlyViewedWindow = RecentlyViewedWindow.create();
+        RecentlyViewedManager recentlyViewedManager = new RecentlyViewedManager(itemHashMap, recentlyViewedWindow);
+        gridPane.add(recentlyViewedWindow, 3, 1, 1, 2);
+
         gridPane.setPrefSize(1000, 700);
         
         Scene scene = new Scene(gridPane);

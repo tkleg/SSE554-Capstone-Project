@@ -11,7 +11,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.troy.capstone.TestDataHolder;
 import org.troy.capstone.constants.UIElementName;
-import org.troy.capstone.data_structures.ItemTable.ItemHashMap;
+import org.troy.capstone.data_structures.item_table.ItemHashMap;
 import org.troy.capstone.managers.GeneralManager;
 
 import javafx.embed.swing.JFXPanel;

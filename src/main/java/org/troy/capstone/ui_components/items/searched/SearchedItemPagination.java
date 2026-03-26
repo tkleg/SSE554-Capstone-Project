@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.troy.capstone.constants.UIElementName;
 import org.troy.capstone.constants.UISizeControl;
-import org.troy.capstone.data_structures.ItemTable.ItemHashMap;
 import org.troy.capstone.data_structures.SearchedItemsLinkedList;
+import org.troy.capstone.data_structures.item_table.ItemHashMap;
 import org.troy.capstone.entities.Item;
 import org.troy.capstone.managers.GeneralManager;
 

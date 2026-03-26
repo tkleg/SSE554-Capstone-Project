@@ -1,4 +1,4 @@
-package org.troy.capstone.ui_components.search_bar;
+package org.troy.capstone.ui_components;
 
 import org.testfx.framework.junit5.ApplicationTest;
 import org.testfx.framework.junit5.Start;
@@ -30,6 +30,7 @@ public class SearchBarTest extends ApplicationTest {
     private static GeneralManager generalManager;
     private SearchBar searchBar;
 
+    @Override
     @Start
     public void start(Stage stage) {
         searchBar = SearchBar.create(generalManager);

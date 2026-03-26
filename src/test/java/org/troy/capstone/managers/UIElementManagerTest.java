@@ -12,9 +12,9 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.troy.capstone.TestDataHolder;
 import org.troy.capstone.constants.UIElementName;
-import org.troy.capstone.data_structures.ItemTable.ItemHashMap;
+import org.troy.capstone.data_structures.item_table.ItemHashMap;
+import org.troy.capstone.ui_components.filters.StarRatingFilter;
 import org.troy.capstone.ui_components.filters.categorical.FiltersContainer;
-import org.troy.capstone.ui_components.filters.stars.StarRatingFilter;
 import org.troy.capstone.ui_components.items.searched.SearchedItemPagination;
 
 import javafx.embed.swing.JFXPanel;

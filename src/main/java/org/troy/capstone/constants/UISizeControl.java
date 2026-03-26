@@ -56,9 +56,14 @@ public enum UISizeControl {
     SEARCHED_ITEM_LABEL_MAX_WIDTH(SEARCHED_ITEM_PANEL_WIDTH.value - ATTRIBUTED_ITEM_IMAGE_WIDTH.value - WIDTH_PADDING.value * 3),
     
     /** Width of the container holding the filters on the right side of the main page, set to match the width of the right side for consistency. */
-    FILTERS_CONTAINER_WIDTH(RIGHT_SIDE_MAIN_PAGE_WIDTH.value),
-    /** Height of the container holding the filters on the right side of the main page, set to half of the main page height to allow space for other controls. */
-    FILTERS_CONTAINER_HEIGHT(MAIN_PAGE_HEIGHT.value / 2);
+    FILTERS_CONTAINER_WIDTH(RIGHT_SIDE_MAIN_PAGE_WIDTH.value / 2),
+    /** Height of the container holding the filters on the right side of the main page, set to 2/3 of the pagination height to allow space for other controls. */
+    FILTERS_CONTAINER_HEIGHT((int) (SEARCHED_ITEM_PAGINATION_HEIGHT.value * (2.0/3))),
+
+    /** Width of the recently viewed items window, set to match the width of the right side for consistency. */
+    RECENTLY_VIEWED_WINDOW_WIDTH(FILTERS_CONTAINER_WIDTH.value),
+    /** Height of the recently viewed items window, set to match the height of the filters container for consistency. */
+    RECENTLY_VIEWED_WINDOW_HEIGHT(FILTERS_CONTAINER_HEIGHT.value);
 
     /** The integer value associated with this enum constant, used for size control in the UI. */
     private final int value;

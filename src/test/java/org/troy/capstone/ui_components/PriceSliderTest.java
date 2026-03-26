@@ -1,4 +1,4 @@
-package org.troy.capstone.ui_components.price_slider;
+package org.troy.capstone.ui_components;
 
 import java.lang.reflect.Field;
 import java.util.Optional;

@@ -2,14 +2,14 @@ package org.troy.capstone;
 
 import java.util.List;
 
-import org.troy.capstone.data_structures.ItemTable.ItemHashMap;
+import org.troy.capstone.data_structures.item_table.ItemHashMap;
 import org.troy.capstone.utils.TableUtils;
 import tech.tablesaw.api.Table;
 
 public class TestDataHolder {
     private static final Table table;
     private static final ItemHashMap itemHashMap;
-    private static List<String> allItemIds;
+    private static final List<String> allItemIds;
 
     static {
         table = TableUtils.readCleanedAttributedData();

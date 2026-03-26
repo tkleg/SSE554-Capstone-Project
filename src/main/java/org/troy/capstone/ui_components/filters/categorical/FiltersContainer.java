@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 import org.troy.capstone.constants.TableColumnName;
 import org.troy.capstone.constants.UIElementName;
 import org.troy.capstone.constants.UISizeControl;
-import org.troy.capstone.data_structures.ItemTable.ItemHashMap;
+import org.troy.capstone.data_structures.item_table.ItemHashMap;
 import org.troy.capstone.managers.GeneralManager;
 import org.troy.capstone.utils.UIUtils;
 

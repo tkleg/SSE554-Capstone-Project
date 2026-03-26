@@ -1,4 +1,4 @@
-package org.troy.capstone.data_structures.ItemTable;
+package org.troy.capstone.data_structures.item_table;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -26,8 +26,8 @@ import tech.tablesaw.api.Table;
 
 public class ItemHashMapTest {
     
-    private static ItemHashMap map = TestDataHolder.getItemHashMapCopy();
-    private static Table table = TestDataHolder.getTableCopy();
+    private static final ItemHashMap map = TestDataHolder.getItemHashMapCopy();
+    private static final Table table = TestDataHolder.getTableCopy();
 
     @Test
     @DisplayName("Test simple item retrieval")

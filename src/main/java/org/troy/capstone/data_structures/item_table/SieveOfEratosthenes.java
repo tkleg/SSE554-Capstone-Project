@@ -1,4 +1,4 @@
-package org.troy.capstone.data_structures.ItemTable;
+package org.troy.capstone.data_structures.item_table;
 
 import java.util.BitSet;
 import java.util.Optional;

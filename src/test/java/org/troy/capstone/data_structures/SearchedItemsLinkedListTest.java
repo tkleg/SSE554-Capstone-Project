@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.troy.capstone.TestDataHolder;
-import org.troy.capstone.data_structures.ItemTable.ItemHashMap;
+import org.troy.capstone.data_structures.item_table.ItemHashMap;
 
 public class SearchedItemsLinkedListTest {
     List<String> itemIds = TestDataHolder.getAllItemIdsCopy();
@@ -51,8 +51,8 @@ public class SearchedItemsLinkedListTest {
 
     @Test
     public void testNextAtEndOfList() {
-        List<String> itemIds = itemHashMap.getItemIdsAsList().subList(0, 15); //2 pages of items
-        SearchedItemsLinkedList list = new SearchedItemsLinkedList(itemHashMap, itemIds);
+        List<String> itemIdsSubList = itemHashMap.getItemIdsAsList().subList(0, 15); //2 pages of items
+        SearchedItemsLinkedList list = new SearchedItemsLinkedList(itemHashMap, itemIdsSubList);
         list.getNext(); //Move to second page
         List<Item> result = list.getNext(); //Try to move past the end of the list
         assert result == null : "Expected null when trying to move past the end of the list, but got: " + result;
@@ -60,8 +60,8 @@ public class SearchedItemsLinkedListTest {
 
     @Test
     public void testPreviousAtStartOfList() {
-        List<String> itemIds = itemHashMap.getItemIdsAsList().subList(0, 15); //2 pages of items
-        SearchedItemsLinkedList list = new SearchedItemsLinkedList(itemHashMap, itemIds);
+        List<String> itemIdsSubList = itemHashMap.getItemIdsAsList().subList(0, 15); //2 pages of items
+        SearchedItemsLinkedList list = new SearchedItemsLinkedList(itemHashMap, itemIdsSubList);
         List<Item> result = list.getPrevious(); //Try to move before the start of the list
         assert result == null : "Expected null when trying to move before the start of the list, but got: " + result;
     }

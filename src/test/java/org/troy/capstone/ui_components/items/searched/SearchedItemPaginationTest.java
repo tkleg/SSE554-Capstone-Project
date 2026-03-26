@@ -17,7 +17,7 @@ import org.mockito.Mockito;
 import org.troy.capstone.TestDataHolder;
 import org.troy.capstone.constants.UIElementName;
 import org.troy.capstone.data_structures.SearchedItemsLinkedList;
-import org.troy.capstone.data_structures.ItemTable.ItemHashMap;
+import org.troy.capstone.data_structures.item_table.ItemHashMap;
 import org.troy.capstone.entities.Item;
 import org.troy.capstone.managers.GeneralManager;
 
@@ -29,7 +29,7 @@ public class SearchedItemPaginationTest {
     @SuppressWarnings("unused")
     private SearchedItemPagination pagination;
     private GeneralManager generalManager;
-    private ItemHashMap itemHashMap = TestDataHolder.getItemHashMapCopy();
+    private static final ItemHashMap itemHashMap = TestDataHolder.getItemHashMapCopy();
 
     @BeforeAll
     @SuppressWarnings("ResultOfObjectAllocationIgnored")

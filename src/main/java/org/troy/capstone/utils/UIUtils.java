@@ -29,10 +29,12 @@ public class UIUtils {
     public static void setSize(Region region, Integer width, Integer height) {
         if (width != null) {
             region.setMaxWidth(width);
+            region.setPrefWidth(width);
             region.setMinWidth(width);
         }
         if (height != null) {
             region.setMaxHeight(height);
+            region.setPrefHeight(height);
             region.setMinHeight(height);
         }
     }

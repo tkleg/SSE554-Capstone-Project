@@ -1,8 +1,8 @@
-package org.troy.capstone.ui_components.search_bar;
+package org.troy.capstone.ui_components;
 
+import org.troy.capstone.constants.TestFXId;
 import org.troy.capstone.constants.UIElementName;
 import org.troy.capstone.constants.UISizeControl;
-import org.troy.capstone.constants.TestFXId;
 import org.troy.capstone.managers.GeneralManager;
 import org.troy.capstone.search_engine.sorting.RowComparator;
 import org.troy.capstone.utils.UIUtils;
@@ -10,8 +10,8 @@ import org.troy.capstone.utils.UIUtils;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.ListCell;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
