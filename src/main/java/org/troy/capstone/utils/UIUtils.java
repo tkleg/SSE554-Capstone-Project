@@ -2,6 +2,12 @@ package org.troy.capstone.utils;
 
 import org.troy.capstone.annotations.Generated;
 
+import javafx.scene.paint.Color;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Region;
 
 /**
@@ -37,6 +43,17 @@ public class UIUtils {
             region.setPrefHeight(height);
             region.setMinHeight(height);
         }
+    }
+
+    public static void setLineBorder(Region region, int cornerRadii, int borderWidth) {
+        
+        region.setBorder(new Border(new BorderStroke(
+            Color.BLACK, 
+            BorderStrokeStyle.SOLID, 
+            new CornerRadii(cornerRadii), 
+            new BorderWidths(borderWidth)
+        )));
+
     }
 
 }

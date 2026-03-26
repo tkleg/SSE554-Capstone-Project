@@ -2,7 +2,6 @@ package org.troy.capstone.ui_components.items.searched;
 
 import java.util.List;
 
-import org.troy.capstone.utils.UIUtils;
 import org.troy.capstone.constants.UIElementName;
 import org.troy.capstone.constants.UISizeControl;
 import org.troy.capstone.data_structures.SearchedItemsLinkedList;

@@ -15,13 +15,7 @@ import org.troy.capstone.utils.UIUtils;
 
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.BorderStrokeStyle;
-import javafx.scene.layout.BorderWidths;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 
 /**
  * The FiltersContainer class represents a UI component that contains multiple FilterPanel instances, each corresponding to a categorical attribute of the items.
@@ -113,12 +107,7 @@ public class FiltersContainer extends ScrollPane {
             checkBoxes.add(new CheckBox(option));
         filterOptions.put( title, checkBoxes );
         FilterPanel filterPanel = new FilterPanel(title, checkBoxes);
-        filterPanel.setBorder(new Border(new BorderStroke(
-            Color.BLACK, 
-            BorderStrokeStyle.SOLID, 
-            new CornerRadii(2), 
-            new BorderWidths(2)
-        )));
+        UIUtils.setLineBorder(filterPanel, 2, 2);
         filterPanel.setMaxWidth(Double.MAX_VALUE); // Allow the panel to expand to fill available width
         contentContainer.getChildren().add(filterPanel);
     }

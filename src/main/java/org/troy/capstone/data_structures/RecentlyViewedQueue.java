@@ -43,7 +43,7 @@ public class RecentlyViewedQueue extends ArrayBlockingQueue<SearchedItemPanel>{
 
     private void add(String itemId) {
         itemIds.add(itemId);
-        add(new SearchedItemPanel(
+        add(SearchedItemPanel.create(
             itemHashMap.getItem(itemId).orElseThrow(),
             recentlyViewedManager
         ));
