@@ -32,10 +32,10 @@ public class RecentlyViewedManagerTest {
         for( int x = 0; x < 5; x++)
             manager.addRecentlyViewedItem(firstId);
 
-        Field scrollPaneContentField = RecentlyViewedWindow.class.getDeclaredField("scrollPaneContent");
-        scrollPaneContentField.setAccessible(true);
-        VBox scrollPaneContent = (VBox) scrollPaneContentField.get(window);
+        Field contentField = RecentlyViewedWindow.class.getDeclaredField("content");
+        contentField.setAccessible(true);
+        VBox content = (VBox) contentField.get(window);
 
-        assert scrollPaneContent.getChildren().size() == 1 : "Expected 1 recently viewed item, but got " + scrollPaneContent.getChildren().size();
+        assert content.getChildren().size() == 1 : "Expected 1 recently viewed item, but got " + content.getChildren().size();
     }
 }

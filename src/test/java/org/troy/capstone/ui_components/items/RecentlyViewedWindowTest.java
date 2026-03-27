@@ -41,10 +41,10 @@ public class RecentlyViewedWindowTest {
         table.first(queueInputs).stringColumn(TableColumnName.ID.getColumnName())
             .forEach(manager::addRecentlyViewedItem);
 
-        Field scrollPaneContentField = RecentlyViewedWindow.class.getDeclaredField("scrollPaneContent");
-        scrollPaneContentField.setAccessible(true);
-        VBox scrollPaneContent = (VBox) scrollPaneContentField.get(window);
-        assert scrollPaneContent.getChildren().size() == expectedQueueSize : "Expected " + expectedQueueSize + " recently viewed items, but got " + scrollPaneContent.getChildren().size();
+        Field contentField = RecentlyViewedWindow.class.getDeclaredField("content");
+        contentField.setAccessible(true);
+        VBox content = (VBox) contentField.get(window);
+        assert content.getChildren().size() == expectedQueueSize : "Expected " + expectedQueueSize + " recently viewed items, but got " + content.getChildren().size();
         
     }
 }

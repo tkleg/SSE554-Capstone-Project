@@ -33,7 +33,7 @@ public class StarRatingFilter extends VBox {
     private int selectedRating = 0;
 
     /**
-     * Creates a StarRatingFilter and registers it with the GeneralManager.
+     * Factory method to create a StarRatingFilter and register it with the GeneralManager.
       * @param generalManager The GeneralManager to register the filter with.
       * @return The created StarRatingFilter instance.
      */

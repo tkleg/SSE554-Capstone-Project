@@ -23,6 +23,7 @@ import javafx.embed.swing.JFXPanel;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.Scene;
 import org.troy.capstone.TestUtils;
 
 public class SearchBarTest extends ApplicationTest {
@@ -34,7 +35,7 @@ public class SearchBarTest extends ApplicationTest {
     @Start
     public void start(Stage stage) {
         searchBar = SearchBar.create(generalManager);
-        javafx.scene.Scene scene = new javafx.scene.Scene(searchBar, 800, 100);
+        Scene scene = new Scene(searchBar, 800, 100);
         stage.setScene(scene);
         stage.show();
     }
