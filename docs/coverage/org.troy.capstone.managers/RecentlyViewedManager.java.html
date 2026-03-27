@@ -24,19 +24,15 @@ public class RecentlyViewedManager{
 <span class="fc" id="L24">        this.recentlyViewedWindow = recentlyViewedWindow;</span>
 <span class="fc" id="L25">    }</span>
 
-    /** Adds an item to the recently viewed queue and updates the recently viewed window content. If the item is already in the queue, it will not be added again and a message will be printed to the console.
-     * @pre itemId is not null and corresponds to a valid key in the itemHashMap used to create the recentlyViewedQueue.
-     * @post If the item is not already in the queue, it is added and the recently viewed window content is updated to reflect the new queue state. If the added item exists already, nothing happens except a message is printed to the console.
-     * @param itemId The ID of the item to add to recently viewed.
-     */
+    /** Adds an item to the recently viewed queue and updates the recently viewed window content.
+      * @pre itemId is not null and corresponds to a valid key in the itemHashMap used to create the recentlyViewedQueue.
+      * @post If the item is not already in the queue, it is added and the oldest item is removed. If the added item exists already, it is moved to the top. The recently viewed window content is updated to reflect the current state of the recently viewed queue.
+      * @param itemId The ID of the item to add to recently viewed.
+      */
     public void addRecentlyViewedItem(String itemId) {
-<span class="fc" id="L33">        boolean success = recentlyViewedQueue.addAttempt(itemId);</span>
-<span class="fc bfc" id="L34" title="All 2 branches covered.">        if(!success){</span>
-<span class="fc" id="L35">            System.out.println(&quot;Item with ID &quot; + itemId + &quot; is already in the recently viewed queue.&quot;);</span>
-<span class="fc" id="L36">            return;</span>
-        }
-<span class="fc" id="L38">        recentlyViewedWindow.setContent(recentlyViewedQueue.peekAll());</span>
-<span class="fc" id="L39">    }</span>
+<span class="fc" id="L33">        recentlyViewedQueue.addAttempt(itemId);</span>
+<span class="fc" id="L34">        recentlyViewedWindow.setContent(recentlyViewedQueue.peekAll());</span>
+<span class="fc" id="L35">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

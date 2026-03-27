@@ -20,8 +20,8 @@ import javafx.scene.control.CheckBox;
 import tech.tablesaw.api.Table;
 
 public class FiltersContainerTest {
-    private Table table = TestDataHolder.getTableCopy();
-    private ItemHashMap itemHashMap = TestDataHolder.getItemHashMapCopy();
+    private final Table table = TestDataHolder.getTableCopy();
+    private final ItemHashMap itemHashMap = TestDataHolder.getItemHashMapCopy();
     private GeneralManager generalManager;
     private FiltersContainer filtersContainer;
 

@@ -24,17 +24,13 @@ public class RecentlyViewedManager{
         this.recentlyViewedWindow = recentlyViewedWindow;
     }
 
-    /** Adds an item to the recently viewed queue and updates the recently viewed window content. If the item is already in the queue, it will not be added again and a message will be printed to the console.
-     * @pre itemId is not null and corresponds to a valid key in the itemHashMap used to create the recentlyViewedQueue.
-     * @post If the item is not already in the queue, it is added and the recently viewed window content is updated to reflect the new queue state. If the added item exists already, nothing happens except a message is printed to the console.
-     * @param itemId The ID of the item to add to recently viewed.
-     */
+    /** Adds an item to the recently viewed queue and updates the recently viewed window content.
+      * @pre itemId is not null and corresponds to a valid key in the itemHashMap used to create the recentlyViewedQueue.
+      * @post If the item is not already in the queue, it is added and the oldest item is removed. If the added item exists already, it is moved to the top. The recently viewed window content is updated to reflect the current state of the recently viewed queue.
+      * @param itemId The ID of the item to add to recently viewed.
+      */
     public void addRecentlyViewedItem(String itemId) {
-        boolean success = recentlyViewedQueue.addAttempt(itemId);
-        if(!success){
-            System.out.println("Item with ID " + itemId + " is already in the recently viewed queue.");
-            return;
-        }
+        recentlyViewedQueue.addAttempt(itemId);
         recentlyViewedWindow.setContent(recentlyViewedQueue.peekAll());
     }
 

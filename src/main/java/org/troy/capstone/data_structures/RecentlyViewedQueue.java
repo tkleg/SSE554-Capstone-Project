@@ -40,21 +40,21 @@ public class RecentlyViewedQueue extends ArrayBlockingQueue<SearchedItemPanel>{
      * @pre itemId is not null and corresponds to a valid key in the itemHashMap.
      * @post If the item is not already in the queue, it is added and the oldest item is removed. If the added item exists already, nothing happens except a message is printed to the console.
      * @param itemId The ID of the item to add.
-     * @return true if the item was added, false if it was already in the queue.
      */
-    public boolean addAttempt(String itemId) {
-        if (itemIds.contains(itemId)){
-            System.out.println("Item with ID " + itemId + " is already in the recently viewed queue. Not adding again.");
-            return false; //Item already in the queue, do not add again
-        }
-        if (itemIds.remainingCapacity() == 0) {
+    public void addAttempt(String itemId) {
+        if (itemIds.contains(itemId)) {
+            //Remove the itemId and its corresponding panel, then re-add to the end (top)
+            itemIds.remove(itemId);
+            //Remove the corresponding SearchedItemPanel
+            removeIf(panel -> panel.getItemId().equals(itemId));
+            System.out.println("Item with ID " + itemId + " is already in the recently viewed queue. Moving to top.");
+        } else if (itemIds.remainingCapacity() == 0) {
             itemIds.poll(); // Remove the oldest item ID
             poll(); // Remove the oldest item panel
             System.out.println("Recently viewed queue is full. Oldest item removed to make space for new item.");
         }
         add(itemId);
         System.out.println("Item with ID " + itemId + " added to recently viewed queue.");
-        return true;
     }
 
     /** 

@@ -40,22 +40,22 @@ public class RecentlyViewedQueue extends ArrayBlockingQueue&lt;SearchedItemPanel
      * @pre itemId is not null and corresponds to a valid key in the itemHashMap.
      * @post If the item is not already in the queue, it is added and the oldest item is removed. If the added item exists already, nothing happens except a message is printed to the console.
      * @param itemId The ID of the item to add.
-     * @return true if the item was added, false if it was already in the queue.
      */
-    public boolean addAttempt(String itemId) {
-<span class="fc bfc" id="L46" title="All 2 branches covered.">        if (itemIds.contains(itemId)){</span>
-<span class="fc" id="L47">            System.out.println(&quot;Item with ID &quot; + itemId + &quot; is already in the recently viewed queue. Not adding again.&quot;);</span>
-<span class="fc" id="L48">            return false; //Item already in the queue, do not add again</span>
+    public void addAttempt(String itemId) {
+<span class="fc bfc" id="L45" title="All 2 branches covered.">        if (itemIds.contains(itemId)) {</span>
+            //Remove the itemId and its corresponding panel, then re-add to the end (top)
+<span class="fc" id="L47">            itemIds.remove(itemId);</span>
+            //Remove the corresponding SearchedItemPanel
+<span class="fc" id="L49">            removeIf(panel -&gt; panel.getItemId().equals(itemId));</span>
+<span class="fc" id="L50">            System.out.println(&quot;Item with ID &quot; + itemId + &quot; is already in the recently viewed queue. Moving to top.&quot;);</span>
+<span class="fc bfc" id="L51" title="All 2 branches covered.">        } else if (itemIds.remainingCapacity() == 0) {</span>
+<span class="fc" id="L52">            itemIds.poll(); // Remove the oldest item ID</span>
+<span class="fc" id="L53">            poll(); // Remove the oldest item panel</span>
+<span class="fc" id="L54">            System.out.println(&quot;Recently viewed queue is full. Oldest item removed to make space for new item.&quot;);</span>
         }
-<span class="fc bfc" id="L50" title="All 2 branches covered.">        if (itemIds.remainingCapacity() == 0) {</span>
-<span class="fc" id="L51">            itemIds.poll(); // Remove the oldest item ID</span>
-<span class="fc" id="L52">            poll(); // Remove the oldest item panel</span>
-<span class="fc" id="L53">            System.out.println(&quot;Recently viewed queue is full. Oldest item removed to make space for new item.&quot;);</span>
-        }
-<span class="fc" id="L55">        add(itemId);</span>
-<span class="fc" id="L56">        System.out.println(&quot;Item with ID &quot; + itemId + &quot; added to recently viewed queue.&quot;);</span>
-<span class="fc" id="L57">        return true;</span>
-    }
+<span class="fc" id="L56">        add(itemId);</span>
+<span class="fc" id="L57">        System.out.println(&quot;Item with ID &quot; + itemId + &quot; added to recently viewed queue.&quot;);</span>
+<span class="fc" id="L58">    }</span>
 
     /** 
      * Adds an item to the recently viewed queue without checking for duplicates or capacity. Should only be called from addAttempt after those checks have been made.

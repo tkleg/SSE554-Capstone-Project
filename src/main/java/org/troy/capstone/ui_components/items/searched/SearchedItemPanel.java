@@ -30,6 +30,10 @@ public class SearchedItemPanel extends HBox{
     /** The container for the textual details of the item, displayed on the right side of the panel. */
     private final VBox rightPanel;
     
+
+    /** The ID of the item being displayed in this panel. Used for checking if the panel is in the recently viewed queue. */
+    private final String itemId;
+
     /**
      * Creates a SearchedItemPanel for the given item, displaying its image and details in a structured layout.
      * The panel consists of a left side with the attributed image and a right side with textual details about the item.
@@ -43,6 +47,7 @@ public class SearchedItemPanel extends HBox{
      * @param recentlyViewedManager The manager for recently viewed items, used to update the recently viewed items window when interacting with the item.
      */
     private SearchedItemPanel(Item item, RecentlyViewedManager recentlyViewedManager) {
+        this.itemId = item.getId();
 
         //Set up the left side
         attributedImage = new AttributedItemContainer(item, recentlyViewedManager);
@@ -77,7 +82,12 @@ public class SearchedItemPanel extends HBox{
         return panel;
     }
 
-
+    /** Getter for the item ID of the item being displayed in this panel, used for checking if the panel is in the recently viewed queue. 
+     * @return The ID of the item being displayed in this panel.
+     */
+    public String getItemId() {
+        return itemId;
+    }
 
     /**
      * Stops the asynchronous loading of the image in the attributed image container. This method can be called when the panel is no longer visible or needed, to free up resources and prevent unnecessary loading of images that are not being displayed.
