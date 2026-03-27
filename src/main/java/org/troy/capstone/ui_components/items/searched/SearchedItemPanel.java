@@ -66,6 +66,11 @@ public class SearchedItemPanel extends HBox{
         setSnapToPixel(true);
     }
 
+    /** Factory method to create a SearchedItemPanel instance.
+     * @param item The item whose details are being displayed in this panel.
+     * @param recentlyViewedManager The manager for recently viewed items, used to update the recently viewed items window when interacting with the item.
+     * @return A new instance of SearchedItemPanel.
+     */
     public static SearchedItemPanel create(Item item, RecentlyViewedManager recentlyViewedManager) {
         SearchedItemPanel panel = new SearchedItemPanel(item, recentlyViewedManager);
         UIUtils.setLineBorder(panel, 5, 2);

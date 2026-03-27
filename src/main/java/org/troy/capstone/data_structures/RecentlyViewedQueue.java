@@ -8,9 +8,14 @@ import org.troy.capstone.data_structures.item_table.ItemHashMap;
 import org.troy.capstone.managers.RecentlyViewedManager;
 import org.troy.capstone.ui_components.items.searched.SearchedItemPanel;
 
+/**
+ * Queue to manage recently viewed items, with a fixed capacity. Oldest item is removed when capacity is exceeded. Does not allow duplicates.
+ */
 public class RecentlyViewedQueue extends ArrayBlockingQueue<SearchedItemPanel>{
+    /** Capacity of the recently viewed queue, set to 10 for a reasonable number of items to display without overwhelming the user. */
     private static final int CAPACITY = 10;
 
+    /** HashMap to store item details for quick access when creating SearchedItemPanel instances. */
     private final ItemHashMap itemHashMap;
 
     /** Queue to keep track of item IDs for quick lookup and to prevent duplicates. Faster than using SearchedItemPanel directly since a lot of work is done to create a panel before checking. */
@@ -19,6 +24,10 @@ public class RecentlyViewedQueue extends ArrayBlockingQueue<SearchedItemPanel>{
     /** Reference to the manager for recently viewed items, used to update the recently viewed items window when interacting with the queue. */
     private final RecentlyViewedManager recentlyViewedManager;
 
+    /** Constructor for the RecentlyViewedQueue.
+     * @param itemHashMap The ItemHashMap to use for retrieving item details.
+     * @param recentlyViewedManager The RecentlyViewedManager to use for updating the recently viewed items window.
+     */
     public RecentlyViewedQueue(ItemHashMap itemHashMap, RecentlyViewedManager recentlyViewedManager) {
         super(CAPACITY);
         itemIds = new ArrayBlockingQueue<>(CAPACITY);
@@ -26,6 +35,13 @@ public class RecentlyViewedQueue extends ArrayBlockingQueue<SearchedItemPanel>{
         this.recentlyViewedManager = recentlyViewedManager;
     }
     
+    /** Attempts to add an item to the recently viewed queue.
+     * 
+     * @pre itemId is not null and corresponds to a valid key in the itemHashMap.
+     * @post If the item is not already in the queue, it is added and the oldest item is removed. If the added item exists already, nothing happens except a message is printed to the console.
+     * @param itemId The ID of the item to add.
+     * @return true if the item was added, false if it was already in the queue.
+     */
     public boolean addAttempt(String itemId) {
         if (itemIds.contains(itemId)){
             System.out.println("Item with ID " + itemId + " is already in the recently viewed queue. Not adding again.");
@@ -41,6 +57,12 @@ public class RecentlyViewedQueue extends ArrayBlockingQueue<SearchedItemPanel>{
         return true;
     }
 
+    /** 
+     * Adds an item to the recently viewed queue without checking for duplicates or capacity. Should only be called from addAttempt after those checks have been made.
+     * @pre itemId is not null and is the key of an item allowed in the queue based on checks in addAttempt.
+     * @post The item with the given ID is added to the queue as a SearchedItemPanel.
+     * @param itemId The ID of the item to add.
+     */
     private void add(String itemId) {
         itemIds.add(itemId);
         add(SearchedItemPanel.create(
@@ -51,6 +73,7 @@ public class RecentlyViewedQueue extends ArrayBlockingQueue<SearchedItemPanel>{
 
     /**
      * Returns a List containing all items in the queue in order, without removing them.
+     * @return A List of SearchedItemPanel objects representing the items in the queue, in order from oldest to newest.
      */
     public List<SearchedItemPanel> peekAll() {
         return new ArrayList<>(this);

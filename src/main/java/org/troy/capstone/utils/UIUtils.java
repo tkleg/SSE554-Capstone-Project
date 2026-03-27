@@ -2,13 +2,13 @@ package org.troy.capstone.utils;
 
 import org.troy.capstone.annotations.Generated;
 
-import javafx.scene.paint.Color;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
 import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Region;
+import javafx.scene.paint.Color;
 
 /**
  * Utility class for UI-related functions.
@@ -45,6 +45,13 @@ public class UIUtils {
         }
     }
 
+    /** Sets a solid black line border on a Region object with a specified corner radius and border width.
+     * @pre The region parameter should be a valid JavaFX Region object, and cornerRadii and borderWidth should be non-negative integers.
+     * @post The specified Region will have a solid black line border applied to it with the given corner radius and border width.
+     * @param region The JavaFX Region to set the border on.
+     * @param cornerRadii The radius of the corners of the border, in pixels.
+     * @param borderWidth The width of the border, in pixels.
+     */
     public static void setLineBorder(Region region, int cornerRadii, int borderWidth) {
         
         region.setBorder(new Border(new BorderStroke(

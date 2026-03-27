@@ -50,6 +50,7 @@ public class SearchedItemContainer extends ScrollPane {
 
     /** Factory method to create a SearchedItemContainer with the given list of items.
      * @param items The list of items to display in the container.
+     * @param recentlyViewedManager The manager for recently viewed items, used to update the recently viewed items window when navigating through search results.
      * @return A new instance of SearchedItemContainer populated with the given items.
      */
     public static SearchedItemContainer create(List<Item> items, RecentlyViewedManager recentlyViewedManager) {

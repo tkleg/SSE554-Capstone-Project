@@ -32,6 +32,7 @@ public class AttributedItemContainer extends VBox {
     private Task<Image> loadImageTask;
 
 
+    /** The Desktop instance used to open URLs in the default browser. Used in testing to allow for mocking to disable actual browser opening. */
     @SuppressWarnings("FieldMayBeFinal")
     private static Desktop desktop = Desktop.getDesktop();
 

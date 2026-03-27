@@ -71,6 +71,7 @@ public class SearchedItemPagination extends VBox {
     /** Factory method to create a SearchedItemPagination instance and register it with the GeneralManager.
      * @param itemHashMap The item hash map containing all items, used to populate the pagination content.
      * @param generalManager The GeneralManager instance to register the pagination component with.
+     * @param recentlyViewedManager The manager for recently viewed items, used to update the recently viewed items window when navigating through search results.
      * @return A new instance of SearchedItemPagination.
      */
     public static SearchedItemPagination create(ItemHashMap itemHashMap, GeneralManager generalManager, RecentlyViewedManager recentlyViewedManager) {
