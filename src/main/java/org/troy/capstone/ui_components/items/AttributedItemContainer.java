@@ -30,6 +30,10 @@ public class AttributedItemContainer extends VBox {
     /** The task used to load the image asynchronously. */
     private Task<Image> loadImageTask;
 
+
+    @SuppressWarnings("FieldMayBeFinal")
+    private static Desktop desktop = Desktop.getDesktop();
+
     /** Creates an AttributedItemContainer for the given item, initializing the image view and attribution flow.
      * 
      * @pre item should contain valid data for the image URL and attribution information.
@@ -58,7 +62,7 @@ public class AttributedItemContainer extends VBox {
         imageView.setOnMouseClicked(e -> {
             try {
                 recentlyViewedManager.addRecentlyViewedItem(item.getId());
-                Desktop.getDesktop().browse(new URI(item.getImageUrl()));
+                desktop.browse(new URI(item.getImageUrl()));
             } catch (IOException | URISyntaxException ex) {
                 System.err.println("Failed to open image URL: " + item.getImageUrl());
             }
@@ -100,14 +104,14 @@ public class AttributedItemContainer extends VBox {
 
         authorName.setOnMouseClicked(e ->{
             try {
-                Desktop.getDesktop().browse(new URI(item.getPhotoAuthorUrl()));
+                desktop.browse(new URI(item.getPhotoAuthorUrl()));
             } catch (IOException | URISyntaxException ex) {
                 System.err.println("Failed to open author URL: " + item.getPhotoAuthorUrl());
             }
         });
         sourceName.setOnMouseClicked(e ->{
             try {
-                Desktop.getDesktop().browse( new URI( URL.UNSPLASH_ATTRIBUTION.getUrl() ) );
+                desktop.browse( new URI( URL.UNSPLASH_ATTRIBUTION.getUrl() ) );
             } catch (IOException | URISyntaxException ex) {
                 System.err.println("Failed to open source URL: " + URL.UNSPLASH_ATTRIBUTION.getUrl());
             }
