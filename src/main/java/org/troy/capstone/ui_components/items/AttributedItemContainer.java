@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import org.troy.capstone.annotations.Generated;
 import org.troy.capstone.constants.TestFXId;
 import org.troy.capstone.constants.URL;
 import org.troy.capstone.constants.UISizeControl;
@@ -78,6 +79,7 @@ public class AttributedItemContainer extends VBox {
     /** Stops the asynchronous loading of the image in this AttributedItemContainer. This method can be called when the container is no longer visible or needed, to free up resources and prevent unnecessary loading of images that are not being displayed. 
      * @post The asynchronous image loading task for this AttributedItemContainer is stopped, preventing any further loading of the image that is not being displayed.
     */
+    @Generated
     public void stopLoadingImage() {
         if (loadImageTask != null && loadImageTask.isRunning())
             loadImageTask.cancel();
@@ -147,10 +149,6 @@ public class AttributedItemContainer extends VBox {
         
         loadImageTask.setOnSucceeded(e -> {
             imageView.setImage(loadImageTask.getValue());
-        });
-        
-        loadImageTask.setOnFailed(e -> {
-            System.err.println("Failed to load image: " + imageUrl);
         });
         
         Thread imageThread = new Thread(loadImageTask);

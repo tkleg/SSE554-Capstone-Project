@@ -60,8 +60,8 @@ public enum UISizeControl {
     /** Height of the container holding the filters on the right side of the main page, set to 2/3 of the pagination height to allow space for other controls. */
     FILTERS_CONTAINER_HEIGHT((int) (SEARCHED_ITEM_PAGINATION_HEIGHT.value * (2.0/3))),
 
-    /** Width of the recently viewed items window, set to 82.5% of the searched item container width for consistency. */
-    RECENTLY_VIEWED_WINDOW_WIDTH((int) (SEARCHED_ITEM_CONTAINER_WIDTH.value * 0.825)),
+    /** Width of the recently viewed items window, set to 85% of the searched item container width for consistency. */
+    RECENTLY_VIEWED_WINDOW_WIDTH((int) (SEARCHED_ITEM_CONTAINER_WIDTH.value * 0.85)),
     /** Height of the recently viewed items window, set to match the height of the filters container for consistency. */
     RECENTLY_VIEWED_WINDOW_HEIGHT(FILTERS_CONTAINER_HEIGHT.value);
 
