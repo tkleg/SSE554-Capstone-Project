@@ -2,7 +2,13 @@
 
 import org.troy.capstone.annotations.Generated;
 
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Region;
+import javafx.scene.paint.Color;
 
 /**
  * Utility class for UI-related functions.
@@ -27,15 +33,35 @@ public class UIUtils {
      * @param height The desired height to set for the region, or null to leave the height unchanged.
      */
     public static void setSize(Region region, Integer width, Integer height) {
-<span class="fc bfc" id="L30" title="All 2 branches covered.">        if (width != null) {</span>
-<span class="fc" id="L31">            region.setMaxWidth(width);</span>
-<span class="fc" id="L32">            region.setMinWidth(width);</span>
+<span class="fc bfc" id="L36" title="All 2 branches covered.">        if (width != null) {</span>
+<span class="fc" id="L37">            region.setMaxWidth(width);</span>
+<span class="fc" id="L38">            region.setPrefWidth(width);</span>
+<span class="fc" id="L39">            region.setMinWidth(width);</span>
         }
-<span class="fc bfc" id="L34" title="All 2 branches covered.">        if (height != null) {</span>
-<span class="fc" id="L35">            region.setMaxHeight(height);</span>
-<span class="fc" id="L36">            region.setMinHeight(height);</span>
+<span class="fc bfc" id="L41" title="All 2 branches covered.">        if (height != null) {</span>
+<span class="fc" id="L42">            region.setMaxHeight(height);</span>
+<span class="fc" id="L43">            region.setPrefHeight(height);</span>
+<span class="fc" id="L44">            region.setMinHeight(height);</span>
         }
-<span class="fc" id="L38">    }</span>
+<span class="fc" id="L46">    }</span>
+
+    /** Sets a solid black line border on a Region object with a specified corner radius and border width.
+     * @pre The region parameter should be a valid JavaFX Region object, and cornerRadii and borderWidth should be non-negative integers.
+     * @post The specified Region will have a solid black line border applied to it with the given corner radius and border width.
+     * @param region The JavaFX Region to set the border on.
+     * @param cornerRadii The radius of the corners of the border, in pixels.
+     * @param borderWidth The width of the border, in pixels.
+     */
+    public static void setLineBorder(Region region, int cornerRadii, int borderWidth) {
+        
+<span class="fc" id="L57">        region.setBorder(new Border(new BorderStroke(</span>
+            Color.BLACK, 
+            BorderStrokeStyle.SOLID, 
+            new CornerRadii(cornerRadii), 
+            new BorderWidths(borderWidth)
+        )));
+
+<span class="fc" id="L64">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

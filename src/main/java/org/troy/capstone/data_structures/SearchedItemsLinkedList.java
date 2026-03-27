@@ -3,7 +3,7 @@ package org.troy.capstone.data_structures;
 import java.util.List;
 import java.util.Optional;
 
-import org.troy.capstone.data_structures.ItemTable.ItemHashMap;
+import org.troy.capstone.data_structures.item_table.ItemHashMap;
 import org.troy.capstone.entities.Item;
 
 /**

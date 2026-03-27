@@ -16,4 +16,16 @@ public class TestUtils {
     public static <T extends Node> T lookupByTestFXId(TestFXId id) {
         return (T) new FxRobot().lookup("#" + id.getId()).query();
     }
+
+    /**
+     * Looks up a node by a string ID and returns the result of query().
+     * Only to be used in TestFX tests.
+     * @param id The string ID of the node to look up.
+     * @param <T> The expected type of the node.
+     * @return The node found by TestFX lookup().query().
+     */
+    @SuppressWarnings("unchecked")
+    public static <T extends Node> T lookupByTestFXId(String id) {
+        return (T) new FxRobot().lookup("#" + id).query();
+    }
 }

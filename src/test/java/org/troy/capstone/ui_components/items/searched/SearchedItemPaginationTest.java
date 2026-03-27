@@ -17,7 +17,7 @@ import org.mockito.Mockito;
 import org.troy.capstone.TestDataHolder;
 import org.troy.capstone.constants.UIElementName;
 import org.troy.capstone.data_structures.SearchedItemsLinkedList;
-import org.troy.capstone.data_structures.ItemTable.ItemHashMap;
+import org.troy.capstone.data_structures.item_table.ItemHashMap;
 import org.troy.capstone.entities.Item;
 import org.troy.capstone.managers.GeneralManager;
 
@@ -29,7 +29,7 @@ public class SearchedItemPaginationTest {
     @SuppressWarnings("unused")
     private SearchedItemPagination pagination;
     private GeneralManager generalManager;
-    private ItemHashMap itemHashMap = TestDataHolder.getItemHashMapCopy();
+    private static final ItemHashMap itemHashMap = TestDataHolder.getItemHashMapCopy();
 
     @BeforeAll
     @SuppressWarnings("ResultOfObjectAllocationIgnored")
@@ -40,7 +40,7 @@ public class SearchedItemPaginationTest {
     @BeforeEach
     public void setUp() {
         generalManager = new GeneralManager(TestDataHolder.getTableCopy());
-        pagination = SearchedItemPagination.create(itemHashMap, generalManager);
+        pagination = SearchedItemPagination.create(itemHashMap, generalManager, null);
     }
 
     @Test
@@ -52,6 +52,7 @@ public class SearchedItemPaginationTest {
     }
 
     @Nested
+    @SuppressWarnings("unused")
     @DisplayName("Tests for getPreviousPage and getNextPage")
     class TestGetPreviousAndNextPage {
         private static Method getNextPageMethod, getPreviousPageMethod;
@@ -111,6 +112,7 @@ public class SearchedItemPaginationTest {
     }
 
     @Nested
+    @SuppressWarnings("unused")
     @DisplayName("Tests for the previous and next buttons in the pagination UI")
     class TestPaginationButtons {
         //Tests for the pagination buttons would go here, but would require more extensive setup to properly test the UI interactions, so they are not included in this test suite.
@@ -129,9 +131,9 @@ public class SearchedItemPaginationTest {
         public void testPreviousButtonAction() throws Exception {
             try (MockedStatic<SearchedItemContainer> mockSearchedItemContainerCreate = Mockito.mockStatic(SearchedItemContainer.class)) {
                 SearchedItemContainer mockContainer = Mockito.mock(SearchedItemContainer.class);
-                mockSearchedItemContainerCreate.when(() -> SearchedItemContainer.create(Mockito.anyList())).thenReturn(mockContainer);
+                mockSearchedItemContainerCreate.when(() -> SearchedItemContainer.create(Mockito.anyList(), Mockito.any())).thenReturn(mockContainer);
 
-                SearchedItemPagination paginationWithMockContainer = SearchedItemPagination.create(itemHashMap, generalManager);
+                SearchedItemPagination paginationWithMockContainer = SearchedItemPagination.create(itemHashMap, generalManager, null);
 
                 //Inject a mock pageList that returns a non-null list for getPrevious()
                 Field pageListField = SearchedItemPagination.class.getDeclaredField("pageList");
@@ -152,9 +154,9 @@ public class SearchedItemPaginationTest {
         public void testNextButtonAction() throws Exception {
             try (MockedStatic<SearchedItemContainer> mockSearchedItemContainerCreate = Mockito.mockStatic(SearchedItemContainer.class)) {
                 SearchedItemContainer mockContainer = Mockito.mock(SearchedItemContainer.class);
-                mockSearchedItemContainerCreate.when(() -> SearchedItemContainer.create(Mockito.anyList())).thenReturn(mockContainer);
+                mockSearchedItemContainerCreate.when(() -> SearchedItemContainer.create(Mockito.anyList(), Mockito.any())).thenReturn(mockContainer);
 
-                SearchedItemPagination paginationWithMockContainer = SearchedItemPagination.create(itemHashMap, generalManager);
+                SearchedItemPagination paginationWithMockContainer = SearchedItemPagination.create(itemHashMap, generalManager, null);
 
                 //Inject a mock pageList that returns a non-null list for getNext()
                 Field pageListField = SearchedItemPagination.class.getDeclaredField("pageList");

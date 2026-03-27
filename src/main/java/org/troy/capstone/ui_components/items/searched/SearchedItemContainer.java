@@ -4,17 +4,13 @@ import java.util.List;
 
 import org.troy.capstone.constants.UISizeControl;
 import org.troy.capstone.entities.Item;
+import org.troy.capstone.managers.RecentlyViewedManager;
+import org.troy.capstone.utils.UIUtils;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.BorderStrokeStyle;
-import javafx.scene.layout.BorderWidths;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 
 /**
  * The SearchedItemContainer class represents a UI component that contains and displays the search results as a list of SearchedItemPanel instances. It is a scrollable container that allows users to view all search results, and it provides methods to add new search result panels to the container.
@@ -23,11 +19,19 @@ public class SearchedItemContainer extends ScrollPane {
     /** The container for all searched item panels */
     private final VBox itemContainer;
     
+
+    /** The manager for recently viewed items, used to update the recently viewed items window when navigating through search results. */
+    private final RecentlyViewedManager recentlyViewedManager;
+
     /**
      * Creates a SearchedItemContainer with a vertical box layout for displaying search result panels.
+     * @param recentlyViewedManager The manager for recently viewed items, used to update the recently viewed items window when navigating through search results.
      */
-    private SearchedItemContainer() {
+    private SearchedItemContainer(RecentlyViewedManager recentlyViewedManager) {
         super();
+
+        this.recentlyViewedManager = recentlyViewedManager;
+
         itemContainer = new VBox(UISizeControl.SEARCHED_ITEM_PANEL_SPACING.getValue()); // 5px spacing between items
         itemContainer.setAlignment(Pos.TOP_CENTER); // Center-align items consistently
         setContent(itemContainer);
@@ -42,20 +46,17 @@ public class SearchedItemContainer extends ScrollPane {
         itemContainer.setCache(true);
         itemContainer.setCacheHint(javafx.scene.CacheHint.SPEED);
 
-        setBorder(new Border(new BorderStroke(
-            Color.BLACK, 
-            BorderStrokeStyle.SOLID, 
-            new CornerRadii(5), 
-            new BorderWidths(1)
-        )));
     }
 
     /** Factory method to create a SearchedItemContainer with the given list of items.
      * @param items The list of items to display in the container.
+     * @param recentlyViewedManager The manager for recently viewed items, used to update the recently viewed items window when navigating through search results.
      * @return A new instance of SearchedItemContainer populated with the given items.
      */
-    public static SearchedItemContainer create(List<Item> items) {
-        SearchedItemContainer container = new SearchedItemContainer();
+    public static SearchedItemContainer create(List<Item> items, RecentlyViewedManager recentlyViewedManager) {
+        SearchedItemContainer container = new SearchedItemContainer(recentlyViewedManager);
+        UIUtils.setSize(container, UISizeControl.SEARCHED_ITEM_CONTAINER_WIDTH.getValue(), UISizeControl.SEARCHED_ITEM_CONTAINER_HEIGHT.getValue());
+        UIUtils.setLineBorder(container, 5, 1);
         container.updateItems(items);
         return container;
     }
@@ -81,18 +82,16 @@ public class SearchedItemContainer extends ScrollPane {
     public final void updateItems(List<Item> items) {
         if( items == null ){
             System.out.println("Warning: updateItems called with null list. Doing nothing.");
-            return;
         }else if (items.isEmpty()) {
             stopAllImagesLoading();
             itemContainer.getChildren().clear();
             itemContainer.getChildren().add(new Label("No items found."));
-            return;
         }else{
             stopAllImagesLoading();
             itemContainer.getChildren().clear();
             items.forEach(item -> {
                 if (item != null)
-                    addItemPanel(new SearchedItemPanel(item));
+                    addItemPanel(SearchedItemPanel.create(item, recentlyViewedManager));
             });
         }
     }

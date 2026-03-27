@@ -3,12 +3,12 @@ package org.troy.capstone.ui_components.items.searched;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -38,7 +38,7 @@ public class SearchedItemContainerTest {
 
     @BeforeEach
     public void setUp() {
-        container = SearchedItemContainer.create(List.of(Item.randomItem()));
+        container = SearchedItemContainer.create(List.of(Item.randomItem()), null);
     }
 
     @Test
@@ -89,7 +89,6 @@ public class SearchedItemContainerTest {
         Platform.runLater(() -> {
             try {
                 container.updateItems(List.of());
-                Field itemContainerField;
                 VBox itemContainer;
                 try {
                     itemContainerField = SearchedItemContainer.class.getDeclaredField("itemContainer");
@@ -118,7 +117,6 @@ public class SearchedItemContainerTest {
             try {
                 container.updateItems(List.of(Item.randomItem(), Item.randomItem()));
                 container.updateItems(null);
-                Field itemContainerField;
                 VBox itemContainer;
                 try {
                     itemContainerField = SearchedItemContainer.class.getDeclaredField("itemContainer");
@@ -144,9 +142,7 @@ public class SearchedItemContainerTest {
         CountDownLatch latch = new CountDownLatch(1);
         Platform.runLater(() -> {
             try{
-                container.updateItems( java.util.Arrays.asList((Item) null));
-                
-                Field itemContainerField;
+                container.updateItems( Arrays.asList((Item) null));
                 VBox itemContainer;
                 try {
                     itemContainerField = SearchedItemContainer.class.getDeclaredField("itemContainer");

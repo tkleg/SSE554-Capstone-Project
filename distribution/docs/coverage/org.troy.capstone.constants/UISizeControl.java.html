@@ -7,9 +7,9 @@
 <span class="fc" id="L7">public enum UISizeControl {</span>
 
     /** Padding height for UI elements. */
-<span class="fc" id="L10">    HEIGHT_PADDING(10),</span>
+<span class="fc" id="L10">    HEIGHT_PADDING(20),</span>
     /** Padding width for UI elements. */
-<span class="fc" id="L12">    WIDTH_PADDING(10),</span>
+<span class="fc" id="L12">    WIDTH_PADDING(20),</span>
     
     /** Width of the left side of the main page, which contains the search results and filters. */
 <span class="fc" id="L15">    LEFT_SIDE_MAIN_PAGE_WIDTH(550),</span>
@@ -19,7 +19,7 @@
 <span class="fc" id="L19">    MAIN_PAGE_HEIGHT(800),</span>
     
     /** Width of the search bar at the top of the main page. */
-<span class="fc" id="L22">    SEARCH_BAR_WIDTH(LEFT_SIDE_MAIN_PAGE_WIDTH.value),</span>
+<span class="fc" id="L22">    SEARCH_BAR_WIDTH(LEFT_SIDE_MAIN_PAGE_WIDTH.value / 2),</span>
     /** Height of the search bar at the top of the main page. */
 <span class="fc" id="L24">    SEARCH_BAR_HEIGHT(50),</span>
     
@@ -56,9 +56,14 @@
 <span class="fc" id="L56">    SEARCHED_ITEM_LABEL_MAX_WIDTH(SEARCHED_ITEM_PANEL_WIDTH.value - ATTRIBUTED_ITEM_IMAGE_WIDTH.value - WIDTH_PADDING.value * 3),</span>
     
     /** Width of the container holding the filters on the right side of the main page, set to match the width of the right side for consistency. */
-<span class="fc" id="L59">    FILTERS_CONTAINER_WIDTH(RIGHT_SIDE_MAIN_PAGE_WIDTH.value),</span>
-    /** Height of the container holding the filters on the right side of the main page, set to half of the main page height to allow space for other controls. */
-<span class="fc" id="L61">    FILTERS_CONTAINER_HEIGHT(MAIN_PAGE_HEIGHT.value / 2);</span>
+<span class="fc" id="L59">    FILTERS_CONTAINER_WIDTH(RIGHT_SIDE_MAIN_PAGE_WIDTH.value / 2),</span>
+    /** Height of the container holding the filters on the right side of the main page, set to 2/3 of the pagination height to allow space for other controls. */
+<span class="fc" id="L61">    FILTERS_CONTAINER_HEIGHT((int) (SEARCHED_ITEM_PAGINATION_HEIGHT.value * (2.0/3))),</span>
+
+    /** Width of the recently viewed items window, set to 85% of the searched item container width for consistency. */
+<span class="fc" id="L64">    RECENTLY_VIEWED_WINDOW_WIDTH((int) (SEARCHED_ITEM_CONTAINER_WIDTH.value * 0.85)),</span>
+    /** Height of the recently viewed items window, set to match the height of the filters container for consistency. */
+<span class="fc" id="L66">    RECENTLY_VIEWED_WINDOW_HEIGHT(FILTERS_CONTAINER_HEIGHT.value);</span>
 
     /** The integer value associated with this enum constant, used for size control in the UI. */
     private final int value;
@@ -66,15 +71,15 @@
     /** Constructor for the enum constants.
      * @param value The integer value to associate with this enum constant, typically used for size control in the UI.
     */
-<span class="fc" id="L69">    UISizeControl(int value) {</span>
-<span class="fc" id="L70">        this.value = value;</span>
-<span class="fc" id="L71">    }</span>
+<span class="fc" id="L74">    UISizeControl(int value) {</span>
+<span class="fc" id="L75">        this.value = value;</span>
+<span class="fc" id="L76">    }</span>
 
     /** Getter for the integer value associated with this enum constant.
      * @return The integer value that can be used for size control in the UI.
     */
     public int getValue() {
-<span class="fc" id="L77">        return value;</span>
+<span class="fc" id="L82">        return value;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

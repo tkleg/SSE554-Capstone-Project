@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RecentlyViewedQueue.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Project</a> &gt; <a href="index.source.html" class="el_package">org.troy.capstone.data_structures</a> &gt; <span class="el_source">RecentlyViewedQueue.java</span></div><h1>RecentlyViewedQueue.java</h1><pre class="source lang-java linenums">package org.troy.capstone.data_structures;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ArrayBlockingQueue;
+
+import org.troy.capstone.data_structures.item_table.ItemHashMap;
+import org.troy.capstone.managers.RecentlyViewedManager;
+import org.troy.capstone.ui_components.items.searched.SearchedItemPanel;
+
+/**
+ * Queue to manage recently viewed items, with a fixed capacity. Oldest item is removed when capacity is exceeded. Does not allow duplicates.
+ */
+public class RecentlyViewedQueue extends ArrayBlockingQueue&lt;SearchedItemPanel&gt;{
+    /** Capacity of the recently viewed queue, set to 10 for a reasonable number of items to display without overwhelming the user. */
+    private static final int CAPACITY = 10;
+
+    /** HashMap to store item details for quick access when creating SearchedItemPanel instances. */
+    private final ItemHashMap itemHashMap;
+
+    /** Queue to keep track of item IDs for quick lookup and to prevent duplicates. Faster than using SearchedItemPanel directly since a lot of work is done to create a panel before checking. */
+    private final ArrayBlockingQueue&lt;String&gt; itemIds;
+
+    /** Reference to the manager for recently viewed items, used to update the recently viewed items window when interacting with the queue. */
+    private final RecentlyViewedManager recentlyViewedManager;
+
+    /** Constructor for the RecentlyViewedQueue.
+     * @param itemHashMap The ItemHashMap to use for retrieving item details.
+     * @param recentlyViewedManager The RecentlyViewedManager to use for updating the recently viewed items window.
+     */
+    public RecentlyViewedQueue(ItemHashMap itemHashMap, RecentlyViewedManager recentlyViewedManager) {
+<span class="fc" id="L32">        super(CAPACITY);</span>
+<span class="fc" id="L33">        itemIds = new ArrayBlockingQueue&lt;&gt;(CAPACITY);</span>
+<span class="fc" id="L34">        this.itemHashMap = itemHashMap;</span>
+<span class="fc" id="L35">        this.recentlyViewedManager = recentlyViewedManager;</span>
+<span class="fc" id="L36">    }</span>
+    
+    /** Attempts to add an item to the recently viewed queue.
+     * 
+     * @pre itemId is not null and corresponds to a valid key in the itemHashMap.
+     * @post If the item is not already in the queue, it is added and the oldest item is removed. If the added item exists already, nothing happens except a message is printed to the console.
+     * @param itemId The ID of the item to add.
+     */
+    public void addAttempt(String itemId) {
+<span class="fc bfc" id="L45" title="All 2 branches covered.">        if (itemIds.contains(itemId)) {</span>
+            //Remove the itemId and its corresponding panel, then re-add to the end (top)
+<span class="fc" id="L47">            itemIds.remove(itemId);</span>
+            //Remove the corresponding SearchedItemPanel
+<span class="fc" id="L49">            removeIf(panel -&gt; panel.getItemId().equals(itemId));</span>
+<span class="fc" id="L50">            System.out.println(&quot;Item with ID &quot; + itemId + &quot; is already in the recently viewed queue. Moving to top.&quot;);</span>
+<span class="fc bfc" id="L51" title="All 2 branches covered.">        } else if (itemIds.remainingCapacity() == 0) {</span>
+<span class="fc" id="L52">            itemIds.poll(); // Remove the oldest item ID</span>
+<span class="fc" id="L53">            poll(); // Remove the oldest item panel</span>
+<span class="fc" id="L54">            System.out.println(&quot;Recently viewed queue is full. Oldest item removed to make space for new item.&quot;);</span>
+        }
+<span class="fc" id="L56">        add(itemId);</span>
+<span class="fc" id="L57">        System.out.println(&quot;Item with ID &quot; + itemId + &quot; added to recently viewed queue.&quot;);</span>
+<span class="fc" id="L58">    }</span>
+
+    /** 
+     * Adds an item to the recently viewed queue without checking for duplicates or capacity. Should only be called from addAttempt after those checks have been made.
+     * @pre itemId is not null and is the key of an item allowed in the queue based on checks in addAttempt.
+     * @post The item with the given ID is added to the queue as a SearchedItemPanel.
+     * @param itemId The ID of the item to add.
+     */
+    private void add(String itemId) {
+<span class="fc" id="L67">        itemIds.add(itemId);</span>
+<span class="fc" id="L68">        add(SearchedItemPanel.create(</span>
+<span class="fc" id="L69">            itemHashMap.getItem(itemId).orElseThrow(),</span>
+            recentlyViewedManager
+        ));
+<span class="fc" id="L72">    }</span>
+
+    /**
+     * Returns a List containing all items in the queue in order, without removing them.
+     * @return A List of SearchedItemPanel objects representing the items in the queue, in order from oldest to newest.
+     */
+    public List&lt;SearchedItemPanel&gt; peekAll() {
+<span class="fc" id="L79">        return new ArrayList&lt;&gt;(this);</span>
+    }
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

@@ -4,10 +4,11 @@ import java.util.List;
 
 import org.troy.capstone.constants.UIElementName;
 import org.troy.capstone.constants.UISizeControl;
-import org.troy.capstone.data_structures.ItemTable.ItemHashMap;
 import org.troy.capstone.data_structures.SearchedItemsLinkedList;
+import org.troy.capstone.data_structures.item_table.ItemHashMap;
 import org.troy.capstone.entities.Item;
 import org.troy.capstone.managers.GeneralManager;
+import org.troy.capstone.managers.RecentlyViewedManager;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -39,8 +40,9 @@ public class SearchedItemPagination extends VBox {
      * Constructor for SearchedItemPagination. Initializes the item hash map and sets up the pagination component.
      * @pre itemHashMap should contain valid item data to populate the pagination content.
      * @param itemHashMap The item hash map containing all items, used to populate the pagination content based on the current search results.
+     * @param recentlyViewedManager The manager for recently viewed items, used to update the recently viewed items window when navigating through search results.
     */
-    private SearchedItemPagination(ItemHashMap itemHashMap) {
+    private SearchedItemPagination(ItemHashMap itemHashMap, RecentlyViewedManager recentlyViewedManager) {
 
         this.itemHashMap = itemHashMap;
 
@@ -54,7 +56,7 @@ public class SearchedItemPagination extends VBox {
         setSpacing(UISizeControl.HEIGHT_PADDING.getValue());
 
         pageList = new SearchedItemsLinkedList(itemHashMap, initialIds);
-        mySearchedItemContainer = SearchedItemContainer.create(pageList.getHead());
+        mySearchedItemContainer = SearchedItemContainer.create(pageList.getHead(), recentlyViewedManager);
         this.getChildren().clear();
         this.setAlignment(Pos.TOP_CENTER);
         this.getChildren().add(mySearchedItemContainer);
@@ -69,10 +71,11 @@ public class SearchedItemPagination extends VBox {
     /** Factory method to create a SearchedItemPagination instance and register it with the GeneralManager.
      * @param itemHashMap The item hash map containing all items, used to populate the pagination content.
      * @param generalManager The GeneralManager instance to register the pagination component with.
+     * @param recentlyViewedManager The manager for recently viewed items, used to update the recently viewed items window when navigating through search results.
      * @return A new instance of SearchedItemPagination.
      */
-    public static SearchedItemPagination create(ItemHashMap itemHashMap, GeneralManager generalManager) {
-        SearchedItemPagination pagination =  new SearchedItemPagination(itemHashMap);
+    public static SearchedItemPagination create(ItemHashMap itemHashMap, GeneralManager generalManager, RecentlyViewedManager recentlyViewedManager) {
+        SearchedItemPagination pagination = new SearchedItemPagination(itemHashMap, recentlyViewedManager);
         generalManager.addUIElement(UIElementName.SEARCHED_ITEM_PAGINATION, pagination);
         return pagination;
     }

@@ -7,9 +7,9 @@ package org.troy.capstone.constants;
 public enum UISizeControl {
 
     /** Padding height for UI elements. */
-    HEIGHT_PADDING(10),
+    HEIGHT_PADDING(20),
     /** Padding width for UI elements. */
-    WIDTH_PADDING(10),
+    WIDTH_PADDING(20),
     
     /** Width of the left side of the main page, which contains the search results and filters. */
     LEFT_SIDE_MAIN_PAGE_WIDTH(550),
@@ -19,7 +19,7 @@ public enum UISizeControl {
     MAIN_PAGE_HEIGHT(800),
     
     /** Width of the search bar at the top of the main page. */
-    SEARCH_BAR_WIDTH(LEFT_SIDE_MAIN_PAGE_WIDTH.value),
+    SEARCH_BAR_WIDTH(LEFT_SIDE_MAIN_PAGE_WIDTH.value / 2),
     /** Height of the search bar at the top of the main page. */
     SEARCH_BAR_HEIGHT(50),
     
@@ -56,9 +56,14 @@ public enum UISizeControl {
     SEARCHED_ITEM_LABEL_MAX_WIDTH(SEARCHED_ITEM_PANEL_WIDTH.value - ATTRIBUTED_ITEM_IMAGE_WIDTH.value - WIDTH_PADDING.value * 3),
     
     /** Width of the container holding the filters on the right side of the main page, set to match the width of the right side for consistency. */
-    FILTERS_CONTAINER_WIDTH(RIGHT_SIDE_MAIN_PAGE_WIDTH.value),
-    /** Height of the container holding the filters on the right side of the main page, set to half of the main page height to allow space for other controls. */
-    FILTERS_CONTAINER_HEIGHT(MAIN_PAGE_HEIGHT.value / 2);
+    FILTERS_CONTAINER_WIDTH(RIGHT_SIDE_MAIN_PAGE_WIDTH.value / 2),
+    /** Height of the container holding the filters on the right side of the main page, set to 2/3 of the pagination height to allow space for other controls. */
+    FILTERS_CONTAINER_HEIGHT((int) (SEARCHED_ITEM_PAGINATION_HEIGHT.value * (2.0/3))),
+
+    /** Width of the recently viewed items window, set to 85% of the searched item container width for consistency. */
+    RECENTLY_VIEWED_WINDOW_WIDTH((int) (SEARCHED_ITEM_CONTAINER_WIDTH.value * 0.85)),
+    /** Height of the recently viewed items window, set to match the height of the filters container for consistency. */
+    RECENTLY_VIEWED_WINDOW_HEIGHT(FILTERS_CONTAINER_HEIGHT.value);
 
     /** The integer value associated with this enum constant, used for size control in the UI. */
     private final int value;

@@ -3,23 +3,31 @@
 /** Enum representing the IDs of various UI components for TestFX testing. */
 <span class="fc" id="L4">public enum TestFXId {</span>
     /** ID for the sort option dropdown in the UI */
-<span class="fc" id="L6">    SORT_OPTION_DROPDOWN(&quot;sortOptionDropdown&quot;);</span>
+<span class="fc" id="L6">    SORT_OPTION_DROPDOWN(&quot;sortOptionDropdown&quot;),</span>
 
+    /** ID prefix for attributed item image views in the UI */
+<span class="fc" id="L9">    ATTRIBUTED_IMAGE_VIEW_PREFIX(&quot;attributedImageView_&quot;),</span>
+
+    /** ID prefix for attributed item attribution flows in the UI */
+<span class="fc" id="L12">    ATTRIBUTED_AUTHOR_NAME_PREFIX(&quot;attributedAuthorName_&quot;),</span>
+
+    /** ID prefix for attributed item source name in the UI */
+<span class="fc" id="L15">    ATTRIBUTED_SOURCE_NAME_PREFIX(&quot;attributedSourceName_&quot;);</span>
     /** The string ID associated with the TestFXId enum value. */
     private final String id;
 
     /** Constructs a TestFXId enum value with the specified string ID.
      * @param id The string ID to be associated with the TestFXId enum value.
      */
-<span class="fc" id="L14">    TestFXId(String id) {</span>
-<span class="fc" id="L15">        this.id = id;</span>
-<span class="fc" id="L16">    }</span>
+<span class="fc" id="L22">    TestFXId(String id) {</span>
+<span class="fc" id="L23">        this.id = id;</span>
+<span class="fc" id="L24">    }</span>
 
     /** Returns the string ID associated with this TestFXId enum value.
      * @return The string ID associated with this TestFXId enum value.
      */
     public String getId() {
-<span class="fc" id="L22">        return id;</span>
+<span class="fc" id="L30">        return id;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

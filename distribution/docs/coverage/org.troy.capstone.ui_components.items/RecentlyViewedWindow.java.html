@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RecentlyViewedWindow.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Project</a> &gt; <a href="index.source.html" class="el_package">org.troy.capstone.ui_components.items</a> &gt; <span class="el_source">RecentlyViewedWindow.java</span></div><h1>RecentlyViewedWindow.java</h1><pre class="source lang-java linenums">package org.troy.capstone.ui_components.items;
+
+import java.util.List;
+
+import org.troy.capstone.constants.UISizeControl;
+import org.troy.capstone.ui_components.items.searched.SearchedItemPanel;
+import org.troy.capstone.utils.UIUtils;
+
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.VBox;
+
+/** Window to display recently viewed items. It is a ScrollPane, which contains a VBox for the content. */
+public class RecentlyViewedWindow extends ScrollPane{
+
+    /** The VBox that holds the content of the window. */
+    private final VBox content;
+
+    /** Factory method to create a RecentlyViewedWindow instance with a title label and a scrollable content area. 
+     * @return A RecentlyViewedWindow instance with a title label and an empty scrollable content area.
+    */
+    public static RecentlyViewedWindow create() {
+<span class="fc" id="L23">        RecentlyViewedWindow window = new RecentlyViewedWindow();</span>
+<span class="fc" id="L24">        UIUtils.setSize(window, UISizeControl.RECENTLY_VIEWED_WINDOW_WIDTH.getValue(), UISizeControl.RECENTLY_VIEWED_WINDOW_HEIGHT.getValue());</span>
+<span class="fc" id="L25">        return window;</span>
+    }
+
+    /** Private constructor to initialize the RecentlyViewedWindow.
+     * @pre The RecentlyViewedWindow should be properly initialized to contain a ScrollPane with a VBox as its content.
+     * @post The RecentlyViewedWindow instance is created with a ScrollPane containing an empty VBox as its content, ready to have recently viewed items added to it.
+     */
+<span class="fc" id="L32">    private RecentlyViewedWindow(){</span>
+<span class="fc" id="L33">        content = new VBox(UISizeControl.HEIGHT_PADDING.getValue());</span>
+<span class="fc" id="L34">        Label titleLabel = new Label(&quot;Recently Viewed Items&quot;);</span>
+<span class="fc" id="L35">        titleLabel.setStyle(&quot;-fx-font-size: 16px; -fx-font-weight: bold;&quot;);</span>
+<span class="fc" id="L36">        content.getChildren().add(titleLabel);</span>
+<span class="fc" id="L37">        setContent(content);</span>
+<span class="fc" id="L38">    }</span>
+
+    /** Sets the content of the RecentlyViewedWindow with the given list of SearchedItemPanel instances.
+     * @pre The panels list should contain valid SearchedItemPanel instances to be displayed in the RecentlyViewedWindow.
+     * @post The RecentlyViewedWindow's content is updated to display the provided SearchedItemPanel instances.
+     * @param panels The list of SearchedItemPanel instances to be displayed in the RecentlyViewedWindow.
+     */
+    public void setContent(List&lt;SearchedItemPanel&gt; panels) {
+<span class="fc" id="L46">        content.getChildren().clear();</span>
+<span class="fc" id="L47">        content.getChildren().addAll(panels);</span>
+<span class="fc" id="L48">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

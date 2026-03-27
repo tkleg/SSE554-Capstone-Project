@@ -5,9 +5,12 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import org.troy.capstone.annotations.Generated;
+import org.troy.capstone.constants.TestFXId;
 import org.troy.capstone.constants.URL;
 import org.troy.capstone.constants.UISizeControl;
 import org.troy.capstone.entities.Item;
+import org.troy.capstone.managers.RecentlyViewedManager;
 
 import javafx.concurrent.Task;
 import javafx.geometry.Pos;
@@ -28,6 +31,11 @@ public class AttributedItemContainer extends VBox {
     /** The task used to load the image asynchronously. */
     private Task<Image> loadImageTask;
 
+
+    /** The Desktop instance used to open URLs in the default browser. Used in testing to allow for mocking to disable actual browser opening. */
+    @SuppressWarnings("FieldMayBeFinal")
+    private static Desktop desktop = Desktop.getDesktop();
+
     /** Creates an AttributedItemContainer for the given item, initializing the image view and attribution flow.
      * 
      * @pre item should contain valid data for the image URL and attribution information.
@@ -36,14 +44,16 @@ public class AttributedItemContainer extends VBox {
      * @post The variable passed into loadImageTask will be initialized to a Task that loads the image from the item's image URL asynchronously.
      * 
      * @param item The item whose image and attribution information are being displayed in this container.
+     * @param recentlyViewedManager The manager for recently viewed items, used to update the recently viewed items window when interacting with the item.
      */
-    public AttributedItemContainer(Item item) {
+    public AttributedItemContainer(Item item, RecentlyViewedManager recentlyViewedManager) {
         super(5); //5px spacing between items
         setAlignment(Pos.TOP_CENTER); // Center-align the image and attribution
 
         TextFlow attributionFlow = makeAttributionFlow(item);
 
         imageView = new ImageView();
+        imageView.setId(TestFXId.ATTRIBUTED_IMAGE_VIEW_PREFIX.getId() + item.getId());
         imageView.setFitWidth(UISizeControl.ATTRIBUTED_ITEM_IMAGE_WIDTH.getValue());
         imageView.setFitHeight(UISizeControl.ATTRIBUTED_ITEM_IMAGE_HEIGHT.getValue());
         imageView.setPreserveRatio(true);
@@ -53,7 +63,8 @@ public class AttributedItemContainer extends VBox {
         
         imageView.setOnMouseClicked(e -> {
             try {
-                Desktop.getDesktop().browse(new URI(item.getImageUrl()));
+                recentlyViewedManager.addRecentlyViewedItem(item.getId());
+                desktop.browse(new URI(item.getImageUrl()));
             } catch (IOException | URISyntaxException ex) {
                 System.err.println("Failed to open image URL: " + item.getImageUrl());
             }
@@ -69,6 +80,7 @@ public class AttributedItemContainer extends VBox {
     /** Stops the asynchronous loading of the image in this AttributedItemContainer. This method can be called when the container is no longer visible or needed, to free up resources and prevent unnecessary loading of images that are not being displayed. 
      * @post The asynchronous image loading task for this AttributedItemContainer is stopped, preventing any further loading of the image that is not being displayed.
     */
+    @Generated
     public void stopLoadingImage() {
         if (loadImageTask != null && loadImageTask.isRunning())
             loadImageTask.cancel();
@@ -87,20 +99,22 @@ public class AttributedItemContainer extends VBox {
         Text text1 = new Text("Photo by ");
         Text authorName = new Text(item.getPhotoAuthor());
         authorName.setUnderline(true);
+        authorName.setId(TestFXId.ATTRIBUTED_AUTHOR_NAME_PREFIX.getId() + item.getId());
         Text text2 = new Text(" on ");
         Text sourceName = new Text("Unsplash"); 
         sourceName.setUnderline(true); 
+        sourceName.setId(TestFXId.ATTRIBUTED_SOURCE_NAME_PREFIX.getId() + item.getId());
 
         authorName.setOnMouseClicked(e ->{
             try {
-                Desktop.getDesktop().browse(new URI(item.getPhotoAuthorUrl()));
+                desktop.browse(new URI(item.getPhotoAuthorUrl()));
             } catch (IOException | URISyntaxException ex) {
                 System.err.println("Failed to open author URL: " + item.getPhotoAuthorUrl());
             }
         });
         sourceName.setOnMouseClicked(e ->{
             try {
-                Desktop.getDesktop().browse( new URI( URL.UNSPLASH_ATTRIBUTION.getUrl() ) );
+                desktop.browse( new URI( URL.UNSPLASH_ATTRIBUTION.getUrl() ) );
             } catch (IOException | URISyntaxException ex) {
                 System.err.println("Failed to open source URL: " + URL.UNSPLASH_ATTRIBUTION.getUrl());
             }
@@ -135,13 +149,7 @@ public class AttributedItemContainer extends VBox {
         };
         
         loadImageTask.setOnSucceeded(e -> {
-            Image image = loadImageTask.getValue();
-            if (image != null)
-                imageView.setImage(image);
-        });
-        
-        loadImageTask.setOnFailed(e -> {
-            System.err.println("Failed to load image: " + imageUrl);
+            imageView.setImage(loadImageTask.getValue());
         });
         
         Thread imageThread = new Thread(loadImageTask);

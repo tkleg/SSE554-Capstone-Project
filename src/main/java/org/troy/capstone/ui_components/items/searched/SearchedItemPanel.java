@@ -5,19 +5,15 @@ import java.util.Date;
 
 import org.troy.capstone.constants.UISizeControl;
 import org.troy.capstone.entities.Item;
+import org.troy.capstone.managers.RecentlyViewedManager;
 import org.troy.capstone.ui_components.items.AttributedItemContainer;
+import org.troy.capstone.utils.UIUtils;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.BorderStrokeStyle;
-import javafx.scene.layout.BorderWidths;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 
 /**
  * The SearchedItemPanel class represents a UI component that displays the details of a single item in the search results.
@@ -34,6 +30,10 @@ public class SearchedItemPanel extends HBox{
     /** The container for the textual details of the item, displayed on the right side of the panel. */
     private final VBox rightPanel;
     
+
+    /** The ID of the item being displayed in this panel. Used for checking if the panel is in the recently viewed queue. */
+    private final String itemId;
+
     /**
      * Creates a SearchedItemPanel for the given item, displaying its image and details in a structured layout.
      * The panel consists of a left side with the attributed image and a right side with textual details about the item.
@@ -44,25 +44,24 @@ public class SearchedItemPanel extends HBox{
      *      The rightPanel should be properly initialized to display the item's textual details.
      * 
      * @param item The item whose details are being displayed in this panel, used to populate both the attributed image and the other details.
+     * @param recentlyViewedManager The manager for recently viewed items, used to update the recently viewed items window when interacting with the item.
      */
-    public SearchedItemPanel(Item item) {
+    private SearchedItemPanel(Item item, RecentlyViewedManager recentlyViewedManager) {
+        this.itemId = item.getId();
 
         //Set up the left side
-        attributedImage = new AttributedItemContainer(item);
+        attributedImage = new AttributedItemContainer(item, recentlyViewedManager);
 
         //Set up the right side - text content
         rightPanel = new VBox(5); // 5px spacing between elements
         rightPanel.setAlignment(Pos.TOP_LEFT); // Align content to top-left
-        fillRightPanel(item);
+        fillRightPanel(item, recentlyViewedManager);
         
         //Add both sides to the HBox
         getChildren().addAll(attributedImage, rightPanel);
         setSpacing(20); // 20px spacing between image and text
         setAlignment(Pos.TOP_LEFT); // Align all items to top-left for consistency
-        
-        //Add border to the panel
-        setBorder();
-        
+                
         //Add padding inside the border
         setPadding(new Insets(UISizeControl.HEIGHT_PADDING.getValue(), UISizeControl.WIDTH_PADDING.getValue(), UISizeControl.HEIGHT_PADDING.getValue(), UISizeControl.WIDTH_PADDING.getValue()));
         
@@ -70,6 +69,24 @@ public class SearchedItemPanel extends HBox{
         setCache(true);
         setCacheHint(javafx.scene.CacheHint.SPEED);
         setSnapToPixel(true);
+    }
+
+    /** Factory method to create a SearchedItemPanel instance.
+     * @param item The item whose details are being displayed in this panel.
+     * @param recentlyViewedManager The manager for recently viewed items, used to update the recently viewed items window when interacting with the item.
+     * @return A new instance of SearchedItemPanel.
+     */
+    public static SearchedItemPanel create(Item item, RecentlyViewedManager recentlyViewedManager) {
+        SearchedItemPanel panel = new SearchedItemPanel(item, recentlyViewedManager);
+        UIUtils.setLineBorder(panel, 5, 2);
+        return panel;
+    }
+
+    /** Getter for the item ID of the item being displayed in this panel, used for checking if the panel is in the recently viewed queue. 
+     * @return The ID of the item being displayed in this panel.
+     */
+    public String getItemId() {
+        return itemId;
     }
 
     /**
@@ -89,14 +106,16 @@ public class SearchedItemPanel extends HBox{
      * 
      * @post rightPanel will contain labels displaying the name, publisher, category, price, rating, stock quantity, and date added for the item, with consistent styling and formatting.
      * @param item The item whose data is being displayed in the right panel.
+     * @param recentlyViewedManager The manager for recently viewed items, used to update the recently viewed items window when interacting with the item.
      */
-    private void fillRightPanel(Item item) {
+    private void fillRightPanel(Item item, RecentlyViewedManager recentlyViewedManager) {
         //Name label done separately so we can style it
         Label nameLabel = new Label(item.getName());
         nameLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14;");
         nameLabel.setWrapText(true);
         nameLabel.setMaxWidth(UISizeControl.SEARCHED_ITEM_LABEL_MAX_WIDTH.getValue()); // Allow space for image on left
         nameLabel.setAlignment(Pos.CENTER_LEFT);
+        nameLabel.setOnMouseClicked(e -> { recentlyViewedManager.addRecentlyViewedItem(item.getId());});
 
         Label publisherLabel = createLabel("Publisher: " + item.getPublisher());
         
@@ -151,21 +170,6 @@ public class SearchedItemPanel extends HBox{
      */
     public AttributedItemContainer getAttributedImage() {
         return attributedImage;
-    }
-
-    /**
-     * Sets the border for the SearchedItemPanel with a consistent style.
-     * This method creates a black solid border with rounded corners and a specified width.
-     * @pre The SearchedItemPanel should be properly initialized to allow for setting the border.
-     * @post The SearchedItemPanel will have a black solid border with rounded corners and a width of 2 pixels.
-    */
-    private void setBorder(){
-        setBorder(new Border(new BorderStroke(
-            Color.BLACK, 
-            BorderStrokeStyle.SOLID, 
-            new CornerRadii(5), 
-            new BorderWidths(2)
-        )));
     }
 
 }

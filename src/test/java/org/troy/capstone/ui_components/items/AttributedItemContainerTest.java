@@ -2,6 +2,7 @@ package org.troy.capstone.ui_components.items;
 
 import java.awt.Desktop;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -19,6 +20,7 @@ import org.mockito.Mockito;
 import org.troy.capstone.TestDataHolder;
 import org.troy.capstone.constants.URL;
 import org.troy.capstone.entities.Item;
+import org.troy.capstone.managers.RecentlyViewedManager;
 
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.image.ImageView;
@@ -43,7 +45,7 @@ public class AttributedItemContainerTest {
 
     @BeforeEach
     public void setUp() {
-        attributedItemContainer = new AttributedItemContainer(item);
+        attributedItemContainer = new AttributedItemContainer(item, Mockito.mock(RecentlyViewedManager.class));
     }
 
     @Test
@@ -76,6 +78,10 @@ public class AttributedItemContainerTest {
         @DisplayName("Test link clicking author and source links with mocked Desktop")
         public void testLinkClickingWithMock(String scenario) throws Exception {
             try{
+
+                Field desktopField = AttributedItemContainer.class.getDeclaredField("desktop");
+                desktopField.setAccessible(true);
+                desktopField.set(attributedItemContainer, mockDesktop);
                 TextFlow flow = (TextFlow) makeAttributionFlowTest.invoke(attributedItemContainer, item);
                 
                 Text authorName = (Text) flow.getChildren().get(1); // Author name
