@@ -3,7 +3,7 @@ package org.troy.capstone.ui_components;
 import org.troy.capstone.constants.TestFXId;
 import org.troy.capstone.constants.UIElementName;
 import org.troy.capstone.constants.UISizeControl;
-import org.troy.capstone.managers.GeneralManager;
+import org.troy.capstone.managers.general.GeneralManager;
 import org.troy.capstone.search_engine.sorting.RowComparator;
 import org.troy.capstone.utils.UIUtils;
 

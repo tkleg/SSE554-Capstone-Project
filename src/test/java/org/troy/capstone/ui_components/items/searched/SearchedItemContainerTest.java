@@ -14,6 +14,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.troy.capstone.entities.Item;
+import org.troy.capstone.ui_components.items.SearchedItemPanel;
 
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;

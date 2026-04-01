@@ -10,7 +10,7 @@ import org.troy.capstone.constants.TestFXId;
 import org.troy.capstone.constants.URL;
 import org.troy.capstone.constants.UISizeControl;
 import org.troy.capstone.entities.Item;
-import org.troy.capstone.managers.RecentlyViewedManager;
+import org.troy.capstone.managers.recently_viewed.RecentlyViewedManager;
 
 import javafx.concurrent.Task;
 import javafx.geometry.Pos;

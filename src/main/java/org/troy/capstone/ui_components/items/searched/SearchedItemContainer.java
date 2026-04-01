@@ -4,7 +4,8 @@ import java.util.List;
 
 import org.troy.capstone.constants.UISizeControl;
 import org.troy.capstone.entities.Item;
-import org.troy.capstone.managers.RecentlyViewedManager;
+import org.troy.capstone.managers.recently_viewed.RecentlyViewedManager;
+import org.troy.capstone.ui_components.items.SearchedItemPanel;
 import org.troy.capstone.utils.UIUtils;
 
 import javafx.geometry.Pos;

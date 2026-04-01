@@ -7,8 +7,8 @@ import org.troy.capstone.constants.UISizeControl;
 import org.troy.capstone.data_structures.SearchedItemsLinkedList;
 import org.troy.capstone.data_structures.item_table.ItemHashMap;
 import org.troy.capstone.entities.Item;
-import org.troy.capstone.managers.GeneralManager;
-import org.troy.capstone.managers.RecentlyViewedManager;
+import org.troy.capstone.managers.general.GeneralManager;
+import org.troy.capstone.managers.recently_viewed.RecentlyViewedManager;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;

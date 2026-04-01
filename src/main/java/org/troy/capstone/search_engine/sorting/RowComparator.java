@@ -2,6 +2,7 @@ package org.troy.capstone.search_engine.sorting;
 
 import java.util.Comparator;
 
+import org.troy.capstone.annotations.Generated;
 import org.troy.capstone.constants.TableColumnName;
 
 import tech.tablesaw.api.Row;
@@ -115,18 +116,22 @@ public class RowComparator implements Comparator<Row> {
      * @param obj The object to compare with this RowComparator.
      * @return true if the other object is a RowComparator with the same SortType, and false otherwise.
      */
-    /**
-     * hashCode() is intentionally not implemented because RowComparator is never used in hash-based collections.
-     * Suppress static analysis warning for equals/hashCode contract.
-     * If your tool does not respect this, suppress in your tool's config.
-     */
     @Override
-    @SuppressWarnings({"java:S1201", "EqualsHashCode"})
     public boolean equals(Object obj) {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
         RowComparator other = (RowComparator) obj;
         return sortType == other.sortType;
     }
-
+    
+    /**
+     * Returns a hash code value for this RowComparator, which is based on the SortType.
+     * @return A hash code value for this RowComparator.
+     */    
+    @Override
+    @Generated
+    public int hashCode() {
+        return sortType.hashCode();
+    }
+    
 }

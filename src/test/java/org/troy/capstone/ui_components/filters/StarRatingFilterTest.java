@@ -8,7 +8,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.troy.capstone.TestDataHolder;
 import org.troy.capstone.constants.UIElementName;
-import org.troy.capstone.managers.GeneralManager;
+import org.troy.capstone.managers.general.GeneralManager;
 
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.input.MouseEvent;
@@ -57,7 +57,8 @@ public class StarRatingFilterTest {
     @BeforeEach
     public void setUp() {
         generalManager = new GeneralManager(table);
-        starRatingFilter = StarRatingFilter.create(generalManager);
+        starRatingFilter = new StarRatingFilter();
+        generalManager.addUIElement(UIElementName.STAR_RATING_FILTER, starRatingFilter);
     }
 
     @Test

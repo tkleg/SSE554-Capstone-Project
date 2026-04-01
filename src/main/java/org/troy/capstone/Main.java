@@ -1,10 +1,11 @@
 package org.troy.capstone;
 
 import org.troy.capstone.constants.TableColumnName;
+import org.troy.capstone.constants.UIElementName;
 import org.troy.capstone.constants.UISizeControl;
 import org.troy.capstone.data_structures.item_table.ItemHashMap;
-import org.troy.capstone.managers.GeneralManager;
-import org.troy.capstone.managers.RecentlyViewedManager;
+import org.troy.capstone.managers.general.GeneralManager;
+import org.troy.capstone.managers.recently_viewed.RecentlyViewedManager;
 import org.troy.capstone.ui_components.PriceSlider;
 import org.troy.capstone.ui_components.SearchBar;
 import org.troy.capstone.ui_components.filters.StarRatingFilter;
@@ -64,7 +65,8 @@ public class Main extends Application {
         gridPane.add(priceSlider, 1, 0, 2, 1);
 
         //Get and setup the StarRatingFilter
-        StarRatingFilter starRatingFilter = StarRatingFilter.create(generalManager);
+        StarRatingFilter starRatingFilter = new StarRatingFilter();
+        generalManager.addUIElement(UIElementName.STAR_RATING_FILTER, starRatingFilter);
         gridPane.add(starRatingFilter, 3, 0, 1, 1);
         
 

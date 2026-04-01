@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 
 import org.troy.capstone.data_structures.item_table.ItemHashMap;
-import org.troy.capstone.managers.RecentlyViewedManager;
-import org.troy.capstone.ui_components.items.searched.SearchedItemPanel;
+import org.troy.capstone.managers.recently_viewed.RecentlyViewedManager;
+import org.troy.capstone.ui_components.items.SearchedItemPanel;
 
 /**
  * Queue to manage recently viewed items, with a fixed capacity. Oldest item is removed when capacity is exceeded. Does not allow duplicates.

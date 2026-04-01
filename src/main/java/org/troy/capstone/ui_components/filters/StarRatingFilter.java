@@ -1,7 +1,5 @@
 package org.troy.capstone.ui_components.filters;
 
-import org.troy.capstone.constants.UIElementName;
-import org.troy.capstone.managers.GeneralManager;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -33,19 +31,6 @@ public class StarRatingFilter extends VBox {
     private int selectedRating = 0;
 
     /**
-     * Factory method to create a StarRatingFilter and register it with the GeneralManager.
-      * @param generalManager The GeneralManager to register the filter with.
-      * @return The created StarRatingFilter instance.
-     */
-    public static StarRatingFilter create(GeneralManager generalManager) {
-        StarRatingFilter filter = new StarRatingFilter();
-        generalManager.addUIElement(UIElementName.STAR_RATING_FILTER, filter);
-        filter.setAlignment(Pos.CENTER_LEFT);
-        filter.setSpacing(5);
-        return filter;
-    }
-
-    /**
      * Constructor for StarRatingFilter with 5 clickable stars and a label. The filter starts with no rating selected (0 stars).
      */
     public StarRatingFilter() {
@@ -72,6 +57,9 @@ public class StarRatingFilter extends VBox {
             starContainer.getChildren().add(star);
         }
         
+        setAlignment(Pos.CENTER_LEFT);
+        setSpacing(5);
+
         getChildren().addAll(ratingLabel, starContainer);
         updateDisplay();
     }
