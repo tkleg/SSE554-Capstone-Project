@@ -1,0 +1,6 @@
+digraph "summary" {
+  "classes"                                          -> "java.base (java.base)";
+  "classes"                                          -> "java.desktop (java.desktop)";
+  "classes"                                          -> "java.net.http (java.net.http)";
+  "classes"                                          -> "not found";
+}
