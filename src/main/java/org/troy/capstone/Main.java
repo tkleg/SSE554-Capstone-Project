@@ -50,7 +50,11 @@ public class Main extends Application {
         //gridPane.add(itemScroller, 0, 1, 2, 3);
 
         //Get and setup the SearchBar
-        SearchBar searchBar = SearchBar.create(generalManager);
+        SearchBar searchBar = new SearchBar();
+        generalManager.addUIElement(UIElementName.SEARCH_FIELD, searchBar.getSearchField());
+        generalManager.addUIElement(UIElementName.SORTING_OPTION_DROPDOWN, searchBar.getSortingOptionDropdown());
+        generalManager.setButton(searchBar.getSearchButton());
+
         gridPane.add(searchBar, 0, 0, 1, 1);
 
         //Insert a FiltersContainer
@@ -61,7 +65,9 @@ public class Main extends Application {
         //+1 and -1 to ensure no items cutoff by rounding issues
         double minPrice = table.floatColumn(TableColumnName.PRICE.getColumnName()).min() - 1;
         double maxPrice = table.floatColumn(TableColumnName.PRICE.getColumnName()).max() + 1;
-        PriceSlider priceSlider = new PriceSlider(minPrice, maxPrice, generalManager );
+        PriceSlider priceSlider = new PriceSlider(minPrice, maxPrice );
+        generalManager.addUIElement(UIElementName.MIN_PRICE_SLIDER, priceSlider.getMinSlider());
+        generalManager.addUIElement(UIElementName.MAX_PRICE_SLIDER, priceSlider.getMaxSlider());
         gridPane.add(priceSlider, 1, 0, 2, 1);
 
         //Get and setup the StarRatingFilter

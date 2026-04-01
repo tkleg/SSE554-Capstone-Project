@@ -28,9 +28,7 @@ digraph "classes" {
    "search_engine.sorting"          -> "constants";
    "search_engine.sorting"          -> "utils";
    "ui_components"                  -> "constants";
-   "ui_components"                  -> "managers.general";
    "ui_components"                  -> "search_engine.sorting";
-   "ui_components"                  -> "utils";
    "ui_components.filters.categorical" -> "constants";
    "ui_components.filters.categorical" -> "data_structures.item_table";
    "ui_components.filters.categorical" -> "entities";

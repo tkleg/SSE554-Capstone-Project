@@ -16,8 +16,8 @@ Project,org.troy.capstone.ui_components.items,RecentlyViewedWindow,0,54,0,0,0,13
 Project,org.troy.capstone.ui_components.items,SearchedItemPanel,5,236,0,0,0,43,1,9,1,9
 Project,org.troy.capstone.ui_components,SearchBar.new ListCell() {...},0,21,0,2,0,4,0,3,0,2
 Project,org.troy.capstone.ui_components,SearchBar.new ListCell() {...},0,21,0,2,0,4,0,3,0,2
-Project,org.troy.capstone.ui_components,SearchBar,0,206,0,2,0,40,0,9,0,8
-Project,org.troy.capstone.ui_components,PriceSlider,0,204,0,4,0,36,0,6,0,4
+Project,org.troy.capstone.ui_components,SearchBar,0,179,0,2,0,35,0,9,0,8
+Project,org.troy.capstone.ui_components,PriceSlider,0,200,0,4,0,36,0,8,0,6
 Project,org.troy.capstone.utils,Converters,0,6,0,0,0,1,0,1,0,1
 Project,org.troy.capstone.utils,UIUtils,0,61,0,4,0,11,0,4,0,2
 Project,org.troy.capstone.utils,TableUtils,36,145,0,2,12,42,6,12,6,11

@@ -10,6 +10,7 @@ digraph "classes" {
    "org.troy.capstone"                                -> "javafx.application (not found)";
    "org.troy.capstone"                                -> "javafx.geometry (not found)";
    "org.troy.capstone"                                -> "javafx.scene (not found)";
+   "org.troy.capstone"                                -> "javafx.scene.control (not found)";
    "org.troy.capstone"                                -> "javafx.scene.layout (not found)";
    "org.troy.capstone"                                -> "javafx.stage (not found)";
    "org.troy.capstone"                                -> "org.troy.capstone.constants (classes)";
@@ -170,9 +171,7 @@ digraph "classes" {
    "org.troy.capstone.ui_components"                  -> "javafx.scene.layout (not found)";
    "org.troy.capstone.ui_components"                  -> "javafx.util (not found)";
    "org.troy.capstone.ui_components"                  -> "org.troy.capstone.constants (classes)";
-   "org.troy.capstone.ui_components"                  -> "org.troy.capstone.managers.general (classes)";
    "org.troy.capstone.ui_components"                  -> "org.troy.capstone.search_engine.sorting (classes)";
-   "org.troy.capstone.ui_components"                  -> "org.troy.capstone.utils (classes)";
    "org.troy.capstone.ui_components.filters"          -> "java.lang (java.base)";
    "org.troy.capstone.ui_components.filters"          -> "java.lang.invoke (java.base)";
    "org.troy.capstone.ui_components.filters"          -> "javafx.collections (not found)";

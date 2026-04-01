@@ -1,9 +1,5 @@
 package org.troy.capstone.ui_components;
 
-import org.testfx.framework.junit5.ApplicationTest;
-import org.testfx.framework.junit5.Start;
-import javafx.stage.Stage;
-
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -12,19 +8,22 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.testfx.framework.junit5.ApplicationTest;
+import org.testfx.framework.junit5.Start;
 import org.troy.capstone.TestDataHolder;
+import org.troy.capstone.TestUtils;
+import org.troy.capstone.constants.TestFXId;
 import org.troy.capstone.constants.UIElementName;
 import org.troy.capstone.managers.general.GeneralManager;
-import org.troy.capstone.constants.TestFXId;
 import org.troy.capstone.search_engine.sorting.RowComparator;
 
-import javafx.scene.control.ComboBox;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
 import javafx.scene.Scene;
-import org.troy.capstone.TestUtils;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 public class SearchBarTest extends ApplicationTest {
 
@@ -34,7 +33,11 @@ public class SearchBarTest extends ApplicationTest {
     @Override
     @Start
     public void start(Stage stage) {
-        searchBar = SearchBar.create(generalManager);
+        searchBar = new SearchBar();
+        generalManager = new GeneralManager(TestDataHolder.getTableCopy());
+        generalManager.addUIElement(UIElementName.SEARCH_FIELD, searchBar.getSearchField());
+        generalManager.addUIElement(UIElementName.SORTING_OPTION_DROPDOWN, searchBar.getSortingOptionDropdown());
+        generalManager.setButton(searchBar.getSearchButton());
         Scene scene = new Scene(searchBar, 800, 100);
         stage.setScene(scene);
         stage.show();
@@ -49,7 +52,10 @@ public class SearchBarTest extends ApplicationTest {
 
     @BeforeEach
     public void setUp() {
-        searchBar = SearchBar.create(generalManager);
+        searchBar = new SearchBar();
+        generalManager.addUIElement(UIElementName.SEARCH_FIELD, searchBar.getSearchField());
+        generalManager.addUIElement(UIElementName.SORTING_OPTION_DROPDOWN, searchBar.getSortingOptionDropdown());
+        generalManager.setButton(searchBar.getSearchButton());
     }
     
     @Test
