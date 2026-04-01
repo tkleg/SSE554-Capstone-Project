@@ -43,7 +43,8 @@ public class Main extends Application {
         RecentlyViewedManager recentlyViewedManager = new RecentlyViewedManager(itemHashMap, recentlyViewedWindow);
         gridPane.add(recentlyViewedWindow, 3, 1, 1, 2);
 
-        SearchedItemPagination itemPagination = SearchedItemPagination.create(itemHashMap, generalManager, recentlyViewedManager);
+        SearchedItemPagination itemPagination = new SearchedItemPagination(itemHashMap, recentlyViewedManager);
+        generalManager.addUIElement(UIElementName.SEARCHED_ITEM_PAGINATION, itemPagination);
         
         gridPane.add(itemPagination, 0, 1, 2, 3);
         //SearchedItemContainer itemScroller = SearchedItemContainer.createFilledContainer(table.first(firstNItems), itemHashMap);
@@ -58,7 +59,8 @@ public class Main extends Application {
         gridPane.add(searchBar, 0, 0, 1, 1);
 
         //Insert a FiltersContainer
-        FiltersContainer filtersContainer = FiltersContainer.create(generalManager, itemHashMap);
+        FiltersContainer filtersContainer = FiltersContainer.create(itemHashMap);
+        generalManager.addUIElement(UIElementName.FILTERS_CONTAINER, filtersContainer);
         gridPane.add(filtersContainer, 2, 1, 1, 1);
 
         //Get and setup the PriceSlider

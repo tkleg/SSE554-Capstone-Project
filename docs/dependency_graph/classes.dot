@@ -196,7 +196,6 @@ digraph "classes" {
    "org.troy.capstone.ui_components.filters.categorical" -> "org.troy.capstone.constants (classes)";
    "org.troy.capstone.ui_components.filters.categorical" -> "org.troy.capstone.data_structures.item_table (classes)";
    "org.troy.capstone.ui_components.filters.categorical" -> "org.troy.capstone.entities (classes)";
-   "org.troy.capstone.ui_components.filters.categorical" -> "org.troy.capstone.managers.general (classes)";
    "org.troy.capstone.ui_components.filters.categorical" -> "org.troy.capstone.utils (classes)";
    "org.troy.capstone.ui_components.items"            -> "java.awt (java.desktop)";
    "org.troy.capstone.ui_components.items"            -> "java.io (java.base)";
@@ -235,7 +234,6 @@ digraph "classes" {
    "org.troy.capstone.ui_components.items.searched"   -> "org.troy.capstone.data_structures (classes)";
    "org.troy.capstone.ui_components.items.searched"   -> "org.troy.capstone.data_structures.item_table (classes)";
    "org.troy.capstone.ui_components.items.searched"   -> "org.troy.capstone.entities (classes)";
-   "org.troy.capstone.ui_components.items.searched"   -> "org.troy.capstone.managers.general (classes)";
    "org.troy.capstone.ui_components.items.searched"   -> "org.troy.capstone.managers.recently_viewed (classes)";
    "org.troy.capstone.ui_components.items.searched"   -> "org.troy.capstone.ui_components.items (classes)";
    "org.troy.capstone.ui_components.items.searched"   -> "org.troy.capstone.utils (classes)";

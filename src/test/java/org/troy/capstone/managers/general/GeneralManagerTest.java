@@ -2,6 +2,8 @@ package org.troy.capstone.managers.general;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.lang.reflect.Field;
+import java.util.Map;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,22 +11,17 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.troy.capstone.TestDataHolder;
 import org.troy.capstone.constants.UIElementName;
-import org.troy.capstone.data_structures.item_table.ItemHashMap;
 import org.troy.capstone.managers.ui.UIElementManager;
 import org.troy.capstone.ui_components.filters.StarRatingFilter;
 import org.troy.capstone.ui_components.filters.categorical.FiltersContainer;
-import org.troy.capstone.utils.TableUtils;
 
-import javafx.scene.Node;
 import javafx.embed.swing.JFXPanel;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import tech.tablesaw.api.Table;
-
-import java.lang.reflect.Field;
-import java.util.Map;
 
 public class GeneralManagerTest {
 
@@ -44,7 +41,7 @@ public class GeneralManagerTest {
         fullGM.addUIElement(UIElementName.MAX_PRICE_SLIDER, new Slider(0, 100, 75));
         fullGM.addUIElement(UIElementName.SEARCH_FIELD, new TextField("Test Query"));
 
-        FiltersContainer filtersContainer = FiltersContainer.create(fullGM, ItemHashMap.fromTable(TableUtils.readCleanedAttributedData()));
+        FiltersContainer filtersContainer = new FiltersContainer(TestDataHolder.getItemHashMapCopy());
         fullGM.addUIElement(UIElementName.FILTERS_CONTAINER, filtersContainer);
         fullGM.addUIElement(UIElementName.STAR_RATING_FILTER, new StarRatingFilter());
         fullGM.setButton(fullGMButton);

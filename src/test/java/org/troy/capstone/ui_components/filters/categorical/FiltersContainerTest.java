@@ -34,7 +34,8 @@ public class FiltersContainerTest {
     @BeforeEach
     public void setUp() {
         generalManager = new GeneralManager(table);
-        filtersContainer = FiltersContainer.create(generalManager, itemHashMap);
+        filtersContainer = FiltersContainer.create(itemHashMap);
+        generalManager.addUIElement(UIElementName.FILTERS_CONTAINER, filtersContainer);
     }
 
     @Test

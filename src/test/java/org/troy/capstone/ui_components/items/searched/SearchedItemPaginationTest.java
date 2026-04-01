@@ -40,7 +40,8 @@ public class SearchedItemPaginationTest {
     @BeforeEach
     public void setUp() {
         generalManager = new GeneralManager(TestDataHolder.getTableCopy());
-        pagination = SearchedItemPagination.create(itemHashMap, generalManager, null);
+        pagination = new SearchedItemPagination(itemHashMap, null);
+        generalManager.addUIElement(UIElementName.SEARCHED_ITEM_PAGINATION, pagination);
     }
 
     @Test
@@ -133,7 +134,7 @@ public class SearchedItemPaginationTest {
                 SearchedItemContainer mockContainer = Mockito.mock(SearchedItemContainer.class);
                 mockSearchedItemContainerCreate.when(() -> SearchedItemContainer.create(Mockito.anyList(), Mockito.any())).thenReturn(mockContainer);
 
-                SearchedItemPagination paginationWithMockContainer = SearchedItemPagination.create(itemHashMap, generalManager, null);
+                SearchedItemPagination paginationWithMockContainer = new SearchedItemPagination(itemHashMap, null);
 
                 //Inject a mock pageList that returns a non-null list for getPrevious()
                 Field pageListField = SearchedItemPagination.class.getDeclaredField("pageList");
@@ -156,7 +157,7 @@ public class SearchedItemPaginationTest {
                 SearchedItemContainer mockContainer = Mockito.mock(SearchedItemContainer.class);
                 mockSearchedItemContainerCreate.when(() -> SearchedItemContainer.create(Mockito.anyList(), Mockito.any())).thenReturn(mockContainer);
 
-                SearchedItemPagination paginationWithMockContainer = SearchedItemPagination.create(itemHashMap, generalManager, null);
+                SearchedItemPagination paginationWithMockContainer = new SearchedItemPagination(itemHashMap, null);
 
                 //Inject a mock pageList that returns a non-null list for getNext()
                 Field pageListField = SearchedItemPagination.class.getDeclaredField("pageList");

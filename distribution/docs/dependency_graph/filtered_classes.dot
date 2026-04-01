@@ -32,7 +32,6 @@ digraph "classes" {
    "ui_components.filters.categorical" -> "constants";
    "ui_components.filters.categorical" -> "data_structures.item_table";
    "ui_components.filters.categorical" -> "entities";
-   "ui_components.filters.categorical" -> "managers.general";
    "ui_components.filters.categorical" -> "utils";
    "ui_components.items"            -> "annotations";
    "ui_components.items"            -> "constants";
@@ -43,7 +42,6 @@ digraph "classes" {
    "ui_components.items.searched"   -> "data_structures";
    "ui_components.items.searched"   -> "data_structures.item_table";
    "ui_components.items.searched"   -> "entities";
-   "ui_components.items.searched"   -> "managers.general";
    "ui_components.items.searched"   -> "managers.recently_viewed";
    "ui_components.items.searched"   -> "ui_components.items";
    "ui_components.items.searched"   -> "utils";
