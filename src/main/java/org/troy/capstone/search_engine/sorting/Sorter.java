@@ -2,7 +2,9 @@ package org.troy.capstone.search_engine.sorting;
 
 import java.util.List;
 
+import org.troy.capstone.search_engine.sorting.comparator.RowComparator;
 import org.troy.capstone.utils.TableUtils;
+
 import tech.tablesaw.api.Row;
 import tech.tablesaw.api.Table;
 

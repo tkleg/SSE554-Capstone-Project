@@ -8,6 +8,7 @@ org.troy.capstone.managers.recently_viewed
 org.troy.capstone.managers.ui
 org.troy.capstone.search_engine
 org.troy.capstone.search_engine.sorting
+org.troy.capstone.search_engine.sorting.comparator
 org.troy.capstone.ui_components
 org.troy.capstone.ui_components.filters
 org.troy.capstone.ui_components.filters.categorical

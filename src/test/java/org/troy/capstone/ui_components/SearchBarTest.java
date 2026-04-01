@@ -15,7 +15,7 @@ import org.troy.capstone.TestUtils;
 import org.troy.capstone.constants.TestFXId;
 import org.troy.capstone.constants.UIElementName;
 import org.troy.capstone.managers.general.GeneralManager;
-import org.troy.capstone.search_engine.sorting.RowComparator;
+import org.troy.capstone.search_engine.sorting.comparator.RowComparator;
 
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Node;

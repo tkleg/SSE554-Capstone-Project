@@ -9,9 +9,10 @@ import org.troy.capstone.constants.UIDataName;
 import org.troy.capstone.constants.UIElementName;
 import org.troy.capstone.managers.ui.UIElementManager;
 import org.troy.capstone.search_engine.SearchEngine;
-import org.troy.capstone.search_engine.sorting.Sorter;
-import org.troy.capstone.search_engine.sorting.RowComparator;
 import org.troy.capstone.search_engine.sorting.LongWrapper;
+import org.troy.capstone.search_engine.sorting.Sorter;
+import org.troy.capstone.search_engine.sorting.comparator.RowComparator;
+
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import tech.tablesaw.api.Table;

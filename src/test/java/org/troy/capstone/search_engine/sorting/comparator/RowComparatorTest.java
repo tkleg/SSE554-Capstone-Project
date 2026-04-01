@@ -1,4 +1,4 @@
-package org.troy.capstone.search_engine.sorting;
+package org.troy.capstone.search_engine.sorting.comparator;
 
 import org.junit.jupiter.api.Test;
 

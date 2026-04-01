@@ -2,7 +2,7 @@ package org.troy.capstone.ui_components;
 
 import org.troy.capstone.constants.TestFXId;
 import org.troy.capstone.constants.UISizeControl;
-import org.troy.capstone.search_engine.sorting.RowComparator;
+import org.troy.capstone.search_engine.sorting.comparator.RowComparator;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;

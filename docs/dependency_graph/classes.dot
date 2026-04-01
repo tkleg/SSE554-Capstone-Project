@@ -19,6 +19,7 @@ digraph "classes" {
    "org.troy.capstone"                                -> "org.troy.capstone.managers.recently_viewed (classes)";
    "org.troy.capstone"                                -> "org.troy.capstone.search_engine (classes)";
    "org.troy.capstone"                                -> "org.troy.capstone.search_engine.sorting (classes)";
+   "org.troy.capstone"                                -> "org.troy.capstone.search_engine.sorting.comparator (classes)";
    "org.troy.capstone"                                -> "org.troy.capstone.ui_components (classes)";
    "org.troy.capstone"                                -> "org.troy.capstone.ui_components.filters (classes)";
    "org.troy.capstone"                                -> "org.troy.capstone.ui_components.filters.categorical (classes)";
@@ -92,6 +93,7 @@ digraph "classes" {
    "org.troy.capstone.managers.general"               -> "org.troy.capstone.managers.ui (classes)";
    "org.troy.capstone.managers.general"               -> "org.troy.capstone.search_engine (classes)";
    "org.troy.capstone.managers.general"               -> "org.troy.capstone.search_engine.sorting (classes)";
+   "org.troy.capstone.managers.general"               -> "org.troy.capstone.search_engine.sorting.comparator (classes)";
    "org.troy.capstone.managers.general"               -> "tech.tablesaw.api (not found)";
    "org.troy.capstone.managers.recently_viewed"       -> "java.lang (java.base)";
    "org.troy.capstone.managers.recently_viewed"       -> "java.util (java.base)";
@@ -154,9 +156,16 @@ digraph "classes" {
    "org.troy.capstone.search_engine.sorting"          -> "java.util (java.base)";
    "org.troy.capstone.search_engine.sorting"          -> "java.util.function (java.base)";
    "org.troy.capstone.search_engine.sorting"          -> "org.troy.capstone.annotations (classes)";
-   "org.troy.capstone.search_engine.sorting"          -> "org.troy.capstone.constants (classes)";
+   "org.troy.capstone.search_engine.sorting"          -> "org.troy.capstone.search_engine.sorting.comparator (classes)";
    "org.troy.capstone.search_engine.sorting"          -> "org.troy.capstone.utils (classes)";
    "org.troy.capstone.search_engine.sorting"          -> "tech.tablesaw.api (not found)";
+   "org.troy.capstone.search_engine.sorting.comparator" -> "java.io (java.base)";
+   "org.troy.capstone.search_engine.sorting.comparator" -> "java.lang (java.base)";
+   "org.troy.capstone.search_engine.sorting.comparator" -> "java.lang.invoke (java.base)";
+   "org.troy.capstone.search_engine.sorting.comparator" -> "java.util (java.base)";
+   "org.troy.capstone.search_engine.sorting.comparator" -> "org.troy.capstone.annotations (classes)";
+   "org.troy.capstone.search_engine.sorting.comparator" -> "org.troy.capstone.constants (classes)";
+   "org.troy.capstone.search_engine.sorting.comparator" -> "tech.tablesaw.api (not found)";
    "org.troy.capstone.ui_components"                  -> "java.io (java.base)";
    "org.troy.capstone.ui_components"                  -> "java.lang (java.base)";
    "org.troy.capstone.ui_components"                  -> "java.lang.invoke (java.base)";
@@ -171,7 +180,7 @@ digraph "classes" {
    "org.troy.capstone.ui_components"                  -> "javafx.scene.layout (not found)";
    "org.troy.capstone.ui_components"                  -> "javafx.util (not found)";
    "org.troy.capstone.ui_components"                  -> "org.troy.capstone.constants (classes)";
-   "org.troy.capstone.ui_components"                  -> "org.troy.capstone.search_engine.sorting (classes)";
+   "org.troy.capstone.ui_components"                  -> "org.troy.capstone.search_engine.sorting.comparator (classes)";
    "org.troy.capstone.ui_components.filters"          -> "java.lang (java.base)";
    "org.troy.capstone.ui_components.filters"          -> "java.lang.invoke (java.base)";
    "org.troy.capstone.ui_components.filters"          -> "javafx.collections (not found)";

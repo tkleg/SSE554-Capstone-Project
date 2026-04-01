@@ -9,9 +9,10 @@ import org.troy.capstone.constants.UIDataName;
 import org.troy.capstone.constants.UIElementName;
 import org.troy.capstone.managers.ui.UIElementManager;
 import org.troy.capstone.search_engine.SearchEngine;
-import org.troy.capstone.search_engine.sorting.Sorter;
-import org.troy.capstone.search_engine.sorting.RowComparator;
 import org.troy.capstone.search_engine.sorting.LongWrapper;
+import org.troy.capstone.search_engine.sorting.Sorter;
+import org.troy.capstone.search_engine.sorting.comparator.RowComparator;
+
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import tech.tablesaw.api.Table;
@@ -29,10 +30,10 @@ public class GeneralManager {
     /** Constructor for GeneralManager, filled from a tablesaw Table.
      * @param table The tablesaw Table containing the item data to be used by the SearchEngine.
      */
-<span class="fc" id="L32">    public GeneralManager(Table table) {</span>
-<span class="fc" id="L33">        uiManager = new UIElementManager();</span>
-<span class="fc" id="L34">        searchEngine = new SearchEngine(table);</span>
-<span class="fc" id="L35">    }</span>
+<span class="fc" id="L33">    public GeneralManager(Table table) {</span>
+<span class="fc" id="L34">        uiManager = new UIElementManager();</span>
+<span class="fc" id="L35">        searchEngine = new SearchEngine(table);</span>
+<span class="fc" id="L36">    }</span>
 
     /**
      * Gets a UI element from the UIElementManager based on the provided key.
@@ -43,7 +44,7 @@ public class GeneralManager {
       * @return An Optional containing the UI element if found, or an empty Optional if not found.
      */
     public Optional&lt;Node&gt; getUIElement(UIElementName key) {
-<span class="fc" id="L46">        return uiManager.getElement(key);</span>
+<span class="fc" id="L47">        return uiManager.getElement(key);</span>
     }
 
     /**
@@ -54,7 +55,7 @@ public class GeneralManager {
       * @return The search data containing the filters to be applied.
      */
     public Map&lt;UIDataName, Object&gt; getSearchData() {
-<span class="fc" id="L57">        return uiManager.getSearchData();</span>
+<span class="fc" id="L58">        return uiManager.getSearchData();</span>
     }
 
     /**
@@ -66,8 +67,8 @@ public class GeneralManager {
      * @param element The UI element to be added.
      */
     public void addUIElement(UIElementName key, Node element) {
-<span class="fc" id="L69">        uiManager.addElement(key, element);</span>
-<span class="fc" id="L70">    }</span>
+<span class="fc" id="L70">        uiManager.addElement(key, element);</span>
+<span class="fc" id="L71">    }</span>
 
     /**
      * Sets the button in the UIElementManager and assigns an action to it that filters the search results and updates the UI when clicked.
@@ -77,9 +78,9 @@ public class GeneralManager {
      * @param button The Button to be set in the UIElementManager
      */
     public void setButton(Button button) {
-<span class="fc" id="L80">        uiManager.setButton(button);</span>
-<span class="fc" id="L81">        button.setOnAction(e -&gt; filterAndPrintNumberOfResults());</span>
-<span class="fc" id="L82">    }</span>
+<span class="fc" id="L81">        uiManager.setButton(button);</span>
+<span class="fc" id="L82">        button.setOnAction(e -&gt; filterAndPrintNumberOfResults());</span>
+<span class="fc" id="L83">    }</span>
 
     /**
      * Gets the button from the UIElementManager.
@@ -87,7 +88,7 @@ public class GeneralManager {
      * @return The Button from the UIElementManager
      */
     public Button getButton() {
-<span class="fc" id="L90">        return uiManager.getButton();</span>
+<span class="fc" id="L91">        return uiManager.getButton();</span>
     }
 
     /**
@@ -98,19 +99,19 @@ public class GeneralManager {
      * @post The UI is updated with the filtered results based on the current search data from the UIElementManager.
      */
     public void filterAndPrintNumberOfResults() {
-<span class="fc" id="L101">        Map&lt;UIDataName, Object&gt; searchData = getSearchData();</span>
-<span class="fc" id="L102">        System.out.println(&quot;Search Data: &quot; + searchData);</span>
-<span class="fc" id="L103">        Table filteredTable = searchEngine.filterItems(searchData);</span>
-<span class="fc" id="L104">        Table sortedTable = filteredTable;</span>
-<span class="fc" id="L105">        RowComparator comparator = (RowComparator) searchData.get(UIDataName.SORTING_OPTION);</span>
-<span class="fc" id="L106">        LongWrapper time = new LongWrapper();</span>
-<span class="fc bfc" id="L107" title="All 2 branches covered.">        if( comparator != null ){</span>
-<span class="fc" id="L108">            sortedTable = Sorter.sortTable(filteredTable, comparator, time);</span>
-<span class="fc" id="L109">            System.out.println(&quot;Time taken to sort: &quot; + time.getValue() / 1_000_000 + &quot; ms&quot;);</span>
+<span class="fc" id="L102">        Map&lt;UIDataName, Object&gt; searchData = getSearchData();</span>
+<span class="fc" id="L103">        System.out.println(&quot;Search Data: &quot; + searchData);</span>
+<span class="fc" id="L104">        Table filteredTable = searchEngine.filterItems(searchData);</span>
+<span class="fc" id="L105">        Table sortedTable = filteredTable;</span>
+<span class="fc" id="L106">        RowComparator comparator = (RowComparator) searchData.get(UIDataName.SORTING_OPTION);</span>
+<span class="fc" id="L107">        LongWrapper time = new LongWrapper();</span>
+<span class="fc bfc" id="L108" title="All 2 branches covered.">        if( comparator != null ){</span>
+<span class="fc" id="L109">            sortedTable = Sorter.sortTable(filteredTable, comparator, time);</span>
+<span class="fc" id="L110">            System.out.println(&quot;Time taken to sort: &quot; + time.getValue() / 1_000_000 + &quot; ms&quot;);</span>
         }
-<span class="fc" id="L111">        List&lt;String&gt; sortedAndFilteredItemIds = sortedTable.stringColumn(TableColumnName.ID.getColumnName()).asList();</span>
-<span class="fc" id="L112">        uiManager.updateSearchedItemPagination( sortedAndFilteredItemIds );</span>
-<span class="fc" id="L113">    }</span>
+<span class="fc" id="L112">        List&lt;String&gt; sortedAndFilteredItemIds = sortedTable.stringColumn(TableColumnName.ID.getColumnName()).asList();</span>
+<span class="fc" id="L113">        uiManager.updateSearchedItemPagination( sortedAndFilteredItemIds );</span>
+<span class="fc" id="L114">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

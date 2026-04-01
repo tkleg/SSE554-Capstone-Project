@@ -3,6 +3,7 @@
 import java.util.List;
 
 import org.troy.capstone.annotations.Generated;
+import org.troy.capstone.search_engine.sorting.comparator.RowComparator;
 
 import tech.tablesaw.api.Row;
 
@@ -49,16 +50,16 @@ public class InsertionSort {
      * @param comparator The RowComparator used to compare the rows for sorting.
      */
     public static void insertionSort(List&lt;Row&gt; rows, RowComparator comparator) {
-<span class="fc" id="L52">        int n = rows.size();</span>
-<span class="fc bfc" id="L53" title="All 2 branches covered.">        for( int i = 1; i &lt; n; i++) {</span>
-<span class="fc" id="L54">            Row key = rows.get(i);</span>
-<span class="fc" id="L55">            int j = i - 1;</span>
-<span class="fc bfc" id="L56" title="All 4 branches covered.">            while(j &gt;= 0 &amp;&amp; comparator.compare(rows.get(j), key) &gt; 0) {</span>
-<span class="fc" id="L57">                rows.set(j + 1, rows.get(j));</span>
-<span class="fc" id="L58">                j--;</span>
+<span class="fc" id="L53">        int n = rows.size();</span>
+<span class="fc bfc" id="L54" title="All 2 branches covered.">        for( int i = 1; i &lt; n; i++) {</span>
+<span class="fc" id="L55">            Row key = rows.get(i);</span>
+<span class="fc" id="L56">            int j = i - 1;</span>
+<span class="fc bfc" id="L57" title="All 4 branches covered.">            while(j &gt;= 0 &amp;&amp; comparator.compare(rows.get(j), key) &gt; 0) {</span>
+<span class="fc" id="L58">                rows.set(j + 1, rows.get(j));</span>
+<span class="fc" id="L59">                j--;</span>
             }
-<span class="fc" id="L60">            rows.set(j + 1, key);</span>
+<span class="fc" id="L61">            rows.set(j + 1, key);</span>
         }
-<span class="fc" id="L62">    }</span>
+<span class="fc" id="L63">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

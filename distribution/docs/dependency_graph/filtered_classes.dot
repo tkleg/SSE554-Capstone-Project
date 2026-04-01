@@ -13,6 +13,7 @@ digraph "classes" {
    "managers.general"               -> "managers.ui";
    "managers.general"               -> "search_engine";
    "managers.general"               -> "search_engine.sorting";
+   "managers.general"               -> "search_engine.sorting.comparator";
    "managers.recently_viewed"       -> "data_structures";
    "managers.recently_viewed"       -> "data_structures.item_table";
    "managers.recently_viewed"       -> "ui_components.items";
@@ -25,10 +26,12 @@ digraph "classes" {
    "search_engine.query"            -> "constants";
    "search_engine.query"            -> "utils";
    "search_engine.sorting"          -> "annotations";
-   "search_engine.sorting"          -> "constants";
+   "search_engine.sorting"          -> "search_engine.sorting.comparator";
    "search_engine.sorting"          -> "utils";
+   "search_engine.sorting.comparator" -> "annotations";
+   "search_engine.sorting.comparator" -> "constants";
    "ui_components"                  -> "constants";
-   "ui_components"                  -> "search_engine.sorting";
+   "ui_components"                  -> "search_engine.sorting.comparator";
    "ui_components.filters.categorical" -> "constants";
    "ui_components.filters.categorical" -> "data_structures.item_table";
    "ui_components.filters.categorical" -> "entities";

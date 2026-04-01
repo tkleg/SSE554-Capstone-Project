@@ -4,13 +4,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.troy.capstone.search_engine.sorting.comparator.RowComparator;
 import org.troy.capstone.utils.TableUtils;
 
 import tech.tablesaw.api.IntColumn;
 import tech.tablesaw.api.LongColumn;
+import tech.tablesaw.api.Row;
 import tech.tablesaw.api.StringColumn;
 import tech.tablesaw.api.Table;
-import tech.tablesaw.api.Row;
 
 public class SortingAnalysis {
 

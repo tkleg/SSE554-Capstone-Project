@@ -2,7 +2,8 @@ package org.troy.capstone.search_engine.sorting;
 
 import org.troy.capstone.TestDataHolder;
 import org.troy.capstone.constants.TableColumnName;
-import org.troy.capstone.search_engine.sorting.RowComparator.SortType;
+import org.troy.capstone.search_engine.sorting.comparator.RowComparator;
+import org.troy.capstone.search_engine.sorting.comparator.RowComparator.SortType;
 
 import tech.tablesaw.api.FloatColumn;
 import tech.tablesaw.api.Table;
