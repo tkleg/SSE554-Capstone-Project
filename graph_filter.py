@@ -1,5 +1,7 @@
 # Filters out lines not of the graph overhead or between two custom classes
 def my_filter(line):
+    if "data_manipulation" in line or "\"org.troy.capstone\"" in line:
+        return False
     if line.startswith("digraph"):
         return True
     if line.startswith("}"):
@@ -8,8 +10,6 @@ def my_filter(line):
         return True
     if line.count("org.troy") >= 2:
         return True
-    if "data_manipulation" in line:
-        return False
     
     return False
 

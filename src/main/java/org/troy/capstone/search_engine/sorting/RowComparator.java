@@ -1,7 +1,9 @@
 package org.troy.capstone.search_engine.sorting;
 
 import java.util.Comparator;
+
 import org.troy.capstone.constants.TableColumnName;
+
 import tech.tablesaw.api.Row;
 
 /**
@@ -86,25 +88,40 @@ public class RowComparator implements Comparator<Row> {
     @Override
     public int compare(Row r1, Row r2){
         switch (sortType) {
-            case PRICE_ASCENDING:
+            case PRICE_ASCENDING -> {
                 return Float.compare(r1.getFloat(TableColumnName.PRICE.getColumnName()), r2.getFloat(TableColumnName.PRICE.getColumnName()));
-            case PRICE_DESCENDING:
+            }case PRICE_DESCENDING -> {
                 return Float.compare(r2.getFloat(TableColumnName.PRICE.getColumnName()), r1.getFloat(TableColumnName.PRICE.getColumnName()));
-            case RELEVANCE_ASCENDING:
+            }case RELEVANCE_ASCENDING -> {
                 return Float.compare(r1.getFloat(TableColumnName.RELEVANCE.getColumnName()), r2.getFloat(TableColumnName.RELEVANCE.getColumnName()));
-            case RELEVANCE_DESCENDING:
+            }case RELEVANCE_DESCENDING -> {
                 return Float.compare(r2.getFloat(TableColumnName.RELEVANCE.getColumnName()), r1.getFloat(TableColumnName.RELEVANCE.getColumnName()));
-            case RATING_ASCENDING:
+            }case RATING_ASCENDING -> {
                 return Float.compare(r1.getFloat(TableColumnName.REVIEW_SCORE.getColumnName()), r2.getFloat(TableColumnName.REVIEW_SCORE.getColumnName()));
-            case RATING_DESCENDING:
+            }case RATING_DESCENDING -> {
                 return Float.compare(r2.getFloat(TableColumnName.REVIEW_SCORE.getColumnName()), r1.getFloat(TableColumnName.REVIEW_SCORE.getColumnName()));
-            default:
+            }default -> {
                 System.out.println("Invalid SortType for RowComparator: " + sortType);
                 return 0;
+            }
         }
     }
 
+    /**
+     * Checks is the RowComparator is equal to another object. First, it checks the other object is a RowComparator. Then it makes sure the SortType is the same.
+     * 
+     * @pre obj is an instance of RowComparator.
+     * @post Returns true if the other object is a RowComparator with the same SortType, and false otherwise.
+     * @param obj The object to compare with this RowComparator.
+     * @return true if the other object is a RowComparator with the same SortType, and false otherwise.
+     */
+    /**
+     * hashCode() is intentionally not implemented because RowComparator is never used in hash-based collections.
+     * Suppress static analysis warning for equals/hashCode contract.
+     * If your tool does not respect this, suppress in your tool's config.
+     */
     @Override
+    @SuppressWarnings({"java:S1201", "EqualsHashCode"})
     public boolean equals(Object obj) {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
