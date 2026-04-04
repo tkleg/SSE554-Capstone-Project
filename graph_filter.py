@@ -6,6 +6,14 @@ def my_filter(line):
     if "data_manipulation" in line or "\"org.troy.capstone\"" in line:
         return False
     
+    #Filter out the ItemBuilder class, as this is lombok generated
+    if "ItemBuilder" in line:
+        return False
+    
+    #Do not allow the SortingAnalysis and MyBM25 classes, as they are not part of main execution
+    if "SortingAnalysis" in line or "MyBM25" in line:
+        return False
+    
     #Metadata linses that are needed for the graph to be valid
     if line.startswith("digraph") or line.startswith("}") or "// Path:" in line:
         return True
@@ -35,15 +43,28 @@ for line in lines:
         line_set.add(line)
 lines = new_lines
 #Get rid of self loops by getting strings in first two sets of quotes and checking if they are the same
+#Also, get rid of lines who have any group with no period in it, as those are root package classes
 re_str = "\"([^\"]*)\".*->.*\"([^\"]*)\""
 new_lines = []
 for line in lines:
     match = re.search(re_str, line)
     if match:
-        if match.re.groups == 2 and match.group(1) != match.group(2):
+        if match.re.groups == 2 and match.group(1) != match.group(2) and "." in match.group(1) and "." in match.group(2):
             new_lines.append(line)
     else:
         new_lines.append(line)
+lines = new_lines
+ # Get rid of connections between classes and their own inner classes
+re_str = r'"([^"]+)"\s*->\s*"([^"]+)"'
+new_lines = []
+for line in lines:
+    match = re.search(re_str, line)
+    if match:
+        class_no_outer_1 = match.group(1).split('$')[0]
+        class_no_outer_2 = match.group(2).split('$')[0]
+        if class_no_outer_1 == class_no_outer_2:
+            continue
+    new_lines.append(line)
 lines = new_lines
 with open("docs/dependency_graph/filtered_classes.dot", "w") as f:
     f.writelines(lines)
