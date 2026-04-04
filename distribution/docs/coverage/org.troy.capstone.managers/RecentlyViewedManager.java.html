@@ -49,9 +49,10 @@ public class RecentlyViewedManager implements SearchedItemPanelInteractor {
       * @param itemId The ID of the item to add to recently viewed.
       */
     public void addRecentlyViewedItem(String itemId) {
-<span class="fc" id="L52">        recentlyViewedQueue.addAttempt(itemId);</span>
-<span class="fc" id="L53">        recentlyViewedWindow.setContent(recentlyViewedQueue.peekAll());</span>
-<span class="fc" id="L54">    }</span>
+<span class="fc" id="L52">        System.out.println(&quot;Adding item with ID &quot; + itemId + &quot; to recently viewed.&quot;);</span>
+<span class="fc" id="L53">        recentlyViewedQueue.addAttempt(itemId);</span>
+<span class="fc" id="L54">        recentlyViewedWindow.setContent(recentlyViewedQueue.peekAll());</span>
+<span class="fc" id="L55">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

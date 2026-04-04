@@ -84,8 +84,8 @@ public class SearchedItemPanel extends HBox{
      * @post The provided interactor is set to the SearchedItemPanel, allowing it to receive interaction events from the item panel. This enables functionality such as adding the item to the recently viewed queue when the panel is clicked.
      */
     public void setSearchedItemPanelInteractor(SearchedItemPanelInteractor interactor) {
-<span class="nc" id="L87">        setOnMouseClicked(e -&gt; interactor.onItemSelected(itemId));</span>
-<span class="nc" id="L88">    }</span>
+<span class="pc" id="L87">        setOnMouseClicked(e -&gt; interactor.onItemSelected(itemId));</span>
+<span class="fc" id="L88">    }</span>
 
     /** Getter for the item ID of the item being displayed in this panel, used for checking if the panel is in the recently viewed queue. 
      * @return The ID of the item being displayed in this panel.

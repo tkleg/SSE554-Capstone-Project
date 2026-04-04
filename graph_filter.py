@@ -66,9 +66,14 @@ for line in lines:
             continue
     new_lines.append(line)
 lines = new_lines
-with open("docs/dependency_g/filtered_classes.dot", "w") as f:
+with open("docs/dependency_graph/filtered_classes.dot", "w") as f:
     f.writelines(lines)
 
-#Remove lines using utils and enums to clean up the graph, as these are not important for understanding the main execution flow
-lin
-with open("docs/dependency_graph/filtered_cleaner_classes.dot") as f:
+#Remove lines using utils, enums, and annotations to clean up the graph, as these are not important for understanding the main execution flow
+new_lines = []
+for line in lines:
+    if "constants" in line or "utils" in line or "annotations" in line:
+        continue
+    new_lines.append(line)
+with open("docs/dependency_graph/filtered_cleaner_classes.dot", "w") as f:
+    f.writelines(new_lines)
