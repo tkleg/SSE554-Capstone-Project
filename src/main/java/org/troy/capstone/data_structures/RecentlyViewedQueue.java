@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 
 import org.troy.capstone.data_structures.item_table.ItemHashMap;
-import org.troy.capstone.managers.RecentlyViewedManager;
 import org.troy.capstone.ui_components.items.SearchedItemPanel;
 
 /**
@@ -21,18 +20,13 @@ public class RecentlyViewedQueue extends ArrayBlockingQueue<SearchedItemPanel>{
     /** Queue to keep track of item IDs for quick lookup and to prevent duplicates. Faster than using SearchedItemPanel directly since a lot of work is done to create a panel before checking. */
     private final ArrayBlockingQueue<String> itemIds;
 
-    /** Reference to the manager for recently viewed items, used to update the recently viewed items window when interacting with the queue. */
-    private final RecentlyViewedManager recentlyViewedManager;
-
     /** Constructor for the RecentlyViewedQueue.
      * @param itemHashMap The ItemHashMap to use for retrieving item details.
-     * @param recentlyViewedManager The RecentlyViewedManager to use for updating the recently viewed items window.
      */
-    public RecentlyViewedQueue(ItemHashMap itemHashMap, RecentlyViewedManager recentlyViewedManager) {
+    public RecentlyViewedQueue(ItemHashMap itemHashMap) {
         super(CAPACITY);
         itemIds = new ArrayBlockingQueue<>(CAPACITY);
         this.itemHashMap = itemHashMap;
-        this.recentlyViewedManager = recentlyViewedManager;
     }
     
     /** Attempts to add an item to the recently viewed queue.
@@ -66,8 +60,7 @@ public class RecentlyViewedQueue extends ArrayBlockingQueue<SearchedItemPanel>{
     private void add(String itemId) {
         itemIds.add(itemId);
         add(SearchedItemPanel.create(
-            itemHashMap.getItem(itemId).orElseThrow(),
-            recentlyViewedManager
+            itemHashMap.getItem(itemId).orElseThrow()
         ));
     }
 

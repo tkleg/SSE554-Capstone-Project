@@ -19,22 +19,25 @@
     /** UI element name for the star rating filter. */
 <span class="fc" id="L20">    STAR_RATING_FILTER(&quot;STAR_RATING_FILTER&quot;),</span>
     /** UI element name for the sorting option. */
-<span class="fc" id="L22">    SORTING_OPTION_DROPDOWN(&quot;SORTING_OPTION_DROPDOWN&quot;);</span>
+<span class="fc" id="L22">    SORTING_OPTION_DROPDOWN(&quot;SORTING_OPTION_DROPDOWN&quot;),</span>
+    /** UI element name for the recently viewed window. */
+<span class="fc" id="L24">    RECENTLY_VIEWED_WINDOW(&quot;RECENTLY_VIEWED_WINDOW&quot;);</span>
+
     /** The string value associated with this enum constant, used for UI element identifiers. */
     private final String value;
 
     /** Constructor for the enum constants.
      * @param value The string value to associate with this enum constant.
     */
-<span class="fc" id="L29">    UIElementName(String value) {</span>
-<span class="fc" id="L30">        this.value = value;</span>
-<span class="fc" id="L31">    }</span>
+<span class="fc" id="L32">    UIElementName(String value) {</span>
+<span class="fc" id="L33">        this.value = value;</span>
+<span class="fc" id="L34">    }</span>
 
     /** Getter for the string value associated with this enum constant.
      * @return The string value that can be used as an identifier for UI elements.
     */
     public String getValue() {
-<span class="fc" id="L37">        return value;</span>
+<span class="fc" id="L40">        return value;</span>
     }
 
 }

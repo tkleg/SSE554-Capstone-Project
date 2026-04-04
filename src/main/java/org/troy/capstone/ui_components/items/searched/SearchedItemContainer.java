@@ -1,10 +1,11 @@
 package org.troy.capstone.ui_components.items.searched;
 
 import java.util.List;
+import java.util.ArrayList;
 
 import org.troy.capstone.constants.UISizeControl;
 import org.troy.capstone.entities.Item;
-import org.troy.capstone.managers.RecentlyViewedManager;
+import org.troy.capstone.interfaces.SearchedItemPanelInteractor;
 import org.troy.capstone.ui_components.items.SearchedItemPanel;
 import org.troy.capstone.utils.UIUtils;
 
@@ -19,19 +20,15 @@ import javafx.scene.layout.VBox;
 public class SearchedItemContainer extends ScrollPane {
     /** The container for all searched item panels */
     private final VBox itemContainer;
-    
 
-    /** The manager for recently viewed items, used to update the recently viewed items window when navigating through search results. */
-    private final RecentlyViewedManager recentlyViewedManager;
+    /** List of interactors to handle interactions with the item panels in the search results. */
+    private final List<SearchedItemPanelInteractor> interactors = new ArrayList<>();
 
     /**
      * Creates a SearchedItemContainer with a vertical box layout for displaying search result panels.
-     * @param recentlyViewedManager The manager for recently viewed items, used to update the recently viewed items window when navigating through search results.
      */
-    private SearchedItemContainer(RecentlyViewedManager recentlyViewedManager) {
+    private SearchedItemContainer() {
         super();
-
-        this.recentlyViewedManager = recentlyViewedManager;
 
         itemContainer = new VBox(UISizeControl.SEARCHED_ITEM_PANEL_SPACING.getValue()); // 5px spacing between items
         itemContainer.setAlignment(Pos.TOP_CENTER); // Center-align items consistently
@@ -51,11 +48,10 @@ public class SearchedItemContainer extends ScrollPane {
 
     /** Factory method to create a SearchedItemContainer with the given list of items.
      * @param items The list of items to display in the container.
-     * @param recentlyViewedManager The manager for recently viewed items, used to update the recently viewed items window when navigating through search results.
      * @return A new instance of SearchedItemContainer populated with the given items.
      */
-    public static SearchedItemContainer create(List<Item> items, RecentlyViewedManager recentlyViewedManager) {
-        SearchedItemContainer container = new SearchedItemContainer(recentlyViewedManager);
+    public static SearchedItemContainer create(List<Item> items) {
+        SearchedItemContainer container = new SearchedItemContainer();
         UIUtils.setSize(container, UISizeControl.SEARCHED_ITEM_CONTAINER_WIDTH.getValue(), UISizeControl.SEARCHED_ITEM_CONTAINER_HEIGHT.getValue());
         UIUtils.setLineBorder(container, 5, 1);
         container.updateItems(items);
@@ -71,8 +67,20 @@ public class SearchedItemContainer extends ScrollPane {
      * @param itemPanel The SearchedItemPanel to add.
      */ 
     private void addItemPanel(SearchedItemPanel itemPanel) {
-        if( itemPanel != null )
+        if( itemPanel != null ){
             itemContainer.getChildren().add(itemPanel);
+            interactors.forEach(interactor -> itemPanel.setSearchedItemPanelInteractor(interactor));
+        }
+    }
+
+    public void addSearchedItemPanelInteractor(SearchedItemPanelInteractor interactor) {
+        interactors.add(interactor);
+        // Set this interactor on all existing panels
+        itemContainer.getChildren().forEach(node -> {
+            if (node instanceof SearchedItemPanel panel) {
+                panel.setSearchedItemPanelInteractor(interactor);
+            }
+        });
     }
 
     /** Updates the items displayed in the container with a new list of items.
@@ -80,7 +88,8 @@ public class SearchedItemContainer extends ScrollPane {
      * @post The itemContainer is cleared and repopulated with new SearchedItemPanel instances corresponding to the provided list of items. If the list is null or empty, a message indicating that no items were found is displayed instead.
      * @param items The new list of items to display in the container.
      */
-    public final void updateItems(List<Item> items) {
+    public final List<SearchedItemPanel> updateItems(List<Item> items) {
+        List<SearchedItemPanel> panels = new ArrayList<>();
         if( items == null ){
             System.out.println("Warning: updateItems called with null list. Doing nothing.");
         }else if (items.isEmpty()) {
@@ -90,11 +99,15 @@ public class SearchedItemContainer extends ScrollPane {
         }else{
             stopAllImagesLoading();
             itemContainer.getChildren().clear();
-            items.forEach(item -> {
-                if (item != null)
-                    addItemPanel(SearchedItemPanel.create(item, recentlyViewedManager));
+            items.forEach((var item) -> {
+                if (item != null) {
+                    SearchedItemPanel panel = SearchedItemPanel.create(item);
+                    panels.add(panel);
+                    addItemPanel(panel);
+                }
             });
         }
+        return panels;
     }
 
     /**
@@ -104,7 +117,8 @@ public class SearchedItemContainer extends ScrollPane {
      */
     public void stopAllImagesLoading() {
         itemContainer.getChildren().forEach(node -> {
-            ((SearchedItemPanel) node).stopLoadingImage();
+            if (node instanceof SearchedItemPanel panel)
+                panel.stopLoadingImage();
         });
     }
 

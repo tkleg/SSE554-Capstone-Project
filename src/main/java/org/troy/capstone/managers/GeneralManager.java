@@ -23,6 +23,7 @@ import tech.tablesaw.api.Table;
 public class GeneralManager {
     /** The UIElementManager instance for managing UI elements. */
     private final UIElementManager uiManager;
+
     /** The SearchEngine instance for performing search operations. */
     private final SearchEngine searchEngine;
 
@@ -61,7 +62,7 @@ public class GeneralManager {
      * Adds a UI element to the UIElementManager.
      * 
      * @pre key and element are not null.
-     * @post The UI element is added to the UIElementManager and can be retrieved using the provided key.
+     * @post The UI element is added to the UIElementManager and can be retrieved using the provided key. If the key is UIElementName.RECENTLY_VIEWED_WINDOW, the recently viewed window in the RecentlyViewedManager is also set to the provided element.
      * @param key The key representing the UI element.
      * @param element The UI element to be added.
      */

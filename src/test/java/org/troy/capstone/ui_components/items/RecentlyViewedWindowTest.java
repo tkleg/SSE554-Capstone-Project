@@ -9,6 +9,7 @@ import org.troy.capstone.TestDataHolder;
 import org.troy.capstone.constants.TableColumnName;
 import org.troy.capstone.data_structures.item_table.ItemHashMap;
 import org.troy.capstone.managers.RecentlyViewedManager;
+import org.troy.capstone.ui_components.items.searched.SearchedItemPagination;
 
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.layout.VBox;
@@ -37,7 +38,7 @@ public class RecentlyViewedWindowTest {
     })
     public void testRecentlyViewedWindow(int queueInputs, int expectedQueueSize) throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
         RecentlyViewedWindow window = RecentlyViewedWindow.create();
-        RecentlyViewedManager manager = new RecentlyViewedManager(itemHashMap, window);
+        RecentlyViewedManager manager = RecentlyViewedManager.create(itemHashMap, window, new SearchedItemPagination(itemHashMap));
         table.first(queueInputs).stringColumn(TableColumnName.ID.getColumnName())
             .forEach(manager::addRecentlyViewedItem);
 

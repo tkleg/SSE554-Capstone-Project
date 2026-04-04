@@ -19,7 +19,10 @@ public enum UIElementName {
     /** UI element name for the star rating filter. */
     STAR_RATING_FILTER("STAR_RATING_FILTER"),
     /** UI element name for the sorting option. */
-    SORTING_OPTION_DROPDOWN("SORTING_OPTION_DROPDOWN");
+    SORTING_OPTION_DROPDOWN("SORTING_OPTION_DROPDOWN"),
+    /** UI element name for the recently viewed window. */
+    RECENTLY_VIEWED_WINDOW("RECENTLY_VIEWED_WINDOW");
+
     /** The string value associated with this enum constant, used for UI element identifiers. */
     private final String value;
 

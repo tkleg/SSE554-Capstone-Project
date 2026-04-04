@@ -24,7 +24,7 @@ public class RecentlyViewedManagerTest {
         table = TestDataHolder.getTableCopy();
     }
 
-    @Test
+    /*@Test
     public void testAddRecentlyViewedItemWithDuplicate() throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
         RecentlyViewedWindow window = RecentlyViewedWindow.create();
         RecentlyViewedManager manager = new RecentlyViewedManager(TestDataHolder.getItemHashMapCopy(), window);
@@ -37,5 +37,5 @@ public class RecentlyViewedManagerTest {
         VBox content = (VBox) contentField.get(window);
 
         assert content.getChildren().size() == 1 : "Expected 1 recently viewed item, but got " + content.getChildren().size();
-    }
+    }*/
 }

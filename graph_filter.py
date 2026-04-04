@@ -66,5 +66,9 @@ for line in lines:
             continue
     new_lines.append(line)
 lines = new_lines
-with open("docs/dependency_graph/filtered_classes.dot", "w") as f:
+with open("docs/dependency_g/filtered_classes.dot", "w") as f:
     f.writelines(lines)
+
+#Remove lines using utils and enums to clean up the graph, as these are not important for understanding the main execution flow
+lin
+with open("docs/dependency_graph/filtered_cleaner_classes.dot") as f:

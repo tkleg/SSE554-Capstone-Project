@@ -38,17 +38,17 @@ public class Main extends Application {
         gridPane.setHgap(UISizeControl.WIDTH_PADDING.getValue()); // 10px horizontal spacing between columns
         gridPane.setVgap(UISizeControl.HEIGHT_PADDING.getValue()); // 10px vertical spacing between rows
 
-
-        RecentlyViewedWindow recentlyViewedWindow = RecentlyViewedWindow.create();
-        RecentlyViewedManager recentlyViewedManager = new RecentlyViewedManager(itemHashMap, recentlyViewedWindow);
-        gridPane.add(recentlyViewedWindow, 3, 1, 1, 2);
-
-        SearchedItemPagination itemPagination = new SearchedItemPagination(itemHashMap, recentlyViewedManager);
+        SearchedItemPagination itemPagination = new SearchedItemPagination(itemHashMap);
         generalManager.addUIElement(UIElementName.SEARCHED_ITEM_PAGINATION, itemPagination);
         
         gridPane.add(itemPagination, 0, 1, 2, 3);
         //SearchedItemContainer itemScroller = SearchedItemContainer.createFilledContainer(table.first(firstNItems), itemHashMap);
         //gridPane.add(itemScroller, 0, 1, 2, 3);
+
+
+        RecentlyViewedWindow recentlyViewedWindow = RecentlyViewedWindow.create();
+        RecentlyViewedManager recentlyViewedManager = RecentlyViewedManager.create(itemHashMap, recentlyViewedWindow, itemPagination);
+        gridPane.add(recentlyViewedWindow, 3, 1, 1, 2);
 
         //Get and setup the SearchBar
         SearchBar searchBar = new SearchBar();

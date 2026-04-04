@@ -39,7 +39,7 @@ public class SearchedItemContainerTest {
 
     @BeforeEach
     public void setUp() {
-        container = SearchedItemContainer.create(List.of(Item.randomItem()), null);
+        container = SearchedItemContainer.create(List.of(Item.randomItem()));
     }
 
     @Test

@@ -123,7 +123,7 @@ public class UIElementManagerTest {
         @Test
         @DisplayName("Test updateSearchedItemPagination with a pagination added to the manager")
         public void testUpdateSearchedItemPaginationWithPagination() {
-            uiElementManager.addElement(UIElementName.SEARCHED_ITEM_PAGINATION, new SearchedItemPagination(itemHashMap, null));
+            uiElementManager.addElement(UIElementName.SEARCHED_ITEM_PAGINATION, new SearchedItemPagination(itemHashMap));
 
             uiElementManager.updateSearchedItemPagination(List.of());
 

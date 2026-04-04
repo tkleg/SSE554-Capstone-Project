@@ -20,7 +20,6 @@ import org.mockito.Mockito;
 import org.troy.capstone.TestDataHolder;
 import org.troy.capstone.constants.URL;
 import org.troy.capstone.entities.Item;
-import org.troy.capstone.managers.RecentlyViewedManager;
 
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.image.ImageView;
@@ -45,7 +44,7 @@ public class AttributedItemContainerTest {
 
     @BeforeEach
     public void setUp() {
-        attributedItemContainer = new AttributedItemContainer(item, Mockito.mock(RecentlyViewedManager.class));
+        attributedItemContainer = new AttributedItemContainer(item);
     }
 
     @Test

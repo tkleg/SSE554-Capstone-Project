@@ -2,12 +2,14 @@
 
 import org.troy.capstone.data_structures.RecentlyViewedQueue;
 import org.troy.capstone.data_structures.item_table.ItemHashMap;
+import org.troy.capstone.interfaces.SearchedItemPanelInteractor;
 import org.troy.capstone.ui_components.items.RecentlyViewedWindow;
+import org.troy.capstone.ui_components.items.searched.SearchedItemPagination;
 
 /**
  * Manager for recently viewed items, bridges RecentlyViewedQueue and RecentlyViewedWindow. Handles adding items to the recently viewed queue and updating the window content accordingly without the window and queue depending on each other.
  */
-public class RecentlyViewedManager{
+public class RecentlyViewedManager implements SearchedItemPanelInteractor {
 
     /** Queue to manage recently viewed items. */
     private final RecentlyViewedQueue recentlyViewedQueue;
@@ -19,20 +21,37 @@ public class RecentlyViewedManager{
      * @param itemHashMap The ItemHashMap to use for retrieving item details.
      * @param recentlyViewedWindow The RecentlyViewedWindow to use for displaying recently viewed items.
      */
-<span class="fc" id="L22">    public RecentlyViewedManager(ItemHashMap itemHashMap, RecentlyViewedWindow recentlyViewedWindow) {</span>
-<span class="fc" id="L23">        recentlyViewedQueue = new RecentlyViewedQueue(itemHashMap, this);</span>
-<span class="fc" id="L24">        this.recentlyViewedWindow = recentlyViewedWindow;</span>
-<span class="fc" id="L25">    }</span>
+<span class="fc" id="L24">    private RecentlyViewedManager(ItemHashMap itemHashMap, RecentlyViewedWindow recentlyViewedWindow ) {</span>
+<span class="fc" id="L25">        recentlyViewedQueue = new RecentlyViewedQueue(itemHashMap);</span>
+<span class="fc" id="L26">        this.recentlyViewedWindow = recentlyViewedWindow;</span>
+<span class="fc" id="L27">    }</span>
 
+    /** Factory method to create a RecentlyViewedManager and attach it as a listener to the given SearchedItemPagination.
+     * @param itemHashMap The ItemHashMap to use for retrieving item details.
+     * @param recentlyViewedWindow The RecentlyViewedWindow to use for displaying recently viewed items.
+     * @param itemPagination The SearchedItemPagination that will hold the search results, used to attach listeners to the item panels within.
+     * @return A new instance of RecentlyViewedManager with the given parameters, and registered as a listener to the itemPagination.
+     */
+    public static RecentlyViewedManager create(ItemHashMap itemHashMap, RecentlyViewedWindow recentlyViewedWindow, SearchedItemPagination itemPagination) {
+<span class="fc" id="L36">        RecentlyViewedManager manager = new RecentlyViewedManager(itemHashMap, recentlyViewedWindow);</span>
+<span class="fc" id="L37">        itemPagination.addSearchedItemPanelInteractor(manager);</span>
+<span class="fc" id="L38">        return manager;</span>
+    }
+    
+    @Override
+    public void onItemSelected(String itemId) {
+<span class="nc" id="L43">        addRecentlyViewedItem(itemId);</span>
+<span class="nc" id="L44">    }</span>
+    
     /** Adds an item to the recently viewed queue and updates the recently viewed window content.
       * @pre itemId is not null and corresponds to a valid key in the itemHashMap used to create the recentlyViewedQueue.
       * @post If the item is not already in the queue, it is added and the oldest item is removed. If the added item exists already, it is moved to the top. The recently viewed window content is updated to reflect the current state of the recently viewed queue.
       * @param itemId The ID of the item to add to recently viewed.
       */
     public void addRecentlyViewedItem(String itemId) {
-<span class="fc" id="L33">        recentlyViewedQueue.addAttempt(itemId);</span>
-<span class="fc" id="L34">        recentlyViewedWindow.setContent(recentlyViewedQueue.peekAll());</span>
-<span class="fc" id="L35">    }</span>
+<span class="fc" id="L52">        recentlyViewedQueue.addAttempt(itemId);</span>
+<span class="fc" id="L53">        recentlyViewedWindow.setContent(recentlyViewedQueue.peekAll());</span>
+<span class="fc" id="L54">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>
