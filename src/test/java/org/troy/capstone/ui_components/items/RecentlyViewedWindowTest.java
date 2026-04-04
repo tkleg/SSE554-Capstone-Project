@@ -8,7 +8,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.troy.capstone.TestDataHolder;
 import org.troy.capstone.constants.TableColumnName;
 import org.troy.capstone.data_structures.item_table.ItemHashMap;
-import org.troy.capstone.managers.recently_viewed.RecentlyViewedManager;
+import org.troy.capstone.managers.RecentlyViewedManager;
 
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.layout.VBox;

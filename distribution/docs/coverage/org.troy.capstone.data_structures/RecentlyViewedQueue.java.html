@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 
 import org.troy.capstone.data_structures.item_table.ItemHashMap;
-import org.troy.capstone.managers.recently_viewed.RecentlyViewedManager;
+import org.troy.capstone.managers.RecentlyViewedManager;
 import org.troy.capstone.ui_components.items.SearchedItemPanel;
 
 /**
