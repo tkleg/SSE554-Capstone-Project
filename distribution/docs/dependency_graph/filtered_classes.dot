@@ -1,5 +1,3 @@
-digraph "classes" {
-    // Path: target\classes
    "data_structures.PriceTree"      -> "constants.TableColumnName";
    "data_structures.RecentlyViewedQueue" -> "data_structures.item_table.ItemHashMap";
    "data_structures.RecentlyViewedQueue" -> "entities.Item";
@@ -14,7 +12,6 @@ digraph "classes" {
    "entities.Item"                  -> "constants.TableColumnName";
    "entities.Item"                  -> "constants.URL";
    "entities.Item"                  -> "utils.Converters";
-   "entities.Item"                -> "constants.TableColumnName";
    "managers.GeneralManager"        -> "constants.TableColumnName";
    "managers.GeneralManager"        -> "constants.UIDataName";
    "managers.GeneralManager"        -> "constants.UIElementName";
@@ -55,7 +52,6 @@ digraph "classes" {
    "ui_components.SearchBar"        -> "constants.TestFXId";
    "ui_components.SearchBar"        -> "constants.UISizeControl";
    "ui_components.SearchBar"        -> "search_engine.sorting.comparator.RowComparator";
-   "ui_components.SearchBar"      -> "search_engine.sorting.comparator.RowComparator";
    "ui_components.filters.categorical.FiltersContainer" -> "constants.TableColumnName";
    "ui_components.filters.categorical.FiltersContainer" -> "constants.UISizeControl";
    "ui_components.filters.categorical.FiltersContainer" -> "data_structures.item_table.ItemHashMap";
@@ -91,4 +87,3 @@ digraph "classes" {
    "utils.TableUtils"               -> "constants.DataPath";
    "utils.TableUtils"               -> "constants.TableColumnName";
    "utils.UIUtils"                  -> "annotations.Generated";
-}

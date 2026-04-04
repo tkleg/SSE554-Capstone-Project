@@ -1,0 +1,41 @@
+--no-fonts
+-classpath
+'C:/Users/thkle/.m2/repository/tech/tablesaw/tablesaw-core/0.44.4/tablesaw-core-0.44.4.jar;C:/Users/thkle/.m2/repository/com/google/guava/guava/33.0.0-jre/guava-33.0.0-jre.jar;C:/Users/thkle/.m2/repository/com/google/guava/failureaccess/1.0.2/failureaccess-1.0.2.jar;C:/Users/thkle/.m2/repository/com/google/guava/listenablefuture/9999.0-empty-to-avoid-conflict-with-guava/listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar;C:/Users/thkle/.m2/repository/com/google/code/findbugs/jsr305/3.0.2/jsr305-3.0.2.jar;C:/Users/thkle/.m2/repository/org/checkerframework/checker-qual/3.41.0/checker-qual-3.41.0.jar;C:/Users/thkle/.m2/repository/com/google/errorprone/error_prone_annotations/2.23.0/error_prone_annotations-2.23.0.jar;C:/Users/thkle/.m2/repository/com/google/j2objc/j2objc-annotations/2.8/j2objc-annotations-2.8.jar;C:/Users/thkle/.m2/repository/org/apache/commons/commons-math3/3.6.1/commons-math3-3.6.1.jar;C:/Users/thkle/.m2/repository/it/unimi/dsi/fastutil/8.5.13/fastutil-8.5.13.jar;C:/Users/thkle/.m2/repository/org/roaringbitmap/RoaringBitmap/1.0.5/RoaringBitmap-1.0.5.jar;C:/Users/thkle/.m2/repository/com/univocity/univocity-parsers/2.9.1/univocity-parsers-2.9.1.jar;C:/Users/thkle/.m2/repository/com/ibm/icu/icu4j/74.2/icu4j-74.2.jar;C:/Users/thkle/.m2/repository/io/github/classgraph/classgraph/4.8.168/classgraph-4.8.168.jar;C:/Users/thkle/.m2/repository/org/slf4j/slf4j-api/2.0.12/slf4j-api-2.0.12.jar;C:/Users/thkle/.m2/repository/org/slf4j/slf4j-simple/2.0.7/slf4j-simple-2.0.7.jar;C:/Users/thkle/.m2/repository/org/openjfx/javafx-controls/21.0.1/javafx-controls-21.0.1.jar;C:/Users/thkle/.m2/repository/org/openjfx/javafx-controls/21.0.1/javafx-controls-21.0.1-win.jar;C:/Users/thkle/.m2/repository/org/openjfx/javafx-graphics/21.0.1/javafx-graphics-21.0.1.jar;C:/Users/thkle/.m2/repository/org/openjfx/javafx-graphics/21.0.1/javafx-graphics-21.0.1-win.jar;C:/Users/thkle/.m2/repository/org/openjfx/javafx-fxml/21.0.1/javafx-fxml-21.0.1.jar;C:/Users/thkle/.m2/repository/org/openjfx/javafx-fxml/21.0.1/javafx-fxml-21.0.1-win.jar;C:/Users/thkle/.m2/repository/org/openjfx/javafx-base/21.0.1/javafx-base-21.0.1.jar;C:/Users/thkle/.m2/repository/org/openjfx/javafx-base/21.0.1/javafx-base-21.0.1-win.jar;C:/Users/thkle/.m2/repository/org/controlsfx/controlsfx/11.0.1/controlsfx-11.0.1.jar;C:/Users/thkle/.m2/repository/org/projectlombok/lombok/1.18.42/lombok-1.18.42.jar;C:/Users/thkle/.m2/repository/net/datafaker/datafaker/2.5.2/datafaker-2.5.2.jar;C:/Users/thkle/.m2/repository/org/yaml/snakeyaml/2.5/snakeyaml-2.5.jar;C:/Users/thkle/.m2/repository/com/github/curious-odd-man/rgxgen/3.1/rgxgen-3.1.jar;C:/Users/thkle/.m2/repository/com/googlecode/libphonenumber/libphonenumber/9.0.16/libphonenumber-9.0.16.jar;C:/Users/thkle/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.21.0/jackson-core-2.21.0.jar;C:/Users/thkle/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.15.2/jackson-databind-2.15.2.jar;C:/Users/thkle/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.15.2/jackson-annotations-2.15.2.jar;C:/Users/thkle/.m2/repository/org/apache/lucene/lucene-core/10.4.0/lucene-core-10.4.0.jar;C:/Users/thkle/.m2/repository/org/apache/lucene/lucene-queryparser/10.4.0/lucene-queryparser-10.4.0.jar;C:/Users/thkle/.m2/repository/org/apache/lucene/lucene-queries/10.4.0/lucene-queries-10.4.0.jar;C:/Users/thkle/.m2/repository/org/apache/lucene/lucene-sandbox/10.4.0/lucene-sandbox-10.4.0.jar;C:/Users/thkle/.m2/repository/org/apache/lucene/lucene-facet/10.4.0/lucene-facet-10.4.0.jar;C:/Users/thkle/.m2/repository/org/apache/lucene/lucene-analysis-common/10.4.0/lucene-analysis-common-10.4.0.jar'
+-encoding
+'UTF-8'
+-private
+--release
+25
+-sourcepath
+'C:/Users/thkle/SSE554/SSE554-Capstone-Project/src/main/java;C:/Users/thkle/SSE554/SSE554-Capstone-Project/target/generated-sources/annotations'
+-author
+-bottom
+'Copyright &#169; 2026. All rights reserved.'
+-charset
+'UTF-8'
+-d
+'C:/Users/thkle/SSE554/SSE554-Capstone-Project/target/reports/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'Project 1.0-SNAPSHOT API'
+-link
+'https://javadoc.io/doc/tech.tablesaw/tablesaw-core/0.44.4'
+-link
+'https://openjfx.io/javadoc/21'
+-link
+'https://javadoc.io/doc/org.apache.lucene/lucene-core/10.4.0'
+-link
+'https://javadoc.io/doc/org.apache.lucene/lucene-queryparser/10.4.0'
+-link
+'https://javadoc.io/doc/org.apache.lucene/lucene-analysis-common/10.4.0'
+-link
+'https://javadoc.io/doc/net.datafaker/datafaker/2.5.2'
+-tag
+"pre:a:Preconditions:"
+-tag
+"post:a:Postconditions:"
+-use
+-version
+-windowtitle
+'Project 1.0-SNAPSHOT API'

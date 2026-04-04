@@ -1,5 +1,3 @@
-digraph "classes" {
-    // Path: target\classes
    "data_structures.RecentlyViewedQueue" -> "data_structures.item_table.ItemHashMap";
    "data_structures.RecentlyViewedQueue" -> "entities.Item";
    "data_structures.RecentlyViewedQueue" -> "ui_components.items.SearchedItemPanel";
@@ -25,23 +23,18 @@ digraph "classes" {
    "search_engine.PriceFilter"      -> "data_structures.PriceTree";
    "search_engine.SearchEngine"     -> "search_engine.PriceFilter";
    "search_engine.SearchEngine"     -> "search_engine.QueryFilter";
-   "search_engine.sorting.InsertionSort" -> "annotations.Generated";
    "search_engine.sorting.InsertionSort" -> "search_engine.sorting.LongWrapper";
    "search_engine.sorting.InsertionSort" -> "search_engine.sorting.comparator.RowComparator";
-   "search_engine.sorting.QuickSort" -> "annotations.Generated";
    "search_engine.sorting.QuickSort" -> "search_engine.sorting.LongWrapper";
    "search_engine.sorting.QuickSort" -> "search_engine.sorting.comparator.RowComparator";
    "search_engine.sorting.Sorter"   -> "search_engine.sorting.InsertionSort";
    "search_engine.sorting.Sorter"   -> "search_engine.sorting.LongWrapper";
    "search_engine.sorting.Sorter"   -> "search_engine.sorting.QuickSort";
    "search_engine.sorting.Sorter"   -> "search_engine.sorting.comparator.RowComparator";
-   "search_engine.sorting.comparator.RowComparator" -> "annotations.Generated";
    "ui_components.SearchBar"        -> "search_engine.sorting.comparator.RowComparator";
-   "ui_components.SearchBar"      -> "search_engine.sorting.comparator.RowComparator";
    "ui_components.filters.categorical.FiltersContainer" -> "data_structures.item_table.ItemHashMap";
    "ui_components.filters.categorical.FiltersContainer" -> "entities.Item";
    "ui_components.filters.categorical.FiltersContainer" -> "ui_components.filters.categorical.FilterPanel";
-   "ui_components.items.AttributedItemContainer" -> "annotations.Generated";
    "ui_components.items.AttributedItemContainer" -> "entities.Item";
    "ui_components.items.RecentlyViewedWindow" -> "ui_components.items.SearchedItemPanel";
    "ui_components.items.SearchedItemPanel" -> "entities.Item";
@@ -55,4 +48,3 @@ digraph "classes" {
    "ui_components.items.searched.SearchedItemPagination" -> "entities.Item";
    "ui_components.items.searched.SearchedItemPagination" -> "interfaces.SearchedItemPanelInteractor";
    "ui_components.items.searched.SearchedItemPagination" -> "ui_components.items.searched.SearchedItemContainer";
-}

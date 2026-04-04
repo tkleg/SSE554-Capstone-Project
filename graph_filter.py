@@ -36,11 +36,16 @@ lines = list(map(lambda x: x.replace('org.troy.capstone.', ''), lines))
 lines = list(map(lambda x: re.sub(r'\$\d+', '', x), lines))
 #Get rid of duplicates
 new_lines = []
-line_set = set()
+pair_set = set()
 for line in lines:
-    if line not in line_set:
+    match = re.search(r'"([^"]+)".*->.*"([^"]+)"', line)
+    if match:
+        pair = (match.group(1), match.group(2))
+        if pair not in pair_set:
+            new_lines.append(line)
+            pair_set.add(pair)
+    else:
         new_lines.append(line)
-        line_set.add(line)
 lines = new_lines
 #Get rid of self loops by getting strings in first two sets of quotes and checking if they are the same
 #Also, get rid of lines who have any group with no period in it, as those are root package classes
