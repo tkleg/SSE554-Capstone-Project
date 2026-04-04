@@ -1,3 +1,5 @@
+import re
+
 #Filters out lines we do not want in the graph
 def my_filter(line):
     #Filter out lines that include the data_manipulation package or the root package
@@ -22,5 +24,26 @@ lines = list(filter(my_filter, lines))
 lines = list(map(lambda x: x.replace(' (classes)', ''), lines))
 #Get rid of the root package name from the front of every package name to make the graph easier to read
 lines = list(map(lambda x: x.replace('org.troy.capstone.', ''), lines))
+#Get rid of $ signs with numbers to the right
+lines = list(map(lambda x: re.sub(r'\$\d+', '', x), lines))
+#Get rid of duplicates
+new_lines = []
+line_set = set()
+for line in lines:
+    if line not in line_set:
+        new_lines.append(line)
+        line_set.add(line)
+lines = new_lines
+#Get rid of self loops by getting strings in first two sets of quotes and checking if they are the same
+re_str = "\"([^\"]*)\".*->.*\"([^\"]*)\""
+new_lines = []
+for line in lines:
+    match = re.search(re_str, line)
+    if match:
+        if match.re.groups == 2 and match.group(1) != match.group(2):
+            new_lines.append(line)
+    else:
+        new_lines.append(line)
+lines = new_lines
 with open("docs/dependency_graph/filtered_classes.dot", "w") as f:
     f.writelines(lines)

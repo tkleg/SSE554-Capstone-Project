@@ -14,8 +14,8 @@ mkdir distribution
 cp -r target/site/jacoco/* docs/coverage
 cp -r target/reports/apidocs/* docs/javadocs
 
-#Make the dependency graph
-jdeps -dotoutput docs/dependency_graph target/classes
+#Make the dependency graph (class-level)
+jdeps -dotoutput docs/dependency_graph -verbose:class -filter:none target/classes
 python3.12 graph_filter.py
 dot -Tpng docs/dependency_graph/filtered_classes.dot -o docs/dependency_graph/deps.png
 
