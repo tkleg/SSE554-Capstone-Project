@@ -82,6 +82,7 @@ public class SearchedItemPanel extends HBox{
     /** Sets a SearchedItemPanelInteractor to the panel to allow for interaction with the item panel
      * @pre interactor should be properly implemented to handle interactions with the item panel, and the SearchedItemPanel should be properly initialized to allow for setting the interactor.
      * @post The provided interactor is set to the SearchedItemPanel, allowing it to receive interaction events from the item panel. This enables functionality such as adding the item to the recently viewed queue when the panel is clicked.
+     * @param interactor The SearchedItemPanelInteractor to set for handling interactions with the item panel.
      */
     public void setSearchedItemPanelInteractor(SearchedItemPanelInteractor interactor) {
         setOnMouseClicked(e -> interactor.onItemSelected(itemId));

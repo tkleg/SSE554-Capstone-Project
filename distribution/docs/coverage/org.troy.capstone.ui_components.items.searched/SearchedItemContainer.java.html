@@ -73,41 +73,41 @@ public class SearchedItemContainer extends ScrollPane {
         }
 <span class="fc" id="L74">    }</span>
 
+    /** Adds a SearchedItemPanelInteractor to the SearchedItemContainer to allow for interaction with the item panels in the search results.
+     * @pre interactor should be properly implemented to handle interactions with the item panels, and the SearchedItemContainer should be properly initialized to allow for adding interactors.
+     * @post The provided interactor is added to the SearchedItemContainer, allowing it to receive interaction events from the item panels in the search results.
+     * @param interactor The SearchedItemPanelInteractor to add to the SearchedItemContainer for handling interactions with the item panels in the search results.
+     */
     public void addSearchedItemPanelInteractor(SearchedItemPanelInteractor interactor) {
-<span class="fc" id="L77">        interactors.add(interactor);</span>
+<span class="fc" id="L82">        interactors.add(interactor);</span>
         //Set interactors for initial panels
-<span class="fc" id="L79">        itemContainer.getChildren().forEach(node -&gt; {</span>
-<span class="pc bpc" id="L80" title="1 of 2 branches missed.">            if (node instanceof SearchedItemPanel panel)</span>
-<span class="fc" id="L81">                panel.setSearchedItemPanelInteractor(interactor);</span>
-<span class="fc" id="L82">        });</span>
-<span class="fc" id="L83">    }</span>
+<span class="fc" id="L84">        itemContainer.getChildren().forEach(node -&gt; {</span>
+<span class="pc bpc" id="L85" title="1 of 2 branches missed.">            if (node instanceof SearchedItemPanel panel)</span>
+<span class="fc" id="L86">                panel.setSearchedItemPanelInteractor(interactor);</span>
+<span class="fc" id="L87">        });</span>
+<span class="fc" id="L88">    }</span>
 
     /** Updates the items displayed in the container with a new list of items.
      * @pre items should be a valid list of Item objects to display in the container. The SearchedItemContainer should be properly initialized to allow for updating the displayed items.
      * @post The itemContainer is cleared and repopulated with new SearchedItemPanel instances corresponding to the provided list of items. If the list is null or empty, a message indicating that no items were found is displayed instead.
      * @param items The new list of items to display in the container.
      */
-    public final List&lt;SearchedItemPanel&gt; updateItems(List&lt;Item&gt; items) {
-<span class="fc" id="L91">        List&lt;SearchedItemPanel&gt; panels = new ArrayList&lt;&gt;();</span>
-<span class="fc bfc" id="L92" title="All 2 branches covered.">        if( items == null ){</span>
-<span class="fc" id="L93">            System.out.println(&quot;Warning: updateItems called with null list. Doing nothing.&quot;);</span>
-<span class="fc bfc" id="L94" title="All 2 branches covered.">        }else if (items.isEmpty()) {</span>
-<span class="fc" id="L95">            stopAllImagesLoading();</span>
-<span class="fc" id="L96">            itemContainer.getChildren().clear();</span>
-<span class="fc" id="L97">            itemContainer.getChildren().add(new Label(&quot;No items found.&quot;));</span>
-        }else{
+    public final void updateItems(List&lt;Item&gt; items) {
+<span class="fc bfc" id="L96" title="All 2 branches covered.">        if( items == null ){</span>
+<span class="fc" id="L97">            System.out.println(&quot;Warning: updateItems called with null list. Doing nothing.&quot;);</span>
+<span class="fc bfc" id="L98" title="All 2 branches covered.">        }else if (items.isEmpty()) {</span>
 <span class="fc" id="L99">            stopAllImagesLoading();</span>
 <span class="fc" id="L100">            itemContainer.getChildren().clear();</span>
-<span class="fc" id="L101">            items.forEach((var item) -&gt; {</span>
-<span class="fc bfc" id="L102" title="All 2 branches covered.">                if (item != null) {</span>
-<span class="fc" id="L103">                    SearchedItemPanel panel = SearchedItemPanel.create(item);</span>
-<span class="fc" id="L104">                    panels.add(panel);</span>
-<span class="fc" id="L105">                    addItemPanel(panel);</span>
-                }
-<span class="fc" id="L107">            });</span>
+<span class="fc" id="L101">            itemContainer.getChildren().add(new Label(&quot;No items found.&quot;));</span>
+        }else{
+<span class="fc" id="L103">            stopAllImagesLoading();</span>
+<span class="fc" id="L104">            itemContainer.getChildren().clear();</span>
+<span class="fc" id="L105">            items.forEach((var item) -&gt; {</span>
+<span class="fc bfc" id="L106" title="All 2 branches covered.">                if (item != null)</span>
+<span class="fc" id="L107">                    addItemPanel(SearchedItemPanel.create(item));</span>
+<span class="fc" id="L108">            });</span>
         }
-<span class="fc" id="L109">        return panels;</span>
-    }
+<span class="fc" id="L110">    }</span>
 
     /**
      * Stops all image loading tasks from running

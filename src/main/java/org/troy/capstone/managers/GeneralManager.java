@@ -9,9 +9,7 @@ import org.troy.capstone.constants.UIDataName;
 import org.troy.capstone.constants.UIElementName;
 import org.troy.capstone.data_structures.item_table.ItemHashMap;
 import org.troy.capstone.search_engine.SearchEngine;
-import org.troy.capstone.search_engine.sorting.LongWrapper;
 import org.troy.capstone.search_engine.sorting.Sorter;
-import org.troy.capstone.search_engine.sorting.comparator.RowComparator;
 
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -31,10 +29,12 @@ public class GeneralManager {
     /** The ItemHashMap containing all items, used by the SearchEngine for filtering and searching and by the RecentlyViewedManager for retrieving items. */
     private final ItemHashMap itemHashMap;
 
+    /** A flag to track whether the RecentlyViewedManager has been created. Used to prevent duplicate creation. */
     private boolean recentlyViewedManagerCreated = false;
 
     /** Constructor for GeneralManager, filled from a tablesaw Table.
      * @param table The tablesaw Table containing the item data to be used by the SearchEngine.
+     * @param itemHashMap The ItemHashMap containing all items, used by the SearchEngine for filtering and searching and by the RecentlyViewedManager for retrieving items.
      */
     public GeneralManager(Table table, ItemHashMap itemHashMap) {
         this.itemHashMap = itemHashMap;
@@ -81,6 +81,11 @@ public class GeneralManager {
         }
     }
 
+    /**
+     * Checks if the necessary UI elements for creating the RecentlyViewedManager (SearchedItemPagination and RecentlyViewedWindow) are present in the UIElementManager.
+     * 
+     * @return true if both the recently viewed window and searched item pagination components are present in the UIElementManager, false otherwise.
+     */
     private boolean readyToMakeRecentlyViewedManager() {
         return uiManager.getElement(UIElementName.RECENTLY_VIEWED_WINDOW).isPresent() && uiManager.getElement(UIElementName.SEARCHED_ITEM_PAGINATION).isPresent();
     }
@@ -117,13 +122,7 @@ public class GeneralManager {
         Map<UIDataName, Object> searchData = getSearchData();
         System.out.println("Search Data: " + searchData);
         Table filteredTable = searchEngine.filterItems(searchData);
-        Table sortedTable = filteredTable;
-        RowComparator comparator = (RowComparator) searchData.get(UIDataName.SORTING_OPTION);
-        LongWrapper time = new LongWrapper();
-        if( comparator != null ){
-            sortedTable = Sorter.sortTable(filteredTable, comparator, time);
-            System.out.println("Time taken to sort: " + time.getValue() / 1_000_000 + " ms");
-        }
+        Table sortedTable = Sorter.sortTable(filteredTable, searchData.get(UIDataName.SORTING_OPTION));
         List<String> sortedAndFilteredItemIds = sortedTable.stringColumn(TableColumnName.ID.getColumnName()).asList();
         uiManager.updateSearchedItemPagination( sortedAndFilteredItemIds );
     }

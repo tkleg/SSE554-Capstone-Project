@@ -343,9 +343,7 @@ digraph "classes" {
    "org.troy.capstone.managers.GeneralManager"        -> "org.troy.capstone.managers.RecentlyViewedManager (classes)";
    "org.troy.capstone.managers.GeneralManager"        -> "org.troy.capstone.managers.UIElementManager (classes)";
    "org.troy.capstone.managers.GeneralManager"        -> "org.troy.capstone.search_engine.SearchEngine (classes)";
-   "org.troy.capstone.managers.GeneralManager"        -> "org.troy.capstone.search_engine.sorting.LongWrapper (classes)";
    "org.troy.capstone.managers.GeneralManager"        -> "org.troy.capstone.search_engine.sorting.Sorter (classes)";
-   "org.troy.capstone.managers.GeneralManager"        -> "org.troy.capstone.search_engine.sorting.comparator.RowComparator (classes)";
    "org.troy.capstone.managers.GeneralManager"        -> "tech.tablesaw.api.StringColumn (not found)";
    "org.troy.capstone.managers.GeneralManager"        -> "tech.tablesaw.api.Table (not found)";
    "org.troy.capstone.managers.RecentlyViewedManager" -> "java.io.PrintStream (java.base)";

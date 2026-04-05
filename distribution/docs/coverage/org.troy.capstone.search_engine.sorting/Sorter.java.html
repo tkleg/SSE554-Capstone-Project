@@ -25,32 +25,50 @@ public class Sorter {
      * @post The returned table is a new Table instance that contains the same rows as the input table but sorted according to the order defined by the comparator. The original table remains unchanged.
      * 
      * @param table The Table to be sorted.
-     * @param comparator The RowComparator that defines the sorting order.
+     * @param comparatorObj The RowComparator that defines the sorting order. This is an Object to make it possible to pass a comparator from another class without the import of the RowComparator class.
      * @param time An optional LongWrapper to store the time taken to perform the sort. If null, time will not be recorded.
      * @return A new Table instance containing the sorted rows from the input table.
      */
-    public static Table sortTable(Table table, RowComparator comparator, LongWrapper time) {
-<span class="fc" id="L33">        System.out.println(&quot;Sorting using &quot; + comparator.toString() + &quot; comparator...&quot;);</span>
-<span class="fc" id="L34">        List&lt;Row&gt; rows = TableUtils.tableToRowList(table);</span>
-<span class="fc" id="L35">        long start = 0;</span>
-<span class="fc bfc" id="L36" title="All 2 branches covered.">        if( rows.size() &lt;= 25 ){</span>
-<span class="fc" id="L37">            System.out.println(&quot;Using Insertion Sort for small table...&quot;);</span>
-<span class="pc bpc" id="L38" title="1 of 2 branches missed.">            if( time != null )</span>
-<span class="fc" id="L39">                start = System.nanoTime();</span>
-<span class="fc" id="L40">            InsertionSort.insertionSort(rows, comparator);</span>
-<span class="pc bpc" id="L41" title="1 of 2 branches missed.">            if( time != null )</span>
-<span class="fc" id="L42">                time.setValue(System.nanoTime() - start);</span>
-        } else {
-<span class="fc" id="L44">            System.out.println(&quot;Using Quick Sort for larger table...&quot;);</span>
-<span class="fc bfc" id="L45" title="All 2 branches covered.">            if( time != null )</span>
-<span class="fc" id="L46">                start = System.nanoTime();</span>
-<span class="fc" id="L47">            QuickSort.quickSort(rows, comparator);</span>
-<span class="fc bfc" id="L48" title="All 2 branches covered.">            if( time != null )</span>
-<span class="fc" id="L49">                time.setValue(System.nanoTime() - start);</span>
+    public static Table sortTable(Table table, Object comparatorObj, LongWrapper time) {
+<span class="pc bpc" id="L33" title="1 of 4 branches missed.">        if( comparatorObj == null || !(comparatorObj instanceof RowComparator) ) {</span>
+<span class="fc" id="L34">            System.out.println(&quot;Invalid comparator provided to Sorter.sortTable. Was provided: &quot; + comparatorObj + &quot;. Returning original table.&quot;);</span>
+<span class="fc" id="L35">            return table;</span>
         }
-<span class="fc" id="L51">        Table sortedTable = table.emptyCopy();</span>
-<span class="fc" id="L52">        rows.forEach(sortedTable::append);</span>
-<span class="fc" id="L53">        return sortedTable;</span>
+<span class="fc" id="L37">        RowComparator comparator = (RowComparator) comparatorObj;</span>
+<span class="fc" id="L38">        System.out.println(&quot;Sorting using &quot; + comparator.toString() + &quot; comparator...&quot;);</span>
+<span class="fc" id="L39">        List&lt;Row&gt; rows = TableUtils.tableToRowList(table);</span>
+<span class="fc" id="L40">        long start = 0;</span>
+<span class="fc bfc" id="L41" title="All 2 branches covered.">        if( rows.size() &lt;= 25 ){</span>
+<span class="fc" id="L42">            System.out.println(&quot;Using Insertion Sort for small table...&quot;);</span>
+<span class="pc bpc" id="L43" title="1 of 2 branches missed.">            if( time != null )</span>
+<span class="fc" id="L44">                start = System.nanoTime();</span>
+<span class="fc" id="L45">            InsertionSort.insertionSort(rows, comparator);</span>
+<span class="pc bpc" id="L46" title="1 of 2 branches missed.">            if( time != null )</span>
+<span class="fc" id="L47">                time.setValue(System.nanoTime() - start);</span>
+        } else {
+<span class="fc" id="L49">            System.out.println(&quot;Using Quick Sort for larger table...&quot;);</span>
+<span class="fc bfc" id="L50" title="All 2 branches covered.">            if( time != null )</span>
+<span class="fc" id="L51">                start = System.nanoTime();</span>
+<span class="fc" id="L52">            QuickSort.quickSort(rows, comparator);</span>
+<span class="fc bfc" id="L53" title="All 2 branches covered.">            if( time != null )</span>
+<span class="fc" id="L54">                time.setValue(System.nanoTime() - start);</span>
+        }
+<span class="fc" id="L56">        Table sortedTable = table.emptyCopy();</span>
+<span class="fc" id="L57">        rows.forEach(sortedTable::append);</span>
+<span class="fc" id="L58">        return sortedTable;</span>
+    }
+
+    /** Overloaded method to allow calling sortTable without a LongWrapper for time measurement. 
+     * 
+     * @pre table is not null and contains the necessary columns for the comparator to function properly.
+     * @pre comparator is a valid RowComparator that can compare the rows in the table.
+     * @post The returned table is a new Table instance that contains the same rows as the input table but sorted according to the order defined by the comparator. The original table remains unchanged.
+     * @param table The Table to be sorted.
+     * @param comparator The RowComparator that defines the sorting order. This is an Object to make it possible to pass a comparator from another class without the import of the RowComparator class.
+     * @return A new Table instance containing the sorted rows from the input table.
+    */
+    public static Table sortTable(Table table, Object comparator) {
+<span class="fc" id="L71">        return sortTable(table, comparator, null);</span>
     }
 
 }

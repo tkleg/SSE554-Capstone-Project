@@ -98,7 +98,6 @@ digraph "summary" {
   "org.troy.capstone.managers"                       -> "org.troy.capstone.managers (classes)";
   "org.troy.capstone.managers"                       -> "org.troy.capstone.search_engine (classes)";
   "org.troy.capstone.managers"                       -> "org.troy.capstone.search_engine.sorting (classes)";
-  "org.troy.capstone.managers"                       -> "org.troy.capstone.search_engine.sorting.comparator (classes)";
   "org.troy.capstone.managers"                       -> "org.troy.capstone.ui_components.filters (classes)";
   "org.troy.capstone.managers"                       -> "org.troy.capstone.ui_components.filters.categorical (classes)";
   "org.troy.capstone.managers"                       -> "org.troy.capstone.ui_components.items (classes)";

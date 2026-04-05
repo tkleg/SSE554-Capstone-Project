@@ -73,6 +73,11 @@ public class SearchedItemContainer extends ScrollPane {
         }
     }
 
+    /** Adds a SearchedItemPanelInteractor to the SearchedItemContainer to allow for interaction with the item panels in the search results.
+     * @pre interactor should be properly implemented to handle interactions with the item panels, and the SearchedItemContainer should be properly initialized to allow for adding interactors.
+     * @post The provided interactor is added to the SearchedItemContainer, allowing it to receive interaction events from the item panels in the search results.
+     * @param interactor The SearchedItemPanelInteractor to add to the SearchedItemContainer for handling interactions with the item panels in the search results.
+     */
     public void addSearchedItemPanelInteractor(SearchedItemPanelInteractor interactor) {
         interactors.add(interactor);
         //Set interactors for initial panels
@@ -87,8 +92,7 @@ public class SearchedItemContainer extends ScrollPane {
      * @post The itemContainer is cleared and repopulated with new SearchedItemPanel instances corresponding to the provided list of items. If the list is null or empty, a message indicating that no items were found is displayed instead.
      * @param items The new list of items to display in the container.
      */
-    public final List<SearchedItemPanel> updateItems(List<Item> items) {
-        List<SearchedItemPanel> panels = new ArrayList<>();
+    public final void updateItems(List<Item> items) {
         if( items == null ){
             System.out.println("Warning: updateItems called with null list. Doing nothing.");
         }else if (items.isEmpty()) {
@@ -99,14 +103,10 @@ public class SearchedItemContainer extends ScrollPane {
             stopAllImagesLoading();
             itemContainer.getChildren().clear();
             items.forEach((var item) -> {
-                if (item != null) {
-                    SearchedItemPanel panel = SearchedItemPanel.create(item);
-                    panels.add(panel);
-                    addItemPanel(panel);
-                }
+                if (item != null)
+                    addItemPanel(SearchedItemPanel.create(item));
             });
         }
-        return panels;
     }
 
     /**
