@@ -265,5 +265,29 @@ public class TableUtils {
 <span class="fc" id="L265">            rows.add(table.row(i));</span>
 <span class="fc" id="L266">        return rows;</span>
     }
+
+    /** Compares two Tablesaw Tables for equality by checking that they have the same number of rows and columns, the same column names in the same order, and the same values in each cell.
+     * 
+     * @pre table1 and table2 are not null. The tables contain properly formatted data with the expected columns for the application.
+     * @param table1 The first Table to be compared.
+     * @param table2 The second Table to be compared.
+     * @return true if the tables are equal in terms of structure and content, false otherwise.
+     */
+    public static boolean equals(Table table1, Table table2) {
+        //Ensure same number of rows and columns
+<span class="nc bnc" id="L278" title="All 4 branches missed.">        if (table1.rowCount() != table2.rowCount() || table1.columnCount() != table2.columnCount())</span>
+<span class="nc" id="L279">            return false;</span>
+        //Ensure same column names in same order
+<span class="nc bnc" id="L281" title="All 2 branches missed.">        for( int x = 0; x &lt; table1.columnCount(); x++ )</span>
+<span class="nc bnc" id="L282" title="All 2 branches missed.">            if (!table1.column(x).name().equals(table2.column(x).name()))</span>
+<span class="nc" id="L283">                return false;</span>
+        //Ensure same values in each cell
+<span class="nc bnc" id="L285" title="All 2 branches missed.">        for (int r = 0; r &lt; table1.rowCount(); r++)</span>
+<span class="nc bnc" id="L286" title="All 2 branches missed.">            for (int c = 0; c &lt; table1.columnCount(); c++)</span>
+<span class="nc bnc" id="L287" title="All 2 branches missed.">                if (!table1.get(r, c).equals(table2.get(r, c)))</span>
+<span class="nc" id="L288">                    return false;</span>
+
+<span class="nc" id="L290">        return true;</span>
+    }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

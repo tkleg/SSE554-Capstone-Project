@@ -81,10 +81,8 @@ public class SearchedItemContainer extends ScrollPane {
     public void addSearchedItemPanelInteractor(SearchedItemPanelInteractor interactor) {
         interactors.add(interactor);
         //Set interactors for initial panels
-        itemContainer.getChildren().forEach(node -> {
-            if (node instanceof SearchedItemPanel panel)
-                panel.setSearchedItemPanelInteractor(interactor);
-        });
+        itemContainer.getChildren().stream().filter(node -> node instanceof SearchedItemPanel)
+            .forEach(node -> ((SearchedItemPanel) node).setSearchedItemPanelInteractor(interactor));
     }
 
     /** Updates the items displayed in the container with a new list of items.
@@ -115,10 +113,8 @@ public class SearchedItemContainer extends ScrollPane {
      * @post All asynchronous image loading tasks for the SearchedItemPanel instances currently displayed in the container are stopped, preventing any further loading of images that are not being displayed.
      */
     public void stopAllImagesLoading() {
-        itemContainer.getChildren().forEach(node -> {
-            if (node instanceof SearchedItemPanel panel)
-                panel.stopLoadingImage();
-        });
+        itemContainer.getChildren().stream().filter(node -> node instanceof SearchedItemPanel)
+            .forEach(node -> ((SearchedItemPanel) node).stopLoadingImage());
     }
 
 }

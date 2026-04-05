@@ -82,7 +82,7 @@ public class GeneralManager {
     }
 
     /**
-     * Checks if the necessary UI elements for creating the RecentlyViewedManager (SearchedItemPagination and RecentlyViewedWindow) are present in the UIElementManager.
+     * Checks if the necessary UI elements for creating the RecentlyViewedManager (SearchedItemPagination and are present in the UIElementManager.
      * 
      * @return true if both the recently viewed window and searched item pagination components are present in the UIElementManager, false otherwise.
      */

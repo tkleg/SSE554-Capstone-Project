@@ -231,6 +231,7 @@ digraph "summary" {
   "org.troy.capstone.ui_components.items.searched"   -> "java.lang.invoke (java.base)";
   "org.troy.capstone.ui_components.items.searched"   -> "java.util (java.base)";
   "org.troy.capstone.ui_components.items.searched"   -> "java.util.function (java.base)";
+  "org.troy.capstone.ui_components.items.searched"   -> "java.util.stream (java.base)";
   "org.troy.capstone.ui_components.items.searched"   -> "javafx.collections (not found)";
   "org.troy.capstone.ui_components.items.searched"   -> "javafx.event (not found)";
   "org.troy.capstone.ui_components.items.searched"   -> "javafx.geometry (not found)";

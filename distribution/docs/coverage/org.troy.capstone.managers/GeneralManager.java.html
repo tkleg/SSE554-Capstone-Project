@@ -75,19 +75,19 @@ public class GeneralManager {
      */
     public void addUIElement(UIElementName key, Node element) {
 <span class="fc" id="L77">        uiManager.addElement(key, element);</span>
-<span class="pc bpc" id="L78" title="2 of 4 branches missed.">        if( !recentlyViewedManagerCreated &amp;&amp; readyToMakeRecentlyViewedManager()) {</span>
-<span class="nc" id="L79">            RecentlyViewedManager.create(itemHashMap, uiManager.getElement(UIElementName.RECENTLY_VIEWED_WINDOW).get(), uiManager.getElement(UIElementName.SEARCHED_ITEM_PAGINATION).get());</span>
-<span class="nc" id="L80">            recentlyViewedManagerCreated = true;</span>
+<span class="pc bpc" id="L78" title="1 of 4 branches missed.">        if( !recentlyViewedManagerCreated &amp;&amp; readyToMakeRecentlyViewedManager()) {</span>
+<span class="fc" id="L79">            RecentlyViewedManager.create(itemHashMap, uiManager.getElement(UIElementName.RECENTLY_VIEWED_WINDOW).get(), uiManager.getElement(UIElementName.SEARCHED_ITEM_PAGINATION).get());</span>
+<span class="fc" id="L80">            recentlyViewedManagerCreated = true;</span>
         }
 <span class="fc" id="L82">    }</span>
 
     /**
-     * Checks if the necessary UI elements for creating the RecentlyViewedManager (SearchedItemPagination and RecentlyViewedWindow) are present in the UIElementManager.
+     * Checks if the necessary UI elements for creating the RecentlyViewedManager (SearchedItemPagination and are present in the UIElementManager.
      * 
      * @return true if both the recently viewed window and searched item pagination components are present in the UIElementManager, false otherwise.
      */
     private boolean readyToMakeRecentlyViewedManager() {
-<span class="pc bpc" id="L90" title="3 of 4 branches missed.">        return uiManager.getElement(UIElementName.RECENTLY_VIEWED_WINDOW).isPresent() &amp;&amp; uiManager.getElement(UIElementName.SEARCHED_ITEM_PAGINATION).isPresent();</span>
+<span class="fc bfc" id="L90" title="All 4 branches covered.">        return uiManager.getElement(UIElementName.RECENTLY_VIEWED_WINDOW).isPresent() &amp;&amp; uiManager.getElement(UIElementName.SEARCHED_ITEM_PAGINATION).isPresent();</span>
     }
 
     /**

@@ -69,7 +69,7 @@ public class SearchedItemContainer extends ScrollPane {
     private void addItemPanel(SearchedItemPanel itemPanel) {
 <span class="fc bfc" id="L70" title="All 2 branches covered.">        if( itemPanel != null ){</span>
 <span class="fc" id="L71">            itemContainer.getChildren().add(itemPanel);</span>
-<span class="pc" id="L72">            interactors.forEach(interactor -&gt; itemPanel.setSearchedItemPanelInteractor(interactor));</span>
+<span class="fc" id="L72">            interactors.forEach(interactor -&gt; itemPanel.setSearchedItemPanelInteractor(interactor));</span>
         }
 <span class="fc" id="L74">    }</span>
 
@@ -81,11 +81,9 @@ public class SearchedItemContainer extends ScrollPane {
     public void addSearchedItemPanelInteractor(SearchedItemPanelInteractor interactor) {
 <span class="fc" id="L82">        interactors.add(interactor);</span>
         //Set interactors for initial panels
-<span class="fc" id="L84">        itemContainer.getChildren().forEach(node -&gt; {</span>
-<span class="pc bpc" id="L85" title="1 of 2 branches missed.">            if (node instanceof SearchedItemPanel panel)</span>
-<span class="fc" id="L86">                panel.setSearchedItemPanelInteractor(interactor);</span>
-<span class="fc" id="L87">        });</span>
-<span class="fc" id="L88">    }</span>
+<span class="fc" id="L84">        itemContainer.getChildren().stream().filter(node -&gt; node instanceof SearchedItemPanel)</span>
+<span class="fc" id="L85">            .forEach(node -&gt; ((SearchedItemPanel) node).setSearchedItemPanelInteractor(interactor));</span>
+<span class="fc" id="L86">    }</span>
 
     /** Updates the items displayed in the container with a new list of items.
      * @pre items should be a valid list of Item objects to display in the container. The SearchedItemContainer should be properly initialized to allow for updating the displayed items.
@@ -93,21 +91,21 @@ public class SearchedItemContainer extends ScrollPane {
      * @param items The new list of items to display in the container.
      */
     public final void updateItems(List&lt;Item&gt; items) {
-<span class="fc bfc" id="L96" title="All 2 branches covered.">        if( items == null ){</span>
-<span class="fc" id="L97">            System.out.println(&quot;Warning: updateItems called with null list. Doing nothing.&quot;);</span>
-<span class="fc bfc" id="L98" title="All 2 branches covered.">        }else if (items.isEmpty()) {</span>
-<span class="fc" id="L99">            stopAllImagesLoading();</span>
-<span class="fc" id="L100">            itemContainer.getChildren().clear();</span>
-<span class="fc" id="L101">            itemContainer.getChildren().add(new Label(&quot;No items found.&quot;));</span>
+<span class="fc bfc" id="L94" title="All 2 branches covered.">        if( items == null ){</span>
+<span class="fc" id="L95">            System.out.println(&quot;Warning: updateItems called with null list. Doing nothing.&quot;);</span>
+<span class="fc bfc" id="L96" title="All 2 branches covered.">        }else if (items.isEmpty()) {</span>
+<span class="fc" id="L97">            stopAllImagesLoading();</span>
+<span class="fc" id="L98">            itemContainer.getChildren().clear();</span>
+<span class="fc" id="L99">            itemContainer.getChildren().add(new Label(&quot;No items found.&quot;));</span>
         }else{
-<span class="fc" id="L103">            stopAllImagesLoading();</span>
-<span class="fc" id="L104">            itemContainer.getChildren().clear();</span>
-<span class="fc" id="L105">            items.forEach((var item) -&gt; {</span>
-<span class="fc bfc" id="L106" title="All 2 branches covered.">                if (item != null)</span>
-<span class="fc" id="L107">                    addItemPanel(SearchedItemPanel.create(item));</span>
-<span class="fc" id="L108">            });</span>
+<span class="fc" id="L101">            stopAllImagesLoading();</span>
+<span class="fc" id="L102">            itemContainer.getChildren().clear();</span>
+<span class="fc" id="L103">            items.forEach((var item) -&gt; {</span>
+<span class="fc bfc" id="L104" title="All 2 branches covered.">                if (item != null)</span>
+<span class="fc" id="L105">                    addItemPanel(SearchedItemPanel.create(item));</span>
+<span class="fc" id="L106">            });</span>
         }
-<span class="fc" id="L110">    }</span>
+<span class="fc" id="L108">    }</span>
 
     /**
      * Stops all image loading tasks from running
@@ -115,11 +113,9 @@ public class SearchedItemContainer extends ScrollPane {
      * @post All asynchronous image loading tasks for the SearchedItemPanel instances currently displayed in the container are stopped, preventing any further loading of images that are not being displayed.
      */
     public void stopAllImagesLoading() {
-<span class="fc" id="L118">        itemContainer.getChildren().forEach(node -&gt; {</span>
-<span class="pc bpc" id="L119" title="1 of 2 branches missed.">            if (node instanceof SearchedItemPanel panel)</span>
-<span class="fc" id="L120">                panel.stopLoadingImage();</span>
-<span class="fc" id="L121">        });</span>
-<span class="fc" id="L122">    }</span>
+<span class="fc" id="L116">        itemContainer.getChildren().stream().filter(node -&gt; node instanceof SearchedItemPanel)</span>
+<span class="fc" id="L117">            .forEach(node -&gt; ((SearchedItemPanel) node).stopLoadingImage());</span>
+<span class="fc" id="L118">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

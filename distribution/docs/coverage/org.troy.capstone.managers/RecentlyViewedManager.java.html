@@ -40,10 +40,14 @@ public class RecentlyViewedManager implements SearchedItemPanelInteractor {
 <span class="fc" id="L40">        return manager;</span>
     }
     
+    /** Called when an item is selected in the searched item panel. Adds the selected item to the recently viewed queue and updates the recently viewed window content accordingly.
+     * @pre itemId is not null and corresponds to a valid key in the itemHashMap.
+     * @param itemId The ID of the selected item.
+     */
     @Override
     public void onItemSelected(String itemId) {
-<span class="nc" id="L45">        addRecentlyViewedItem(itemId);</span>
-<span class="nc" id="L46">    }</span>
+<span class="fc" id="L49">        addRecentlyViewedItem(itemId);</span>
+<span class="fc" id="L50">    }</span>
     
     /** Adds an item to the recently viewed queue and updates the recently viewed window content.
       * @pre itemId is not null and corresponds to a valid key in the itemHashMap used to create the recentlyViewedQueue.
@@ -51,10 +55,10 @@ public class RecentlyViewedManager implements SearchedItemPanelInteractor {
       * @param itemId The ID of the item to add to recently viewed.
       */
     public void addRecentlyViewedItem(String itemId) {
-<span class="fc" id="L54">        System.out.println(&quot;Adding item with ID &quot; + itemId + &quot; to recently viewed.&quot;);</span>
-<span class="fc" id="L55">        recentlyViewedQueue.addAttempt(itemId);</span>
-<span class="fc" id="L56">        recentlyViewedWindow.setContent(recentlyViewedQueue.peekAll());</span>
-<span class="fc" id="L57">    }</span>
+<span class="fc" id="L58">        System.out.println(&quot;Adding item with ID &quot; + itemId + &quot; to recently viewed.&quot;);</span>
+<span class="fc" id="L59">        recentlyViewedQueue.addAttempt(itemId);</span>
+<span class="fc" id="L60">        recentlyViewedWindow.setContent(recentlyViewedQueue.peekAll());</span>
+<span class="fc" id="L61">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>
