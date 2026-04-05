@@ -15,17 +15,17 @@ public class SimilarityAnalysis {
         Table table = TableUtils.readData(DataPath.CLEANED_ATTRIBUTED_DATA);
         List<Item> items = TableUtils.tableToRowList(table).stream().map(Item::fromRow).toList();
         File outputFile = new File("similarity_analysis_output.dat");
+        StringBuilder sb = new StringBuilder();
         try (PrintWriter writer = new PrintWriter(outputFile)) {
             for (int i = 0; i < items.size(); i++) {
-                for (int j = 0; j < items.size(); j++) {
-                    if (i == j)
-                        continue; // Skip similarity with itself
+                for (int j = i+1; j < items.size(); j++) {
                     Item item1 = items.get(i);
                     Item item2 = items.get(j);
-                    writer.printf("%.7f\n", item1.similarity(item2));
+                    sb.append(String.format("%.7f\n", item1.similarity(item2)));
                 }
                 System.out.printf("Processed item %d/%d\n", i + 1, items.size());
             }
+            writer.print(sb.toString());
         }
     }
 }
