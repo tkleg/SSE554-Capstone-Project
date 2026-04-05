@@ -7,28 +7,37 @@ import java.util.Optional;
 import org.troy.capstone.constants.TableColumnName;
 import org.troy.capstone.constants.UIDataName;
 import org.troy.capstone.constants.UIElementName;
+import org.troy.capstone.data_structures.item_table.ItemHashMap;
 import org.troy.capstone.search_engine.SearchEngine;
 import org.troy.capstone.search_engine.sorting.Sorter;
-import org.troy.capstone.search_engine.sorting.RowComparator;
-import org.troy.capstone.search_engine.sorting.LongWrapper;
+
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import tech.tablesaw.api.Table;
 
 /**
- * The GeneralManager class is responsible for managing the UI elements and the search engine.
+ * The GeneralManager class is responsible for managing the UI elements, the search engine, and the recently viewed content.
  * It provides methods to interact with the UI elements, retrieve search data, and perform search operations.
  */
 public class GeneralManager {
     /** The UIElementManager instance for managing UI elements. */
     private final UIElementManager uiManager;
+
     /** The SearchEngine instance for performing search operations. */
     private final SearchEngine searchEngine;
 
+    /** The ItemHashMap containing all items, used by the SearchEngine for filtering and searching and by the RecentlyViewedManager for retrieving items. */
+    private final ItemHashMap itemHashMap;
+
+    /** A flag to track whether the RecentlyViewedManager has been created. Used to prevent duplicate creation. */
+    private boolean recentlyViewedManagerCreated = false;
+
     /** Constructor for GeneralManager, filled from a tablesaw Table.
      * @param table The tablesaw Table containing the item data to be used by the SearchEngine.
+     * @param itemHashMap The ItemHashMap containing all items, used by the SearchEngine for filtering and searching and by the RecentlyViewedManager for retrieving items.
      */
-    public GeneralManager(Table table) {
+    public GeneralManager(Table table, ItemHashMap itemHashMap) {
+        this.itemHashMap = itemHashMap;
         uiManager = new UIElementManager();
         searchEngine = new SearchEngine(table);
     }
@@ -57,15 +66,28 @@ public class GeneralManager {
     }
 
     /**
-     * Adds a UI element to the UIElementManager.
+     * Adds a UI element to the UIElementManager, and creates the RecentlyViewedManager if the necessary UI elements are present and it has not already been created.
      * 
      * @pre key and element are not null.
-     * @post The UI element is added to the UIElementManager and can be retrieved using the provided key.
+     * @post The UI element is added to the UIElementManager and can be retrieved using the provided key. If the necessary UI elements are present and the RecentlyViewedManager has not already been created, it is created.
      * @param key The key representing the UI element.
      * @param element The UI element to be added.
      */
     public void addUIElement(UIElementName key, Node element) {
         uiManager.addElement(key, element);
+        if( !recentlyViewedManagerCreated && readyToMakeRecentlyViewedManager()) {
+            RecentlyViewedManager.create(itemHashMap, uiManager.getElement(UIElementName.RECENTLY_VIEWED_WINDOW).get(), uiManager.getElement(UIElementName.SEARCHED_ITEM_PAGINATION).get());
+            recentlyViewedManagerCreated = true;
+        }
+    }
+
+    /**
+     * Checks if the necessary UI elements for creating the RecentlyViewedManager (SearchedItemPagination and RecentlyViewedWindow) are present in the UIElementManager.
+     * 
+     * @return true if both the RecentlyViewedWindow and SearchedItemPagination components are present in the UIElementManager, false otherwise.
+     */
+    private boolean readyToMakeRecentlyViewedManager() {
+        return uiManager.getElement(UIElementName.RECENTLY_VIEWED_WINDOW).isPresent() && uiManager.getElement(UIElementName.SEARCHED_ITEM_PAGINATION).isPresent();
     }
 
     /**
@@ -94,19 +116,13 @@ public class GeneralManager {
      * 
      * @pre None, error handling is done within the SearchEngine and UIElementManager.
      * 
-     * @post The UI is updated with the filtered results based on the current search data from the UIElementManager.
+     * @post The UI is updated with the filtered and sorted results based on the current search data from the UIElementManager.
      */
     public void filterAndPrintNumberOfResults() {
         Map<UIDataName, Object> searchData = getSearchData();
         System.out.println("Search Data: " + searchData);
         Table filteredTable = searchEngine.filterItems(searchData);
-        Table sortedTable = filteredTable;
-        RowComparator comparator = (RowComparator) searchData.get(UIDataName.SORTING_OPTION);
-        LongWrapper time = new LongWrapper();
-        if( comparator != null ){
-            sortedTable = Sorter.sortTable(filteredTable, comparator, time);
-            System.out.println("Time taken to sort: " + time.getValue() / 1_000_000 + " ms");
-        }
+        Table sortedTable = Sorter.sortTable(filteredTable, searchData.get(UIDataName.SORTING_OPTION));
         List<String> sortedAndFilteredItemIds = sortedTable.stringColumn(TableColumnName.ID.getColumnName()).asList();
         uiManager.updateSearchedItemPagination( sortedAndFilteredItemIds );
     }

@@ -8,33 +8,34 @@
 <span class="fc" id="L8">    FILTERS_CONTAINER(&quot;FILTERS_CONTAINER&quot;),</span>
     /** UI element name for the container holding the pagination controls for searched items. */
 <span class="fc" id="L10">    SEARCHED_ITEM_PAGINATION(&quot;SEARCHED_ITEM_PAGINATION&quot;),</span>
-    /** UI element name for the container holding the pagination controls for recommended items. */
-<span class="fc" id="L12">    RECOMMENDED_ITEM_PAGINATION(&quot;RECOMMENDED_ITEM_PAGINATION&quot;),</span>
     /** UI element name for the minimum price slider filter. */
-<span class="fc" id="L14">    MIN_PRICE_SLIDER(&quot;MIN_PRICE_SLIDER&quot;),</span>
+<span class="fc" id="L12">    MIN_PRICE_SLIDER(&quot;MIN_PRICE_SLIDER&quot;),</span>
     /** UI element name for the maximum price slider filter. */
-<span class="fc" id="L16">    MAX_PRICE_SLIDER(&quot;MAX_PRICE_SLIDER&quot;),</span>
+<span class="fc" id="L14">    MAX_PRICE_SLIDER(&quot;MAX_PRICE_SLIDER&quot;),</span>
     /** UI element name for the search query input field. */
-<span class="fc" id="L18">    SEARCH_FIELD(&quot;SEARCH_FIELD&quot;),</span>
+<span class="fc" id="L16">    SEARCH_FIELD(&quot;SEARCH_FIELD&quot;),</span>
     /** UI element name for the star rating filter. */
-<span class="fc" id="L20">    STAR_RATING_FILTER(&quot;STAR_RATING_FILTER&quot;),</span>
-    /** UI element name for the sorting option. */
-<span class="fc" id="L22">    SORTING_OPTION_DROPDOWN(&quot;SORTING_OPTION_DROPDOWN&quot;);</span>
+<span class="fc" id="L18">    STAR_RATING_FILTER(&quot;STAR_RATING_FILTER&quot;),</span>
+    /** UI element name for the sorting option dropdown. */
+<span class="fc" id="L20">    SORTING_OPTION_DROPDOWN(&quot;SORTING_OPTION_DROPDOWN&quot;),</span>
+    /** UI element name for the recently viewed window. */
+<span class="fc" id="L22">    RECENTLY_VIEWED_WINDOW(&quot;RECENTLY_VIEWED_WINDOW&quot;);</span>
+
     /** The string value associated with this enum constant, used for UI element identifiers. */
     private final String value;
 
     /** Constructor for the enum constants.
      * @param value The string value to associate with this enum constant.
     */
-<span class="fc" id="L29">    UIElementName(String value) {</span>
-<span class="fc" id="L30">        this.value = value;</span>
-<span class="fc" id="L31">    }</span>
+<span class="fc" id="L30">    UIElementName(String value) {</span>
+<span class="fc" id="L31">        this.value = value;</span>
+<span class="fc" id="L32">    }</span>
 
     /** Getter for the string value associated with this enum constant.
      * @return The string value that can be used as an identifier for UI elements.
     */
     public String getValue() {
-<span class="fc" id="L37">        return value;</span>
+<span class="fc" id="L38">        return value;</span>
     }
 
 }

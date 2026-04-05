@@ -28,7 +28,7 @@ public class SearchedItemsLinkedList{
     */
     @SuppressWarnings("null")
     public SearchedItemsLinkedList(ItemHashMap itemHashMap, List<String> itemIdList){
-        if (itemIdList == null || itemIdList.isEmpty()) {
+        if (itemIdList.isEmpty()) {
             head = null;
             return;
         }

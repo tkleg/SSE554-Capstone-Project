@@ -7,31 +7,40 @@ import java.util.Optional;
 import org.troy.capstone.constants.TableColumnName;
 import org.troy.capstone.constants.UIDataName;
 import org.troy.capstone.constants.UIElementName;
+import org.troy.capstone.data_structures.item_table.ItemHashMap;
 import org.troy.capstone.search_engine.SearchEngine;
 import org.troy.capstone.search_engine.sorting.Sorter;
-import org.troy.capstone.search_engine.sorting.RowComparator;
-import org.troy.capstone.search_engine.sorting.LongWrapper;
+
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import tech.tablesaw.api.Table;
 
 /**
- * The GeneralManager class is responsible for managing the UI elements and the search engine.
+ * The GeneralManager class is responsible for managing the UI elements, the search engine, and the recently viewed content.
  * It provides methods to interact with the UI elements, retrieve search data, and perform search operations.
  */
 public class GeneralManager {
     /** The UIElementManager instance for managing UI elements. */
     private final UIElementManager uiManager;
+
     /** The SearchEngine instance for performing search operations. */
     private final SearchEngine searchEngine;
 
+    /** The ItemHashMap containing all items, used by the SearchEngine for filtering and searching and by the RecentlyViewedManager for retrieving items. */
+    private final ItemHashMap itemHashMap;
+
+    /** A flag to track whether the RecentlyViewedManager has been created. Used to prevent duplicate creation. */
+<span class="fc" id="L33">    private boolean recentlyViewedManagerCreated = false;</span>
+
     /** Constructor for GeneralManager, filled from a tablesaw Table.
      * @param table The tablesaw Table containing the item data to be used by the SearchEngine.
+     * @param itemHashMap The ItemHashMap containing all items, used by the SearchEngine for filtering and searching and by the RecentlyViewedManager for retrieving items.
      */
-<span class="fc" id="L31">    public GeneralManager(Table table) {</span>
-<span class="fc" id="L32">        uiManager = new UIElementManager();</span>
-<span class="fc" id="L33">        searchEngine = new SearchEngine(table);</span>
-<span class="fc" id="L34">    }</span>
+<span class="fc" id="L39">    public GeneralManager(Table table, ItemHashMap itemHashMap) {</span>
+<span class="fc" id="L40">        this.itemHashMap = itemHashMap;</span>
+<span class="fc" id="L41">        uiManager = new UIElementManager();</span>
+<span class="fc" id="L42">        searchEngine = new SearchEngine(table);</span>
+<span class="fc" id="L43">    }</span>
 
     /**
      * Gets a UI element from the UIElementManager based on the provided key.
@@ -42,7 +51,7 @@ public class GeneralManager {
       * @return An Optional containing the UI element if found, or an empty Optional if not found.
      */
     public Optional&lt;Node&gt; getUIElement(UIElementName key) {
-<span class="fc" id="L45">        return uiManager.getElement(key);</span>
+<span class="fc" id="L54">        return uiManager.getElement(key);</span>
     }
 
     /**
@@ -53,20 +62,33 @@ public class GeneralManager {
       * @return The search data containing the filters to be applied.
      */
     public Map&lt;UIDataName, Object&gt; getSearchData() {
-<span class="fc" id="L56">        return uiManager.getSearchData();</span>
+<span class="fc" id="L65">        return uiManager.getSearchData();</span>
     }
 
     /**
-     * Adds a UI element to the UIElementManager.
+     * Adds a UI element to the UIElementManager, and creates the RecentlyViewedManager if the necessary UI elements are present and it has not already been created.
      * 
      * @pre key and element are not null.
-     * @post The UI element is added to the UIElementManager and can be retrieved using the provided key.
+     * @post The UI element is added to the UIElementManager and can be retrieved using the provided key. If the necessary UI elements are present and the RecentlyViewedManager has not already been created, it is created.
      * @param key The key representing the UI element.
      * @param element The UI element to be added.
      */
     public void addUIElement(UIElementName key, Node element) {
-<span class="fc" id="L68">        uiManager.addElement(key, element);</span>
-<span class="fc" id="L69">    }</span>
+<span class="fc" id="L77">        uiManager.addElement(key, element);</span>
+<span class="pc bpc" id="L78" title="1 of 4 branches missed.">        if( !recentlyViewedManagerCreated &amp;&amp; readyToMakeRecentlyViewedManager()) {</span>
+<span class="fc" id="L79">            RecentlyViewedManager.create(itemHashMap, uiManager.getElement(UIElementName.RECENTLY_VIEWED_WINDOW).get(), uiManager.getElement(UIElementName.SEARCHED_ITEM_PAGINATION).get());</span>
+<span class="fc" id="L80">            recentlyViewedManagerCreated = true;</span>
+        }
+<span class="fc" id="L82">    }</span>
+
+    /**
+     * Checks if the necessary UI elements for creating the RecentlyViewedManager (SearchedItemPagination and RecentlyViewedWindow) are present in the UIElementManager.
+     * 
+     * @return true if both the RecentlyViewedWindow and SearchedItemPagination components are present in the UIElementManager, false otherwise.
+     */
+    private boolean readyToMakeRecentlyViewedManager() {
+<span class="fc bfc" id="L90" title="All 4 branches covered.">        return uiManager.getElement(UIElementName.RECENTLY_VIEWED_WINDOW).isPresent() &amp;&amp; uiManager.getElement(UIElementName.SEARCHED_ITEM_PAGINATION).isPresent();</span>
+    }
 
     /**
      * Sets the button in the UIElementManager and assigns an action to it that filters the search results and updates the UI when clicked.
@@ -76,9 +98,9 @@ public class GeneralManager {
      * @param button The Button to be set in the UIElementManager
      */
     public void setButton(Button button) {
-<span class="fc" id="L79">        uiManager.setButton(button);</span>
-<span class="fc" id="L80">        button.setOnAction(e -&gt; filterAndPrintNumberOfResults());</span>
-<span class="fc" id="L81">    }</span>
+<span class="fc" id="L101">        uiManager.setButton(button);</span>
+<span class="fc" id="L102">        button.setOnAction(e -&gt; filterAndPrintNumberOfResults());</span>
+<span class="fc" id="L103">    }</span>
 
     /**
      * Gets the button from the UIElementManager.
@@ -86,7 +108,7 @@ public class GeneralManager {
      * @return The Button from the UIElementManager
      */
     public Button getButton() {
-<span class="fc" id="L89">        return uiManager.getButton();</span>
+<span class="fc" id="L111">        return uiManager.getButton();</span>
     }
 
     /**
@@ -94,22 +116,16 @@ public class GeneralManager {
      * 
      * @pre None, error handling is done within the SearchEngine and UIElementManager.
      * 
-     * @post The UI is updated with the filtered results based on the current search data from the UIElementManager.
+     * @post The UI is updated with the filtered and sorted results based on the current search data from the UIElementManager.
      */
     public void filterAndPrintNumberOfResults() {
-<span class="fc" id="L100">        Map&lt;UIDataName, Object&gt; searchData = getSearchData();</span>
-<span class="fc" id="L101">        System.out.println(&quot;Search Data: &quot; + searchData);</span>
-<span class="fc" id="L102">        Table filteredTable = searchEngine.filterItems(searchData);</span>
-<span class="fc" id="L103">        Table sortedTable = filteredTable;</span>
-<span class="fc" id="L104">        RowComparator comparator = (RowComparator) searchData.get(UIDataName.SORTING_OPTION);</span>
-<span class="fc" id="L105">        LongWrapper time = new LongWrapper();</span>
-<span class="fc bfc" id="L106" title="All 2 branches covered.">        if( comparator != null ){</span>
-<span class="fc" id="L107">            sortedTable = Sorter.sortTable(filteredTable, comparator, time);</span>
-<span class="fc" id="L108">            System.out.println(&quot;Time taken to sort: &quot; + time.getValue() / 1_000_000 + &quot; ms&quot;);</span>
-        }
-<span class="fc" id="L110">        List&lt;String&gt; sortedAndFilteredItemIds = sortedTable.stringColumn(TableColumnName.ID.getColumnName()).asList();</span>
-<span class="fc" id="L111">        uiManager.updateSearchedItemPagination( sortedAndFilteredItemIds );</span>
-<span class="fc" id="L112">    }</span>
+<span class="fc" id="L122">        Map&lt;UIDataName, Object&gt; searchData = getSearchData();</span>
+<span class="fc" id="L123">        System.out.println(&quot;Search Data: &quot; + searchData);</span>
+<span class="fc" id="L124">        Table filteredTable = searchEngine.filterItems(searchData);</span>
+<span class="fc" id="L125">        Table sortedTable = Sorter.sortTable(filteredTable, searchData.get(UIDataName.SORTING_OPTION));</span>
+<span class="fc" id="L126">        List&lt;String&gt; sortedAndFilteredItemIds = sortedTable.stringColumn(TableColumnName.ID.getColumnName()).asList();</span>
+<span class="fc" id="L127">        uiManager.updateSearchedItemPagination( sortedAndFilteredItemIds );</span>
+<span class="fc" id="L128">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

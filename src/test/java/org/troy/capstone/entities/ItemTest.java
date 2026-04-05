@@ -1,5 +1,7 @@
 package org.troy.capstone.entities;
 
+import static org.junit.Assert.assertThrows;
+
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
@@ -52,6 +54,13 @@ public class ItemTest {
     public void testGetAttribute(TableColumnName column){
         Object data = testItem.getAttribute(column);
         assert data != null : "getAttribute should not return null for column: " + column.name();
+    }
+
+    @Test
+    @DisplayName("Test that getAttribute throws IllegalArgumentException for invalid column")
+    @SuppressWarnings("ThrowableResultOfMethodCallIgnored")
+    public void testGetAttributeInvalidColumn(){
+        assertThrows(IllegalArgumentException.class, () -> testItem.getAttribute(TableColumnName.RELEVANCE));
     }
 
     @Test

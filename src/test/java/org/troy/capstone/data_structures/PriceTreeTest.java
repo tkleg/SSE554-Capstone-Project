@@ -17,7 +17,7 @@ import tech.tablesaw.api.Table;
 
 public class PriceTreeTest {
     private static PriceTree tree;
-    private static Table table = TestDataHolder.getTableCopy();
+    private static final Table table = TestDataHolder.getTableCopy();
 
     @BeforeAll
     public static void setup() {

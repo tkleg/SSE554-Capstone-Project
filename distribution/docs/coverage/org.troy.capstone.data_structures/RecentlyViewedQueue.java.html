@@ -5,8 +5,7 @@ import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 
 import org.troy.capstone.data_structures.item_table.ItemHashMap;
-import org.troy.capstone.managers.RecentlyViewedManager;
-import org.troy.capstone.ui_components.items.searched.SearchedItemPanel;
+import org.troy.capstone.ui_components.items.SearchedItemPanel;
 
 /**
  * Queue to manage recently viewed items, with a fixed capacity. Oldest item is removed when capacity is exceeded. Does not allow duplicates.
@@ -21,41 +20,36 @@ public class RecentlyViewedQueue extends ArrayBlockingQueue&lt;SearchedItemPanel
     /** Queue to keep track of item IDs for quick lookup and to prevent duplicates. Faster than using SearchedItemPanel directly since a lot of work is done to create a panel before checking. */
     private final ArrayBlockingQueue&lt;String&gt; itemIds;
 
-    /** Reference to the manager for recently viewed items, used to update the recently viewed items window when interacting with the queue. */
-    private final RecentlyViewedManager recentlyViewedManager;
-
     /** Constructor for the RecentlyViewedQueue.
      * @param itemHashMap The ItemHashMap to use for retrieving item details.
-     * @param recentlyViewedManager The RecentlyViewedManager to use for updating the recently viewed items window.
      */
-    public RecentlyViewedQueue(ItemHashMap itemHashMap, RecentlyViewedManager recentlyViewedManager) {
-<span class="fc" id="L32">        super(CAPACITY);</span>
-<span class="fc" id="L33">        itemIds = new ArrayBlockingQueue&lt;&gt;(CAPACITY);</span>
-<span class="fc" id="L34">        this.itemHashMap = itemHashMap;</span>
-<span class="fc" id="L35">        this.recentlyViewedManager = recentlyViewedManager;</span>
-<span class="fc" id="L36">    }</span>
+    public RecentlyViewedQueue(ItemHashMap itemHashMap) {
+<span class="fc" id="L27">        super(CAPACITY);</span>
+<span class="fc" id="L28">        itemIds = new ArrayBlockingQueue&lt;&gt;(CAPACITY);</span>
+<span class="fc" id="L29">        this.itemHashMap = itemHashMap;</span>
+<span class="fc" id="L30">    }</span>
     
     /** Attempts to add an item to the recently viewed queue.
      * 
      * @pre itemId is not null and corresponds to a valid key in the itemHashMap.
-     * @post If the item is not already in the queue, it is added and the oldest item is removed. If the added item exists already, nothing happens except a message is printed to the console.
+     * @post If the item is not already in the queue, it is added and the oldest item is removed. If the item is already in the queue, it is moved to the top (most recent position) without duplication. If the queue is full, the oldest item is removed to make space for the new item.
      * @param itemId The ID of the item to add.
      */
     public void addAttempt(String itemId) {
-<span class="fc bfc" id="L45" title="All 2 branches covered.">        if (itemIds.contains(itemId)) {</span>
+<span class="fc bfc" id="L39" title="All 2 branches covered.">        if (itemIds.contains(itemId)) {</span>
             //Remove the itemId and its corresponding panel, then re-add to the end (top)
-<span class="fc" id="L47">            itemIds.remove(itemId);</span>
+<span class="fc" id="L41">            itemIds.remove(itemId);</span>
             //Remove the corresponding SearchedItemPanel
-<span class="fc" id="L49">            removeIf(panel -&gt; panel.getItemId().equals(itemId));</span>
-<span class="fc" id="L50">            System.out.println(&quot;Item with ID &quot; + itemId + &quot; is already in the recently viewed queue. Moving to top.&quot;);</span>
-<span class="fc bfc" id="L51" title="All 2 branches covered.">        } else if (itemIds.remainingCapacity() == 0) {</span>
-<span class="fc" id="L52">            itemIds.poll(); // Remove the oldest item ID</span>
-<span class="fc" id="L53">            poll(); // Remove the oldest item panel</span>
-<span class="fc" id="L54">            System.out.println(&quot;Recently viewed queue is full. Oldest item removed to make space for new item.&quot;);</span>
+<span class="fc" id="L43">            removeIf(panel -&gt; panel.getItemId().equals(itemId));</span>
+<span class="fc" id="L44">            System.out.println(&quot;Item with ID &quot; + itemId + &quot; is already in the recently viewed queue. Moving to top.&quot;);</span>
+<span class="fc bfc" id="L45" title="All 2 branches covered.">        } else if (itemIds.remainingCapacity() == 0) {</span>
+<span class="fc" id="L46">            itemIds.poll(); // Remove the oldest item ID</span>
+<span class="fc" id="L47">            poll(); // Remove the oldest item panel</span>
+<span class="fc" id="L48">            System.out.println(&quot;Recently viewed queue is full. Oldest item removed to make space for new item.&quot;);</span>
         }
-<span class="fc" id="L56">        add(itemId);</span>
-<span class="fc" id="L57">        System.out.println(&quot;Item with ID &quot; + itemId + &quot; added to recently viewed queue.&quot;);</span>
-<span class="fc" id="L58">    }</span>
+<span class="fc" id="L50">        add(itemId);</span>
+<span class="fc" id="L51">        System.out.println(&quot;Item with ID &quot; + itemId + &quot; added to recently viewed queue.&quot;);</span>
+<span class="fc" id="L52">    }</span>
 
     /** 
      * Adds an item to the recently viewed queue without checking for duplicates or capacity. Should only be called from addAttempt after those checks have been made.
@@ -64,19 +58,18 @@ public class RecentlyViewedQueue extends ArrayBlockingQueue&lt;SearchedItemPanel
      * @param itemId The ID of the item to add.
      */
     private void add(String itemId) {
-<span class="fc" id="L67">        itemIds.add(itemId);</span>
-<span class="fc" id="L68">        add(SearchedItemPanel.create(</span>
-<span class="fc" id="L69">            itemHashMap.getItem(itemId).orElseThrow(),</span>
-            recentlyViewedManager
+<span class="fc" id="L61">        itemIds.add(itemId);</span>
+<span class="fc" id="L62">        add(SearchedItemPanel.create(</span>
+<span class="fc" id="L63">            itemHashMap.getItem(itemId).orElseThrow()</span>
         ));
-<span class="fc" id="L72">    }</span>
+<span class="fc" id="L65">    }</span>
 
     /**
-     * Returns a List containing all items in the queue in order, without removing them.
-     * @return A List of SearchedItemPanel objects representing the items in the queue, in order from oldest to newest.
+     * Returns a List containing all items in the queue in reverse order, without removing them.
+     * @return A List of SearchedItemPanel objects representing the items in the queue, in order from newest to oldest.
      */
     public List&lt;SearchedItemPanel&gt; peekAll() {
-<span class="fc" id="L79">        return new ArrayList&lt;&gt;(this);</span>
+<span class="fc" id="L72">        return new ArrayList&lt;&gt;(this).reversed();</span>
     }
     
 }

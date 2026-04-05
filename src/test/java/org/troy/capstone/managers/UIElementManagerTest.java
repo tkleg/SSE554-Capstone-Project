@@ -21,13 +21,10 @@ import javafx.embed.swing.JFXPanel;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
-import tech.tablesaw.api.Table;
 
 public class UIElementManagerTest {
     private UIElementManager uiElementManager;
-    private static final Table table = TestDataHolder.getTableCopy();
     private static final ItemHashMap itemHashMap = TestDataHolder.getItemHashMapCopy();
-    private static GeneralManager generalManager;
     private static FiltersContainer dummyFiltersContainer;
 
     @BeforeAll
@@ -35,8 +32,7 @@ public class UIElementManagerTest {
     public static void setupAll() {
         new JFXPanel();
         
-        generalManager = new GeneralManager(table);
-        dummyFiltersContainer = FiltersContainer.create(generalManager, itemHashMap);
+        dummyFiltersContainer = FiltersContainer.create(itemHashMap);
     }
 
     @BeforeEach
@@ -64,7 +60,7 @@ public class UIElementManagerTest {
         uiElementManager.addElement(UIElementName.MAX_PRICE_SLIDER, new Slider(0, 100, 75));
         uiElementManager.addElement(UIElementName.SEARCH_FIELD, new TextField("Test Query"));
         uiElementManager.addElement(UIElementName.FILTERS_CONTAINER, dummyFiltersContainer);
-        uiElementManager.addElement(UIElementName.STAR_RATING_FILTER, StarRatingFilter.create(generalManager));
+        uiElementManager.addElement(UIElementName.STAR_RATING_FILTER, new StarRatingFilter());
 
         assert uiElementManager.getSearchData().size() == 5 : "Expected search data to contain 5 entries when all proper UI elements are added and properly cast, but got: " + uiElementManager.getSearchData();
     }
@@ -95,7 +91,7 @@ public class UIElementManagerTest {
     public void testGetSearchDataWithSomeProperUIElementsNotProperlyCast() {
         uiElementManager.addElement(UIElementName.MIN_PRICE_SLIDER, new HBox());
         uiElementManager.addElement(UIElementName.SEARCH_FIELD, new TextField("Test Query"));
-
+        uiElementManager.addElement(UIElementName.SORTING_OPTION_DROPDOWN, new HBox());
         assert uiElementManager.getSearchData().size() == 1 : "Expected search data to contain 1 entry when some proper UI elements are added but not properly cast, but got: " + uiElementManager.getSearchData();
     }
 
@@ -127,7 +123,7 @@ public class UIElementManagerTest {
         @Test
         @DisplayName("Test updateSearchedItemPagination with a pagination added to the manager")
         public void testUpdateSearchedItemPaginationWithPagination() {
-            uiElementManager.addElement(UIElementName.SEARCHED_ITEM_PAGINATION, SearchedItemPagination.create(itemHashMap, generalManager, null));
+            uiElementManager.addElement(UIElementName.SEARCHED_ITEM_PAGINATION, new SearchedItemPagination(itemHashMap));
 
             uiElementManager.updateSearchedItemPagination(List.of());
 

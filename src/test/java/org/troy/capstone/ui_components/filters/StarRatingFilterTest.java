@@ -8,6 +8,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.troy.capstone.TestDataHolder;
 import org.troy.capstone.constants.UIElementName;
+import org.troy.capstone.data_structures.item_table.ItemHashMap;
 import org.troy.capstone.managers.GeneralManager;
 
 import javafx.embed.swing.JFXPanel;
@@ -17,6 +18,7 @@ import tech.tablesaw.api.Table;
 public class StarRatingFilterTest {
     private StarRatingFilter starRatingFilter;
     private static final Table table = TestDataHolder.getTableCopy();
+    private static final ItemHashMap itemHashMap = TestDataHolder.getItemHashMapCopy();
     private GeneralManager generalManager;
     private static int MAX_STARS;
     private static String FILLED_STAR;
@@ -56,8 +58,9 @@ public class StarRatingFilterTest {
 
     @BeforeEach
     public void setUp() {
-        generalManager = new GeneralManager(table);
-        starRatingFilter = StarRatingFilter.create(generalManager);
+        generalManager = new GeneralManager(table, itemHashMap);
+        starRatingFilter = new StarRatingFilter();
+        generalManager.addUIElement(UIElementName.STAR_RATING_FILTER, starRatingFilter);
     }
 
     @Test

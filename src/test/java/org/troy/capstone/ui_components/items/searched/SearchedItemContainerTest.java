@@ -14,6 +14,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.troy.capstone.entities.Item;
+import org.troy.capstone.ui_components.items.SearchedItemPanel;
 
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
@@ -38,7 +39,7 @@ public class SearchedItemContainerTest {
 
     @BeforeEach
     public void setUp() {
-        container = SearchedItemContainer.create(List.of(Item.randomItem()), null);
+        container = SearchedItemContainer.create(List.of(Item.randomItem()));
     }
 
     @Test

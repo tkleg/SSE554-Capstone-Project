@@ -2,13 +2,11 @@ package org.troy.capstone.ui_components.items.searched;
 
 import java.util.List;
 
-import org.troy.capstone.constants.UIElementName;
 import org.troy.capstone.constants.UISizeControl;
 import org.troy.capstone.data_structures.SearchedItemsLinkedList;
 import org.troy.capstone.data_structures.item_table.ItemHashMap;
 import org.troy.capstone.entities.Item;
-import org.troy.capstone.managers.GeneralManager;
-import org.troy.capstone.managers.RecentlyViewedManager;
+import org.troy.capstone.interfaces.SearchedItemPanelInteractor;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -40,9 +38,8 @@ public class SearchedItemPagination extends VBox {
      * Constructor for SearchedItemPagination. Initializes the item hash map and sets up the pagination component.
      * @pre itemHashMap should contain valid item data to populate the pagination content.
      * @param itemHashMap The item hash map containing all items, used to populate the pagination content based on the current search results.
-     * @param recentlyViewedManager The manager for recently viewed items, used to update the recently viewed items window when navigating through search results.
     */
-    private SearchedItemPagination(ItemHashMap itemHashMap, RecentlyViewedManager recentlyViewedManager) {
+    public SearchedItemPagination(ItemHashMap itemHashMap) {
 
         this.itemHashMap = itemHashMap;
 
@@ -56,7 +53,7 @@ public class SearchedItemPagination extends VBox {
         setSpacing(UISizeControl.HEIGHT_PADDING.getValue());
 
         pageList = new SearchedItemsLinkedList(itemHashMap, initialIds);
-        mySearchedItemContainer = SearchedItemContainer.create(pageList.getHead(), recentlyViewedManager);
+        mySearchedItemContainer = SearchedItemContainer.create(pageList.getHead());
         this.getChildren().clear();
         this.setAlignment(Pos.TOP_CENTER);
         this.getChildren().add(mySearchedItemContainer);
@@ -66,18 +63,6 @@ public class SearchedItemPagination extends VBox {
         prevButton.setOnAction(event -> { mySearchedItemContainer.updateItems(getPreviousPage()); });
         nextButton.setOnAction(event -> { mySearchedItemContainer.updateItems(getNextPage()); });
 
-    }
-
-    /** Factory method to create a SearchedItemPagination instance and register it with the GeneralManager.
-     * @param itemHashMap The item hash map containing all items, used to populate the pagination content.
-     * @param generalManager The GeneralManager instance to register the pagination component with.
-     * @param recentlyViewedManager The manager for recently viewed items, used to update the recently viewed items window when navigating through search results.
-     * @return A new instance of SearchedItemPagination.
-     */
-    public static SearchedItemPagination create(ItemHashMap itemHashMap, GeneralManager generalManager, RecentlyViewedManager recentlyViewedManager) {
-        SearchedItemPagination pagination = new SearchedItemPagination(itemHashMap, recentlyViewedManager);
-        generalManager.addUIElement(UIElementName.SEARCHED_ITEM_PAGINATION, pagination);
-        return pagination;
     }
 
      /**
@@ -91,7 +76,7 @@ public class SearchedItemPagination extends VBox {
      */
     public final void update(List<String> itemIdList) {
         pageList = new SearchedItemsLinkedList(itemHashMap, itemIdList);
-        mySearchedItemContainer.updateItems( pageList.getHead() );
+        mySearchedItemContainer.updateItems(pageList.getHead());
     }
 
     /**
@@ -102,6 +87,15 @@ public class SearchedItemPagination extends VBox {
      */
     private List<Item> getPreviousPage() {
         return pageList.getPrevious();
+    }
+
+    /** Adds a SearchedItemPanelInteractor to the SearchedItemContainer to allow for interaction with the item panels in the search results.
+     * @pre interactor should be properly implemented to handle interactions with the item panels, and the SearchedItemContainer should be properly initialized to allow for adding interactors.
+     * @post The provided interactor is added to the SearchedItemContainer, allowing it to pass SearchedItemPanelInteractors to the SearchedItemPanels in the search results.
+     * @param interactor The SearchedItemPanelInteractor to add to the SearchedItemContainer for handling interactions with the item panels in the search results.
+     */
+    public void addSearchedItemPanelInteractor(SearchedItemPanelInteractor interactor) {
+        mySearchedItemContainer.addSearchedItemPanelInteractor(interactor);
     }
 
     /**

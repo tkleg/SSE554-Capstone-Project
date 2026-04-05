@@ -1,24 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DataPath.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Project</a> &gt; <a href="index.source.html" class="el_package">org.troy.capstone.constants</a> &gt; <span class="el_source">DataPath.java</span></div><h1>DataPath.java</h1><pre class="source lang-java linenums">package org.troy.capstone.constants;
 
 /**
- * This enum defines the file paths for the cleaned, attributed, and cleaned &amp;amp; attributed CSV files. It also includes the root path for use in Jupyter notebooks, which cannot access files through the same relative paths as the Java code.
+ * This enum defines the file paths for the cleaned, attributed, and cleaned &amp;amp; attributed CSV files.
  */
 <span class="fc" id="L6">public enum DataPath {</span>
-    /** Path to the cleaned data CSV file starting from the project root. */
-<span class="fc" id="L8">    CLEANED_DATA_CSV(&quot;data\\1000_items_catalog_v2_cleaned.csv&quot;),</span>
-    /** Path to the attributed data CSV file starting from the project root. */
-<span class="fc" id="L10">    ATTRIBUTED_DATA_CSV(&quot;data\\1000_items_catalog_v2_attributed.csv&quot;),</span>
-    /** Path to the cleaned and attributed data CSV file starting from the project root. */
-<span class="fc" id="L12">    CLEANED_ATTRIBUTED_DATA_CSV(&quot;data\\1000_items_catalog_v2_cleaned_attributed.csv&quot;),</span>
-
-    /** Root path for use in Jupyter notebooks. */
-<span class="fc" id="L15">    ROOT(&quot;C:\\Users\\thkle\\SSE554\\SSE554-Capstone-Project\\&quot;),</span>
-    /** Full path to the cleaned data CSV file. */
-<span class="fc" id="L17">    CLEANED_DATA_CSV_LONG(ROOT.path + CLEANED_DATA_CSV.path),</span>
-    /** Full path to the attributed data CSV file. */
-<span class="fc" id="L19">    ATTRIBUTED_DATA_CSV_LONG(ROOT.path + ATTRIBUTED_DATA_CSV.path),</span>
-    /** Full path to the cleaned and attributed data CSV file. */
-<span class="fc" id="L21">    CLEANED_ATTRIBUTED_DATA_CSV_LONG(ROOT.path + CLEANED_ATTRIBUTED_DATA_CSV.path);</span>
+    /** Path to the cleaned data CSV file. */
+<span class="fc" id="L8">    CLEANED_DATA(&quot;C:\\Users\\thkle\\SSE554\\SSE554-Capstone-Project\\data\\\\1000_items_catalog_v2_cleaned.csv&quot;),</span>
+    /** Path to the attributed data CSV file. */
+<span class="fc" id="L10">    ATTRIBUTED_DATA(&quot;C:\\Users\\thkle\\SSE554\\SSE554-Capstone-Project\\data\\\\1000_items_catalog_v2_attributed.csv&quot;),</span>
+    /** Path to the cleaned and attributed data CSV file. */
+<span class="fc" id="L12">    CLEANED_ATTRIBUTED_DATA(&quot;C:\\Users\\thkle\\SSE554\\SSE554-Capstone-Project\\data\\\\1000_items_catalog_v2_cleaned_attributed.csv&quot;);</span>
 
     /** The path represented by this enum constant. */
     private final String path;
@@ -27,10 +18,9 @@
      * 
      * @param path The file path associated with the enum constant.
     */
-<span class="fc" id="L30">    DataPath(String path) {</span>
-<span class="fc" id="L31">        this.path = path;</span>
-<span class="fc" id="L32">    }</span>
-
+<span class="fc" id="L21">    DataPath(String path) {</span>
+<span class="fc" id="L22">        this.path = path;</span>
+<span class="fc" id="L23">    }</span>
 
     /**
      * Getter for the path associated with this enum constant.
@@ -39,7 +29,7 @@
      */
     @Override
     public String toString() {
-<span class="fc" id="L42">        return path;</span>
+<span class="fc" id="L32">        return path;</span>
     }
 
 }

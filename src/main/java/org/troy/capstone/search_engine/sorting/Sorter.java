@@ -2,7 +2,9 @@ package org.troy.capstone.search_engine.sorting;
 
 import java.util.List;
 
+import org.troy.capstone.search_engine.sorting.comparator.RowComparator;
 import org.troy.capstone.utils.TableUtils;
+
 import tech.tablesaw.api.Row;
 import tech.tablesaw.api.Table;
 
@@ -23,11 +25,16 @@ public class Sorter {
      * @post The returned table is a new Table instance that contains the same rows as the input table but sorted according to the order defined by the comparator. The original table remains unchanged.
      * 
      * @param table The Table to be sorted.
-     * @param comparator The RowComparator that defines the sorting order.
+     * @param comparatorObj The RowComparator that defines the sorting order. This is an Object to make it possible to pass a comparator from another class without the import of the RowComparator class.
      * @param time An optional LongWrapper to store the time taken to perform the sort. If null, time will not be recorded.
      * @return A new Table instance containing the sorted rows from the input table.
      */
-    public static Table sortTable(Table table, RowComparator comparator, LongWrapper time) {
+    public static Table sortTable(Table table, Object comparatorObj, LongWrapper time) {
+        if( comparatorObj == null || !(comparatorObj instanceof RowComparator) ) {
+            System.out.println("Invalid comparator provided to Sorter.sortTable. Was provided: " + comparatorObj + ". Returning original table.");
+            return table;
+        }
+        RowComparator comparator = (RowComparator) comparatorObj;
         System.out.println("Sorting using " + comparator.toString() + " comparator...");
         List<Row> rows = TableUtils.tableToRowList(table);
         long start = 0;
@@ -49,6 +56,19 @@ public class Sorter {
         Table sortedTable = table.emptyCopy();
         rows.forEach(sortedTable::append);
         return sortedTable;
+    }
+
+    /** Overloaded method to allow calling sortTable without a LongWrapper for time measurement. 
+     * 
+     * @pre table is not null and contains the necessary columns for the comparator to function properly.
+     * comparator is a valid RowComparator that can compare the rows in the table.
+     * @post The returned table is a new Table instance that contains the same rows as the input table but sorted according to the order defined by the comparator. The original table remains unchanged.
+     * @param table The Table to be sorted.
+     * @param comparator The RowComparator that defines the sorting order. This is an Object to make it possible to pass a comparator from another class without the import of the RowComparator class.
+     * @return A new Table instance containing the sorted rows from the input table.
+    */
+    public static Table sortTable(Table table, Object comparator) {
+        return sortTable(table, comparator, null);
     }
 
 }

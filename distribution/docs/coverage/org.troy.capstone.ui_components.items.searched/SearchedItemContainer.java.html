@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SearchedItemContainer.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Project</a> &gt; <a href="index.source.html" class="el_package">org.troy.capstone.ui_components.items.searched</a> &gt; <span class="el_source">SearchedItemContainer.java</span></div><h1>SearchedItemContainer.java</h1><pre class="source lang-java linenums">package org.troy.capstone.ui_components.items.searched;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.troy.capstone.constants.UISizeControl;
 import org.troy.capstone.entities.Item;
-import org.troy.capstone.managers.RecentlyViewedManager;
+import org.troy.capstone.interfaces.SearchedItemPanelInteractor;
+import org.troy.capstone.ui_components.items.SearchedItemPanel;
 import org.troy.capstone.utils.UIUtils;
 
 import javafx.geometry.Pos;
@@ -18,47 +20,42 @@ import javafx.scene.layout.VBox;
 public class SearchedItemContainer extends ScrollPane {
     /** The container for all searched item panels */
     private final VBox itemContainer;
-    
 
-    /** The manager for recently viewed items, used to update the recently viewed items window when navigating through search results. */
-    private final RecentlyViewedManager recentlyViewedManager;
+    /** List of interactors to handle interactions with the item panels in the search results. */
+<span class="fc" id="L25">    private final List&lt;SearchedItemPanelInteractor&gt; interactors = new ArrayList&lt;&gt;();</span>
 
     /**
      * Creates a SearchedItemContainer with a vertical box layout for displaying search result panels.
-     * @param recentlyViewedManager The manager for recently viewed items, used to update the recently viewed items window when navigating through search results.
      */
-    private SearchedItemContainer(RecentlyViewedManager recentlyViewedManager) {
+    private SearchedItemContainer() {
 <span class="fc" id="L31">        super();</span>
 
-<span class="fc" id="L33">        this.recentlyViewedManager = recentlyViewedManager;</span>
-
-<span class="fc" id="L35">        itemContainer = new VBox(UISizeControl.SEARCHED_ITEM_PANEL_SPACING.getValue()); // 5px spacing between items</span>
-<span class="fc" id="L36">        itemContainer.setAlignment(Pos.TOP_CENTER); // Center-align items consistently</span>
-<span class="fc" id="L37">        setContent(itemContainer);</span>
-<span class="fc" id="L38">        setFitToWidth(true);</span>
+<span class="fc" id="L33">        itemContainer = new VBox(UISizeControl.SEARCHED_ITEM_PANEL_SPACING.getValue()); // 5px spacing between items</span>
+<span class="fc" id="L34">        itemContainer.setAlignment(Pos.TOP_CENTER); // Center-align items consistently</span>
+<span class="fc" id="L35">        setContent(itemContainer);</span>
+<span class="fc" id="L36">        setFitToWidth(true);</span>
 
         //Optimize scroll performance
-<span class="fc" id="L41">        setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);</span>
-<span class="fc" id="L42">        setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);</span>
-<span class="fc" id="L43">        setPannable(false);</span>
+<span class="fc" id="L39">        setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);</span>
+<span class="fc" id="L40">        setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);</span>
+<span class="fc" id="L41">        setPannable(false);</span>
         
         //Cache nodes to improve scroll performance
-<span class="fc" id="L46">        itemContainer.setCache(true);</span>
-<span class="fc" id="L47">        itemContainer.setCacheHint(javafx.scene.CacheHint.SPEED);</span>
+<span class="fc" id="L44">        itemContainer.setCache(true);</span>
+<span class="fc" id="L45">        itemContainer.setCacheHint(javafx.scene.CacheHint.SPEED);</span>
 
-<span class="fc" id="L49">    }</span>
+<span class="fc" id="L47">    }</span>
 
     /** Factory method to create a SearchedItemContainer with the given list of items.
      * @param items The list of items to display in the container.
-     * @param recentlyViewedManager The manager for recently viewed items, used to update the recently viewed items window when navigating through search results.
      * @return A new instance of SearchedItemContainer populated with the given items.
      */
-    public static SearchedItemContainer create(List&lt;Item&gt; items, RecentlyViewedManager recentlyViewedManager) {
-<span class="fc" id="L57">        SearchedItemContainer container = new SearchedItemContainer(recentlyViewedManager);</span>
-<span class="fc" id="L58">        UIUtils.setSize(container, UISizeControl.SEARCHED_ITEM_CONTAINER_WIDTH.getValue(), UISizeControl.SEARCHED_ITEM_CONTAINER_HEIGHT.getValue());</span>
-<span class="fc" id="L59">        UIUtils.setLineBorder(container, 5, 1);</span>
-<span class="fc" id="L60">        container.updateItems(items);</span>
-<span class="fc" id="L61">        return container;</span>
+    public static SearchedItemContainer create(List&lt;Item&gt; items) {
+<span class="fc" id="L54">        SearchedItemContainer container = new SearchedItemContainer();</span>
+<span class="fc" id="L55">        UIUtils.setSize(container, UISizeControl.SEARCHED_ITEM_CONTAINER_WIDTH.getValue(), UISizeControl.SEARCHED_ITEM_CONTAINER_HEIGHT.getValue());</span>
+<span class="fc" id="L56">        UIUtils.setLineBorder(container, 5, 1);</span>
+<span class="fc" id="L57">        container.updateItems(items);</span>
+<span class="fc" id="L58">        return container;</span>
     }
 
     /**
@@ -70,9 +67,23 @@ public class SearchedItemContainer extends ScrollPane {
      * @param itemPanel The SearchedItemPanel to add.
      */ 
     private void addItemPanel(SearchedItemPanel itemPanel) {
-<span class="fc bfc" id="L73" title="All 2 branches covered.">        if( itemPanel != null )</span>
-<span class="fc" id="L74">            itemContainer.getChildren().add(itemPanel);</span>
-<span class="fc" id="L75">    }</span>
+<span class="fc bfc" id="L70" title="All 2 branches covered.">        if( itemPanel != null ){</span>
+<span class="fc" id="L71">            itemContainer.getChildren().add(itemPanel);</span>
+<span class="fc" id="L72">            interactors.forEach(interactor -&gt; itemPanel.setSearchedItemPanelInteractor(interactor));</span>
+        }
+<span class="fc" id="L74">    }</span>
+
+    /** Adds a SearchedItemPanelInteractor to the SearchedItemContainer to allow for interaction with the item panels in the search results.
+     * @pre interactor should be properly implemented to handle interactions with the item panels, and the SearchedItemContainer should be properly initialized to allow for adding interactors.
+     * @post The provided interactor is added to the SearchedItemContainer, allowing it to receive interaction events from the item panels in the search results.
+     * @param interactor The SearchedItemPanelInteractor to add to the SearchedItemContainer for handling interactions with the item panels in the search results.
+     */
+    public void addSearchedItemPanelInteractor(SearchedItemPanelInteractor interactor) {
+<span class="fc" id="L82">        interactors.add(interactor);</span>
+        //Set interactors for initial panels
+<span class="fc" id="L84">        itemContainer.getChildren().stream().filter(node -&gt; node instanceof SearchedItemPanel)</span>
+<span class="fc" id="L85">            .forEach(node -&gt; ((SearchedItemPanel) node).setSearchedItemPanelInteractor(interactor));</span>
+<span class="fc" id="L86">    }</span>
 
     /** Updates the items displayed in the container with a new list of items.
      * @pre items should be a valid list of Item objects to display in the container. The SearchedItemContainer should be properly initialized to allow for updating the displayed items.
@@ -80,21 +91,21 @@ public class SearchedItemContainer extends ScrollPane {
      * @param items The new list of items to display in the container.
      */
     public final void updateItems(List&lt;Item&gt; items) {
-<span class="fc bfc" id="L83" title="All 2 branches covered.">        if( items == null ){</span>
-<span class="fc" id="L84">            System.out.println(&quot;Warning: updateItems called with null list. Doing nothing.&quot;);</span>
-<span class="fc bfc" id="L85" title="All 2 branches covered.">        }else if (items.isEmpty()) {</span>
-<span class="fc" id="L86">            stopAllImagesLoading();</span>
-<span class="fc" id="L87">            itemContainer.getChildren().clear();</span>
-<span class="fc" id="L88">            itemContainer.getChildren().add(new Label(&quot;No items found.&quot;));</span>
+<span class="fc bfc" id="L94" title="All 2 branches covered.">        if( items == null ){</span>
+<span class="fc" id="L95">            System.out.println(&quot;Warning: updateItems called with null list. Doing nothing.&quot;);</span>
+<span class="fc bfc" id="L96" title="All 2 branches covered.">        }else if (items.isEmpty()) {</span>
+<span class="fc" id="L97">            stopAllImagesLoading();</span>
+<span class="fc" id="L98">            itemContainer.getChildren().clear();</span>
+<span class="fc" id="L99">            itemContainer.getChildren().add(new Label(&quot;No items found.&quot;));</span>
         }else{
-<span class="fc" id="L90">            stopAllImagesLoading();</span>
-<span class="fc" id="L91">            itemContainer.getChildren().clear();</span>
-<span class="fc" id="L92">            items.forEach(item -&gt; {</span>
-<span class="fc bfc" id="L93" title="All 2 branches covered.">                if (item != null)</span>
-<span class="fc" id="L94">                    addItemPanel(SearchedItemPanel.create(item, recentlyViewedManager));</span>
-<span class="fc" id="L95">            });</span>
+<span class="fc" id="L101">            stopAllImagesLoading();</span>
+<span class="fc" id="L102">            itemContainer.getChildren().clear();</span>
+<span class="fc" id="L103">            items.forEach(item -&gt; {</span>
+<span class="fc bfc" id="L104" title="All 2 branches covered.">                if (item != null)</span>
+<span class="fc" id="L105">                    addItemPanel(SearchedItemPanel.create(item));</span>
+<span class="fc" id="L106">            });</span>
         }
-<span class="fc" id="L97">    }</span>
+<span class="fc" id="L108">    }</span>
 
     /**
      * Stops all image loading tasks from running
@@ -102,10 +113,9 @@ public class SearchedItemContainer extends ScrollPane {
      * @post All asynchronous image loading tasks for the SearchedItemPanel instances currently displayed in the container are stopped, preventing any further loading of images that are not being displayed.
      */
     public void stopAllImagesLoading() {
-<span class="fc" id="L105">        itemContainer.getChildren().forEach(node -&gt; {</span>
-<span class="fc" id="L106">            ((SearchedItemPanel) node).stopLoadingImage();</span>
-<span class="fc" id="L107">        });</span>
-<span class="fc" id="L108">    }</span>
+<span class="fc" id="L116">        itemContainer.getChildren().stream().filter(node -&gt; node instanceof SearchedItemPanel)</span>
+<span class="fc" id="L117">            .forEach(node -&gt; ((SearchedItemPanel) node).stopLoadingImage());</span>
+<span class="fc" id="L118">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

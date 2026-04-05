@@ -7,10 +7,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.troy.capstone.constants.TableColumnName;
-import org.troy.capstone.constants.UIElementName;
 import org.troy.capstone.constants.UISizeControl;
 import org.troy.capstone.data_structures.item_table.ItemHashMap;
-import org.troy.capstone.managers.GeneralManager;
 import org.troy.capstone.utils.UIUtils;
 
 import javafx.scene.control.CheckBox;
@@ -31,38 +29,33 @@ public class FiltersContainer extends ScrollPane {
     /**
      * Factory method to create a FiltersContainer with the appropriate size and add it to the UIElementManager.
      * 
-     * @param generalManager The general manager to add the created FiltersContainer to for access by other components.
      * @param itemHashMap The item hash map containing all items, used to extract unique values for filter generation.
      * @return The created FiltersContainer instance with filters generated from the item data.
      */
-    public static FiltersContainer create( GeneralManager generalManager, ItemHashMap itemHashMap ) {
-<span class="fc" id="L39">        FiltersContainer container = new FiltersContainer(generalManager, itemHashMap);</span>
-<span class="fc" id="L40">        UIUtils.setSize(container, UISizeControl.FILTERS_CONTAINER_WIDTH.getValue(), UISizeControl.FILTERS_CONTAINER_HEIGHT.getValue());</span>
-<span class="fc" id="L41">        generalManager.addUIElement(UIElementName.FILTERS_CONTAINER, container);</span>
-
-<span class="fc" id="L43">        return container;</span>
+    public static FiltersContainer create( ItemHashMap itemHashMap ) {
+<span class="fc" id="L36">        FiltersContainer container = new FiltersContainer(itemHashMap);</span>
+<span class="fc" id="L37">        UIUtils.setSize(container, UISizeControl.FILTERS_CONTAINER_WIDTH.getValue(), UISizeControl.FILTERS_CONTAINER_HEIGHT.getValue());</span>
+<span class="fc" id="L38">        return container;</span>
     }
 
     /**
      * Constructor for FiltersContainer. Initializes the filter options map and content container, 
      *  then generates filters based on the provided item data.
      * 
-     * @pre itemHashMap should contain valid item data with categorical attributes corresponding to the expected filter types
-     *  and the generalManager should be properly initialized to allow for adding the created FiltersContainer to it.
+     * @pre itemHashMap should contain valid item data with categorical attributes corresponding to the expected filter types.
      * 
-     * @param generalManager The general manager to add the created FiltersContainer to for access by other components.
      * @param itemHashMap The item hash map containing all items, used to extract unique values for filter generation.
      */
-<span class="fc" id="L56">    public FiltersContainer( GeneralManager generalManager, ItemHashMap itemHashMap ) {</span>
-<span class="fc" id="L57">        filterOptions = new HashMap&lt;&gt;();</span>
-<span class="fc" id="L58">        contentContainer = new VBox();</span>
-<span class="fc" id="L59">        contentContainer.setSpacing(10);</span>
-<span class="fc" id="L60">        contentContainer.setFillWidth(true);</span>
-<span class="fc" id="L61">        setContent(contentContainer);</span>
-<span class="fc" id="L62">        setFitToWidth(true);</span>
+<span class="fc" id="L49">    public FiltersContainer( ItemHashMap itemHashMap ) {</span>
+<span class="fc" id="L50">        filterOptions = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L51">        contentContainer = new VBox();</span>
+<span class="fc" id="L52">        contentContainer.setSpacing(10);</span>
+<span class="fc" id="L53">        contentContainer.setFillWidth(true);</span>
+<span class="fc" id="L54">        setContent(contentContainer);</span>
+<span class="fc" id="L55">        setFitToWidth(true);</span>
 
-<span class="fc" id="L64">        createFiltersFromTable(itemHashMap);</span>
-<span class="fc" id="L65">    }</span>
+<span class="fc" id="L57">        createFiltersFromTable(itemHashMap);</span>
+<span class="fc" id="L58">    }</span>
 
     /**
      * Generates filter panels based on the unique values of categorical attributes in the item data.
@@ -75,21 +68,21 @@ public class FiltersContainer extends ScrollPane {
      * @param itemHashMap The item hash map containing all items, used to extract unique values for filter generation.
      */
     private void createFiltersFromTable(ItemHashMap itemHashMap) {
-<span class="fc bfc" id="L78" title="All 2 branches covered.">        for (TableColumnName column : TableColumnName.getCategoricalColumns()) {</span>
+<span class="fc bfc" id="L71" title="All 2 branches covered.">        for (TableColumnName column : TableColumnName.getCategoricalColumns()) {</span>
             Set&lt;String&gt; uniqueValues;
-<span class="fc bfc" id="L80" title="All 2 branches covered.">            if( column.getColumnName().equals(TableColumnName.TAGS.getColumnName()) ){// Special handling for tags since it's a set of strings</span>
-<span class="fc" id="L81">                uniqueValues = itemHashMap.values().stream()</span>
-<span class="fc" id="L82">                .flatMap(item -&gt; item.getTags().stream())</span>
-<span class="fc" id="L83">                .collect(Collectors.toSet());</span>
+<span class="fc bfc" id="L73" title="All 2 branches covered.">            if( column.getColumnName().equals(TableColumnName.TAGS.getColumnName()) ){// Special handling for tags since it's a set of strings</span>
+<span class="fc" id="L74">                uniqueValues = itemHashMap.values().stream()</span>
+<span class="fc" id="L75">                .flatMap(item -&gt; item.getTags().stream())</span>
+<span class="fc" id="L76">                .collect(Collectors.toSet());</span>
             } else {
-<span class="fc" id="L85">                uniqueValues = itemHashMap.values().stream()</span>
-<span class="fc" id="L86">                    .map(item -&gt; (String) item.getAttribute(column))</span>
-<span class="fc" id="L87">                    .collect(Collectors.toSet());</span>
+<span class="fc" id="L78">                uniqueValues = itemHashMap.values().stream()</span>
+<span class="fc" id="L79">                    .map(item -&gt; (String) item.getAttribute(column))</span>
+<span class="fc" id="L80">                    .collect(Collectors.toSet());</span>
             }
-<span class="fc" id="L89">            String filterTitle = column.getColumnName().substring(0, 1).toUpperCase() + column.getColumnName().substring(1).toLowerCase();</span>
-<span class="fc" id="L90">            addFilterPanel(filterTitle, uniqueValues);</span>
-<span class="fc" id="L91">        }</span>
-<span class="fc" id="L92">    }</span>
+<span class="fc" id="L82">            String filterTitle = column.getColumnName().substring(0, 1).toUpperCase() + column.getColumnName().substring(1).toLowerCase();</span>
+<span class="fc" id="L83">            addFilterPanel(filterTitle, uniqueValues);</span>
+<span class="fc" id="L84">        }</span>
+<span class="fc" id="L85">    }</span>
 
     /**
      * Adds a filter panel to the FiltersContainer with the given title and options. Each option is represented as a CheckBox.
@@ -102,15 +95,15 @@ public class FiltersContainer extends ScrollPane {
      * @param options The set of strings representing the filter options to create CheckBoxes for.
      */
     public void addFilterPanel( String title, Set&lt;String&gt; options ) {
-<span class="fc" id="L105">        Set&lt;CheckBox&gt; checkBoxes = new HashSet&lt;&gt;();</span>
-<span class="fc bfc" id="L106" title="All 2 branches covered.">        for (String option : options)</span>
-<span class="fc" id="L107">            checkBoxes.add(new CheckBox(option));</span>
-<span class="fc" id="L108">        filterOptions.put( title, checkBoxes );</span>
-<span class="fc" id="L109">        FilterPanel filterPanel = new FilterPanel(title, checkBoxes);</span>
-<span class="fc" id="L110">        UIUtils.setLineBorder(filterPanel, 2, 2);</span>
-<span class="fc" id="L111">        filterPanel.setMaxWidth(Double.MAX_VALUE); // Allow the panel to expand to fill available width</span>
-<span class="fc" id="L112">        contentContainer.getChildren().add(filterPanel);</span>
-<span class="fc" id="L113">    }</span>
+<span class="fc" id="L98">        Set&lt;CheckBox&gt; checkBoxes = new HashSet&lt;&gt;();</span>
+<span class="fc bfc" id="L99" title="All 2 branches covered.">        for (String option : options)</span>
+<span class="fc" id="L100">            checkBoxes.add(new CheckBox(option));</span>
+<span class="fc" id="L101">        filterOptions.put( title, checkBoxes );</span>
+<span class="fc" id="L102">        FilterPanel filterPanel = new FilterPanel(title, checkBoxes);</span>
+<span class="fc" id="L103">        UIUtils.setLineBorder(filterPanel, 2, 2);</span>
+<span class="fc" id="L104">        filterPanel.setMaxWidth(Double.MAX_VALUE); // Allow the panel to expand to fill available width</span>
+<span class="fc" id="L105">        contentContainer.getChildren().add(filterPanel);</span>
+<span class="fc" id="L106">    }</span>
 
     /**
      * Retrieves the currently selected filters as a map where the keys are filter types (e.g., &quot;Publisher&quot;, &quot;Category&quot;)
@@ -122,16 +115,16 @@ public class FiltersContainer extends ScrollPane {
      * @return selectedFilters A map containing the currently selected filters.
      */
     public Map&lt;String, Set&lt;String&gt;&gt; getSelectedFilters() {
-<span class="fc" id="L125">        Map&lt;String, Set&lt;String&gt;&gt; selectedFilters = new HashMap&lt;&gt;();</span>
-<span class="fc bfc" id="L126" title="All 2 branches covered.">        for (String filterType : filterOptions.keySet()) {</span>
-<span class="fc" id="L127">            Set&lt;String&gt; selectedOptions = filterOptions.get(filterType)</span>
-<span class="fc" id="L128">                    .stream()</span>
-<span class="fc" id="L129">                    .filter(CheckBox::isSelected)</span>
-<span class="fc" id="L130">                    .map(CheckBox::getText)</span>
-<span class="fc" id="L131">                    .collect(Collectors.toSet());</span>
-<span class="fc" id="L132">            selectedFilters.put(filterType, selectedOptions);</span>
-<span class="fc" id="L133">        }</span>
-<span class="fc" id="L134">        return selectedFilters;</span>
+<span class="fc" id="L118">        Map&lt;String, Set&lt;String&gt;&gt; selectedFilters = new HashMap&lt;&gt;();</span>
+<span class="fc bfc" id="L119" title="All 2 branches covered.">        for (String filterType : filterOptions.keySet()) {</span>
+<span class="fc" id="L120">            Set&lt;String&gt; selectedOptions = filterOptions.get(filterType)</span>
+<span class="fc" id="L121">                    .stream()</span>
+<span class="fc" id="L122">                    .filter(CheckBox::isSelected)</span>
+<span class="fc" id="L123">                    .map(CheckBox::getText)</span>
+<span class="fc" id="L124">                    .collect(Collectors.toSet());</span>
+<span class="fc" id="L125">            selectedFilters.put(filterType, selectedOptions);</span>
+<span class="fc" id="L126">        }</span>
+<span class="fc" id="L127">        return selectedFilters;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

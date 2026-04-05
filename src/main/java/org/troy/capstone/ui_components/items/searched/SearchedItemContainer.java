@@ -1,10 +1,12 @@
 package org.troy.capstone.ui_components.items.searched;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.troy.capstone.constants.UISizeControl;
 import org.troy.capstone.entities.Item;
-import org.troy.capstone.managers.RecentlyViewedManager;
+import org.troy.capstone.interfaces.SearchedItemPanelInteractor;
+import org.troy.capstone.ui_components.items.SearchedItemPanel;
 import org.troy.capstone.utils.UIUtils;
 
 import javafx.geometry.Pos;
@@ -18,19 +20,15 @@ import javafx.scene.layout.VBox;
 public class SearchedItemContainer extends ScrollPane {
     /** The container for all searched item panels */
     private final VBox itemContainer;
-    
 
-    /** The manager for recently viewed items, used to update the recently viewed items window when navigating through search results. */
-    private final RecentlyViewedManager recentlyViewedManager;
+    /** List of interactors to handle interactions with the item panels in the search results. */
+    private final List<SearchedItemPanelInteractor> interactors = new ArrayList<>();
 
     /**
      * Creates a SearchedItemContainer with a vertical box layout for displaying search result panels.
-     * @param recentlyViewedManager The manager for recently viewed items, used to update the recently viewed items window when navigating through search results.
      */
-    private SearchedItemContainer(RecentlyViewedManager recentlyViewedManager) {
+    private SearchedItemContainer() {
         super();
-
-        this.recentlyViewedManager = recentlyViewedManager;
 
         itemContainer = new VBox(UISizeControl.SEARCHED_ITEM_PANEL_SPACING.getValue()); // 5px spacing between items
         itemContainer.setAlignment(Pos.TOP_CENTER); // Center-align items consistently
@@ -50,11 +48,10 @@ public class SearchedItemContainer extends ScrollPane {
 
     /** Factory method to create a SearchedItemContainer with the given list of items.
      * @param items The list of items to display in the container.
-     * @param recentlyViewedManager The manager for recently viewed items, used to update the recently viewed items window when navigating through search results.
      * @return A new instance of SearchedItemContainer populated with the given items.
      */
-    public static SearchedItemContainer create(List<Item> items, RecentlyViewedManager recentlyViewedManager) {
-        SearchedItemContainer container = new SearchedItemContainer(recentlyViewedManager);
+    public static SearchedItemContainer create(List<Item> items) {
+        SearchedItemContainer container = new SearchedItemContainer();
         UIUtils.setSize(container, UISizeControl.SEARCHED_ITEM_CONTAINER_WIDTH.getValue(), UISizeControl.SEARCHED_ITEM_CONTAINER_HEIGHT.getValue());
         UIUtils.setLineBorder(container, 5, 1);
         container.updateItems(items);
@@ -70,8 +67,22 @@ public class SearchedItemContainer extends ScrollPane {
      * @param itemPanel The SearchedItemPanel to add.
      */ 
     private void addItemPanel(SearchedItemPanel itemPanel) {
-        if( itemPanel != null )
+        if( itemPanel != null ){
             itemContainer.getChildren().add(itemPanel);
+            interactors.forEach(interactor -> itemPanel.setSearchedItemPanelInteractor(interactor));
+        }
+    }
+
+    /** Adds a SearchedItemPanelInteractor to the SearchedItemContainer to allow for interaction with the item panels in the search results.
+     * @pre interactor should be properly implemented to handle interactions with the item panels, and the SearchedItemContainer should be properly initialized to allow for adding interactors.
+     * @post The provided interactor is added to the SearchedItemContainer, allowing it to receive interaction events from the item panels in the search results.
+     * @param interactor The SearchedItemPanelInteractor to add to the SearchedItemContainer for handling interactions with the item panels in the search results.
+     */
+    public void addSearchedItemPanelInteractor(SearchedItemPanelInteractor interactor) {
+        interactors.add(interactor);
+        //Set interactors for initial panels
+        itemContainer.getChildren().stream().filter(node -> node instanceof SearchedItemPanel)
+            .forEach(node -> ((SearchedItemPanel) node).setSearchedItemPanelInteractor(interactor));
     }
 
     /** Updates the items displayed in the container with a new list of items.
@@ -91,7 +102,7 @@ public class SearchedItemContainer extends ScrollPane {
             itemContainer.getChildren().clear();
             items.forEach(item -> {
                 if (item != null)
-                    addItemPanel(SearchedItemPanel.create(item, recentlyViewedManager));
+                    addItemPanel(SearchedItemPanel.create(item));
             });
         }
     }
@@ -102,9 +113,8 @@ public class SearchedItemContainer extends ScrollPane {
      * @post All asynchronous image loading tasks for the SearchedItemPanel instances currently displayed in the container are stopped, preventing any further loading of images that are not being displayed.
      */
     public void stopAllImagesLoading() {
-        itemContainer.getChildren().forEach(node -> {
-            ((SearchedItemPanel) node).stopLoadingImage();
-        });
+        itemContainer.getChildren().stream().filter(node -> node instanceof SearchedItemPanel)
+            .forEach(node -> ((SearchedItemPanel) node).stopLoadingImage());
     }
 
 }

@@ -3,9 +3,11 @@ org.troy.capstone.constants
 org.troy.capstone.data_structures
 org.troy.capstone.data_structures.item_table
 org.troy.capstone.entities
+org.troy.capstone.interfaces
 org.troy.capstone.managers
 org.troy.capstone.search_engine
 org.troy.capstone.search_engine.sorting
+org.troy.capstone.search_engine.sorting.comparator
 org.troy.capstone.ui_components
 org.troy.capstone.ui_components.filters
 org.troy.capstone.ui_components.filters.categorical

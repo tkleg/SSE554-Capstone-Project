@@ -24,11 +24,12 @@ import org.troy.capstone.managers.GeneralManager;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import tech.tablesaw.api.Table;
 
 public class SearchedItemPaginationTest {
-    @SuppressWarnings("unused")
     private SearchedItemPagination pagination;
     private GeneralManager generalManager;
+    private static final Table table = TestDataHolder.getTableCopy();
     private static final ItemHashMap itemHashMap = TestDataHolder.getItemHashMapCopy();
 
     @BeforeAll
@@ -39,8 +40,9 @@ public class SearchedItemPaginationTest {
 
     @BeforeEach
     public void setUp() {
-        generalManager = new GeneralManager(TestDataHolder.getTableCopy());
-        pagination = SearchedItemPagination.create(itemHashMap, generalManager, null);
+        generalManager = new GeneralManager(table, itemHashMap);
+        pagination = new SearchedItemPagination(itemHashMap);
+        generalManager.addUIElement(UIElementName.SEARCHED_ITEM_PAGINATION, pagination);
     }
 
     @Test
@@ -131,9 +133,9 @@ public class SearchedItemPaginationTest {
         public void testPreviousButtonAction() throws Exception {
             try (MockedStatic<SearchedItemContainer> mockSearchedItemContainerCreate = Mockito.mockStatic(SearchedItemContainer.class)) {
                 SearchedItemContainer mockContainer = Mockito.mock(SearchedItemContainer.class);
-                mockSearchedItemContainerCreate.when(() -> SearchedItemContainer.create(Mockito.anyList(), Mockito.any())).thenReturn(mockContainer);
+                mockSearchedItemContainerCreate.when(() -> SearchedItemContainer.create(Mockito.anyList())).thenReturn(mockContainer);
 
-                SearchedItemPagination paginationWithMockContainer = SearchedItemPagination.create(itemHashMap, generalManager, null);
+                SearchedItemPagination paginationWithMockContainer = new SearchedItemPagination(itemHashMap);
 
                 //Inject a mock pageList that returns a non-null list for getPrevious()
                 Field pageListField = SearchedItemPagination.class.getDeclaredField("pageList");
@@ -154,9 +156,9 @@ public class SearchedItemPaginationTest {
         public void testNextButtonAction() throws Exception {
             try (MockedStatic<SearchedItemContainer> mockSearchedItemContainerCreate = Mockito.mockStatic(SearchedItemContainer.class)) {
                 SearchedItemContainer mockContainer = Mockito.mock(SearchedItemContainer.class);
-                mockSearchedItemContainerCreate.when(() -> SearchedItemContainer.create(Mockito.anyList(), Mockito.any())).thenReturn(mockContainer);
+                mockSearchedItemContainerCreate.when(() -> SearchedItemContainer.create(Mockito.anyList())).thenReturn(mockContainer);
 
-                SearchedItemPagination paginationWithMockContainer = SearchedItemPagination.create(itemHashMap, generalManager, null);
+                SearchedItemPagination paginationWithMockContainer = new SearchedItemPagination(itemHashMap);
 
                 //Inject a mock pageList that returns a non-null list for getNext()
                 Field pageListField = SearchedItemPagination.class.getDeclaredField("pageList");

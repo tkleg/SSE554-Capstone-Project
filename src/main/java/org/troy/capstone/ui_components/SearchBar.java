@@ -1,11 +1,8 @@
 package org.troy.capstone.ui_components;
 
 import org.troy.capstone.constants.TestFXId;
-import org.troy.capstone.constants.UIElementName;
 import org.troy.capstone.constants.UISizeControl;
-import org.troy.capstone.managers.GeneralManager;
-import org.troy.capstone.search_engine.sorting.RowComparator;
-import org.troy.capstone.utils.UIUtils;
+import org.troy.capstone.search_engine.sorting.comparator.RowComparator;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -26,38 +23,21 @@ public class SearchBar extends VBox {
     private final Button searchButton;
     /** The dropdown for users to select the sorting option for search results. */
     private final ComboBox<RowComparator> sortingOptionDropdown;
-    
-    /** Factory method to create a SearchBar with the appropriate size and add it to the UIElementManager.
-     * @pre The SearchBar should be properly initialized to allow for user interaction with the search field and button.
-     *      generalManager should be properly initialized to allow for adding the created SearchBar to it.
-     * 
-     * @param generalManager The GeneralManager to register the SearchBar with.
-     * @return The created SearchBar instance with the search field and button initialized and added to the UIElementManager.
-     */
-    public static SearchBar create( GeneralManager generalManager ) {
-        SearchBar searchBar = new SearchBar(generalManager);
-        UIUtils.setSize(searchBar, UISizeControl.SEARCH_BAR_WIDTH.getValue(), UISizeControl.SEARCH_BAR_HEIGHT.getValue());
-        return searchBar;
-    }
 
     /**
-     * Constructor for SearchBar. Initializes the search field and button, adds them to the HBox, and registers them with the GeneralManager.
-     * @pre The SearchBar should be properly initialized to allow for user interaction with the search field and button and the
-     *      generalManager should be properly initialized to allow for adding the created SearchBar to it.
+     * Constructor for SearchBar. Initializes the search field and button, adds them to the HBox.
+     * @pre The SearchBar should be properly initialized to allow for user interaction with the search field and button.
      * 
-     * @param generalManager The GeneralManager to register the SearchBar with.
      */
-    public SearchBar( GeneralManager generalManager ) {
+    public SearchBar() {
 
         HBox topRowBox = new HBox();
         topRowBox.setSpacing(UISizeControl.WIDTH_PADDING.getValue());
         topRowBox.setAlignment(Pos.CENTER_LEFT);
         searchField = new TextField();
         searchField.setPromptText("Enter Query Here");
-        generalManager.addUIElement(UIElementName.SEARCH_FIELD, searchField);
 
         searchButton = new Button("Search");
-        generalManager.setButton(searchButton);
 
         topRowBox.getChildren().addAll(searchField, searchButton);
 
@@ -67,7 +47,7 @@ public class SearchBar extends VBox {
         Label sortByLabel = new Label("Sort By:");
 
         sortingOptionDropdown = new ComboBox<>();
-        buildSortingOptionDropdown(generalManager, bottomBox, sortByLabel);
+        buildSortingOptionDropdown(bottomBox, sortByLabel);
 
         this.getChildren().addAll(topRowBox, bottomBox);
         setSpacing(UISizeControl.HEIGHT_PADDING.getValue());
@@ -76,13 +56,12 @@ public class SearchBar extends VBox {
 
     /** Builds the dropdown for the Sort By selections.
      * 
-     * @pre The sortingOptionDropdown should be properly initialized to allow for adding sorting options to it and the generalManager should be properly initialized to allow for adding the dropdown to it.
-     * @post The sortingOptionDropdown is built with the appropriate sorting options, callbacks are set for displaying the options and printing the selected option, and the dropdown is added to the generalManager and the provided bottomBox.
-     * @param generalManager The GeneralManager to register the sortingOptionDropdown with.
+     * @pre The sortingOptionDropdown should be properly initialized to allow for adding sorting options to it.
+     * @post The sortingOptionDropdown is built with the appropriate sorting options, callbacks are set for displaying the options and printing the selected option, and the dropdown is added to the provided bottomBox.
      * @param bottomBox The HBox to add the sortingOptionDropdown to.
      * @param sortByLabel The Label to associate with the sortingOptionDropdown in the UI.
      */
-    private void buildSortingOptionDropdown(GeneralManager generalManager, HBox bottomBox, Label sortByLabel) {
+    private void buildSortingOptionDropdown(HBox bottomBox, Label sortByLabel) {
         sortingOptionDropdown.setId(TestFXId.SORT_OPTION_DROPDOWN.getId());
         sortingOptionDropdown.getItems().addAll(RowComparator.getComparators());
         sortingOptionDropdown.setPromptText("Sort By");
@@ -91,7 +70,6 @@ public class SearchBar extends VBox {
 
         setSortingOptionCallbacks();
 
-        generalManager.addUIElement(UIElementName.SORTING_OPTION_DROPDOWN, sortingOptionDropdown);
         bottomBox.getChildren().addAll(sortByLabel, sortingOptionDropdown);
     }
 
@@ -138,6 +116,14 @@ public class SearchBar extends VBox {
      */
     public Button getSearchButton() {
         return searchButton;
+    }
+
+    /**
+     * Returns the dropdown for selecting sorting options.
+     * @return The dropdown for selecting sorting options.
+     */
+    public ComboBox<RowComparator> getSortingOptionDropdown() {
+        return sortingOptionDropdown;
     }
 
 }

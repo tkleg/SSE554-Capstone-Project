@@ -10,7 +10,6 @@ import org.troy.capstone.constants.TestFXId;
 import org.troy.capstone.constants.URL;
 import org.troy.capstone.constants.UISizeControl;
 import org.troy.capstone.entities.Item;
-import org.troy.capstone.managers.RecentlyViewedManager;
 
 import javafx.concurrent.Task;
 import javafx.geometry.Pos;
@@ -34,7 +33,7 @@ public class AttributedItemContainer extends VBox {
 
     /** The Desktop instance used to open URLs in the default browser. Used in testing to allow for mocking to disable actual browser opening. */
     @SuppressWarnings(&quot;FieldMayBeFinal&quot;)
-<span class="fc" id="L37">    private static Desktop desktop = Desktop.getDesktop();</span>
+<span class="fc" id="L36">    private static Desktop desktop = Desktop.getDesktop();</span>
 
     /** Creates an AttributedItemContainer for the given item, initializing the image view and attribution flow.
      * 
@@ -44,38 +43,36 @@ public class AttributedItemContainer extends VBox {
      * @post The variable passed into loadImageTask will be initialized to a Task that loads the image from the item's image URL asynchronously.
      * 
      * @param item The item whose image and attribution information are being displayed in this container.
-     * @param recentlyViewedManager The manager for recently viewed items, used to update the recently viewed items window when interacting with the item.
      */
-    public AttributedItemContainer(Item item, RecentlyViewedManager recentlyViewedManager) {
-<span class="fc" id="L50">        super(5); //5px spacing between items</span>
-<span class="fc" id="L51">        setAlignment(Pos.TOP_CENTER); // Center-align the image and attribution</span>
+    public AttributedItemContainer(Item item) {
+<span class="fc" id="L48">        super(5); //5px spacing between items</span>
+<span class="fc" id="L49">        setAlignment(Pos.TOP_CENTER); // Center-align the image and attribution</span>
 
-<span class="fc" id="L53">        TextFlow attributionFlow = makeAttributionFlow(item);</span>
+<span class="fc" id="L51">        TextFlow attributionFlow = makeAttributionFlow(item);</span>
 
-<span class="fc" id="L55">        imageView = new ImageView();</span>
-<span class="fc" id="L56">        imageView.setId(TestFXId.ATTRIBUTED_IMAGE_VIEW_PREFIX.getId() + item.getId());</span>
-<span class="fc" id="L57">        imageView.setFitWidth(UISizeControl.ATTRIBUTED_ITEM_IMAGE_WIDTH.getValue());</span>
-<span class="fc" id="L58">        imageView.setFitHeight(UISizeControl.ATTRIBUTED_ITEM_IMAGE_HEIGHT.getValue());</span>
-<span class="fc" id="L59">        imageView.setPreserveRatio(true);</span>
+<span class="fc" id="L53">        imageView = new ImageView();</span>
+<span class="fc" id="L54">        imageView.setId(TestFXId.ATTRIBUTED_IMAGE_VIEW_PREFIX.getId() + item.getId());</span>
+<span class="fc" id="L55">        imageView.setFitWidth(UISizeControl.ATTRIBUTED_ITEM_IMAGE_WIDTH.getValue());</span>
+<span class="fc" id="L56">        imageView.setFitHeight(UISizeControl.ATTRIBUTED_ITEM_IMAGE_HEIGHT.getValue());</span>
+<span class="fc" id="L57">        imageView.setPreserveRatio(true);</span>
         
         //Load image asynchronously to avoid blocking scroll
-<span class="fc" id="L62">        loadImageTask = loadImageAsync(item.getImageUrl());</span>
+<span class="fc" id="L60">        loadImageTask = loadImageAsync(item.getImageUrl());</span>
         
-<span class="fc" id="L64">        imageView.setOnMouseClicked(e -&gt; {</span>
+<span class="fc" id="L62">        imageView.setOnMouseClicked(e -&gt; {</span>
             try {
-<span class="fc" id="L66">                recentlyViewedManager.addRecentlyViewedItem(item.getId());</span>
-<span class="fc" id="L67">                desktop.browse(new URI(item.getImageUrl()));</span>
-<span class="nc" id="L68">            } catch (IOException | URISyntaxException ex) {</span>
-<span class="nc" id="L69">                System.err.println(&quot;Failed to open image URL: &quot; + item.getImageUrl());</span>
-<span class="fc" id="L70">            }</span>
-<span class="fc" id="L71">        });</span>
+<span class="fc" id="L64">                desktop.browse(new URI(item.getImageUrl()));</span>
+<span class="nc" id="L65">            } catch (IOException | URISyntaxException ex) {</span>
+<span class="nc" id="L66">                System.err.println(&quot;Failed to open image URL: &quot; + item.getImageUrl());</span>
+<span class="fc" id="L67">            }</span>
+<span class="fc" id="L68">        });</span>
         
         //Optimize rendering
-<span class="fc" id="L74">        setCache(true);</span>
-<span class="fc" id="L75">        setCacheHint(javafx.scene.CacheHint.SPEED);</span>
+<span class="fc" id="L71">        setCache(true);</span>
+<span class="fc" id="L72">        setCacheHint(javafx.scene.CacheHint.SPEED);</span>
 
-<span class="fc" id="L77">        getChildren().addAll(imageView, attributionFlow);</span>
-<span class="fc" id="L78">    }</span>
+<span class="fc" id="L74">        getChildren().addAll(imageView, attributionFlow);</span>
+<span class="fc" id="L75">    }</span>
 
     /** Stops the asynchronous loading of the image in this AttributedItemContainer. This method can be called when the container is no longer visible or needed, to free up resources and prevent unnecessary loading of images that are not being displayed. 
      * @post The asynchronous image loading task for this AttributedItemContainer is stopped, preventing any further loading of the image that is not being displayed.
@@ -96,32 +93,32 @@ public class AttributedItemContainer extends VBox {
      */
     @SuppressWarnings(&quot;FinalPrivateMethod&quot;)
     private final TextFlow makeAttributionFlow(Item item) {
-<span class="fc" id="L99">        Text text1 = new Text(&quot;Photo by &quot;);</span>
-<span class="fc" id="L100">        Text authorName = new Text(item.getPhotoAuthor());</span>
-<span class="fc" id="L101">        authorName.setUnderline(true);</span>
-<span class="fc" id="L102">        authorName.setId(TestFXId.ATTRIBUTED_AUTHOR_NAME_PREFIX.getId() + item.getId());</span>
-<span class="fc" id="L103">        Text text2 = new Text(&quot; on &quot;);</span>
-<span class="fc" id="L104">        Text sourceName = new Text(&quot;Unsplash&quot;); </span>
-<span class="fc" id="L105">        sourceName.setUnderline(true); </span>
-<span class="fc" id="L106">        sourceName.setId(TestFXId.ATTRIBUTED_SOURCE_NAME_PREFIX.getId() + item.getId());</span>
+<span class="fc" id="L96">        Text text1 = new Text(&quot;Photo by &quot;);</span>
+<span class="fc" id="L97">        Text authorName = new Text(item.getPhotoAuthor());</span>
+<span class="fc" id="L98">        authorName.setUnderline(true);</span>
+<span class="fc" id="L99">        authorName.setId(TestFXId.ATTRIBUTED_AUTHOR_NAME_PREFIX.getId() + item.getId());</span>
+<span class="fc" id="L100">        Text text2 = new Text(&quot; on &quot;);</span>
+<span class="fc" id="L101">        Text sourceName = new Text(&quot;Unsplash&quot;); </span>
+<span class="fc" id="L102">        sourceName.setUnderline(true); </span>
+<span class="fc" id="L103">        sourceName.setId(TestFXId.ATTRIBUTED_SOURCE_NAME_PREFIX.getId() + item.getId());</span>
 
-<span class="fc" id="L108">        authorName.setOnMouseClicked(e -&gt;{</span>
+<span class="fc" id="L105">        authorName.setOnMouseClicked(e -&gt;{</span>
             try {
-<span class="fc" id="L110">                desktop.browse(new URI(item.getPhotoAuthorUrl()));</span>
-<span class="nc" id="L111">            } catch (IOException | URISyntaxException ex) {</span>
-<span class="nc" id="L112">                System.err.println(&quot;Failed to open author URL: &quot; + item.getPhotoAuthorUrl());</span>
-<span class="fc" id="L113">            }</span>
-<span class="fc" id="L114">        });</span>
-<span class="fc" id="L115">        sourceName.setOnMouseClicked(e -&gt;{</span>
+<span class="fc" id="L107">                desktop.browse(new URI(item.getPhotoAuthorUrl()));</span>
+<span class="nc" id="L108">            } catch (IOException | URISyntaxException ex) {</span>
+<span class="nc" id="L109">                System.err.println(&quot;Failed to open author URL: &quot; + item.getPhotoAuthorUrl());</span>
+<span class="fc" id="L110">            }</span>
+<span class="fc" id="L111">        });</span>
+<span class="fc" id="L112">        sourceName.setOnMouseClicked(e -&gt;{</span>
             try {
-<span class="fc" id="L117">                desktop.browse( new URI( URL.UNSPLASH_ATTRIBUTION.getUrl() ) );</span>
-<span class="nc" id="L118">            } catch (IOException | URISyntaxException ex) {</span>
-<span class="nc" id="L119">                System.err.println(&quot;Failed to open source URL: &quot; + URL.UNSPLASH_ATTRIBUTION.getUrl());</span>
-<span class="fc" id="L120">            }</span>
-<span class="fc" id="L121">        });</span>
+<span class="fc" id="L114">                desktop.browse( new URI( URL.UNSPLASH_ATTRIBUTION.getUrl() ) );</span>
+<span class="nc" id="L115">            } catch (IOException | URISyntaxException ex) {</span>
+<span class="nc" id="L116">                System.err.println(&quot;Failed to open source URL: &quot; + URL.UNSPLASH_ATTRIBUTION.getUrl());</span>
+<span class="fc" id="L117">            }</span>
+<span class="fc" id="L118">        });</span>
         
         //Create the TextFlow and add all the text nodes to it
-<span class="fc" id="L124">        return new TextFlow(text1, authorName, text2, sourceName);</span>
+<span class="fc" id="L121">        return new TextFlow(text1, authorName, text2, sourceName);</span>
     }
     
     /**
@@ -129,7 +126,7 @@ public class AttributedItemContainer extends VBox {
      * @return The ImageView displaying the item's image in the AttributedItemContainer.
      */
     public ImageView getImageView() {
-<span class="fc" id="L132">        return imageView;</span>
+<span class="fc" id="L129">        return imageView;</span>
     }
 
     /**
@@ -141,21 +138,21 @@ public class AttributedItemContainer extends VBox {
      * @return A Task that loads the image from the specified URL and updates the imageView upon completion.
      */
     private Task&lt;Image&gt; loadImageAsync(String imageUrl) {
-<span class="fc" id="L144">        loadImageTask = new Task&lt;Image&gt;() {</span>
+<span class="fc" id="L141">        loadImageTask = new Task&lt;Image&gt;() {</span>
             @Override
             protected Image call() throws Exception {
-<span class="fc" id="L147">                return new Image(imageUrl, true);</span>
+<span class="fc" id="L144">                return new Image(imageUrl, true);</span>
             }
         };
         
-<span class="fc" id="L151">        loadImageTask.setOnSucceeded(e -&gt; {</span>
-<span class="fc" id="L152">            imageView.setImage(loadImageTask.getValue());</span>
-<span class="fc" id="L153">        });</span>
+<span class="fc" id="L148">        loadImageTask.setOnSucceeded(e -&gt; {</span>
+<span class="fc" id="L149">            imageView.setImage(loadImageTask.getValue());</span>
+<span class="fc" id="L150">        });</span>
         
-<span class="fc" id="L155">        Thread imageThread = new Thread(loadImageTask);</span>
-<span class="fc" id="L156">        imageThread.setDaemon(true);//Allow JVM to exit if these threads are the only ones left</span>
-<span class="fc" id="L157">        imageThread.start();</span>
-<span class="fc" id="L158">        return loadImageTask;</span>
+<span class="fc" id="L152">        Thread imageThread = new Thread(loadImageTask);</span>
+<span class="fc" id="L153">        imageThread.setDaemon(true);//Allow JVM to exit if these threads are the only ones left</span>
+<span class="fc" id="L154">        imageThread.start();</span>
+<span class="fc" id="L155">        return loadImageTask;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

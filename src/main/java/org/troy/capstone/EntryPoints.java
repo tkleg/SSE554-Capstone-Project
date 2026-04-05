@@ -8,11 +8,15 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Scanner;
 
-import org.troy.capstone.search_engine.sorting.*;
+import org.troy.capstone.constants.DataPath;
 import org.troy.capstone.constants.TableColumnName;
 import org.troy.capstone.data_structures.item_table.ItemHashMap;
 import org.troy.capstone.data_structures.item_table.SieveOfEratosthenes;
 import org.troy.capstone.search_engine.QueryFilter;
+import org.troy.capstone.search_engine.sorting.InsertionSort;
+import org.troy.capstone.search_engine.sorting.LongWrapper;
+import org.troy.capstone.search_engine.sorting.SortingAnalysis;
+import org.troy.capstone.search_engine.sorting.comparator.RowComparator;
 import org.troy.capstone.utils.TableUtils;
 
 import tech.tablesaw.api.FloatColumn;
@@ -44,7 +48,7 @@ public class EntryPoints {
     }
 
     public static void ItemHashMapMain(String[] args) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-        Table table = TableUtils.readCleanedAttributedData();
+        Table table = TableUtils.readData(DataPath.CLEANED_ATTRIBUTED_DATA);
         ItemHashMap itemMap = ItemHashMap.fromTable(table);
         Method printBucketSizeCountsCustomVsBuiltIn = ItemHashMap.class.getDeclaredMethod("printBucketSizeCountsCustomVsBuiltIn");
         printBucketSizeCountsCustomVsBuiltIn.setAccessible(true);
@@ -62,7 +66,7 @@ public class EntryPoints {
 
     public static void QueryFilterMain(String[] args) {
         
-        Table table = TableUtils.readCleanedAttributedData();
+        Table table = TableUtils.readData(DataPath.CLEANED_ATTRIBUTED_DATA);
         QueryFilter queryFilter = new QueryFilter(table);
 
         try (Scanner scan = new Scanner(System.in)) {
@@ -79,7 +83,7 @@ public class EntryPoints {
     }
 
     public static void InsertionSortMain(String[] args) {
-        Table table = TableUtils.readCleanedAttributedData();
+        Table table = TableUtils.readData(DataPath.CLEANED_ATTRIBUTED_DATA);
         LongWrapper time = new LongWrapper();
         List<Row> rows = new ArrayList<>();
         table.stream().forEach(rows::add);
@@ -91,7 +95,7 @@ public class EntryPoints {
     }
 
     public static void SortingAnalysisMain(String[] args) throws Exception {
-        Table table = TableUtils.readCleanedAttributedData();
+        Table table = TableUtils.readData(DataPath.CLEANED_ATTRIBUTED_DATA);
         //Add a column of random numbers (relevance) to the main table
         int tableSize = table.rowCount();
         java.util.Random rand = new java.util.Random();

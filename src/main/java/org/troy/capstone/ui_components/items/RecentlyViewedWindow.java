@@ -3,7 +3,6 @@ package org.troy.capstone.ui_components.items;
 import java.util.List;
 
 import org.troy.capstone.constants.UISizeControl;
-import org.troy.capstone.ui_components.items.searched.SearchedItemPanel;
 import org.troy.capstone.utils.UIUtils;
 
 import javafx.scene.control.Label;

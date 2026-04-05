@@ -132,8 +132,8 @@ public class UIElementManager {
 <span class="fc" id="L132">            getElement(UIElementName.SORTING_OPTION_DROPDOWN)</span>
 <span class="fc" id="L133">            .ifPresentOrElse( e -&gt; searchData.put(UIDataName.SORTING_OPTION, ((ComboBox&lt;?&gt;)e).getValue()),</span>
 <span class="fc" id="L134">            () -&gt; System.out.println(&quot;Sorting option dropdown not found in UIElementManager, cannot include sorting option in search data.&quot;) );</span>
-<span class="nc" id="L135">        }catch (ClassCastException ex) {</span>
-<span class="nc" id="L136">            System.out.println(&quot;Error retrieving sorting option dropdown value: &quot; + ex.getMessage());</span>
+<span class="fc" id="L135">        }catch (ClassCastException ex) {</span>
+<span class="fc" id="L136">            System.out.println(&quot;Error retrieving sorting option dropdown value: &quot; + ex.getMessage());</span>
 <span class="fc" id="L137">        }</span>
 
 <span class="fc" id="L139">        return searchData;</span>

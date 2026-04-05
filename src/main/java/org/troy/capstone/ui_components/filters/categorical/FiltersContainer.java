@@ -7,10 +7,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.troy.capstone.constants.TableColumnName;
-import org.troy.capstone.constants.UIElementName;
 import org.troy.capstone.constants.UISizeControl;
 import org.troy.capstone.data_structures.item_table.ItemHashMap;
-import org.troy.capstone.managers.GeneralManager;
 import org.troy.capstone.utils.UIUtils;
 
 import javafx.scene.control.CheckBox;
@@ -31,15 +29,12 @@ public class FiltersContainer extends ScrollPane {
     /**
      * Factory method to create a FiltersContainer with the appropriate size and add it to the UIElementManager.
      * 
-     * @param generalManager The general manager to add the created FiltersContainer to for access by other components.
      * @param itemHashMap The item hash map containing all items, used to extract unique values for filter generation.
      * @return The created FiltersContainer instance with filters generated from the item data.
      */
-    public static FiltersContainer create( GeneralManager generalManager, ItemHashMap itemHashMap ) {
-        FiltersContainer container = new FiltersContainer(generalManager, itemHashMap);
+    public static FiltersContainer create( ItemHashMap itemHashMap ) {
+        FiltersContainer container = new FiltersContainer(itemHashMap);
         UIUtils.setSize(container, UISizeControl.FILTERS_CONTAINER_WIDTH.getValue(), UISizeControl.FILTERS_CONTAINER_HEIGHT.getValue());
-        generalManager.addUIElement(UIElementName.FILTERS_CONTAINER, container);
-
         return container;
     }
 
@@ -47,13 +42,11 @@ public class FiltersContainer extends ScrollPane {
      * Constructor for FiltersContainer. Initializes the filter options map and content container, 
      *  then generates filters based on the provided item data.
      * 
-     * @pre itemHashMap should contain valid item data with categorical attributes corresponding to the expected filter types
-     *  and the generalManager should be properly initialized to allow for adding the created FiltersContainer to it.
+     * @pre itemHashMap should contain valid item data with categorical attributes corresponding to the expected filter types.
      * 
-     * @param generalManager The general manager to add the created FiltersContainer to for access by other components.
      * @param itemHashMap The item hash map containing all items, used to extract unique values for filter generation.
      */
-    public FiltersContainer( GeneralManager generalManager, ItemHashMap itemHashMap ) {
+    public FiltersContainer( ItemHashMap itemHashMap ) {
         filterOptions = new HashMap<>();
         contentContainer = new VBox();
         contentContainer.setSpacing(10);

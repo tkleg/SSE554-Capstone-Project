@@ -25,6 +25,7 @@ import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.search.similarities.BM25Similarity;
 import org.apache.lucene.store.ByteBuffersDirectory;
 import org.apache.lucene.store.Directory;
+import org.troy.capstone.constants.DataPath;
 import org.troy.capstone.constants.TableColumnName;
 import org.troy.capstone.utils.TableUtils;
 
@@ -60,14 +61,15 @@ public class MyBM25 {
          * and widely used in modern search engines.
          */
         config.setSimilarity(new BM25Similarity());
-        Table table = TableUtils.readCleanedAttributedData();
+        Table table = TableUtils.readData(DataPath.CLEANED_ATTRIBUTED_DATA);
         try(IndexWriter writer = new IndexWriter(directory, config)) {
-            for(Row row : table)
-                addDoc(writer, 
-                    row.getString(TableColumnName.ID.getColumnName()),
-                    row.getString(TableColumnName.NAME.getColumnName()),
-                    row.getString(TableColumnName.DESCRIPTION.getColumnName())
+            for (Row row : table) {
+                addDoc(writer,
+                        row.getString(TableColumnName.ID.getColumnName()),
+                        row.getString(TableColumnName.NAME.getColumnName()),
+                        row.getString(TableColumnName.DESCRIPTION.getColumnName())
                 );
+            }
         }
         System.out.println("Indexing complete. You can now enter search queries.");
 

@@ -41,12 +41,14 @@ public class PriceSliderTest {
     @SuppressWarnings("ResultOfObjectAllocationIgnored")
     public static void setup() {
         new JFXPanel();
-        generalManager = new GeneralManager(TestDataHolder.getTableCopy());
+        generalManager = new GeneralManager(TestDataHolder.getTableCopy(), TestDataHolder.getItemHashMapCopy());
     }
 
     @BeforeEach
     public void setUp() {
-        priceSlider = new PriceSlider(MIN_PRICE, MAX_PRICE, generalManager);
+        priceSlider = new PriceSlider(MIN_PRICE, MAX_PRICE);
+        generalManager.addUIElement(UIElementName.MIN_PRICE_SLIDER, priceSlider.getMinSlider());
+        generalManager.addUIElement(UIElementName.MAX_PRICE_SLIDER, priceSlider.getMaxSlider());
         try {
             minSliderField = PriceSlider.class.getDeclaredField("minSlider");
             minSliderField.setAccessible(true);
