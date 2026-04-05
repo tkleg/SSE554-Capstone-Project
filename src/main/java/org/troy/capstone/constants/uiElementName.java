@@ -16,7 +16,7 @@ public enum UIElementName {
     SEARCH_FIELD("SEARCH_FIELD"),
     /** UI element name for the star rating filter. */
     STAR_RATING_FILTER("STAR_RATING_FILTER"),
-    /** UI element name for the sorting option. */
+    /** UI element name for the sorting option dropdown. */
     SORTING_OPTION_DROPDOWN("SORTING_OPTION_DROPDOWN"),
     /** UI element name for the recently viewed window. */
     RECENTLY_VIEWED_WINDOW("RECENTLY_VIEWED_WINDOW");

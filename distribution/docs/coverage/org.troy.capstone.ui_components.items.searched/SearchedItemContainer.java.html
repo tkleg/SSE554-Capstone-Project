@@ -100,7 +100,7 @@ public class SearchedItemContainer extends ScrollPane {
         }else{
 <span class="fc" id="L101">            stopAllImagesLoading();</span>
 <span class="fc" id="L102">            itemContainer.getChildren().clear();</span>
-<span class="fc" id="L103">            items.forEach((var item) -&gt; {</span>
+<span class="fc" id="L103">            items.forEach(item -&gt; {</span>
 <span class="fc bfc" id="L104" title="All 2 branches covered.">                if (item != null)</span>
 <span class="fc" id="L105">                    addItemPanel(SearchedItemPanel.create(item));</span>
 <span class="fc" id="L106">            });</span>

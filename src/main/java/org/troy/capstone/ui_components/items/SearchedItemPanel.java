@@ -39,8 +39,6 @@ public class SearchedItemPanel extends HBox{
      * It also includes styling such as borders and spacing to enhance the visual presentation of the item information.
      * 
      * @pre item should contain valid data for all attributes being displayed.
-     *      The AttributedItemContainer should be properly initialized to display the item's image and attributes.
-     *      The rightPanel should be properly initialized to display the item's textual details.
      * 
      * @param item The item whose details are being displayed in this panel, used to populate both the attributed image and the other details.
      */
@@ -81,7 +79,7 @@ public class SearchedItemPanel extends HBox{
 
     /** Sets a SearchedItemPanelInteractor to the panel to allow for interaction with the item panel
      * @pre interactor should be properly implemented to handle interactions with the item panel, and the SearchedItemPanel should be properly initialized to allow for setting the interactor.
-     * @post The provided interactor is set to the SearchedItemPanel, allowing it to receive interaction events from the item panel. This enables functionality such as adding the item to the recently viewed queue when the panel is clicked.
+     * @post The provided interactor is set to the SearchedItemPanel, allowing it to receive interaction events from the item panel. This enables functionality such as adding the item to the RecentlyViewedQueue when the panel is clicked.
      * @param interactor The SearchedItemPanelInteractor to set for handling interactions with the item panel.
      */
     public void setSearchedItemPanelInteractor(SearchedItemPanelInteractor interactor) {
@@ -120,7 +118,6 @@ public class SearchedItemPanel extends HBox{
         nameLabel.setWrapText(true);
         nameLabel.setMaxWidth(UISizeControl.SEARCHED_ITEM_LABEL_MAX_WIDTH.getValue()); // Allow space for image on left
         nameLabel.setAlignment(Pos.CENTER_LEFT);
-        //nameLabel.setOnMouseClicked(e -> { recentlyViewedManager.addRecentlyViewedItem(item.getId());});
 
         Label publisherLabel = createLabel("Publisher: " + item.getPublisher());
         

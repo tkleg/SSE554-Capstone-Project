@@ -19,61 +19,60 @@ public class PriceSlider extends VBox {
     /** Constructor for PriceSlider. Initializes the sliders and label.
     *
      * @pre min should be less than max to ensure valid slider ranges.
-     *      The PriceSlider should be properly initialized to allow for user interaction with the sliders and display of the selected price range.
      *
      * @param min The minimum price value for the sliders.
      * @param max The maximum price value for the sliders.
      */
-<span class="fc" id="L27">    public PriceSlider(double min, double max) {</span>
+<span class="fc" id="L26">    public PriceSlider(double min, double max) {</span>
 
         // Min slider
-<span class="fc" id="L30">        minSlider = new Slider(min, max, min);</span>
-<span class="fc" id="L31">        minSlider.setShowTickLabels(true);</span>
-<span class="fc" id="L32">        minSlider.setShowTickMarks(true);</span>
-<span class="fc" id="L33">        minSlider.setMajorTickUnit((max - min) / 4);</span>
-<span class="fc" id="L34">        minSlider.setBlockIncrement(1);</span>
-<span class="fc" id="L35">        minSlider.setPrefWidth(150);</span>
+<span class="fc" id="L29">        minSlider = new Slider(min, max, min);</span>
+<span class="fc" id="L30">        minSlider.setShowTickLabels(true);</span>
+<span class="fc" id="L31">        minSlider.setShowTickMarks(true);</span>
+<span class="fc" id="L32">        minSlider.setMajorTickUnit((max - min) / 4);</span>
+<span class="fc" id="L33">        minSlider.setBlockIncrement(1);</span>
+<span class="fc" id="L34">        minSlider.setPrefWidth(150);</span>
         
         // Max slider
-<span class="fc" id="L38">        maxSlider = new Slider(min, max, max);</span>
-<span class="fc" id="L39">        maxSlider.setShowTickLabels(true);</span>
-<span class="fc" id="L40">        maxSlider.setShowTickMarks(true);</span>
-<span class="fc" id="L41">        maxSlider.setMajorTickUnit((max - min) / 4);</span>
-<span class="fc" id="L42">        maxSlider.setBlockIncrement(1);</span>
-<span class="fc" id="L43">        maxSlider.setPrefWidth(150);</span>
+<span class="fc" id="L37">        maxSlider = new Slider(min, max, max);</span>
+<span class="fc" id="L38">        maxSlider.setShowTickLabels(true);</span>
+<span class="fc" id="L39">        maxSlider.setShowTickMarks(true);</span>
+<span class="fc" id="L40">        maxSlider.setMajorTickUnit((max - min) / 4);</span>
+<span class="fc" id="L41">        maxSlider.setBlockIncrement(1);</span>
+<span class="fc" id="L42">        maxSlider.setPrefWidth(150);</span>
 
         // Label
-<span class="fc" id="L46">        label = new Label(String.format(&quot;Price: $%.0f - $%.0f&quot;, min, max));</span>
+<span class="fc" id="L45">        label = new Label(String.format(&quot;Price: $%.0f - $%.0f&quot;, min, max));</span>
         //Bold style for the label
-<span class="fc" id="L48">        label.setStyle(&quot;-fx-font-weight: bold;&quot;);</span>
+<span class="fc" id="L47">        label.setStyle(&quot;-fx-font-weight: bold;&quot;);</span>
         
-        // Update label when sliders change to be within 1 dollar of each other to prevent crossing
-<span class="fc" id="L51">        minSlider.valueProperty().addListener((obs, oldVal, newVal) -&gt; {</span>
-<span class="fc" id="L52">            double minVal = newVal.doubleValue();</span>
-<span class="fc bfc" id="L53" title="All 2 branches covered.">            if (minVal + 1 &gt; maxSlider.getValue())</span>
-<span class="fc" id="L54">                maxSlider.setValue(Math.min(minVal + 1, max)); //Ensure max slider is always at least 1 unit above min slider</span>
-<span class="fc" id="L55">            updateLabel();</span>
-<span class="fc" id="L56">        });</span>
-<span class="fc" id="L57">        maxSlider.valueProperty().addListener((obs, oldVal, newVal) -&gt; {</span>
-<span class="fc" id="L58">            double maxVal = newVal.doubleValue();</span>
-<span class="fc bfc" id="L59" title="All 2 branches covered.">            if (maxVal - 1 &lt; minSlider.getValue())</span>
-<span class="fc" id="L60">                minSlider.setValue(Math.max(maxVal - 1, min)); //Ensure min slider is always at least 1 unit below max slider</span>
-<span class="fc" id="L61">            updateLabel();</span>
-<span class="fc" id="L62">        });</span>
+        //Update label when sliders change to be within $1 of each other to prevent crossing
+<span class="fc" id="L50">        minSlider.valueProperty().addListener((obs, oldVal, newVal) -&gt; {</span>
+<span class="fc" id="L51">            double minVal = newVal.doubleValue();</span>
+<span class="fc bfc" id="L52" title="All 2 branches covered.">            if (minVal + 1 &gt; maxSlider.getValue())</span>
+<span class="fc" id="L53">                maxSlider.setValue(Math.min(minVal + 1, max)); //Ensure max slider is always at least $1 above min slider</span>
+<span class="fc" id="L54">            updateLabel();</span>
+<span class="fc" id="L55">        });</span>
+<span class="fc" id="L56">        maxSlider.valueProperty().addListener((obs, oldVal, newVal) -&gt; {</span>
+<span class="fc" id="L57">            double maxVal = newVal.doubleValue();</span>
+<span class="fc bfc" id="L58" title="All 2 branches covered.">            if (maxVal - 1 &lt; minSlider.getValue())</span>
+<span class="fc" id="L59">                minSlider.setValue(Math.max(maxVal - 1, min)); //Ensure min slider is always at least $1 below max slider</span>
+<span class="fc" id="L60">            updateLabel();</span>
+<span class="fc" id="L61">        });</span>
         
-<span class="fc" id="L64">        this.getChildren().addAll(label, minSlider, maxSlider);</span>
-<span class="fc" id="L65">        this.setSpacing(10);</span>
-<span class="fc" id="L66">    }</span>
+<span class="fc" id="L63">        this.getChildren().addAll(label, minSlider, maxSlider);</span>
+<span class="fc" id="L64">        this.setSpacing(10);</span>
+<span class="fc" id="L65">    }</span>
     
     /** Updates the label to display the currently selected price range based on the values of the min and max sliders.
      * 
      * @post The label will be updated to reflect the current values of the min and max sliders, displaying the selected price range in a formatted manner.
      */
     private void updateLabel() {
-<span class="fc" id="L73">        label.setText(String.format(&quot;Price: $%.0f - $%.0f&quot;, </span>
-<span class="fc" id="L74">                                   minSlider.getValue(), </span>
-<span class="fc" id="L75">                                   maxSlider.getValue()));</span>
-<span class="fc" id="L76">    }</span>
+<span class="fc" id="L72">        label.setText(String.format(&quot;Price: $%.0f - $%.0f&quot;, </span>
+<span class="fc" id="L73">                                   minSlider.getValue(), </span>
+<span class="fc" id="L74">                                   maxSlider.getValue()));</span>
+<span class="fc" id="L75">    }</span>
 
     /** Gets the minimum price slider. This is meant to allow registration with a manager.
      * 
@@ -82,7 +81,7 @@ public class PriceSlider extends VBox {
      * @return The Slider representing the minimum price selection.
      */
     public Slider getMinSlider() {
-<span class="fc" id="L85">        return minSlider;</span>
+<span class="fc" id="L84">        return minSlider;</span>
     }
 
     /** Gets the maximum price slider. This is meant to allow registration with a manager.
@@ -92,7 +91,7 @@ public class PriceSlider extends VBox {
      * @return The Slider representing the maximum price selection.
      */
     public Slider getMaxSlider() {
-<span class="fc" id="L95">        return maxSlider;</span>
+<span class="fc" id="L94">        return maxSlider;</span>
     }
     
 }

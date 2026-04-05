@@ -61,7 +61,7 @@ public class Sorter {
     /** Overloaded method to allow calling sortTable without a LongWrapper for time measurement. 
      * 
      * @pre table is not null and contains the necessary columns for the comparator to function properly.
-     * @pre comparator is a valid RowComparator that can compare the rows in the table.
+     * comparator is a valid RowComparator that can compare the rows in the table.
      * @post The returned table is a new Table instance that contains the same rows as the input table but sorted according to the order defined by the comparator. The original table remains unchanged.
      * @param table The Table to be sorted.
      * @param comparator The RowComparator that defines the sorting order. This is an Object to make it possible to pass a comparator from another class without the import of the RowComparator class.

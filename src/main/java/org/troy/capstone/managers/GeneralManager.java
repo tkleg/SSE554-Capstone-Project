@@ -16,7 +16,7 @@ import javafx.scene.control.Button;
 import tech.tablesaw.api.Table;
 
 /**
- * The GeneralManager class is responsible for managing the UI elements and the search engine.
+ * The GeneralManager class is responsible for managing the UI elements, the search engine, and the recently viewed content.
  * It provides methods to interact with the UI elements, retrieve search data, and perform search operations.
  */
 public class GeneralManager {
@@ -66,10 +66,10 @@ public class GeneralManager {
     }
 
     /**
-     * Adds a UI element to the UIElementManager.
+     * Adds a UI element to the UIElementManager, and creates the RecentlyViewedManager if the necessary UI elements are present and it has not already been created.
      * 
      * @pre key and element are not null.
-     * @post The UI element is added to the UIElementManager and can be retrieved using the provided key. If the key is UIElementName.RECENTLY_VIEWED_WINDOW, the recently viewed window in the RecentlyViewedManager is also set to the provided element.
+     * @post The UI element is added to the UIElementManager and can be retrieved using the provided key. If the necessary UI elements are present and the RecentlyViewedManager has not already been created, it is created.
      * @param key The key representing the UI element.
      * @param element The UI element to be added.
      */
@@ -82,9 +82,9 @@ public class GeneralManager {
     }
 
     /**
-     * Checks if the necessary UI elements for creating the RecentlyViewedManager (SearchedItemPagination and are present in the UIElementManager.
+     * Checks if the necessary UI elements for creating the RecentlyViewedManager (SearchedItemPagination and RecentlyViewedWindow) are present in the UIElementManager.
      * 
-     * @return true if both the recently viewed window and searched item pagination components are present in the UIElementManager, false otherwise.
+     * @return true if both the RecentlyViewedWindow and SearchedItemPagination components are present in the UIElementManager, false otherwise.
      */
     private boolean readyToMakeRecentlyViewedManager() {
         return uiManager.getElement(UIElementName.RECENTLY_VIEWED_WINDOW).isPresent() && uiManager.getElement(UIElementName.SEARCHED_ITEM_PAGINATION).isPresent();
@@ -116,7 +116,7 @@ public class GeneralManager {
      * 
      * @pre None, error handling is done within the SearchEngine and UIElementManager.
      * 
-     * @post The UI is updated with the filtered results based on the current search data from the UIElementManager.
+     * @post The UI is updated with the filtered and sorted results based on the current search data from the UIElementManager.
      */
     public void filterAndPrintNumberOfResults() {
         Map<UIDataName, Object> searchData = getSearchData();

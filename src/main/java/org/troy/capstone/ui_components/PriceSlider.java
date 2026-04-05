@@ -19,7 +19,6 @@ public class PriceSlider extends VBox {
     /** Constructor for PriceSlider. Initializes the sliders and label.
     *
      * @pre min should be less than max to ensure valid slider ranges.
-     *      The PriceSlider should be properly initialized to allow for user interaction with the sliders and display of the selected price range.
      *
      * @param min The minimum price value for the sliders.
      * @param max The maximum price value for the sliders.
@@ -47,17 +46,17 @@ public class PriceSlider extends VBox {
         //Bold style for the label
         label.setStyle("-fx-font-weight: bold;");
         
-        // Update label when sliders change to be within 1 dollar of each other to prevent crossing
+        //Update label when sliders change to be within $1 of each other to prevent crossing
         minSlider.valueProperty().addListener((obs, oldVal, newVal) -> {
             double minVal = newVal.doubleValue();
             if (minVal + 1 > maxSlider.getValue())
-                maxSlider.setValue(Math.min(minVal + 1, max)); //Ensure max slider is always at least 1 unit above min slider
+                maxSlider.setValue(Math.min(minVal + 1, max)); //Ensure max slider is always at least $1 above min slider
             updateLabel();
         });
         maxSlider.valueProperty().addListener((obs, oldVal, newVal) -> {
             double maxVal = newVal.doubleValue();
             if (maxVal - 1 < minSlider.getValue())
-                minSlider.setValue(Math.max(maxVal - 1, min)); //Ensure min slider is always at least 1 unit below max slider
+                minSlider.setValue(Math.max(maxVal - 1, min)); //Ensure min slider is always at least $1 below max slider
             updateLabel();
         });
         

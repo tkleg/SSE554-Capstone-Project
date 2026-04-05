@@ -100,7 +100,7 @@ public class SearchedItemContainer extends ScrollPane {
         }else{
             stopAllImagesLoading();
             itemContainer.getChildren().clear();
-            items.forEach((var item) -> {
+            items.forEach(item -> {
                 if (item != null)
                     addItemPanel(SearchedItemPanel.create(item));
             });

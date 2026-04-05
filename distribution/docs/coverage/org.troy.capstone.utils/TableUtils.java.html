@@ -42,68 +42,6 @@ public class TableUtils {
 <span class="fc" id="L42">            )).build();</span>
     }
 
-    /** Converts a Tablesaw Table to a 2D array.
-     * 
-     * @param table The Tablesaw Table to be converted.
-     * @return A 2D array containing the data from the table, where each row is an array of objects representing the values in that row of the table.
-     */
-    /**
-    public static Object[][] to2DArray(Table table) {
-        
-        // Setup 2D array
-        int rowCount = (int) table.rowCount();
-        int colCount = table.columnCount();
-        Object[][] data = new Object[rowCount][colCount];
-
-        // Populate 2D array with Table data
-        for (int r = 0; r &lt; rowCount; r++)
-            for (int c = 0; c &lt; colCount; c++)
-                data[r][c] = table.get(r, c);
-
-        return data;
-    }
-    */
-
-    /** Converts a Tablesaw Table to a Swing JTable.
-     * 
-     * @param table The Tablesaw Table to be converted.
-     * @return A JTable containing the data from the table.
-     */
-    /*public static JTable toJTable(Table table) {
-        Object[] columnNames = table.columnNames().toArray(new Object[0]);
-        Object[][] data = to2DArray(table);
-        return new JTable(data, columnNames);
-    }*/
-
-    /**
-     * Converts a Tablesaw Table to a JavaFX TableView.
-     * 
-     * @return A TableView containing the data from the table.
-     */
-    /*
-    public static TableView&lt;ObservableList&lt;Object&gt;&gt; tablesawTableToTableView(Table table) {
-        TableView&lt;ObservableList&lt;Object&gt;&gt; tableView = new TableView&lt;&gt;();
-        for( int column = 0; column &lt; table.columnCount(); column++ ) {
-            final int colIndex = column;
-            Column&lt;?&gt; col = table.column(column);
-            TableColumn&lt;ObservableList&lt;Object&gt;, Object&gt; tableColumn = new TableColumn&lt;&gt;(col.name());
-            tableColumn.setCellValueFactory(data -&gt; new ReadOnlyObjectWrapper&lt;&gt;( data.getValue().get(colIndex) ));
-            tableView.getColumns().add(tableColumn);
-        }
-
-        ObservableList&lt;ObservableList&lt;Object&gt;&gt; data = FXCollections.observableArrayList();
-        for( int row = 0; row &lt; table.rowCount(); row++ ) {
-            ObservableList&lt;Object&gt; rowData = FXCollections.observableArrayList();
-            for( int col = 0; col &lt; table.columnCount(); col++ )
-                rowData.add( table.get(row, col) );
-            data.add(rowData);
-        }
-        tableView.setItems(data);
-        
-        return tableView;
-    }
-    */
-
     /**
      * Reads the data from a CSV file into a Tablesaw Table, and adds an index column to the table.
       * 
@@ -113,10 +51,10 @@ public class TableUtils {
      * @return A Tablesaw Table containing the data from the cleaned data CSV file, with an added index column.
      */
     public static Table readData(DataPath dataPath){
-<span class="fc" id="L116">        CsvReadOptions options = createCsvReadOptions(dataPath.toString());</span>
-<span class="fc" id="L117">        Table table = Table.read().usingOptions(options);  </span>
-<span class="fc" id="L118">        insertIndexColumn(table);</span>
-<span class="fc" id="L119">        return table;</span>
+<span class="fc" id="L54">        CsvReadOptions options = createCsvReadOptions(dataPath.toString());</span>
+<span class="fc" id="L55">        Table table = Table.read().usingOptions(options);  </span>
+<span class="fc" id="L56">        insertIndexColumn(table);</span>
+<span class="fc" id="L57">        return table;</span>
     }
 
     /**
@@ -137,13 +75,13 @@ public class TableUtils {
      * @param table The Tablesaw Table to have the index column inserted. The table must not already contain a column with the name specified by TableColumnName.INDEX.
      */
     private static void insertIndexColumn(Table table) {
-<span class="fc" id="L140">        int rowCount = table.rowCount();</span>
-<span class="fc" id="L141">        ShortColumn indexColumn = ShortColumn.create(</span>
-<span class="fc" id="L142">            TableColumnName.INDEX.getColumnName(), </span>
-<span class="fc" id="L143">            IntStream.range(0, rowCount).mapToObj(i -&gt; (short) i).toArray(Short[]::new)</span>
+<span class="fc" id="L78">        int rowCount = table.rowCount();</span>
+<span class="fc" id="L79">        ShortColumn indexColumn = ShortColumn.create(</span>
+<span class="fc" id="L80">            TableColumnName.INDEX.getColumnName(), </span>
+<span class="fc" id="L81">            IntStream.range(0, rowCount).mapToObj(i -&gt; (short) i).toArray(Short[]::new)</span>
         );
-<span class="fc" id="L145">        table.addColumns( indexColumn );</span>
-<span class="fc" id="L146">    }</span>
+<span class="fc" id="L83">        table.addColumns( indexColumn );</span>
+<span class="fc" id="L84">    }</span>
 
     /** Converts a Tablesaw Table to a list of Rows. Uses a loop instead of stream due to stream returning a list of the same row repeated.
      * 
@@ -152,10 +90,10 @@ public class TableUtils {
      * @return A list of Rows representing the data in the table.
      */
     public static List&lt;Row&gt; tableToRowList(Table table) {
-<span class="fc" id="L155">        List&lt;Row&gt; rows = new ArrayList&lt;&gt;();</span>
-<span class="fc bfc" id="L156" title="All 2 branches covered.">        for( int i = 0; i &lt; table.rowCount(); i++ )</span>
-<span class="fc" id="L157">            rows.add(table.row(i));</span>
-<span class="fc" id="L158">        return rows;</span>
+<span class="fc" id="L93">        List&lt;Row&gt; rows = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L94" title="All 2 branches covered.">        for( int i = 0; i &lt; table.rowCount(); i++ )</span>
+<span class="fc" id="L95">            rows.add(table.row(i));</span>
+<span class="fc" id="L96">        return rows;</span>
     }
 
 }

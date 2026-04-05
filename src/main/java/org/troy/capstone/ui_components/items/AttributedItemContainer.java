@@ -61,7 +61,6 @@ public class AttributedItemContainer extends VBox {
         
         imageView.setOnMouseClicked(e -> {
             try {
-                //recentlyViewedManager.addRecentlyViewedItem(item.getId());
                 desktop.browse(new URI(item.getImageUrl()));
             } catch (IOException | URISyntaxException ex) {
                 System.err.println("Failed to open image URL: " + item.getImageUrl());

@@ -10,6 +10,7 @@ import javafx.scene.Node;
 
 /**
  * Manager for recently viewed items, bridges RecentlyViewedQueue and RecentlyViewedWindow. Handles adding items to the recently viewed queue and updating the window content accordingly without the window and queue depending on each other.
+ * Implements SearchedItemPanelInteractor to listen for item selection events from the searched item panels, allowing it to update the recently viewed content based on user interactions with the search results.
  */
 public class RecentlyViewedManager implements SearchedItemPanelInteractor {
 
@@ -28,7 +29,9 @@ public class RecentlyViewedManager implements SearchedItemPanelInteractor {
         this.recentlyViewedWindow = recentlyViewedWindow;
     }
 
-    /** Factory method to create a RecentlyViewedManager and attach it as a listener to the given SearchedItemPagination.
+    /** Factory method to create a RecentlyViewedManager and attach it as a listener to the given SearchedItemPagination, allowing to receive item selection events from within the SearchedItemPagination.
+     * 
+     * @pre itemHashMap, recentlyViewedWindow, and itemPagination are not null. itemPagination is an instance of SearchedItemPagination. recentlyViewedWindow is an instance of RecentlyViewedWindow.
      * @param itemHashMap The ItemHashMap to use for retrieving item details.
      * @param recentlyViewedWindow The RecentlyViewedWindow to use for displaying recently viewed items.
      * @param itemPagination The SearchedItemPagination that will hold the search results, used to attach listeners to the item panels within.

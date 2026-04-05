@@ -91,7 +91,7 @@ public class SearchedItemPagination extends VBox {
 
     /** Adds a SearchedItemPanelInteractor to the SearchedItemContainer to allow for interaction with the item panels in the search results.
      * @pre interactor should be properly implemented to handle interactions with the item panels, and the SearchedItemContainer should be properly initialized to allow for adding interactors.
-     * @post The provided interactor is added to the SearchedItemContainer, allowing it to receive interaction events from the item panels in the search results.
+     * @post The provided interactor is added to the SearchedItemContainer, allowing it to pass SearchedItemPanelInteractors to the SearchedItemPanels in the search results.
      * @param interactor The SearchedItemPanelInteractor to add to the SearchedItemContainer for handling interactions with the item panels in the search results.
      */
     public void addSearchedItemPanelInteractor(SearchedItemPanelInteractor interactor) {
