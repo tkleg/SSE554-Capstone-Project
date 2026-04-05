@@ -96,6 +96,7 @@ public class SortingAnalysis {
             //Add a new row to the performance table
             tableSizeColumn.append(size);
             algorithmColumn.append(algorithm);
+            algorithmColumn.append(algorithm);
             comparatorColumn.append(comparator.toString());
             avgTimeColumn.append(time.getValue());
         }

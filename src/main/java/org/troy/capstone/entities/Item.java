@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.text.similarity.JaroWinklerSimilarity;
+import org.troy.capstone.constants.ItemSimilarityWeights;
 import org.troy.capstone.constants.TableColumnName;
 import org.troy.capstone.constants.URL;
 import org.troy.capstone.utils.Converters;
@@ -55,6 +57,8 @@ public class Item {
     private short stockQuantity;
     /** Date the item was added to the collection. */
     private Date dateAdded;
+    /** Jaro-Winkler similarity instance for calculating string similarity. */
+    private static final JaroWinklerSimilarity JARO_WINKLER_SIMILARITY = new JaroWinklerSimilarity();
 
     /**
      * Returns the value of the specified attribute for this item. The attribute is determined by the provided TableColumnName enum value.
@@ -136,5 +140,25 @@ public class Item {
                 .photoAuthorUrl( itemRow.getString(TableColumnName.PHOTO_AUTHOR_URL.getColumnName()) )
                 .dateAdded( Converters.localDateToDate(itemRow.getDate(TableColumnName.DATE_ADDED.getColumnName())) )
             .build();
+    }
+
+    /**
+     * Calculates a similarity score between this item and another item based on shared attributes such as category, publisher, tags, and price. The similarity score is a float value between 0.0 and 1.0, where higher values indicate greater similarity.
+     * 
+     * @param other The other Item to compare against this item for similarity.
+     * @return A float value representing the similarity between the two items.
+    */
+    public float similarity(Item other){
+        float similarity = 0.0f;
+        similarity += ItemSimilarityWeights.NAME.getWeight() * JARO_WINKLER_SIMILARITY.apply(this.name, other.name);
+        similarity += ItemSimilarityWeights.PUBLISHER.getWeight() * (this.publisher.equals(other.publisher) ? 1.0f : 0.0f);
+        similarity += ItemSimilarityWeights.DESCRIPTION.getWeight() * JARO_WINKLER_SIMILARITY.apply(this.description, other.description);
+        similarity += ItemSimilarityWeights.CATEGORY.getWeight() * (this.category.equals(other.category) ? 1.0f : 0.0f);
+        similarity += ItemSimilarityWeights.TAGS.getWeight() * (float) this.tags.stream().filter(other.tags::contains).count();
+        similarity += ItemSimilarityWeights.PHOTO_AUTHOR.getWeight() * (this.photoAuthor.equals(other.photoAuthor) ? 1.0f : 0.0f);
+        similarity += ItemSimilarityWeights.PRICE.getWeight() * Math.abs(this.price - other.price) / 500.0f; //Normalize price difference to [0, 1] range based on a high price
+        similarity += ItemSimilarityWeights.REVIEW_SCORE.getWeight() * Math.abs(this.reviewScore - other.reviewScore) / 5.0f; //Normalize review score difference to [0, 1] range based on max score of 5
+        similarity += ItemSimilarityWeights.DATE_ADDED.getWeight() * ((float) Math.abs(this.dateAdded.getTime() - other.dateAdded.getTime()) / TimeUnit.DAYS.toMillis(1000)); //Normalize date difference to [0, 1] range based on 1000 days
+        return similarity;
     }
 }

@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "SimilarityAnalysis",
+            "request": "launch",
+            "mainClass": "org.troy.capstone.SimilarityAnalysis",
+            "projectName": "Project"
+        },
+        {
+            "type": "java",
             "name": "InsertionSort",
             "request": "launch",
             "mainClass": "org.troy.capstone.search_engine.sorting.InsertionSort",
