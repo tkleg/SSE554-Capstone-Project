@@ -2,6 +2,7 @@ package org.troy.capstone.search_engine.sorting;
 
 import java.util.List;
 
+import org.troy.capstone.constants.MiscValues;
 import org.troy.capstone.search_engine.sorting.comparator.RowComparator;
 import org.troy.capstone.utils.TableUtils;
 
@@ -37,25 +38,59 @@ public class Sorter {
         RowComparator comparator = (RowComparator) comparatorObj;
         System.out.println("Sorting using " + comparator.toString() + " comparator...");
         List<Row> rows = TableUtils.tableToRowList(table);
-        long start = 0;
-        if( rows.size() <= 25 ){
-            System.out.println("Using Insertion Sort for small table...");
-            if( time != null )
-                start = System.nanoTime();
+
+        LongWrapper startTime = new LongWrapper();
+        if( time != null )
+            startTime = new LongWrapper(System.nanoTime());
+        if (rows.size() <= MiscValues.SORTING_THRESHOLD.getValue())
             InsertionSort.insertionSort(rows, comparator);
-            if( time != null )
-                time.setValue(System.nanoTime() - start);
-        } else {
-            System.out.println("Using Quick Sort for larger table...");
-            if( time != null )
-                start = System.nanoTime();
+        else
             QuickSort.quickSort(rows, comparator);
-            if( time != null )
-                time.setValue(System.nanoTime() - start);
-        }
+        if( time != null )
+            time.setValue(System.nanoTime() - startTime.getValue());
+
         Table sortedTable = table.emptyCopy();
         rows.forEach(sortedTable::append);
         return sortedTable;
+    }
+
+    /** Helper method to perform a mixed sort using Insertion Sort for small lists and Quick Sort for larger lists, with time measurement. 
+     * @pre comparator is a valid RowComparator that can compare the rows in the list. rows is not null and the rows contain the correct column needed to do the sorting.
+     * @post The list of rows is sorted in place based on the order defined by the comparator, and the time taken for sorting is recorded in the provided LongWrapper if it is not null.
+     * @param rows The list of rows to be sorted.
+     * @param comparator The RowComparator used to determine the order of the rows.
+     * @param time An optional LongWrapper to store the time taken to perform the sort. If null, time will not be recorded.
+     */
+    public static void mixedSort(List<Row> rows, RowComparator comparator, LongWrapper time) {
+        mixedSort(rows, 0, rows.size() - 1, comparator, time);
+    }
+
+    /**
+     * Sorts the rows based on the provided comparator and optionally records the time taken for sorting. Uses Insertion Sort for small lists and Quick Sort for larger lists.
+      * 
+      * @pre comparator is a valid RowComparator that can compare the rows in the list. rows is not null and the rows contain the correct column needed to do the sorting.
+      * @post The list of rows is sorted in place based on the order defined by the comparator, and the time taken for sorting is recorded in the provided LongWrapper if it is not null.
+      * @param rows The list of rows to be sorted.
+      * @param comparator The RowComparator used to determine the order of the rows.
+      * @param low The starting index of the portion of the list to be sorted.
+      * @param high The ending index of the portion of the list to be sorted.
+      * @param time An optional LongWrapper to store the time taken to perform the sort. If null, time will not be recorded.
+     */
+    private static void mixedSort(List<Row> rows, int low, int high, RowComparator comparator, LongWrapper time) {
+        if( low >= high )
+            return;
+        long start = 0L;
+        if( time != null )
+            start = System.nanoTime();
+        if (rows.size() <= MiscValues.SORTING_THRESHOLD.getValue())
+            InsertionSort.insertionSort(rows, comparator);
+        else{
+            int pivot = QuickSort.partition(rows, low, high, comparator);
+            mixedSort(rows, low, pivot - 1, comparator, null);
+            mixedSort(rows, pivot + 1, high, comparator, null);
+        }
+        if (time != null)
+            time.setValue(System.nanoTime() - start);
     }
 
     /** Overloaded method to allow calling sortTable without a LongWrapper for time measurement. 

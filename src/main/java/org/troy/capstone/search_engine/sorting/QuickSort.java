@@ -79,7 +79,7 @@ public class QuickSort {
       * @param comparator The RowComparator used to determine the order of the rows for partitioning.
       * @return The index of the pivot element after partitioning.
      */
-    private static int partition(List<Row> rows, int low, int high, RowComparator comparator) {
+    static int partition(List<Row> rows, int low, int high, RowComparator comparator) {
         Row pivot = rows.get(high);
         int i = low - 1;
         for (int j = low; j < high; j++) {

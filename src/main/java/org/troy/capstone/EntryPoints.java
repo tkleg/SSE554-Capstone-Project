@@ -15,6 +15,7 @@ import org.troy.capstone.data_structures.item_table.SieveOfEratosthenes;
 import org.troy.capstone.search_engine.QueryFilter;
 import org.troy.capstone.search_engine.sorting.InsertionSort;
 import org.troy.capstone.search_engine.sorting.LongWrapper;
+import org.troy.capstone.search_engine.sorting.Sorter;
 import org.troy.capstone.search_engine.sorting.SortingAnalysis;
 import org.troy.capstone.search_engine.sorting.comparator.RowComparator;
 import org.troy.capstone.utils.TableUtils;
@@ -35,6 +36,8 @@ public class EntryPoints {
         2: SieveOfEratosthenesMain
         3: QueryFilterMain
         4: InsertionSortMain
+        5: SortingAnalysisMain
+        6: testMixedSortingCorrectness
         """);
         try (Scanner scan = new Scanner(System.in)) {
             String choice = scan.nextLine().trim();
@@ -42,6 +45,9 @@ public class EntryPoints {
                 case "1" -> ItemHashMapMain(args);
                 case "2" -> SieveOfEratosthenesMain(args);
                 case "3" -> QueryFilterMain(args);
+                case "4" -> InsertionSortMain(args);
+                case "5" -> SortingAnalysisMain(args);
+                case "6" -> testMixedSortingCorrectness(args);
                 default -> System.out.println("Invalid choice. Please enter a number from 1 to 3.");
             }
         }
@@ -107,17 +113,28 @@ public class EntryPoints {
         //Create a performance table with the same number of rows as the main table
         Table performanceTable = Table.create("Performance Table");
         IntColumn tableSizeColumn = IntColumn.create("Table Size");
-        StringColumn sortTypeColumn = StringColumn.create("Sort Type");
+        StringColumn algorithmColumn = StringColumn.create("Algorithm");
         StringColumn comparatorColumn = StringColumn.create("Comparator");
         LongColumn avgTimeColumn = LongColumn.create("Average Time (ns)");
-        performanceTable.addColumns(tableSizeColumn, sortTypeColumn, comparatorColumn, avgTimeColumn);
+        performanceTable.addColumns(tableSizeColumn, algorithmColumn, comparatorColumn, avgTimeColumn);
 
-        List<String> algorithms = List.of("quick", "insertion");
+        List<String> algorithms = List.of("quick", "insertion", "mixed");
         for(RowComparator comparator : RowComparator.getComparators())
             for (String algorithm : algorithms)
-                performanceTable = SortingAnalysis.analyzeSortingPerformance(table, performanceTable, algorithm, 5, comparator, 2);
+                performanceTable = SortingAnalysis.analyzeSortingPerformance(table, performanceTable, algorithm, 5, comparator, 3);
 
         performanceTable.write().csv("sorting_performance.csv");
+    }
+
+    public static void testMixedSortingCorrectness(String[] args) {
+        Table table = TableUtils.readData(DataPath.CLEANED_ATTRIBUTED_DATA);
+        List<Row> rows = new ArrayList<>();
+        table.stream().forEach(rows::add);
+        RowComparator comparator = new RowComparator(RowComparator.SortType.PRICE_ASCENDING);
+        Sorter.mixedSort(rows, comparator, null);
+        Table sortedTable = table.emptyCopy();
+        rows.forEach(sortedTable::append);
+        System.out.println("Is sorted: " + SortingAnalysis.isSorted(sortedTable, comparator));
     }
 
 }

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MiscValues.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Project</a> &gt; <a href="index.source.html" class="el_package">org.troy.capstone.constants</a> &gt; <span class="el_source">MiscValues.java</span></div><h1>MiscValues.java</h1><pre class="source lang-java linenums">package org.troy.capstone.constants;
+
+/**
+ * The MiscValues enum is a collection of miscellaneous constant values used throughout the application.
+ */
+<span class="fc" id="L6">public enum MiscValues {</span>
+    /** The threshold for deciding when to use insertion sort vs quicksort in the Sorter class. If sorting a size lower or equal to this value, insertion sort will be used, otherwise quicksort will be used. */
+<span class="fc" id="L8">    SORTING_THRESHOLD(25),</span>
+    /** The maximum number of recently viewed items to keep track of in the RecentlyViewedQueue and display in the RecentlyViewedWindow. */
+<span class="fc" id="L10">    RECENTLY_VIEWED_QUEUE_SIZE(10);</span>
+
+    /** The integer value associated with the constant. */
+    private final int value;
+
+    /** Constructor for the MiscValues enum.
+     * @param value The integer value to associate with the constant.
+     */
+<span class="fc" id="L18">    MiscValues(int value) {</span>
+<span class="fc" id="L19">        this.value = value;</span>
+<span class="fc" id="L20">    }</span>
+
+    /** Retrieves the integer value associated with the constant.
+     * @return The integer value of the constant.
+     */
+    public int getValue() {
+<span class="fc" id="L26">        return value;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

@@ -79,7 +79,7 @@ public class QuickSort {
       * @param comparator The RowComparator used to determine the order of the rows for partitioning.
       * @return The index of the pivot element after partitioning.
      */
-    private static int partition(List&lt;Row&gt; rows, int low, int high, RowComparator comparator) {
+    static int partition(List&lt;Row&gt; rows, int low, int high, RowComparator comparator) {
 <span class="fc" id="L83">        Row pivot = rows.get(high);</span>
 <span class="fc" id="L84">        int i = low - 1;</span>
 <span class="fc bfc" id="L85" title="All 2 branches covered.">        for (int j = low; j &lt; high; j++) {</span>

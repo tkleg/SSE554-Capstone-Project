@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 
+import org.troy.capstone.constants.MiscValues;
 import org.troy.capstone.data_structures.item_table.ItemHashMap;
 import org.troy.capstone.ui_components.items.SearchedItemPanel;
 
@@ -12,7 +13,6 @@ import org.troy.capstone.ui_components.items.SearchedItemPanel;
  */
 public class RecentlyViewedQueue extends ArrayBlockingQueue&lt;SearchedItemPanel&gt;{
     /** Capacity of the recently viewed queue, set to 10 for a reasonable number of items to display without overwhelming the user. */
-    private static final int CAPACITY = 10;
 
     /** HashMap to store item details for quick access when creating SearchedItemPanel instances. */
     private final ItemHashMap itemHashMap;
@@ -24,8 +24,8 @@ public class RecentlyViewedQueue extends ArrayBlockingQueue&lt;SearchedItemPanel
      * @param itemHashMap The ItemHashMap to use for retrieving item details.
      */
     public RecentlyViewedQueue(ItemHashMap itemHashMap) {
-<span class="fc" id="L27">        super(CAPACITY);</span>
-<span class="fc" id="L28">        itemIds = new ArrayBlockingQueue&lt;&gt;(CAPACITY);</span>
+<span class="fc" id="L27">        super(MiscValues.RECENTLY_VIEWED_QUEUE_SIZE.getValue());</span>
+<span class="fc" id="L28">        itemIds = new ArrayBlockingQueue&lt;&gt;(MiscValues.RECENTLY_VIEWED_QUEUE_SIZE.getValue());</span>
 <span class="fc" id="L29">        this.itemHashMap = itemHashMap;</span>
 <span class="fc" id="L30">    }</span>
     
