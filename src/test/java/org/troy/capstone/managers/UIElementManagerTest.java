@@ -91,7 +91,7 @@ public class UIElementManagerTest {
     public void testGetSearchDataWithSomeProperUIElementsNotProperlyCast() {
         uiElementManager.addElement(UIElementName.MIN_PRICE_SLIDER, new HBox());
         uiElementManager.addElement(UIElementName.SEARCH_FIELD, new TextField("Test Query"));
-
+        uiElementManager.addElement(UIElementName.SORTING_OPTION_DROPDOWN, new HBox());
         assert uiElementManager.getSearchData().size() == 1 : "Expected search data to contain 1 entry when some proper UI elements are added but not properly cast, but got: " + uiElementManager.getSearchData();
     }
 

@@ -88,4 +88,13 @@ public class SearchedItemPanelTest {
         assertNotNull(attributedPanel, "Attributed image panel should be initialized");
         assertEquals(2, attributedPanel.getChildren().size(), "Attributed image panel should contain 2 children (image and attribution flow)");
     }
+
+    @Test
+    @DisplayName("Test getItemId returns the correct item ID")
+    public void testGetItemId() {
+        Item dummyItem = Item.randomItem();
+        SearchedItemPanel panel = SearchedItemPanel.create(dummyItem);
+        assertEquals(dummyItem.getId(), panel.getItemId(), "getItemId should return the correct item ID");
+    }
+    
 }

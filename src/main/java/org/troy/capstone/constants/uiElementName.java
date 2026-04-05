@@ -8,8 +8,6 @@ public enum UIElementName {
     FILTERS_CONTAINER("FILTERS_CONTAINER"),
     /** UI element name for the container holding the pagination controls for searched items. */
     SEARCHED_ITEM_PAGINATION("SEARCHED_ITEM_PAGINATION"),
-    /** UI element name for the container holding the pagination controls for recommended items. */
-    RECOMMENDED_ITEM_PAGINATION("RECOMMENDED_ITEM_PAGINATION"),
     /** UI element name for the minimum price slider filter. */
     MIN_PRICE_SLIDER("MIN_PRICE_SLIDER"),
     /** UI element name for the maximum price slider filter. */

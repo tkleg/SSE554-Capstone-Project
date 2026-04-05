@@ -3,7 +3,9 @@ package org.troy.capstone.managers;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.Map;
+import java.util.concurrent.CountDownLatch;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,7 +16,10 @@ import org.troy.capstone.constants.UIElementName;
 import org.troy.capstone.data_structures.item_table.ItemHashMap;
 import org.troy.capstone.ui_components.filters.StarRatingFilter;
 import org.troy.capstone.ui_components.filters.categorical.FiltersContainer;
+import org.troy.capstone.ui_components.items.RecentlyViewedWindow;
+import org.troy.capstone.ui_components.items.searched.SearchedItemPagination;
 
+import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -34,8 +39,7 @@ public class GeneralManagerTest {
     @BeforeAll
     @SuppressWarnings("ResultOfObjectAllocationIgnored")
     public static void setup() {
-        // Initialize JavaFX environment
-        new JFXPanel(); // This will initialize the JavaFX toolkit
+        new JFXPanel();
 
         fullGMButton = new Button("Search");
         fullGM.addUIElement(UIElementName.MIN_PRICE_SLIDER, new Slider(0, 100, 25));
@@ -45,6 +49,8 @@ public class GeneralManagerTest {
         FiltersContainer filtersContainer = new FiltersContainer(TestDataHolder.getItemHashMapCopy());
         fullGM.addUIElement(UIElementName.FILTERS_CONTAINER, filtersContainer);
         fullGM.addUIElement(UIElementName.STAR_RATING_FILTER, new StarRatingFilter());
+        fullGM.addUIElement(UIElementName.RECENTLY_VIEWED_WINDOW, RecentlyViewedWindow.create());
+        fullGM.addUIElement(UIElementName.SEARCHED_ITEM_PAGINATION, new SearchedItemPagination(itemHashMap));
         fullGM.setButton(fullGMButton);
         fullGMButton.setId("fullGMButton");
     }
@@ -84,27 +90,35 @@ public class GeneralManagerTest {
 
     @Test
     @DisplayName("Test printed results with full GM setup")
-    public void testPrintedResultsWithFullGMSetup() {
+    public void testPrintedResultsWithFullGMSetup() throws InterruptedException {
+        final String[] output = {""};
+    
         PrintStream originalOut = System.out;
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
 
-        fullGMButton.fire();
-        
-        String output = outContent.toString();
-        System.out.println("Captured Output: " + output); // Print the captured output for debugging
-        System.setOut(originalOut);
+        CountDownLatch latch = new CountDownLatch(1);
+        Platform.runLater(() -> {
+            fullGMButton.fire();
+            latch.countDown();
+        });
+        latch.await();
 
-        assert output.contains("Search Data") : "Expected output to contain 'Search Data', but got: " + output;
-        assert output.contains("SEARCH_QUERY=Test Query") : "Expected output to contain 'SEARCH_QUERY=Test Query', but got: " + output;
-        assert output.contains("MIN_PRICE=25.0") : "Expected output to contain 'MIN_PRICE=25.0', but got: " + output;
-        assert output.contains("MAX_PRICE=75.0") : "Expected output to contain 'MAX_PRICE=75.0', but got: " + output;
-        assert output.contains("Number of results: 39") : "Expected output to contain 'Number of results: 39', but got: " + output;
-        assert output.contains("FILTERS_CONTAINER") : "Expected output to contain 'FILTERS_CONTAINER', but got: " + output;
-        assert output.contains("MIN_STAR_RATING=0") : "Expected output to contain 'MIN_STAR_RATING=0', but got: " + output;
-        assert output.contains("Category=[]") : "Expected output to contain 'Category=[]', but got: " + output;
-        assert output.contains("Publisher=[]") : "Expected output to contain 'Publisher=[]', but got: " + output;
-        assert output.contains("Tags=[]") : "Expected output to contain 'Tags=[]', but got: " + output;
+        output[0] = outContent.toString();
+        System.out.println("Captured Output: " + output[0]);
+        System.setOut(originalOut);
+    
+        String outputStr = output[0];
+        assert outputStr.contains("Search Data") : "Expected output to contain 'Search Data', but got: " + outputStr;
+        assert outputStr.contains("SEARCH_QUERY=Test Query") : "Expected output to contain 'SEARCH_QUERY=Test Query', but got: " + outputStr;
+        assert outputStr.contains("MIN_PRICE=25.0") : "Expected output to contain 'MIN_PRICE=25.0', but got: " + outputStr;
+        assert outputStr.contains("MAX_PRICE=75.0") : "Expected output to contain 'MAX_PRICE=75.0', but got: " + outputStr;
+        assert outputStr.contains("Number of results: 39") : "Expected output to contain 'Number of results: 39', but got: " + outputStr;
+        assert outputStr.contains("FILTERS_CONTAINER") : "Expected output to contain 'FILTERS_CONTAINER', but got: " + outputStr;
+        assert outputStr.contains("MIN_STAR_RATING=0") : "Expected output to contain 'MIN_STAR_RATING=0', but got: " + outputStr;
+        assert outputStr.contains("Category=[]") : "Expected output to contain 'Category=[]', but got: " + outputStr;
+        assert outputStr.contains("Publisher=[]") : "Expected output to contain 'Publisher=[]', but got: " + outputStr;
+        assert outputStr.contains("Tags=[]") : "Expected output to contain 'Tags=[]', but got: " + outputStr;
     }
 
     @Test
@@ -126,5 +140,25 @@ public class GeneralManagerTest {
         assert output.contains("Search Data: {}") : "Expected output to contain 'Search Data: {}', but got: " + output;
         assert output.contains( "Number of results: 961" ) : "Expected output to contain 'Number of results: 961', but got: " + output;
     }
+
+    @Test
+    @DisplayName("Test readyToMakeRecentlyViewedManager with missing UI elements")
+    public void testReadyToMakeRecentlyViewedManagerWithMissingUIElements() throws ReflectiveOperationException {
+        GeneralManager gm = new GeneralManager(table, itemHashMap);
+        Method methodField = GeneralManager.class.getDeclaredMethod("readyToMakeRecentlyViewedManager");
+        methodField.setAccessible(true);
+        boolean result = (boolean) methodField.invoke(gm);
+        assert !result : "Expected readyToMakeRecentlyViewedManager to return false when required UI elements are missing, but got: " + result;
+    }
+
+    @Test
+    @DisplayName("Test readyToMakeRecentlyViewedManager with all required UI elements")
+    public void testReadyToMakeRecentlyViewedManagerWithAllRequiredUIElements() throws ReflectiveOperationException {
+        Method methodField = GeneralManager.class.getDeclaredMethod("readyToMakeRecentlyViewedManager");
+        methodField.setAccessible(true);
+        boolean result = (boolean) methodField.invoke(fullGM);
+        assert result : "Expected readyToMakeRecentlyViewedManager to return true when all required UI elements are present, but got: " + result;
+    }
+
     
 }

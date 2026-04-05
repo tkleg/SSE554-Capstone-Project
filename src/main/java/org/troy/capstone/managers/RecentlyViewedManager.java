@@ -40,6 +40,10 @@ public class RecentlyViewedManager implements SearchedItemPanelInteractor {
         return manager;
     }
     
+    /** Called when an item is selected in the searched item panel. Adds the selected item to the recently viewed queue and updates the recently viewed window content accordingly.
+     * @pre itemId is not null and corresponds to a valid key in the itemHashMap.
+     * @param itemId The ID of the selected item.
+     */
     @Override
     public void onItemSelected(String itemId) {
         addRecentlyViewedItem(itemId);
