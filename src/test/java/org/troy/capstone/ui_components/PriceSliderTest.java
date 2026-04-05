@@ -41,7 +41,7 @@ public class PriceSliderTest {
     @SuppressWarnings("ResultOfObjectAllocationIgnored")
     public static void setup() {
         new JFXPanel();
-        generalManager = new GeneralManager(TestDataHolder.getTableCopy());
+        generalManager = new GeneralManager(TestDataHolder.getTableCopy(), TestDataHolder.getItemHashMapCopy());
     }
 
     @BeforeEach

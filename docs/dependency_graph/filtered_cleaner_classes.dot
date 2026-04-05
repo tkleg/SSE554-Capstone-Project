@@ -9,6 +9,8 @@ digraph "classes" {
    "data_structures.item_table.IdHashKey" -> "data_structures.item_table.SieveOfEratosthenes";
    "data_structures.item_table.ItemHashMap" -> "data_structures.item_table.IdHashKey";
    "data_structures.item_table.ItemHashMap" -> "entities.Item";
+   "managers.GeneralManager"        -> "data_structures.item_table.ItemHashMap";
+   "managers.GeneralManager"        -> "managers.RecentlyViewedManager";
    "managers.GeneralManager"        -> "managers.UIElementManager";
    "managers.GeneralManager"        -> "search_engine.SearchEngine";
    "managers.GeneralManager"        -> "search_engine.sorting.LongWrapper";

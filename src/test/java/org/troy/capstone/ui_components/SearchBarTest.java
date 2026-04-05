@@ -34,7 +34,7 @@ public class SearchBarTest extends ApplicationTest {
     @Start
     public void start(Stage stage) {
         searchBar = new SearchBar();
-        generalManager = new GeneralManager(TestDataHolder.getTableCopy());
+        generalManager = new GeneralManager(TestDataHolder.getTableCopy(), TestDataHolder.getItemHashMapCopy());
         generalManager.addUIElement(UIElementName.SEARCH_FIELD, searchBar.getSearchField());
         generalManager.addUIElement(UIElementName.SORTING_OPTION_DROPDOWN, searchBar.getSortingOptionDropdown());
         generalManager.setButton(searchBar.getSearchButton());
@@ -47,7 +47,7 @@ public class SearchBarTest extends ApplicationTest {
     @SuppressWarnings("ResultOfObjectAllocationIgnored")
     public static void setup() {
         new JFXPanel();
-        generalManager = new GeneralManager(TestDataHolder.getTableCopy());
+        generalManager = new GeneralManager(TestDataHolder.getTableCopy(), TestDataHolder.getItemHashMapCopy());
     }
 
     @BeforeEach

@@ -1,3 +1,5 @@
+digraph "classes" {
+    // Path: target\classes
    "data_structures.RecentlyViewedQueue" -> "data_structures.item_table.ItemHashMap";
    "data_structures.RecentlyViewedQueue" -> "entities.Item";
    "data_structures.RecentlyViewedQueue" -> "ui_components.items.SearchedItemPanel";
@@ -7,6 +9,8 @@
    "data_structures.item_table.IdHashKey" -> "data_structures.item_table.SieveOfEratosthenes";
    "data_structures.item_table.ItemHashMap" -> "data_structures.item_table.IdHashKey";
    "data_structures.item_table.ItemHashMap" -> "entities.Item";
+   "managers.GeneralManager"        -> "data_structures.item_table.ItemHashMap";
+   "managers.GeneralManager"        -> "managers.RecentlyViewedManager";
    "managers.GeneralManager"        -> "managers.UIElementManager";
    "managers.GeneralManager"        -> "search_engine.SearchEngine";
    "managers.GeneralManager"        -> "search_engine.sorting.LongWrapper";
@@ -48,3 +52,4 @@
    "ui_components.items.searched.SearchedItemPagination" -> "entities.Item";
    "ui_components.items.searched.SearchedItemPagination" -> "interfaces.SearchedItemPanelInteractor";
    "ui_components.items.searched.SearchedItemPagination" -> "ui_components.items.searched.SearchedItemContainer";
+}

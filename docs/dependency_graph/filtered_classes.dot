@@ -17,6 +17,8 @@ digraph "classes" {
    "managers.GeneralManager"        -> "constants.TableColumnName";
    "managers.GeneralManager"        -> "constants.UIDataName";
    "managers.GeneralManager"        -> "constants.UIElementName";
+   "managers.GeneralManager"        -> "data_structures.item_table.ItemHashMap";
+   "managers.GeneralManager"        -> "managers.RecentlyViewedManager";
    "managers.GeneralManager"        -> "managers.UIElementManager";
    "managers.GeneralManager"        -> "search_engine.SearchEngine";
    "managers.GeneralManager"        -> "search_engine.sorting.LongWrapper";

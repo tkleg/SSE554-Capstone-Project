@@ -69,7 +69,6 @@ digraph "classes" {
    "org.troy.capstone.Main"                           -> "org.troy.capstone.constants.UISizeControl (classes)";
    "org.troy.capstone.Main"                           -> "org.troy.capstone.data_structures.item_table.ItemHashMap (classes)";
    "org.troy.capstone.Main"                           -> "org.troy.capstone.managers.GeneralManager (classes)";
-   "org.troy.capstone.Main"                           -> "org.troy.capstone.managers.RecentlyViewedManager (classes)";
    "org.troy.capstone.Main"                           -> "org.troy.capstone.ui_components.PriceSlider (classes)";
    "org.troy.capstone.Main"                           -> "org.troy.capstone.ui_components.SearchBar (classes)";
    "org.troy.capstone.Main"                           -> "org.troy.capstone.ui_components.filters.StarRatingFilter (classes)";
@@ -340,6 +339,8 @@ digraph "classes" {
    "org.troy.capstone.managers.GeneralManager"        -> "org.troy.capstone.constants.TableColumnName (classes)";
    "org.troy.capstone.managers.GeneralManager"        -> "org.troy.capstone.constants.UIDataName (classes)";
    "org.troy.capstone.managers.GeneralManager"        -> "org.troy.capstone.constants.UIElementName (classes)";
+   "org.troy.capstone.managers.GeneralManager"        -> "org.troy.capstone.data_structures.item_table.ItemHashMap (classes)";
+   "org.troy.capstone.managers.GeneralManager"        -> "org.troy.capstone.managers.RecentlyViewedManager (classes)";
    "org.troy.capstone.managers.GeneralManager"        -> "org.troy.capstone.managers.UIElementManager (classes)";
    "org.troy.capstone.managers.GeneralManager"        -> "org.troy.capstone.search_engine.SearchEngine (classes)";
    "org.troy.capstone.managers.GeneralManager"        -> "org.troy.capstone.search_engine.sorting.LongWrapper (classes)";
@@ -357,6 +358,7 @@ digraph "classes" {
    "org.troy.capstone.managers.RecentlyViewedManager" -> "java.lang.invoke.MethodType (java.base)";
    "org.troy.capstone.managers.RecentlyViewedManager" -> "java.lang.invoke.StringConcatFactory (java.base)";
    "org.troy.capstone.managers.RecentlyViewedManager" -> "java.util.List (java.base)";
+   "org.troy.capstone.managers.RecentlyViewedManager" -> "javafx.scene.Node (not found)";
    "org.troy.capstone.managers.RecentlyViewedManager" -> "org.troy.capstone.data_structures.RecentlyViewedQueue (classes)";
    "org.troy.capstone.managers.RecentlyViewedManager" -> "org.troy.capstone.data_structures.item_table.ItemHashMap (classes)";
    "org.troy.capstone.managers.RecentlyViewedManager" -> "org.troy.capstone.interfaces.SearchedItemPanelInteractor (classes)";

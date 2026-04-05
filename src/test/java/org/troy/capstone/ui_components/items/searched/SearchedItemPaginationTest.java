@@ -24,11 +24,12 @@ import org.troy.capstone.managers.GeneralManager;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import tech.tablesaw.api.Table;
 
 public class SearchedItemPaginationTest {
-    @SuppressWarnings("unused")
     private SearchedItemPagination pagination;
     private GeneralManager generalManager;
+    private static final Table table = TestDataHolder.getTableCopy();
     private static final ItemHashMap itemHashMap = TestDataHolder.getItemHashMapCopy();
 
     @BeforeAll
@@ -39,7 +40,7 @@ public class SearchedItemPaginationTest {
 
     @BeforeEach
     public void setUp() {
-        generalManager = new GeneralManager(TestDataHolder.getTableCopy());
+        generalManager = new GeneralManager(table, itemHashMap);
         pagination = new SearchedItemPagination(itemHashMap);
         generalManager.addUIElement(UIElementName.SEARCHED_ITEM_PAGINATION, pagination);
     }

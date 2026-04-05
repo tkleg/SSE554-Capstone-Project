@@ -6,6 +6,8 @@ import org.troy.capstone.interfaces.SearchedItemPanelInteractor;
 import org.troy.capstone.ui_components.items.RecentlyViewedWindow;
 import org.troy.capstone.ui_components.items.searched.SearchedItemPagination;
 
+import javafx.scene.Node;
+
 /**
  * Manager for recently viewed items, bridges RecentlyViewedQueue and RecentlyViewedWindow. Handles adding items to the recently viewed queue and updating the window content accordingly without the window and queue depending on each other.
  */
@@ -32,9 +34,9 @@ public class RecentlyViewedManager implements SearchedItemPanelInteractor {
      * @param itemPagination The SearchedItemPagination that will hold the search results, used to attach listeners to the item panels within.
      * @return A new instance of RecentlyViewedManager with the given parameters, and registered as a listener to the itemPagination.
      */
-    public static RecentlyViewedManager create(ItemHashMap itemHashMap, RecentlyViewedWindow recentlyViewedWindow, SearchedItemPagination itemPagination) {
-        RecentlyViewedManager manager = new RecentlyViewedManager(itemHashMap, recentlyViewedWindow);
-        itemPagination.addSearchedItemPanelInteractor(manager);
+    static RecentlyViewedManager create(ItemHashMap itemHashMap, Node recentlyViewedWindow, Node itemPagination) {
+        RecentlyViewedManager manager = new RecentlyViewedManager(itemHashMap, (RecentlyViewedWindow) recentlyViewedWindow);
+        ((SearchedItemPagination) itemPagination).addSearchedItemPanelInteractor(manager);
         return manager;
     }
     

@@ -11,6 +11,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.troy.capstone.TestDataHolder;
 import org.troy.capstone.constants.UIElementName;
+import org.troy.capstone.data_structures.item_table.ItemHashMap;
 import org.troy.capstone.ui_components.filters.StarRatingFilter;
 import org.troy.capstone.ui_components.filters.categorical.FiltersContainer;
 
@@ -25,8 +26,9 @@ import tech.tablesaw.api.Table;
 public class GeneralManagerTest {
 
     private static final Table table = TestDataHolder.getTableCopy();
-    private static final GeneralManager GM = new GeneralManager(table);
-    private static final GeneralManager fullGM = new GeneralManager(table);
+    private static final ItemHashMap itemHashMap = TestDataHolder.getItemHashMapCopy();
+    private static final GeneralManager GM = new GeneralManager(table, itemHashMap);
+    private static final GeneralManager fullGM = new GeneralManager(table, itemHashMap);
     private static Button fullGMButton;
 
     @BeforeAll

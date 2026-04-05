@@ -6,6 +6,8 @@ import org.troy.capstone.interfaces.SearchedItemPanelInteractor;
 import org.troy.capstone.ui_components.items.RecentlyViewedWindow;
 import org.troy.capstone.ui_components.items.searched.SearchedItemPagination;
 
+import javafx.scene.Node;
+
 /**
  * Manager for recently viewed items, bridges RecentlyViewedQueue and RecentlyViewedWindow. Handles adding items to the recently viewed queue and updating the window content accordingly without the window and queue depending on each other.
  */
@@ -21,10 +23,10 @@ public class RecentlyViewedManager implements SearchedItemPanelInteractor {
      * @param itemHashMap The ItemHashMap to use for retrieving item details.
      * @param recentlyViewedWindow The RecentlyViewedWindow to use for displaying recently viewed items.
      */
-<span class="fc" id="L24">    private RecentlyViewedManager(ItemHashMap itemHashMap, RecentlyViewedWindow recentlyViewedWindow ) {</span>
-<span class="fc" id="L25">        recentlyViewedQueue = new RecentlyViewedQueue(itemHashMap);</span>
-<span class="fc" id="L26">        this.recentlyViewedWindow = recentlyViewedWindow;</span>
-<span class="fc" id="L27">    }</span>
+<span class="fc" id="L26">    private RecentlyViewedManager(ItemHashMap itemHashMap, RecentlyViewedWindow recentlyViewedWindow ) {</span>
+<span class="fc" id="L27">        recentlyViewedQueue = new RecentlyViewedQueue(itemHashMap);</span>
+<span class="fc" id="L28">        this.recentlyViewedWindow = recentlyViewedWindow;</span>
+<span class="fc" id="L29">    }</span>
 
     /** Factory method to create a RecentlyViewedManager and attach it as a listener to the given SearchedItemPagination.
      * @param itemHashMap The ItemHashMap to use for retrieving item details.
@@ -32,16 +34,16 @@ public class RecentlyViewedManager implements SearchedItemPanelInteractor {
      * @param itemPagination The SearchedItemPagination that will hold the search results, used to attach listeners to the item panels within.
      * @return A new instance of RecentlyViewedManager with the given parameters, and registered as a listener to the itemPagination.
      */
-    public static RecentlyViewedManager create(ItemHashMap itemHashMap, RecentlyViewedWindow recentlyViewedWindow, SearchedItemPagination itemPagination) {
-<span class="fc" id="L36">        RecentlyViewedManager manager = new RecentlyViewedManager(itemHashMap, recentlyViewedWindow);</span>
-<span class="fc" id="L37">        itemPagination.addSearchedItemPanelInteractor(manager);</span>
-<span class="fc" id="L38">        return manager;</span>
+    static RecentlyViewedManager create(ItemHashMap itemHashMap, Node recentlyViewedWindow, Node itemPagination) {
+<span class="fc" id="L38">        RecentlyViewedManager manager = new RecentlyViewedManager(itemHashMap, (RecentlyViewedWindow) recentlyViewedWindow);</span>
+<span class="fc" id="L39">        ((SearchedItemPagination) itemPagination).addSearchedItemPanelInteractor(manager);</span>
+<span class="fc" id="L40">        return manager;</span>
     }
     
     @Override
     public void onItemSelected(String itemId) {
-<span class="nc" id="L43">        addRecentlyViewedItem(itemId);</span>
-<span class="nc" id="L44">    }</span>
+<span class="nc" id="L45">        addRecentlyViewedItem(itemId);</span>
+<span class="nc" id="L46">    }</span>
     
     /** Adds an item to the recently viewed queue and updates the recently viewed window content.
       * @pre itemId is not null and corresponds to a valid key in the itemHashMap used to create the recentlyViewedQueue.
@@ -49,10 +51,10 @@ public class RecentlyViewedManager implements SearchedItemPanelInteractor {
       * @param itemId The ID of the item to add to recently viewed.
       */
     public void addRecentlyViewedItem(String itemId) {
-<span class="fc" id="L52">        System.out.println(&quot;Adding item with ID &quot; + itemId + &quot; to recently viewed.&quot;);</span>
-<span class="fc" id="L53">        recentlyViewedQueue.addAttempt(itemId);</span>
-<span class="fc" id="L54">        recentlyViewedWindow.setContent(recentlyViewedQueue.peekAll());</span>
-<span class="fc" id="L55">    }</span>
+<span class="fc" id="L54">        System.out.println(&quot;Adding item with ID &quot; + itemId + &quot; to recently viewed.&quot;);</span>
+<span class="fc" id="L55">        recentlyViewedQueue.addAttempt(itemId);</span>
+<span class="fc" id="L56">        recentlyViewedWindow.setContent(recentlyViewedQueue.peekAll());</span>
+<span class="fc" id="L57">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

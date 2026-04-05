@@ -33,7 +33,7 @@ public class FiltersContainerTest {
 
     @BeforeEach
     public void setUp() {
-        generalManager = new GeneralManager(table);
+        generalManager = new GeneralManager(table, itemHashMap);
         filtersContainer = FiltersContainer.create(itemHashMap);
         generalManager.addUIElement(UIElementName.FILTERS_CONTAINER, filtersContainer);
     }

@@ -5,7 +5,6 @@ import org.troy.capstone.constants.UIElementName;
 import org.troy.capstone.constants.UISizeControl;
 import org.troy.capstone.data_structures.item_table.ItemHashMap;
 import org.troy.capstone.managers.GeneralManager;
-import org.troy.capstone.managers.RecentlyViewedManager;
 import org.troy.capstone.ui_components.PriceSlider;
 import org.troy.capstone.ui_components.SearchBar;
 import org.troy.capstone.ui_components.filters.StarRatingFilter;
@@ -31,7 +30,7 @@ public class Main extends Application {
         ItemHashMap itemHashMap = ItemHashMap.fromTable(table);
         
         //Create generalManager
-        GeneralManager generalManager = new GeneralManager(table);
+        GeneralManager generalManager = new GeneralManager(table, itemHashMap);
         
         GridPane gridPane = new GridPane();
         gridPane.setPadding(new Insets(20)); // Add 20px padding around all edges
@@ -45,11 +44,10 @@ public class Main extends Application {
         //SearchedItemContainer itemScroller = SearchedItemContainer.createFilledContainer(table.first(firstNItems), itemHashMap);
         //gridPane.add(itemScroller, 0, 1, 2, 3);
 
-
         RecentlyViewedWindow recentlyViewedWindow = RecentlyViewedWindow.create();
-        RecentlyViewedManager recentlyViewedManager = RecentlyViewedManager.create(itemHashMap, recentlyViewedWindow, itemPagination);
         gridPane.add(recentlyViewedWindow, 3, 1, 1, 2);
-
+        generalManager.addUIElement(UIElementName.RECENTLY_VIEWED_WINDOW, recentlyViewedWindow);
+        
         //Get and setup the SearchBar
         SearchBar searchBar = new SearchBar();
         generalManager.addUIElement(UIElementName.SEARCH_FIELD, searchBar.getSearchField());

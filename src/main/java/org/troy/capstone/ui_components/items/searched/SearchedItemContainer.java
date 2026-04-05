@@ -1,7 +1,7 @@
 package org.troy.capstone.ui_components.items.searched;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.troy.capstone.constants.UISizeControl;
 import org.troy.capstone.entities.Item;
@@ -75,11 +75,10 @@ public class SearchedItemContainer extends ScrollPane {
 
     public void addSearchedItemPanelInteractor(SearchedItemPanelInteractor interactor) {
         interactors.add(interactor);
-        // Set this interactor on all existing panels
+        //Set interactors for initial panels
         itemContainer.getChildren().forEach(node -> {
-            if (node instanceof SearchedItemPanel panel) {
+            if (node instanceof SearchedItemPanel panel)
                 panel.setSearchedItemPanelInteractor(interactor);
-            }
         });
     }
 

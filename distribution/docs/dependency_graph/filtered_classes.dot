@@ -1,3 +1,5 @@
+digraph "classes" {
+    // Path: target\classes
    "data_structures.PriceTree"      -> "constants.TableColumnName";
    "data_structures.RecentlyViewedQueue" -> "data_structures.item_table.ItemHashMap";
    "data_structures.RecentlyViewedQueue" -> "entities.Item";
@@ -15,6 +17,8 @@
    "managers.GeneralManager"        -> "constants.TableColumnName";
    "managers.GeneralManager"        -> "constants.UIDataName";
    "managers.GeneralManager"        -> "constants.UIElementName";
+   "managers.GeneralManager"        -> "data_structures.item_table.ItemHashMap";
+   "managers.GeneralManager"        -> "managers.RecentlyViewedManager";
    "managers.GeneralManager"        -> "managers.UIElementManager";
    "managers.GeneralManager"        -> "search_engine.SearchEngine";
    "managers.GeneralManager"        -> "search_engine.sorting.LongWrapper";
@@ -87,3 +91,4 @@
    "utils.TableUtils"               -> "constants.DataPath";
    "utils.TableUtils"               -> "constants.TableColumnName";
    "utils.UIUtils"                  -> "annotations.Generated";
+}

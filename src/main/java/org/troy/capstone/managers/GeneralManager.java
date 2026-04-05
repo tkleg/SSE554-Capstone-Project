@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.troy.capstone.constants.TableColumnName;
 import org.troy.capstone.constants.UIDataName;
 import org.troy.capstone.constants.UIElementName;
+import org.troy.capstone.data_structures.item_table.ItemHashMap;
 import org.troy.capstone.search_engine.SearchEngine;
 import org.troy.capstone.search_engine.sorting.LongWrapper;
 import org.troy.capstone.search_engine.sorting.Sorter;
@@ -27,10 +28,16 @@ public class GeneralManager {
     /** The SearchEngine instance for performing search operations. */
     private final SearchEngine searchEngine;
 
+    /** The ItemHashMap containing all items, used by the SearchEngine for filtering and searching and by the RecentlyViewedManager for retrieving items. */
+    private final ItemHashMap itemHashMap;
+
+    private boolean recentlyViewedManagerCreated = false;
+
     /** Constructor for GeneralManager, filled from a tablesaw Table.
      * @param table The tablesaw Table containing the item data to be used by the SearchEngine.
      */
-    public GeneralManager(Table table) {
+    public GeneralManager(Table table, ItemHashMap itemHashMap) {
+        this.itemHashMap = itemHashMap;
         uiManager = new UIElementManager();
         searchEngine = new SearchEngine(table);
     }
@@ -68,6 +75,14 @@ public class GeneralManager {
      */
     public void addUIElement(UIElementName key, Node element) {
         uiManager.addElement(key, element);
+        if( !recentlyViewedManagerCreated && readyToMakeRecentlyViewedManager()) {
+            RecentlyViewedManager.create(itemHashMap, uiManager.getElement(UIElementName.RECENTLY_VIEWED_WINDOW).get(), uiManager.getElement(UIElementName.SEARCHED_ITEM_PAGINATION).get());
+            recentlyViewedManagerCreated = true;
+        }
+    }
+
+    private boolean readyToMakeRecentlyViewedManager() {
+        return uiManager.getElement(UIElementName.RECENTLY_VIEWED_WINDOW).isPresent() && uiManager.getElement(UIElementName.SEARCHED_ITEM_PAGINATION).isPresent();
     }
 
     /**
