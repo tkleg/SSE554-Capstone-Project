@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TableUtils.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Project</a> &gt; <a href="index.source.html" class="el_package">org.troy.capstone.utils</a> &gt; <span class="el_source">TableUtils.java</span></div><h1>TableUtils.java</h1><pre class="source lang-java linenums">package org.troy.capstone.utils;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.IntStream;
-import java.util.List;
-import java.util.ArrayList;
 
 import org.troy.capstone.annotations.Generated;
 import org.troy.capstone.constants.DataPath;
 import org.troy.capstone.constants.TableColumnName;
 
 import tech.tablesaw.api.ColumnType;
+import tech.tablesaw.api.Row;
 import tech.tablesaw.api.ShortColumn;
 import tech.tablesaw.api.Table;
 import tech.tablesaw.io.csv.CsvReadOptions;
-import tech.tablesaw.api.Row;
 
 /** Utility class for working with Tablesaw tables, including reading and writing CSV files. */
 public class TableUtils {
@@ -105,153 +105,45 @@ public class TableUtils {
     */
 
     /**
-     * Reads the cleaned data CSV file into a Tablesaw Table, and adds an index column to the table.
+     * Reads the data from a CSV file into a Tablesaw Table, and adds an index column to the table.
       * 
       * @pre The cleaned data CSV file exists with the right data.
       *
+      * @param dataPath The DataPath enum value representing the path to the CSV file to be read.
      * @return A Tablesaw Table containing the data from the cleaned data CSV file, with an added index column.
      */
-    public static Table readCleanedData() {
-<span class="fc" id="L115">        CsvReadOptions options = createCsvReadOptions(DataPath.CLEANED_DATA_CSV.toString());</span>
-<span class="fc" id="L116">        Table table = Table.read().usingOptions(options);  </span>
-<span class="fc" id="L117">        insertIndexColumn(table);</span>
-<span class="fc" id="L118">        return table;</span>
-    }
-
-    /**
-     * Reads the cleaned data CSV file from the long path into a Tablesaw Table, and adds an index column to the table.
-      * 
-      * @pre The cleaned data CSV file exists at the long path with the right data.
-      *
-     * @return A Tablesaw Table containing the data from the cleaned data CSV file at the long path, with an added index column.
-     */
-    public static Table readCleanedDataLongPath() {
-<span class="fc" id="L129">        CsvReadOptions options = createCsvReadOptions(DataPath.CLEANED_DATA_CSV_LONG.toString());</span>
-<span class="fc" id="L130">        Table table = Table.read().usingOptions(options);  </span>
-<span class="fc" id="L131">        insertIndexColumn(table);</span>
-<span class="fc" id="L132">        return table;</span>
-    }
-
-    /**
-     * Reads the attributed data CSV file into a Tablesaw Table, and adds an index column to the table. 
-     * @pre The attributed data CSV file exists with the right data.
-     * @return A Tablesaw Table containing the data from the attributed data CSV file, with an added index column.
-     */
-    public static Table readAttributedData(){
-<span class="fc" id="L141">        CsvReadOptions options = createCsvReadOptions(DataPath.ATTRIBUTED_DATA_CSV.toString());</span>
-<span class="fc" id="L142">        Table table = Table.read().usingOptions(options);</span>
-<span class="fc" id="L143">        insertIndexColumn(table);</span>
-<span class="fc" id="L144">        return table;</span>
-    }
-
-    /**
-     * Reads the attributed data CSV file from the long path into a Tablesaw Table, and adds an index column to the table.
-      * 
-      * @pre The attributed data CSV file exists at the long path with the right data.
-      *
-     * @return A Tablesaw Table containing the data from the attributed data CSV file at the long path, with an added index column.
-     */
-    public static Table readAttributedDataLongPath(){
-<span class="fc" id="L155">        CsvReadOptions options = createCsvReadOptions(DataPath.ATTRIBUTED_DATA_CSV_LONG.toString());</span>
-<span class="fc" id="L156">        Table table = Table.read().usingOptions(options);</span>
-<span class="fc" id="L157">        insertIndexColumn(table);</span>
-<span class="fc" id="L158">        return table;</span>
-    }
-
-    /**
-     * Reads the cleaned and attributed data CSV file into a Tablesaw Table, and adds an index column to the table.
-      * 
-      * @pre The cleaned and attributed data CSV file exists with the right data.
-      *
-     * @return A Tablesaw Table containing the data from the cleaned and attributed data CSV file, with an added index column.
-     */
-    public static Table readCleanedAttributedData(){
-<span class="fc" id="L169">        CsvReadOptions options = createCsvReadOptions(DataPath.CLEANED_ATTRIBUTED_DATA_CSV.toString());</span>
-<span class="fc" id="L170">        Table table = Table.read().usingOptions(options);</span>
-<span class="fc" id="L171">        insertIndexColumn(table);</span>
-<span class="fc" id="L172">        return table;</span>
-    }
-
-    /**
-     * Reads the cleaned and attributed data CSV file from the long path into a Tablesaw Table, and adds an index column to the table.
-      * 
-      * @pre The cleaned and attributed data CSV file exists at the long path with the right data.
-      *
-     * @return A Tablesaw Table containing the data from the cleaned and attributed data CSV file at the long path, with an added index column.
-     */
-    public static Table readCleanedAttributedDataLongPath(){
-<span class="fc" id="L183">        CsvReadOptions options = createCsvReadOptions(DataPath.CLEANED_ATTRIBUTED_DATA_CSV_LONG.toString());</span>
-<span class="fc" id="L184">        Table table = Table.read().usingOptions(options);</span>
-<span class="fc" id="L185">        insertIndexColumn(table);</span>
-<span class="fc" id="L186">        return table;</span>
+    public static Table readData(DataPath dataPath){
+<span class="fc" id="L116">        CsvReadOptions options = createCsvReadOptions(dataPath.toString());</span>
+<span class="fc" id="L117">        Table table = Table.read().usingOptions(options);  </span>
+<span class="fc" id="L118">        insertIndexColumn(table);</span>
+<span class="fc" id="L119">        return table;</span>
     }
 
     /**
      * Writes the cleaned data CSV file.
-     *
+     * 
      * @param table The Tablesaw Table containing the data to be written.
+     * @param dataPath The DataPath enum value representing the path to the CSV file to be written.
+     *
+     * @post The cleaned data CSV file is created at the specified path, containing the data from the provided table.
      */
-    public static void writeCleanedData(Table table) {
-<span class="nc" id="L195">        table.write().csv(DataPath.CLEANED_DATA_CSV.toString());</span>
-<span class="nc" id="L196">    }</span>
+    @Generated
+    public static void writeData(Table table, DataPath dataPath){
+        table.write().csv(dataPath.toString());
+    }
 
-    /**
-     * Writes the cleaned data CSV file to the long path.
-     *
-     * @param table The Tablesaw Table containing the data to be written.
-     */
-    public static void writeCleanedDataLongPath(Table table) {
-<span class="nc" id="L204">        table.write().csv(DataPath.CLEANED_DATA_CSV_LONG.toString());</span>
-<span class="nc" id="L205">    }</span>
-
-    /**
-     * Writes the attributed data CSV file.
-     *
-     * @param table The Tablesaw Table containing the data to be written.
-     */
-    public static void writeAttributedData(Table table) {
-<span class="nc" id="L213">        table.write().csv(DataPath.ATTRIBUTED_DATA_CSV.toString());</span>
-<span class="nc" id="L214">    }</span>
-
-    /**
-     * Writes the attributed data CSV file to the long path.
-     *
-     * @param table The Tablesaw Table containing the data to be written.
-     */
-    public static void writeAttributedDataLongPath(Table table) {
-<span class="nc" id="L222">        table.write().csv(DataPath.ATTRIBUTED_DATA_CSV_LONG.toString());</span>
-<span class="nc" id="L223">    }</span>
-
-    /**
-     * Writes the cleaned and attributed data CSV file.
-     *
-     * @param table The Tablesaw Table containing the data to be written.
-     */
-    public static void writeCleanedAttributedData(Table table) {
-<span class="nc" id="L231">        table.write().csv(DataPath.CLEANED_ATTRIBUTED_DATA_CSV.toString());</span>
-<span class="nc" id="L232">    }</span>
-
-    /**
-     * Writes the cleaned and attributed data CSV file to the long path.
-     *
-     * @param table The Tablesaw Table containing the data to be written.
-     */
-    public static void writeCleanedAttributedDataLongPath(Table table) {
-<span class="nc" id="L240">        table.write().csv(DataPath.CLEANED_ATTRIBUTED_DATA_CSV_LONG.toString());</span>
-<span class="nc" id="L241">    }</span>
-   
     /** Inserts an index column into the given table, with values from 0 to rowCount-1.
      * 
      * @param table The Tablesaw Table to have the index column inserted. The table must not already contain a column with the name specified by TableColumnName.INDEX.
      */
     private static void insertIndexColumn(Table table) {
-<span class="fc" id="L248">        int rowCount = table.rowCount();</span>
-<span class="fc" id="L249">        ShortColumn indexColumn = ShortColumn.create(</span>
-<span class="fc" id="L250">            TableColumnName.INDEX.getColumnName(), </span>
-<span class="fc" id="L251">            IntStream.range(0, rowCount).mapToObj(i -&gt; (short) i).toArray(Short[]::new)</span>
+<span class="fc" id="L140">        int rowCount = table.rowCount();</span>
+<span class="fc" id="L141">        ShortColumn indexColumn = ShortColumn.create(</span>
+<span class="fc" id="L142">            TableColumnName.INDEX.getColumnName(), </span>
+<span class="fc" id="L143">            IntStream.range(0, rowCount).mapToObj(i -&gt; (short) i).toArray(Short[]::new)</span>
         );
-<span class="fc" id="L253">        table.addColumns( indexColumn );</span>
-<span class="fc" id="L254">    }</span>
+<span class="fc" id="L145">        table.addColumns( indexColumn );</span>
+<span class="fc" id="L146">    }</span>
 
     /** Converts a Tablesaw Table to a list of Rows. Uses a loop instead of stream due to stream returning a list of the same row repeated.
      * 
@@ -260,34 +152,11 @@ public class TableUtils {
      * @return A list of Rows representing the data in the table.
      */
     public static List&lt;Row&gt; tableToRowList(Table table) {
-<span class="fc" id="L263">        List&lt;Row&gt; rows = new ArrayList&lt;&gt;();</span>
-<span class="fc bfc" id="L264" title="All 2 branches covered.">        for( int i = 0; i &lt; table.rowCount(); i++ )</span>
-<span class="fc" id="L265">            rows.add(table.row(i));</span>
-<span class="fc" id="L266">        return rows;</span>
+<span class="fc" id="L155">        List&lt;Row&gt; rows = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L156" title="All 2 branches covered.">        for( int i = 0; i &lt; table.rowCount(); i++ )</span>
+<span class="fc" id="L157">            rows.add(table.row(i));</span>
+<span class="fc" id="L158">        return rows;</span>
     }
 
-    /** Compares two Tablesaw Tables for equality by checking that they have the same number of rows and columns, the same column names in the same order, and the same values in each cell.
-     * 
-     * @pre table1 and table2 are not null. The tables contain properly formatted data with the expected columns for the application.
-     * @param table1 The first Table to be compared.
-     * @param table2 The second Table to be compared.
-     * @return true if the tables are equal in terms of structure and content, false otherwise.
-     */
-    public static boolean equals(Table table1, Table table2) {
-        //Ensure same number of rows and columns
-<span class="nc bnc" id="L278" title="All 4 branches missed.">        if (table1.rowCount() != table2.rowCount() || table1.columnCount() != table2.columnCount())</span>
-<span class="nc" id="L279">            return false;</span>
-        //Ensure same column names in same order
-<span class="nc bnc" id="L281" title="All 2 branches missed.">        for( int x = 0; x &lt; table1.columnCount(); x++ )</span>
-<span class="nc bnc" id="L282" title="All 2 branches missed.">            if (!table1.column(x).name().equals(table2.column(x).name()))</span>
-<span class="nc" id="L283">                return false;</span>
-        //Ensure same values in each cell
-<span class="nc bnc" id="L285" title="All 2 branches missed.">        for (int r = 0; r &lt; table1.rowCount(); r++)</span>
-<span class="nc bnc" id="L286" title="All 2 branches missed.">            for (int c = 0; c &lt; table1.columnCount(); c++)</span>
-<span class="nc bnc" id="L287" title="All 2 branches missed.">                if (!table1.get(r, c).equals(table2.get(r, c)))</span>
-<span class="nc" id="L288">                    return false;</span>
-
-<span class="nc" id="L290">        return true;</span>
-    }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

@@ -1,5 +1,6 @@
 package org.troy.capstone;
 
+import org.troy.capstone.constants.DataPath;
 import org.troy.capstone.constants.TableColumnName;
 import org.troy.capstone.constants.UIElementName;
 import org.troy.capstone.constants.UISizeControl;
@@ -26,7 +27,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
 
         //Load data from csv and set into ItemHashMap
-        Table table = TableUtils.readCleanedAttributedData();
+        Table table = TableUtils.readData(DataPath.CLEANED_ATTRIBUTED_DATA);
         ItemHashMap itemHashMap = ItemHashMap.fromTable(table);
         
         //Create generalManager

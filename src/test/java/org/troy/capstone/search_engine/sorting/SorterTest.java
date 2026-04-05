@@ -1,19 +1,18 @@
 package org.troy.capstone.search_engine.sorting;
 
+import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 import org.troy.capstone.TestDataHolder;
+import org.troy.capstone.TestUtils;
 import org.troy.capstone.constants.TableColumnName;
 import org.troy.capstone.search_engine.sorting.comparator.RowComparator;
 import org.troy.capstone.search_engine.sorting.comparator.RowComparator.SortType;
 
 import tech.tablesaw.api.FloatColumn;
 import tech.tablesaw.api.Table;
-
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.params.provider.EnumSource;
-import org.junit.Test;
-import org.junit.jupiter.api.BeforeAll;
-import org.troy.capstone.utils.TableUtils;
 
 public class SorterTest {
     private static final Table testTable = TestDataHolder.getTableCopy().first(50);
@@ -54,14 +53,14 @@ public class SorterTest {
     @DisplayName("Test sortTable with a null comparator")
     public void testSortTableWithNullComparator() {
         Table tempTable = Sorter.sortTable(testTable, null, null);
-        assert TableUtils.equals(tempTable, testTable) : "Table should remain unchanged when comparator is null";
+        assert TestUtils.equals(tempTable, testTable) : "Table should remain unchanged when comparator is null";
     }
 
     @Test
     @DisplayName("Test sortTable with the wrong type for the comparator (should not throw an exception, but should return the original table)")
     public void testSortTableWithWrongComparatorType() {
         Table tempTable = Sorter.sortTable(testTable, "", null);
-        assert TableUtils.equals(tempTable, testTable) : "Table should remain unchanged when comparator is of the wrong type";
+        assert TestUtils.equals(tempTable, testTable) : "Table should remain unchanged when comparator is of the wrong type";
     }
 
 }

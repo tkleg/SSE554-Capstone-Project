@@ -30,7 +30,6 @@ digraph "summary" {
   "org.troy.capstone.annotations"                    -> "java.lang (java.base)";
   "org.troy.capstone.annotations"                    -> "java.lang.annotation (java.base)";
   "org.troy.capstone.constants"                      -> "java.lang (java.base)";
-  "org.troy.capstone.constants"                      -> "java.lang.invoke (java.base)";
   "org.troy.capstone.constants"                      -> "java.util (java.base)";
   "org.troy.capstone.data_manipulation"              -> "com.fasterxml.jackson.databind (not found)";
   "org.troy.capstone.data_manipulation"              -> "java.io (java.base)";

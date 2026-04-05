@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.troy.capstone.ENV;
+import org.troy.capstone.constants.DataPath;
 import org.troy.capstone.constants.TableColumnName;
 import org.troy.capstone.utils.TableUtils;
 
@@ -25,7 +26,7 @@ public class ImageUrlFiller {
 
     public static void main(String[] args) {
         //Load csv file
-        Table productData = TableUtils.readCleanedData();
+        Table productData = TableUtils.readData(DataPath.CLEANED_DATA);
 
         StringColumn imageUrlColumn = productData.stringColumn(TableColumnName.IMAGE_URL.getColumnName());
         StringColumn nameColumn = productData.stringColumn(TableColumnName.NAME.getColumnName());
@@ -115,6 +116,6 @@ public class ImageUrlFiller {
         System.out.println("Final dataset size after cleanup: " + productData.rowCount() + " rows.");
 
         //Save updated table to new CSV
-        TableUtils.writeAttributedData(productData);
+        TableUtils.writeData(productData, DataPath.ATTRIBUTED_DATA);
     }
 }

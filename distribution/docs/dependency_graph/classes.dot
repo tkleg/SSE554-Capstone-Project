@@ -33,6 +33,7 @@ digraph "classes" {
    "org.troy.capstone.EntryPoints"                    -> "java.util.Set (java.base)";
    "org.troy.capstone.EntryPoints"                    -> "java.util.function.Consumer (java.base)";
    "org.troy.capstone.EntryPoints"                    -> "java.util.stream.Stream (java.base)";
+   "org.troy.capstone.EntryPoints"                    -> "org.troy.capstone.constants.DataPath (classes)";
    "org.troy.capstone.EntryPoints"                    -> "org.troy.capstone.constants.TableColumnName (classes)";
    "org.troy.capstone.EntryPoints"                    -> "org.troy.capstone.data_structures.item_table.ItemHashMap (classes)";
    "org.troy.capstone.EntryPoints"                    -> "org.troy.capstone.data_structures.item_table.SieveOfEratosthenes (classes)";
@@ -64,6 +65,7 @@ digraph "classes" {
    "org.troy.capstone.Main"                           -> "javafx.scene.control.TextField (not found)";
    "org.troy.capstone.Main"                           -> "javafx.scene.layout.GridPane (not found)";
    "org.troy.capstone.Main"                           -> "javafx.stage.Stage (not found)";
+   "org.troy.capstone.Main"                           -> "org.troy.capstone.constants.DataPath (classes)";
    "org.troy.capstone.Main"                           -> "org.troy.capstone.constants.TableColumnName (classes)";
    "org.troy.capstone.Main"                           -> "org.troy.capstone.constants.UIElementName (classes)";
    "org.troy.capstone.Main"                           -> "org.troy.capstone.constants.UISizeControl (classes)";
@@ -87,11 +89,6 @@ digraph "classes" {
    "org.troy.capstone.constants.DataPath"             -> "java.lang.Enum (java.base)";
    "org.troy.capstone.constants.DataPath"             -> "java.lang.Object (java.base)";
    "org.troy.capstone.constants.DataPath"             -> "java.lang.String (java.base)";
-   "org.troy.capstone.constants.DataPath"             -> "java.lang.invoke.CallSite (java.base)";
-   "org.troy.capstone.constants.DataPath"             -> "java.lang.invoke.MethodHandles (java.base)";
-   "org.troy.capstone.constants.DataPath"             -> "java.lang.invoke.MethodHandles$Lookup (java.base)";
-   "org.troy.capstone.constants.DataPath"             -> "java.lang.invoke.MethodType (java.base)";
-   "org.troy.capstone.constants.DataPath"             -> "java.lang.invoke.StringConcatFactory (java.base)";
    "org.troy.capstone.constants.TableColumnName"      -> "java.lang.Class (java.base)";
    "org.troy.capstone.constants.TableColumnName"      -> "java.lang.Enum (java.base)";
    "org.troy.capstone.constants.TableColumnName"      -> "java.lang.Object (java.base)";
@@ -150,6 +147,7 @@ digraph "classes" {
    "org.troy.capstone.data_manipulation.ImageUrlFiller" -> "java.util.stream.IntStream (java.base)";
    "org.troy.capstone.data_manipulation.ImageUrlFiller" -> "java.util.stream.Stream (java.base)";
    "org.troy.capstone.data_manipulation.ImageUrlFiller" -> "org.troy.capstone.ENV (classes)";
+   "org.troy.capstone.data_manipulation.ImageUrlFiller" -> "org.troy.capstone.constants.DataPath (classes)";
    "org.troy.capstone.data_manipulation.ImageUrlFiller" -> "org.troy.capstone.constants.TableColumnName (classes)";
    "org.troy.capstone.data_manipulation.ImageUrlFiller" -> "org.troy.capstone.utils.TableUtils (classes)";
    "org.troy.capstone.data_manipulation.ImageUrlFiller" -> "tech.tablesaw.api.StringColumn (not found)";
@@ -525,6 +523,7 @@ digraph "classes" {
    "org.troy.capstone.search_engine.query.MyBM25"     -> "org.apache.lucene.search.similarities.Similarity (not found)";
    "org.troy.capstone.search_engine.query.MyBM25"     -> "org.apache.lucene.store.ByteBuffersDirectory (not found)";
    "org.troy.capstone.search_engine.query.MyBM25"     -> "org.apache.lucene.store.Directory (not found)";
+   "org.troy.capstone.search_engine.query.MyBM25"     -> "org.troy.capstone.constants.DataPath (classes)";
    "org.troy.capstone.search_engine.query.MyBM25"     -> "org.troy.capstone.constants.TableColumnName (classes)";
    "org.troy.capstone.search_engine.query.MyBM25"     -> "org.troy.capstone.utils.TableUtils (classes)";
    "org.troy.capstone.search_engine.query.MyBM25"     -> "tech.tablesaw.api.Row (not found)";

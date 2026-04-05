@@ -69,7 +69,7 @@ public class RecentlyViewedQueue extends ArrayBlockingQueue<SearchedItemPanel>{
      * @return A List of SearchedItemPanel objects representing the items in the queue, in order from oldest to newest.
      */
     public List<SearchedItemPanel> peekAll() {
-        return new ArrayList<>(this);
+        return new ArrayList<>(this).reversed();
     }
     
 }

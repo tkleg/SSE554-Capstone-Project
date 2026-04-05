@@ -28,20 +28,17 @@ public class TableUtilsTest {
     
     @ParameterizedTest
     @DisplayName("Test columns and size of data table with all data path options")
-    @EnumSource(value = DataPath.class, names = {"ROOT"}, mode = EnumSource.Mode.EXCLUDE)
+    @EnumSource(DataPath.class)
     public void testReadData(DataPath dataPath) {
         Table table = switch(dataPath){
-            case CLEANED_DATA_CSV -> TableUtils.readCleanedData();
-            case CLEANED_DATA_CSV_LONG -> TableUtils.readCleanedDataLongPath();
-            case ATTRIBUTED_DATA_CSV -> TableUtils.readAttributedData();
-            case ATTRIBUTED_DATA_CSV_LONG -> TableUtils.readAttributedDataLongPath();
-            case CLEANED_ATTRIBUTED_DATA_CSV -> TableUtils.readCleanedAttributedData();
-            case CLEANED_ATTRIBUTED_DATA_CSV_LONG -> TableUtils.readCleanedAttributedDataLongPath();
+            case CLEANED_DATA -> TableUtils.readData(DataPath.CLEANED_DATA);
+            case ATTRIBUTED_DATA -> TableUtils.readData(DataPath.ATTRIBUTED_DATA);
+            case CLEANED_ATTRIBUTED_DATA -> TableUtils.readData(DataPath.CLEANED_ATTRIBUTED_DATA);
             default -> throw new IllegalArgumentException("Unexpected DataPath value: " + dataPath + "Expected one of the specific data paths, not ROOT");
         };
         assertNotNull(table, "Table should not be null");
         //The cleaned attributed data has 1000 rows, since some rows were not able to be attributed
-        if( dataPath == DataPath.CLEANED_DATA_CSV || dataPath == DataPath.CLEANED_DATA_CSV_LONG )
+        if( dataPath == DataPath.CLEANED_DATA )
             assertEquals(1000, table.rowCount(), "Cleaned Attributed Data Table should have 1000 rows");
         else
             assertEquals(961, table.rowCount(), "Table should have 961 rows");

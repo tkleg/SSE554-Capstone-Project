@@ -2,8 +2,10 @@ package org.troy.capstone;
 
 import java.util.List;
 
+import org.troy.capstone.constants.DataPath;
 import org.troy.capstone.data_structures.item_table.ItemHashMap;
 import org.troy.capstone.utils.TableUtils;
+
 import tech.tablesaw.api.Table;
 
 public class TestDataHolder {
@@ -12,7 +14,7 @@ public class TestDataHolder {
     private static final List<String> allItemIds;
 
     static {
-        table = TableUtils.readCleanedAttributedData();
+        table = TableUtils.readData(DataPath.CLEANED_ATTRIBUTED_DATA);
         itemHashMap = ItemHashMap.fromTable(table);
         allItemIds = itemHashMap.getItemIdsAsList();
     }
