@@ -1,6 +1,7 @@
 digraph "classes" {
     // Path: target\classes
    "data_structures.PriceTree"      -> "constants.TableColumnName";
+   "data_structures.RecentlyViewedQueue" -> "constants.MiscValues";
    "data_structures.RecentlyViewedQueue" -> "data_structures.item_table.ItemHashMap";
    "data_structures.RecentlyViewedQueue" -> "entities.Item";
    "data_structures.RecentlyViewedQueue" -> "ui_components.items.SearchedItemPanel";
@@ -44,6 +45,7 @@ digraph "classes" {
    "search_engine.sorting.QuickSort" -> "annotations.Generated";
    "search_engine.sorting.QuickSort" -> "search_engine.sorting.LongWrapper";
    "search_engine.sorting.QuickSort" -> "search_engine.sorting.comparator.RowComparator";
+   "search_engine.sorting.Sorter"   -> "constants.MiscValues";
    "search_engine.sorting.Sorter"   -> "search_engine.sorting.InsertionSort";
    "search_engine.sorting.Sorter"   -> "search_engine.sorting.LongWrapper";
    "search_engine.sorting.Sorter"   -> "search_engine.sorting.QuickSort";

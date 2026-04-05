@@ -1,8 +1,10 @@
 package org.troy.capstone.search_engine.sorting;
 
-import org.junit.Test;
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 import org.troy.capstone.TestDataHolder;
@@ -10,8 +12,10 @@ import org.troy.capstone.TestUtils;
 import org.troy.capstone.constants.TableColumnName;
 import org.troy.capstone.search_engine.sorting.comparator.RowComparator;
 import org.troy.capstone.search_engine.sorting.comparator.RowComparator.SortType;
+import org.troy.capstone.utils.TableUtils;
 
 import tech.tablesaw.api.FloatColumn;
+import tech.tablesaw.api.Row;
 import tech.tablesaw.api.Table;
 
 public class SorterTest {
@@ -61,6 +65,38 @@ public class SorterTest {
     public void testSortTableWithWrongComparatorType() {
         Table tempTable = Sorter.sortTable(testTable, "", null);
         assert TestUtils.equals(tempTable, testTable) : "Table should remain unchanged when comparator is of the wrong type";
+    }
+
+    @Test
+    @DisplayName("Test mixedSort with a small list (should use insertion sort only)")
+    public void testMixedSortWithSmallList() {
+        Table tempTable = testTable.first(10);
+        RowComparator comparator = new RowComparator(RowComparator.SortType.PRICE_ASCENDING);
+        LongWrapper time = new LongWrapper();
+        
+        List<Row> rows = TableUtils.tableToRowList(tempTable);
+        Table afterSortTable = tempTable.emptyCopy();
+        Sorter.mixedSort(rows, comparator, time);
+        rows.forEach(afterSortTable::append);
+        
+        assert time.getValue() > 0 : "Time should be recorded for sorting";
+        assert SortingAnalysis.isSorted(afterSortTable, comparator) : "Table should be sorted according to the PRICE_ASCENDING comparator";
+    }
+
+    @Test
+    @DisplayName("Test mixedSort with a large list (should use both insertion sort and quick sort)")
+    public void testMixedSortWithLargeList() {
+        Table tempTable = testTable;
+        RowComparator comparator = new RowComparator(RowComparator.SortType.PRICE_ASCENDING);
+        LongWrapper time = new LongWrapper();
+
+        List<Row> rows = TableUtils.tableToRowList(tempTable);
+        Sorter.mixedSort(rows, comparator, time);
+        Table afterSortTable = tempTable.emptyCopy();
+        rows.forEach(afterSortTable::append);
+        
+        assert time.getValue() > 0 : "Time should be recorded for sorting";
+        assert SortingAnalysis.isSorted(afterSortTable, comparator) : "Table should be sorted according to the PRICE_ASCENDING comparator";
     }
 
 }

@@ -68,7 +68,7 @@ public class SortingAnalysis {
 
     public static Table analyzeSortingPerformance(Table table, Table performanceTable, String algorithm, int numberOfTrials, RowComparator comparator, int step ) throws Exception {
         IntColumn tableSizeColumn = performanceTable.intColumn("Table Size");
-        StringColumn sortTypeColumn = performanceTable.stringColumn("Sort Type");
+        StringColumn algorithmColumn = performanceTable.stringColumn("Algorithm");
         StringColumn comparatorColumn = performanceTable.stringColumn("Comparator");
         LongColumn avgTimeColumn = performanceTable.longColumn("Average Time (ns)");
 
@@ -82,6 +82,7 @@ public class SortingAnalysis {
                 switch (algorithm) {
                     case "quick" -> QuickSort.quickSort(rows, comparator, timeArr.get(x));
                     case "insertion" -> InsertionSort.insertionSort(rows, comparator, timeArr.get(x));
+                    case "mixed" -> Sorter.mixedSort(rows, comparator, timeArr.get(x));
                     default -> throw new IllegalArgumentException("Unsupported sorting algorithm: " + algorithm);
                 }
             }
@@ -94,7 +95,7 @@ public class SortingAnalysis {
 
             //Add a new row to the performance table
             tableSizeColumn.append(size);
-            sortTypeColumn.append(algorithm);
+            algorithmColumn.append(algorithm);
             comparatorColumn.append(comparator.toString());
             avgTimeColumn.append(time.getValue());
         }
