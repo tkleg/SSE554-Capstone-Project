@@ -24,24 +24,28 @@ public class SimilarItemsGraph {
         }
     }
 
-    /**
     @SuppressWarnings("OverridableMethodCallInConstructor")
     public SimilarItemsGraph() {
-        this.numItems = 5;
+        this.numItems = 8;
         this.itemHashMap = null; // Not needed for this test
         adjacencyList = new HashMap<>();
         for (int i = 0; i < numItems; i++)
             adjacencyList.put(i, new ArrayList<>());
         // Manually add edges as per your test case
-        addEdge(0, 1, 4);
-        addEdge(0, 2, 8);
-        addEdge(1, 2, 3);
-        addEdge(1, 4, 6);
-        addEdge(2, 3, 2);
-        addEdge(3, 4, 10);
+        addEdge(0, 1, 6);
+        addEdge(0, 3, 5);
+        addEdge(0, 4, 5);
+        addEdge(1, 5, 2);
+        addEdge(2, 5, 7);
+        addEdge(2, 6, 2);
+        addEdge(2, 4, 4);
+        addEdge(3, 5, 3);
+        addEdge(4, 6, 2);
+        addEdge(4, 7, 9);
+        addEdge(5, 6, 1);
     }
-    */
 
+    /**
     @SuppressWarnings("OverridableMethodCallInConstructor")
     public SimilarItemsGraph() {
         this.numItems = 6;
@@ -59,6 +63,7 @@ public class SimilarItemsGraph {
         addEdge('C', 'E', 5);
         addEdge('D', 'E', 10);
     }
+    */
 
     public SimilarItemsGraph(ItemHashMap itemHashMap) {
         this.numItems = itemHashMap.size();
@@ -79,8 +84,8 @@ public class SimilarItemsGraph {
     }
 
     public void addEdge(int sourceItemIndex, int destItemIndex, float weight) {
-        if (weight < MiscValues.MIN_SIMILARITY_SCORE.getValue())
-            return;
+        //if (weight < MiscValues.MIN_SIMILARITY_SCORE.getValue())
+        //    return;
 
         adjacencyList.computeIfAbsent(sourceItemIndex, k -> new ArrayList<>())
             .add(new Edge(destItemIndex, weight));
@@ -142,7 +147,7 @@ public class SimilarItemsGraph {
 
     public static void main(String[] args) {
         SimilarItemsGraph graph = new SimilarItemsGraph();
-        List<int[]> similarItems = graph.dijkstra('S');
+        List<int[]> similarItems = graph.dijkstra(1);
         for (int[] pair : similarItems) {
             System.out.println("Item " + pair[0] + " with similarity score " + pair[1]);
         }
