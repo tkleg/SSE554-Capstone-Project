@@ -12,8 +12,10 @@ import org.troy.capstone.constants.TableColumnName;
 import org.troy.capstone.constants.URL;
 import org.troy.capstone.utils.Converters;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import net.datafaker.Faker;
 import tech.tablesaw.api.Row;
 
@@ -23,6 +25,8 @@ import tech.tablesaw.api.Row;
  */
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Item {
     /** Faker instance for generating random data. */
     private static final Faker faker = new Faker();
