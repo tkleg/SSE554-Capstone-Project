@@ -19,7 +19,9 @@
     /** UI element name for the sorting option dropdown. */
 <span class="fc" id="L20">    SORTING_OPTION_DROPDOWN(&quot;SORTING_OPTION_DROPDOWN&quot;),</span>
     /** UI element name for the recently viewed window. */
-<span class="fc" id="L22">    RECENTLY_VIEWED_WINDOW(&quot;RECENTLY_VIEWED_WINDOW&quot;);</span>
+<span class="fc" id="L22">    RECENTLY_VIEWED_WINDOW(&quot;RECENTLY_VIEWED_WINDOW&quot;),</span>
+    /** UI element name for the container holding similar items. */
+<span class="fc" id="L24">    SIMILAR_ITEMS_CONTAINER(&quot;SIMILAR_ITEMS_CONTAINER&quot;);</span>
 
     /** The string value associated with this enum constant, used for UI element identifiers. */
     private final String value;
@@ -27,15 +29,15 @@
     /** Constructor for the enum constants.
      * @param value The string value to associate with this enum constant.
     */
-<span class="fc" id="L30">    UIElementName(String value) {</span>
-<span class="fc" id="L31">        this.value = value;</span>
-<span class="fc" id="L32">    }</span>
+<span class="fc" id="L32">    UIElementName(String value) {</span>
+<span class="fc" id="L33">        this.value = value;</span>
+<span class="fc" id="L34">    }</span>
 
     /** Getter for the string value associated with this enum constant.
      * @return The string value that can be used as an identifier for UI elements.
     */
     public String getValue() {
-<span class="fc" id="L38">        return value;</span>
+<span class="fc" id="L40">        return value;</span>
     }
 
 }

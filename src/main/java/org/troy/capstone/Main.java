@@ -11,6 +11,7 @@ import org.troy.capstone.ui_components.SearchBar;
 import org.troy.capstone.ui_components.filters.StarRatingFilter;
 import org.troy.capstone.ui_components.filters.categorical.FiltersContainer;
 import org.troy.capstone.ui_components.items.RecentlyViewedWindow;
+import org.troy.capstone.ui_components.items.SimilarItemsContainer;
 import org.troy.capstone.ui_components.items.searched.SearchedItemPagination;
 import org.troy.capstone.utils.TableUtils;
 
@@ -96,6 +97,9 @@ public class Main extends Application {
         generalManager.addUIElement(UIElementName.STAR_RATING_FILTER, starRatingFilter);
         gridPane.add(starRatingFilter, 3, 0, 1, 1);
         
+        SimilarItemsContainer similarItemsContainer = SimilarItemsContainer.create();
+        generalManager.addUIElement(UIElementName.SIMILAR_ITEMS_CONTAINER, similarItemsContainer);
+        gridPane.add(similarItemsContainer, 2, 2, 2, 1);
 
         // Set preferred size to fit all content initially
         gridPane.setPrefSize(GridPane.USE_COMPUTED_SIZE, GridPane.USE_COMPUTED_SIZE);

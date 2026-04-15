@@ -7,7 +7,6 @@ digraph "summary" {
   "org.troy.capstone"                                -> "java.util.function (java.base)";
   "org.troy.capstone"                                -> "java.util.stream (java.base)";
   "org.troy.capstone"                                -> "javafx.application (not found)";
-  "org.troy.capstone"                                -> "javafx.collections (not found)";
   "org.troy.capstone"                                -> "javafx.geometry (not found)";
   "org.troy.capstone"                                -> "javafx.scene (not found)";
   "org.troy.capstone"                                -> "javafx.scene.control (not found)";

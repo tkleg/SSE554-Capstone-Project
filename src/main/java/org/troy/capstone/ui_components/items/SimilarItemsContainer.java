@@ -13,7 +13,7 @@ public class SimilarItemsContainer extends HBox {
      * @pre The SimilarItemsContainer should be properly initialized to contain an HBox layout with a title label.
      * @post The SimilarItemsContainer instance is created with an HBox layout containing a title label, ready to have similar items added to it.
      */
-    public SimilarItemsContainer() {
+    private SimilarItemsContainer() {
         super();
         Label titleLabel = new Label("Similar Items");
         titleLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
@@ -25,7 +25,7 @@ public class SimilarItemsContainer extends HBox {
     */
     public static SimilarItemsContainer create() {
         SimilarItemsContainer container = new SimilarItemsContainer();
-        UIUtils.setSize(container, UISizeControl.RECENTLY_VIEWED_WINDOW_HEIGHT.getValue(), UISizeControl.RECENTLY_VIEWED_WINDOW_WIDTH.getValue());
+        UIUtils.setSize(container, UISizeControl.SIMILAR_ITEMS_CONTAINER_WIDTH.getValue(), UISizeControl.SIMILAR_ITEMS_CONTAINER_HEIGHT.getValue());
         UIUtils.setLineBorder(container, 5, 1);
         return container;
     }

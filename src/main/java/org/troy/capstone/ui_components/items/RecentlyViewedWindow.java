@@ -21,6 +21,7 @@ public class RecentlyViewedWindow extends ScrollPane{
     public static RecentlyViewedWindow create() {
         RecentlyViewedWindow window = new RecentlyViewedWindow();
         UIUtils.setSize(window, UISizeControl.RECENTLY_VIEWED_WINDOW_WIDTH.getValue(), UISizeControl.RECENTLY_VIEWED_WINDOW_HEIGHT.getValue());
+        UIUtils.setLineBorder(window, 5, 1);
         return window;
     }
 

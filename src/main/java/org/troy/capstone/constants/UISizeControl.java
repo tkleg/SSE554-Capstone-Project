@@ -63,7 +63,10 @@ public enum UISizeControl {
     /** Width of the recently viewed items window, set to 85% of the searched item container width for consistency. */
     RECENTLY_VIEWED_WINDOW_WIDTH((int) (SEARCHED_ITEM_CONTAINER_WIDTH.value * 0.85)),
     /** Height of the recently viewed items window, set to match the height of the filters container for consistency. */
-    RECENTLY_VIEWED_WINDOW_HEIGHT(FILTERS_CONTAINER_HEIGHT.value);
+    RECENTLY_VIEWED_WINDOW_HEIGHT(FILTERS_CONTAINER_HEIGHT.value),
+
+    SIMILAR_ITEMS_CONTAINER_WIDTH(FILTERS_CONTAINER_WIDTH.value + RECENTLY_VIEWED_WINDOW_WIDTH.value + WIDTH_PADDING.value),
+    SIMILAR_ITEMS_CONTAINER_HEIGHT((int) (FILTERS_CONTAINER_WIDTH.value * 0.9));
 
     /** The integer value associated with this enum constant, used for size control in the UI. */
     private final int value;

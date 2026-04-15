@@ -54,10 +54,8 @@ digraph "classes" {
    "org.troy.capstone.EntryPoints"                    -> "tech.tablesaw.columns.Column (not found)";
    "org.troy.capstone.EntryPoints"                    -> "tech.tablesaw.io.DataFrameWriter (not found)";
    "org.troy.capstone.Main"                           -> "java.lang.Exception (java.base)";
-   "org.troy.capstone.Main"                           -> "java.lang.Object (java.base)";
    "org.troy.capstone.Main"                           -> "java.lang.String (java.base)";
    "org.troy.capstone.Main"                           -> "javafx.application.Application (not found)";
-   "org.troy.capstone.Main"                           -> "javafx.collections.ObservableList (not found)";
    "org.troy.capstone.Main"                           -> "javafx.geometry.Insets (not found)";
    "org.troy.capstone.Main"                           -> "javafx.scene.Node (not found)";
    "org.troy.capstone.Main"                           -> "javafx.scene.Parent (not found)";
@@ -69,9 +67,6 @@ digraph "classes" {
    "org.troy.capstone.Main"                           -> "javafx.scene.control.Slider (not found)";
    "org.troy.capstone.Main"                           -> "javafx.scene.control.TextField (not found)";
    "org.troy.capstone.Main"                           -> "javafx.scene.layout.GridPane (not found)";
-   "org.troy.capstone.Main"                           -> "javafx.scene.layout.Priority (not found)";
-   "org.troy.capstone.Main"                           -> "javafx.scene.layout.Region (not found)";
-   "org.troy.capstone.Main"                           -> "javafx.scene.layout.RowConstraints (not found)";
    "org.troy.capstone.Main"                           -> "javafx.stage.Stage (not found)";
    "org.troy.capstone.Main"                           -> "org.troy.capstone.constants.DataPath (classes)";
    "org.troy.capstone.Main"                           -> "org.troy.capstone.constants.TableColumnName (classes)";
@@ -84,6 +79,7 @@ digraph "classes" {
    "org.troy.capstone.Main"                           -> "org.troy.capstone.ui_components.filters.StarRatingFilter (classes)";
    "org.troy.capstone.Main"                           -> "org.troy.capstone.ui_components.filters.categorical.FiltersContainer (classes)";
    "org.troy.capstone.Main"                           -> "org.troy.capstone.ui_components.items.RecentlyViewedWindow (classes)";
+   "org.troy.capstone.Main"                           -> "org.troy.capstone.ui_components.items.SimilarItemsContainer (classes)";
    "org.troy.capstone.Main"                           -> "org.troy.capstone.ui_components.items.searched.SearchedItemPagination (classes)";
    "org.troy.capstone.Main"                           -> "org.troy.capstone.utils.TableUtils (classes)";
    "org.troy.capstone.Main"                           -> "tech.tablesaw.api.FloatColumn (not found)";

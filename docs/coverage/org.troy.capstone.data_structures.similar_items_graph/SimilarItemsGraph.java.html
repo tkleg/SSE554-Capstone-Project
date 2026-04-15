@@ -21,12 +21,20 @@ public class SimilarItemsGraph {
 
     /** Inner class to represent an edge in the graph. */
     class Edge{
+        /** The index of the destination item that this edge points to. */
         int destIndex;
+        /** The weight of the edge, representing the similarity score between the source and destination items. */
         float weight;
-<span class="nc" id="L26">        public Edge(int destIndex, float weight) {</span>
-<span class="nc" id="L27">            this.destIndex = destIndex;</span>
-<span class="nc" id="L28">            this.weight = weight;</span>
-<span class="nc" id="L29">        }</span>
+        /** Constructor for the Edge class. Initializes the destination index and weight of the edge.
+         * @param destIndex The index of the destination item that this edge points to.
+         * @param weight The weight of the edge, representing the similarity score between the source and destination items.
+         * @pre destIndex should be a valid item index corresponding to an item in the graph. weight should be a non-negative float representing the similarity score between the source and destination items.
+         * @post An Edge instance is created with the specified destination index and weight, representing an edge in the graph between two items with a certain similarity score.
+         */
+<span class="nc" id="L34">        public Edge(int destIndex, float weight) {</span>
+<span class="nc" id="L35">            this.destIndex = destIndex;</span>
+<span class="nc" id="L36">            this.weight = weight;</span>
+<span class="nc" id="L37">        }</span>
     }
 
     /**
@@ -75,16 +83,16 @@ public class SimilarItemsGraph {
     /** Constructor for SimilarItemsGraph. Initializes the graph with the given ItemHashMap.
      * @param itemHashMap The ItemHashMap containing the items to be added to the graph.
      */
-<span class="nc" id="L78">    public SimilarItemsGraph(ItemHashMap itemHashMap) {</span>
-<span class="nc" id="L79">        this.numItems = itemHashMap.size();</span>
-<span class="nc" id="L80">        this.itemHashMap = itemHashMap;</span>
-<span class="nc" id="L81">        adjacencyList = new HashMap&lt;&gt;();</span>
-<span class="nc bnc" id="L82" title="All 2 branches missed.">        for (int i = 0; i &lt; numItems; i++)</span>
-<span class="nc" id="L83">            adjacencyList.put(i, new ArrayList&lt;&gt;());</span>
-<span class="nc" id="L84">        System.out.println(&quot;Filling graph with &quot; + numItems + &quot; items...&quot;);</span>
-<span class="nc" id="L85">        fillGraph();</span>
-<span class="nc" id="L86">        System.out.println(&quot;Graph filled.&quot;);</span>
-<span class="nc" id="L87">    }</span>
+<span class="nc" id="L86">    public SimilarItemsGraph(ItemHashMap itemHashMap) {</span>
+<span class="nc" id="L87">        this.numItems = itemHashMap.size();</span>
+<span class="nc" id="L88">        this.itemHashMap = itemHashMap;</span>
+<span class="nc" id="L89">        adjacencyList = new HashMap&lt;&gt;();</span>
+<span class="nc bnc" id="L90" title="All 2 branches missed.">        for (int i = 0; i &lt; numItems; i++)</span>
+<span class="nc" id="L91">            adjacencyList.put(i, new ArrayList&lt;&gt;());</span>
+<span class="nc" id="L92">        System.out.println(&quot;Filling graph with &quot; + numItems + &quot; items...&quot;);</span>
+<span class="nc" id="L93">        fillGraph();</span>
+<span class="nc" id="L94">        System.out.println(&quot;Graph filled.&quot;);</span>
+<span class="nc" id="L95">    }</span>
 
     /** Adds an undirected edge between two items in the graph with the given weight.
      * @param sourceItemId The ID of the source item, represented as a character (e.g., 'A', 'B', etc.).
@@ -94,11 +102,11 @@ public class SimilarItemsGraph {
      * @post An undirected edge is added between the source and destination items in the graph with the specified weight. The adjacency list is updated to reflect the new edge.
      */
     public void addEdge(char sourceItemId, char destItemId, float weight) {
-<span class="nc" id="L97">        int sourceItemIndex = sourceItemId - 'A';</span>
-<span class="nc" id="L98">        int destItemIndex = destItemId - 'A';</span>
-<span class="nc" id="L99">        addEdge(sourceItemIndex, destItemIndex, weight);</span>
-<span class="nc" id="L100">        addEdge(destItemIndex, sourceItemIndex, weight);</span>
-<span class="nc" id="L101">    }</span>
+<span class="nc" id="L105">        int sourceItemIndex = sourceItemId - 'A';</span>
+<span class="nc" id="L106">        int destItemIndex = destItemId - 'A';</span>
+<span class="nc" id="L107">        addEdge(sourceItemIndex, destItemIndex, weight);</span>
+<span class="nc" id="L108">        addEdge(destItemIndex, sourceItemIndex, weight);</span>
+<span class="nc" id="L109">    }</span>
 
     /** Adds an undirected edge between two items in the graph with the given weight.
      * @param sourceItemIndex The index of the source item.
@@ -108,14 +116,14 @@ public class SimilarItemsGraph {
      * @post An undirected edge is added between the source and destination items in the graph with the specified weight. The adjacency list is updated to reflect the new edge. Nothing is done if the weight is below the minimum similarity score threshold defined in MiscValues.
      */
     public void addEdge(int sourceItemIndex, int destItemIndex, float weight) {
-<span class="nc bnc" id="L111" title="All 2 branches missed.">        if (weight &lt; MiscValues.MIN_SIMILARITY_SCORE.getValue())</span>
-<span class="nc" id="L112">            return;</span>
+<span class="nc bnc" id="L119" title="All 2 branches missed.">        if (weight &lt; MiscValues.MIN_SIMILARITY_SCORE.getValue())</span>
+<span class="nc" id="L120">            return;</span>
 
-<span class="nc" id="L114">        adjacencyList.computeIfAbsent(sourceItemIndex, k -&gt; new ArrayList&lt;&gt;())</span>
-<span class="nc" id="L115">            .add(new Edge(destItemIndex, weight));</span>
-<span class="nc" id="L116">        adjacencyList.computeIfAbsent(destItemIndex, k -&gt; new ArrayList&lt;&gt;())</span>
-<span class="nc" id="L117">            .add(new Edge(sourceItemIndex, weight));</span>
-<span class="nc" id="L118">    }</span>
+<span class="nc" id="L122">        adjacencyList.computeIfAbsent(sourceItemIndex, k -&gt; new ArrayList&lt;&gt;())</span>
+<span class="nc" id="L123">            .add(new Edge(destItemIndex, weight));</span>
+<span class="nc" id="L124">        adjacencyList.computeIfAbsent(destItemIndex, k -&gt; new ArrayList&lt;&gt;())</span>
+<span class="nc" id="L125">            .add(new Edge(sourceItemIndex, weight));</span>
+<span class="nc" id="L126">    }</span>
 
     /** Fills the graph with edges based on the similarity scores between items in the item hash map.
      * @pre itemHashMap should be properly initialized and contain valid items with a defined similarity
@@ -123,14 +131,14 @@ public class SimilarItemsGraph {
      * @post The graph is filled with undirected edges between items based on their similarity scores
      */
     private void fillGraph() {
-<span class="nc" id="L126">        List&lt;Item&gt; items = itemHashMap.values().stream().toList();</span>
-<span class="nc bnc" id="L127" title="All 2 branches missed.">        for (int i = 0; i &lt; numItems; i++) {</span>
-<span class="nc bnc" id="L128" title="All 2 branches missed.">            for (int j = i + 1; j &lt; numItems; j++) {</span>
-<span class="nc" id="L129">                float similarity = items.get(i).similarity(items.get(j));</span>
-<span class="nc" id="L130">                addEdge(i, j, similarity);</span>
+<span class="nc" id="L134">        List&lt;Item&gt; items = itemHashMap.values().stream().toList();</span>
+<span class="nc bnc" id="L135" title="All 2 branches missed.">        for (int i = 0; i &lt; numItems; i++) {</span>
+<span class="nc bnc" id="L136" title="All 2 branches missed.">            for (int j = i + 1; j &lt; numItems; j++) {</span>
+<span class="nc" id="L137">                float similarity = items.get(i).similarity(items.get(j));</span>
+<span class="nc" id="L138">                addEdge(i, j, similarity);</span>
             }
         }
-<span class="nc" id="L133">    }</span>
+<span class="nc" id="L141">    }</span>
 
     /**
     public List&lt;int[]&gt; dijkstra(char startItemId) {
@@ -143,40 +151,41 @@ public class SimilarItemsGraph {
      * @param startIndex The index of the starting item from which to compute the shortest paths to all other items in the graph.
      * @pre startIndex should be a valid item index corresponding to an item in the graph. The graph should be properly initialized with edges representing the similarity scores between items.
      * @post The method returns a list of integer arrays, where each array contains the index of a similar item and its corresponding similarity score (converted to an integer). The list is sorted in descending order of similarity scores and limited to the number of similar items to display as defined in MiscValues. Items that are not reachable from the start index (i.e., have a distance of Float.MAX_VALUE) are excluded from the returned list.
-    */
+     * @return A list of integer arrays, where each array contains the index of a similar item and its corresponding similarity score (converted to an integer). The list is sorted in descending order of similarity scores and limited to the number of similar items to display as defined in MiscValues.
+     */
     public List&lt;int[]&gt; dijkstra(int startIndex) {
-<span class="nc" id="L148">        PriorityQueue&lt;Edge&gt; pq = new PriorityQueue&lt;&gt;((a, b) -&gt; Float.compare(b.weight, a.weight));</span>
+<span class="nc" id="L157">        PriorityQueue&lt;Edge&gt; pq = new PriorityQueue&lt;&gt;((a, b) -&gt; Float.compare(b.weight, a.weight));</span>
 
         //Key is item index, value is distance from start index.
-<span class="nc" id="L151">        Map&lt;Integer,Float&gt; distances = new HashMap&lt;&gt;();</span>
-<span class="nc bnc" id="L152" title="All 2 branches missed.">        for (int i = 0; i &lt; numItems; i++)</span>
-<span class="nc" id="L153">            distances.put(i, Float.MAX_VALUE);</span>
+<span class="nc" id="L160">        Map&lt;Integer,Float&gt; distances = new HashMap&lt;&gt;();</span>
+<span class="nc bnc" id="L161" title="All 2 branches missed.">        for (int i = 0; i &lt; numItems; i++)</span>
+<span class="nc" id="L162">            distances.put(i, Float.MAX_VALUE);</span>
 
-<span class="nc" id="L155">        distances.put(startIndex, 0f);</span>
-<span class="nc" id="L156">        pq.offer(new Edge(startIndex, 0));</span>
+<span class="nc" id="L164">        distances.put(startIndex, 0f);</span>
+<span class="nc" id="L165">        pq.offer(new Edge(startIndex, 0));</span>
 
-<span class="nc bnc" id="L158" title="All 2 branches missed.">        while (!pq.isEmpty()) {</span>
-<span class="nc" id="L159">            Edge current = pq.poll();</span>
-<span class="nc" id="L160">            int currentIndex = current.destIndex;</span>
-<span class="nc" id="L161">            float currentDist = distances.get(currentIndex);</span>
+<span class="nc bnc" id="L167" title="All 2 branches missed.">        while (!pq.isEmpty()) {</span>
+<span class="nc" id="L168">            Edge current = pq.poll();</span>
+<span class="nc" id="L169">            int currentIndex = current.destIndex;</span>
+<span class="nc" id="L170">            float currentDist = distances.get(currentIndex);</span>
 
-<span class="nc bnc" id="L163" title="All 2 branches missed.">            if(currentDist &gt; distances.get(currentIndex))</span>
-<span class="nc" id="L164">                continue;</span>
+<span class="nc bnc" id="L172" title="All 2 branches missed.">            if(currentDist &gt; distances.get(currentIndex))</span>
+<span class="nc" id="L173">                continue;</span>
 
-<span class="nc bnc" id="L166" title="All 2 branches missed.">            for (Edge edge : adjacencyList.get(currentIndex)) {</span>
-<span class="nc bnc" id="L167" title="All 2 branches missed.">                if(distances.get(edge.destIndex) &gt; edge.weight + currentDist) {</span>
-<span class="nc" id="L168">                    distances.put(edge.destIndex, edge.weight + currentDist);</span>
-<span class="nc" id="L169">                    pq.offer(new Edge(edge.destIndex, distances.get(edge.destIndex)));</span>
+<span class="nc bnc" id="L175" title="All 2 branches missed.">            for (Edge edge : adjacencyList.get(currentIndex)) {</span>
+<span class="nc bnc" id="L176" title="All 2 branches missed.">                if(distances.get(edge.destIndex) &gt; edge.weight + currentDist) {</span>
+<span class="nc" id="L177">                    distances.put(edge.destIndex, edge.weight + currentDist);</span>
+<span class="nc" id="L178">                    pq.offer(new Edge(edge.destIndex, distances.get(edge.destIndex)));</span>
                 }
-<span class="nc" id="L171">            }</span>
-<span class="nc" id="L172">        }</span>
+<span class="nc" id="L180">            }</span>
+<span class="nc" id="L181">        }</span>
         
-<span class="nc" id="L174">        return distances.entrySet().stream()</span>
-<span class="nc bnc" id="L175" title="All 4 branches missed.">            .filter(entry -&gt; entry.getValue() &lt; Float.MAX_VALUE &amp;&amp; entry.getKey() != startIndex)</span>
-<span class="nc" id="L176">            .sorted(Map.Entry.&lt;Integer, Float&gt;comparingByValue().reversed())</span>
-<span class="nc" id="L177">            .limit(MiscValues.NUM_SIMILAR_ITEMS_TO_DISPLAY.getIntValue())</span>
-<span class="nc" id="L178">            .map(entry -&gt; new int[]{entry.getKey(), entry.getValue().intValue()})</span>
-<span class="nc" id="L179">            .toList();</span>
+<span class="nc" id="L183">        return distances.entrySet().stream()</span>
+<span class="nc bnc" id="L184" title="All 4 branches missed.">            .filter(entry -&gt; entry.getValue() &lt; Float.MAX_VALUE &amp;&amp; entry.getKey() != startIndex)</span>
+<span class="nc" id="L185">            .sorted(Map.Entry.&lt;Integer, Float&gt;comparingByValue().reversed())</span>
+<span class="nc" id="L186">            .limit(MiscValues.NUM_SIMILAR_ITEMS_TO_DISPLAY.getIntValue())</span>
+<span class="nc" id="L187">            .map(entry -&gt; new int[]{entry.getKey(), entry.getValue().intValue()})</span>
+<span class="nc" id="L188">            .toList();</span>
             
     }
 
