@@ -3,8 +3,8 @@ package org.troy.capstone.managers;
 import org.troy.capstone.data_structures.RecentlyViewedQueue;
 import org.troy.capstone.data_structures.item_table.ItemHashMap;
 import org.troy.capstone.interfaces.SearchedItemPanelInteractor;
+import org.troy.capstone.interfaces.SearchedItemPanelSourceUI;
 import org.troy.capstone.ui_components.items.RecentlyViewedWindow;
-import org.troy.capstone.ui_components.items.searched.SearchedItemPagination;
 
 import javafx.scene.Node;
 
@@ -29,17 +29,17 @@ public class RecentlyViewedManager implements SearchedItemPanelInteractor {
         this.recentlyViewedWindow = recentlyViewedWindow;
     }
 
-    /** Factory method to create a RecentlyViewedManager and attach it as a listener to the given SearchedItemPagination, allowing to receive item selection events from within the SearchedItemPagination.
+    /** Factory method to create a RecentlyViewedManager and attach it as a listener to the given SearchedItemPanelSourceUI, allowing to receive item selection events from within the SearchedItemPanelSourceUI.
      * 
-     * @pre itemHashMap, recentlyViewedWindow, and itemPagination are not null. itemPagination is an instance of SearchedItemPagination. recentlyViewedWindow is an instance of RecentlyViewedWindow.
+     * @pre itemHashMap, recentlyViewedWindow, and panelSourceUI are not null. panelSourceUI is an instance of SearchedItemPanelSourceUI. recentlyViewedWindow is an instance of RecentlyViewedWindow.
      * @param itemHashMap The ItemHashMap to use for retrieving item details.
      * @param recentlyViewedWindow The RecentlyViewedWindow to use for displaying recently viewed items.
-     * @param itemPagination The SearchedItemPagination that will hold the search results, used to attach listeners to the item panels within.
-     * @return A new instance of RecentlyViewedManager with the given parameters, and registered as a listener to the itemPagination.
+     * @param panelSourceUI The SearchedItemPanelSourceUI that will hold the search results, used to attach listeners to the item panels within.
+     * @return A new instance of RecentlyViewedManager with the given parameters, and registered as a listener to the panelSourceUI.
      */
-    static RecentlyViewedManager create(ItemHashMap itemHashMap, Node recentlyViewedWindow, Node itemPagination) {
+    static RecentlyViewedManager create(ItemHashMap itemHashMap, Node recentlyViewedWindow, SearchedItemPanelSourceUI panelSourceUI) {
         RecentlyViewedManager manager = new RecentlyViewedManager(itemHashMap, (RecentlyViewedWindow) recentlyViewedWindow);
-        ((SearchedItemPagination) itemPagination).addSearchedItemPanelInteractor(manager);
+        panelSourceUI.addSearchedItemPanelInteractor(manager);
         return manager;
     }
     
