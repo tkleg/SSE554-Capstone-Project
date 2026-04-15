@@ -2,11 +2,10 @@ package org.troy.capstone.managers;
 
 import org.troy.capstone.data_structures.RecentlyViewedQueue;
 import org.troy.capstone.data_structures.item_table.ItemHashMap;
+import org.troy.capstone.interfaces.SearchedItemPanelDestinationUI;
 import org.troy.capstone.interfaces.SearchedItemPanelInteractor;
 import org.troy.capstone.interfaces.SearchedItemPanelSourceUI;
 import org.troy.capstone.ui_components.items.RecentlyViewedWindow;
-
-import javafx.scene.Node;
 
 /**
  * Manager for recently viewed items, bridges RecentlyViewedQueue and RecentlyViewedWindow. Handles adding items to the recently viewed queue and updating the window content accordingly without the window and queue depending on each other.
@@ -37,8 +36,8 @@ public class RecentlyViewedManager implements SearchedItemPanelInteractor {
      * @param panelSourceUI The SearchedItemPanelSourceUI that will hold the search results, used to attach listeners to the item panels within.
      * @return A new instance of RecentlyViewedManager with the given parameters, and registered as a listener to the panelSourceUI.
      */
-    static RecentlyViewedManager create(ItemHashMap itemHashMap, Node recentlyViewedWindow, SearchedItemPanelSourceUI panelSourceUI) {
-        RecentlyViewedManager manager = new RecentlyViewedManager(itemHashMap, (RecentlyViewedWindow) recentlyViewedWindow);
+    static RecentlyViewedManager create(ItemHashMap itemHashMap, SearchedItemPanelDestinationUI destinationUI, SearchedItemPanelSourceUI panelSourceUI) {
+        RecentlyViewedManager manager = new RecentlyViewedManager(itemHashMap, (RecentlyViewedWindow) destinationUI);
         panelSourceUI.addSearchedItemPanelInteractor(manager);
         return manager;
     }

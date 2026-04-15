@@ -3,6 +3,7 @@ package org.troy.capstone.ui_components.items;
 import java.util.List;
 
 import org.troy.capstone.constants.UISizeControl;
+import org.troy.capstone.interfaces.SearchedItemPanelDestinationUI;
 import org.troy.capstone.utils.UIUtils;
 
 import javafx.scene.control.Label;
@@ -10,7 +11,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 
 /** Window to display recently viewed items. It is a ScrollPane, which contains a VBox for the content. */
-public class RecentlyViewedWindow extends ScrollPane{
+public class RecentlyViewedWindow extends ScrollPane implements SearchedItemPanelDestinationUI {
 
     /** The VBox that holds the content of the window. */
     private final VBox content;
@@ -42,6 +43,7 @@ public class RecentlyViewedWindow extends ScrollPane{
      * @post The RecentlyViewedWindow's content is updated to display the provided SearchedItemPanel instances.
      * @param panels The list of SearchedItemPanel instances to be displayed in the RecentlyViewedWindow.
      */
+    @Override
     public void setContent(List<SearchedItemPanel> panels) {
         content.getChildren().clear();
         content.getChildren().addAll(panels);
