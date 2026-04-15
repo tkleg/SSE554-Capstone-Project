@@ -17,6 +17,7 @@ import org.troy.capstone.utils.TableUtils;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import tech.tablesaw.api.Table;
@@ -77,12 +78,26 @@ public class Main extends Application {
         gridPane.add(starRatingFilter, 3, 0, 1, 1);
         
 
-        gridPane.setPrefSize(1000, 700);
-        
+        // Set preferred size to fit all content initially
+        gridPane.setPrefSize(GridPane.USE_COMPUTED_SIZE, GridPane.USE_COMPUTED_SIZE);
+
+        // Let the scene size be determined by the gridPane's preferred size
         Scene scene = new Scene(gridPane);
         primaryStage.setScene(scene);
+        primaryStage.sizeToScene();
         primaryStage.setTitle("Shopping App");
         primaryStage.show();
+
+        // After showing, wrap in a ScrollPane to allow scrolling only when window is shrunken
+        ScrollPane scrollPane = new ScrollPane(gridPane);
+        scrollPane.setFitToWidth(true);
+        scrollPane.setFitToHeight(true);
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        scrollPane.setPannable(false);
+
+        // Set the scene root to the scrollPane after initial display
+        scene.setRoot(scrollPane);
 
     }
 
