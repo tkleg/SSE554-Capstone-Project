@@ -19,7 +19,6 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
 import javafx.stage.Stage;
 import tech.tablesaw.api.Table;
 
@@ -36,6 +35,7 @@ public class Main extends Application {
         GeneralManager generalManager = new GeneralManager(table, itemHashMap);
         
         GridPane gridPane = new GridPane();
+        /**
         RowConstraints row1 = new RowConstraints();
         row1.setVgrow(javafx.scene.layout.Priority.NEVER);
         row1.setMinHeight(javafx.scene.layout.Region.USE_COMPUTED_SIZE);
@@ -52,7 +52,8 @@ public class Main extends Application {
         row3.setPrefHeight(javafx.scene.layout.Region.USE_COMPUTED_SIZE);
 
         gridPane.getRowConstraints().addAll(row1, row2, row3);
-        
+        */
+
         gridPane.setPadding(new Insets(20)); // Add 20px padding around all edges
         gridPane.setHgap(UISizeControl.WIDTH_PADDING.getValue()); // 10px horizontal spacing between columns
         gridPane.setVgap(UISizeControl.HEIGHT_PADDING.getValue()); // 10px vertical spacing between rows
