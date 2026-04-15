@@ -6,8 +6,13 @@ import org.troy.capstone.utils.UIUtils;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 
+/** Container to display similar items. Uses an HBox layout and houses SearchedItemPanels */
 public class SimilarItemsContainer extends HBox {
 
+    /** Constructor for SimilarItemsContainer. Initializes the container with a title label and sets up the layout. 
+     * @pre The SimilarItemsContainer should be properly initialized to contain an HBox layout with a title label.
+     * @post The SimilarItemsContainer instance is created with an HBox layout containing a title label, ready to have similar items added to it.
+     */
     public SimilarItemsContainer() {
         super();
         Label titleLabel = new Label("Similar Items");
@@ -15,6 +20,9 @@ public class SimilarItemsContainer extends HBox {
         getChildren().add(titleLabel);
     }
 
+    /** Factory method to create a SimilarItemsContainer instance with a title label and appropriate styling. 
+    * @return A SimilarItemsContainer instance with a title label and appropriate styling, ready to have similar items added to it.
+    */
     public static SimilarItemsContainer create() {
         SimilarItemsContainer container = new SimilarItemsContainer();
         UIUtils.setSize(container, UISizeControl.RECENTLY_VIEWED_WINDOW_HEIGHT.getValue(), UISizeControl.RECENTLY_VIEWED_WINDOW_WIDTH.getValue());

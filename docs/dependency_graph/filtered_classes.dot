@@ -12,6 +12,10 @@ digraph "classes" {
    "data_structures.item_table.ItemHashMap" -> "constants.TableColumnName";
    "data_structures.item_table.ItemHashMap" -> "data_structures.item_table.IdHashKey";
    "data_structures.item_table.ItemHashMap" -> "entities.Item";
+   "data_structures.similar_items_graph.SimilarItemsGraph" -> "constants.MiscValues";
+   "data_structures.similar_items_graph.SimilarItemsGraph" -> "data_structures.item_table.ItemHashMap";
+   "data_structures.similar_items_graph.SimilarItemsGraph" -> "entities.Item";
+   "entities.Item"                  -> "constants.ItemSimilarityWeights";
    "entities.Item"                  -> "constants.TableColumnName";
    "entities.Item"                  -> "constants.URL";
    "entities.Item"                  -> "utils.Converters";
@@ -75,6 +79,8 @@ digraph "classes" {
    "ui_components.items.SearchedItemPanel" -> "interfaces.SearchedItemPanelInteractor";
    "ui_components.items.SearchedItemPanel" -> "ui_components.items.AttributedItemContainer";
    "ui_components.items.SearchedItemPanel" -> "utils.UIUtils";
+   "ui_components.items.SimilarItemsContainer" -> "constants.UISizeControl";
+   "ui_components.items.SimilarItemsContainer" -> "utils.UIUtils";
    "ui_components.items.searched.SearchedItemContainer" -> "constants.UISizeControl";
    "ui_components.items.searched.SearchedItemContainer" -> "entities.Item";
    "ui_components.items.searched.SearchedItemContainer" -> "interfaces.SearchedItemPanelInteractor";

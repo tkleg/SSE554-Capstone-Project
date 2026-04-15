@@ -10,20 +10,34 @@ import org.troy.capstone.constants.MiscValues;
 import org.troy.capstone.data_structures.item_table.ItemHashMap;
 import org.troy.capstone.entities.Item;
 
+/** Graph data structure to represent similar items. Uses an adjacency list representation. */
 public class SimilarItemsGraph {
+    /** Number of items in the graph. */
     private final int numItems;
+    /** HashMap to store items. */
     private final ItemHashMap itemHashMap;
+    /** Adjacency list to represent edges between items. */
     private final Map<Integer, List<Edge>> adjacencyList;
 
+    /** Inner class to represent an edge in the graph. */
     class Edge{
+        /** The index of the destination item that this edge points to. */
         int destIndex;
+        /** The weight of the edge, representing the similarity score between the source and destination items. */
         float weight;
+        /** Constructor for the Edge class. Initializes the destination index and weight of the edge.
+         * @param destIndex The index of the destination item that this edge points to.
+         * @param weight The weight of the edge, representing the similarity score between the source and destination items.
+         * @pre destIndex should be a valid item index corresponding to an item in the graph. weight should be a non-negative float representing the similarity score between the source and destination items.
+         * @post An Edge instance is created with the specified destination index and weight, representing an edge in the graph between two items with a certain similarity score.
+         */
         public Edge(int destIndex, float weight) {
             this.destIndex = destIndex;
             this.weight = weight;
         }
     }
 
+    /**
     @SuppressWarnings("OverridableMethodCallInConstructor")
     public SimilarItemsGraph() {
         this.numItems = 8;
@@ -44,6 +58,7 @@ public class SimilarItemsGraph {
         addEdge(4, 7, 9);
         addEdge(5, 6, 1);
     }
+    */
 
     /**
     @SuppressWarnings("OverridableMethodCallInConstructor")
@@ -65,6 +80,9 @@ public class SimilarItemsGraph {
     }
     */
 
+    /** Constructor for SimilarItemsGraph. Initializes the graph with the given ItemHashMap.
+     * @param itemHashMap The ItemHashMap containing the items to be added to the graph.
+     */
     public SimilarItemsGraph(ItemHashMap itemHashMap) {
         this.numItems = itemHashMap.size();
         this.itemHashMap = itemHashMap;
@@ -76,6 +94,13 @@ public class SimilarItemsGraph {
         System.out.println("Graph filled.");
     }
 
+    /** Adds an undirected edge between two items in the graph with the given weight.
+     * @param sourceItemId The ID of the source item, represented as a character (e.g., 'A', 'B', etc.).
+     * @param destItemId The ID of the destination item, represented as a character (e.g., 'A', 'B', etc.).
+     * @param weight The weight of the edge, representing the similarity score between the two items.
+     * @pre sourceItemId and destItemId should be valid item IDs corresponding to items in the graph. weight should be a non-negative float representing the similarity score between the two items.
+     * @post An undirected edge is added between the source and destination items in the graph with the specified weight. The adjacency list is updated to reflect the new edge.
+     */
     public void addEdge(char sourceItemId, char destItemId, float weight) {
         int sourceItemIndex = sourceItemId - 'A';
         int destItemIndex = destItemId - 'A';
@@ -83,9 +108,16 @@ public class SimilarItemsGraph {
         addEdge(destItemIndex, sourceItemIndex, weight);
     }
 
+    /** Adds an undirected edge between two items in the graph with the given weight.
+     * @param sourceItemIndex The index of the source item.
+     * @param destItemIndex The index of the destination item.
+     * @param weight The weight of the edge, representing the similarity score between the two items.
+     * @pre sourceItemIndex and destItemIndex should be valid item indices corresponding to items in the graph. weight should be a non-negative float representing the similarity score between the two items.
+     * @post An undirected edge is added between the source and destination items in the graph with the specified weight. The adjacency list is updated to reflect the new edge. Nothing is done if the weight is below the minimum similarity score threshold defined in MiscValues.
+     */
     public void addEdge(int sourceItemIndex, int destItemIndex, float weight) {
-        //if (weight < MiscValues.MIN_SIMILARITY_SCORE.getValue())
-        //    return;
+        if (weight < MiscValues.MIN_SIMILARITY_SCORE.getValue())
+            return;
 
         adjacencyList.computeIfAbsent(sourceItemIndex, k -> new ArrayList<>())
             .add(new Edge(destItemIndex, weight));
@@ -93,6 +125,11 @@ public class SimilarItemsGraph {
             .add(new Edge(sourceItemIndex, weight));
     }
 
+    /** Fills the graph with edges based on the similarity scores between items in the item hash map.
+     * @pre itemHashMap should be properly initialized and contain valid items with a defined similarity
+     * method to calculate similarity scores between items. The number of items in the item hash map should match the expected number of items in the graph.
+     * @post The graph is filled with undirected edges between items based on their similarity scores
+     */
     private void fillGraph() {
         List<Item> items = itemHashMap.values().stream().toList();
         for (int i = 0; i < numItems; i++) {
@@ -103,12 +140,19 @@ public class SimilarItemsGraph {
         }
     }
 
+    /**
     public List<int[]> dijkstra(char startItemId) {
         int startIndex = startItemId - 'A';
         return dijkstra(startIndex);
     }
+    */
 
-    /** Basic algorithm taken from https://www.geeksforgeeks.org/dsa/dijkstras-shortest-path-algorithm-greedy-algo-7/ */
+    /** Basic algorithm taken from https://www.geeksforgeeks.org/dsa/dijkstras-shortest-path-algorithm-greedy-algo-7/. Computes the shortest paths from the start index to all other items in the graph. 
+     * @param startIndex The index of the starting item from which to compute the shortest paths to all other items in the graph.
+     * @pre startIndex should be a valid item index corresponding to an item in the graph. The graph should be properly initialized with edges representing the similarity scores between items.
+     * @post The method returns a list of integer arrays, where each array contains the index of a similar item and its corresponding similarity score (converted to an integer). The list is sorted in descending order of similarity scores and limited to the number of similar items to display as defined in MiscValues. Items that are not reachable from the start index (i.e., have a distance of Float.MAX_VALUE) are excluded from the returned list.
+     * @return A list of integer arrays, where each array contains the index of a similar item and its corresponding similarity score (converted to an integer). The list is sorted in descending order of similarity scores and limited to the number of similar items to display as defined in MiscValues.
+     */
     public List<int[]> dijkstra(int startIndex) {
         PriorityQueue<Edge> pq = new PriorityQueue<>((a, b) -> Float.compare(b.weight, a.weight));
 
@@ -145,6 +189,7 @@ public class SimilarItemsGraph {
             
     }
 
+    /**
     public static void main(String[] args) {
         SimilarItemsGraph graph = new SimilarItemsGraph();
         List<int[]> similarItems = graph.dijkstra(1);
@@ -152,5 +197,6 @@ public class SimilarItemsGraph {
             System.out.println("Item " + pair[0] + " with similarity score " + pair[1]);
         }
     }
+    */
 
 }

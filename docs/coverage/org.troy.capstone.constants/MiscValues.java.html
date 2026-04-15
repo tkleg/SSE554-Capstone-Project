@@ -7,23 +7,35 @@
     /** The threshold for deciding when to use insertion sort vs quicksort in the Sorter class. If sorting a size lower or equal to this value, insertion sort will be used, otherwise quicksort will be used. */
 <span class="fc" id="L8">    SORTING_THRESHOLD(25),</span>
     /** The maximum number of recently viewed items to keep track of in the RecentlyViewedQueue and display in the RecentlyViewedWindow. */
-<span class="fc" id="L10">    RECENTLY_VIEWED_QUEUE_SIZE(10);</span>
+<span class="fc" id="L10">    RECENTLY_VIEWED_QUEUE_SIZE(10),</span>
+    /** The minimum similarity score required for two items to be considered similar in the SimilarItemsGraph. */
+<span class="fc" id="L12">    MIN_SIMILARITY_SCORE(3.0811720300000003f),</span>
+    /** The number of similar items to display for selected items. */
+<span class="fc" id="L14">    NUM_SIMILAR_ITEMS_TO_DISPLAY(10);</span>
 
-    /** The integer value associated with the constant. */
-    private final int value;
+    /** The float value associated with the constant. */
+    private final float value;
 
     /** Constructor for the MiscValues enum.
-     * @param value The integer value to associate with the constant.
+     * @param value The float value to associate with the constant.
      */
-<span class="fc" id="L18">    MiscValues(int value) {</span>
-<span class="fc" id="L19">        this.value = value;</span>
-<span class="fc" id="L20">    }</span>
+<span class="fc" id="L22">    MiscValues(float value) {</span>
+<span class="fc" id="L23">        this.value = value;</span>
+<span class="fc" id="L24">    }</span>
 
-    /** Retrieves the integer value associated with the constant.
+    /** Retrieves the float value associated with the constant.
+     * @return The float value of the constant.
+     */
+    public float getValue() {
+<span class="fc" id="L30">        return value;</span>
+    }
+
+    /** Retrieves the integer value associated with the constant. Will floor floats to integers.
      * @return The integer value of the constant.
      */
-    public int getValue() {
-<span class="fc" id="L26">        return value;</span>
+    public int getIntValue() {
+<span class="fc" id="L37">        return (int) value;</span>
     }
+
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>
