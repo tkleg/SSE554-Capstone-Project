@@ -3,9 +3,10 @@ package org.troy.capstone.data_structures;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.IntStream;
 
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.troy.capstone.data_structures.SimilarItemsGraph.Edge;
 
 public class SimilarItemsGraphTest{
@@ -19,7 +20,8 @@ public class SimilarItemsGraphTest{
         new TestableEdge(1, 5, 7),
         new TestableEdge(1, 6, 7),
         new TestableEdge(1, 2, 9),
-        new TestableEdge(6, 4, 2)
+        new TestableEdge(6, 4, 2),
+        new TestableEdge(8, 9, 99)
     );
 
     private static final Map<Integer, List<Edge>> EXPECTED_EDGES = Map.of(
@@ -30,10 +32,12 @@ public class SimilarItemsGraphTest{
         4, List.of(new Edge(6, 2), new Edge(0, 3), new Edge(2, 4), new Edge(1, 5), new Edge(3, 8), new Edge(5, 12)),
         5, List.of(new Edge(1, 7), new Edge(0, 9), new Edge(2, 10), new Edge(4, 12), new Edge(3, 14), new Edge(6, 14)),
         6, List.of(new Edge(4, 2), new Edge(0, 5), new Edge(2, 6), new Edge(1, 7), new Edge(3, 10), new Edge(5, 14)),
-        7, List.of()
+        7, List.of(),
+        8, List.of(new Edge(9, 99)),
+        9, List.of(new Edge(8, 99))
     );
 
-    private static final SimilarItemsGraph GRAPH = new TestableSimilarItemsGraph(8, TEST_EDGES);
+    private static final SimilarItemsGraph GRAPH = new TestableSimilarItemsGraph(10, TEST_EDGES);
 
     static class TestableEdge extends SimilarItemsGraph.Edge {
         int sourceIndex;
@@ -68,8 +72,14 @@ public class SimilarItemsGraphTest{
         }
     }
     
+
+    @SuppressWarnings("unused")
+    private static IntStream range() {
+        return IntStream.range(0, EXPECTED_EDGES.size());
+    }
+
     @ParameterizedTest
-    @ValueSource(ints = {0, 1, 2, 3, 4, 5, 6, 7})
+    @MethodSource("range")
     public void testDijkstra(int startIndex) {
 
         List<Edge> similarItems = GRAPH.dijkstra(startIndex);
