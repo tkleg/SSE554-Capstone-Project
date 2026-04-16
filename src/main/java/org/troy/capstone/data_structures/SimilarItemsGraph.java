@@ -1,5 +1,7 @@
-package org.troy.capstone.data_structures.similar_items_graph;
+package org.troy.capstone.data_structures;
 
+import java.io.File;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,14 +15,14 @@ import org.troy.capstone.entities.Item;
 /** Graph data structure to represent similar items. Uses an adjacency list representation. */
 public class SimilarItemsGraph {
     /** Number of items in the graph. */
-    private final int numItems;
+    protected int numItems;
     /** HashMap to store items. */
     private final ItemHashMap itemHashMap;
     /** Adjacency list to represent edges between items. */
-    private final Map<Integer, List<Edge>> adjacencyList;
+    protected List<Edge>[] adjacencyList;
 
     /** Inner class to represent an edge in the graph. */
-    class Edge{
+    public static class Edge{
         /** The index of the destination item that this edge points to. */
         int destIndex;
         /** The weight of the edge, representing the similarity score between the source and destination items. */
@@ -35,6 +37,12 @@ public class SimilarItemsGraph {
             this.destIndex = destIndex;
             this.weight = weight;
         }
+
+        @Override
+        public String toString() {
+            return "Index: " + destIndex + ", Weight: " + weight;
+        }
+
     }
 
     /**
@@ -42,9 +50,9 @@ public class SimilarItemsGraph {
     public SimilarItemsGraph() {
         this.numItems = 8;
         this.itemHashMap = null; // Not needed for this test
-        adjacencyList = new HashMap<>();
+        adjacencyList = new List[numItems];
         for (int i = 0; i < numItems; i++)
-            adjacencyList.put(i, new ArrayList<>());
+            adjacencyList[i] = new ArrayList<>();
         // Manually add edges as per your test case
         addEdge(0, 1, 6);
         addEdge(0, 3, 5);
@@ -65,9 +73,9 @@ public class SimilarItemsGraph {
     public SimilarItemsGraph() {
         this.numItems = 6;
         this.itemHashMap = null; // Not needed for this test
-        adjacencyList = new HashMap<>();
+        adjacencyList = new List[numItems];
         for (int i = 0; i < numItems; i++)
-            adjacencyList.put(i, new ArrayList<>());
+            adjacencyList[i] = new ArrayList<>();
         // Manually add edges as per your test case
         addEdge('S', 'A', 6);
         addEdge('S', 'D', 8);
@@ -80,15 +88,20 @@ public class SimilarItemsGraph {
     }
     */
 
+    /** Default constructor. Only used to allow for subclassing in the SimilarItemsGraphTest class. */
+    public SimilarItemsGraph(){
+        adjacencyList = null;
+        itemHashMap = null;
+    }
+
     /** Constructor for SimilarItemsGraph. Initializes the graph with the given ItemHashMap.
      * @param itemHashMap The ItemHashMap containing the items to be added to the graph.
      */
+    @SuppressWarnings("unchecked")
     public SimilarItemsGraph(ItemHashMap itemHashMap) {
         this.numItems = itemHashMap.size();
         this.itemHashMap = itemHashMap;
-        adjacencyList = new HashMap<>();
-        for (int i = 0; i < numItems; i++)
-            adjacencyList.put(i, new ArrayList<>());
+        adjacencyList = new List[numItems];
         System.out.println("Filling graph with " + numItems + " items...");
         fillGraph();
         System.out.println("Graph filled.");
@@ -100,13 +113,13 @@ public class SimilarItemsGraph {
      * @param weight The weight of the edge, representing the similarity score between the two items.
      * @pre sourceItemId and destItemId should be valid item IDs corresponding to items in the graph. weight should be a non-negative float representing the similarity score between the two items.
      * @post An undirected edge is added between the source and destination items in the graph with the specified weight. The adjacency list is updated to reflect the new edge.
-     */
     public void addEdge(char sourceItemId, char destItemId, float weight) {
         int sourceItemIndex = sourceItemId - 'A';
         int destItemIndex = destItemId - 'A';
         addEdge(sourceItemIndex, destItemIndex, weight);
         addEdge(destItemIndex, sourceItemIndex, weight);
     }
+    */
 
     /** Adds an undirected edge between two items in the graph with the given weight.
      * @param sourceItemIndex The index of the source item.
@@ -119,10 +132,13 @@ public class SimilarItemsGraph {
         if (weight < MiscValues.MIN_SIMILARITY_SCORE.getValue())
             return;
 
-        adjacencyList.computeIfAbsent(sourceItemIndex, k -> new ArrayList<>())
-            .add(new Edge(destItemIndex, weight));
-        adjacencyList.computeIfAbsent(destItemIndex, k -> new ArrayList<>())
-            .add(new Edge(sourceItemIndex, weight));
+        if( adjacencyList[sourceItemIndex] == null)
+            adjacencyList[sourceItemIndex] = new ArrayList<>();
+        if( adjacencyList[destItemIndex] == null)
+            adjacencyList[destItemIndex] = new ArrayList<>();
+
+        adjacencyList[sourceItemIndex].add(new Edge(destItemIndex, weight));
+        adjacencyList[destItemIndex].add(new Edge(sourceItemIndex, weight));
     }
 
     /** Fills the graph with edges based on the similarity scores between items in the item hash map.
@@ -153,40 +169,59 @@ public class SimilarItemsGraph {
      * @post The method returns a list of integer arrays, where each array contains the index of a similar item and its corresponding similarity score (converted to an integer). The list is sorted in descending order of similarity scores and limited to the number of similar items to display as defined in MiscValues. Items that are not reachable from the start index (i.e., have a distance of Float.MAX_VALUE) are excluded from the returned list.
      * @return A list of integer arrays, where each array contains the index of a similar item and its corresponding similarity score (converted to an integer). The list is sorted in descending order of similarity scores and limited to the number of similar items to display as defined in MiscValues.
      */
-    public List<int[]> dijkstra(int startIndex) {
+    public List<Edge> dijkstra(int startIndex) {
         PriorityQueue<Edge> pq = new PriorityQueue<>((a, b) -> Float.compare(b.weight, a.weight));
 
-        //Key is item index, value is distance from start index.
-        Map<Integer,Float> distances = new HashMap<>();
-        for (int i = 0; i < numItems; i++)
-            distances.put(i, Float.MAX_VALUE);
+        //Key is index, value is distance from start index (similarity score)
+        Map<Integer, Float> distances = new HashMap<>();
 
         distances.put(startIndex, 0f);
-        pq.offer(new Edge(startIndex, 0));
+        pq.offer(new Edge(startIndex, 0f));
 
         while (!pq.isEmpty()) {
             Edge current = pq.poll();
             int currentIndex = current.destIndex;
-            float currentDist = distances.get(currentIndex);
+            float currentDist = current.weight;
 
             if(currentDist > distances.get(currentIndex))
                 continue;
 
-            for (Edge edge : adjacencyList.get(currentIndex)) {
-                if(distances.get(edge.destIndex) > edge.weight + currentDist) {
-                    distances.put(edge.destIndex, edge.weight + currentDist);
-                    pq.offer(new Edge(edge.destIndex, distances.get(edge.destIndex)));
+            for (Edge edge : adjacencyList[currentIndex]) {
+                float edgeDist = edge.weight;
+                int destIndex = edge.destIndex;
+                if( distances.getOrDefault(currentIndex, Float.MAX_VALUE) + edgeDist < distances.getOrDefault(destIndex, Float.MAX_VALUE)){
+                    distances.put(destIndex, distances.get(currentIndex) + edgeDist);
+                    pq.offer(new Edge(destIndex, distances.get(destIndex)));
                 }
             }
         }
         
         return distances.entrySet().stream()
-            .filter(entry -> entry.getValue() < Float.MAX_VALUE && entry.getKey() != startIndex)
-            .sorted(Map.Entry.<Integer, Float>comparingByValue().reversed())
-            .limit(MiscValues.NUM_SIMILAR_ITEMS_TO_DISPLAY.getIntValue())
-            .map(entry -> new int[]{entry.getKey(), entry.getValue().intValue()})
+            .filter(entry -> entry.getKey() != startIndex)
+            .sorted((a, b) -> Float.compare(b.getValue(), a.getValue()))
+            .limit((long) MiscValues.NUM_SIMILAR_ITEMS_TO_DISPLAY.getValue())
+            .map(entry -> new Edge(entry.getKey(), entry.getValue()))
             .toList();
-            
+    }
+
+    public void writeToDotFile(String filename){
+        try{
+            File file = new File(filename);
+            try (PrintWriter writer = new PrintWriter(file)) {
+                writer.println("graph SimilarItemsGraph {");
+                for (int i = 0; i < adjacencyList.length; i++) {
+                    if (adjacencyList[i] != null) {
+                        for (Edge edge : adjacencyList[i]) {
+                            if (i < edge.destIndex)// To avoid duplicate edges in undirected graph
+                                writer.println("    " + i + " -- " + edge.destIndex + " [label=\"" + edge.weight + "\"];");
+                        }
+                    }
+                }
+                writer.println("}");
+            }
+        } catch (Exception e) {
+            System.out.println("Error writing to dot file: " + e.getMessage());
+        }
     }
 
     /**

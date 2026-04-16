@@ -47,7 +47,7 @@ public class ItemHashMap extends HashMap<IdHashKey, Item> {
      *
      * @param data_size The number of items that will be added to the map, used to get a 0.75 load factor.
      */
-    public ItemHashMap(int data_size) {
+    private ItemHashMap(int data_size) {
         super((int) (data_size / MAX_LOAD_FACTOR) + 1); // Calculate initial capacity based on expected data size and load factor
     }
     
