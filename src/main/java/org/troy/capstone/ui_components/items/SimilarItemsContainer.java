@@ -1,13 +1,16 @@
 package org.troy.capstone.ui_components.items;
 
+import java.util.List;
+
 import org.troy.capstone.constants.UISizeControl;
+import org.troy.capstone.interfaces.SearchedItemPanelDestinationUI;
 import org.troy.capstone.utils.UIUtils;
 
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 
 /** Container to display similar items. Uses an HBox layout and houses SearchedItemPanels */
-public class SimilarItemsContainer extends HBox {
+public class SimilarItemsContainer extends HBox implements SearchedItemPanelDestinationUI{
 
     /** Constructor for SimilarItemsContainer. Initializes the container with a title label and sets up the layout. 
      * @pre The SimilarItemsContainer should be properly initialized to contain an HBox layout with a title label.
@@ -29,4 +32,11 @@ public class SimilarItemsContainer extends HBox {
         UIUtils.setLineBorder(container, 5, 1);
         return container;
     }
+
+    @Override
+    public void setContent(List<SearchedItemPanel> panels) {
+        getChildren().clear();
+        getChildren().addAll(panels);
+    }
+
 }

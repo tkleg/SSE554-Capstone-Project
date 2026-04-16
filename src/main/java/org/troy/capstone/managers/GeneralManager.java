@@ -34,6 +34,9 @@ public class GeneralManager {
     /** A flag to track whether the RecentlyViewedManager has been created. Used to prevent duplicate creation. */
     private boolean recentlyViewedManagerCreated = false;
 
+    /** A flag to track whether the SimilarItemsManager has been created. Used to prevent duplicate creation. */
+    private boolean similarItemsManagerCreated = false;
+
     /** Constructor for GeneralManager, filled from a tablesaw Table.
      * @param table The tablesaw Table containing the item data to be used by the SearchEngine.
      * @param itemHashMap The ItemHashMap containing all items, used by the SearchEngine for filtering and searching and by the RecentlyViewedManager for retrieving items.
@@ -81,6 +84,10 @@ public class GeneralManager {
             RecentlyViewedManager.create(itemHashMap, (SearchedItemPanelDestinationUI) uiManager.getElement(UIElementName.RECENTLY_VIEWED_WINDOW).get(), (SearchedItemPanelSourceUI) uiManager.getElement(UIElementName.SEARCHED_ITEM_PAGINATION).get());
             recentlyViewedManagerCreated = true;
         }
+        if( !similarItemsManagerCreated && readyToMakeSimilarItemsManager()) {
+            SimilarItemsManager.create(itemHashMap, (SearchedItemPanelDestinationUI) uiManager.getElement(UIElementName.SIMILAR_ITEMS_CONTAINER).get(), (SearchedItemPanelSourceUI) uiManager.getElement(UIElementName.SEARCHED_ITEM_PAGINATION).get());
+            similarItemsManagerCreated = true;
+        }
     }
 
     /**
@@ -90,6 +97,10 @@ public class GeneralManager {
      */
     private boolean readyToMakeRecentlyViewedManager() {
         return uiManager.getElement(UIElementName.RECENTLY_VIEWED_WINDOW).isPresent() && uiManager.getElement(UIElementName.SEARCHED_ITEM_PAGINATION).isPresent();
+    }
+
+    private boolean readyToMakeSimilarItemsManager() {
+        return uiManager.getElement(UIElementName.SIMILAR_ITEMS_CONTAINER).isPresent() && uiManager.getElement(UIElementName.SEARCHED_ITEM_PAGINATION).isPresent();
     }
 
     /**
