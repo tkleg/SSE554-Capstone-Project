@@ -1,7 +1,9 @@
 package org.troy.capstone.ui_components.items;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.troy.capstone.constants.UISizeControl;
 import org.troy.capstone.entities.Item;
@@ -10,6 +12,7 @@ import org.troy.capstone.utils.UIUtils;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.CacheHint;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -18,6 +21,10 @@ import javafx.scene.layout.VBox;
  * The SearchedItemPanel class represents a UI component that displays the details of a single item in the search results.
  */
 public class SearchedItemPanel extends HBox{
+
+
+    /** List of interactors to handle interactions with the item panel, such as adding the item to the RecentlyViewedQueue when the panel is clicked. */
+    private final List<SearchedItemPanelInteractor> interactors = new ArrayList<>();
 
     /**
      * Date formatter for displaying the date added attribute of the item in a user-friendly format. The format used is "MMMM dd, yyyy" (e.g., "January 01, 2020").
@@ -63,7 +70,7 @@ public class SearchedItemPanel extends HBox{
         
         //Optimize rendering performance
         setCache(true);
-        setCacheHint(javafx.scene.CacheHint.SPEED);
+        setCacheHint(CacheHint.SPEED);
         setSnapToPixel(true);
     }
 
@@ -82,8 +89,9 @@ public class SearchedItemPanel extends HBox{
      * @post The provided interactor is set to the SearchedItemPanel, allowing it to receive interaction events from the item panel. This enables functionality such as adding the item to the RecentlyViewedQueue when the panel is clicked.
      * @param interactor The SearchedItemPanelInteractor to set for handling interactions with the item panel.
      */
-    public void setSearchedItemPanelInteractor(SearchedItemPanelInteractor interactor) {
-        setOnMouseClicked(e -> interactor.onItemSelected(itemId));
+    public void addSearchedItemPanelInteractor(SearchedItemPanelInteractor interactor) {
+        interactors.add(interactor);
+        setOnMouseClicked(e -> interactors.forEach(i -> i.onItemSelected(itemId)));
     }
 
     /** Getter for the item ID of the item being displayed in this panel, used for checking if the panel is in the recently viewed queue. 

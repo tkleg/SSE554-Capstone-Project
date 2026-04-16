@@ -69,7 +69,7 @@ public class SearchedItemContainer extends ScrollPane {
     private void addItemPanel(SearchedItemPanel itemPanel) {
         if( itemPanel != null ){
             itemContainer.getChildren().add(itemPanel);
-            interactors.forEach(interactor -> itemPanel.setSearchedItemPanelInteractor(interactor));
+            interactors.forEach(interactor -> itemPanel.addSearchedItemPanelInteractor(interactor));
         }
     }
 
@@ -82,7 +82,7 @@ public class SearchedItemContainer extends ScrollPane {
         interactors.add(interactor);
         //Set interactors for initial panels
         itemContainer.getChildren().stream().filter(node -> node instanceof SearchedItemPanel)
-            .forEach(node -> ((SearchedItemPanel) node).setSearchedItemPanelInteractor(interactor));
+            .forEach(node -> ((SearchedItemPanel) node).addSearchedItemPanelInteractor(interactor));
     }
 
     /** Updates the items displayed in the container with a new list of items.
