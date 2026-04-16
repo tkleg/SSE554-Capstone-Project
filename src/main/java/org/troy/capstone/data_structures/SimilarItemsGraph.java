@@ -43,49 +43,6 @@ public class SimilarItemsGraph {
 
     }
 
-    /**
-    @SuppressWarnings("OverridableMethodCallInConstructor")
-    public SimilarItemsGraph() {
-        this.numItems = 8;
-        this.itemHashMap = null; // Not needed for this test
-        adjacencyList = new List[numItems];
-        for (int i = 0; i < numItems; i++)
-            adjacencyList[i] = new ArrayList<>();
-        // Manually add edges as per your test case
-        addEdge(0, 1, 6);
-        addEdge(0, 3, 5);
-        addEdge(0, 4, 5);
-        addEdge(1, 5, 2);
-        addEdge(2, 5, 7);
-        addEdge(2, 6, 2);
-        addEdge(2, 4, 4);
-        addEdge(3, 5, 3);
-        addEdge(4, 6, 2);
-        addEdge(4, 7, 9);
-        addEdge(5, 6, 1);
-    }
-    */
-
-    /**
-    @SuppressWarnings("OverridableMethodCallInConstructor")
-    public SimilarItemsGraph() {
-        this.numItems = 6;
-        this.itemHashMap = null; // Not needed for this test
-        adjacencyList = new List[numItems];
-        for (int i = 0; i < numItems; i++)
-            adjacencyList[i] = new ArrayList<>();
-        // Manually add edges as per your test case
-        addEdge('S', 'A', 6);
-        addEdge('S', 'D', 8);
-        addEdge('S', 'E', 7);
-        addEdge('A', 'B', 9);
-        addEdge('B', 'C', 12);
-        addEdge('C', 'D', 3);
-        addEdge('C', 'E', 5);
-        addEdge('D', 'E', 10);
-    }
-    */
-
     /** Default constructor. Only used to allow for subclassing in the SimilarItemsGraphTest class. */
     public SimilarItemsGraph(){
         adjacencyList = null;
@@ -104,20 +61,6 @@ public class SimilarItemsGraph {
         fillGraph();
         System.out.println("Graph filled.");
     }
-
-    /** Adds an undirected edge between two items in the graph with the given weight.
-     * @param sourceItemId The ID of the source item, represented as a character (e.g., 'A', 'B', etc.).
-     * @param destItemId The ID of the destination item, represented as a character (e.g., 'A', 'B', etc.).
-     * @param weight The weight of the edge, representing the similarity score between the two items.
-     * @pre sourceItemId and destItemId should be valid item IDs corresponding to items in the graph. weight should be a non-negative float representing the similarity score between the two items.
-     * @post An undirected edge is added between the source and destination items in the graph with the specified weight. The adjacency list is updated to reflect the new edge.
-    public void addEdge(char sourceItemId, char destItemId, float weight) {
-        int sourceItemIndex = sourceItemId - 'A';
-        int destItemIndex = destItemId - 'A';
-        addEdge(sourceItemIndex, destItemIndex, weight);
-        addEdge(destItemIndex, sourceItemIndex, weight);
-    }
-    */
 
     /** Adds an undirected edge between two items in the graph with the given weight.
      * @param sourceItemIndex The index of the source item.
@@ -153,13 +96,6 @@ public class SimilarItemsGraph {
             }
         }
     }
-
-    /**
-    public List<int[]> dijkstra(char startItemId) {
-        int startIndex = startItemId - 'A';
-        return dijkstra(startIndex);
-    }
-    */
 
     /** Basic algorithm taken from https://www.geeksforgeeks.org/dsa/dijkstras-shortest-path-algorithm-greedy-algo-7/. Computes the shortest paths from the start index to all other items in the graph. 
      * @param startIndex The index of the starting item from which to compute the shortest paths to all other items in the graph.
@@ -199,20 +135,10 @@ public class SimilarItemsGraph {
         
         return distances.entrySet().stream()
             .filter(entry -> entry.getKey() != startIndex)
-            .sorted((a, b) -> Float.compare(a.getValue(), b.getValue()))
+            .sorted((a, b) -> Float.compare(b.getValue(), a.getValue()))
             .limit((long) MiscValues.NUM_SIMILAR_ITEMS_TO_DISPLAY.getValue())
             .map(entry -> new Edge(entry.getKey(), entry.getValue()))
             .toList();
     }
-    
-    /**
-    public static void main(String[] args) {
-        SimilarItemsGraph graph = new SimilarItemsGraph();
-        List<int[]> similarItems = graph.dijkstra(1);
-        for (int[] pair : similarItems) {
-            System.out.println("Item " + pair[0] + " with similarity score " + pair[1]);
-        }
-    }
-    */
 
 }

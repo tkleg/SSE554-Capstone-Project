@@ -25,13 +25,13 @@ public class SimilarItemsGraphTest{
     );
 
     private static final Map<Integer, List<Edge>> EXPECTED_EDGES = Map.of(
-        0, List.of(new Edge(2, 1), new Edge(1, 2), new Edge(4, 3), new Edge(3, 5), new Edge(6, 5), new Edge(5, 9)),
-        1, List.of(new Edge(0, 2), new Edge(2, 3), new Edge(4, 5), new Edge(3, 7), new Edge(5, 7), new Edge(6, 7)),
-        2, List.of(new Edge(0, 1), new Edge(1,3), new Edge(4, 4), new Edge(3, 6), new Edge(6, 6), new Edge(5, 10)),
-        3, List.of(new Edge(0, 5), new Edge(2, 6), new Edge(1, 7), new Edge(4, 8), new Edge(6, 10), new Edge(5, 14)),
-        4, List.of(new Edge(6, 2), new Edge(0, 3), new Edge(2, 4), new Edge(1, 5), new Edge(3, 8), new Edge(5, 12)),
-        5, List.of(new Edge(1, 7), new Edge(0, 9), new Edge(2, 10), new Edge(4, 12), new Edge(3, 14), new Edge(6, 14)),
-        6, List.of(new Edge(4, 2), new Edge(0, 5), new Edge(2, 6), new Edge(1, 7), new Edge(3, 10), new Edge(5, 14)),
+        0, List.of(new Edge(5, 9), new Edge(3, 5), new Edge(6, 5), new Edge(4, 3), new Edge(1, 2), new Edge(2, 1)),
+        1, List.of(new Edge(3, 7), new Edge(5, 7), new Edge(6, 7), new Edge(4, 5), new Edge(2, 3), new Edge(0, 2)),
+        2, List.of(new Edge(5, 10), new Edge(3, 6), new Edge(6, 6), new Edge(4, 4), new Edge(1, 3), new Edge(0, 1)),
+        3, List.of(new Edge(5, 14), new Edge(6, 10), new Edge(4, 8), new Edge(1, 7), new Edge(2, 6), new Edge(0, 5)),
+        4, List.of(new Edge(5, 12), new Edge(3, 8), new Edge(1, 5), new Edge(2, 4), new Edge(0, 3), new Edge(6, 2)),
+        5, List.of(new Edge(3, 14), new Edge(6, 14), new Edge(4, 12), new Edge(2, 10), new Edge(0, 9), new Edge(1, 7)),
+        6, List.of(new Edge(5, 14), new Edge(3, 10), new Edge(1, 7), new Edge(2, 6), new Edge(0, 5), new Edge(4, 2)),
         7, List.of(),
         8, List.of(new Edge(9, 99)),
         9, List.of(new Edge(8, 99))
@@ -83,7 +83,7 @@ public class SimilarItemsGraphTest{
     public void testDijkstra(int startIndex) {
 
         List<Edge> similarItems = GRAPH.dijkstra(startIndex);
-        System.out.println(similarItems);
+        System.out.println("\nCase " + startIndex + ": " + similarItems+"\n");
         List<Edge> expectedSimilarItems = EXPECTED_EDGES.get(startIndex);
 
         assert similarItems.size() == expectedSimilarItems.size() : "Expected " + expectedSimilarItems.size() + " similar items, but got " + similarItems.size();
