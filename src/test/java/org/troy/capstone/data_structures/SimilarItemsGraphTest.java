@@ -2,12 +2,39 @@ package org.troy.capstone.data_structures;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.troy.capstone.data_structures.SimilarItemsGraph.Edge;
 
 public class SimilarItemsGraphTest{
     
+    private static final List<TestableEdge> TEST_EDGES = List.of(
+        new TestableEdge(0, 3, 5),
+        new TestableEdge(0, 1, 2),
+        new TestableEdge(0, 2, 1),
+        new TestableEdge(0, 4, 3),
+        new TestableEdge(1, 3, 7),
+        new TestableEdge(1, 5, 7),
+        new TestableEdge(1, 6, 7),
+        new TestableEdge(1, 2, 9),
+        new TestableEdge(6, 4, 2)
+    );
+
+    private static final Map<Integer, List<Edge>> EXPECTED_EDGES = Map.of(
+        0, List.of(new Edge(2, 1), new Edge(1, 2), new Edge(4, 3), new Edge(3, 5), new Edge(6, 5), new Edge(5, 9)),
+        1, List.of(new Edge(0, 2), new Edge(2, 3), new Edge(4, 5), new Edge(3, 7), new Edge(5, 7), new Edge(6, 7)),
+        2, List.of(new Edge(0, 1), new Edge(1,3), new Edge(4, 4), new Edge(3, 6), new Edge(6, 6), new Edge(5, 10)),
+        3, List.of(new Edge(0, 5), new Edge(2, 6), new Edge(1, 7), new Edge(4, 8), new Edge(6, 10), new Edge(5, 14)),
+        4, List.of(new Edge(6, 2), new Edge(0, 3), new Edge(2, 4), new Edge(1, 5), new Edge(3, 8), new Edge(5, 12)),
+        5, List.of(new Edge(1, 7), new Edge(0, 9), new Edge(2, 10), new Edge(4, 12), new Edge(3, 14), new Edge(6, 14)),
+        6, List.of(new Edge(4, 2), new Edge(0, 5), new Edge(2, 6), new Edge(1, 7), new Edge(3, 10), new Edge(5, 14)),
+        7, List.of()
+    );
+
+    private static final SimilarItemsGraph GRAPH = new TestableSimilarItemsGraph(8, TEST_EDGES);
+
     static class TestableEdge extends SimilarItemsGraph.Edge {
         int sourceIndex;
         TestableEdge(int sourceIndex, int destIndex, float weight) {
@@ -40,34 +67,14 @@ public class SimilarItemsGraphTest{
             }
         }
     }
+    
+    @ParameterizedTest
+    @ValueSource(ints = {0, 1, 2, 3, 4, 5, 6, 7})
+    public void testDijkstra(int startIndex) {
 
-    @Test
-    public void testGraphConstruction() {
-        List<TestableEdge> edges = List.of(
-            new TestableEdge(0, 3, 5),
-            new TestableEdge(0, 1, 2),
-            new TestableEdge(0, 2, 1),
-            new TestableEdge(0, 4, 3),
-            new TestableEdge(1, 3, 7),
-            new TestableEdge(1, 5, 7),
-            new TestableEdge(1, 6, 7),
-            new TestableEdge(1, 2, 9),
-            new TestableEdge(6, 4, 2)
-        );
-
-        SimilarItemsGraph graph = new TestableSimilarItemsGraph(8, edges);
-
-        List<Edge> similarItems = graph.dijkstra(4);
+        List<Edge> similarItems = GRAPH.dijkstra(startIndex);
         System.out.println(similarItems);
-        //graph.writeToDotFile("similar_graph.dot");
-        List<Edge> expectedSimilarItems = List.of(
-            new Edge(5, 12),
-            new Edge(3, 8),
-            new Edge(1, 5),
-            new Edge(2, 4),
-            new Edge(0, 3),
-            new Edge(6, 2)
-        );
+        List<Edge> expectedSimilarItems = EXPECTED_EDGES.get(startIndex);
 
         assert similarItems.size() == expectedSimilarItems.size() : "Expected " + expectedSimilarItems.size() + " similar items, but got " + similarItems.size();
         for (int i = 0; i < similarItems.size(); i++) {

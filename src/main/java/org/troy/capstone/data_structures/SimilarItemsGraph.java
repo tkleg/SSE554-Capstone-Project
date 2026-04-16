@@ -1,7 +1,5 @@
 package org.troy.capstone.data_structures;
 
-import java.io.File;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -186,7 +184,10 @@ public class SimilarItemsGraph {
             if(currentDist > distances.get(currentIndex))
                 continue;
 
-            for (Edge edge : adjacencyList[currentIndex]) {
+            List<Edge> neighbors = adjacencyList[currentIndex];
+            if(neighbors == null)//Handles vertices with no edges
+                continue;
+            for (Edge edge : neighbors) {
                 float edgeDist = edge.weight;
                 int destIndex = edge.destIndex;
                 if( distances.getOrDefault(currentIndex, Float.MAX_VALUE) + edgeDist < distances.getOrDefault(destIndex, Float.MAX_VALUE)){
@@ -198,32 +199,12 @@ public class SimilarItemsGraph {
         
         return distances.entrySet().stream()
             .filter(entry -> entry.getKey() != startIndex)
-            .sorted((a, b) -> Float.compare(b.getValue(), a.getValue()))
+            .sorted((a, b) -> Float.compare(a.getValue(), b.getValue()))
             .limit((long) MiscValues.NUM_SIMILAR_ITEMS_TO_DISPLAY.getValue())
             .map(entry -> new Edge(entry.getKey(), entry.getValue()))
             .toList();
     }
-
-    public void writeToDotFile(String filename){
-        try{
-            File file = new File(filename);
-            try (PrintWriter writer = new PrintWriter(file)) {
-                writer.println("graph SimilarItemsGraph {");
-                for (int i = 0; i < adjacencyList.length; i++) {
-                    if (adjacencyList[i] != null) {
-                        for (Edge edge : adjacencyList[i]) {
-                            if (i < edge.destIndex)// To avoid duplicate edges in undirected graph
-                                writer.println("    " + i + " -- " + edge.destIndex + " [label=\"" + edge.weight + "\"];");
-                        }
-                    }
-                }
-                writer.println("}");
-            }
-        } catch (Exception e) {
-            System.out.println("Error writing to dot file: " + e.getMessage());
-        }
-    }
-
+    
     /**
     public static void main(String[] args) {
         SimilarItemsGraph graph = new SimilarItemsGraph();
