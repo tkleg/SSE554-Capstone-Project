@@ -99,6 +99,11 @@ public class GeneralManager {
         return uiManager.getElement(UIElementName.RECENTLY_VIEWED_WINDOW).isPresent() && uiManager.getElement(UIElementName.SEARCHED_ITEM_PAGINATION).isPresent();
     }
 
+    /**
+     * Checks if the necessary UI elements for creating the SimilarItemsManager (SearchedItemPagination and SimilarItemsContainer) are present in the UIElementManager.
+     * 
+     * @return true if both the SimilarItemsContainer and SearchedItemPagination components are present in the UIElementManager, false otherwise.
+     */
     private boolean readyToMakeSimilarItemsManager() {
         return uiManager.getElement(UIElementName.SIMILAR_ITEMS_CONTAINER).isPresent() && uiManager.getElement(UIElementName.SEARCHED_ITEM_PAGINATION).isPresent();
     }

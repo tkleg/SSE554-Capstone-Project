@@ -30,10 +30,11 @@ public class RecentlyViewedManager implements SearchedItemPanelInteractor {
 
     /** Factory method to create a RecentlyViewedManager and attach it as a listener to the given SearchedItemPanelSourceUI, allowing to receive item selection events from within the SearchedItemPanelSourceUI.
      * 
-     * @pre itemHashMap, recentlyViewedWindow, and panelSourceUI are not null. panelSourceUI is an instance of SearchedItemPanelSourceUI. recentlyViewedWindow is an instance of RecentlyViewedWindow.
+     * @pre itemHashMap, recentlyViewedWindow, and panelSourceUI are not null. destinationUI is an instance of RecentlyViewedWindow and panelSourceUI is an instance of SearchedItemPagination.
+      *
      * @param itemHashMap The ItemHashMap to use for retrieving item details.
-     * @param recentlyViewedWindow The RecentlyViewedWindow to use for displaying recently viewed items.
-     * @param panelSourceUI The SearchedItemPanelSourceUI that will hold the search results, used to attach listeners to the item panels within.
+     * @param destinationUI The SearchedItemPanelDestinationUI to use for displaying recently viewed items, should be the same instance as recentlyViewedWindow but typed as the interface it implements.
+     * @param panelSourceUI The SearchedItemPanelSourceUI to register as a listener to receive item selection events from the searched item panels, should be the same instance as the SearchedItemPagination but typed as the interface it implements.
      * @return A new instance of RecentlyViewedManager with the given parameters, and registered as a listener to the panelSourceUI.
      */
     static RecentlyViewedManager create(ItemHashMap itemHashMap, SearchedItemPanelDestinationUI destinationUI, SearchedItemPanelSourceUI panelSourceUI) {

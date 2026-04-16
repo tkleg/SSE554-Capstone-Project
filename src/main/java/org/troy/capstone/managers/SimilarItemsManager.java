@@ -9,12 +9,19 @@ import org.troy.capstone.interfaces.SearchedItemPanelSourceUI;
 import org.troy.capstone.ui_components.items.SearchedItemPanel;
 import org.troy.capstone.ui_components.items.SimilarItemsContainer;
 
+/** The SimilarItemsManager class manages the display of similar items to a selected item. It listens for item selection events and updates a SimilarItemsContainer accordingly. */
 public class SimilarItemsManager implements SearchedItemPanelInteractor {
 
+    /** The SimilarItemsContainer that displays the similar items. */
     private final SimilarItemsContainer similarItemsContainer;
 
+    /** The ItemHashMap containing all items, used for retrieving items to display as similar items. */
     private ItemHashMap itemHashMap;
     
+    /** Private constructor to enforce the use of the static factory method.
+     * @param similarItemsContainer The SimilarItemsContainer that will display the similar items, used to update the displayed similar items when new items are added.
+     * @pre similarItemsContainer is not null.
+     */
     private SimilarItemsManager(SimilarItemsContainer similarItemsContainer) {
         this.similarItemsContainer = similarItemsContainer;
         //TODO: Insert graph data structure stuff
@@ -34,6 +41,10 @@ public class SimilarItemsManager implements SearchedItemPanelInteractor {
         return manager;
     }
 
+    /** Called when an item is selected in the searched item panel. Updates the similar items container content to display items similar to the selected item.
+     * @pre itemId is not null and corresponds to a valid key in the itemHashMap.
+     * @param itemId The ID of the selected item.
+     */
     @Override
     public void onItemSelected(String itemId) {
         similarItemsContainer.setContent(List.of(SearchedItemPanel.create(itemHashMap.getItem(itemId).get())));
