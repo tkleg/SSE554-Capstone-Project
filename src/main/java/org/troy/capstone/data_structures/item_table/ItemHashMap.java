@@ -1,6 +1,7 @@
 package org.troy.capstone.data_structures.item_table;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -158,9 +159,11 @@ public class ItemHashMap extends HashMap<IdHashKey, Item> {
         int[] customBucketSizeCounts = getFreshBucketSizeCount(getItemIdsAsList(), true); // Use fresh calculation with current I,J
         int[] builtInBucketSizeCounts = getFreshBucketSizeCount(getItemIdsAsList(), false); // Use fresh calculation for built-in String hash
         int maxSize = Math.max(customBucketSizeCounts.length, builtInBucketSizeCounts.length);
+        customBucketSizeCounts = Arrays.copyOf(customBucketSizeCounts, maxSize); //Pad with zeros if necessary
+        builtInBucketSizeCounts = Arrays.copyOf(builtInBucketSizeCounts, maxSize); //Pad with zeros if necessary
         for (int i = 0; i < maxSize; i++){
-            int customCount = i < customBucketSizeCounts.length ? customBucketSizeCounts[i] : 0;
-            int builtInCount = i < builtInBucketSizeCounts.length ? builtInBucketSizeCounts[i] : 0;
+            int customCount = customBucketSizeCounts[i];
+            int builtInCount = builtInBucketSizeCounts[i];
             System.out.printf("%-" + col1.length() + "d %s %-" + col2.length() + "d %s %-" + col3.length() + "d%n", i, "|", customCount, "|", builtInCount);
         }
     }
