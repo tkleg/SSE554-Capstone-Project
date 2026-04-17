@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
 
+import org.troy.capstone.Config;
+import org.troy.capstone.annotations.Generated;
 import org.troy.capstone.constants.MiscValues;
 import org.troy.capstone.constants.TableColumnName;
 import org.troy.capstone.data_structures.item_table.ItemHashMap;
@@ -88,15 +90,30 @@ public class SimilarItemsGraph {
      * @param itemHashMap The ItemHashMap containing the items to be added to the graph.
      */
     @SuppressWarnings("unchecked")
-    public SimilarItemsGraph(ItemHashMap itemHashMap, Table table) {
+    public SimilarItemsGraph(ItemHashMap itemHashMap, Table table, Boolean buildGraph) {
+                
         this.numItems = itemHashMap.size();
         this.itemHashMap = itemHashMap;
         adjacencyList = new List[numItems];
         this.table = table;
 
+        if( !canBuild(buildGraph) )
+            return;
+        
         System.out.println("Filling graph with " + numItems + " items...");
         fillGraph();
         System.out.println("Graph filled.");
+    }
+
+    /** Determines whether the graph can be built based on the provided buildGraph value or the configuration.
+     * @param buildGraph The buildGraph value to check. If null, the configuration value is used.
+     * @return true if the graph can be built, false otherwise.
+     */
+    @Generated
+    private boolean canBuild(Boolean buildGraph) {
+        if( buildGraph == null )
+            return Config.graphBuildingEnabled;
+        return buildGraph;
     }
 
 

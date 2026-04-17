@@ -136,18 +136,18 @@ public class QueryFilter {
      * @param userQuery The search query input by the user.
      * @return A map of item IDs to their relevance scores for the search results that meet the score threshold. If no results are found or if there is an error during search execution, an empty map is returned.
      */
-    public Map<String, Float> search(String userQuery){
+    public Map<String, Float> search(String userQuery) {
         try{
 
             //Handle Null Query
             if (userQuery == null) {
-                System.out.println("Null query provided. Returning empty results.");
+                System.out.println("Null query provided. Returning empty results, search engine sees this as all results.");
                 return new HashMap<>();
             }
 
             //Handle Empty Query
             if (userQuery.trim().isEmpty()) {
-                System.out.println("Empty query provided. Returning empty results.");
+                System.out.println("Empty query provided. Returning empty results, search engine sees this as all results.");
                 return new HashMap<>();
             }
             

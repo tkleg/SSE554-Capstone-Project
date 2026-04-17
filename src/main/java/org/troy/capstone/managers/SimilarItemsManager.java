@@ -27,7 +27,7 @@ public class SimilarItemsManager implements SearchedItemPanelInteractor {
      */
     private SimilarItemsManager(SimilarItemsContainer similarItemsContainer, ItemHashMap itemHashMap, Table table) {
         this.similarItemsContainer = similarItemsContainer;
-        this.similarItemsGraph = new SimilarItemsGraph(itemHashMap, table);
+        this.similarItemsGraph = new SimilarItemsGraph(itemHashMap, table, null);
     }
 
      /**

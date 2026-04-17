@@ -25,7 +25,7 @@ import tech.tablesaw.selection.Selection;
 
 public class SearchEngineTest {
     private SearchEngine searchEngine;
-    private Table table = TestDataHolder.getTableCopy();
+    private static final Table table = TestDataHolder.getTableCopy();
     private static final float MIN_MIN_PRICE = 8.619999885559082f;
     private static final float MAX_MAX_PRICE = 799.0599975585938f;
 

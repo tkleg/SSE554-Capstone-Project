@@ -7,6 +7,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Map;
 
+
 import org.apache.lucene.analysis.core.StopAnalyzer;
 import org.apache.lucene.analysis.custom.CustomAnalyzer;
 import org.apache.lucene.index.IndexWriter;
@@ -23,6 +24,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+
 import static org.mockito.ArgumentMatchers.any;
 import org.mockito.MockedStatic;
 import static org.mockito.Mockito.doThrow;
@@ -143,6 +145,13 @@ public class QueryFilterTest {
             }
         }
 
+        @Test
+        @DisplayName("Test that a ParseException returns an empty map from search")
+        public void testParseException() {
+            Map<String, Float> searchResults = goodQueryFilter.search("\"electric");
+            assertTrue(searchResults.isEmpty(), "Expected empty results when a ParseException occurs during search");
+        }
+
     }
 
     @Test
@@ -182,4 +191,5 @@ public class QueryFilterTest {
             System.setOut(originalOut);
         }
     }
+
 }
