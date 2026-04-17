@@ -1,6 +1,8 @@
 package org.troy.capstone.managers;
 
 
+import java.util.ArrayList;
+
 import org.troy.capstone.data_structures.SimilarItemsGraph;
 import org.troy.capstone.data_structures.item_table.ItemHashMap;
 import org.troy.capstone.interfaces.SearchedItemPanelDestinationUI;
@@ -50,7 +52,7 @@ public class SimilarItemsManager implements SearchedItemPanelInteractor {
      */
     @Override
     public void onItemSelected(String itemId) {
-        similarItemsContainer.setContent(similarItemsGraph.findSimilarItems(itemId));
+        similarItemsContainer.setContent(new ArrayList<>(similarItemsGraph.findSimilarItems(itemId)));
     }
 
 }

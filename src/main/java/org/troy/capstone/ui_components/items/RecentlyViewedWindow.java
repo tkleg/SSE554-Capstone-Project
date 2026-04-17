@@ -6,6 +6,7 @@ import org.troy.capstone.constants.UISizeControl;
 import org.troy.capstone.interfaces.SearchedItemPanelDestinationUI;
 import org.troy.capstone.utils.UIUtils;
 
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
@@ -38,13 +39,13 @@ public class RecentlyViewedWindow extends ScrollPane implements SearchedItemPane
         setContent(content);
     }
 
-    /** Sets the content of the RecentlyViewedWindow with the given list of SearchedItemPanel instances.
-     * @pre The panels list should contain valid SearchedItemPanel instances to be displayed in the RecentlyViewedWindow.
-     * @post The RecentlyViewedWindow's content is updated to display the provided SearchedItemPanel instances.
-     * @param panels The list of SearchedItemPanel instances to be displayed in the RecentlyViewedWindow.
+    /** Sets the content of the RecentlyViewedWindow with the given list of Node instances.
+     * @pre The panels list should contain valid Node instances to be displayed in the RecentlyViewedWindow.
+     * @post The RecentlyViewedWindow's content is updated to display the provided Node instances.
+     * @param panels The list of Node instances to be displayed in the RecentlyViewedWindow.
      */
     @Override
-    public void setContent(List<SearchedItemPanel> panels) {
+    public void setContent(List<Node> panels) {
         content.getChildren().clear();
         content.getChildren().addAll(panels);
     }

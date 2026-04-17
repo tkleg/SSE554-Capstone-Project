@@ -32,10 +32,7 @@ public class SearchedItemPanel extends HBox{
     private static final SimpleDateFormat dateAddedFormatter = new SimpleDateFormat("MMMM dd, yyyy");
 
     /** The container for the attributed image of the item, displaying the item's image along with any relevant attributes. */
-    private final AttributedItemContainer attributedImage;
-    /** The container for the textual details of the item, displayed on the right side of the panel. */
-    private final VBox rightPanel;
-    
+    private final AttributedItemContainer attributedImage;  
 
     /** The ID of the item being displayed in this panel. Used for checking if the panel is in the recently viewed queue. */
     private final String itemId;
@@ -55,10 +52,8 @@ public class SearchedItemPanel extends HBox{
         //Set up the left side
         attributedImage = new AttributedItemContainer(item);
 
-        //Set up the right side - text content
-        rightPanel = new VBox(5); // 5px spacing between elements
-        rightPanel.setAlignment(Pos.TOP_LEFT); // Align content to top-left
-        fillRightPanel(item);
+        //Set up the right side with the item details
+        VBox rightPanel = makeRightPanel(item);
         
         //Add both sides to the HBox
         getChildren().addAll(attributedImage, rightPanel);
@@ -119,7 +114,9 @@ public class SearchedItemPanel extends HBox{
      * @post rightPanel will contain labels displaying the name, publisher, category, price, rating, stock quantity, and date added for the item, with consistent styling and formatting.
      * @param item The item whose data is being displayed in the right panel.
      */
-    private void fillRightPanel(Item item) {
+    public static VBox makeRightPanel(Item item) {
+        VBox rightPanel = new VBox(5); // 5px spacing between elements
+        rightPanel.setAlignment(Pos.CENTER);
         //Name label done separately so we can style it
         Label nameLabel = new Label(item.getName());
         nameLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14;");
@@ -149,6 +146,7 @@ public class SearchedItemPanel extends HBox{
             stockLabel,
             dateLabel
         );
+        return rightPanel;
     }
 
     /**
@@ -158,28 +156,12 @@ public class SearchedItemPanel extends HBox{
      * @param text The text to display in the label.
      * @return A label with the specified text and consistent styling.
      */
-    private Label createLabel(String text) {
+    private static Label createLabel(String text) {
         Label label = new Label(text);
         label.setWrapText(true);
         label.setMaxWidth(UISizeControl.SEARCHED_ITEM_LABEL_MAX_WIDTH.getValue());
         label.setAlignment(Pos.CENTER_LEFT);
         return label;
-    }
-
-    /**
-     * Getter for the right panel of the SearchedItemPanel, which contains the textual details of the item.
-     * @return The VBox containing the textual details of the item, displayed on the right side of the panel.
-     */
-    public VBox getRightPanel() {
-        return rightPanel;
-    }
-    
-    /**
-     * Getter for the attributed image container of the SearchedItemPanel, which displays the item's image and relevant attributes.
-     * @return The AttributedItemContainer containing the item's image and relevant attributes, displayed on the left side of the panel.
-     */
-    public AttributedItemContainer getAttributedImage() {
-        return attributedImage;
     }
 
 }

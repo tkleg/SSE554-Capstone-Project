@@ -12,6 +12,7 @@ import org.troy.capstone.data_structures.item_table.ItemHashMap;
 import org.troy.capstone.entities.Item;
 import org.troy.capstone.ui_components.items.SearchedItemPanel;
 
+import javafx.scene.layout.VBox;
 import tech.tablesaw.api.Table;
 
 /** Graph data structure to represent similar items. Uses an adjacency list representation. */
@@ -60,7 +61,7 @@ public class SimilarItemsGraph {
     }
 
 
-    public List<SearchedItemPanel> findSimilarItems(String itemId) {
+    public List<VBox> findSimilarItems(String itemId) {
         int itemIndex = itemHashMap.getItem(itemId)
             .orElseThrow(() -> new RuntimeException("Item not found in hash map for similar items graph."))
             .getIndex();
@@ -72,9 +73,9 @@ public class SimilarItemsGraph {
             .toList();
 
         similarItemsList.forEach(item -> System.out.println("Similar item: " + item.getName()) );
-        
+
         return similarItemsList.stream()
-            .map(SearchedItemPanel::create)
+            .map(SearchedItemPanel::makeRightPanel)
             .toList();
     }
 

@@ -2,10 +2,10 @@ package org.troy.capstone.interfaces;
 
 import java.util.List;
 
-import org.troy.capstone.ui_components.items.SearchedItemPanel;
+import javafx.scene.Node;
 
 /**
- * The SearchedItemPanelDestinationUI interface represents a UI component that can serve as a destination for displaying searched item panels.
+ * The SearchedItemPanelDestinationUI interface represents a UI component that can serve as a destination for displaying searched item panels. It allows for Node and not just SearchedItemPanel to allow for a subset of the information to be displayed through this interface.
  */
 public interface SearchedItemPanelDestinationUI {
 
@@ -14,5 +14,5 @@ public interface SearchedItemPanelDestinationUI {
      * @post The content of the destination UI is updated with the given list of searched item panels.
      * @param panels The list of searched item panels to display in the destination UI.
      */
-    void setContent(List<SearchedItemPanel> panels);
+    void setContent(List<Node> panels);
 }

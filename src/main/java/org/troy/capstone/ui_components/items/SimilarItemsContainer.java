@@ -6,6 +6,7 @@ import org.troy.capstone.constants.UISizeControl;
 import org.troy.capstone.interfaces.SearchedItemPanelDestinationUI;
 import org.troy.capstone.utils.UIUtils;
 
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 
@@ -34,7 +35,7 @@ public class SimilarItemsContainer extends HBox implements SearchedItemPanelDest
     }
 
     @Override
-    public void setContent(List<SearchedItemPanel> panels) {
+    public void setContent(List<Node> panels) {
         getChildren().clear();
         getChildren().addAll(panels);
     }

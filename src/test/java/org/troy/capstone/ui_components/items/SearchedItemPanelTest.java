@@ -32,8 +32,13 @@ public class SearchedItemPanelTest {
         assertNotNull(panel, "SearchedItemPanel should be created successfully");
         
         // Verify that the right panel is populated with the correct content
-        VBox rightPanel = panel.getRightPanel();
-        assertNotNull(rightPanel, "Right panel should be initialized");
+        VBox rightPanel = panel.getChildren().stream()
+            .filter(node -> node instanceof VBox)
+            .filter(node -> !(node instanceof AttributedItemContainer)) //Ensure we get the right panel, not the attributed image container
+            .map(node -> (VBox) node)
+            .findFirst()
+            .orElse(null);
+        assertNotNull(rightPanel, "Right panel should be present in the SearchedItemPanel");
         
         //Check that the right panel contains the expected number of children (name, publisher, category, price, rating, stock, date)
         assertEquals(7, rightPanel.getChildren().size(), "Right panel should contain 7 children (name, publisher, category, price, rating, stock, date)");
@@ -84,7 +89,11 @@ public class SearchedItemPanelTest {
         assertEquals(expectedDateText, dateLabel.getText(), "Date label should display the formatted date added");
     
         //Ensure the attributed panel has 2 children (image and attribution flow)
-        AttributedItemContainer attributedPanel = panel.getAttributedImage();
+        AttributedItemContainer attributedPanel = panel.getChildren().stream()
+            .filter(node -> node instanceof AttributedItemContainer)
+            .map(node -> (AttributedItemContainer) node)
+            .findFirst()
+            .orElse(null);
         assertNotNull(attributedPanel, "Attributed image panel should be initialized");
         assertEquals(2, attributedPanel.getChildren().size(), "Attributed image panel should contain 2 children (image and attribution flow)");
     }

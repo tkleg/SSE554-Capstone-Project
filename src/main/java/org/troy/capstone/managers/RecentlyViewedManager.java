@@ -1,5 +1,7 @@
 package org.troy.capstone.managers;
 
+import java.util.ArrayList;
+
 import org.troy.capstone.data_structures.RecentlyViewedQueue;
 import org.troy.capstone.data_structures.item_table.ItemHashMap;
 import org.troy.capstone.interfaces.SearchedItemPanelDestinationUI;
@@ -60,7 +62,8 @@ public class RecentlyViewedManager implements SearchedItemPanelInteractor {
     public void addRecentlyViewedItem(String itemId) {
         System.out.println("Adding item with ID " + itemId + " to recently viewed.");
         recentlyViewedQueue.addAttempt(itemId);
-        recentlyViewedWindow.setContent(recentlyViewedQueue.peekAll());
+        //Convert List<SearchedItemPanel> to List<Node> for setContent
+        recentlyViewedWindow.setContent(new ArrayList<>(recentlyViewedQueue.peekAll()));
     }
 
 }
