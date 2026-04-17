@@ -28,8 +28,6 @@ public class SimilarItemsManager implements SearchedItemPanelInteractor {
     private SimilarItemsManager(SimilarItemsContainer similarItemsContainer, ItemHashMap itemHashMap, Table table) {
         this.similarItemsContainer = similarItemsContainer;
         this.similarItemsGraph = new SimilarItemsGraph(itemHashMap, table);
-
-        //TODO: Insert graph data structure stuff
     }
 
      /**

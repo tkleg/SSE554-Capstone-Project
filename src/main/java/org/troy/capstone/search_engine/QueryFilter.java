@@ -138,9 +138,16 @@ public class QueryFilter {
      */
     public Map<String, Float> search(String userQuery){
         try{
-            // Handle null or empty query
-            if (userQuery == null || userQuery.trim().isEmpty()) {
-                System.out.println("Empty or null query provided, returning no results");
+
+            //Handle Null Query
+            if (userQuery == null) {
+                System.out.println("Null query provided. Returning empty results.");
+                return new HashMap<>();
+            }
+
+            //Handle Empty Query
+            if (userQuery.trim().isEmpty()) {
+                System.out.println("Empty query provided. Returning empty results.");
                 return new HashMap<>();
             }
             
@@ -154,15 +161,10 @@ public class QueryFilter {
                 0.0;
 
             System.out.println("Total hits: " + results.totalHits.value() + ", Minimum score for inclusion: " + minimumAllowableScore);
-            
-            if( results.totalHits.value() == 0){
-                System.out.println("No results found for query: " + userQuery);
-                return filteredItems;
-            }
 
             StoredFields storedFields = searcher.getIndexReader().leaves().get(0).reader().storedFields();
 
-            for (ScoreDoc scoreDoc : results.scoreDocs) {
+            for (ScoreDoc scoreDoc : getScoreDocs(results)) {
                 if (scoreDoc.score < minimumAllowableScore)
                     break;
                 Document doc = storedFields.document(scoreDoc.doc);
@@ -178,6 +180,16 @@ public class QueryFilter {
         }
     }
 
+
+    /** Returns the array of ScoreDoc objects from the given TopDocs object. Only necessary to allow mocking for test purposes.
+     * @pre results is not null and contains valid ScoreDoc objects.
+     * @param results The TopDocs object containing the search results from which to extract the ScoreDoc array.
+     * @return The array of ScoreDoc objects from the given TopDocs object.
+    */
+    static ScoreDoc[] getScoreDocs(TopDocs results) {
+        return results.scoreDocs;
+    }
+
     /** Adds a document to the Lucene index based on a tablesaw Row of item data. The document includes the item ID, name, and description, with the name and description fields being indexed for searching and the ID field being stored for retrieval. Logs any errors during document addition. 
      * 
      * @pre row is not null and contains the expected columns for creating a Document (ID, Name, Description, etc.).
@@ -189,7 +201,7 @@ public class QueryFilter {
         try{
             Document doc = new Document();
             doc.add(new StoredField(TableColumnName.ID.getColumnName(), row.getString(TableColumnName.ID.getColumnName()))); //ID field - stored but not indexed for searching
-            doc.add(new TextField(TableColumnName.NAME.getColumnName(), row.getString(TableColumnName.NAME.getColumnName()), Field.Store.YES));    //Searchable and stored. Will be removed prior to use in main program
+            doc.add(new TextField(TableColumnName.NAME.getColumnName(), row.getString(TableColumnName.NAME.getColumnName()), Field.Store.YES));    //Searchable and stored
             doc.add(new TextField(TableColumnName.DESCRIPTION.getColumnName(), row.getString(TableColumnName.DESCRIPTION.getColumnName()), Field.Store.NO)); //Searchable but not stored  
             writer.addDocument(doc);
         }catch (IOException e){

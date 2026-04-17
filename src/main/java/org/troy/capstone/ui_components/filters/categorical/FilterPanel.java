@@ -54,12 +54,4 @@ public class FilterPanel extends TitledPane{
             .collect(Collectors.toSet());
     }
 
-    /**
-     * Gets the CheckBox objects representing the filter options.
-     * @return The set of CheckBox objects representing the filter options.
-     */
-    public Set<CheckBox> getOptionCheckBoxes() {
-        return optionCheckBoxes;
-    }
-
 }

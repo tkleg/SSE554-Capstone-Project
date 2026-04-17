@@ -101,7 +101,7 @@ public class RowComparator implements Comparator<Row> {
                 return Float.compare(r1.getFloat(TableColumnName.REVIEW_SCORE.getColumnName()), r2.getFloat(TableColumnName.REVIEW_SCORE.getColumnName()));
             }case RATING_DESCENDING -> {
                 return Float.compare(r2.getFloat(TableColumnName.REVIEW_SCORE.getColumnName()), r1.getFloat(TableColumnName.REVIEW_SCORE.getColumnName()));
-            }default -> {
+            }case null -> {
                 System.out.println("Invalid SortType for RowComparator: " + sortType);
                 return 0;
             }
@@ -119,7 +119,8 @@ public class RowComparator implements Comparator<Row> {
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
+        if(obj == null) return false;
+        if(!(obj instanceof RowComparator)) return false;
         RowComparator other = (RowComparator) obj;
         return sortType == other.sortType;
     }

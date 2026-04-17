@@ -10,6 +10,8 @@ import java.util.Map;
 import org.apache.lucene.analysis.core.StopAnalyzer;
 import org.apache.lucene.analysis.custom.CustomAnalyzer;
 import org.apache.lucene.index.IndexWriter;
+import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.search.TopDocs;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -88,6 +90,24 @@ public class QueryFilterTest {
             assertTrue(results.isEmpty(), "Expected empty results for null query");
         }
 
+        @Test
+        @DisplayName("Test that the search method returns an empty list when the query is empty")
+        public void testSearchEmptyQuery() {
+            Map<String, Float> results = goodQueryFilter.search("   ");
+            assertTrue(results.isEmpty(), "Expected empty results for empty query");
+        }
+
+        @Test
+        @DisplayName("Test that the search method returns an empty list when all docs are below the minimum score threshold (break branch)")
+        @SuppressWarnings("ConvertToTryWithResources")
+        public void testSearchNoResultsAboveMinScore() throws ReflectiveOperationException, IOException {
+            MockedStatic<QueryFilter> mockedQueryFilter = mockStatic(QueryFilter.class);
+            mockedQueryFilter.when(() -> QueryFilter.getScoreDocs(any(TopDocs.class))).thenReturn(new ScoreDoc[0]);
+            Map<String, Float> searchResults = goodQueryFilter.search("elec");
+            assertTrue(searchResults.isEmpty(), "Expected no results when all docs are below the minimum score threshold");
+            mockedQueryFilter.close();
+        }
+
         @SuppressWarnings("unchecked")
         @Test
         @DisplayName("Test that the createNGramAnalyzer method sets the nGramAnalyzer properly when an exception is thrown")
@@ -122,6 +142,7 @@ public class QueryFilterTest {
                     "Expected ngramAnalyzer to be an instance of StopAnalyzer when CustomAnalyzer creation fails");
             }
         }
+
     }
 
     @Test
