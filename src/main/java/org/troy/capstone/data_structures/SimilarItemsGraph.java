@@ -11,7 +11,9 @@ import org.troy.capstone.constants.TableColumnName;
 import org.troy.capstone.data_structures.item_table.ItemHashMap;
 import org.troy.capstone.entities.Item;
 import org.troy.capstone.ui_components.items.SearchedItemPanel;
+import org.troy.capstone.utils.UIUtils;
 
+import javafx.geometry.Insets;
 import javafx.scene.layout.VBox;
 import tech.tablesaw.api.Table;
 
@@ -74,9 +76,12 @@ public class SimilarItemsGraph {
 
         similarItemsList.forEach(item -> System.out.println("Similar item: " + item.getName()) );
 
-        return similarItemsList.stream()
+        List<VBox> panels = similarItemsList.stream()
             .map(SearchedItemPanel::makeRightPanel)
             .toList();
+        panels.forEach(panel -> UIUtils.setLineBorder(panel, 3, 2));
+        panels.forEach(panel -> panel.setPadding(new Insets(5)));
+        return panels;
     }
 
     /** Constructor for SimilarItemsGraph. Initializes the graph with the given ItemHashMap.

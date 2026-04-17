@@ -9,7 +9,7 @@ public enum MiscValues {
     /** The maximum number of recently viewed items to keep track of in the RecentlyViewedQueue and display in the RecentlyViewedWindow. */
     RECENTLY_VIEWED_QUEUE_SIZE(10),
     /** The minimum similarity score required for two items to be considered similar in the SimilarItemsGraph. */
-    MIN_SIMILARITY_SCORE(3.0811720300000003f),
+    MIN_SIMILARITY_SCORE(3.7162029800000007f),
     /** The number of similar items to display for selected items. */
     NUM_SIMILAR_ITEMS_TO_DISPLAY(5);
 
