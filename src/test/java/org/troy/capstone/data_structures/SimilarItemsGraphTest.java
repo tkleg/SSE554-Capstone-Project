@@ -1,10 +1,12 @@
 package org.troy.capstone.data_structures;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.IntStream;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.troy.capstone.data_structures.SimilarItemsGraph.Edge;
@@ -39,6 +41,8 @@ public class SimilarItemsGraphTest{
 
     private static final SimilarItemsGraph GRAPH = new TestableSimilarItemsGraph(10, TEST_EDGES);
 
+    private static Method dijkstraMethod;
+    
     static class TestableEdge extends SimilarItemsGraph.Edge {
         int sourceIndex;
         TestableEdge(int sourceIndex, int destIndex, float weight) {
@@ -78,11 +82,18 @@ public class SimilarItemsGraphTest{
         return IntStream.range(0, EXPECTED_EDGES.size());
     }
 
+    @BeforeAll
+    public static void setup() throws ReflectiveOperationException {
+        dijkstraMethod = SimilarItemsGraph.class.getDeclaredMethod("dijkstra", int.class);
+        dijkstraMethod.setAccessible(true);
+    }
+
     @ParameterizedTest
     @MethodSource("range")
-    public void testDijkstra(int startIndex) {
+    public void testDijkstra(int startIndex) throws ReflectiveOperationException {
 
-        List<Edge> similarItems = GRAPH.dijkstra(startIndex);
+        @SuppressWarnings("unchecked")
+        List<Edge> similarItems = (List<Edge>) dijkstraMethod.invoke(GRAPH, startIndex);
         System.out.println("\nCase " + startIndex + ": " + similarItems+"\n");
         List<Edge> expectedSimilarItems = EXPECTED_EDGES.get(startIndex);
 

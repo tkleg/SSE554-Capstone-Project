@@ -7,15 +7,21 @@ import java.util.Map;
 import java.util.PriorityQueue;
 
 import org.troy.capstone.constants.MiscValues;
+import org.troy.capstone.constants.TableColumnName;
 import org.troy.capstone.data_structures.item_table.ItemHashMap;
 import org.troy.capstone.entities.Item;
+import org.troy.capstone.ui_components.items.SearchedItemPanel;
+
+import tech.tablesaw.api.Table;
 
 /** Graph data structure to represent similar items. Uses an adjacency list representation. */
 public class SimilarItemsGraph {
     /** Number of items in the graph. */
     protected int numItems;
-    /** HashMap to store items. */
+    /** HashMap to store items. Iterated over when filling the graph. */
     private final ItemHashMap itemHashMap;
+    /** The original table containing the items, used for retrieving items by index. */
+    private final Table table;
     /** Adjacency list to represent edges between items. */
     protected List<Edge>[] adjacencyList;
 
@@ -41,26 +47,53 @@ public class SimilarItemsGraph {
             return "Index: " + destIndex + ", Weight: " + weight;
         }
 
+        int getDestIndex() {
+            return destIndex;
+        }
     }
 
     /** Default constructor. Only used to allow for subclassing in the SimilarItemsGraphTest class. */
     public SimilarItemsGraph(){
         adjacencyList = null;
         itemHashMap = null;
+        table = null;
+    }
+
+
+    public List<SearchedItemPanel> findSimilarItems(String itemId) {
+        int itemIndex = itemHashMap.getItem(itemId)
+            .orElseThrow(() -> new RuntimeException("Item not found in hash map for similar items graph."))
+            .getIndex();
+        List<Edge> similarItems = dijkstra(itemIndex);
+
+        List<Item> similarItemsList = similarItems.stream()
+            .map(Edge::getDestIndex)
+            .map(index -> itemHashMap.getItem(table.row(index).getString(TableColumnName.ID.getColumnName())).get())
+            .toList();
+
+        similarItemsList.forEach(item -> System.out.println("Similar item: " + item.getName()) );
+        
+        return similarItemsList.stream()
+            .map(SearchedItemPanel::create)
+            .toList();
     }
 
     /** Constructor for SimilarItemsGraph. Initializes the graph with the given ItemHashMap.
      * @param itemHashMap The ItemHashMap containing the items to be added to the graph.
      */
     @SuppressWarnings("unchecked")
-    public SimilarItemsGraph(ItemHashMap itemHashMap) {
+    public SimilarItemsGraph(ItemHashMap itemHashMap, Table table) {
         this.numItems = itemHashMap.size();
         this.itemHashMap = itemHashMap;
         adjacencyList = new List[numItems];
+        this.table = table;
+
         System.out.println("Filling graph with " + numItems + " items...");
         fillGraph();
         System.out.println("Graph filled.");
     }
+
+
 
     /** Adds an undirected edge between two items in the graph with the given weight.
      * @param sourceItemIndex The index of the source item.
@@ -69,7 +102,7 @@ public class SimilarItemsGraph {
      * @pre sourceItemIndex and destItemIndex should be valid item indices corresponding to items in the graph. weight should be a non-negative float representing the similarity score between the two items.
      * @post An undirected edge is added between the source and destination items in the graph with the specified weight. The adjacency list is updated to reflect the new edge. Nothing is done if the weight is below the minimum similarity score threshold defined in MiscValues.
      */
-    public void addEdge(int sourceItemIndex, int destItemIndex, float weight) {
+    private void addEdge(int sourceItemIndex, int destItemIndex, float weight) {
         if (weight < MiscValues.MIN_SIMILARITY_SCORE.getValue())
             return;
 
@@ -103,7 +136,7 @@ public class SimilarItemsGraph {
      * @post The method returns a list of integer arrays, where each array contains the index of a similar item and its corresponding similarity score (converted to an integer). The list is sorted in descending order of similarity scores and limited to the number of similar items to display as defined in MiscValues. Items that are not reachable from the start index (i.e., have a distance of Float.MAX_VALUE) are excluded from the returned list.
      * @return A list of integer arrays, where each array contains the index of a similar item and its corresponding similarity score (converted to an integer). The list is sorted in descending order of similarity scores and limited to the number of similar items to display as defined in MiscValues.
      */
-    public List<Edge> dijkstra(int startIndex) {
+    private List<Edge> dijkstra(int startIndex) {
         PriorityQueue<Edge> pq = new PriorityQueue<>((a, b) -> Float.compare(b.weight, a.weight));
 
         //Key is index, value is distance from start index (similarity score)

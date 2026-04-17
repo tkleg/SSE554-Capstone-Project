@@ -31,6 +31,9 @@ public class GeneralManager {
     /** The ItemHashMap containing all items, used by the SearchEngine for filtering and searching and by the RecentlyViewedManager for retrieving items. */
     private final ItemHashMap itemHashMap;
 
+    /** The original table containing the items, used for retrieving items by index. */
+    private final Table table;
+
     /** A flag to track whether the RecentlyViewedManager has been created. Used to prevent duplicate creation. */
     private boolean recentlyViewedManagerCreated = false;
 
@@ -43,6 +46,7 @@ public class GeneralManager {
      */
     public GeneralManager(Table table, ItemHashMap itemHashMap) {
         this.itemHashMap = itemHashMap;
+        this.table = table;
         uiManager = new UIElementManager();
         searchEngine = new SearchEngine(table);
     }
@@ -85,7 +89,7 @@ public class GeneralManager {
             recentlyViewedManagerCreated = true;
         }
         if( !similarItemsManagerCreated && readyToMakeSimilarItemsManager()) {
-            SimilarItemsManager.create(itemHashMap, (SearchedItemPanelDestinationUI) uiManager.getElement(UIElementName.SIMILAR_ITEMS_CONTAINER).get(), (SearchedItemPanelSourceUI) uiManager.getElement(UIElementName.SEARCHED_ITEM_PAGINATION).get());
+            SimilarItemsManager.create(itemHashMap, table, (SearchedItemPanelDestinationUI) uiManager.getElement(UIElementName.SIMILAR_ITEMS_CONTAINER).get(), (SearchedItemPanelSourceUI) uiManager.getElement(UIElementName.SEARCHED_ITEM_PAGINATION).get());
             similarItemsManagerCreated = true;
         }
     }

@@ -11,7 +11,7 @@ public enum MiscValues {
     /** The minimum similarity score required for two items to be considered similar in the SimilarItemsGraph. */
     MIN_SIMILARITY_SCORE(3.0811720300000003f),
     /** The number of similar items to display for selected items. */
-    NUM_SIMILAR_ITEMS_TO_DISPLAY(10);
+    NUM_SIMILAR_ITEMS_TO_DISPLAY(5);
 
     /** The float value associated with the constant. */
     private final float value;
