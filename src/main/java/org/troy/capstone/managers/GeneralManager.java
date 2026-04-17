@@ -99,7 +99,7 @@ public class GeneralManager {
      * 
      * @return true if both the RecentlyViewedWindow and SearchedItemPagination components are present in the UIElementManager, false otherwise.
      */
-    private boolean readyToMakeRecentlyViewedManager() {
+    boolean readyToMakeRecentlyViewedManager() {
         return uiManager.getElement(UIElementName.RECENTLY_VIEWED_WINDOW).isPresent() && uiManager.getElement(UIElementName.SEARCHED_ITEM_PAGINATION).isPresent();
     }
 
@@ -108,7 +108,7 @@ public class GeneralManager {
      * 
      * @return true if both the SimilarItemsContainer and SearchedItemPagination components are present in the UIElementManager, false otherwise.
      */
-    private boolean readyToMakeSimilarItemsManager() {
+    boolean readyToMakeSimilarItemsManager() {
         return uiManager.getElement(UIElementName.SIMILAR_ITEMS_CONTAINER).isPresent() && uiManager.getElement(UIElementName.SEARCHED_ITEM_PAGINATION).isPresent();
     }
 

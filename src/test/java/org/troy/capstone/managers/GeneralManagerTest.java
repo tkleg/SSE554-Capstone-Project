@@ -10,13 +10,16 @@ import java.util.concurrent.CountDownLatch;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.troy.capstone.TestDataHolder;
 import org.troy.capstone.constants.UIElementName;
 import org.troy.capstone.data_structures.item_table.ItemHashMap;
 import org.troy.capstone.ui_components.filters.StarRatingFilter;
 import org.troy.capstone.ui_components.filters.categorical.FiltersContainer;
 import org.troy.capstone.ui_components.items.RecentlyViewedWindow;
+import org.troy.capstone.ui_components.items.SimilarItemsContainer;
 import org.troy.capstone.ui_components.items.searched.SearchedItemPagination;
 
 import javafx.application.Platform;
@@ -160,5 +163,143 @@ public class GeneralManagerTest {
         assert result : "Expected readyToMakeRecentlyViewedManager to return true when all required UI elements are present, but got: " + result;
     }
 
-    
+    @Nested
+    @DisplayName("Test addUIElement with the ready to make recently viewed manager condition")
+    @SuppressWarnings("unused")
+    class TestChecksforAddingRecentlyViewedManagerAndSimilarItemsManager {
+
+        static Field recentlyViewedManagerCreatedField;
+        static Field similarItemsManagerCreatedField;
+        static GeneralManager spyGM;
+
+        @BeforeAll
+        public static void setup() throws ReflectiveOperationException {
+            recentlyViewedManagerCreatedField = GeneralManager.class.getDeclaredField("recentlyViewedManagerCreated");
+            recentlyViewedManagerCreatedField.setAccessible(true);
+            similarItemsManagerCreatedField = GeneralManager.class.getDeclaredField("similarItemsManagerCreated");
+            similarItemsManagerCreatedField.setAccessible(true);
+            spyGM = Mockito.spy(new GeneralManager(table, itemHashMap));
+        }
+
+        @SuppressWarnings("unchecked")
+        @BeforeEach
+        public void resetRecentlyViewedManagerCreated() throws ReflectiveOperationException {
+            recentlyViewedManagerCreatedField.set(spyGM, false);
+            similarItemsManagerCreatedField.set(spyGM, false);
+            Field uiManagerField = GeneralManager.class.getDeclaredField("uiManager");
+            uiManagerField.setAccessible(true);
+            UIElementManager uiManager = (UIElementManager) uiManagerField.get(spyGM);
+            Field uiElementsField = UIElementManager.class.getDeclaredField("uiElements");
+            uiElementsField.setAccessible(true);
+            ((Map<UIElementName, Node>) uiElementsField.get(uiManager)).clear();
+            Mockito.reset(spyGM);
+        }
+
+        @Test
+        @DisplayName("Test addUIElement when neither required UI element for the RecentlyViewedManager is present")
+        public void testAddUIElementWhenNeitherRequiredUIElementIsPresent() throws Exception {
+            //Use Mockito to spy on GeneralManager
+            spyGM.addUIElement(UIElementName.MIN_PRICE_SLIDER, new Slider());
+            boolean recentlyViewedManagerCreated = (boolean) recentlyViewedManagerCreatedField.get(spyGM);
+            assert !recentlyViewedManagerCreated : "Expected recentlyViewedManagerCreated to be false when required UI elements are missing, but got: " + recentlyViewedManagerCreated;
+            //Verify readyToMakeRecentlyViewedManager is not called
+            Mockito.verify(spyGM, Mockito.times(1)).readyToMakeRecentlyViewedManager();
+        }
+
+        @Test
+        @DisplayName("Test addUIElement when just the pagination element is present for the RecentlyViewedManager")
+        public void testAddUIElementWhenJustPaginationElementIsPresent() throws Exception {
+            spyGM.addUIElement(UIElementName.SEARCHED_ITEM_PAGINATION, new SearchedItemPagination(itemHashMap));
+            boolean recentlyViewedManagerCreated = (boolean) recentlyViewedManagerCreatedField.get(spyGM);
+            assert !recentlyViewedManagerCreated : "Expected recentlyViewedManagerCreated to be false when one required UI element is missing, but got: " + recentlyViewedManagerCreated;
+            //Verify readyToMakeRecentlyViewedManager is called
+            Mockito.verify(spyGM, Mockito.times(1)).readyToMakeRecentlyViewedManager();
+        }
+
+        @Test
+        @DisplayName("Test addUIElement when just the recently viewed window element is present for the RecentlyViewedManager")
+        public void testAddUIElementWhenJustRecentlyViewedWindowElementIsPresent() throws Exception {
+            spyGM.addUIElement(UIElementName.RECENTLY_VIEWED_WINDOW, RecentlyViewedWindow.create());
+            boolean recentlyViewedManagerCreated = (boolean) recentlyViewedManagerCreatedField.get(spyGM);
+            assert !recentlyViewedManagerCreated : "Expected recentlyViewedManagerCreated to be false when one required UI element is missing, but got: " + recentlyViewedManagerCreated;
+            //Verify readyToMakeRecentlyViewedManager is called
+            Mockito.verify(spyGM, Mockito.times(1)).readyToMakeRecentlyViewedManager();
+        }
+
+        @Test
+        @DisplayName("Test addUIElement when both required UI elements are present for the RecentlyViewedManager")
+        public void testAddUIElementWhenBothRequiredUIElementsArePresent() throws Exception {
+            spyGM.addUIElement(UIElementName.SEARCHED_ITEM_PAGINATION, new SearchedItemPagination(itemHashMap));
+            spyGM.addUIElement(UIElementName.RECENTLY_VIEWED_WINDOW, RecentlyViewedWindow.create());
+            boolean recentlyViewedManagerCreated = (boolean) recentlyViewedManagerCreatedField.get(spyGM);
+            assert recentlyViewedManagerCreated : "Expected recentlyViewedManagerCreated to be true when all required UI elements are present, but got: " + recentlyViewedManagerCreated;
+            //Verify readyToMakeRecentlyViewedManager is called
+            Mockito.verify(spyGM, Mockito.times(2)).readyToMakeRecentlyViewedManager();
+        }
+
+        @Test
+        @DisplayName("Test addUIElement when the flag for recently viewed manager being created is already true")
+        public void testAddUIElementWhenRecentlyViewedManagerAlreadyCreated() throws Exception {
+            recentlyViewedManagerCreatedField.set(spyGM, true);
+            spyGM.addUIElement(UIElementName.SEARCHED_ITEM_PAGINATION, new SearchedItemPagination(itemHashMap));
+            spyGM.addUIElement(UIElementName.RECENTLY_VIEWED_WINDOW, RecentlyViewedWindow.create());
+            boolean recentlyViewedManagerCreated = (boolean) recentlyViewedManagerCreatedField.get(spyGM);
+            assert recentlyViewedManagerCreated : "Expected recentlyViewedManagerCreated to remain true when it is already true, but got: " + recentlyViewedManagerCreated;
+            //Verify readyToMakeRecentlyViewedManager is called but the create method for RecentlyViewedManager is not called
+            Mockito.verify(spyGM, Mockito.never()).readyToMakeRecentlyViewedManager();
+        }
+
+        @Test
+        @DisplayName("Test addUIElement when neither required UI element for the SimilarItemsManager is present")
+        public void testAddUIElementWhenNeitherRequiredUIElementForSimilarItemsManagerIsPresent() throws Exception {
+            spyGM.addUIElement(UIElementName.MIN_PRICE_SLIDER, new Slider());
+            boolean similarItemsManagerCreated = (boolean) similarItemsManagerCreatedField.get(spyGM);
+            assert !similarItemsManagerCreated : "Expected similarItemsManagerCreated to be false when required UI elements are missing, but got: " + similarItemsManagerCreated;
+            //Verify readyToMakeSimilarItemsManager is not called
+            Mockito.verify(spyGM, Mockito.times(1)).readyToMakeSimilarItemsManager();
+        }
+
+        @Test
+        @DisplayName("Test addUIElement when just the pagination element is present for the SimilarItemsManager")
+        public void testAddUIElementWhenJustPaginationElementIsPresentForSimilarItemsManager() throws Exception {
+            spyGM.addUIElement(UIElementName.SEARCHED_ITEM_PAGINATION, new SearchedItemPagination(itemHashMap));
+            boolean similarItemsManagerCreated = (boolean) similarItemsManagerCreatedField.get(spyGM);
+            assert !similarItemsManagerCreated : "Expected similarItemsManagerCreated to be false when one required UI element is missing, but got: " + similarItemsManagerCreated;
+            //Verify readyToMakeSimilarItemsManager is called
+            Mockito.verify(spyGM, Mockito.times(1)).readyToMakeSimilarItemsManager();
+        }
+
+        @Test
+        @DisplayName("Test addUIElement when just the similar items container element is present for the SimilarItemsManager")
+        public void testAddUIElementWhenJustSimilarItemsContainerElementIsPresentForSimilarItemsManager() throws Exception {
+            spyGM.addUIElement(UIElementName.SIMILAR_ITEMS_CONTAINER, SimilarItemsContainer.create());
+            boolean similarItemsManagerCreated = (boolean) similarItemsManagerCreatedField.get(spyGM);
+            assert !similarItemsManagerCreated : "Expected similarItemsManagerCreated to be false when one required UI element is missing, but got: " + similarItemsManagerCreated;
+            //Verify readyToMakeSimilarItemsManager is called
+            Mockito.verify(spyGM, Mockito.times(1)).readyToMakeSimilarItemsManager();
+        }
+
+        @Test
+        @DisplayName("Test addUIElement when both required UI elements are present for the SimilarItemsManager")
+        public void testAddUIElementWhenBothRequiredUIElementsArePresentForSimilarItemsManager() throws Exception {
+            spyGM.addUIElement(UIElementName.SEARCHED_ITEM_PAGINATION, new SearchedItemPagination(itemHashMap));
+            spyGM.addUIElement(UIElementName.SIMILAR_ITEMS_CONTAINER, SimilarItemsContainer.create());
+            boolean similarItemsManagerCreated = (boolean) similarItemsManagerCreatedField.get(spyGM);
+            assert similarItemsManagerCreated : "Expected similarItemsManagerCreated to be true when all required UI elements are present, but got: " + similarItemsManagerCreated;
+            //Verify readyToMakeSimilarItemsManager is called
+            Mockito.verify(spyGM, Mockito.times(2)).readyToMakeSimilarItemsManager();
+        }
+
+        @Test
+        @DisplayName("Test addUIElement when the flag for similar items manager being created is already true")
+        public void testAddUIElementWhenSimilarItemsManagerAlreadyCreated() throws Exception {
+            similarItemsManagerCreatedField.set(spyGM, true);
+            spyGM.addUIElement(UIElementName.SEARCHED_ITEM_PAGINATION, new SearchedItemPagination(itemHashMap));
+            spyGM.addUIElement(UIElementName.SIMILAR_ITEMS_CONTAINER, SimilarItemsContainer.create());
+            boolean similarItemsManagerCreated = (boolean) similarItemsManagerCreatedField.get(spyGM);
+            assert similarItemsManagerCreated : "Expected similarItemsManagerCreated to remain true when it is already true, but got: " + similarItemsManagerCreated;
+            //Verify readyToMakeSimilarItemsManager is called but the create method for SimilarItemsManager is not called
+            Mockito.verify(spyGM, Mockito.never()).readyToMakeSimilarItemsManager();
+        }
+    }
 }
