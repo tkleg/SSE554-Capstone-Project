@@ -66,17 +66,24 @@ public class SimilarItemsGraph {
 
 
     public List<VBox> findSimilarItems(String itemId) {
+        int totalLen = 0;
+        for( List<Edge> edges : adjacencyList)
+            if( edges != null)
+                totalLen += edges.size();
+        System.out.println("totalLen: " + totalLen);
+        System.out.println("Finding similar items for item ID: " + itemId);
         int itemIndex = itemHashMap.getItem(itemId)
             .orElseThrow(() -> new RuntimeException("Item not found in hash map for similar items graph."))
             .getIndex();
+        System.out.println("Item index for item ID " + itemId + ": " + itemIndex);
         List<Edge> similarItems = dijkstra(itemIndex);
-
+        System.out.println("Similar items found: " + similarItems.size());
         List<Item> similarItemsList = similarItems.stream()
             .map(Edge::getDestIndex)
             .map(index -> itemHashMap.getItem(table.row(index).getString(TableColumnName.ID.getColumnName())).get())
             .toList();
-
-        similarItemsList.forEach(item -> System.out.println("Similar item: " + item.getName()) );
+        System.out.println("Similar items retrieved from item hash map: " + similarItemsList.size());
+        similarItemsList.forEach(item -> System.out.println("Similar item: " + item.getName() + " (ID: " + item.getId() + ")") );
 
         List<VBox> panels = similarItemsList.stream()
             .map(SearchedItemPanel::makeRightPanel)
@@ -99,7 +106,7 @@ public class SimilarItemsGraph {
 
         if( !canBuild(buildGraph) )
             return;
-        
+
         System.out.println("Filling graph with " + numItems + " items...");
         fillGraph();
         System.out.println("Graph filled.");

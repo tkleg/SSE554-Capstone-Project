@@ -61,7 +61,7 @@ public class RecentlyViewedManagerTest {
     public void testAddRecentlyViewedItemWithDuplicate() throws ReflectiveOperationException {
         String firstId = table.row(0).getString(TableColumnName.ID.getColumnName());
         for( int x = 0; x < 5; x++)
-            recentlyViewedManager.addRecentlyViewedItem(firstId);
+            recentlyViewedManager.onItemSelected(firstId);
 
         assert content.getChildren().size() == 1 : "Expected 1 recently viewed item, but got " + content.getChildren().size();
     }

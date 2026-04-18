@@ -45,7 +45,7 @@ public class RecentlyViewedWindowTest {
         createManagerMethod.setAccessible(true);
         RecentlyViewedManager manager = (RecentlyViewedManager) createManagerMethod.invoke(null, itemHashMap, window, new SearchedItemPagination(itemHashMap));
         table.first(queueInputs).stringColumn(TableColumnName.ID.getColumnName())
-            .forEach(manager::addRecentlyViewedItem);
+            .forEach(manager::onItemSelected);
 
         Field contentField = RecentlyViewedWindow.class.getDeclaredField("content");
         contentField.setAccessible(true);

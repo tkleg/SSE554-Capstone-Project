@@ -38,7 +38,7 @@ public class SimilarItemsManager implements SearchedItemPanelInteractor {
       * @param panelSourceUI The SearchedItemPanelSourceUI that will hold the search results, used to attach listeners to the item panels within.
       * @return A new instance of SimilarItemsManager with the given parameters, and registered as a listener to the panelSourceUI.
       */
-    static SimilarItemsManager create(ItemHashMap itemHashMap, Table table, SearchedItemPanelDestinationUI destinationUI, SearchedItemPanelSourceUI panelSourceUI) {
+    public static SimilarItemsManager create(ItemHashMap itemHashMap, Table table, SearchedItemPanelDestinationUI destinationUI, SearchedItemPanelSourceUI panelSourceUI) {
         SimilarItemsManager manager = new SimilarItemsManager((SimilarItemsContainer) destinationUI, itemHashMap, table);
         panelSourceUI.addSearchedItemPanelInteractor(manager);
         return manager;
@@ -50,6 +50,7 @@ public class SimilarItemsManager implements SearchedItemPanelInteractor {
      */
     @Override
     public void onItemSelected(String itemId) {
+        System.out.println("Item selected with ID: " + itemId +" in SimilarItemsManager");
         similarItemsContainer.setContent(new ArrayList<>(similarItemsGraph.findSimilarItems(itemId)));
     }
 
