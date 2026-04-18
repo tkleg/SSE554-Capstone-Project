@@ -1,5 +1,5 @@
 ## Javadoc
-`mvn javadoc:javadoc`
+``
 
 ## JaCoCo
 `mvn test ; mvn jacoco:report`

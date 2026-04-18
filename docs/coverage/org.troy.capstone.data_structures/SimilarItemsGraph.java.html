@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SimilarItemsGraph.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Project</a> &gt; <a href="index.source.html" class="el_package">org.troy.capstone.data_structures</a> &gt; <span class="el_source">SimilarItemsGraph.java</span></div><h1>SimilarItemsGraph.java</h1><pre class="source lang-java linenums">package org.troy.capstone.data_structures;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.PriorityQueue;
+
+import org.troy.capstone.Config;
+import org.troy.capstone.annotations.Generated;
+import org.troy.capstone.constants.MiscValues;
+import org.troy.capstone.constants.TableColumnName;
+import org.troy.capstone.data_structures.item_table.ItemHashMap;
+import org.troy.capstone.entities.Item;
+import org.troy.capstone.ui_components.items.SearchedItemPanel;
+import org.troy.capstone.utils.UIUtils;
+
+import javafx.geometry.Insets;
+import javafx.scene.layout.VBox;
+import tech.tablesaw.api.Table;
+
+/** Graph data structure to represent similar items. Uses an adjacency list representation. */
+public class SimilarItemsGraph {
+    /** Number of items in the graph. */
+    protected int numItems;
+    /** HashMap to store items. Iterated over when filling the graph. */
+    private final ItemHashMap itemHashMap;
+    /** The original table containing the items, used for retrieving items by index. */
+    private final Table table;
+    /** Adjacency list to represent edges between items. */
+    protected List&lt;Edge&gt;[] adjacencyList;
+
+    /** Inner class to represent an edge in the graph. */
+    public static class Edge{
+        /** The index of the destination item that this edge points to. */
+        int destIndex;
+        /** The weight of the edge, representing the similarity score between the source and destination items. */
+        float weight;
+        /** Constructor for the Edge class. Initializes the destination index and weight of the edge.
+         * @param destIndex The index of the destination item that this edge points to.
+         * @param weight The weight of the edge, representing the similarity score between the source and destination items.
+         * @pre destIndex should be a valid item index corresponding to an item in the graph. weight should be a non-negative float representing the similarity score between the source and destination items.
+         * @post An Edge instance is created with the specified destination index and weight, representing an edge in the graph between two items with a certain similarity score.
+         */
+<span class="fc" id="L45">        public Edge(int destIndex, float weight) {</span>
+<span class="fc" id="L46">            this.destIndex = destIndex;</span>
+<span class="fc" id="L47">            this.weight = weight;</span>
+<span class="fc" id="L48">        }</span>
+
+        @Override
+        public String toString() {
+<span class="fc" id="L52">            return &quot;Index: &quot; + destIndex + &quot;, Weight: &quot; + weight;</span>
+        }
+
+        int getDestIndex() {
+<span class="fc" id="L56">            return destIndex;</span>
+        }
+    }
+
+    /** Default constructor. Only used to allow for subclassing in the SimilarItemsGraphTest class. */
+<span class="fc" id="L61">    public SimilarItemsGraph(){</span>
+<span class="fc" id="L62">        adjacencyList = null;</span>
+<span class="fc" id="L63">        itemHashMap = null;</span>
+<span class="fc" id="L64">        table = null;</span>
+<span class="fc" id="L65">    }</span>
+
+
+    public List&lt;VBox&gt; findSimilarItems(String itemId) {
+<span class="fc" id="L69">        int itemIndex = itemHashMap.getItem(itemId)</span>
+<span class="pc" id="L70">            .orElseThrow(() -&gt; new RuntimeException(&quot;Item not found in hash map for similar items graph.&quot;))</span>
+<span class="fc" id="L71">            .getIndex();</span>
+<span class="fc" id="L72">        System.out.println(&quot;Item index for item ID &quot; + itemId + &quot;: &quot; + itemIndex);</span>
+<span class="fc" id="L73">        List&lt;Edge&gt; similarItems = dijkstra(itemIndex);</span>
+<span class="fc" id="L74">        List&lt;Item&gt; similarItemsList = similarItems.stream()</span>
+<span class="fc" id="L75">            .map(Edge::getDestIndex)</span>
+<span class="fc" id="L76">            .map(index -&gt; itemHashMap.getItem(table.row(index).getString(TableColumnName.ID.getColumnName())).get())</span>
+<span class="fc" id="L77">            .toList();</span>
+<span class="fc" id="L78">        System.out.println(&quot;Similar items retrieved from item hash map: &quot; + similarItemsList.size());</span>
+<span class="fc" id="L79">        similarItemsList.forEach(item -&gt; System.out.println(&quot;Similar item: &quot; + item.getName() + &quot; (ID: &quot; + item.getId() + &quot;)&quot;) );</span>
+
+<span class="fc" id="L81">        List&lt;VBox&gt; panels = similarItemsList.stream()</span>
+<span class="fc" id="L82">            .map(SearchedItemPanel::makeRightPanel)</span>
+<span class="fc" id="L83">            .toList();</span>
+<span class="fc" id="L84">        panels.forEach(panel -&gt; UIUtils.setLineBorder(panel, 3, 2));</span>
+<span class="fc" id="L85">        panels.forEach(panel -&gt; panel.setPadding(new Insets(5)));</span>
+<span class="fc" id="L86">        return panels;</span>
+    }
+
+    /** Constructor for SimilarItemsGraph. Initializes the graph with the given ItemHashMap.
+     * @param itemHashMap The ItemHashMap containing the items to be added to the graph.
+     */
+    @SuppressWarnings(&quot;unchecked&quot;)
+<span class="fc" id="L93">    public SimilarItemsGraph(ItemHashMap itemHashMap, Table table, Boolean buildGraph) {</span>
+                
+<span class="fc" id="L95">        this.numItems = itemHashMap.size();</span>
+<span class="fc" id="L96">        this.itemHashMap = itemHashMap;</span>
+<span class="fc" id="L97">        adjacencyList = new List[numItems];</span>
+<span class="fc" id="L98">        this.table = table;</span>
+
+<span class="fc bfc" id="L100" title="All 2 branches covered.">        if( !canBuild(buildGraph) )</span>
+<span class="fc" id="L101">            return;</span>
+
+<span class="fc" id="L103">        System.out.println(&quot;Filling graph with &quot; + numItems + &quot; items...&quot;);</span>
+<span class="fc" id="L104">        fillGraph();</span>
+<span class="fc" id="L105">        System.out.println(&quot;Graph filled.&quot;);</span>
+<span class="fc" id="L106">    }</span>
+
+    /** Determines whether the graph can be built based on the provided buildGraph value or the configuration.
+     * @param buildGraph The buildGraph value to check. If null, the configuration value is used.
+     * @return true if the graph can be built, false otherwise.
+     */
+    @Generated
+    private boolean canBuild(Boolean buildGraph) {
+        if( buildGraph == null )
+            return Config.graphBuildingEnabled;
+        return buildGraph;
+    }
+
+
+
+    /** Adds an undirected edge between two items in the graph with the given weight.
+     * @param sourceItemIndex The index of the source item.
+     * @param destItemIndex The index of the destination item.
+     * @param weight The weight of the edge, representing the similarity score between the two items.
+     * @pre sourceItemIndex and destItemIndex should be valid item indices corresponding to items in the graph. weight should be a non-negative float representing the similarity score between the two items.
+     * @post An undirected edge is added between the source and destination items in the graph with the specified weight. The adjacency list is updated to reflect the new edge. Nothing is done if the weight is below the minimum similarity score threshold defined in MiscValues.
+     */
+    private void addEdge(int sourceItemIndex, int destItemIndex, float weight) {
+<span class="fc bfc" id="L129" title="All 2 branches covered.">        if (weight &lt; MiscValues.MIN_SIMILARITY_SCORE.getValue())</span>
+<span class="fc" id="L130">            return;</span>
+
+<span class="fc bfc" id="L132" title="All 2 branches covered.">        if( adjacencyList[sourceItemIndex] == null)</span>
+<span class="fc" id="L133">            adjacencyList[sourceItemIndex] = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L134" title="All 2 branches covered.">        if( adjacencyList[destItemIndex] == null)</span>
+<span class="fc" id="L135">            adjacencyList[destItemIndex] = new ArrayList&lt;&gt;();</span>
+
+<span class="fc" id="L137">        adjacencyList[sourceItemIndex].add(new Edge(destItemIndex, weight));</span>
+<span class="fc" id="L138">        adjacencyList[destItemIndex].add(new Edge(sourceItemIndex, weight));</span>
+<span class="fc" id="L139">    }</span>
+
+    /** Fills the graph with edges based on the similarity scores between items in the item hash map.
+     * @pre itemHashMap should be properly initialized and contain valid items with a defined similarity
+     * method to calculate similarity scores between items. The number of items in the item hash map should match the expected number of items in the graph.
+     * @post The graph is filled with undirected edges between items based on their similarity scores
+     */
+    private void fillGraph() {
+<span class="fc" id="L147">        List&lt;Item&gt; items = itemHashMap.values().stream().toList();</span>
+<span class="fc bfc" id="L148" title="All 2 branches covered.">        for (int i = 0; i &lt; numItems; i++) {</span>
+<span class="fc bfc" id="L149" title="All 2 branches covered.">            for (int j = i + 1; j &lt; numItems; j++) {</span>
+<span class="fc" id="L150">                float similarity = items.get(i).similarity(items.get(j));</span>
+<span class="fc" id="L151">                addEdge(i, j, similarity);</span>
+            }
+        }
+<span class="fc" id="L154">    }</span>
+
+    /** Basic algorithm taken from https://www.geeksforgeeks.org/dsa/dijkstras-shortest-path-algorithm-greedy-algo-7/. Computes the shortest paths from the start index to all other items in the graph. 
+     * @param startIndex The index of the starting item from which to compute the shortest paths to all other items in the graph.
+     * @pre startIndex should be a valid item index corresponding to an item in the graph. The graph should be properly initialized with edges representing the similarity scores between items.
+     * @post The method returns a list of integer arrays, where each array contains the index of a similar item and its corresponding similarity score (converted to an integer). The list is sorted in descending order of similarity scores and limited to the number of similar items to display as defined in MiscValues. Items that are not reachable from the start index (i.e., have a distance of Float.MAX_VALUE) are excluded from the returned list.
+     * @return A list of integer arrays, where each array contains the index of a similar item and its corresponding similarity score (converted to an integer). The list is sorted in descending order of similarity scores and limited to the number of similar items to display as defined in MiscValues.
+     */
+    private List&lt;Edge&gt; dijkstra(int startIndex) {
+<span class="fc" id="L163">        PriorityQueue&lt;Edge&gt; pq = new PriorityQueue&lt;&gt;((a, b) -&gt; Float.compare(b.weight, a.weight));</span>
+
+        //Key is index, value is distance from start index (similarity score)
+<span class="fc" id="L166">        Map&lt;Integer, Float&gt; distances = new HashMap&lt;&gt;();</span>
+
+<span class="fc" id="L168">        distances.put(startIndex, 0f);</span>
+<span class="fc" id="L169">        pq.offer(new Edge(startIndex, 0f));</span>
+
+<span class="fc bfc" id="L171" title="All 2 branches covered.">        while (!pq.isEmpty()) {</span>
+<span class="fc" id="L172">            Edge current = pq.poll();</span>
+<span class="fc" id="L173">            int currentIndex = current.destIndex;</span>
+
+<span class="fc" id="L175">            List&lt;Edge&gt; neighbors = adjacencyList[currentIndex];</span>
+<span class="fc bfc" id="L176" title="All 2 branches covered.">            if(neighbors == null)//Handles vertices with no edges</span>
+<span class="fc" id="L177">                continue;</span>
+<span class="fc bfc" id="L178" title="All 2 branches covered.">            for (Edge edge : neighbors) {</span>
+<span class="fc" id="L179">                float edgeDist = edge.weight;</span>
+<span class="fc" id="L180">                int destIndex = edge.destIndex;</span>
+<span class="fc bfc" id="L181" title="All 2 branches covered.">                if( distances.getOrDefault(currentIndex, Float.MAX_VALUE) + edgeDist &lt; distances.getOrDefault(destIndex, Float.MAX_VALUE)){</span>
+<span class="fc" id="L182">                    distances.put(destIndex, distances.get(currentIndex) + edgeDist);</span>
+<span class="fc" id="L183">                    pq.offer(new Edge(destIndex, distances.get(destIndex)));</span>
+                }
+<span class="fc" id="L185">            }</span>
+<span class="fc" id="L186">        }</span>
+        
+<span class="fc" id="L188">        return distances.entrySet().stream()</span>
+<span class="fc bfc" id="L189" title="All 2 branches covered.">            .filter(entry -&gt; entry.getKey() != startIndex)</span>
+<span class="fc" id="L190">            .sorted((a, b) -&gt; Float.compare(b.getValue(), a.getValue()))</span>
+<span class="fc" id="L191">            .limit((long) MiscValues.NUM_SIMILAR_ITEMS_TO_DISPLAY.getValue())</span>
+<span class="fc" id="L192">            .map(entry -&gt; new Edge(entry.getKey(), entry.getValue()))</span>
+<span class="fc" id="L193">            .toList();</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

@@ -21,13 +21,13 @@ import tech.tablesaw.api.Row;
 
 
 /**
- * A shopping item with various attributes. Main entity of the application.
+ * A shopping item with various attributes. Main entity of the application. Implements cloneable to allow deep copy of itemHashMap.
  */
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Item {
+public class Item implements Cloneable{
     /** Faker instance for generating random data. */
 <span class="fc" id="L32">    private static final Faker faker = new Faker();</span>
 
@@ -153,17 +153,25 @@ public class Item {
      * @return A float value representing the similarity between the two items.
     */
     public float similarity(Item other){
-<span class="nc" id="L156">        float similarity = 0.0f;</span>
-<span class="nc" id="L157">        similarity += ItemSimilarityWeights.NAME.getWeight() * JARO_WINKLER_SIMILARITY.apply(this.name, other.name);</span>
-<span class="nc bnc" id="L158" title="All 2 branches missed.">        similarity += ItemSimilarityWeights.PUBLISHER.getWeight() * (this.publisher.equals(other.publisher) ? 1.0f : 0.0f);</span>
-<span class="nc" id="L159">        similarity += ItemSimilarityWeights.DESCRIPTION.getWeight() * JARO_WINKLER_SIMILARITY.apply(this.description, other.description);</span>
-<span class="nc bnc" id="L160" title="All 2 branches missed.">        similarity += ItemSimilarityWeights.CATEGORY.getWeight() * (this.category.equals(other.category) ? 1.0f : 0.0f);</span>
-<span class="nc" id="L161">        similarity += ItemSimilarityWeights.TAGS.getWeight() * (float) this.tags.stream().filter(other.tags::contains).count();</span>
-<span class="nc bnc" id="L162" title="All 2 branches missed.">        similarity += ItemSimilarityWeights.PHOTO_AUTHOR.getWeight() * (this.photoAuthor.equals(other.photoAuthor) ? 1.0f : 0.0f);</span>
-<span class="nc" id="L163">        similarity += ItemSimilarityWeights.PRICE.getWeight() * Math.abs(this.price - other.price) / 500.0f; //Normalize price difference to [0, 1] range based on a high price</span>
-<span class="nc" id="L164">        similarity += ItemSimilarityWeights.REVIEW_SCORE.getWeight() * Math.abs(this.reviewScore - other.reviewScore) / 5.0f; //Normalize review score difference to [0, 1] range based on max score of 5</span>
-<span class="nc" id="L165">        similarity += ItemSimilarityWeights.DATE_ADDED.getWeight() * ((float) Math.abs(this.dateAdded.getTime() - other.dateAdded.getTime()) / TimeUnit.DAYS.toMillis(1000)); //Normalize date difference to [0, 1] range based on 1000 days</span>
-<span class="nc" id="L166">        return similarity;</span>
+<span class="fc" id="L156">        float similarity = 0.0f;</span>
+<span class="fc" id="L157">        similarity += ItemSimilarityWeights.NAME.getWeight() * JARO_WINKLER_SIMILARITY.apply(this.name, other.name);</span>
+<span class="fc bfc" id="L158" title="All 2 branches covered.">        similarity += ItemSimilarityWeights.PUBLISHER.getWeight() * (this.publisher.equals(other.publisher) ? 1.0f : 0.0f);</span>
+<span class="fc" id="L159">        similarity += ItemSimilarityWeights.DESCRIPTION.getWeight() * JARO_WINKLER_SIMILARITY.apply(this.description, other.description);</span>
+<span class="fc bfc" id="L160" title="All 2 branches covered.">        similarity += ItemSimilarityWeights.CATEGORY.getWeight() * (this.category.equals(other.category) ? 1.0f : 0.0f);</span>
+<span class="fc" id="L161">        similarity += ItemSimilarityWeights.TAGS.getWeight() * (float) this.tags.stream().filter(other.tags::contains).count();</span>
+<span class="fc bfc" id="L162" title="All 2 branches covered.">        similarity += ItemSimilarityWeights.PHOTO_AUTHOR.getWeight() * (this.photoAuthor.equals(other.photoAuthor) ? 1.0f : 0.0f);</span>
+<span class="fc" id="L163">        similarity += ItemSimilarityWeights.PRICE.getWeight() * Math.abs(this.price - other.price) / 500.0f; //Normalize price difference to [0, 1] range based on a high price</span>
+<span class="fc" id="L164">        similarity += ItemSimilarityWeights.REVIEW_SCORE.getWeight() * Math.abs(this.reviewScore - other.reviewScore) / 5.0f; //Normalize review score difference to [0, 1] range based on max score of 5</span>
+<span class="fc" id="L165">        similarity += ItemSimilarityWeights.DATE_ADDED.getWeight() * ((float) Math.abs(this.dateAdded.getTime() - other.dateAdded.getTime()) / TimeUnit.DAYS.toMillis(1000)); //Normalize date difference to [0, 1] range based on 1000 days</span>
+<span class="fc" id="L166">        return similarity;</span>
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+<span class="fc" id="L171">        Item cloned = (Item) super.clone();</span>
+<span class="fc" id="L172">        cloned.tags = new HashSet&lt;&gt;(this.tags); // Deep copy of mutable Set</span>
+<span class="fc" id="L173">        cloned.dateAdded = (Date) this.dateAdded.clone(); // Deep copy of mutable Date</span>
+<span class="fc" id="L174">        return cloned;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

@@ -32,10 +32,7 @@ public class SearchedItemPanel extends HBox{
 <span class="fc" id="L32">    private static final SimpleDateFormat dateAddedFormatter = new SimpleDateFormat(&quot;MMMM dd, yyyy&quot;);</span>
 
     /** The container for the attributed image of the item, displaying the item's image along with any relevant attributes. */
-    private final AttributedItemContainer attributedImage;
-    /** The container for the textual details of the item, displayed on the right side of the panel. */
-    private final VBox rightPanel;
-    
+    private final AttributedItemContainer attributedImage;  
 
     /** The ID of the item being displayed in this panel. Used for checking if the panel is in the recently viewed queue. */
     private final String itemId;
@@ -49,39 +46,37 @@ public class SearchedItemPanel extends HBox{
      * 
      * @param item The item whose details are being displayed in this panel, used to populate both the attributed image and the other details.
      */
-<span class="fc" id="L52">    private SearchedItemPanel(Item item) {</span>
-<span class="fc" id="L53">        this.itemId = item.getId();</span>
+<span class="fc" id="L49">    private SearchedItemPanel(Item item) {</span>
+<span class="fc" id="L50">        this.itemId = item.getId();</span>
 
         //Set up the left side
-<span class="fc" id="L56">        attributedImage = new AttributedItemContainer(item);</span>
+<span class="fc" id="L53">        attributedImage = new AttributedItemContainer(item);</span>
 
-        //Set up the right side - text content
-<span class="fc" id="L59">        rightPanel = new VBox(5); // 5px spacing between elements</span>
-<span class="fc" id="L60">        rightPanel.setAlignment(Pos.TOP_LEFT); // Align content to top-left</span>
-<span class="fc" id="L61">        fillRightPanel(item);</span>
+        //Set up the right side with the item details
+<span class="fc" id="L56">        VBox rightPanel = makeRightPanel(item);</span>
         
         //Add both sides to the HBox
-<span class="fc" id="L64">        getChildren().addAll(attributedImage, rightPanel);</span>
-<span class="fc" id="L65">        setSpacing(20); // 20px spacing between image and text</span>
-<span class="fc" id="L66">        setAlignment(Pos.TOP_LEFT); // Align all items to top-left for consistency</span>
+<span class="fc" id="L59">        getChildren().addAll(attributedImage, rightPanel);</span>
+<span class="fc" id="L60">        setSpacing(20); // 20px spacing between image and text</span>
+<span class="fc" id="L61">        setAlignment(Pos.TOP_LEFT); // Align all items to top-left for consistency</span>
                 
         //Add padding inside the border
-<span class="fc" id="L69">        setPadding(new Insets(UISizeControl.HEIGHT_PADDING.getValue(), UISizeControl.WIDTH_PADDING.getValue(), UISizeControl.HEIGHT_PADDING.getValue(), UISizeControl.WIDTH_PADDING.getValue()));</span>
+<span class="fc" id="L64">        setPadding(new Insets(UISizeControl.HEIGHT_PADDING.getValue(), UISizeControl.WIDTH_PADDING.getValue(), UISizeControl.HEIGHT_PADDING.getValue(), UISizeControl.WIDTH_PADDING.getValue()));</span>
         
         //Optimize rendering performance
-<span class="fc" id="L72">        setCache(true);</span>
-<span class="fc" id="L73">        setCacheHint(CacheHint.SPEED);</span>
-<span class="fc" id="L74">        setSnapToPixel(true);</span>
-<span class="fc" id="L75">    }</span>
+<span class="fc" id="L67">        setCache(true);</span>
+<span class="fc" id="L68">        setCacheHint(CacheHint.SPEED);</span>
+<span class="fc" id="L69">        setSnapToPixel(true);</span>
+<span class="fc" id="L70">    }</span>
 
     /** Factory method to create a SearchedItemPanel instance.
      * @param item The item whose details are being displayed in this panel.
      * @return A new instance of SearchedItemPanel.
      */
     public static SearchedItemPanel create(Item item) {
-<span class="fc" id="L82">        SearchedItemPanel panel = new SearchedItemPanel(item);</span>
-<span class="fc" id="L83">        UIUtils.setLineBorder(panel, 5, 2);</span>
-<span class="fc" id="L84">        return panel;</span>
+<span class="fc" id="L77">        SearchedItemPanel panel = new SearchedItemPanel(item);</span>
+<span class="fc" id="L78">        UIUtils.setLineBorder(panel, 5, 2);</span>
+<span class="fc" id="L79">        return panel;</span>
     }
 
     /** Sets a SearchedItemPanelInteractor to the panel to allow for interaction with the item panel
@@ -90,15 +85,15 @@ public class SearchedItemPanel extends HBox{
      * @param interactor The SearchedItemPanelInteractor to set for handling interactions with the item panel.
      */
     public void addSearchedItemPanelInteractor(SearchedItemPanelInteractor interactor) {
-<span class="fc" id="L93">        interactors.add(interactor);</span>
-<span class="pc" id="L94">        setOnMouseClicked(e -&gt; interactors.forEach(i -&gt; i.onItemSelected(itemId)));</span>
-<span class="fc" id="L95">    }</span>
+<span class="fc" id="L88">        interactors.add(interactor);</span>
+<span class="pc" id="L89">        setOnMouseClicked(e -&gt; interactors.forEach(i -&gt; i.onItemSelected(itemId)));</span>
+<span class="fc" id="L90">    }</span>
 
     /** Getter for the item ID of the item being displayed in this panel, used for checking if the panel is in the recently viewed queue. 
      * @return The ID of the item being displayed in this panel.
      */
     public String getItemId() {
-<span class="fc" id="L101">        return itemId;</span>
+<span class="fc" id="L96">        return itemId;</span>
     }
 
     /**
@@ -107,8 +102,8 @@ public class SearchedItemPanel extends HBox{
      * @post The asynchronous image loading task for the attributed image container is stopped, preventing any further loading of the image that is not being displayed.
      */
     public void stopLoadingImage() {
-<span class="fc" id="L110">        attributedImage.stopLoadingImage();</span>
-<span class="fc" id="L111">    }</span>
+<span class="fc" id="L105">        attributedImage.stopLoadingImage();</span>
+<span class="fc" id="L106">    }</span>
 
     /**
      * Fills the right panel with some of the data from the item.
@@ -119,28 +114,30 @@ public class SearchedItemPanel extends HBox{
      * @post rightPanel will contain labels displaying the name, publisher, category, price, rating, stock quantity, and date added for the item, with consistent styling and formatting.
      * @param item The item whose data is being displayed in the right panel.
      */
-    private void fillRightPanel(Item item) {
+    public static VBox makeRightPanel(Item item) {
+<span class="fc" id="L118">        VBox rightPanel = new VBox(5); // 5px spacing between elements</span>
+<span class="fc" id="L119">        rightPanel.setAlignment(Pos.CENTER);</span>
         //Name label done separately so we can style it
-<span class="fc" id="L124">        Label nameLabel = new Label(item.getName());</span>
-<span class="fc" id="L125">        nameLabel.setStyle(&quot;-fx-font-weight: bold; -fx-font-size: 14;&quot;);</span>
-<span class="fc" id="L126">        nameLabel.setWrapText(true);</span>
-<span class="fc" id="L127">        nameLabel.setMaxWidth(UISizeControl.SEARCHED_ITEM_LABEL_MAX_WIDTH.getValue()); // Allow space for image on left</span>
-<span class="fc" id="L128">        nameLabel.setAlignment(Pos.CENTER_LEFT);</span>
+<span class="fc" id="L121">        Label nameLabel = new Label(item.getName());</span>
+<span class="fc" id="L122">        nameLabel.setStyle(&quot;-fx-font-weight: bold; -fx-font-size: 14;&quot;);</span>
+<span class="fc" id="L123">        nameLabel.setWrapText(true);</span>
+<span class="fc" id="L124">        nameLabel.setMaxWidth(UISizeControl.SEARCHED_ITEM_LABEL_MAX_WIDTH.getValue()); // Allow space for image on left</span>
+<span class="fc" id="L125">        nameLabel.setAlignment(Pos.CENTER_LEFT);</span>
 
-<span class="fc" id="L130">        Label publisherLabel = createLabel(&quot;Publisher: &quot; + item.getPublisher());</span>
+<span class="fc" id="L127">        Label publisherLabel = createLabel(&quot;Publisher: &quot; + item.getPublisher());</span>
         
-<span class="fc" id="L132">        Label categoryLabel = createLabel(&quot;Category: &quot; + item.getCategory());</span>
+<span class="fc" id="L129">        Label categoryLabel = createLabel(&quot;Category: &quot; + item.getCategory());</span>
         
-<span class="fc" id="L134">        Label priceLabel = createLabel(&quot;Price: $&quot; + String.format(&quot;%.2f&quot;, item.getPrice()));</span>
+<span class="fc" id="L131">        Label priceLabel = createLabel(&quot;Price: $&quot; + String.format(&quot;%.2f&quot;, item.getPrice()));</span>
         
-<span class="fc" id="L136">        Label ratingLabel = createLabel(&quot;Rating: &quot; + item.getReviewScore() + &quot;/5.0 (&quot; + item.getReviewCount() + &quot; reviews)&quot;);</span>
+<span class="fc" id="L133">        Label ratingLabel = createLabel(&quot;Rating: &quot; + item.getReviewScore() + &quot;/5.0 (&quot; + item.getReviewCount() + &quot; reviews)&quot;);</span>
         
-<span class="fc" id="L138">        Label stockLabel = createLabel(&quot;Stock: &quot; + item.getStockQuantity());</span>
+<span class="fc" id="L135">        Label stockLabel = createLabel(&quot;Stock: &quot; + item.getStockQuantity());</span>
         
-<span class="fc" id="L140">        Date dateAdded = item.getDateAdded();</span>
-<span class="fc" id="L141">        Label dateLabel = createLabel(&quot;Date Added: &quot; + dateAddedFormatter.format(dateAdded));</span>
+<span class="fc" id="L137">        Date dateAdded = item.getDateAdded();</span>
+<span class="fc" id="L138">        Label dateLabel = createLabel(&quot;Date Added: &quot; + dateAddedFormatter.format(dateAdded));</span>
 
-<span class="fc" id="L143">        rightPanel.getChildren().addAll(</span>
+<span class="fc" id="L140">        rightPanel.getChildren().addAll(</span>
             nameLabel,
             publisherLabel,
             categoryLabel,
@@ -149,7 +146,10 @@ public class SearchedItemPanel extends HBox{
             stockLabel,
             dateLabel
         );
-<span class="fc" id="L152">    }</span>
+
+<span class="fc" id="L150">        rightPanel.setId(&quot;rightPanel&quot;+item.getId()); //Set an ID for testing purposes</span>
+<span class="fc" id="L151">        return rightPanel;</span>
+    }
 
     /**
      * Helper method to create a label with consistent styling for the item details in the right panel.
@@ -158,28 +158,12 @@ public class SearchedItemPanel extends HBox{
      * @param text The text to display in the label.
      * @return A label with the specified text and consistent styling.
      */
-    private Label createLabel(String text) {
+    private static Label createLabel(String text) {
 <span class="fc" id="L162">        Label label = new Label(text);</span>
 <span class="fc" id="L163">        label.setWrapText(true);</span>
 <span class="fc" id="L164">        label.setMaxWidth(UISizeControl.SEARCHED_ITEM_LABEL_MAX_WIDTH.getValue());</span>
 <span class="fc" id="L165">        label.setAlignment(Pos.CENTER_LEFT);</span>
 <span class="fc" id="L166">        return label;</span>
-    }
-
-    /**
-     * Getter for the right panel of the SearchedItemPanel, which contains the textual details of the item.
-     * @return The VBox containing the textual details of the item, displayed on the right side of the panel.
-     */
-    public VBox getRightPanel() {
-<span class="fc" id="L174">        return rightPanel;</span>
-    }
-    
-    /**
-     * Getter for the attributed image container of the SearchedItemPanel, which displays the item's image and relevant attributes.
-     * @return The AttributedItemContainer containing the item's image and relevant attributes, displayed on the left side of the panel.
-     */
-    public AttributedItemContainer getAttributedImage() {
-<span class="fc" id="L182">        return attributedImage;</span>
     }
 
 }

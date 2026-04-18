@@ -88,7 +88,7 @@ public class RowComparator implements Comparator&lt;Row&gt; {
      */
     @Override
     public int compare(Row r1, Row r2){
-<span class="pc bpc" id="L91" title="1 of 7 branches missed.">        switch (sortType) {</span>
+<span class="fc bfc" id="L91" title="All 7 branches covered.">        switch (sortType) {</span>
             case PRICE_ASCENDING -&gt; {
 <span class="fc" id="L93">                return Float.compare(r1.getFloat(TableColumnName.PRICE.getColumnName()), r2.getFloat(TableColumnName.PRICE.getColumnName()));</span>
             }case PRICE_DESCENDING -&gt; {
@@ -101,9 +101,9 @@ public class RowComparator implements Comparator&lt;Row&gt; {
 <span class="fc" id="L101">                return Float.compare(r1.getFloat(TableColumnName.REVIEW_SCORE.getColumnName()), r2.getFloat(TableColumnName.REVIEW_SCORE.getColumnName()));</span>
             }case RATING_DESCENDING -&gt; {
 <span class="fc" id="L103">                return Float.compare(r2.getFloat(TableColumnName.REVIEW_SCORE.getColumnName()), r1.getFloat(TableColumnName.REVIEW_SCORE.getColumnName()));</span>
-            }default -&gt; {
-<span class="nc" id="L105">                System.out.println(&quot;Invalid SortType for RowComparator: &quot; + sortType);</span>
-<span class="nc" id="L106">                return 0;</span>
+            }case null -&gt; {
+<span class="fc" id="L105">                System.out.println(&quot;Invalid SortType for RowComparator: &quot; + sortType);</span>
+<span class="fc" id="L106">                return 0;</span>
             }
         }
     }
@@ -119,9 +119,10 @@ public class RowComparator implements Comparator&lt;Row&gt; {
     @Override
     public boolean equals(Object obj) {
 <span class="fc bfc" id="L121" title="All 2 branches covered.">        if (this == obj) return true;</span>
-<span class="pc bpc" id="L122" title="1 of 4 branches missed.">        if (obj == null || getClass() != obj.getClass()) return false;</span>
-<span class="fc" id="L123">        RowComparator other = (RowComparator) obj;</span>
-<span class="fc bfc" id="L124" title="All 2 branches covered.">        return sortType == other.sortType;</span>
+<span class="fc bfc" id="L122" title="All 2 branches covered.">        if(obj == null) return false;</span>
+<span class="fc bfc" id="L123" title="All 2 branches covered.">        if(!(obj instanceof RowComparator)) return false;</span>
+<span class="fc" id="L124">        RowComparator other = (RowComparator) obj;</span>
+<span class="fc bfc" id="L125" title="All 2 branches covered.">        return sortType == other.sortType;</span>
     }
     
     /**

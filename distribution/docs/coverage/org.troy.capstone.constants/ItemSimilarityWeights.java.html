@@ -3,25 +3,25 @@
 /**
  * The ItemSimilarityWeights enum defines the weights used for calculating item similarity based on different attributes. Each constant represents a specific attribute and its associated weight, which indicates the importance of that attribute in the similarity calculation.
  */
-<span class="nc" id="L6">public enum ItemSimilarityWeights {</span>
+<span class="fc" id="L6">public enum ItemSimilarityWeights {</span>
     /** The weight for the name attribute when calculating item similarity. */
-<span class="nc" id="L8">    NAME(0.8f),</span>
+<span class="fc" id="L8">    NAME(0.9f),</span>
     /** The weight for the publisher attribute when calculating item similarity. */
-<span class="nc" id="L10">    PUBLISHER(0.4f),</span>
+<span class="fc" id="L10">    PUBLISHER(0.4f),</span>
     /** The weight for the description attribute when calculating item similarity. */
-<span class="nc" id="L12">    DESCRIPTION(0.5f),</span>
+<span class="fc" id="L12">    DESCRIPTION(0.8f),</span>
     /** The weight for the category attribute when calculating item similarity. */
-<span class="nc" id="L14">    CATEGORY(0.4f),</span>
+<span class="fc" id="L14">    CATEGORY(0.6f),</span>
     /** The weight for the tags attribute when calculating item similarity. */
-<span class="nc" id="L16">    TAGS(0.6f),</span>
+<span class="fc" id="L16">    TAGS(0.7f),</span>
     /** The weight for the photo author attribute when calculating item similarity. */
-<span class="nc" id="L18">    PHOTO_AUTHOR(0.3f),</span>
+<span class="fc" id="L18">    PHOTO_AUTHOR(0.3f),</span>
     /** The weight for the price attribute when calculating item similarity. */
-<span class="nc" id="L20">    PRICE(0.3f),</span>
+<span class="fc" id="L20">    PRICE(0.3f),</span>
     /** The weight for the review score attribute when calculating item similarity. */
-<span class="nc" id="L22">    REVIEW_SCORE(0.3f),</span>
+<span class="fc" id="L22">    REVIEW_SCORE(0.3f),</span>
     /** The weight for the date added attribute when calculating item similarity. */
-<span class="nc" id="L24">    DATE_ADDED(0.1f);</span>
+<span class="fc" id="L24">    DATE_ADDED(0.1f);</span>
 
     /** The weight associated with the attribute for similarity calculation. */
     private final float weight;
@@ -29,15 +29,15 @@
     /** Constructor for the ItemSimilarityWeights enum.
      * @param weight The weight to associate with the attribute for similarity calculation.
      */
-<span class="nc" id="L32">    ItemSimilarityWeights(float weight) {</span>
-<span class="nc" id="L33">        this.weight = weight;</span>
-<span class="nc" id="L34">    }</span>
+<span class="fc" id="L32">    ItemSimilarityWeights(float weight) {</span>
+<span class="fc" id="L33">        this.weight = weight;</span>
+<span class="fc" id="L34">    }</span>
 
     /** Retrieves the weight associated with the attribute for similarity calculation.
      * @return The weight of the attribute for similarity calculation.
      */
     public float getWeight() {
-<span class="nc" id="L40">        return weight;</span>
+<span class="fc" id="L40">        return weight;</span>
     }
 
 }
