@@ -90,7 +90,7 @@ public class SimilarItemsGraphTest{
 
     @ParameterizedTest
     @MethodSource("range")
-    public void testDijkstra(int startIndex) throws ReflectiveOperationException {
+    public void testDijkstraSimple(int startIndex) throws ReflectiveOperationException {
 
         @SuppressWarnings("unchecked")
         List<Edge> similarItems = (List<Edge>) dijkstraMethod.invoke(GRAPH, startIndex);
@@ -106,6 +106,5 @@ public class SimilarItemsGraphTest{
         }
 
     }
-    
 
 }

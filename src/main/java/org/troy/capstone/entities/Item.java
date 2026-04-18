@@ -21,13 +21,13 @@ import tech.tablesaw.api.Row;
 
 
 /**
- * A shopping item with various attributes. Main entity of the application.
+ * A shopping item with various attributes. Main entity of the application. Implements cloneable to allow deep copy of itemHashMap.
  */
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Item {
+public class Item implements Cloneable{
     /** Faker instance for generating random data. */
     private static final Faker faker = new Faker();
 
@@ -164,5 +164,13 @@ public class Item {
         similarity += ItemSimilarityWeights.REVIEW_SCORE.getWeight() * Math.abs(this.reviewScore - other.reviewScore) / 5.0f; //Normalize review score difference to [0, 1] range based on max score of 5
         similarity += ItemSimilarityWeights.DATE_ADDED.getWeight() * ((float) Math.abs(this.dateAdded.getTime() - other.dateAdded.getTime()) / TimeUnit.DAYS.toMillis(1000)); //Normalize date difference to [0, 1] range based on 1000 days
         return similarity;
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        Item cloned = (Item) super.clone();
+        cloned.tags = new HashSet<>(this.tags); // Deep copy of mutable Set
+        cloned.dateAdded = (Date) this.dateAdded.clone(); // Deep copy of mutable Date
+        return cloned;
     }
 }

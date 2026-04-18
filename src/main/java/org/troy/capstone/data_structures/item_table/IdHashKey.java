@@ -3,9 +3,9 @@ package org.troy.capstone.data_structures.item_table;
 import java.math.BigInteger;
 
 /**
- * Class representing a hash key for item IDs, using universal hashing to minimize collisions in the item table. The hash code is computed by collapsing the string ID into an integer using a Rabin-Karp style polynomial rolling hash method, and then applying a universal hash function with random coefficients I and J and a prime modulus P. This approach helps ensure a good distribution of hash values even for similar string IDs, which is important for maintaining efficient lookups in the item table.
+ * Class representing a hash key for item IDs, using universal hashing to minimize collisions in the item table. The hash code is computed by collapsing the string ID into an integer using a Rabin-Karp style polynomial rolling hash method, and then applying a universal hash function with random coefficients I and J and a prime modulus P. This approach helps ensure a good distribution of hash values even for similar string IDs, which is important for maintaining efficient lookups in the item table. Implements cloneable to allow for deep copy of itemHashMap
  */
-public class IdHashKey {
+public class IdHashKey implements Cloneable {
     /** The original string value of the item ID, stored for equality checks and potential debugging purposes. */
     private final String value;
 
@@ -112,4 +112,10 @@ public class IdHashKey {
         IdHashKey other = (IdHashKey) obj;
         return value.equals(other.value);
     }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
+
 }

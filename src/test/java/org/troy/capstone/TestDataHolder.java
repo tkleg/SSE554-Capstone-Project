@@ -17,20 +17,14 @@ public class TestDataHolder {
     private static final Table table;
     private static final ItemHashMap itemHashMap;
     private static final List<String> allItemIds;
-    private static final SimilarItemsContainer similarItemsContainer;
-    private static final SearchedItemPagination searchedItemPagination;
-    private static final SimilarItemsManager similarItemsManager;
+    private static SimilarItemsContainer similarItemsContainer;
+    private static SearchedItemPagination searchedItemPagination;
+    private static SimilarItemsManager similarItemsManager;
 
     static {
         table = TableUtils.readData(DataPath.CLEANED_ATTRIBUTED_DATA);
         itemHashMap = ItemHashMap.fromTable(table);
         allItemIds = itemHashMap.getItemIdsAsList();
-        new JFXPanel();
-        similarItemsContainer = SimilarItemsContainer.create();
-        searchedItemPagination = new SearchedItemPagination(itemHashMap);
-        Config.graphBuildingEnabled = true;
-        similarItemsManager = SimilarItemsManager.create(itemHashMap, table, similarItemsContainer, searchedItemPagination);
-        Config.graphBuildingEnabled = false;
     }
 
     public static void main(String[] args) {
@@ -43,8 +37,12 @@ public class TestDataHolder {
         return table.copy();
     }
 
-    public static ItemHashMap getItemHashMapCopy() {
-        return itemHashMap.copy();
+    public static ItemHashMap getItemHashMapCopy(){
+        try{
+            return itemHashMap.copy();
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException("Failed to copy ItemHashMap for test data", e);
+        }
     }
 
     public static List<String> getAllItemIdsCopy() {
@@ -64,6 +62,7 @@ public class TestDataHolder {
     }
 
     public static SimilarItemsManager getFreshSimilarItemsManager() {
+        new JFXPanel();
         Table freshTable = table.copy();
         ItemHashMap freshMap = ItemHashMap.fromTable(freshTable);
         SimilarItemsContainer freshContainer = SimilarItemsContainer.create();

@@ -19,7 +19,6 @@ public class SimilarItemsManager implements SearchedItemPanelInteractor {
     private final SimilarItemsContainer similarItemsContainer;
     /** The SimilarItemsGraph that represents the similarity relationships between items. */
     private final SimilarItemsGraph similarItemsGraph;
-
     
     /** Private constructor to enforce the use of the static factory method.
      * @param similarItemsContainer The SimilarItemsContainer that will display the similar items, used to update the displayed similar items when new items are added.

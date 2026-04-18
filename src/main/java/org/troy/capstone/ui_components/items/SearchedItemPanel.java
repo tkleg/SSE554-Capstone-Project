@@ -146,6 +146,8 @@ public class SearchedItemPanel extends HBox{
             stockLabel,
             dateLabel
         );
+
+        rightPanel.setId("rightPanel"+item.getId()); //Set an ID for testing purposes
         return rightPanel;
     }
 

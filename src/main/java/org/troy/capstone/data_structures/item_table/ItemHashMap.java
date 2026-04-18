@@ -173,10 +173,10 @@ public class ItemHashMap extends HashMap<IdHashKey, Item> {
      *
      * @return A new ItemHashMap containing the same entries as the original.
      */
-    public ItemHashMap copy() {
+    public ItemHashMap copy() throws CloneNotSupportedException {
         ItemHashMap copy = new ItemHashMap(size());
         for (Entry<IdHashKey, Item> entry : entrySet())
-            copy.put(entry.getKey(), entry.getValue());
+            copy.put((IdHashKey) entry.getKey().clone(), (Item) entry.getValue().clone());
         return copy;
     }
 

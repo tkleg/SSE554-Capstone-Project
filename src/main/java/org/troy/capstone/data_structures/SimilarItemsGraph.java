@@ -66,18 +66,11 @@ public class SimilarItemsGraph {
 
 
     public List<VBox> findSimilarItems(String itemId) {
-        int totalLen = 0;
-        for( List<Edge> edges : adjacencyList)
-            if( edges != null)
-                totalLen += edges.size();
-        System.out.println("totalLen: " + totalLen);
-        System.out.println("Finding similar items for item ID: " + itemId);
         int itemIndex = itemHashMap.getItem(itemId)
             .orElseThrow(() -> new RuntimeException("Item not found in hash map for similar items graph."))
             .getIndex();
         System.out.println("Item index for item ID " + itemId + ": " + itemIndex);
         List<Edge> similarItems = dijkstra(itemIndex);
-        System.out.println("Similar items found: " + similarItems.size());
         List<Item> similarItemsList = similarItems.stream()
             .map(Edge::getDestIndex)
             .map(index -> itemHashMap.getItem(table.row(index).getString(TableColumnName.ID.getColumnName())).get())
@@ -178,10 +171,6 @@ public class SimilarItemsGraph {
         while (!pq.isEmpty()) {
             Edge current = pq.poll();
             int currentIndex = current.destIndex;
-            float currentDist = current.weight;
-
-            if(currentDist > distances.get(currentIndex))
-                continue;
 
             List<Edge> neighbors = adjacencyList[currentIndex];
             if(neighbors == null)//Handles vertices with no edges
