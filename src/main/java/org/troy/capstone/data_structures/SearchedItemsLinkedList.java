@@ -72,7 +72,7 @@ public class SearchedItemsLinkedList{
      * @return The list of items in the next node, or null if there is no next node.
      */
     public List<Item> getNext(){
-        if (current == null || current.getNext() == null) {
+        if ( current.getNext() == null ) {
             System.out.println("Already at the end of the list, cannot advance further.");
             return null;
         }
@@ -87,8 +87,8 @@ public class SearchedItemsLinkedList{
      * @return The list of items in the previous node, or null if there is no previous node.
      */
     public List<Item> getPrevious(){
-        if (current == null || current.getPrev() == null) {
-            System.out.println("Already at the beginning of the list, cannot go back further.");
+        if ( current.getPrev() == null ) {
+            System.out.println("Already at the start of the list, cannot go back further.");
             return null;
         }
         current = current.getPrev();
