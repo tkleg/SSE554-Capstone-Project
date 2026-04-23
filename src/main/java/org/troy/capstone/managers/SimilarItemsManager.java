@@ -49,7 +49,7 @@ public class SimilarItemsManager implements SearchedItemPanelInteractor {
      */
     @Override
     public void onItemSelected(String itemId) {
-        System.out.println("Item selected with ID: " + itemId +" in SimilarItemsManager");
+        System.out.println("Item selected with ID: \"" + itemId + "\" in SimilarItemsManager");
         similarItemsContainer.setContent(new ArrayList<>(similarItemsGraph.findSimilarItems(itemId)));
     }
 

@@ -5,28 +5,33 @@ import java.lang.reflect.Field;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.troy.capstone.Config;
 import org.troy.capstone.TestDataHolder;
 import org.troy.capstone.constants.MiscValues;
 import org.troy.capstone.ui_components.items.SimilarItemsContainer;
+import org.troy.capstone.ui_components.items.searched.SearchedItemPagination;
 
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.layout.HBox;
 
 public class SimilarItemsManagerTest {
 
-    private static final SimilarItemsManager similarItemsManager = TestDataHolder.getFreshSimilarItemsManager();
+    private static SimilarItemsManager similarItemsManager;
 
-    @BeforeAll
     @SuppressWarnings("ResultOfObjectAllocationIgnored")
+    @BeforeAll
     public static void setup() {
+        Config.graphBuildingEnabled = true;
         new JFXPanel();
+        similarItemsManager = SimilarItemsManager.create(TestDataHolder.getItemHashMapCopy(), TestDataHolder.getTableCopy(), SimilarItemsContainer.create(), new SearchedItemPagination(TestDataHolder.getItemHashMapCopy()));
+        Config.graphBuildingEnabled = false;
     }
-
+    
     @Test
     @DisplayName("Test that on item selected gets the right items from the origin and puts the panels in the destination")
     public void testOnItemSelected() throws ReflectiveOperationException {
 
-        similarItemsManager.onItemSelected("%hk)Ihg4m]&O");
+        similarItemsManager.onItemSelected("q^Gbd:\\*|Z2S");
 
         Field similarItemsContainerField = SimilarItemsManager.class.getDeclaredField("similarItemsContainer");
         similarItemsContainerField.setAccessible(true);

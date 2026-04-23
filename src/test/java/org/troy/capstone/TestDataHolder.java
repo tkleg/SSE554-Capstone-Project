@@ -4,12 +4,8 @@ import java.util.List;
 
 import org.troy.capstone.constants.DataPath;
 import org.troy.capstone.data_structures.item_table.ItemHashMap;
-import org.troy.capstone.managers.SimilarItemsManager;
-import org.troy.capstone.ui_components.items.SimilarItemsContainer;
-import org.troy.capstone.ui_components.items.searched.SearchedItemPagination;
 import org.troy.capstone.utils.TableUtils;
 
-import javafx.embed.swing.JFXPanel;
 import tech.tablesaw.api.Table;
 
 @SuppressWarnings("ResultOfObjectAllocationIgnored")
@@ -17,9 +13,6 @@ public class TestDataHolder {
     private static final Table table;
     private static final ItemHashMap itemHashMap;
     private static final List<String> allItemIds;
-    private static SimilarItemsContainer similarItemsContainer;
-    private static SearchedItemPagination searchedItemPagination;
-    private static SimilarItemsManager similarItemsManager;
 
     static {
         table = TableUtils.readData(DataPath.CLEANED_ATTRIBUTED_DATA);
@@ -49,19 +42,7 @@ public class TestDataHolder {
         return List.copyOf(allItemIds);
     }
 
-    public static SimilarItemsContainer getSimilarItemsContainer() {
-        return similarItemsContainer;
-    }
-
-    public static SearchedItemPagination getSearchedItemPagination() {
-        return searchedItemPagination;
-    }
-
-    public static SimilarItemsManager getSimilarItemsManager() {
-        return similarItemsManager;
-    }
-
-    public static SimilarItemsManager getFreshSimilarItemsManager() {
+    /*public static SimilarItemsManager getFreshSimilarItemsManager() {
         new JFXPanel();
         Table freshTable = table.copy();
         ItemHashMap freshMap = ItemHashMap.fromTable(freshTable);
@@ -72,4 +53,5 @@ public class TestDataHolder {
         Config.graphBuildingEnabled = false;
         return freshManager;
     }
+    */
 }

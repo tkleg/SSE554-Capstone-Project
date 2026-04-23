@@ -76,7 +76,7 @@ public class SimilarItemsGraph {
             .map(index -> itemHashMap.getItem(table.row(index).getString(TableColumnName.ID.getColumnName())).get())
             .toList();
         System.out.println("Similar items retrieved from item hash map: " + similarItemsList.size());
-        similarItemsList.forEach(item -> System.out.println("Similar item: " + item.getName() + " (ID: " + item.getId() + ")") );
+        similarItemsList.forEach(item -> System.out.println("Similar item: \"" + item.getName() + "\" (ID: " + item.getId() + ")") );
 
         List<VBox> panels = similarItemsList.stream()
             .map(SearchedItemPanel::makeRightPanel)
