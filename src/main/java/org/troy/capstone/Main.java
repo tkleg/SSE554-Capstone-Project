@@ -101,17 +101,10 @@ public class Main extends Application {
         generalManager.addUIElement(UIElementName.SIMILAR_ITEMS_CONTAINER, similarItemsContainer);
         gridPane.add(similarItemsContainer, 2, 2, 2, 1);
 
-        // Set preferred size to fit all content initially
+        //Set preferred size to fit all content initially
         gridPane.setPrefSize(GridPane.USE_COMPUTED_SIZE, GridPane.USE_COMPUTED_SIZE);
 
-        // Let the scene size be determined by the gridPane's preferred size
-        Scene scene = new Scene(gridPane);
-        primaryStage.setScene(scene);
-        primaryStage.sizeToScene();
-        primaryStage.setTitle("Shopping App");
-        primaryStage.show();
-
-        // After showing, wrap in a ScrollPane to allow scrolling only when window is shrunken
+        //After showing, wrap in a ScrollPane to allow scrolling only when window is shrunken, thus cutting off part of the page
         ScrollPane scrollPane = new ScrollPane(gridPane);
         scrollPane.setFitToWidth(true);
         scrollPane.setFitToHeight(true);
@@ -119,8 +112,11 @@ public class Main extends Application {
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         scrollPane.setPannable(false);
 
-        // Set the scene root to the scrollPane after initial display
-        scene.setRoot(scrollPane);
+        Scene scene = new Scene(scrollPane);
+        primaryStage.setScene(scene);
+        primaryStage.sizeToScene();
+        primaryStage.setTitle("Shopping App");
+        primaryStage.show();
 
     }
 
