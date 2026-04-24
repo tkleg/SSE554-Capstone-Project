@@ -131,10 +131,6 @@ digraph "classes" {
    "org.troy.capstone.constants.ItemSimilarityWeights" -> "java.lang.Enum (java.base)";
    "org.troy.capstone.constants.ItemSimilarityWeights" -> "java.lang.Object (java.base)";
    "org.troy.capstone.constants.ItemSimilarityWeights" -> "java.lang.String (java.base)";
-   "org.troy.capstone.constants.MiscValues"           -> "java.lang.Class (java.base)";
-   "org.troy.capstone.constants.MiscValues"           -> "java.lang.Enum (java.base)";
-   "org.troy.capstone.constants.MiscValues"           -> "java.lang.Object (java.base)";
-   "org.troy.capstone.constants.MiscValues"           -> "java.lang.String (java.base)";
    "org.troy.capstone.constants.TableColumnName"      -> "java.lang.Class (java.base)";
    "org.troy.capstone.constants.TableColumnName"      -> "java.lang.Enum (java.base)";
    "org.troy.capstone.constants.TableColumnName"      -> "java.lang.Object (java.base)";
@@ -240,7 +236,6 @@ digraph "classes" {
    "org.troy.capstone.data_structures.RecentlyViewedQueue" -> "java.util.Optional (java.base)";
    "org.troy.capstone.data_structures.RecentlyViewedQueue" -> "java.util.concurrent.ArrayBlockingQueue (java.base)";
    "org.troy.capstone.data_structures.RecentlyViewedQueue" -> "java.util.function.Predicate (java.base)";
-   "org.troy.capstone.data_structures.RecentlyViewedQueue" -> "org.troy.capstone.constants.MiscValues (classes)";
    "org.troy.capstone.data_structures.RecentlyViewedQueue" -> "org.troy.capstone.data_structures.item_table.ItemHashMap (classes)";
    "org.troy.capstone.data_structures.RecentlyViewedQueue" -> "org.troy.capstone.entities.Item (classes)";
    "org.troy.capstone.data_structures.RecentlyViewedQueue" -> "org.troy.capstone.ui_components.items.SearchedItemPanel (classes)";
@@ -303,7 +298,6 @@ digraph "classes" {
    "org.troy.capstone.data_structures.SimilarItemsGraph" -> "javafx.scene.layout.VBox (not found)";
    "org.troy.capstone.data_structures.SimilarItemsGraph" -> "org.troy.capstone.Config (classes)";
    "org.troy.capstone.data_structures.SimilarItemsGraph" -> "org.troy.capstone.annotations.Generated (classes)";
-   "org.troy.capstone.data_structures.SimilarItemsGraph" -> "org.troy.capstone.constants.MiscValues (classes)";
    "org.troy.capstone.data_structures.SimilarItemsGraph" -> "org.troy.capstone.constants.TableColumnName (classes)";
    "org.troy.capstone.data_structures.SimilarItemsGraph" -> "org.troy.capstone.data_structures.SimilarItemsGraph$Edge (classes)";
    "org.troy.capstone.data_structures.SimilarItemsGraph" -> "org.troy.capstone.data_structures.item_table.ItemHashMap (classes)";
@@ -703,7 +697,6 @@ digraph "classes" {
    "org.troy.capstone.search_engine.sorting.Sorter"   -> "java.util.List (java.base)";
    "org.troy.capstone.search_engine.sorting.Sorter"   -> "java.util.Objects (java.base)";
    "org.troy.capstone.search_engine.sorting.Sorter"   -> "java.util.function.Consumer (java.base)";
-   "org.troy.capstone.search_engine.sorting.Sorter"   -> "org.troy.capstone.constants.MiscValues (classes)";
    "org.troy.capstone.search_engine.sorting.Sorter"   -> "org.troy.capstone.search_engine.sorting.InsertionSort (classes)";
    "org.troy.capstone.search_engine.sorting.Sorter"   -> "org.troy.capstone.search_engine.sorting.LongWrapper (classes)";
    "org.troy.capstone.search_engine.sorting.Sorter"   -> "org.troy.capstone.search_engine.sorting.QuickSort (classes)";

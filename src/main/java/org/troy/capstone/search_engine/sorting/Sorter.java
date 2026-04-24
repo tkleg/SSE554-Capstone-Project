@@ -2,7 +2,6 @@ package org.troy.capstone.search_engine.sorting;
 
 import java.util.List;
 
-import org.troy.capstone.constants.MiscValues;
 import org.troy.capstone.search_engine.sorting.comparator.RowComparator;
 import org.troy.capstone.utils.TableUtils;
 
@@ -14,14 +13,18 @@ import tech.tablesaw.api.Table;
  */
 public class Sorter {
 
-    /** Only exists to prevent Jacoco from reporting this class as uncovered */
+    /** Threshold for determining when to use Insertion Sort vs Quick Sort. If the number of rows is less than or equal to this threshold, Insertion Sort will be used; otherwise, Quick Sort will be used. */
+    private static final int SORTING_THRESHOLD = 25;
+    
+    /** Only exists to prevent Jacoco from reporting this class as uncovered and from being instantiated */
     private Sorter() {}
-
+ 
     /**
      * Sorts the given table using the specified RowComparator. If the table has 25 rows or fewer, it uses Insertion Sort; otherwise, it uses Quick Sort.
      * 
      * @pre table is not null and contains the necessary columns for the comparator to function properly.
-     * @pre comparator is a valid RowComparator that can compare the rows in the table.
+     * @pre comparator
+     * is a valid RowComparator that can compare the rows in the table.
      * 
      * @post The returned table is a new Table instance that contains the same rows as the input table but sorted according to the order defined by the comparator. The original table remains unchanged.
      * 
@@ -42,7 +45,7 @@ public class Sorter {
         LongWrapper startTime = new LongWrapper();
         if( time != null )
             startTime = new LongWrapper(System.nanoTime());
-        if (rows.size() <= MiscValues.SORTING_THRESHOLD.getValue())
+        if (rows.size() <= SORTING_THRESHOLD)
             InsertionSort.insertionSort(rows, comparator);
         else
             QuickSort.quickSort(rows, comparator);
@@ -82,7 +85,7 @@ public class Sorter {
         long start = 0L;
         if( time != null )
             start = System.nanoTime();
-        if (rows.size() <= MiscValues.SORTING_THRESHOLD.getValue())
+        if (rows.size() <= SORTING_THRESHOLD)
             InsertionSort.insertionSort(rows, comparator);
         else{
             int pivot = QuickSort.partition(rows, low, high, comparator);

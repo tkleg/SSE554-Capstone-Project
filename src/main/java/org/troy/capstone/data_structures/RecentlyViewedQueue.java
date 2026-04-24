@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 
-import org.troy.capstone.constants.MiscValues;
 import org.troy.capstone.data_structures.item_table.ItemHashMap;
 import org.troy.capstone.ui_components.items.SearchedItemPanel;
 
@@ -13,6 +12,7 @@ import org.troy.capstone.ui_components.items.SearchedItemPanel;
  */
 public class RecentlyViewedQueue extends ArrayBlockingQueue<SearchedItemPanel>{
     /** Capacity of the recently viewed queue, set to 10 for a reasonable number of items to display without overwhelming the user. */
+    private static final int CAPACITY = 10;
 
     /** HashMap to store item details for quick access when creating SearchedItemPanel instances. */
     private final ItemHashMap itemHashMap;
@@ -24,8 +24,8 @@ public class RecentlyViewedQueue extends ArrayBlockingQueue<SearchedItemPanel>{
      * @param itemHashMap The ItemHashMap to use for retrieving item details.
      */
     public RecentlyViewedQueue(ItemHashMap itemHashMap) {
-        super(MiscValues.RECENTLY_VIEWED_QUEUE_SIZE.getIntValue());
-        itemIds = new ArrayBlockingQueue<>(MiscValues.RECENTLY_VIEWED_QUEUE_SIZE.getIntValue());
+        super(CAPACITY);
+        itemIds = new ArrayBlockingQueue<>(CAPACITY);
         this.itemHashMap = itemHashMap;
     }
     

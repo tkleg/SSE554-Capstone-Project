@@ -8,7 +8,6 @@ import java.util.PriorityQueue;
 
 import org.troy.capstone.Config;
 import org.troy.capstone.annotations.Generated;
-import org.troy.capstone.constants.MiscValues;
 import org.troy.capstone.constants.TableColumnName;
 import org.troy.capstone.data_structures.item_table.ItemHashMap;
 import org.troy.capstone.entities.Item;
@@ -21,6 +20,10 @@ import tech.tablesaw.api.Table;
 
 /** Graph data structure to represent similar items. Uses an adjacency list representation. */
 public class SimilarItemsGraph {
+    /** Minimum similarity score required for two items to be considered similar and have an edge between them in the graph. Set to the 95th percentile of all similarity scores. */
+    private static final float MIN_SIMILARITY_SCORE = 3.7162029800000007f;
+    /** The number of similar items to display for selected items. */
+    private static final int NUM_SIMILAR_ITEMS_TO_DISPLAY = 10;
     /** Number of items in the graph. */
     protected int numItems;
     /** HashMap to store items. Iterated over when filling the graph. */
@@ -140,7 +143,7 @@ public class SimilarItemsGraph {
      * @post An undirected edge is added between the source and destination items in the graph with the specified weight. The adjacency list is updated to reflect the new edge. Nothing is done if the weight is below the minimum similarity score threshold defined in MiscValues.
      */
     private void addEdge(int sourceItemIndex, int destItemIndex, float weight) {
-        if (weight < MiscValues.MIN_SIMILARITY_SCORE.getValue())
+        if (weight < MIN_SIMILARITY_SCORE)
             return;
 
         if( adjacencyList[sourceItemIndex] == null)
@@ -202,7 +205,7 @@ public class SimilarItemsGraph {
         return distances.entrySet().stream()
             .filter(entry -> entry.getKey() != startIndex)
             .sorted((a, b) -> Float.compare(b.getValue(), a.getValue()))
-            .limit((long) MiscValues.NUM_SIMILAR_ITEMS_TO_DISPLAY.getValue())
+            .limit((long) NUM_SIMILAR_ITEMS_TO_DISPLAY)
             .map(entry -> new Edge(entry.getKey(), entry.getValue()))
             .toList();
     }

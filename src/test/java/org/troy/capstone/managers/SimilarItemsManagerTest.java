@@ -7,7 +7,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.troy.capstone.Config;
 import org.troy.capstone.TestDataHolder;
-import org.troy.capstone.constants.MiscValues;
+import org.troy.capstone.data_structures.SimilarItemsGraph;
 import org.troy.capstone.ui_components.items.SimilarItemsContainer;
 import org.troy.capstone.ui_components.items.searched.SearchedItemPagination;
 
@@ -41,8 +41,13 @@ public class SimilarItemsManagerTest {
         contentField.setAccessible(true);
 
         HBox content = (HBox) contentField.get(similarItemsContainerInTest);
-        assert content.getChildren().size() == MiscValues.NUM_SIMILAR_ITEMS_TO_DISPLAY.getIntValue() :
-            "Expected " + MiscValues.NUM_SIMILAR_ITEMS_TO_DISPLAY.getIntValue() + " similar items, but got " + content.getChildren().size();
+
+        Field numSimilarItemsToDisplayField = SimilarItemsGraph.class.getDeclaredField("NUM_SIMILAR_ITEMS_TO_DISPLAY");
+        numSimilarItemsToDisplayField.setAccessible(true);
+        int numSimilarItemsToDisplay = (int) numSimilarItemsToDisplayField.get(null);
+        
+        assert content.getChildren().size() == numSimilarItemsToDisplay :
+            "Expected " + numSimilarItemsToDisplay + " similar items, but got " + content.getChildren().size();
     
     }
 

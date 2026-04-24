@@ -160,7 +160,6 @@ digraph "summary" {
   "org.troy.capstone.search_engine.sorting"          -> "java.util (java.base)";
   "org.troy.capstone.search_engine.sorting"          -> "java.util.function (java.base)";
   "org.troy.capstone.search_engine.sorting"          -> "org.troy.capstone.annotations (classes)";
-  "org.troy.capstone.search_engine.sorting"          -> "org.troy.capstone.constants (classes)";
   "org.troy.capstone.search_engine.sorting"          -> "org.troy.capstone.search_engine.sorting (classes)";
   "org.troy.capstone.search_engine.sorting"          -> "org.troy.capstone.search_engine.sorting.comparator (classes)";
   "org.troy.capstone.search_engine.sorting"          -> "org.troy.capstone.utils (classes)";
