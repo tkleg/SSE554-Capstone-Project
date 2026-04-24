@@ -7,7 +7,7 @@ import org.troy.capstone.entities.Item;
 import org.troy.capstone.interfaces.ItemRepo;
 
 /**
- * The SearchedItemsLinkedList class represents a custom linked list data structure that organizes search results into pages.
+ * The {@code SearchedItemsLinkedList} class represents a custom linked list data structure that organizes search results into pages.
  * Each node in the linked list contains a list of items corresponding to a page of search results, and the list provides methods to navigate between pages.
  */
 public class SearchedItemsLinkedList{
@@ -21,8 +21,8 @@ public class SearchedItemsLinkedList{
     /** The number of items to display per page. */
     private static final int ITEMS_PER_PAGE = 10;
 
-    /** Constructor for SearchedItemsLinkedList. Initializes the linked list based on a list of item IDs and an item repository.
-     * @pre itemRepo should contain valid item data for all item IDs in itemIdList, and itemIdList should not be null.
+    /** Constructor for {@code SearchedItemsLinkedList}. Initializes the linked list based on a list of item IDs and an item repository.
+     * @pre {@code itemRepo} should contain valid item data for all item IDs in {@code itemIdList}, and {@code itemIdList} should not be null.
      * @param itemRepo The item repository containing all items, used to populate the linked list nodes based on the provided item IDs.
      * @param itemIdList The list of item IDs representing the search results to be organized into pages in the linked list.
     */
@@ -107,8 +107,8 @@ public class SearchedItemsLinkedList{
         /** The previous node in the linked list. */
         private ItemListNode prev;
 
-        /** Constructor for ItemListNode.
-         * @pre items should be a valid list of items corresponding to a page of search results, and should not be null.
+        /** Constructor for {@code ItemListNode}.
+         * @pre {@code items} should be a valid list of items corresponding to a page of search results, and should not be null.
          * @param items The list of items to be contained in this node, representing a page of search results.
         */
 <span class="fc" id="L114">        public ItemListNode(List&lt;Item&gt; items) {</span>
@@ -137,7 +137,7 @@ public class SearchedItemsLinkedList{
         }
 
         /** Sets the next node in the linked list.
-         * @pre next should be a valid ItemListNode or null.
+         * @pre {@code next} should be a valid {@code ItemListNode} or null.
          * @param next The node to set as the next node in the linked list.
          */
         public void setNext(ItemListNode next) {
@@ -145,7 +145,7 @@ public class SearchedItemsLinkedList{
 <span class="fc" id="L145">        }</span>
 
         /** Sets the previous node in the linked list.
-         * @pre prev should be a valid ItemListNode or null.
+         * @pre {@code prev} should be a valid {@code ItemListNode} or null.
          * @param prev The node to set as the previous node in the linked list.
          */
         public void setPrev(ItemListNode prev) {

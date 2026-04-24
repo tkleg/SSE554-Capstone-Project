@@ -3,7 +3,7 @@ package org.troy.capstone.data_structures.item_table;
 import java.math.BigInteger;
 
 /**
- * Class representing a hash key for item IDs, using universal hashing to minimize collisions in the item table. The hash code is computed by collapsing the string ID into an integer using a Rabin-Karp style polynomial rolling hash method, and then applying a universal hash function with random coefficients I and J and a prime modulus P. This approach helps ensure a good distribution of hash values even for similar string IDs, which is important for maintaining efficient lookups in the item table. Implements cloneable to allow for deep copy of itemHashMap
+ * Class representing a hash key for item IDs, using universal hashing to minimize collisions in the item table. The hash code is computed by collapsing the string ID into an integer using a {@code Rabin-Karp style polynomial rolling hash method}, and then applying a universal hash function with random coefficients {@code I} and {@code J} and a prime modulus {@code P}. This approach helps ensure a good distribution of hash values even for similar string IDs, which is important for maintaining efficient lookups in the item table. Implements {@code Cloneable} to allow for deep copy of {@code IdHashKey} instances.
  */
 public class IdHashKey implements Cloneable {
     /** The original string value of the item ID, stored for equality checks and potential debugging purposes. */
@@ -99,7 +99,7 @@ public class IdHashKey implements Cloneable {
     }
 
     /**
-     * Checks if this IdHashKey is equal to another object.
+     * Checks if this {@code IdHashKey} is equal to another object.
      * @param obj The object to compare with.
      * @return true if the objects are equal, false otherwise.
      */
@@ -113,6 +113,9 @@ public class IdHashKey implements Cloneable {
         return value.equals(other.value);
     }
 
+    /** Returns a string representation of the {@code IdHashKey}, including the original string value and the computed hash code.
+     * @return A string representation of the {@code IdHashKey}.
+    */
     @Override
     public Object clone() throws CloneNotSupportedException {
         return super.clone();

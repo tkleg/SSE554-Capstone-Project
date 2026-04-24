@@ -9,7 +9,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 /**
- * The StarRatingFilter class represents a UI component that allows users to select a minimum star rating for filtering search results. It displays a row of stars that can be clicked to set the desired rating, and it updates the display to show the selected rating.
+ * The {@code StarRatingFilter} class represents a UI component that allows users to select a minimum star rating for filtering search results. It displays a row of stars that can be clicked to set the desired rating, and it updates the display to show the selected rating.
  */
 public class StarRatingFilter extends VBox {
     /** The maximum number of stars in the filter. */

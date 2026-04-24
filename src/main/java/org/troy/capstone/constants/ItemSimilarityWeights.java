@@ -1,7 +1,7 @@
 package org.troy.capstone.constants;
 
 /**
- * The ItemSimilarityWeights enum defines the weights used for calculating item similarity based on different attributes. Each constant represents a specific attribute and its associated weight, which indicates the importance of that attribute in the similarity calculation.
+ * The {@code ItemSimilarityWeights} enum defines the weights used for calculating item similarity based on different attributes. Each constant represents a specific attribute and its associated weight, which indicates the importance of that attribute in the similarity calculation.
  */
 public enum ItemSimilarityWeights {
     /** The weight for the name attribute when calculating item similarity. */
@@ -26,7 +26,7 @@ public enum ItemSimilarityWeights {
     /** The weight associated with the attribute for similarity calculation. */
     private final float weight;
 
-    /** Constructor for the ItemSimilarityWeights enum.
+    /** Constructor for the {@code ItemSimilarityWeights} enum.
      * @param weight The weight to associate with the attribute for similarity calculation.
      */
     ItemSimilarityWeights(float weight) {

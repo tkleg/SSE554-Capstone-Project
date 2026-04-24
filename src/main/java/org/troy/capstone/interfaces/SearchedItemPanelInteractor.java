@@ -1,7 +1,7 @@
 package org.troy.capstone.interfaces;
 
 /**
- * Interface for interacting with searched item panels, allowing actions to be taken when an item is selected.
+ * Interface for interacting with instances of the {@code SearchedItemPanel} class, allowing actions to be taken when an item is selected.
  */
 public interface SearchedItemPanelInteractor {
 

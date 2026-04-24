@@ -14,7 +14,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 /**
- * The SearchBar class represents a UI component that provides a text field for users to enter search queries and a button to search.
+ * The {@code SearchBar} class represents a UI component that provides a text field for users to enter search queries and a button to search.
  */
 public class SearchBar extends VBox {
     /** The text field for users to enter their search queries. */
@@ -25,8 +25,8 @@ public class SearchBar extends VBox {
     private final ComboBox<RowComparator> sortingOptionDropdown;
 
     /**
-     * Constructor for SearchBar. Initializes the search field and button, adds them to the HBox.
-     * @pre The SearchBar should be properly initialized to allow for user interaction with the search field and button.
+     * Constructor for {@code SearchBar}. Initializes the search field and button, adds them to the {@code HBox}.
+     * @pre The {@code SearchBar} should be properly initialized to allow for user interaction with the search field and button.
      * 
      */
     public SearchBar() {
@@ -56,10 +56,10 @@ public class SearchBar extends VBox {
 
     /** Builds the dropdown for the Sort By selections.
      * 
-     * @pre The sortingOptionDropdown should be properly initialized to allow for adding sorting options to it.
-     * @post The sortingOptionDropdown is built with the appropriate sorting options, callbacks are set for displaying the options and printing the selected option, and the dropdown is added to the provided bottomBox.
-     * @param bottomBox The HBox to add the sortingOptionDropdown to.
-     * @param sortByLabel The Label to associate with the sortingOptionDropdown in the UI.
+     * @pre The {@code sortingOptionDropdown} should be properly initialized to allow for adding sorting options to it.
+     * @post The {@code sortingOptionDropdown} is built with the appropriate sorting options, callbacks are set for displaying the options and printing the selected option, and the dropdown is added to the provided {@code bottomBox}.
+     * @param bottomBox The {@code HBox} to add the {@code sortingOptionDropdown} to.
+     * @param sortByLabel The {@code Label} to associate with the {@code sortingOptionDropdown} in the UI.
      */
     private void buildSortingOptionDropdown(HBox bottomBox, Label sortByLabel) {
         sortingOptionDropdown.setId(TestFXId.SORT_OPTION_DROPDOWN.getId());
@@ -75,8 +75,8 @@ public class SearchBar extends VBox {
 
     /**
      * Sets the callbacks for displaying a cell, selected item, and printing when an item is selected.
-     * @pre The sortingOptionDropdown should be properly initialized with the expected items for the callbacks to function correctly.
-     * @post The callbacks for displaying a cell, selected item, and printing when an item is selected are set for the sortingOptionDropdown.
+     * @pre The {@code sortingOptionDropdown} should be properly initialized with the expected items for the callbacks to function correctly.
+     * @post The callbacks for displaying a cell, selected item, and printing when an item is selected are set for the {@code sortingOptionDropdown}.
      */
     private void setSortingOptionCallbacks() {
          //Display clean name when open
@@ -103,24 +103,24 @@ public class SearchBar extends VBox {
     }
 
     /**
-     * Returns the text field for entering search queries.
-     * @return The text field for entering search queries.
+     * Returns the {@code TextField} for entering search queries.
+     * @return The {@code TextField} for entering search queries.
      */
     public TextField getSearchField() {
         return searchField;
     }
 
     /**
-     * Returns the button for initiating the search.
-     * @return The button for initiating the search.
+     * Returns the {@code Button} for initiating the search.
+     * @return The {@code Button} for initiating the search.
      */
     public Button getSearchButton() {
         return searchButton;
     }
 
     /**
-     * Returns the dropdown for selecting sorting options.
-     * @return The dropdown for selecting sorting options.
+     * Returns the {@code ComboBox} for selecting sorting options.
+     * @return The {@code ComboBox} for selecting sorting options.
      */
     public ComboBox<RowComparator> getSortingOptionDropdown() {
         return sortingOptionDropdown;

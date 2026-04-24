@@ -17,11 +17,11 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 
 /**
- * The FiltersContainer class represents a UI component that contains multiple FilterPanel instances, each corresponding to a categorical attribute of the items.
+ * The {@code FiltersContainer} class represents a UI component that contains multiple {@code FilterPanel} instances, each corresponding to a categorical attribute of the items.
  * It is the main container for all categorical filters in the UI and provides methods to generate filters based on item data and retrieve the currently selected filters.
  */
 public class FiltersContainer extends ScrollPane {
-    /** A map of filter types to their corresponding sets of CheckBox options in the filter panels. */
+    /** A map of filter types to their corresponding sets of {@code CheckBox} options in the filter panels. */
     private final Map<String, Set<CheckBox>> filterOptions;
     /** The container for all filter panels. */
     private final VBox contentContainer;
@@ -31,7 +31,7 @@ public class FiltersContainer extends ScrollPane {
      * Factory method to create a FiltersContainer with the appropriate size and add it to the UIElementManager.
      * 
      * @param items The items used to generate the filters.
-     * @return The created FiltersContainer instance with filters generated from the item data.
+     * @return The created {@code FiltersContainer} instance with filters generated from the item data.
      */
     public static FiltersContainer create( List<Item> items ) {
         FiltersContainer container = new FiltersContainer(items);
@@ -40,7 +40,7 @@ public class FiltersContainer extends ScrollPane {
     }
 
     /**
-     * Constructor for FiltersContainer. Initializes the filter options map and content container, 
+     * Constructor for {@code FiltersContainer}. Initializes the filter options map and content container, 
      *  then generates filters based on the provided item data.
      * 
      * @pre items should contain valid item data with categorical attributes corresponding to the expected filter types.
@@ -60,8 +60,8 @@ public class FiltersContainer extends ScrollPane {
 
     /**
      * Generates filter panels based on the unique values of categorical attributes in the item data.
-     * For each categorical column defined in TableColumnName, it extracts the unique values from the
-     *  list of items and creates a FilterPanel with CheckBoxes for each unique value. Special handling is included for the TAGS column, 
+     * For each categorical column defined in {@code TableColumnName}, it extracts the unique values from the
+     *  list of items and creates a {@code FilterPanel} with {@code CheckBox}es for each unique value. Special handling is included for the {@code TAGS} column, 
      *  which contains sets of strings.
      * 
      * @pre items should contain valid item data with categorical attributes corresponding to the expected filter types.
@@ -86,14 +86,14 @@ public class FiltersContainer extends ScrollPane {
     }
 
     /**
-     * Adds a filter panel to the FiltersContainer with the given title and options. Each option is represented as a CheckBox.
-     * The created FilterPanel is styled with a border and added to the content container of the FiltersContainer.
+     * Adds a filter panel to the {@code FiltersContainer} with the given title and options. Each option is represented as a {@code CheckBox}.
+     * The created {@code FilterPanel} is styled with a border and added to the content container of the {@code FiltersContainer}.
      * 
      * @pre title should be a non-null string representing the filter type.
-     *      options should be a non-null set of strings representing the filter options to create CheckBoxes for.
+     *      options should be a non-null set of strings representing the filter options to create {@code CheckBox}es for.
      * 
      * @param title The title of the filter panel.
-     * @param options The set of strings representing the filter options to create CheckBoxes for.
+     * @param options The set of strings representing the filter options to create {@code CheckBox}es for.
      */
     public void addFilterPanel( String title, Set<String> options ) {
         Set<CheckBox> checkBoxes = new HashSet<>();
@@ -110,8 +110,8 @@ public class FiltersContainer extends ScrollPane {
      * Retrieves the currently selected filters as a map where the keys are filter types (e.g., "Publisher", "Category")
      *  and the values are sets of selected options for each filter type respectively.
      * 
-     * @pre filterOptions should be properly populated with filter types and their corresponding CheckBoxes.
-     *      The CheckBoxes should reflect the current user selections.
+     * @pre filterOptions should be properly populated with filter types and their corresponding {@code CheckBox}es.
+     *      The {@code CheckBox}es should reflect the current user selections.
      * 
      * @return selectedFilters A map containing the currently selected filters.
      */

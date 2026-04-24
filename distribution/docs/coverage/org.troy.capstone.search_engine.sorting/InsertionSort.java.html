@@ -8,7 +8,7 @@ import org.troy.capstone.search_engine.sorting.comparator.RowComparator;
 import tech.tablesaw.api.Row;
 
 /**
- * This is used to sort a list of Rows based on a custom RowComparator. Source is https://www.geeksforgeeks.org/dsa/insertion-sort-algorithm/ and modified to fit the data structure and comparators used in the project.
+ * This is used to sort a list of {@code Row}s based on a custom {@code RowComparator}. Source is https://www.geeksforgeeks.org/dsa/insertion-sort-algorithm/ and modified to fit the data structure and comparators used in the project.
  */
 public class InsertionSort {
     
@@ -16,16 +16,16 @@ public class InsertionSort {
     private InsertionSort() {}
 
     /**
-     * Sorts a list of rows using the Insertion Sort algorithm based on the provided comparator. Only used for analysis so it is ignored in code coverage.
+     * Sorts a list of {@code Row}s using the Insertion Sort algorithm based on the provided {@code RowComparator}. Only used for analysis so it is ignored in code coverage.
      * 
-     * @pre comparator is a valid RowComparator that can compare the rows in the list.
-     *  The rows in the list have the proper column that the comparator expects to compare.
+     * @pre comparator is a valid {@code RowComparator} that can compare the {@code Row}s in the list.
+     *  The {@code Row}s in the list have the proper column that the comparator expects to compare.
      * 
-     * @post The list of rows is sorted in place based on the order defined by the comparator.
+     * @post The list of {@code Row}s is sorted in place based on the order defined by the comparator.
      * 
-     * @param rows The list of rows to be sorted.
-     * @param comparator The RowComparator used to compare the rows for sorting.
-      * @param time An optional LongWrapper to store the time taken to perform the sort. If null, time will not be recorded.
+     * @param rows The list of {@code Row}s to be sorted.
+     * @param comparator The {@code RowComparator} used to compare the {@code Row}s for sorting.
+      * @param time An optional {@code LongWrapper} to store the time taken to perform the sort. If null, time will not be recorded.
      */
     @Generated
     public static void insertionSort(List&lt;Row&gt; rows, RowComparator comparator, LongWrapper time) {
@@ -38,16 +38,16 @@ public class InsertionSort {
     }
 
     /**
-     * Sorts a list of rows using the Insertion Sort algorithm based on the provided comparator.
+     * Sorts a list of {@code Row}s using the Insertion Sort algorithm based on the provided {@code RowComparator}.
      * This method does not record the time taken for sorting.
      * 
-     * @pre comparator is a valid RowComparator that can compare the rows in the list.
-     *  The rows in the list have the proper column that the comparator expects to compare.
+     * @pre comparator is a valid {@code RowComparator} that can compare the {@code Row}s in the list.
+     *  The {@code Row}s in the list have the proper column that the comparator expects to compare.
      * 
-     * @post The list of rows is sorted in place based on the order defined by the comparator.
+     * @post The list of {@code Row}s is sorted in place based on the order defined by the comparator.
      * 
-     * @param rows The list of rows to be sorted.
-     * @param comparator The RowComparator used to compare the rows for sorting.
+     * @param rows The list of {@code Row}s to be sorted.
+     * @param comparator The {@code RowComparator} used to compare the {@code Row}s for sorting.
      */
     public static void insertionSort(List&lt;Row&gt; rows, RowComparator comparator) {
 <span class="fc" id="L53">        int n = rows.size();</span>

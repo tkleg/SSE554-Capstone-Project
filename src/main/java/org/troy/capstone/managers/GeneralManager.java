@@ -18,31 +18,31 @@ import javafx.scene.control.Button;
 import tech.tablesaw.api.Table;
 
 /**
- * The GeneralManager class is responsible for managing the UI elements, the search engine, and the recently viewed content.
+ * The {@code GeneralManager} class is responsible for managing the UI elements, the search engine, and the recently viewed content.
  * It provides methods to interact with the UI elements, retrieve search data, and perform search operations.
  */
 public class GeneralManager {
-    /** The UIElementManager instance for managing UI elements. */
+    /** The {@code UIElementManager} instance for managing UI elements. */
     private final UIElementManager uiManager;
 
-    /** The SearchEngine instance for performing search operations. */
+    /** The {@code SearchEngine} instance for performing search operations. */
     private final SearchEngine searchEngine;
 
-    /** The ItemRepo containing all items, used by the SearchEngine for filtering and searching and by the RecentlyViewedManager for retrieving items. */
+    /** The {@code ItemRepo} containing all items, used by the {@code SearchEngine} for filtering and searching and by the {@code RecentlyViewedManager} for retrieving items. */
     private final ItemRepo itemRepo;
 
-    /** The original table containing the items, used for retrieving items by index. */
+    /** The original {@code Table} containing the items, used for retrieving items by index. */
     private final Table table;
 
-    /** A flag to track whether the RecentlyViewedManager has been created. Used to prevent duplicate creation. */
+    /** A flag to track whether the {@code RecentlyViewedManager} has been created. Used to prevent duplicate creation. */
     private boolean recentlyViewedManagerCreated = false;
 
-    /** A flag to track whether the SimilarItemsManager has been created. Used to prevent duplicate creation. */
+    /** A flag to track whether the {@code SimilarItemsManager} has been created. Used to prevent duplicate creation. */
     private boolean similarItemsManagerCreated = false;
 
-    /** Constructor for GeneralManager, filled from a tablesaw Table.
-     * @param table The tablesaw Table containing the item data to be used by the SearchEngine.
-     * @param itemRepo The ItemRepo containing all items, used by the SearchEngine for filtering and searching and by the RecentlyViewedManager for retrieving items.
+    /** Constructor for {@code GeneralManager}, filled from a {@code Table}.
+     * @param table The {@code Table} containing the item data to be used by the {@code SearchEngine}.
+     * @param itemRepo The {@code ItemRepo} containing all items, used by the {@code SearchEngine} for filtering and searching and by the {@code RecentlyViewedManager} for retrieving items.
      */
     public GeneralManager(Table table, ItemRepo itemRepo) {
         this.itemRepo = itemRepo;
@@ -52,21 +52,21 @@ public class GeneralManager {
     }
 
     /**
-     * Gets a UI element from the UIElementManager based on the provided key.
+     * Gets a UI element from the {@code UIElementManager} based on the provided key.
      * 
      * @pre key is not null.
       *
       * @param key The key representing the UI element to retrieve.
-      * @return An Optional containing the UI element if found, or an empty Optional if not found.
+      * @return An {@code Optional} containing the UI element if found, or an empty {@code Optional} if not found.
      */
     public Optional<Node> getUIElement(UIElementName key) {
         return uiManager.getElement(key);
     }
 
     /**
-     * Gets the search data from the UIElementManager.
+     * Gets the search data from the {@code UIElementManager}.
      * 
-     * @pre None, error handling is done within the UIElementManager.
+     * @pre None, error handling is done within the {@code UIElementManager}.
       *
       * @return The search data containing the filters to be applied.
      */
@@ -75,10 +75,10 @@ public class GeneralManager {
     }
 
     /**
-     * Adds a UI element to the UIElementManager, and creates the RecentlyViewedManager if the necessary UI elements are present and it has not already been created.
+     * Adds a UI element to the {@code UIElementManager}, and creates the {@code RecentlyViewedManager} if the necessary UI elements are present and it has not already been created.
      * 
      * @pre key and element are not null.
-     * @post The UI element is added to the UIElementManager and can be retrieved using the provided key. If the necessary UI elements are present and the RecentlyViewedManager has not already been created, it is created.
+     * @post The UI element is added to the {@code UIElementManager} and can be retrieved using the provided key. If the necessary UI elements are present and the {@code RecentlyViewedManager} has not already been created, it is created.
      * @param key The key representing the UI element.
      * @param element The UI element to be added.
      */
@@ -95,29 +95,29 @@ public class GeneralManager {
     }
 
     /**
-     * Checks if the necessary UI elements for creating the RecentlyViewedManager (SearchedItemPagination and RecentlyViewedWindow) are present in the UIElementManager.
+     * Checks if the necessary UI elements for creating the {@code RecentlyViewedManager} (SearchedItemPagination and RecentlyViewedWindow) are present in the {@code UIElementManager}.
      * 
-     * @return true if both the RecentlyViewedWindow and SearchedItemPagination components are present in the UIElementManager, false otherwise.
+     * @return true if both the {@code RecentlyViewedWindow} and {@code SearchedItemPagination} components are present in the {@code UIElementManager}, false otherwise.
      */
     boolean readyToMakeRecentlyViewedManager() {
         return uiManager.getElement(UIElementName.RECENTLY_VIEWED_WINDOW).isPresent() && uiManager.getElement(UIElementName.SEARCHED_ITEM_PAGINATION).isPresent();
     }
 
     /**
-     * Checks if the necessary UI elements for creating the SimilarItemsManager (SearchedItemPagination and SimilarItemsContainer) are present in the UIElementManager.
+     * Checks if the necessary UI elements for creating the {@code SimilarItemsManager} (SearchedItemPagination and SimilarItemsContainer) are present in the {@code UIElementManager}.
      * 
-     * @return true if both the SimilarItemsContainer and SearchedItemPagination components are present in the UIElementManager, false otherwise.
+     * @return true if both the {@code SimilarItemsContainer} and {@code SearchedItemPagination} components are present in the {@code UIElementManager}, false otherwise.
      */
     boolean readyToMakeSimilarItemsManager() {
         return uiManager.getElement(UIElementName.SIMILAR_ITEMS_CONTAINER).isPresent() && uiManager.getElement(UIElementName.SEARCHED_ITEM_PAGINATION).isPresent();
     }
 
     /**
-     * Sets the button in the UIElementManager and assigns an action to it that filters the search results and updates the UI when clicked.
+     * Sets the button in the {@code UIElementManager} and assigns an action to it that filters the search results and updates the UI when clicked.
      * 
      * @pre button is not null.
-     * @post The button is set in the UIElementManager and its action is assigned to filter and update the UI when clicked.
-     * @param button The Button to be set in the UIElementManager
+     * @post The button is set in the {@code UIElementManager} and its action is assigned to filter and update the UI when clicked.
+     * @param button The Button to be set in the {@code UIElementManager}
      */
     public void setButton(Button button) {
         uiManager.setButton(button);
@@ -125,20 +125,20 @@ public class GeneralManager {
     }
 
     /**
-     * Gets the button from the UIElementManager.
+     * Gets the button from the {@code UIElementManager}.
      *
-     * @return The Button from the UIElementManager
+     * @return The Button from the {@code UIElementManager}
      */
     public Button getButton() {
         return uiManager.getButton();
     }
 
     /**
-     * Gets a UI element from the UIElementManager, filters data, sorts it, and updates the UI with the filtered results.
+     * Gets a UI element from the {@code UIElementManager}, filters data, sorts it, and updates the UI with the filtered results.
      * 
-     * @pre None, error handling is done within the SearchEngine and UIElementManager.
+     * @pre None, error handling is done within the SearchEngine and {@code UIElementManager}.
      * 
-     * @post The UI is updated with the filtered and sorted results based on the current search data from the UIElementManager.
+     * @post The UI is updated with the filtered and sorted results based on the current search data from the {@code UIElementManager}.
      */
     public void filterAndPrintNumberOfResults() {
         Map<UIDataName, Object> searchData = getSearchData();

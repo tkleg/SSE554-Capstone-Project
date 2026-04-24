@@ -15,7 +15,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 /**
- * The SearchedItemPagination class represents a UI component that provides pagination for search results.
+ * The {@code SearchedItemPagination} class represents a UI component that provides pagination for search results.
  * It allows users to navigate through multiple pages of search results, with buttons to go back and forth.
  */
 public class SearchedItemPagination extends VBox implements SearchedItemPanelSourceUI {
@@ -26,7 +26,7 @@ public class SearchedItemPagination extends VBox implements SearchedItemPanelSou
     /** The linked list representing the pages of search results. */
     private SearchedItemsLinkedList pageList;
 
-    /** The SearchedItemContainer instance that displays the current page of search results. */
+    /** The {@code SearchedItemContainer} instance that displays the current page of search results. */
     private final SearchedItemContainer mySearchedItemContainer;
 
     /** The button to navigate to the previous page of search results. */
@@ -36,8 +36,8 @@ public class SearchedItemPagination extends VBox implements SearchedItemPanelSou
     private final Button nextButton;
 
     /**
-     * Constructor for SearchedItemPagination. Initializes the item repository and sets up the pagination component.
-     * @pre itemRepo should contain valid item data to populate the pagination content.
+     * Constructor for {@code SearchedItemPagination}. Initializes the item repository and sets up the pagination component.
+     * @pre {@code itemRepo} should contain valid item data to populate the pagination content.
      * @param itemRepo The item repository containing all items, used to populate the pagination content based on the current search results.
     */
 <span class="fc" id="L43">    public SearchedItemPagination(ItemRepo itemRepo) {</span>
@@ -69,10 +69,10 @@ public class SearchedItemPagination extends VBox implements SearchedItemPanelSou
      /**
       * Updates the pagination content with a new list of item IDs corresponding to search results.
       * Retrieves the corresponding items from the item hash map and updates the displayed content accordingly.
-       * Logs a message if the pagination component is not found or if there is a type error with the component.
+        * Logs a message if the pagination component is not found or if there is a type error with the component.
       * 
-      * @pre A searched item pagination component should be added to the manager with the expected key and type before this method is called.
-      *      itemIDs should be a list of valid item IDs corresponding to search results.
+      * @pre A {@code SearchedItemPagination} instance should be added to the manager with the expected key and type before this method is called.
+      *      {@code itemIdList} should be a list of valid item IDs corresponding to search results.
       * @param itemIdList A list of item IDs corresponding to search results to update the pagination component with.
      */
     public final void update(List&lt;String&gt; itemIdList) {
@@ -82,7 +82,7 @@ public class SearchedItemPagination extends VBox implements SearchedItemPanelSou
 
     /**
      * Returns the list of items in the previous page of search results.
-     * @pre The pagination component should be properly initialized and the linked list should be set up to allow for navigating to the previous page.
+     * @pre The {@code SearchedItemPagination} instance should be properly initialized and the linked list should be set up to allow for navigating to the previous page.
      * @post If there is a previous page, the current page is updated to the previous page and the corresponding items are returned. If there is no previous page, null is returned.
      * @return The list of items in the previous page of search results, or null if there is no previous page.
      */
@@ -90,10 +90,10 @@ public class SearchedItemPagination extends VBox implements SearchedItemPanelSou
 <span class="fc" id="L90">        return pageList.getPrevious();</span>
     }
 
-    /** Adds a SearchedItemPanelInteractor to the SearchedItemContainer to allow for interaction with the item panels in the search results.
-     * @pre interactor should be properly implemented to handle interactions with the item panels, and the SearchedItemContainer should be properly initialized to allow for adding interactors.
-     * @post The provided interactor is added to the SearchedItemContainer, allowing it to pass SearchedItemPanelInteractors to the SearchedItemPanels in the search results.
-     * @param interactor The SearchedItemPanelInteractor to add to the SearchedItemContainer for handling interactions with the item panels in the search results.
+    /** Adds a {@code SearchedItemPanelInteractor} to the {@code SearchedItemContainer} to allow for interaction with the item panels in the search results.
+     * @pre {@code interactor} should be properly implemented to handle interactions with the item panels, and the {@code SearchedItemContainer} should be properly initialized to allow for adding interactors.
+     * @post The provided interactor is added to the {@code SearchedItemContainer}, allowing it to pass {@code SearchedItemPanelInteractors} to the {@code SearchedItemPanels} in the search results.
+     * @param interactor The {@code SearchedItemPanelInteractor} to add to the {@code SearchedItemContainer} for handling interactions with the item panels in the search results.
      */
     @Override
     public void addSearchedItemPanelInteractor(SearchedItemPanelInteractor interactor) {
@@ -102,7 +102,7 @@ public class SearchedItemPagination extends VBox implements SearchedItemPanelSou
 
     /**
      * Returns the list of items in the next page of search results.
-     * @pre The pagination component should be properly initialized and the linked list should be set up to allow for navigating to the next page.
+     * @pre The {@code SearchedItemPagination} instance should be properly initialized and the linked list should be set up to allow for navigating to the next page.
      * @post If there is a next page, the current page is updated to the next page and the corresponding items are returned. If there is no next page, null is returned.
      * @return The list of items in the next page of search results, or null if there is no next page.
      */

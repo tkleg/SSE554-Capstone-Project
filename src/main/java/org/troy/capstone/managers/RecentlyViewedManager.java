@@ -10,8 +10,8 @@ import org.troy.capstone.interfaces.SearchedItemPanelSourceUI;
 import org.troy.capstone.ui_components.items.RecentlyViewedWindow;
 
 /**
- * Manager for recently viewed items, bridges RecentlyViewedQueue and RecentlyViewedWindow. Handles adding items to the recently viewed queue and updating the window content accordingly without the window and queue depending on each other.
- * Implements SearchedItemPanelInteractor to listen for item selection events from the searched item panels, allowing it to update the recently viewed content based on user interactions with the search results.
+ * Manager for recently viewed items, bridges {@code RecentlyViewedQueue} and {@code RecentlyViewedWindow}. Handles adding items to the recently viewed queue and updating the window content accordingly without the window and queue depending on each other.
+ * Implements {@code SearchedItemPanelInteractor} to listen for item selection events from the searched item panels, allowing it to update the recently viewed content based on user interactions with the search results.
  */
 public class RecentlyViewedManager implements SearchedItemPanelInteractor {
 
@@ -21,23 +21,23 @@ public class RecentlyViewedManager implements SearchedItemPanelInteractor {
     /** Window to display recently viewed items. */
     private final RecentlyViewedWindow recentlyViewedWindow;
 
-    /** Constructor for the RecentlyViewedManager.
-     * @param itemRepo The ItemRepo to use for retrieving item details.
-     * @param recentlyViewedWindow The RecentlyViewedWindow to use for displaying recently viewed items.
+    /** Constructor for the {@code RecentlyViewedManager}.
+     * @param itemRepo The {@code ItemRepo} to use for retrieving item details.
+     * @param recentlyViewedWindow The {@code RecentlyViewedWindow} to use for displaying recently viewed items.
      */
     private RecentlyViewedManager(ItemRepo itemRepo, RecentlyViewedWindow recentlyViewedWindow ) {
         recentlyViewedQueue = new RecentlyViewedQueue(itemRepo);
         this.recentlyViewedWindow = recentlyViewedWindow;
     }
 
-    /** Factory method to create a RecentlyViewedManager and attach it as a listener to the given SearchedItemPanelSourceUI, allowing to receive item selection events from within the SearchedItemPanelSourceUI.
+    /** Factory method to create a {@code RecentlyViewedManager} and attach it as a listener to the given {@code SearchedItemPanelSourceUI}, allowing to receive item selection events from within the {@code SearchedItemPanelSourceUI}.
      * 
-     * @pre itemRepo, recentlyViewedWindow, and panelSourceUI are not null. destinationUI is an instance of RecentlyViewedWindow and panelSourceUI is an instance of SearchedItemPagination.
+     * @pre itemRepo, recentlyViewedWindow, and panelSourceUI are not null. destinationUI is an instance of {@code RecentlyViewedWindow} and panelSourceUI is an instance of {@code SearchedItemPagination}.
       *
-     * @param itemRepo The ItemRepo to use for retrieving item details.
-     * @param destinationUI The SearchedItemPanelDestinationUI to use for displaying recently viewed items, should be the same instance as recentlyViewedWindow but typed as the interface it implements.
-     * @param panelSourceUI The SearchedItemPanelSourceUI to register as a listener to receive item selection events from the searched item panels, should be the same instance as the SearchedItemPagination but typed as the interface it implements.
-     * @return A new instance of RecentlyViewedManager with the given parameters, and registered as a listener to the panelSourceUI.
+     * @param itemRepo The {@code ItemRepo} to use for retrieving item details.
+     * @param destinationUI The {@code SearchedItemPanelDestinationUI} to use for displaying recently viewed items, should be the same instance as {@code recentlyViewedWindow} but typed as the interface it implements.
+     * @param panelSourceUI The {@code SearchedItemPanelSourceUI} to register as a listener to receive item selection events from the searched item panels, should be the same instance as the {@code SearchedItemPagination} but typed as the interface it implements.
+     * @return A new instance of {@code RecentlyViewedManager} with the given parameters, and registered as a listener to the {@code panelSourceUI}.
      */
     static RecentlyViewedManager create(ItemRepo itemRepo, SearchedItemPanelDestinationUI destinationUI, SearchedItemPanelSourceUI panelSourceUI) {
         RecentlyViewedManager manager = new RecentlyViewedManager(itemRepo, (RecentlyViewedWindow) destinationUI);
@@ -46,7 +46,7 @@ public class RecentlyViewedManager implements SearchedItemPanelInteractor {
     }
     
     /** Called when an item is selected in the searched item panel. Adds the selected item to the recently viewed queue and updates the recently viewed window content accordingly.
-     * @pre itemId is not null and corresponds to a valid key in the itemHashMap.
+     * @pre itemId is not null and corresponds to a valid key in the {@code ItemHashMap}.
      * @param itemId The ID of the selected item.
      */
     @Override

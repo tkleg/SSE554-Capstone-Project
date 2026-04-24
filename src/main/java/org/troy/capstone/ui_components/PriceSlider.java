@@ -5,7 +5,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.layout.VBox;
 
 /**
- * The PriceSlider class represents a UI component that allows users to select a price range for filtering search results.
+ * The {@code PriceSlider} class represents a UI component that allows users to select a price range for filtering search results.
  */
 public class PriceSlider extends VBox {
 
@@ -16,7 +16,7 @@ public class PriceSlider extends VBox {
     /** The label that displays the currently selected price range. */
     private final Label label;
     
-    /** Constructor for PriceSlider. Initializes the sliders and label.
+    /** Constructor for {@code PriceSlider}. Initializes the sliders and label.
     *
      * @pre min should be less than max to ensure valid slider ranges.
      *
@@ -76,9 +76,9 @@ public class PriceSlider extends VBox {
 
     /** Gets the minimum price slider. This is meant to allow registration with a manager.
      * 
-     * @pre The PriceSlider should be properly initialized to ensure that the minSlider is available for retrieval.
+     * @pre The {@code PriceSlider} should be properly initialized to ensure that the minSlider is available for retrieval.
      *
-     * @return The Slider representing the minimum price selection.
+     * @return The {@code Slider} representing the minimum price selection.
      */
     public Slider getMinSlider() {
         return minSlider;
@@ -86,9 +86,9 @@ public class PriceSlider extends VBox {
 
     /** Gets the maximum price slider. This is meant to allow registration with a manager.
      * 
-     * @pre The PriceSlider should be properly initialized to ensure that the maxSlider is available for retrieval.
+     * @pre The {@code PriceSlider} should be properly initialized to ensure that the maxSlider is available for retrieval.
      *
-     * @return The Slider representing the maximum price selection.
+     * @return The {@code Slider} representing the maximum price selection.
      */
     public Slider getMaxSlider() {
         return maxSlider;

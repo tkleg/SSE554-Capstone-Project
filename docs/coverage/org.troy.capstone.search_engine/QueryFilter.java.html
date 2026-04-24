@@ -34,7 +34,7 @@ import tech.tablesaw.api.Row;
 import tech.tablesaw.api.Table;
 
 /**
- * The QueryFilter class is responsible for filtering search results based on a user query. It uses Apache Lucene to create an index of the item data and perform searches on it. Code was sourced from https://medium.com/@dhruvsharma2600/integrating-search-in-your-application-with-apache-lucene-d11c6fb84ab4 and very heavily modified to fit my case.
+ * The {@code QueryFilter} class is responsible for filtering search results based on a user query. It uses Apache Lucene to create an index of the item data and perform searches on it. Code was sourced from https://medium.com/@dhruvsharma2600/integrating-search-in-your-application-with-apache-lucene-d11c6fb84ab4 and very heavily modified to fit my case.
  */
 public class QueryFilter {
 
@@ -60,7 +60,7 @@ public class QueryFilter {
     private Map&lt;String, Float&gt; filteredItems;
     /** The analyzer used for indexing and searching, configured to use n-grams for better typo tolerance and partial matching. */
     private Analyzer ngramAnalyzer;
-    /** The Lucene Directory where the search index is stored, using ByteBuffersDirectory to keep the index in RAM for speed and simplicity. */
+    /** The Lucene Directory where the search index is stored, using {@code ByteBuffersDirectory} to keep the index in RAM for speed and simplicity. */
     private Directory directory;
     /** The Lucene IndexWriter used to create the search index from the item data. */
     private IndexWriterConfig config;
@@ -77,17 +77,17 @@ public class QueryFilter {
 <span class="fc" id="L77">        TableColumnName.NAME.getColumnName(), NAME_FIELD_BOOST, //Boost name field higher for better relevance</span>
 <span class="fc" id="L78">        TableColumnName.DESCRIPTION.getColumnName(), DESCRIPTION_FIELD_BOOST</span>
     );
-    /** The MultiFieldQueryParser used to parse user queries across multiple fields with the specified boosts and analyzer. */
+    /** The {@code MultiFieldQueryParser} used to parse user queries across multiple fields with the specified boosts and analyzer. */
     private MultiFieldQueryParser parser;
 
     //Main in EntryPoints.java to stop Javadocs from including it
 
     /**
-     * Creates a QueryFilter from a Table. The constructor initializes the Lucene index with the item data from the table, using a custom n-gram analyzer for better search performance and relevance scoring.
+     * Creates a {@code QueryFilter} from a {@code Table}. The constructor initializes the Lucene index with the item data from the table, using a custom n-gram analyzer for better search performance and relevance scoring.
      * 
-     * @pre table is not null and contains the expected columns for creating Items (ID, Name, Description, etc.).
+     * @pre {@code table} is not null and contains the expected columns for creating Items (ID, Name, Description, etc.).
      * 
-     * @param table A tablesaw Table containing the item data, with each row representing an item and containing columns for ID, Name, Description, etc. The constructor will create a Lucene index from this data for performing search queries.
+     * @param table A {@code Table} containing the item data, with each row representing an item and containing columns for ID, Name, Description, etc. The constructor will create a Lucene index from this data for performing search queries.
      */
 <span class="fc" id="L92">    public QueryFilter(Table table){</span>
         try{
@@ -131,7 +131,7 @@ public class QueryFilter {
      * Searches the index for items matching the user query and returns a map of item IDs to their relevance scores for the results that meet the score threshold.
      * Logs any errors during search execution and returns an empty map in case of errors.
      * 
-     * @pre userQuery is not null or empty, and is a valid query string that can be parsed by the MultiFieldQueryParser.
+     * @pre {@code userQuery} is not null or empty, and is a valid query string that can be parsed by the {@code MultiFieldQueryParser}.
      * 
      * @param userQuery The search query input by the user.
      * @return A map of item IDs to their relevance scores for the search results that meet the score threshold. If no results are found or if there is an error during search execution, an empty map is returned.
@@ -181,10 +181,10 @@ public class QueryFilter {
     }
 
 
-    /** Returns the array of ScoreDoc objects from the given TopDocs object. Only necessary to allow mocking for test purposes.
-     * @pre results is not null and contains valid ScoreDoc objects.
-     * @param results The TopDocs object containing the search results from which to extract the ScoreDoc array.
-     * @return The array of ScoreDoc objects from the given TopDocs object.
+    /** Returns the array of {@code ScoreDoc} objects from the given {@code TopDocs} object. Only necessary to allow mocking for test purposes.
+     * @pre {@code results} is not null and contains valid {@code ScoreDoc} objects.
+     * @param results The {@code TopDocs} object containing the search results from which to extract the {@code ScoreDoc} array.
+     * @return The array of {@code ScoreDoc} objects from the given {@code TopDocs} object.
     */
     static ScoreDoc[] getScoreDocs(TopDocs results) {
 <span class="fc" id="L190">        return results.scoreDocs;</span>
@@ -192,10 +192,10 @@ public class QueryFilter {
 
     /** Adds a document to the Lucene index based on a tablesaw Row of item data. The document includes the item ID, name, and description, with the name and description fields being indexed for searching and the ID field being stored for retrieval. Logs any errors during document addition. 
      * 
-     * @pre row is not null and contains the expected columns for creating a Document (ID, Name, Description, etc.).
-     * @post A Document is created from the provided Row and added to the Lucene index, with the ID field stored and the name and description fields indexed for searching. If there is an error during document creation or addition, it is logged and the method continues without adding the document.
+     * @pre {@code row} is not null and contains the expected columns for creating a {@code Document} (ID, Name, Description, etc.).
+     * @post A {@code Document} is created from the provided {@code Row} and added to the Lucene index, with the ID field stored and the name and description fields indexed for searching. If there is an error during document creation or addition, it is logged and the method continues without adding the document.
     *
-     * @param row A Row from a tablesaw Table containing item info to be added to the Lucene index as a Document
+     * @param row A {@code Row} from a {@code Table} containing item info to be added to the Lucene index as a {@code Document}
      */
     private void addDoc(Row row){
         try{
@@ -210,7 +210,7 @@ public class QueryFilter {
 <span class="fc" id="L210">    }</span>
 
     /**
-     * Creates a custom n-gram analyzer for indexing and searching, configured to use n-grams of the specified sizes for better typo tolerance and partial matching in search queries. If there is an error creating the custom analyzer, it falls back to a standard StopAnalyzer with English stop words.
+     * Creates a custom {@code n-gram} analyzer for indexing and searching, configured to use n-grams of the specified sizes for better typo tolerance and partial matching in search queries. If there is an error creating the custom analyzer, it falls back to a standard {@code StopAnalyzer} with English stop words.
      */
     private void createNgramAnalyzer(){
         try{

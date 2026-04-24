@@ -8,7 +8,7 @@ import org.troy.capstone.ui_components.items.SearchedItemPanel;
 import org.troy.capstone.interfaces.ItemRepo;
 
 /**
- * Queue to manage recently viewed items, with a fixed capacity. Oldest item is removed when capacity is exceeded. Does not allow duplicates.
+ * {@code RecentlyViewedQueue} is a queue to manage recently viewed items, with a fixed capacity. Oldest item is removed when capacity is exceeded. Does not allow duplicates.
  */
 public class RecentlyViewedQueue extends ArrayBlockingQueue<SearchedItemPanel>{
     /** Capacity of the recently viewed queue, set to 10 for a reasonable number of items to display without overwhelming the user. */
@@ -17,11 +17,11 @@ public class RecentlyViewedQueue extends ArrayBlockingQueue<SearchedItemPanel>{
     /** Repository to retrieve item details based on item IDs, used to create SearchedItemPanel instances when adding items to the queue. */
     private final ItemRepo itemRepo;
 
-    /** Queue to keep track of item IDs for quick lookup and to prevent duplicates. Faster than using SearchedItemPanel directly since a lot of work is done to create a panel before checking. */
+    /** Queue to keep track of item IDs for quick lookup and to prevent duplicates. Faster than using {@code SearchedItemPanel} directly since a lot of work is done to create a panel before checking. */
     private final ArrayBlockingQueue<String> itemIds;
 
-    /** Constructor for the RecentlyViewedQueue.
-     * @param itemRepo The ItemRepo to use for retrieving item details.
+    /** Constructor for the {@code RecentlyViewedQueue}.
+     * @param itemRepo The {@code ItemRepo} to use for retrieving item details.
      */
     public RecentlyViewedQueue(ItemRepo itemRepo) {
         super(CAPACITY);
@@ -29,9 +29,9 @@ public class RecentlyViewedQueue extends ArrayBlockingQueue<SearchedItemPanel>{
         this.itemRepo = itemRepo;
     }
     
-    /** Attempts to add an item to the recently viewed queue.
+    /** Attempts to add an item to the {@code RecentlyViewedQueue}.
      * 
-     * @pre itemId is not null and corresponds to a valid key in the itemHashMap.
+     * @pre itemId is not null and corresponds to a valid key in the {@code ItemHashMap}.
      * @post If the item is not already in the queue, it is added and the oldest item is removed. If the item is already in the queue, it is moved to the top (most recent position) without duplication. If the queue is full, the oldest item is removed to make space for the new item.
      * @param itemId The ID of the item to add.
      */
@@ -52,9 +52,9 @@ public class RecentlyViewedQueue extends ArrayBlockingQueue<SearchedItemPanel>{
     }
 
     /** 
-     * Adds an item to the recently viewed queue without checking for duplicates or capacity. Should only be called from addAttempt after those checks have been made.
-     * @pre itemId is not null and is the key of an item allowed in the queue based on checks in addAttempt.
-     * @post The item with the given ID is added to the queue as a SearchedItemPanel.
+     * Adds an item to the {@code RecentlyViewedQueue} without checking for duplicates or capacity. Should only be called from {@code addAttempt} after those checks have been made.
+     * @pre itemId is not null and is the key of an item allowed in the queue based on checks in {@code addAttempt}.
+     * @post The item with the given ID is added to the queue as a {@code SearchedItemPanel}.
      * @param itemId The ID of the item to add.
      */
     private void add(String itemId) {
@@ -65,8 +65,8 @@ public class RecentlyViewedQueue extends ArrayBlockingQueue<SearchedItemPanel>{
     }
 
     /**
-     * Returns a List containing all items in the queue in reverse order, without removing them.
-     * @return A List of SearchedItemPanel objects representing the items in the queue, in order from newest to oldest.
+     * Returns a {@code List} containing all items in the queue in reverse order, without removing them.
+     * @return A {@code List} of {@code SearchedItemPanel} objects representing the items in the queue, in order from newest to oldest.
      */
     public List<SearchedItemPanel> peekAll() {
         return new ArrayList<>(this).reversed();

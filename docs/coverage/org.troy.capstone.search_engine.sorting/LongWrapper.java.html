@@ -10,12 +10,12 @@ public class LongWrapper {
     private long value;
 
     /**
-     * Constructs a LongWrapper with an initial value of 0.
+     * Constructs a {@code LongWrapper} with an initial value of 0.
      */
 <span class="fc" id="L15">    public LongWrapper() {}</span>
 
     /**
-     * Constructs a LongWrapper with the specified initial value.
+     * Constructs a {@code LongWrapper} with the specified initial value.
      * @param value The initial long value to be held by this LongWrapper.
      */
 <span class="fc" id="L21">    public LongWrapper(long value) {</span>
@@ -23,25 +23,25 @@ public class LongWrapper {
 <span class="fc" id="L23">    }</span>
 
     /**
-     * Returns the long value held by this LongWrapper.
-     * @return The long value held by this LongWrapper.
+     * Returns the long value held by this {@code LongWrapper}.
+     * @return The long value held by this {@code LongWrapper}.
      */
     public long getValue() {
 <span class="fc" id="L30">        return value;</span>
     }
 
     /**
-     * Sets the long value held by this LongWrapper.
-     * @post The long value held by this LongWrapper is updated to the specified value.
-     * @param value The long value to be held by this LongWrapper.
+     * Sets the long value held by this {@code LongWrapper}.
+     * @post The long value held by this {@code LongWrapper} is updated to the specified value.
+     * @param value The long value to be held by this {@code LongWrapper}.
      */
     public void setValue(long value) {
 <span class="fc" id="L39">        this.value = value;</span>
 <span class="fc" id="L40">    }</span>
 
     /**
-     * Returns a string representation of the long value held by this LongWrapper.
-     * @return A string representation of the long value held by this LongWrapper.
+     * Returns a string representation of the long value held by this {@code LongWrapper}.
+     * @return A string representation of the long value held by this {@code LongWrapper}.
      */
     @Override
     public String toString() {

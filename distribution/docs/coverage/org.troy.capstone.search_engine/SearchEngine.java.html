@@ -12,20 +12,20 @@ import tech.tablesaw.api.Table;
 import tech.tablesaw.selection.Selection;
 
 /**
- * The SearchEngine class is responsible for filtering items based on various criteria such as price range, star rating, categorical filters, and search queries. It utilizes a PriceRangeFinder for efficient price range filtering and a QueryFilter for handling search queries with Lucene.
+ * The {@code SearchEngine} class is responsible for filtering items based on various criteria such as price range, star rating, categorical filters, and search queries. It utilizes a {@code PriceRangeFinder} for efficient price range filtering and a {@code QueryFilter} for handling search queries with Lucene.
  */
 public class SearchEngine {
     /** The original table containing all item data, used for filtering and retrieving item information. */
     private final Table table;
-    /** The PriceFilter for efficiently finding items within a specified price range. */
+    /** The {@code PriceFilter} for efficiently finding items within a specified price range. */
     private final PriceFilter priceFilter;
-    /** The QueryFilter for handling search queries using a Lucene index built from the item data. */
+    /** The {@code QueryFilter} for handling search queries using a Lucene index built from the item data. */
     private final QueryFilter queryFilter;
 
     /**
-     * Constructor for SearchEngine, filled from a tablesaw Table.
+     * Constructor for {@code SearchEngine}, filled from a {@code Table}.
      * 
-     * @param table The table containing the data to be searched.
+     * @param table The {@code Table} containing the data to be searched.
      */
 <span class="fc" id="L30">    public SearchEngine(Table table) {</span>
 <span class="fc" id="L31">        this.table = table;</span>
@@ -81,9 +81,9 @@ public class SearchEngine {
     /**
      * Helper method to apply the search query results as a filter on the table.
      * 
-     * @param userQuery The user query to be applied as a filter.
-     * @param preQueryFilteredTable The table after applying all filters except the search query filter, so that the search query filter is only applied to the already filtered items for better performance.
-     * @return The filtered table with search results, or the original table if no filtering was applied.
+     * @param userQuery The {@code userQuery} to be applied as a filter.
+     * @param preQueryFilteredTable The {@code Table} after applying all filters except the search query filter, so that the search query filter is only applied to the already filtered items for better performance.
+     * @return The filtered {@code Table} with search results, or the original {@code Table} if no filtering was applied.
      */
     public Table applySearchQueryFilter(String userQuery, Table preQueryFilteredTable) {
 <span class="fc" id="L89">        System.out.println(&quot;Applying search query filter with user query: \&quot;&quot; + userQuery + &quot;\&quot;&quot;);</span>
@@ -131,7 +131,7 @@ public class SearchEngine {
     }
 
     /**
-     * Helper method to apply star rating filter.
+     * Helper method to apply the star rating filter.
      * 
      * @param searchData The search data containing the minimum star rating.
      * @return The selection of items that match the minimum star rating. Returns ALL items if the minimum star rating value is not found in the search data or is not of the expected type.
@@ -179,7 +179,7 @@ public class SearchEngine {
     /**
      * Helper method to apply categorical filters (other than tags which have special handling).
      * 
-     * @param searchData The search data containing the selected categorical filters under the FILTERS_CONTAINER key.
+     * @param searchData The search data containing the selected categorical filters under the {@code FILTERS_CONTAINER} key.
      * @return The selection of items that match the selected categorical filters, or ALL_ITEMS if no valid filters are found in the search data.
      */
     @SuppressWarnings(&quot;unchecked&quot;)
@@ -239,7 +239,7 @@ public class SearchEngine {
 
     /** Select all rows in the table.
      * 
-     * @return A Selection object that includes all rows in the table.
+     * @return A {@code Selection} object that includes all rows in the table.
     */
     private Selection selectAll(){
 <span class="fc" id="L245">        return Selection.withRange(0, table.rowCount());</span>
@@ -247,7 +247,7 @@ public class SearchEngine {
 
     /** Select no rows in the table.
      * 
-     * @return A Selection object that includes no rows in the table.
+     * @return A {@code Selection} object that includes no rows in the table.
     */
     private Selection selectNone(){
 <span class="fc" id="L253">        return Selection.withRange(0, 0);</span>

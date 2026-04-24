@@ -26,7 +26,7 @@ public enum UIElementName {
     /** The string value associated with this enum constant, used for UI element identifiers. */
     private final String value;
 
-    /** Constructor for the enum constants.
+    /** Constructs a {@code UIElementName} enum constant with the specified string value.
      * @param value The string value to associate with this enum constant.
     */
     UIElementName(String value) {

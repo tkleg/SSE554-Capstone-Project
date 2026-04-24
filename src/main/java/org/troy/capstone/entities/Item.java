@@ -20,7 +20,7 @@ import tech.tablesaw.api.Row;
 
 
 /**
- * A shopping item with various attributes. Main entity of the application. Implements cloneable to allow deep copy of itemHashMap.
+ * A shopping item with various attributes. Main entity of the application. Implements cloneable to allow deep copy of {@code ItemHashMap}.
  */
 @Data
 @Builder
@@ -67,13 +67,13 @@ public class Item implements Cloneable{
     private Item() {}
     
     /**
-     * Returns the value of the specified attribute for this item. The attribute is determined by the provided TableColumnName enum value.
+     * Returns the value of the specified attribute for this item. The attribute is determined by the provided {@code TableColumnName} enum value.
      * 
-     * @pre column is not null and corresponds to a valid attribute of the Item class.
+     * @pre column is not null and corresponds to a valid attribute of the {@code Item} class.
      * 
      * @param column An enum value representing the attribute to retrieve from this item.
      * @return The value of the specified attribute for this item, returned as an Object. The caller must cast result.
-     * @throws IllegalArgumentException If the provided column does not correspond to a valid attribute of the Item class.
+     * @throws IllegalArgumentException If the provided column does not correspond to a valid attribute of the {@code Item} class.
      */
     public Object getAttribute( TableColumnName column ){
         return switch(column){
@@ -97,9 +97,9 @@ public class Item implements Cloneable{
     }
 
     /**
-     * Generates a random Item object with realistic values for each attribute using the Faker library.
+     * Generates a random {@code Item} object with realistic values for each attribute using the {@code Faker} library.
      * 
-     * @return A randomly generated Item object with all attributes populated with realistic random values.
+     * @return A randomly generated {@code Item} object with all attributes populated with realistic random values.
      */
     public static Item randomItem(){
         return Item.builder()
@@ -121,12 +121,12 @@ public class Item implements Cloneable{
     }
 
     /**
-     * Creates an Item object from a tablesaw Row. The Row must contain columns corresponding to the attributes of the Item class.
+     * Creates an {@code Item} object from a tablesaw {@code Row}. The {@code Row} must contain columns corresponding to the attributes of the {@code Item} class.
      * 
-     * @pre itemRow is not null and contains the expected columns for creating an Item (ID, Name, etc.).
+     * @pre itemRow is not null and contains the expected columns for creating an {@code Item} (ID, Name, etc.).
      * 
-     * @param itemRow A Row from a tablesaw Table containing item info.
-     * @return An Item object created from the data in the provided Row.
+     * @param itemRow A {@code Row} from a tablesaw {@code Table} containing item info.
+     * @return An {@code Item} object created from the data in the provided {@code Row}.
      */
     public static Item fromRow( Row itemRow ){
         return Item.builder()
@@ -168,9 +168,9 @@ public class Item implements Cloneable{
         return similarity;
     }
 
-    /** Creates and returns a deep copy of this Item instance.
-     * @return A deep copy of this Item instance.
-     * @throws CloneNotSupportedException if the Item cannot be cloned.
+    /** Creates and returns a deep copy of this {@code Item} instance.
+     * @return A deep copy of this {@code Item} instance.
+     * @throws CloneNotSupportedException if the {@code Item} cannot be cloned.
      */
     @Override
     public Object clone() throws CloneNotSupportedException {

@@ -16,7 +16,7 @@ public enum URL {
     /** The string value associated with this enum constant, used for URLs and attribution information. */
     private final String url;
 
-    /** Constructor for the enum constants.
+    /** Constructs a {@code URL} enum constant with the specified string value.
      * @param url The string value to associate with this enum constant, typically used for URLs and attribution information.
     */
     URL(String url) {

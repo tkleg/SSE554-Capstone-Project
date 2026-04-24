@@ -15,25 +15,25 @@ import tech.tablesaw.api.Row;
 import tech.tablesaw.api.Table;
 
 /**
- * Custom HashMap implementation for storing Items with their IDs as keys, using a custom universal hash function (IdHashKey) to optimize bucket distribution for the specific set of item IDs in our dataset.
+ * Custom {@code HashMap} implementation for storing {@code Item} instances with their IDs as keys, using a custom universal hash function ({@code IdHashKey}) to optimize bucket distribution for the specific set of item IDs in our dataset.
  */
 public class ItemHashMap extends HashMap<IdHashKey, Item> implements ItemRepo {
 
     //Main in EntryPoints.java to stop Javadocs from including it
     
-    /** Maximum load factor for the hashmap. */
+    /** Maximum load factor for the {@code ItemHashMap}. */
     private static final float MAX_LOAD_FACTOR = 0.75f;
-    /** Table size for the hashmap, chosen to be a power of 2 for efficient modulo operations, and large enough to maintain a load factor of 0.75 for our expected number of items (961). */
+    /** Table size for the {@code ItemHashMap}, chosen to be a power of 2 for efficient modulo operations, and large enough to maintain a load factor of 0.75 for our expected number of items (961). */
     private static final int TABLE_SIZE = 2048;
 
     /**
-     * Creates an ItemHashMap from a Table.
+     * Creates an {@code ItemHashMap} from a {@code Table}.
      * The map is initialized with the optimal hash parameters for the current item IDs.
      * 
-     * @pre table is not null and contains the expected columns for creating Items (ID, Name, etc.), and contains no duplicate IDs.
+     * @pre table is not null and contains the expected columns for creating {@code Item} instances (ID, Name, etc.), and contains no duplicate IDs.
      *
-     * @param table A tablesaw Table containing the item data, with each row representing an item.
-     * @return itemMap An ItemHashMap containing all items from the table, with hash parameters optimized for the item IDs in the table.
+     * @param table A {@code tablesaw Table} containing the item data, with each row representing an item.
+     * @return itemMap An {@code ItemHashMap} containing all items from the table, with hash parameters optimized for the item IDs in the table.
      */
     public static ItemHashMap fromTable(Table table) {
         ItemHashMap itemMap = new ItemHashMap(table.rowCount());
@@ -47,7 +47,7 @@ public class ItemHashMap extends HashMap<IdHashKey, Item> implements ItemRepo {
      *
      * @pre data_size is a positive integer.
      *
-     * @param data_size The number of items that will be added to the map, used to get a 0.75 load factor.
+     * @param data_size The number of {@code Item} instances that will be added to the map, used to get a 0.75 load factor.
      */
     private ItemHashMap(int data_size) {
         super((int) (data_size / MAX_LOAD_FACTOR) + 1); // Calculate initial capacity based on expected data size and load factor
@@ -56,9 +56,9 @@ public class ItemHashMap extends HashMap<IdHashKey, Item> implements ItemRepo {
     /**
      * Adds an item to the hashmap given a tablesaw Row.
      *
-     * @pre itemRow is not null and contains the expected columns for creating an Item (ID, Name, etc.).
+     * @pre {@code itemRow} is not null and contains the expected columns for creating an {@code Item} instance (ID, Name, etc.).
      *
-     * @param itemRow A Row from a tablesaw Table containing item info.
+     * @param itemRow A Row from a {@code tablesaw Table} containing item info.
      */
     private void addItem(Row itemRow) {
         String itemId = itemRow.getString(TableColumnName.ID.getColumnName());        
@@ -68,9 +68,9 @@ public class ItemHashMap extends HashMap<IdHashKey, Item> implements ItemRepo {
     /**
      * Adds all rows from a tablesaw Table to the hashmap as Items.
      *
-     * @pre table is not null and contains the expected columns for creating Items (ID, Name, etc.), and contains no duplicate IDs.
+     * @pre {@code table} is not null and contains the expected columns for creating {@code Item} instances (ID, Name, etc.), and contains no duplicate IDs.
      *
-     * @param table A tablesaw Table with each row being an item to add to the map.
+     * @param table A {@code tablesaw Table} with each row being an item to add to the map.
      */
     private void addAllItems(Table table) {
         table.stream().forEach(this::addItem);
@@ -78,31 +78,31 @@ public class ItemHashMap extends HashMap<IdHashKey, Item> implements ItemRepo {
     }
 
     /**
-     * Retrieves an item from the hashmap given its ID.
+     * Retrieves an item from the {@code ItemHashMap} given its ID.
      * Prints a message if the item is not found in the map.
      *
-     * @pre itemId is not null and corresponds to a valid item ID in the map.
+     * @pre {@code itemId} is not null and corresponds to a valid item ID in the map.
      *
      * @param itemId The ID of the item to retrieve.
-     * @return An Optional containing the Item if found, or empty if not found.
+     * @return An Optional containing the {@code Item} if found, or empty if not found.
      */
     @Override
     public Optional<Item> getItem(String itemId) {
         IdHashKey key = new IdHashKey(itemId);
         Optional<Item> item = Optional.ofNullable(get(key));
         if (item.isEmpty())
-            System.out.println("Item with ID " + itemId + " not found in ItemHashMap.");
+            System.out.println("Item with ID " + itemId + " not found in {@code ItemHashMap}.");
         return item;
     }
 
     /**
      * Calculate bucket distribution with current I and J values (fresh hash calculation).
      *
-     * @pre itemIds is not null and contains valid item IDs.
+     * @pre {@code itemIds} is not null and contains valid item IDs.
      * 
      * @param itemIds A list of item IDs to calculate the bucket distribution for.
-     * @param useCustomHash Whether to use the custom IdHashKey hash function or the built-in String hashCode.
-     * @return bucketSizeCounts An array where the value at index N is the number of buckets that have N items in them, according to the specified hash function.
+     * @param useCustomHash Whether to use the custom {@code IdHashKey} hash function or the built-in {@code String} {@code hashCode}.
+     * @return {@code bucketSizeCounts} An array where the value at index N is the number of buckets that have N items in them, according to the specified hash function.
      */
     public int[] getFreshBucketSizeCount( List<String> itemIds, boolean useCustomHash ){
         List<Integer> buckets = itemIds.stream() //List of the buckets that get hashed to
@@ -125,18 +125,18 @@ public class ItemHashMap extends HashMap<IdHashKey, Item> implements ItemRepo {
     }
 
     /**
-     * Retrieves the keys of the hashmap as a list of IdHashKey objects.
+     * Retrieves the keys of the {@code ItemHashMap} as a list of {@code IdHashKey} objects.
      *
-     * @return A list of IdHashKey objects representing the keys in the hashmap.
+     * @return A list of {@code IdHashKey} objects representing the keys in the {@code ItemHashMap}.
      */
     private List<IdHashKey> getKeysAsList() {
         return new ArrayList<>(keySet());
     }
 
     /**
-     * Retrieves the item IDs of the hashmap as a list of strings.
+     * Retrieves the item IDs of the {@code ItemHashMap} as a list of strings.
      *
-     * @return A list of strings representing the item IDs in the hashmap.
+     * @return A list of strings representing the item IDs in the {@code ItemHashMap}.
      */
     public List<String> getItemIdsAsList() {
         return getKeysAsList().stream()
@@ -145,9 +145,9 @@ public class ItemHashMap extends HashMap<IdHashKey, Item> implements ItemRepo {
     }
 
     /**
-     * Retrieves the items of the hashmap as a list of Item objects.
+     * Retrieves the items of the {@code ItemHashMap} as a list of {@code Item} objects.
      *
-     * @return A list of Item objects representing the values in the hashmap.
+     * @return A list of {@code Item} objects representing the values in the {@code ItemHashMap}.
      */
     @Override
     public List<Item> getItemsAsList() {
@@ -155,12 +155,12 @@ public class ItemHashMap extends HashMap<IdHashKey, Item> implements ItemRepo {
     }
 
     /**
-     * Prints a table comparing the distribution of bucket sizes (number of buckets with 0 items, 1 item, 2 items, etc.) for the custom hash function vs Java's built in String hashCode, using the same item IDs. 
+     * Prints a table comparing the distribution of bucket sizes (number of buckets with 0 items, 1 item, 2 items, etc.) for the custom hash function vs Java's built in {@code String} {@code hashCode}, using the same item IDs. 
      * This allows us to see how well our custom universal hash function is performing in terms of distributing
      * items across buckets compared to the built-in hash function.
      *
-     * @pre findBestHashParameters() has already been called to optimize I and J for the current item IDs,
-     * the internal state of the ItemHashMap is not modified between the two distribution calculations (i.e. no items are added or removed),
+     * @pre {@code findBestHashParameters()} has already been called to optimize I and J for the current item IDs,
+     * the internal state of the {@code ItemHashMap} is not modified between the two distribution calculations (i.e. no items are added or removed),
      * the same item IDs are used for both calculations,
      * and the map must be filled.
      */
@@ -181,9 +181,9 @@ public class ItemHashMap extends HashMap<IdHashKey, Item> implements ItemRepo {
     }
 
     /**
-     * Creates a deep copy of the ItemHashMap.
+     * Creates a deep copy of the {@code ItemHashMap}.
      *
-     * @return A new ItemHashMap containing the same entries as the original.
+     * @return A new {@code ItemHashMap} containing the same entries as the original.
      * @throws CloneNotSupportedException if any of the keys or values in the map do not support cloning.
      */
     public ItemHashMap copy() throws CloneNotSupportedException {

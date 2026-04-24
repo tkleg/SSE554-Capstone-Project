@@ -11,12 +11,12 @@ public interface ItemRepo {
      * @pre itemId is not null.
       *
       * @param itemId The ID of the item to retrieve.
-      * @return An Optional containing the Item if found, or empty if not found.
+      * @return An {@code Optional} containing the {@code Item} if found, or empty if not found.
       */
     Optional<Item> getItem(String itemId);
 
     /** Retrieves the items in the repository as a list.
-     * @return A list of all items in the repository.
+     * @return A list of all {@code Item} objects in the repository.
      */
     List<Item> getItemsAsList();
 

@@ -8,18 +8,18 @@ import org.troy.capstone.constants.TableColumnName;
 import tech.tablesaw.api.Table;
 
 /**
- * A data TreeMap holding keys of prices and values of item indices, allowing for efficient retrieval of items within a specified price range.
+ * A data {@code TreeMap} holding keys of prices and values of item indices, allowing for efficient retrieval of items within a specified price range.
  */
 public class PriceTree extends TreeMap&lt;Float, Short&gt; {
 
     //Main in EntryPoints.java to stop Javadocs from including it
     
     /**
-     * Creates a PriceTree from a Table.
+     * Creates a {@code PriceTree} from a {@code Table}.
      *
      * @pre table is not null and contains the expected columns for prices and item indices.
      *
-     * @param table A tablesaw Table containing the item data, with each row representing an item and containing a price column and an index column.
+     * @param table A tablesaw {@code Table} containing the item data, with each row representing an item and containing a price column and an index column.
      */
 <span class="fc" id="L24">    public PriceTree(Table table) {</span>
 <span class="fc" id="L25">        List&lt;Float&gt; prices = table.floatColumn(TableColumnName.PRICE.getColumnName()).asList();</span>
@@ -28,7 +28,7 @@ public class PriceTree extends TreeMap&lt;Float, Short&gt; {
 <span class="fc" id="L28">    }</span>
 
     /**
-     * Adds an item to the PriceTree given its price and index.
+     * Adds an item to the {@code PriceTree} given its price and index.
      *
      * @pre price is a non-negative float representing the price of the item.
      *      itemIndex is a short representing the index of the item in the original table.
@@ -43,8 +43,8 @@ public class PriceTree extends TreeMap&lt;Float, Short&gt; {
     /**
      * Finds items within a specified price range.
      *
-     * @pre minPrice and maxPrice are non-negative floats.
-     *      minPrice is less than or equal to maxPrice.
+     * @pre {@code minPrice} and {@code maxPrice} are non-negative floats.
+     *      {@code minPrice} is less than or equal to {@code maxPrice}.
      *
      * @param minPrice The minimum price of the range.
      * @param maxPrice The maximum price of the range.
@@ -55,10 +55,10 @@ public class PriceTree extends TreeMap&lt;Float, Short&gt; {
     }
 
     /**
-     * Adds all items from lists of prices and indices to the PriceTree.
+     * Adds all items from lists of prices and indices to the {@code PriceTree}.
      *
-     * @pre prices and itemIndices are not null.
-     *      prices and itemIndices have the same size.
+     * @pre {@code prices} and {@code itemIndices} are not null.
+     *      {@code prices} and {@code itemIndices} have the same size.
      *
      * @param prices A list of prices for the items to add.
      * @param itemIndices A list of item indices corresponding to the prices.

@@ -18,7 +18,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 
 /**
- * The UIElementManager class is responsible for managing the UI elements in the application.
+ * The {@code UIElementManager} class is responsible for managing the UI elements in the application.
  * It provides methods to add and retrieve UI elements, gather search data from the UI, and update the UI with search results.
  */
 public class UIElementManager {
@@ -27,7 +27,7 @@ public class UIElementManager {
     /** The search button in the UI */
     private Button searchButton;
     
-    /** Constructor for UIElementManager, initializes the map for storing UI elements */
+    /** Constructor for {@code UIElementManager}, initializes the map for storing UI elements */
     public UIElementManager() {
         uiElements = new HashMap<>();
     }
@@ -37,8 +37,8 @@ public class UIElementManager {
      * 
      * @pre key is not null.
      *
-     * @param key The key representing the UI element to retrieve
-     * @return An Optional containing the UI element if found, or an empty Optional if not found
+     * @param key The {@code UIElementName} representing the UI element to retrieve
+     * @return An {@code Optional} containing the UI element if found, or an empty {@code Optional} if not found
      */
     public Optional<Node> getElement(UIElementName key) {
         if (!uiElements.containsKey(key))
@@ -60,9 +60,9 @@ public class UIElementManager {
 
     /** Gets the search button from the manager.
      * 
-     * @pre button is not null.
+     * @pre {@code searchButton} is not null.
      *
-     * @return The Button that was set in the manager
+     * @return The {@code Button} that was set in the manager
      */
     public Button getButton() {
         return searchButton;
@@ -72,7 +72,7 @@ public class UIElementManager {
      * Logs a message if the button is null.
      * 
      *
-     * @param button The Button to be set in the manager
+     * @param button The {@code Button} to be set in the manager
      */
     public void setButton(Button button) {
         this.searchButton = button;
@@ -143,10 +143,10 @@ public class UIElementManager {
      * Updates the searched item pagination component with new search results.
      * Logs missing pagination component or type error with the component.
      * 
-     * @pre A searched item pagination component should be added to the manager with the expected key and type before this method is called.
+     * @pre A {@code SearchedItemPagination} component should be added to the manager with the expected key and type before this method is called.
      *      itemIDs should be a list of valid item IDs corresponding to search results.
      * 
-     * @param itemIDs A list of item IDs corresponding to search results to update the pagination component with.
+     * @param itemIDs A list of item IDs corresponding to search results to update the {@code SearchedItemPagination} component with.
      */
     public void updateSearchedItemPagination(List<String> itemIDs) {
         try{

@@ -11,15 +11,15 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
 
-/** Container to display similar items. Uses an HBox layout and houses SearchedItemPanels */
+/** Container to display similar items. Uses an {@code HBox} layout and houses {@code SearchedItemPanels} */
 public class SimilarItemsContainer extends ScrollPane implements SearchedItemPanelDestinationUI{
 
-    /** The HBox that holds the content of the container. */
+    /** The {@code HBox} that holds the content of the container. */
     private final HBox content;
 
-    /** Constructor for SimilarItemsContainer. Initializes the container with a title label and sets up the layout. 
-     * @pre The SimilarItemsContainer should be properly initialized to contain a ScrollPane with an HBox layout and a title label.
-     * @post The SimilarItemsContainer instance is created with a ScrollPane containing an HBox layout and a title label, ready to have similar items added to it.
+    /** Constructor for {@code SimilarItemsContainer}. Initializes the container with a title label and sets up the layout. 
+     * @pre The {@code SimilarItemsContainer} should be properly initialized to contain a {@code ScrollPane} with an {@code HBox} layout and a title label.
+     * @post The {@code SimilarItemsContainer} instance is created with a {@code ScrollPane} containing an {@code HBox} layout and a title label, ready to have similar items added to it.
      */
     private SimilarItemsContainer() {
         super();
@@ -33,8 +33,8 @@ public class SimilarItemsContainer extends ScrollPane implements SearchedItemPan
         setFitToWidth(false);
     }
 
-    /** Factory method to create a SimilarItemsContainer instance with a title label and appropriate styling. 
-    * @return A SimilarItemsContainer instance with a title label and appropriate styling, ready to have similar items added to it.
+    /** Factory method to create a {@code SimilarItemsContainer} instance with a title label and appropriate styling. 
+    * @return A {@code SimilarItemsContainer} instance with a title label and appropriate styling, ready to have similar items added to it.
     */
     public static SimilarItemsContainer create() {
         SimilarItemsContainer container = new SimilarItemsContainer();
@@ -46,6 +46,11 @@ public class SimilarItemsContainer extends ScrollPane implements SearchedItemPan
         return container;
     }
 
+    /** Sets the content of the {@code SimilarItemsContainer} with the given list of {@code Node} instances representing similar items.
+     * @pre The panels list should contain valid {@code Node} instances to be displayed in the {@code SimilarItemsContainer}.
+     * @post The {@code SimilarItemsContainer}'s content is updated to display the provided {@code Node} instances representing similar items.
+     * @param panels The list of {@code Node} instances to be displayed in the {@code SimilarItemsContainer}.
+     */
     @Override
     public void setContent(List<Node> panels) {
         content.getChildren().clear();

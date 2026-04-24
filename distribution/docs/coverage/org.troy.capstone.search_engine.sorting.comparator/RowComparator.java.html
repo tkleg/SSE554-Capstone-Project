@@ -8,7 +8,7 @@ import org.troy.capstone.constants.TableColumnName;
 import tech.tablesaw.api.Row;
 
 /**
- * Comparator for sorting Rows by a specified type.
+ * Comparator for sorting {@code Row}s by a specified type.
  */
 public class RowComparator implements Comparator&lt;Row&gt; {
 
@@ -34,8 +34,8 @@ public class RowComparator implements Comparator&lt;Row&gt; {
     }
 
     /**
-     * Gets an array of RowComparators for all defined SortTypes.
-     * @return An array of RowComparators, one for each SortType.
+     * Gets an array of {@code RowComparator}s for all defined {@code SortType}s.
+     * @return An array of {@code RowComparator}s, one for each {@code SortType}.
      */
     public static RowComparator[] getComparators() {
 <span class="fc" id="L41">        RowComparator[] comparators = new RowComparator[SortType.values().length];</span>
@@ -45,8 +45,8 @@ public class RowComparator implements Comparator&lt;Row&gt; {
     }
 
     /**
-     * Returns a string representation of this RowComparator, which is the name of the SortType with spaces instead of underscores and proper capitalization.
-     * @return A string representation of this RowComparator.
+     * Returns a string representation of this {@code RowComparator}, which is the name of the {@code SortType} with spaces instead of underscores and proper capitalization.
+     * @return A string representation of this {@code RowComparator}.
      */
     @Override
     public String toString() {
@@ -57,33 +57,33 @@ public class RowComparator implements Comparator&lt;Row&gt; {
     }
 
     /**
-     * Constructs a RowComparator with the specified SortType.
-     * @param sortType The SortType that defines the sorting behavior of this RowComparator.
+     * Constructs a {@code RowComparator} with the specified {@code SortType}.
+     * @param sortType The {@code SortType} that defines the sorting behavior of this {@code RowComparator}.
      */
 <span class="fc" id="L63">    public RowComparator(SortType sortType) {</span>
 <span class="fc" id="L64">        this.sortType = sortType;</span>
 <span class="fc" id="L65">    }</span>
 
     /**
-     * Constructs a RowComparator with the specified SortType name.
-     * @param sortTypeName The name of the SortType that defines the sorting behavior of this RowComparator.
+     * Constructs a {@code RowComparator} with the specified {@code SortType} name.
+     * @param sortTypeName The name of the {@code SortType} that defines the sorting behavior of this {@code RowComparator}.
      */
 <span class="fc" id="L71">    public RowComparator(String sortTypeName) {</span>
 <span class="fc" id="L72">        this.sortType = SortType.valueOf(sortTypeName.toUpperCase().replace(&quot; &quot;, &quot;_&quot;));</span>
 <span class="fc" id="L73">    }</span>
 
     /**
-     * Returns the SortType of this RowComparator.
-     * @return The SortType of this RowComparator.
+     * Returns the {@code SortType} of this {@code RowComparator}.
+     * @return The {@code SortType} of this {@code RowComparator}.
      */
     public SortType getSortType() {
 <span class="fc" id="L80">        return sortType;</span>
     }
 
     /**
-     * Compares two Rows based on the SortType of this RowComparator.
-     * @param r1 The first Row to be compared.
-     * @param r2 The second Row to be compared.
+     * Compares two {@code Row}s based on the {@code SortType} of this {@code RowComparator}.
+     * @param r1 The first {@code Row} to be compared.
+     * @param r2 The second {@code Row} to be compared.
      * @return A negative integer, zero, or a positive integer as the first argument is less than, equal to, or greater than the second.
      */
     @Override
@@ -109,12 +109,12 @@ public class RowComparator implements Comparator&lt;Row&gt; {
     }
 
     /**
-     * Checks is the RowComparator is equal to another object. First, it checks the other object is a RowComparator. Then it makes sure the SortType is the same.
+     * Checks is the {@code RowComparator} is equal to another object. First, it checks the other object is a {@code RowComparator}. Then it makes sure the {@code SortType} is the same.
      * 
-     * @pre obj is an instance of RowComparator.
-     * @post Returns true if the other object is a RowComparator with the same SortType, and false otherwise.
-     * @param obj The object to compare with this RowComparator.
-     * @return true if the other object is a RowComparator with the same SortType, and false otherwise.
+     * @pre obj is an instance of {@code RowComparator}.
+     * @post Returns true if the other object is a {@code RowComparator} with the same {@code SortType}, and false otherwise.
+     * @param obj The object to compare with this {@code RowComparator}.
+     * @return true if the other object is a {@code RowComparator} with the same {@code SortType}, and false otherwise.
      */
     @Override
     public boolean equals(Object obj) {
@@ -126,8 +126,8 @@ public class RowComparator implements Comparator&lt;Row&gt; {
     }
     
     /**
-     * Returns a hash code value for this RowComparator, which is based on the SortType.
-     * @return A hash code value for this RowComparator.
+     * Returns a hash code value for this {@code RowComparator}, which is based on the {@code SortType}.
+     * @return A hash code value for this {@code RowComparator}.
      */    
     @Override
     @Generated
