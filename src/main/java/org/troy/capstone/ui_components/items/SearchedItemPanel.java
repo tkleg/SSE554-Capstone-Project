@@ -113,6 +113,7 @@ public class SearchedItemPanel extends HBox{
      * 
      * @post rightPanel will contain labels displaying the name, publisher, category, price, rating, stock quantity, and date added for the item, with consistent styling and formatting.
      * @param item The item whose data is being displayed in the right panel.
+     * @return A VBox containing the labels with the item details, styled and formatted for display in the right panel of the SearchedItemPanel.
      */
     public static VBox makeRightPanel(Item item) {
         VBox rightPanel = new VBox(5); // 5px spacing between elements

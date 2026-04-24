@@ -22,6 +22,8 @@ public class SimilarItemsManager implements SearchedItemPanelInteractor {
     
     /** Private constructor to enforce the use of the static factory method.
      * @param similarItemsContainer The SimilarItemsContainer that will display the similar items, used to update the displayed similar items when new items are added.
+     * @param itemHashMap The ItemHashMap containing all items, used for retrieving items to display as similar items.
+     * @param table The Table containing all items, used for retrieving items via their index when finding similar items to display.
      * @pre similarItemsContainer is not null.
      */
     private SimilarItemsManager(SimilarItemsContainer similarItemsContainer, ItemHashMap itemHashMap, Table table) {

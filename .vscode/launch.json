@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Item",
+            "request": "launch",
+            "mainClass": "org.troy.capstone.entities.Item",
+            "projectName": "Project"
+        },
+        {
+            "type": "java",
             "name": "SimilarItemsGraph",
             "request": "launch",
             "mainClass": "org.troy.capstone.data_structures.similar_items_graph.SimilarItemsGraph",

@@ -38,15 +38,15 @@ public enum UISizeControl {
     
     /** Width of each individual searched item panel, calculated as the container width minus padding on both sides. */
     SEARCHED_ITEM_PANEL_WIDTH(SEARCHED_ITEM_CONTAINER_WIDTH.value - WIDTH_PADDING.value * 2),
-    /** Height of each individual searched item panel, set to a fixed value for consistency. */
+    /** Height of each individual searched item panel. */
     SEARCHED_ITEM_PANEL_HEIGHT(150),
     /** Spacing between individual searched item panels within the container. */
     SEARCHED_ITEM_PANEL_SPACING(20),
     /** Spacing between elements within the right panel of a searched item. */
     RIGHT_ITEM_PANEL_SPACING(5),
-    /** Width of the image displayed for each attributed item, set to a fixed value for consistency. */
+    /** Width of the image displayed for each attributed item. */
     ATTRIBUTED_ITEM_IMAGE_WIDTH(150),
-    /** Height of the image displayed for each attributed item, set to a fixed value for consistency. */
+    /** Height of the image displayed for each attributed item. */
     ATTRIBUTED_ITEM_IMAGE_HEIGHT(150),
     
     /** Width of the container holding the attributed items, calculated as the image width plus some additional padding. */
@@ -55,9 +55,9 @@ public enum UISizeControl {
     /** Maximum width of the label displaying the name and other details of each attributed item, calculated as the panel width minus the image width and some additional padding. */
     SEARCHED_ITEM_LABEL_MAX_WIDTH(SEARCHED_ITEM_PANEL_WIDTH.value - ATTRIBUTED_ITEM_IMAGE_WIDTH.value - WIDTH_PADDING.value * 3),
     
-    /** Width of the container holding the filters on the right side of the main page, set to match the width of the right side for consistency. */
+    /** Width of the container holding the filters on the right side of the main page, set to half the width of the right side. */
     FILTERS_CONTAINER_WIDTH(RIGHT_SIDE_MAIN_PAGE_WIDTH.value / 2),
-    /** Height of the container holding the filters on the right side of the main page, set to 2/3 of the pagination height to allow space for other controls. */
+    /** Height of the container holding the filters on the right side of the main page, set to 2/3 of the pagination height. */
     FILTERS_CONTAINER_HEIGHT((int) (SEARCHED_ITEM_PAGINATION_HEIGHT.value * (2.0/3))),
 
     /** Width of the recently viewed items window, set to 85% of the searched item container width for consistency. */
@@ -67,7 +67,7 @@ public enum UISizeControl {
 
     /** Width of the container holding similar items, calculated as the sum of the filters container width, recently viewed window width, and additional padding. */
     SIMILAR_ITEMS_CONTAINER_WIDTH(FILTERS_CONTAINER_WIDTH.value + RECENTLY_VIEWED_WINDOW_WIDTH.value + WIDTH_PADDING.value),
-    /** Height of the container holding similar items, set to 90% of the filters container width for consistency. */
+    /** Height of the container holding similar items, set to 90% of the filters container width. */
     SIMILAR_ITEMS_CONTAINER_HEIGHT((int) (FILTERS_CONTAINER_WIDTH.value * 0.9));
 
     /** The integer value associated with this enum constant, used for size control in the UI. */

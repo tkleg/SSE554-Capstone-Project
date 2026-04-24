@@ -15,7 +15,6 @@ import org.troy.capstone.utils.Converters;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import net.datafaker.Faker;
 import tech.tablesaw.api.Row;
 
@@ -25,7 +24,6 @@ import tech.tablesaw.api.Row;
  */
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
 public class Item implements Cloneable{
     /** Faker instance for generating random data. */
@@ -64,6 +62,10 @@ public class Item implements Cloneable{
     /** Jaro-Winkler similarity instance for calculating string similarity. */
     private static final JaroWinklerSimilarity JARO_WINKLER_SIMILARITY = new JaroWinklerSimilarity();
 
+    /** Private constructor to prevent direct instantiation of the Item class and to satisfy a Javadoc warning. */
+    @SuppressWarnings("unused")
+    private Item() {}
+    
     /**
      * Returns the value of the specified attribute for this item. The attribute is determined by the provided TableColumnName enum value.
      * 
@@ -93,7 +95,7 @@ public class Item implements Cloneable{
             default -> throw new IllegalArgumentException("Unexpected value: " + column);
         };
     }
-    
+
     /**
      * Generates a random Item object with realistic values for each attribute using the Faker library.
      * 
@@ -166,11 +168,15 @@ public class Item implements Cloneable{
         return similarity;
     }
 
+    /** Creates and returns a deep copy of this Item instance.
+     * @return A deep copy of this Item instance.
+     * @throws CloneNotSupportedException if the Item cannot be cloned.
+     */
     @Override
     public Object clone() throws CloneNotSupportedException {
         Item cloned = (Item) super.clone();
-        cloned.tags = new HashSet<>(this.tags); // Deep copy of mutable Set
-        cloned.dateAdded = (Date) this.dateAdded.clone(); // Deep copy of mutable Date
+        cloned.tags = new HashSet<>(this.tags); //Deep copy of mutable Set
+        cloned.dateAdded = (Date) this.dateAdded.clone(); //Deep copy of mutable Date
         return cloned;
     }
 }

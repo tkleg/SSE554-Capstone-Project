@@ -39,7 +39,7 @@ public class SimilarItemsGraph {
         /** Constructor for the Edge class. Initializes the destination index and weight of the edge.
          * @param destIndex The index of the destination item that this edge points to.
          * @param weight The weight of the edge, representing the similarity score between the source and destination items.
-         * @pre destIndex should be a valid item index corresponding to an item in the graph. weight should be a non-negative float representing the similarity score between the source and destination items.
+         * @pre destIndex should be a valid item index corresponding to an item in the graph. weight should be a non-negative float.
          * @post An Edge instance is created with the specified destination index and weight, representing an edge in the graph between two items with a certain similarity score.
          */
         public Edge(int destIndex, float weight) {
@@ -47,17 +47,24 @@ public class SimilarItemsGraph {
             this.weight = weight;
         }
 
+        /** Returns a string representation of the edge, including the destination index and weight. 
+         * @return A string representation of the edge, including the destination index and weight.
+        */
         @Override
         public String toString() {
             return "Index: " + destIndex + ", Weight: " + weight;
         }
 
+        /**
+         * Returns the destination index of this edge.
+         * @return The destination index of this edge.
+         */
         int getDestIndex() {
             return destIndex;
         }
     }
 
-    /** Default constructor. Only used to allow for subclassing in the SimilarItemsGraphTest class. */
+    /** Default constructor. Only used to allow for subclassing in the SimilarItemsGraphTest class. All fields are initialized to null. */
     public SimilarItemsGraph(){
         adjacencyList = null;
         itemHashMap = null;
@@ -65,6 +72,11 @@ public class SimilarItemsGraph {
     }
 
 
+    /** Finds similar items for the given item ID.
+     * @param itemId The ID of the item for which to find similar items.
+     * @return A list of VBox panels representing the similar items.
+     * @throws RuntimeException if the item is not found in the hash map.
+     */
     public List<VBox> findSimilarItems(String itemId) {
         int itemIndex = itemHashMap.getItem(itemId)
             .orElseThrow(() -> new RuntimeException("Item not found in hash map for similar items graph."))
@@ -88,6 +100,8 @@ public class SimilarItemsGraph {
 
     /** Constructor for SimilarItemsGraph. Initializes the graph with the given ItemHashMap.
      * @param itemHashMap The ItemHashMap containing the items to be added to the graph.
+     * @param table The original table containing the items, used for retrieving items by index when filling the graph.
+     * @param buildGraph A Boolean value indicating whether to build the graph. If null, the value from the configuration will be used.
      */
     @SuppressWarnings("unchecked")
     public SimilarItemsGraph(ItemHashMap itemHashMap, Table table, Boolean buildGraph) {

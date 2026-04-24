@@ -159,8 +159,8 @@ public class ItemHashMap extends HashMap&lt;IdHashKey, Item&gt; {
 <span class="fc" id="L159">        int[] customBucketSizeCounts = getFreshBucketSizeCount(getItemIdsAsList(), true); // Use fresh calculation with current I,J</span>
 <span class="fc" id="L160">        int[] builtInBucketSizeCounts = getFreshBucketSizeCount(getItemIdsAsList(), false); // Use fresh calculation for built-in String hash</span>
 <span class="fc" id="L161">        int maxSize = Math.max(customBucketSizeCounts.length, builtInBucketSizeCounts.length);</span>
-<span class="fc" id="L162">        customBucketSizeCounts = Arrays.copyOf(customBucketSizeCounts, maxSize); //Pad with zeros if necessary</span>
-<span class="fc" id="L163">        builtInBucketSizeCounts = Arrays.copyOf(builtInBucketSizeCounts, maxSize); //Pad with zeros if necessary</span>
+<span class="fc" id="L162">        customBucketSizeCounts = Arrays.copyOf(customBucketSizeCounts, maxSize); //Pad with zeros to match size</span>
+<span class="fc" id="L163">        builtInBucketSizeCounts = Arrays.copyOf(builtInBucketSizeCounts, maxSize); //Pad with zeros to match size</span>
 <span class="fc bfc" id="L164" title="All 2 branches covered.">        for (int i = 0; i &lt; maxSize; i++){</span>
 <span class="fc" id="L165">            int customCount = customBucketSizeCounts[i];</span>
 <span class="fc" id="L166">            int builtInCount = builtInBucketSizeCounts[i];</span>
@@ -172,12 +172,13 @@ public class ItemHashMap extends HashMap&lt;IdHashKey, Item&gt; {
      * Creates a deep copy of the ItemHashMap.
      *
      * @return A new ItemHashMap containing the same entries as the original.
+     * @throws CloneNotSupportedException if any of the keys or values in the map do not support cloning.
      */
     public ItemHashMap copy() throws CloneNotSupportedException {
-<span class="fc" id="L177">        ItemHashMap copy = new ItemHashMap(size());</span>
-<span class="fc bfc" id="L178" title="All 2 branches covered.">        for (Entry&lt;IdHashKey, Item&gt; entry : entrySet())</span>
-<span class="fc" id="L179">            copy.put((IdHashKey) entry.getKey().clone(), (Item) entry.getValue().clone());</span>
-<span class="fc" id="L180">        return copy;</span>
+<span class="fc" id="L178">        ItemHashMap copy = new ItemHashMap(size());</span>
+<span class="fc bfc" id="L179" title="All 2 branches covered.">        for (Entry&lt;IdHashKey, Item&gt; entry : entrySet())</span>
+<span class="fc" id="L180">            copy.put((IdHashKey) entry.getKey().clone(), (Item) entry.getValue().clone());</span>
+<span class="fc" id="L181">        return copy;</span>
     }
 
 }

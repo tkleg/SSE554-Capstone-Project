@@ -70,7 +70,7 @@ public class SimilarItemsGraphTest{
                     adjacencyList[edge.sourceIndex] = new ArrayList<>();
                 if( adjacencyList[edge.destIndex] == null)
                     adjacencyList[edge.destIndex] = new ArrayList<>();
-                adjacencyList[edge.sourceIndex].add((Edge) edge);
+                adjacencyList[edge.sourceIndex].add(edge);
                 adjacencyList[edge.destIndex].add(edge.flip());
             }
         }

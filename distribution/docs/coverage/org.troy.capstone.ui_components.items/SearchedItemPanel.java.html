@@ -113,31 +113,32 @@ public class SearchedItemPanel extends HBox{
      * 
      * @post rightPanel will contain labels displaying the name, publisher, category, price, rating, stock quantity, and date added for the item, with consistent styling and formatting.
      * @param item The item whose data is being displayed in the right panel.
+     * @return A VBox containing the labels with the item details, styled and formatted for display in the right panel of the SearchedItemPanel.
      */
     public static VBox makeRightPanel(Item item) {
-<span class="fc" id="L118">        VBox rightPanel = new VBox(5); // 5px spacing between elements</span>
-<span class="fc" id="L119">        rightPanel.setAlignment(Pos.CENTER);</span>
+<span class="fc" id="L119">        VBox rightPanel = new VBox(5); // 5px spacing between elements</span>
+<span class="fc" id="L120">        rightPanel.setAlignment(Pos.CENTER);</span>
         //Name label done separately so we can style it
-<span class="fc" id="L121">        Label nameLabel = new Label(item.getName());</span>
-<span class="fc" id="L122">        nameLabel.setStyle(&quot;-fx-font-weight: bold; -fx-font-size: 14;&quot;);</span>
-<span class="fc" id="L123">        nameLabel.setWrapText(true);</span>
-<span class="fc" id="L124">        nameLabel.setMaxWidth(UISizeControl.SEARCHED_ITEM_LABEL_MAX_WIDTH.getValue()); // Allow space for image on left</span>
-<span class="fc" id="L125">        nameLabel.setAlignment(Pos.CENTER_LEFT);</span>
+<span class="fc" id="L122">        Label nameLabel = new Label(item.getName());</span>
+<span class="fc" id="L123">        nameLabel.setStyle(&quot;-fx-font-weight: bold; -fx-font-size: 14;&quot;);</span>
+<span class="fc" id="L124">        nameLabel.setWrapText(true);</span>
+<span class="fc" id="L125">        nameLabel.setMaxWidth(UISizeControl.SEARCHED_ITEM_LABEL_MAX_WIDTH.getValue()); // Allow space for image on left</span>
+<span class="fc" id="L126">        nameLabel.setAlignment(Pos.CENTER_LEFT);</span>
 
-<span class="fc" id="L127">        Label publisherLabel = createLabel(&quot;Publisher: &quot; + item.getPublisher());</span>
+<span class="fc" id="L128">        Label publisherLabel = createLabel(&quot;Publisher: &quot; + item.getPublisher());</span>
         
-<span class="fc" id="L129">        Label categoryLabel = createLabel(&quot;Category: &quot; + item.getCategory());</span>
+<span class="fc" id="L130">        Label categoryLabel = createLabel(&quot;Category: &quot; + item.getCategory());</span>
         
-<span class="fc" id="L131">        Label priceLabel = createLabel(&quot;Price: $&quot; + String.format(&quot;%.2f&quot;, item.getPrice()));</span>
+<span class="fc" id="L132">        Label priceLabel = createLabel(&quot;Price: $&quot; + String.format(&quot;%.2f&quot;, item.getPrice()));</span>
         
-<span class="fc" id="L133">        Label ratingLabel = createLabel(&quot;Rating: &quot; + item.getReviewScore() + &quot;/5.0 (&quot; + item.getReviewCount() + &quot; reviews)&quot;);</span>
+<span class="fc" id="L134">        Label ratingLabel = createLabel(&quot;Rating: &quot; + item.getReviewScore() + &quot;/5.0 (&quot; + item.getReviewCount() + &quot; reviews)&quot;);</span>
         
-<span class="fc" id="L135">        Label stockLabel = createLabel(&quot;Stock: &quot; + item.getStockQuantity());</span>
+<span class="fc" id="L136">        Label stockLabel = createLabel(&quot;Stock: &quot; + item.getStockQuantity());</span>
         
-<span class="fc" id="L137">        Date dateAdded = item.getDateAdded();</span>
-<span class="fc" id="L138">        Label dateLabel = createLabel(&quot;Date Added: &quot; + dateAddedFormatter.format(dateAdded));</span>
+<span class="fc" id="L138">        Date dateAdded = item.getDateAdded();</span>
+<span class="fc" id="L139">        Label dateLabel = createLabel(&quot;Date Added: &quot; + dateAddedFormatter.format(dateAdded));</span>
 
-<span class="fc" id="L140">        rightPanel.getChildren().addAll(</span>
+<span class="fc" id="L141">        rightPanel.getChildren().addAll(</span>
             nameLabel,
             publisherLabel,
             categoryLabel,
@@ -147,8 +148,8 @@ public class SearchedItemPanel extends HBox{
             dateLabel
         );
 
-<span class="fc" id="L150">        rightPanel.setId(&quot;rightPanel&quot;+item.getId()); //Set an ID for testing purposes</span>
-<span class="fc" id="L151">        return rightPanel;</span>
+<span class="fc" id="L151">        rightPanel.setId(&quot;rightPanel&quot;+item.getId()); //Set an ID for testing purposes</span>
+<span class="fc" id="L152">        return rightPanel;</span>
     }
 
     /**
@@ -159,11 +160,11 @@ public class SearchedItemPanel extends HBox{
      * @return A label with the specified text and consistent styling.
      */
     private static Label createLabel(String text) {
-<span class="fc" id="L162">        Label label = new Label(text);</span>
-<span class="fc" id="L163">        label.setWrapText(true);</span>
-<span class="fc" id="L164">        label.setMaxWidth(UISizeControl.SEARCHED_ITEM_LABEL_MAX_WIDTH.getValue());</span>
-<span class="fc" id="L165">        label.setAlignment(Pos.CENTER_LEFT);</span>
-<span class="fc" id="L166">        return label;</span>
+<span class="fc" id="L163">        Label label = new Label(text);</span>
+<span class="fc" id="L164">        label.setWrapText(true);</span>
+<span class="fc" id="L165">        label.setMaxWidth(UISizeControl.SEARCHED_ITEM_LABEL_MAX_WIDTH.getValue());</span>
+<span class="fc" id="L166">        label.setAlignment(Pos.CENTER_LEFT);</span>
+<span class="fc" id="L167">        return label;</span>
     }
 
 }

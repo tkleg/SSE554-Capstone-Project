@@ -159,8 +159,8 @@ public class ItemHashMap extends HashMap<IdHashKey, Item> {
         int[] customBucketSizeCounts = getFreshBucketSizeCount(getItemIdsAsList(), true); // Use fresh calculation with current I,J
         int[] builtInBucketSizeCounts = getFreshBucketSizeCount(getItemIdsAsList(), false); // Use fresh calculation for built-in String hash
         int maxSize = Math.max(customBucketSizeCounts.length, builtInBucketSizeCounts.length);
-        customBucketSizeCounts = Arrays.copyOf(customBucketSizeCounts, maxSize); //Pad with zeros if necessary
-        builtInBucketSizeCounts = Arrays.copyOf(builtInBucketSizeCounts, maxSize); //Pad with zeros if necessary
+        customBucketSizeCounts = Arrays.copyOf(customBucketSizeCounts, maxSize); //Pad with zeros to match size
+        builtInBucketSizeCounts = Arrays.copyOf(builtInBucketSizeCounts, maxSize); //Pad with zeros to match size
         for (int i = 0; i < maxSize; i++){
             int customCount = customBucketSizeCounts[i];
             int builtInCount = builtInBucketSizeCounts[i];
@@ -172,6 +172,7 @@ public class ItemHashMap extends HashMap<IdHashKey, Item> {
      * Creates a deep copy of the ItemHashMap.
      *
      * @return A new ItemHashMap containing the same entries as the original.
+     * @throws CloneNotSupportedException if any of the keys or values in the map do not support cloning.
      */
     public ItemHashMap copy() throws CloneNotSupportedException {
         ItemHashMap copy = new ItemHashMap(size());
