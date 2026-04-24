@@ -7,6 +7,7 @@ import org.troy.capstone.data_structures.SearchedItemsLinkedList;
 import org.troy.capstone.data_structures.item_table.ItemHashMap;
 import org.troy.capstone.entities.Item;
 import org.troy.capstone.interfaces.SearchedItemPanelInteractor;
+import org.troy.capstone.interfaces.SearchedItemPanelSourceUI;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -17,7 +18,7 @@ import javafx.scene.layout.VBox;
  * The SearchedItemPagination class represents a UI component that provides pagination for search results.
  * It allows users to navigate through multiple pages of search results, with buttons to go back and forth.
  */
-public class SearchedItemPagination extends VBox {
+public class SearchedItemPagination extends VBox implements SearchedItemPanelSourceUI {
 
     /** The item hash map containing all items, used to populate the pagination content. */
     private final ItemHashMap itemHashMap;
@@ -94,6 +95,7 @@ public class SearchedItemPagination extends VBox {
      * @post The provided interactor is added to the SearchedItemContainer, allowing it to pass SearchedItemPanelInteractors to the SearchedItemPanels in the search results.
      * @param interactor The SearchedItemPanelInteractor to add to the SearchedItemContainer for handling interactions with the item panels in the search results.
      */
+    @Override
     public void addSearchedItemPanelInteractor(SearchedItemPanelInteractor interactor) {
         mySearchedItemContainer.addSearchedItemPanelInteractor(interactor);
     }

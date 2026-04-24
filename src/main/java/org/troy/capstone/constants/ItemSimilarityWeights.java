@@ -5,15 +5,15 @@ package org.troy.capstone.constants;
  */
 public enum ItemSimilarityWeights {
     /** The weight for the name attribute when calculating item similarity. */
-    NAME(0.8f),
+    NAME(0.9f),
     /** The weight for the publisher attribute when calculating item similarity. */
     PUBLISHER(0.4f),
     /** The weight for the description attribute when calculating item similarity. */
-    DESCRIPTION(0.5f),
+    DESCRIPTION(0.8f),
     /** The weight for the category attribute when calculating item similarity. */
-    CATEGORY(0.4f),
+    CATEGORY(0.6f),
     /** The weight for the tags attribute when calculating item similarity. */
-    TAGS(0.6f),
+    TAGS(0.7f),
     /** The weight for the photo author attribute when calculating item similarity. */
     PHOTO_AUTHOR(0.3f),
     /** The weight for the price attribute when calculating item similarity. */

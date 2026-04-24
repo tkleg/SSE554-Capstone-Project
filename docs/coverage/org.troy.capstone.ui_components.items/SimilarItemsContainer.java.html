@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SimilarItemsContainer.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Project</a> &gt; <a href="index.source.html" class="el_package">org.troy.capstone.ui_components.items</a> &gt; <span class="el_source">SimilarItemsContainer.java</span></div><h1>SimilarItemsContainer.java</h1><pre class="source lang-java linenums">package org.troy.capstone.ui_components.items;
+
+import java.util.List;
+
+import org.troy.capstone.constants.UISizeControl;
+import org.troy.capstone.interfaces.SearchedItemPanelDestinationUI;
+import org.troy.capstone.utils.UIUtils;
+
+import javafx.scene.Node;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.HBox;
+
+/** Container to display similar items. Uses an HBox layout and houses SearchedItemPanels */
+public class SimilarItemsContainer extends ScrollPane implements SearchedItemPanelDestinationUI{
+
+    /** The HBox that holds the content of the container. */
+    private final HBox content;
+
+    /** Constructor for SimilarItemsContainer. Initializes the container with a title label and sets up the layout. 
+     * @pre The SimilarItemsContainer should be properly initialized to contain a ScrollPane with an HBox layout and a title label.
+     * @post The SimilarItemsContainer instance is created with a ScrollPane containing an HBox layout and a title label, ready to have similar items added to it.
+     */
+    private SimilarItemsContainer() {
+<span class="fc" id="L25">        super();</span>
+<span class="fc" id="L26">        content = new HBox();</span>
+<span class="fc" id="L27">        Label titleLabel = new Label(&quot;Similar Items&quot;);</span>
+<span class="fc" id="L28">        titleLabel.setStyle(&quot;-fx-font-size: 16px; -fx-font-weight: bold;&quot;);</span>
+<span class="fc" id="L29">        content.getChildren().add(titleLabel);</span>
+<span class="fc" id="L30">        setContent(content);</span>
+<span class="fc" id="L31">        setHbarPolicy(ScrollBarPolicy.AS_NEEDED);</span>
+<span class="fc" id="L32">        setVbarPolicy(ScrollBarPolicy.NEVER);</span>
+<span class="fc" id="L33">        setFitToWidth(false);</span>
+<span class="fc" id="L34">    }</span>
+
+    /** Factory method to create a SimilarItemsContainer instance with a title label and appropriate styling. 
+    * @return A SimilarItemsContainer instance with a title label and appropriate styling, ready to have similar items added to it.
+    */
+    public static SimilarItemsContainer create() {
+<span class="fc" id="L40">        SimilarItemsContainer container = new SimilarItemsContainer();</span>
+<span class="fc" id="L41">        UIUtils.setSize(container, UISizeControl.SIMILAR_ITEMS_CONTAINER_WIDTH.getValue(), UISizeControl.SIMILAR_ITEMS_CONTAINER_HEIGHT.getValue());</span>
+<span class="fc" id="L42">        UIUtils.setLineBorder(container, 5, 1);</span>
+<span class="fc" id="L43">        Label titleLabel = new Label(&quot;Similar Items&quot;);</span>
+<span class="fc" id="L44">        titleLabel.setStyle(&quot;-fx-font-size: 16px; -fx-font-weight: bold;&quot;);</span>
+<span class="fc" id="L45">        container.content.getChildren().add(titleLabel);</span>
+<span class="fc" id="L46">        return container;</span>
+    }
+
+    @Override
+    public void setContent(List&lt;Node&gt; panels) {
+<span class="fc" id="L51">        content.getChildren().clear();</span>
+<span class="fc" id="L52">        content.getChildren().addAll(panels);</span>
+<span class="fc" id="L53">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

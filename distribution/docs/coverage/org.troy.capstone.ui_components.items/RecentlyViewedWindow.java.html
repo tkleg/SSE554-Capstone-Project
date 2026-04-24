@@ -3,14 +3,16 @@
 import java.util.List;
 
 import org.troy.capstone.constants.UISizeControl;
+import org.troy.capstone.interfaces.SearchedItemPanelDestinationUI;
 import org.troy.capstone.utils.UIUtils;
 
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 
 /** Window to display recently viewed items. It is a ScrollPane, which contains a VBox for the content. */
-public class RecentlyViewedWindow extends ScrollPane{
+public class RecentlyViewedWindow extends ScrollPane implements SearchedItemPanelDestinationUI {
 
     /** The VBox that holds the content of the window. */
     private final VBox content;
@@ -19,32 +21,34 @@ public class RecentlyViewedWindow extends ScrollPane{
      * @return A RecentlyViewedWindow instance with a title label and an empty scrollable content area.
     */
     public static RecentlyViewedWindow create() {
-<span class="fc" id="L22">        RecentlyViewedWindow window = new RecentlyViewedWindow();</span>
-<span class="fc" id="L23">        UIUtils.setSize(window, UISizeControl.RECENTLY_VIEWED_WINDOW_WIDTH.getValue(), UISizeControl.RECENTLY_VIEWED_WINDOW_HEIGHT.getValue());</span>
-<span class="fc" id="L24">        return window;</span>
+<span class="fc" id="L24">        RecentlyViewedWindow window = new RecentlyViewedWindow();</span>
+<span class="fc" id="L25">        UIUtils.setSize(window, UISizeControl.RECENTLY_VIEWED_WINDOW_WIDTH.getValue(), UISizeControl.RECENTLY_VIEWED_WINDOW_HEIGHT.getValue());</span>
+<span class="fc" id="L26">        UIUtils.setLineBorder(window, 5, 1);</span>
+<span class="fc" id="L27">        return window;</span>
     }
 
     /** Private constructor to initialize the RecentlyViewedWindow.
      * @pre The RecentlyViewedWindow should be properly initialized to contain a ScrollPane with a VBox as its content.
      * @post The RecentlyViewedWindow instance is created with a ScrollPane containing an empty VBox as its content, ready to have recently viewed items added to it.
      */
-<span class="fc" id="L31">    private RecentlyViewedWindow(){</span>
-<span class="fc" id="L32">        content = new VBox(UISizeControl.HEIGHT_PADDING.getValue());</span>
-<span class="fc" id="L33">        Label titleLabel = new Label(&quot;Recently Viewed Items&quot;);</span>
-<span class="fc" id="L34">        titleLabel.setStyle(&quot;-fx-font-size: 16px; -fx-font-weight: bold;&quot;);</span>
-<span class="fc" id="L35">        content.getChildren().add(titleLabel);</span>
-<span class="fc" id="L36">        setContent(content);</span>
-<span class="fc" id="L37">    }</span>
+<span class="fc" id="L34">    private RecentlyViewedWindow(){</span>
+<span class="fc" id="L35">        content = new VBox(UISizeControl.HEIGHT_PADDING.getValue());</span>
+<span class="fc" id="L36">        Label titleLabel = new Label(&quot;Recently Viewed Items&quot;);</span>
+<span class="fc" id="L37">        titleLabel.setStyle(&quot;-fx-font-size: 16px; -fx-font-weight: bold;&quot;);</span>
+<span class="fc" id="L38">        content.getChildren().add(titleLabel);</span>
+<span class="fc" id="L39">        setContent(content);</span>
+<span class="fc" id="L40">    }</span>
 
-    /** Sets the content of the RecentlyViewedWindow with the given list of SearchedItemPanel instances.
-     * @pre The panels list should contain valid SearchedItemPanel instances to be displayed in the RecentlyViewedWindow.
-     * @post The RecentlyViewedWindow's content is updated to display the provided SearchedItemPanel instances.
-     * @param panels The list of SearchedItemPanel instances to be displayed in the RecentlyViewedWindow.
+    /** Sets the content of the RecentlyViewedWindow with the given list of Node instances.
+     * @pre The panels list should contain valid Node instances to be displayed in the RecentlyViewedWindow.
+     * @post The RecentlyViewedWindow's content is updated to display the provided Node instances.
+     * @param panels The list of Node instances to be displayed in the RecentlyViewedWindow.
      */
-    public void setContent(List&lt;SearchedItemPanel&gt; panels) {
-<span class="fc" id="L45">        content.getChildren().clear();</span>
-<span class="fc" id="L46">        content.getChildren().addAll(panels);</span>
-<span class="fc" id="L47">    }</span>
+    @Override
+    public void setContent(List&lt;Node&gt; panels) {
+<span class="fc" id="L49">        content.getChildren().clear();</span>
+<span class="fc" id="L50">        content.getChildren().addAll(panels);</span>
+<span class="fc" id="L51">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

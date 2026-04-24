@@ -10,6 +10,7 @@ import org.troy.capstone.TestDataHolder;
 import org.troy.capstone.constants.TableColumnName;
 import org.troy.capstone.data_structures.RecentlyViewedQueue;
 import org.troy.capstone.data_structures.item_table.ItemHashMap;
+import org.troy.capstone.interfaces.SearchedItemPanelSourceUI;
 import org.troy.capstone.ui_components.items.RecentlyViewedWindow;
 import org.troy.capstone.ui_components.items.searched.SearchedItemPagination;
 
@@ -39,7 +40,7 @@ public class RecentlyViewedManagerTest {
 
         recentlyViewedWindow = RecentlyViewedWindow.create();
         searchedItemPagination = new SearchedItemPagination(itemHashMap);
-        recentlyViewedManager = RecentlyViewedManager.create(itemHashMap, recentlyViewedWindow, searchedItemPagination);
+        recentlyViewedManager = RecentlyViewedManager.create(itemHashMap, recentlyViewedWindow, (SearchedItemPanelSourceUI) searchedItemPagination);
 
         Field recentlyViewedQueueField = RecentlyViewedManager.class.getDeclaredField("recentlyViewedQueue");
         recentlyViewedQueueField.setAccessible(true);
@@ -60,7 +61,7 @@ public class RecentlyViewedManagerTest {
     public void testAddRecentlyViewedItemWithDuplicate() throws ReflectiveOperationException {
         String firstId = table.row(0).getString(TableColumnName.ID.getColumnName());
         for( int x = 0; x < 5; x++)
-            recentlyViewedManager.addRecentlyViewedItem(firstId);
+            recentlyViewedManager.onItemSelected(firstId);
 
         assert content.getChildren().size() == 1 : "Expected 1 recently viewed item, but got " + content.getChildren().size();
     }

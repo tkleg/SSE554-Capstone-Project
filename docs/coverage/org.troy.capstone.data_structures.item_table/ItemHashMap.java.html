@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ItemHashMap.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Project</a> &gt; <a href="index.source.html" class="el_package">org.troy.capstone.data_structures.item_table</a> &gt; <span class="el_source">ItemHashMap.java</span></div><h1>ItemHashMap.java</h1><pre class="source lang-java linenums">package org.troy.capstone.data_structures.item_table;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -34,10 +35,10 @@ public class ItemHashMap extends HashMap&lt;IdHashKey, Item&gt; {
      * @return itemMap An ItemHashMap containing all items from the table, with hash parameters optimized for the item IDs in the table.
      */
     public static ItemHashMap fromTable(Table table) {
-<span class="fc" id="L37">        ItemHashMap itemMap = new ItemHashMap(table.rowCount());</span>
-<span class="fc" id="L38">        System.out.println(&quot;P: &quot; + IdHashKey.getP() + &quot;, I: &quot; + IdHashKey.getI() + &quot;, J: &quot; + IdHashKey.getJ());</span>
-<span class="fc" id="L39">        itemMap.addAllItems(table);</span>
-<span class="fc" id="L40">        return itemMap;</span>
+<span class="fc" id="L38">        ItemHashMap itemMap = new ItemHashMap(table.rowCount());</span>
+<span class="fc" id="L39">        System.out.println(&quot;P: &quot; + IdHashKey.getP() + &quot;, I: &quot; + IdHashKey.getI() + &quot;, J: &quot; + IdHashKey.getJ());</span>
+<span class="fc" id="L40">        itemMap.addAllItems(table);</span>
+<span class="fc" id="L41">        return itemMap;</span>
     }
 
     /**
@@ -47,9 +48,9 @@ public class ItemHashMap extends HashMap&lt;IdHashKey, Item&gt; {
      *
      * @param data_size The number of items that will be added to the map, used to get a 0.75 load factor.
      */
-    public ItemHashMap(int data_size) {
-<span class="fc" id="L51">        super((int) (data_size / MAX_LOAD_FACTOR) + 1); // Calculate initial capacity based on expected data size and load factor</span>
-<span class="fc" id="L52">    }</span>
+    private ItemHashMap(int data_size) {
+<span class="fc" id="L52">        super((int) (data_size / MAX_LOAD_FACTOR) + 1); // Calculate initial capacity based on expected data size and load factor</span>
+<span class="fc" id="L53">    }</span>
     
     /**
      * Adds an item to the hashmap given a tablesaw Row.
@@ -59,9 +60,9 @@ public class ItemHashMap extends HashMap&lt;IdHashKey, Item&gt; {
      * @param itemRow A Row from a tablesaw Table containing item info.
      */
     private void addItem(Row itemRow) {
-<span class="fc" id="L62">        String itemId = itemRow.getString(TableColumnName.ID.getColumnName());        </span>
-<span class="fc" id="L63">        put(new IdHashKey(itemId), Item.fromRow(itemRow));</span>
-<span class="fc" id="L64">    }</span>
+<span class="fc" id="L63">        String itemId = itemRow.getString(TableColumnName.ID.getColumnName());        </span>
+<span class="fc" id="L64">        put(new IdHashKey(itemId), Item.fromRow(itemRow));</span>
+<span class="fc" id="L65">    }</span>
 
     /**
      * Adds all rows from a tablesaw Table to the hashmap as Items.
@@ -71,9 +72,9 @@ public class ItemHashMap extends HashMap&lt;IdHashKey, Item&gt; {
      * @param table A tablesaw Table with each row being an item to add to the map.
      */
     private void addAllItems(Table table) {
-<span class="fc" id="L74">        table.stream().forEach(this::addItem);</span>
-<span class="fc" id="L75">        System.out.println(&quot;Finished adding items. Total items added: &quot; + size());</span>
-<span class="fc" id="L76">    }</span>
+<span class="fc" id="L75">        table.stream().forEach(this::addItem);</span>
+<span class="fc" id="L76">        System.out.println(&quot;Finished adding items. Total items added: &quot; + size());</span>
+<span class="fc" id="L77">    }</span>
 
     /**
      * Retrieves an item from the hashmap given its ID.
@@ -85,11 +86,11 @@ public class ItemHashMap extends HashMap&lt;IdHashKey, Item&gt; {
      * @return An Optional containing the Item if found, or empty if not found.
      */
     public Optional&lt;Item&gt; getItem(String itemId) {
-<span class="fc" id="L88">        IdHashKey key = new IdHashKey(itemId);</span>
-<span class="fc" id="L89">        Optional&lt;Item&gt; item = Optional.ofNullable(get(key));</span>
-<span class="fc bfc" id="L90" title="All 2 branches covered.">        if (item.isEmpty())</span>
-<span class="fc" id="L91">            System.out.println(&quot;Item with ID &quot; + itemId + &quot; not found in ItemHashMap.&quot;);</span>
-<span class="fc" id="L92">        return item;</span>
+<span class="fc" id="L89">        IdHashKey key = new IdHashKey(itemId);</span>
+<span class="fc" id="L90">        Optional&lt;Item&gt; item = Optional.ofNullable(get(key));</span>
+<span class="fc bfc" id="L91" title="All 2 branches covered.">        if (item.isEmpty())</span>
+<span class="fc" id="L92">            System.out.println(&quot;Item with ID &quot; + itemId + &quot; not found in ItemHashMap.&quot;);</span>
+<span class="fc" id="L93">        return item;</span>
     }
 
     /**
@@ -102,23 +103,23 @@ public class ItemHashMap extends HashMap&lt;IdHashKey, Item&gt; {
      * @return bucketSizeCounts An array where the value at index N is the number of buckets that have N items in them, according to the specified hash function.
      */
     public int[] getFreshBucketSizeCount( List&lt;String&gt; itemIds, boolean useCustomHash ){
-<span class="fc" id="L105">        List&lt;Integer&gt; buckets = itemIds.stream() //List of the buckets that get hashed to</span>
-<span class="fc bfc" id="L106" title="All 2 branches covered.">            .map( id -&gt; useCustomHash ? new IdHashKey(id).hashCode() : id.hashCode() )</span>
-<span class="fc" id="L107">            .collect(Collectors.toList());</span>
-<span class="fc" id="L108">        int[] itemsInBucket = new int[TABLE_SIZE]; // Count of how many items get hashed to each bucket</span>
-<span class="fc bfc" id="L109" title="All 2 branches covered.">        for (int bucket : buckets)</span>
-<span class="fc" id="L110">            itemsInBucket[Math.floorMod(bucket, TABLE_SIZE)]++;</span>
+<span class="fc" id="L106">        List&lt;Integer&gt; buckets = itemIds.stream() //List of the buckets that get hashed to</span>
+<span class="fc bfc" id="L107" title="All 2 branches covered.">            .map( id -&gt; useCustomHash ? new IdHashKey(id).hashCode() : id.hashCode() )</span>
+<span class="fc" id="L108">            .collect(Collectors.toList());</span>
+<span class="fc" id="L109">        int[] itemsInBucket = new int[TABLE_SIZE]; // Count of how many items get hashed to each bucket</span>
+<span class="fc bfc" id="L110" title="All 2 branches covered.">        for (int bucket : buckets)</span>
+<span class="fc" id="L111">            itemsInBucket[Math.floorMod(bucket, TABLE_SIZE)]++;</span>
         
         // Find the maximum bucket size to avoid ArrayIndexOutOfBoundsException
-<span class="fc" id="L113">        int maxBucketSize = 0;</span>
-<span class="fc bfc" id="L114" title="All 2 branches covered.">        for (int count : itemsInBucket)</span>
-<span class="fc bfc" id="L115" title="All 2 branches covered.">            if (count &gt; maxBucketSize)</span>
-<span class="fc" id="L116">                maxBucketSize = count;</span>
+<span class="fc" id="L114">        int maxBucketSize = 0;</span>
+<span class="fc bfc" id="L115" title="All 2 branches covered.">        for (int count : itemsInBucket)</span>
+<span class="fc bfc" id="L116" title="All 2 branches covered.">            if (count &gt; maxBucketSize)</span>
+<span class="fc" id="L117">                maxBucketSize = count;</span>
         
-<span class="fc" id="L118">        int[] bucketSizeCounts = new int[maxBucketSize + 1]; // Count of how many buckets have a certain size (0 items, 1 item, 2 items, etc.)</span>
-<span class="fc bfc" id="L119" title="All 2 branches covered.">        for (int count : itemsInBucket)</span>
-<span class="fc" id="L120">            bucketSizeCounts[count]++;</span>
-<span class="fc" id="L121">        return bucketSizeCounts;</span>
+<span class="fc" id="L119">        int[] bucketSizeCounts = new int[maxBucketSize + 1]; // Count of how many buckets have a certain size (0 items, 1 item, 2 items, etc.)</span>
+<span class="fc bfc" id="L120" title="All 2 branches covered.">        for (int count : itemsInBucket)</span>
+<span class="fc" id="L121">            bucketSizeCounts[count]++;</span>
+<span class="fc" id="L122">        return bucketSizeCounts;</span>
     }
 
     /**
@@ -127,7 +128,7 @@ public class ItemHashMap extends HashMap&lt;IdHashKey, Item&gt; {
      * @return A list of IdHashKey objects representing the keys in the hashmap.
      */
     private List&lt;IdHashKey&gt; getKeysAsList() {
-<span class="fc" id="L130">        return new ArrayList&lt;&gt;(keySet());</span>
+<span class="fc" id="L131">        return new ArrayList&lt;&gt;(keySet());</span>
     }
 
     /**
@@ -136,9 +137,9 @@ public class ItemHashMap extends HashMap&lt;IdHashKey, Item&gt; {
      * @return A list of strings representing the item IDs in the hashmap.
      */
     public List&lt;String&gt; getItemIdsAsList() {
-<span class="fc" id="L139">        return getKeysAsList().stream()</span>
-<span class="fc" id="L140">            .map(IdHashKey::getValue)</span>
-<span class="fc" id="L141">            .collect(Collectors.toList());</span>
+<span class="fc" id="L140">        return getKeysAsList().stream()</span>
+<span class="fc" id="L141">            .map(IdHashKey::getValue)</span>
+<span class="fc" id="L142">            .collect(Collectors.toList());</span>
     }
 
     /**
@@ -153,28 +154,31 @@ public class ItemHashMap extends HashMap&lt;IdHashKey, Item&gt; {
      */
     @SuppressWarnings(&quot;unused&quot;)
     private void printBucketSizeCountsCustomVsBuiltIn(){
-<span class="fc" id="L156">        String col1 = &quot;Entries in Bucket (N)&quot;, col2 = &quot;Buckets with N entries (Custom Hash)&quot;, col3 = &quot;Buckets with N entries (Built-in Hash)&quot;;</span>
-<span class="fc" id="L157">        System.out.printf(&quot;%-&quot; + col1.length() + &quot;s %s %-&quot; + col2.length() + &quot;s %s %-&quot; + col3.length() + &quot;s%n&quot;, col1, &quot;|&quot;, col2, &quot;|&quot;, col3);</span>
-<span class="fc" id="L158">        int[] customBucketSizeCounts = getFreshBucketSizeCount(getItemIdsAsList(), true); // Use fresh calculation with current I,J</span>
-<span class="fc" id="L159">        int[] builtInBucketSizeCounts = getFreshBucketSizeCount(getItemIdsAsList(), false); // Use fresh calculation for built-in String hash</span>
-<span class="fc" id="L160">        int maxSize = Math.max(customBucketSizeCounts.length, builtInBucketSizeCounts.length);</span>
-<span class="fc bfc" id="L161" title="All 2 branches covered.">        for (int i = 0; i &lt; maxSize; i++){</span>
-<span class="pc bpc" id="L162" title="1 of 2 branches missed.">            int customCount = i &lt; customBucketSizeCounts.length ? customBucketSizeCounts[i] : 0;</span>
-<span class="pc bpc" id="L163" title="1 of 2 branches missed.">            int builtInCount = i &lt; builtInBucketSizeCounts.length ? builtInBucketSizeCounts[i] : 0;</span>
-<span class="fc" id="L164">            System.out.printf(&quot;%-&quot; + col1.length() + &quot;d %s %-&quot; + col2.length() + &quot;d %s %-&quot; + col3.length() + &quot;d%n&quot;, i, &quot;|&quot;, customCount, &quot;|&quot;, builtInCount);</span>
+<span class="fc" id="L157">        String col1 = &quot;Entries in Bucket (N)&quot;, col2 = &quot;Buckets with N entries (Custom Hash)&quot;, col3 = &quot;Buckets with N entries (Built-in Hash)&quot;;</span>
+<span class="fc" id="L158">        System.out.printf(&quot;%-&quot; + col1.length() + &quot;s %s %-&quot; + col2.length() + &quot;s %s %-&quot; + col3.length() + &quot;s%n&quot;, col1, &quot;|&quot;, col2, &quot;|&quot;, col3);</span>
+<span class="fc" id="L159">        int[] customBucketSizeCounts = getFreshBucketSizeCount(getItemIdsAsList(), true); // Use fresh calculation with current I,J</span>
+<span class="fc" id="L160">        int[] builtInBucketSizeCounts = getFreshBucketSizeCount(getItemIdsAsList(), false); // Use fresh calculation for built-in String hash</span>
+<span class="fc" id="L161">        int maxSize = Math.max(customBucketSizeCounts.length, builtInBucketSizeCounts.length);</span>
+<span class="fc" id="L162">        customBucketSizeCounts = Arrays.copyOf(customBucketSizeCounts, maxSize); //Pad with zeros to match size</span>
+<span class="fc" id="L163">        builtInBucketSizeCounts = Arrays.copyOf(builtInBucketSizeCounts, maxSize); //Pad with zeros to match size</span>
+<span class="fc bfc" id="L164" title="All 2 branches covered.">        for (int i = 0; i &lt; maxSize; i++){</span>
+<span class="fc" id="L165">            int customCount = customBucketSizeCounts[i];</span>
+<span class="fc" id="L166">            int builtInCount = builtInBucketSizeCounts[i];</span>
+<span class="fc" id="L167">            System.out.printf(&quot;%-&quot; + col1.length() + &quot;d %s %-&quot; + col2.length() + &quot;d %s %-&quot; + col3.length() + &quot;d%n&quot;, i, &quot;|&quot;, customCount, &quot;|&quot;, builtInCount);</span>
         }
-<span class="fc" id="L166">    }</span>
+<span class="fc" id="L169">    }</span>
 
     /**
      * Creates a deep copy of the ItemHashMap.
      *
      * @return A new ItemHashMap containing the same entries as the original.
+     * @throws CloneNotSupportedException if any of the keys or values in the map do not support cloning.
      */
-    public ItemHashMap copy() {
-<span class="fc" id="L174">        ItemHashMap copy = new ItemHashMap(size());</span>
-<span class="fc bfc" id="L175" title="All 2 branches covered.">        for (Entry&lt;IdHashKey, Item&gt; entry : entrySet())</span>
-<span class="fc" id="L176">            copy.put(entry.getKey(), entry.getValue());</span>
-<span class="fc" id="L177">        return copy;</span>
+    public ItemHashMap copy() throws CloneNotSupportedException {
+<span class="fc" id="L178">        ItemHashMap copy = new ItemHashMap(size());</span>
+<span class="fc bfc" id="L179" title="All 2 branches covered.">        for (Entry&lt;IdHashKey, Item&gt; entry : entrySet())</span>
+<span class="fc" id="L180">            copy.put((IdHashKey) entry.getKey().clone(), (Item) entry.getValue().clone());</span>
+<span class="fc" id="L181">        return copy;</span>
     }
 
 }

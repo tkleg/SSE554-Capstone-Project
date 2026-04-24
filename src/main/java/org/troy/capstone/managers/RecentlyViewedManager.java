@@ -1,12 +1,13 @@
 package org.troy.capstone.managers;
 
+import java.util.ArrayList;
+
 import org.troy.capstone.data_structures.RecentlyViewedQueue;
 import org.troy.capstone.data_structures.item_table.ItemHashMap;
+import org.troy.capstone.interfaces.SearchedItemPanelDestinationUI;
 import org.troy.capstone.interfaces.SearchedItemPanelInteractor;
+import org.troy.capstone.interfaces.SearchedItemPanelSourceUI;
 import org.troy.capstone.ui_components.items.RecentlyViewedWindow;
-import org.troy.capstone.ui_components.items.searched.SearchedItemPagination;
-
-import javafx.scene.Node;
 
 /**
  * Manager for recently viewed items, bridges RecentlyViewedQueue and RecentlyViewedWindow. Handles adding items to the recently viewed queue and updating the window content accordingly without the window and queue depending on each other.
@@ -29,17 +30,18 @@ public class RecentlyViewedManager implements SearchedItemPanelInteractor {
         this.recentlyViewedWindow = recentlyViewedWindow;
     }
 
-    /** Factory method to create a RecentlyViewedManager and attach it as a listener to the given SearchedItemPagination, allowing to receive item selection events from within the SearchedItemPagination.
+    /** Factory method to create a RecentlyViewedManager and attach it as a listener to the given SearchedItemPanelSourceUI, allowing to receive item selection events from within the SearchedItemPanelSourceUI.
      * 
-     * @pre itemHashMap, recentlyViewedWindow, and itemPagination are not null. itemPagination is an instance of SearchedItemPagination. recentlyViewedWindow is an instance of RecentlyViewedWindow.
+     * @pre itemHashMap, recentlyViewedWindow, and panelSourceUI are not null. destinationUI is an instance of RecentlyViewedWindow and panelSourceUI is an instance of SearchedItemPagination.
+      *
      * @param itemHashMap The ItemHashMap to use for retrieving item details.
-     * @param recentlyViewedWindow The RecentlyViewedWindow to use for displaying recently viewed items.
-     * @param itemPagination The SearchedItemPagination that will hold the search results, used to attach listeners to the item panels within.
-     * @return A new instance of RecentlyViewedManager with the given parameters, and registered as a listener to the itemPagination.
+     * @param destinationUI The SearchedItemPanelDestinationUI to use for displaying recently viewed items, should be the same instance as recentlyViewedWindow but typed as the interface it implements.
+     * @param panelSourceUI The SearchedItemPanelSourceUI to register as a listener to receive item selection events from the searched item panels, should be the same instance as the SearchedItemPagination but typed as the interface it implements.
+     * @return A new instance of RecentlyViewedManager with the given parameters, and registered as a listener to the panelSourceUI.
      */
-    static RecentlyViewedManager create(ItemHashMap itemHashMap, Node recentlyViewedWindow, Node itemPagination) {
-        RecentlyViewedManager manager = new RecentlyViewedManager(itemHashMap, (RecentlyViewedWindow) recentlyViewedWindow);
-        ((SearchedItemPagination) itemPagination).addSearchedItemPanelInteractor(manager);
+    static RecentlyViewedManager create(ItemHashMap itemHashMap, SearchedItemPanelDestinationUI destinationUI, SearchedItemPanelSourceUI panelSourceUI) {
+        RecentlyViewedManager manager = new RecentlyViewedManager(itemHashMap, (RecentlyViewedWindow) destinationUI);
+        panelSourceUI.addSearchedItemPanelInteractor(manager);
         return manager;
     }
     
@@ -49,18 +51,10 @@ public class RecentlyViewedManager implements SearchedItemPanelInteractor {
      */
     @Override
     public void onItemSelected(String itemId) {
-        addRecentlyViewedItem(itemId);
-    }
-    
-    /** Adds an item to the recently viewed queue and updates the recently viewed window content.
-      * @pre itemId is not null and corresponds to a valid key in the itemHashMap used to create the recentlyViewedQueue.
-      * @post If the item is not already in the queue, it is added and the oldest item is removed. If the added item exists already, it is moved to the top. The recently viewed window content is updated to reflect the current state of the recently viewed queue.
-      * @param itemId The ID of the item to add to recently viewed.
-      */
-    public void addRecentlyViewedItem(String itemId) {
-        System.out.println("Adding item with ID " + itemId + " to recently viewed.");
+        System.out.println("Item selected with ID: " + itemId +" in RecentlyViewedManager");
         recentlyViewedQueue.addAttempt(itemId);
-        recentlyViewedWindow.setContent(recentlyViewedQueue.peekAll());
+        //Convert List<SearchedItemPanel> to List<Node> for setContent
+        recentlyViewedWindow.setContent(new ArrayList<>(recentlyViewedQueue.peekAll()));
     }
 
 }

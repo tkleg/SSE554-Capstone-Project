@@ -24,8 +24,8 @@ public class RecentlyViewedQueue extends ArrayBlockingQueue&lt;SearchedItemPanel
      * @param itemHashMap The ItemHashMap to use for retrieving item details.
      */
     public RecentlyViewedQueue(ItemHashMap itemHashMap) {
-<span class="fc" id="L27">        super(MiscValues.RECENTLY_VIEWED_QUEUE_SIZE.getValue());</span>
-<span class="fc" id="L28">        itemIds = new ArrayBlockingQueue&lt;&gt;(MiscValues.RECENTLY_VIEWED_QUEUE_SIZE.getValue());</span>
+<span class="fc" id="L27">        super(MiscValues.RECENTLY_VIEWED_QUEUE_SIZE.getIntValue());</span>
+<span class="fc" id="L28">        itemIds = new ArrayBlockingQueue&lt;&gt;(MiscValues.RECENTLY_VIEWED_QUEUE_SIZE.getIntValue());</span>
 <span class="fc" id="L29">        this.itemHashMap = itemHashMap;</span>
 <span class="fc" id="L30">    }</span>
     

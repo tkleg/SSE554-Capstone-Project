@@ -19,7 +19,9 @@ public enum UIElementName {
     /** UI element name for the sorting option dropdown. */
     SORTING_OPTION_DROPDOWN("SORTING_OPTION_DROPDOWN"),
     /** UI element name for the recently viewed window. */
-    RECENTLY_VIEWED_WINDOW("RECENTLY_VIEWED_WINDOW");
+    RECENTLY_VIEWED_WINDOW("RECENTLY_VIEWED_WINDOW"),
+    /** UI element name for the container holding similar items. */
+    SIMILAR_ITEMS_CONTAINER("SIMILAR_ITEMS_CONTAINER");
 
     /** The string value associated with this enum constant, used for UI element identifiers. */
     private final String value;

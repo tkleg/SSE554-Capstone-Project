@@ -11,12 +11,14 @@ import org.troy.capstone.ui_components.SearchBar;
 import org.troy.capstone.ui_components.filters.StarRatingFilter;
 import org.troy.capstone.ui_components.filters.categorical.FiltersContainer;
 import org.troy.capstone.ui_components.items.RecentlyViewedWindow;
+import org.troy.capstone.ui_components.items.SimilarItemsContainer;
 import org.troy.capstone.ui_components.items.searched.SearchedItemPagination;
 import org.troy.capstone.utils.TableUtils;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import tech.tablesaw.api.Table;
@@ -34,19 +36,38 @@ public class Main extends Application {
         GeneralManager generalManager = new GeneralManager(table, itemHashMap);
         
         GridPane gridPane = new GridPane();
+        /**
+        RowConstraints row1 = new RowConstraints();
+        row1.setVgrow(javafx.scene.layout.Priority.NEVER);
+        row1.setMinHeight(javafx.scene.layout.Region.USE_COMPUTED_SIZE);
+        row1.setPrefHeight(javafx.scene.layout.Region.USE_COMPUTED_SIZE);
+
+        RowConstraints row2 = new RowConstraints();
+        row2.setVgrow(javafx.scene.layout.Priority.NEVER);
+        row2.setMinHeight(javafx.scene.layout.Region.USE_COMPUTED_SIZE);
+        row2.setPrefHeight(javafx.scene.layout.Region.USE_COMPUTED_SIZE);
+
+        RowConstraints row3 = new RowConstraints();
+        row3.setVgrow(javafx.scene.layout.Priority.NEVER);
+        row3.setMinHeight(javafx.scene.layout.Region.USE_COMPUTED_SIZE);
+        row3.setPrefHeight(javafx.scene.layout.Region.USE_COMPUTED_SIZE);
+
+        gridPane.getRowConstraints().addAll(row1, row2, row3);
+        */
+
         gridPane.setPadding(new Insets(20)); // Add 20px padding around all edges
         gridPane.setHgap(UISizeControl.WIDTH_PADDING.getValue()); // 10px horizontal spacing between columns
         gridPane.setVgap(UISizeControl.HEIGHT_PADDING.getValue()); // 10px vertical spacing between rows
 
         SearchedItemPagination itemPagination = new SearchedItemPagination(itemHashMap);
         generalManager.addUIElement(UIElementName.SEARCHED_ITEM_PAGINATION, itemPagination);
-        
-        gridPane.add(itemPagination, 0, 1, 2, 3);
+        gridPane.add(itemPagination, 0, 1, 2, 2);
+
         //SearchedItemContainer itemScroller = SearchedItemContainer.createFilledContainer(table.first(firstNItems), itemHashMap);
         //gridPane.add(itemScroller, 0, 1, 2, 3);
 
         RecentlyViewedWindow recentlyViewedWindow = RecentlyViewedWindow.create();
-        gridPane.add(recentlyViewedWindow, 3, 1, 1, 2);
+        gridPane.add(recentlyViewedWindow, 3, 1, 1, 1);
         generalManager.addUIElement(UIElementName.RECENTLY_VIEWED_WINDOW, recentlyViewedWindow);
         
         //Get and setup the SearchBar
@@ -76,13 +97,30 @@ public class Main extends Application {
         generalManager.addUIElement(UIElementName.STAR_RATING_FILTER, starRatingFilter);
         gridPane.add(starRatingFilter, 3, 0, 1, 1);
         
+        SimilarItemsContainer similarItemsContainer = SimilarItemsContainer.create();
+        generalManager.addUIElement(UIElementName.SIMILAR_ITEMS_CONTAINER, similarItemsContainer);
+        gridPane.add(similarItemsContainer, 2, 2, 2, 1);
 
-        gridPane.setPrefSize(1000, 700);
-        
+        // Set preferred size to fit all content initially
+        gridPane.setPrefSize(GridPane.USE_COMPUTED_SIZE, GridPane.USE_COMPUTED_SIZE);
+
+        // Let the scene size be determined by the gridPane's preferred size
         Scene scene = new Scene(gridPane);
         primaryStage.setScene(scene);
+        primaryStage.sizeToScene();
         primaryStage.setTitle("Shopping App");
         primaryStage.show();
+
+        // After showing, wrap in a ScrollPane to allow scrolling only when window is shrunken
+        ScrollPane scrollPane = new ScrollPane(gridPane);
+        scrollPane.setFitToWidth(true);
+        scrollPane.setFitToHeight(true);
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        scrollPane.setPannable(false);
+
+        // Set the scene root to the scrollPane after initial display
+        scene.setRoot(scrollPane);
 
     }
 

@@ -8,6 +8,8 @@ import org.troy.capstone.constants.TableColumnName;
 import org.troy.capstone.constants.UIDataName;
 import org.troy.capstone.constants.UIElementName;
 import org.troy.capstone.data_structures.item_table.ItemHashMap;
+import org.troy.capstone.interfaces.SearchedItemPanelDestinationUI;
+import org.troy.capstone.interfaces.SearchedItemPanelSourceUI;
 import org.troy.capstone.search_engine.SearchEngine;
 import org.troy.capstone.search_engine.sorting.Sorter;
 
@@ -29,8 +31,14 @@ public class GeneralManager {
     /** The ItemHashMap containing all items, used by the SearchEngine for filtering and searching and by the RecentlyViewedManager for retrieving items. */
     private final ItemHashMap itemHashMap;
 
+    /** The original table containing the items, used for retrieving items by index. */
+    private final Table table;
+
     /** A flag to track whether the RecentlyViewedManager has been created. Used to prevent duplicate creation. */
     private boolean recentlyViewedManagerCreated = false;
+
+    /** A flag to track whether the SimilarItemsManager has been created. Used to prevent duplicate creation. */
+    private boolean similarItemsManagerCreated = false;
 
     /** Constructor for GeneralManager, filled from a tablesaw Table.
      * @param table The tablesaw Table containing the item data to be used by the SearchEngine.
@@ -38,6 +46,7 @@ public class GeneralManager {
      */
     public GeneralManager(Table table, ItemHashMap itemHashMap) {
         this.itemHashMap = itemHashMap;
+        this.table = table;
         uiManager = new UIElementManager();
         searchEngine = new SearchEngine(table);
     }
@@ -76,8 +85,12 @@ public class GeneralManager {
     public void addUIElement(UIElementName key, Node element) {
         uiManager.addElement(key, element);
         if( !recentlyViewedManagerCreated && readyToMakeRecentlyViewedManager()) {
-            RecentlyViewedManager.create(itemHashMap, uiManager.getElement(UIElementName.RECENTLY_VIEWED_WINDOW).get(), uiManager.getElement(UIElementName.SEARCHED_ITEM_PAGINATION).get());
+            RecentlyViewedManager.create(itemHashMap, (SearchedItemPanelDestinationUI) uiManager.getElement(UIElementName.RECENTLY_VIEWED_WINDOW).get(), (SearchedItemPanelSourceUI) uiManager.getElement(UIElementName.SEARCHED_ITEM_PAGINATION).get());
             recentlyViewedManagerCreated = true;
+        }
+        if( !similarItemsManagerCreated && readyToMakeSimilarItemsManager()) {
+            SimilarItemsManager.create(itemHashMap, table, (SearchedItemPanelDestinationUI) uiManager.getElement(UIElementName.SIMILAR_ITEMS_CONTAINER).get(), (SearchedItemPanelSourceUI) uiManager.getElement(UIElementName.SEARCHED_ITEM_PAGINATION).get());
+            similarItemsManagerCreated = true;
         }
     }
 
@@ -86,8 +99,17 @@ public class GeneralManager {
      * 
      * @return true if both the RecentlyViewedWindow and SearchedItemPagination components are present in the UIElementManager, false otherwise.
      */
-    private boolean readyToMakeRecentlyViewedManager() {
+    boolean readyToMakeRecentlyViewedManager() {
         return uiManager.getElement(UIElementName.RECENTLY_VIEWED_WINDOW).isPresent() && uiManager.getElement(UIElementName.SEARCHED_ITEM_PAGINATION).isPresent();
+    }
+
+    /**
+     * Checks if the necessary UI elements for creating the SimilarItemsManager (SearchedItemPagination and SimilarItemsContainer) are present in the UIElementManager.
+     * 
+     * @return true if both the SimilarItemsContainer and SearchedItemPagination components are present in the UIElementManager, false otherwise.
+     */
+    boolean readyToMakeSimilarItemsManager() {
+        return uiManager.getElement(UIElementName.SIMILAR_ITEMS_CONTAINER).isPresent() && uiManager.getElement(UIElementName.SEARCHED_ITEM_PAGINATION).isPresent();
     }
 
     /**

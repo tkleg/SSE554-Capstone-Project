@@ -12,6 +12,7 @@ import org.troy.capstone.constants.TableColumnName;
 import org.troy.capstone.constants.URL;
 import org.troy.capstone.utils.Converters;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import net.datafaker.Faker;
@@ -19,11 +20,12 @@ import tech.tablesaw.api.Row;
 
 
 /**
- * A shopping item with various attributes. Main entity of the application.
+ * A shopping item with various attributes. Main entity of the application. Implements cloneable to allow deep copy of itemHashMap.
  */
 @Data
 @Builder
-public class Item {
+@AllArgsConstructor
+public class Item implements Cloneable{
     /** Faker instance for generating random data. */
     private static final Faker faker = new Faker();
 
@@ -60,6 +62,10 @@ public class Item {
     /** Jaro-Winkler similarity instance for calculating string similarity. */
     private static final JaroWinklerSimilarity JARO_WINKLER_SIMILARITY = new JaroWinklerSimilarity();
 
+    /** Private constructor to prevent direct instantiation of the Item class and to satisfy a Javadoc warning. */
+    @SuppressWarnings("unused")
+    private Item() {}
+    
     /**
      * Returns the value of the specified attribute for this item. The attribute is determined by the provided TableColumnName enum value.
      * 
@@ -89,7 +95,7 @@ public class Item {
             default -> throw new IllegalArgumentException("Unexpected value: " + column);
         };
     }
-    
+
     /**
      * Generates a random Item object with realistic values for each attribute using the Faker library.
      * 
@@ -160,5 +166,17 @@ public class Item {
         similarity += ItemSimilarityWeights.REVIEW_SCORE.getWeight() * Math.abs(this.reviewScore - other.reviewScore) / 5.0f; //Normalize review score difference to [0, 1] range based on max score of 5
         similarity += ItemSimilarityWeights.DATE_ADDED.getWeight() * ((float) Math.abs(this.dateAdded.getTime() - other.dateAdded.getTime()) / TimeUnit.DAYS.toMillis(1000)); //Normalize date difference to [0, 1] range based on 1000 days
         return similarity;
+    }
+
+    /** Creates and returns a deep copy of this Item instance.
+     * @return A deep copy of this Item instance.
+     * @throws CloneNotSupportedException if the Item cannot be cloned.
+     */
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        Item cloned = (Item) super.clone();
+        cloned.tags = new HashSet<>(this.tags); //Deep copy of mutable Set
+        cloned.dateAdded = (Date) this.dateAdded.clone(); //Deep copy of mutable Date
+        return cloned;
     }
 }

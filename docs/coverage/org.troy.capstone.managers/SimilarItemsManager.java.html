@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SimilarItemsManager.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Project</a> &gt; <a href="index.source.html" class="el_package">org.troy.capstone.managers</a> &gt; <span class="el_source">SimilarItemsManager.java</span></div><h1>SimilarItemsManager.java</h1><pre class="source lang-java linenums">package org.troy.capstone.managers;
+
+
+import java.util.ArrayList;
+
+import org.troy.capstone.data_structures.SimilarItemsGraph;
+import org.troy.capstone.data_structures.item_table.ItemHashMap;
+import org.troy.capstone.interfaces.SearchedItemPanelDestinationUI;
+import org.troy.capstone.interfaces.SearchedItemPanelInteractor;
+import org.troy.capstone.interfaces.SearchedItemPanelSourceUI;
+import org.troy.capstone.ui_components.items.SimilarItemsContainer;
+
+import tech.tablesaw.api.Table;
+
+/** The SimilarItemsManager class manages the display of similar items to a selected item. It listens for item selection events and updates a SimilarItemsContainer accordingly. */
+public class SimilarItemsManager implements SearchedItemPanelInteractor {
+
+    /** The SimilarItemsContainer that displays the similar items. */
+    private final SimilarItemsContainer similarItemsContainer;
+    /** The SimilarItemsGraph that represents the similarity relationships between items. */
+    private final SimilarItemsGraph similarItemsGraph;
+    
+    /** Private constructor to enforce the use of the static factory method.
+     * @param similarItemsContainer The SimilarItemsContainer that will display the similar items, used to update the displayed similar items when new items are added.
+     * @param itemHashMap The ItemHashMap containing all items, used for retrieving items to display as similar items.
+     * @param table The Table containing all items, used for retrieving items via their index when finding similar items to display.
+     * @pre similarItemsContainer is not null.
+     */
+<span class="fc" id="L29">    private SimilarItemsManager(SimilarItemsContainer similarItemsContainer, ItemHashMap itemHashMap, Table table) {</span>
+<span class="fc" id="L30">        this.similarItemsContainer = similarItemsContainer;</span>
+<span class="fc" id="L31">        this.similarItemsGraph = new SimilarItemsGraph(itemHashMap, table, null);</span>
+<span class="fc" id="L32">    }</span>
+
+     /**
+      * Static factory method for creating a SimilarItemsManager instance. Also handles registering the manager as a listener to the searched item panels in the searched item pagination, allowing it to update the similar items content based on user interactions with the search results.
+      * @param itemHashMap The ItemHashMap containing all items, used for retrieving items to display as similar items.
+      * @param table The Table containing all items, used for retrieving items via their index when finding similar items to display.
+      * @param destinationUI The SearchedItemPanelDestinationUI that will display the similar items, used to update the displayed similar items when new items are added.
+      * @param panelSourceUI The SearchedItemPanelSourceUI that will hold the search results, used to attach listeners to the item panels within.
+      * @return A new instance of SimilarItemsManager with the given parameters, and registered as a listener to the panelSourceUI.
+      */
+    public static SimilarItemsManager create(ItemHashMap itemHashMap, Table table, SearchedItemPanelDestinationUI destinationUI, SearchedItemPanelSourceUI panelSourceUI) {
+<span class="fc" id="L43">        SimilarItemsManager manager = new SimilarItemsManager((SimilarItemsContainer) destinationUI, itemHashMap, table);</span>
+<span class="fc" id="L44">        panelSourceUI.addSearchedItemPanelInteractor(manager);</span>
+<span class="fc" id="L45">        return manager;</span>
+    }
+
+    /** Called when an item is selected in the searched item panel. Updates the similar items container content to display items similar to the selected item.
+     * @pre itemId is not null and corresponds to a valid key in the itemHashMap.
+     * @param itemId The ID of the selected item.
+     */
+    @Override
+    public void onItemSelected(String itemId) {
+<span class="fc" id="L54">        System.out.println(&quot;Item selected with ID: \&quot;&quot; + itemId + &quot;\&quot; in SimilarItemsManager&quot;);</span>
+<span class="fc" id="L55">        similarItemsContainer.setContent(new ArrayList&lt;&gt;(similarItemsGraph.findSimilarItems(itemId)));</span>
+<span class="fc" id="L56">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

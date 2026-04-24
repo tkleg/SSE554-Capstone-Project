@@ -87,14 +87,10 @@ public class SearchEngine {
      */
     public Table applySearchQueryFilter(String userQuery, Table preQueryFilteredTable) {
         System.out.println("Applying search query filter with user query: \"" + userQuery + "\"");
-        if( userQuery == null || userQuery.trim().isEmpty() ){
-            System.out.println("User query is null or empty, skipping search query filter.");
-            return preQueryFilteredTable;
-        }
-
+    
         Map<String, Float> searchResults = queryFilter.search(userQuery);
 
-        if( searchResults == null || searchResults.isEmpty() )
+        if( searchResults.isEmpty() )
             return preQueryFilteredTable;
         else{
             StringColumn idColumn = preQueryFilteredTable.stringColumn(TableColumnName.ID.getColumnName());
@@ -218,22 +214,19 @@ public class SearchEngine {
             Set<String> selectedValues = filtersContainer.get(filterKey);
 
             if( selectedValues != null && !selectedValues.isEmpty() ) {
-                Selection columnSelection = null;
+                Selection columnSelection = selectAll();
 
                 //Combine selected values for the column with OR
                 for( String value : selectedValues ) {
                     Selection valueSelection = table.stringColumn(column.getColumnName()).lowerCase().isEqualTo(value.toLowerCase());
-                    if( columnSelection == null )
+                    if( columnSelection.size() == table.rowCount() )//First value for the column, so initialize the column selection to this value's selection
                         columnSelection = valueSelection;
                     else
                         columnSelection = columnSelection.or(valueSelection);
                 }
 
-                //Ensure that one of the selected values for the column is present with AND
-                if( columnSelection != null ) {
-                    categoricalSelection = categoricalSelection.and(columnSelection);
-                    System.out.println("After applying " + filterKey + " filter: " + categoricalSelection.size() + " items selected for cateogries. Not including non-categorical filters.");
-                }
+                categoricalSelection = categoricalSelection.and(columnSelection);
+                System.out.println("After applying " + filterKey + " filter: " + categoricalSelection.size() + " items selected for cateogries. Not including non-categorical filters.");
             }else if( selectedValues != null )//Empty but not null
                 System.out.println("No values selected for " + filterKey + ", skipping " + filterKey + " filter.");
             else//Null, meaning the key was not found in the filters container

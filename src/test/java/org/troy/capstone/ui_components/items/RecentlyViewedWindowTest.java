@@ -9,11 +9,12 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.troy.capstone.TestDataHolder;
 import org.troy.capstone.constants.TableColumnName;
 import org.troy.capstone.data_structures.item_table.ItemHashMap;
+import org.troy.capstone.interfaces.SearchedItemPanelDestinationUI;
+import org.troy.capstone.interfaces.SearchedItemPanelSourceUI;
 import org.troy.capstone.managers.RecentlyViewedManager;
 import org.troy.capstone.ui_components.items.searched.SearchedItemPagination;
 
 import javafx.embed.swing.JFXPanel;
-import javafx.scene.Node;
 import javafx.scene.layout.VBox;
 import tech.tablesaw.api.Table;
 
@@ -40,11 +41,11 @@ public class RecentlyViewedWindowTest {
     })
     public void testRecentlyViewedWindow(int queueInputs, int expectedQueueSize) throws IllegalArgumentException, ReflectiveOperationException {
         RecentlyViewedWindow window = RecentlyViewedWindow.create();
-        Method createManagerMethod = RecentlyViewedManager.class.getDeclaredMethod("create", ItemHashMap.class, Node.class, Node.class);
+        Method createManagerMethod = RecentlyViewedManager.class.getDeclaredMethod("create", ItemHashMap.class, SearchedItemPanelDestinationUI.class, SearchedItemPanelSourceUI.class);
         createManagerMethod.setAccessible(true);
         RecentlyViewedManager manager = (RecentlyViewedManager) createManagerMethod.invoke(null, itemHashMap, window, new SearchedItemPagination(itemHashMap));
         table.first(queueInputs).stringColumn(TableColumnName.ID.getColumnName())
-            .forEach(manager::addRecentlyViewedItem);
+            .forEach(manager::onItemSelected);
 
         Field contentField = RecentlyViewedWindow.class.getDeclaredField("content");
         contentField.setAccessible(true);

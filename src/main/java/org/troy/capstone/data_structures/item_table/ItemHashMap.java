@@ -1,6 +1,7 @@
 package org.troy.capstone.data_structures.item_table;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -47,7 +48,7 @@ public class ItemHashMap extends HashMap<IdHashKey, Item> {
      *
      * @param data_size The number of items that will be added to the map, used to get a 0.75 load factor.
      */
-    public ItemHashMap(int data_size) {
+    private ItemHashMap(int data_size) {
         super((int) (data_size / MAX_LOAD_FACTOR) + 1); // Calculate initial capacity based on expected data size and load factor
     }
     
@@ -158,9 +159,11 @@ public class ItemHashMap extends HashMap<IdHashKey, Item> {
         int[] customBucketSizeCounts = getFreshBucketSizeCount(getItemIdsAsList(), true); // Use fresh calculation with current I,J
         int[] builtInBucketSizeCounts = getFreshBucketSizeCount(getItemIdsAsList(), false); // Use fresh calculation for built-in String hash
         int maxSize = Math.max(customBucketSizeCounts.length, builtInBucketSizeCounts.length);
+        customBucketSizeCounts = Arrays.copyOf(customBucketSizeCounts, maxSize); //Pad with zeros to match size
+        builtInBucketSizeCounts = Arrays.copyOf(builtInBucketSizeCounts, maxSize); //Pad with zeros to match size
         for (int i = 0; i < maxSize; i++){
-            int customCount = i < customBucketSizeCounts.length ? customBucketSizeCounts[i] : 0;
-            int builtInCount = i < builtInBucketSizeCounts.length ? builtInBucketSizeCounts[i] : 0;
+            int customCount = customBucketSizeCounts[i];
+            int builtInCount = builtInBucketSizeCounts[i];
             System.out.printf("%-" + col1.length() + "d %s %-" + col2.length() + "d %s %-" + col3.length() + "d%n", i, "|", customCount, "|", builtInCount);
         }
     }
@@ -169,11 +172,12 @@ public class ItemHashMap extends HashMap<IdHashKey, Item> {
      * Creates a deep copy of the ItemHashMap.
      *
      * @return A new ItemHashMap containing the same entries as the original.
+     * @throws CloneNotSupportedException if any of the keys or values in the map do not support cloning.
      */
-    public ItemHashMap copy() {
+    public ItemHashMap copy() throws CloneNotSupportedException {
         ItemHashMap copy = new ItemHashMap(size());
         for (Entry<IdHashKey, Item> entry : entrySet())
-            copy.put(entry.getKey(), entry.getValue());
+            copy.put((IdHashKey) entry.getKey().clone(), (Item) entry.getValue().clone());
         return copy;
     }
 

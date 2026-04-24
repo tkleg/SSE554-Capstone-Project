@@ -8,6 +8,7 @@ import org.troy.capstone.utils.TableUtils;
 
 import tech.tablesaw.api.Table;
 
+@SuppressWarnings("ResultOfObjectAllocationIgnored")
 public class TestDataHolder {
     private static final Table table;
     private static final ItemHashMap itemHashMap;
@@ -29,12 +30,28 @@ public class TestDataHolder {
         return table.copy();
     }
 
-    public static ItemHashMap getItemHashMapCopy() {
-        return itemHashMap.copy();
+    public static ItemHashMap getItemHashMapCopy(){
+        try{
+            return itemHashMap.copy();
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException("Failed to copy ItemHashMap for test data", e);
+        }
     }
 
     public static List<String> getAllItemIdsCopy() {
         return List.copyOf(allItemIds);
     }
-    
+
+    /*public static SimilarItemsManager getFreshSimilarItemsManager() {
+        new JFXPanel();
+        Table freshTable = table.copy();
+        ItemHashMap freshMap = ItemHashMap.fromTable(freshTable);
+        SimilarItemsContainer freshContainer = SimilarItemsContainer.create();
+        SearchedItemPagination freshPagination = new SearchedItemPagination(freshMap);
+        Config.graphBuildingEnabled = true;
+        SimilarItemsManager freshManager = SimilarItemsManager.create(freshMap, freshTable, freshContainer, freshPagination);
+        Config.graphBuildingEnabled = false;
+        return freshManager;
+    }
+    */
 }
