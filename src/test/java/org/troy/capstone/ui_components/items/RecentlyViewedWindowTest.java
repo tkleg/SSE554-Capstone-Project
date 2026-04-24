@@ -8,7 +8,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.troy.capstone.TestDataHolder;
 import org.troy.capstone.constants.TableColumnName;
-import org.troy.capstone.data_structures.item_table.ItemHashMap;
+import org.troy.capstone.interfaces.ItemRepo;
 import org.troy.capstone.interfaces.SearchedItemPanelDestinationUI;
 import org.troy.capstone.interfaces.SearchedItemPanelSourceUI;
 import org.troy.capstone.managers.RecentlyViewedManager;
@@ -21,14 +21,14 @@ import tech.tablesaw.api.Table;
 public class RecentlyViewedWindowTest {
 
     private static Table table;
-    private static ItemHashMap itemHashMap;
+    private static ItemRepo itemRepo;
     
     @BeforeAll
     @SuppressWarnings("ResultOfObjectAllocationIgnored")
     public static void setup() {
         new JFXPanel();
         table = TestDataHolder.getTableCopy();
-        itemHashMap = TestDataHolder.getItemHashMapCopy();
+        itemRepo = TestDataHolder.getItemHashMapCopy();
     }
 
     @ParameterizedTest
@@ -41,9 +41,9 @@ public class RecentlyViewedWindowTest {
     })
     public void testRecentlyViewedWindow(int queueInputs, int expectedQueueSize) throws IllegalArgumentException, ReflectiveOperationException {
         RecentlyViewedWindow window = RecentlyViewedWindow.create();
-        Method createManagerMethod = RecentlyViewedManager.class.getDeclaredMethod("create", ItemHashMap.class, SearchedItemPanelDestinationUI.class, SearchedItemPanelSourceUI.class);
+        Method createManagerMethod = RecentlyViewedManager.class.getDeclaredMethod("create", ItemRepo.class, SearchedItemPanelDestinationUI.class, SearchedItemPanelSourceUI.class);
         createManagerMethod.setAccessible(true);
-        RecentlyViewedManager manager = (RecentlyViewedManager) createManagerMethod.invoke(null, itemHashMap, window, new SearchedItemPagination(itemHashMap));
+        RecentlyViewedManager manager = (RecentlyViewedManager) createManagerMethod.invoke(null, itemRepo, window, new SearchedItemPagination(itemRepo));
         table.first(queueInputs).stringColumn(TableColumnName.ID.getColumnName())
             .forEach(manager::onItemSelected);
 

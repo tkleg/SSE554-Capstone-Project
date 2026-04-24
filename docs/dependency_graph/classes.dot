@@ -64,6 +64,7 @@ digraph "classes" {
    "org.troy.capstone.EntryPoints"                    -> "tech.tablesaw.io.DataFrameWriter (not found)";
    "org.troy.capstone.Main"                           -> "java.lang.Exception (java.base)";
    "org.troy.capstone.Main"                           -> "java.lang.String (java.base)";
+   "org.troy.capstone.Main"                           -> "java.util.List (java.base)";
    "org.troy.capstone.Main"                           -> "javafx.application.Application (not found)";
    "org.troy.capstone.Main"                           -> "javafx.geometry.Insets (not found)";
    "org.troy.capstone.Main"                           -> "javafx.scene.Node (not found)";
@@ -82,6 +83,7 @@ digraph "classes" {
    "org.troy.capstone.Main"                           -> "org.troy.capstone.constants.UIElementName (classes)";
    "org.troy.capstone.Main"                           -> "org.troy.capstone.constants.UISizeControl (classes)";
    "org.troy.capstone.Main"                           -> "org.troy.capstone.data_structures.item_table.ItemHashMap (classes)";
+   "org.troy.capstone.Main"                           -> "org.troy.capstone.interfaces.ItemRepo (classes)";
    "org.troy.capstone.Main"                           -> "org.troy.capstone.managers.GeneralManager (classes)";
    "org.troy.capstone.Main"                           -> "org.troy.capstone.ui_components.PriceSlider (classes)";
    "org.troy.capstone.Main"                           -> "org.troy.capstone.ui_components.SearchBar (classes)";
@@ -236,8 +238,8 @@ digraph "classes" {
    "org.troy.capstone.data_structures.RecentlyViewedQueue" -> "java.util.Optional (java.base)";
    "org.troy.capstone.data_structures.RecentlyViewedQueue" -> "java.util.concurrent.ArrayBlockingQueue (java.base)";
    "org.troy.capstone.data_structures.RecentlyViewedQueue" -> "java.util.function.Predicate (java.base)";
-   "org.troy.capstone.data_structures.RecentlyViewedQueue" -> "org.troy.capstone.data_structures.item_table.ItemHashMap (classes)";
    "org.troy.capstone.data_structures.RecentlyViewedQueue" -> "org.troy.capstone.entities.Item (classes)";
+   "org.troy.capstone.data_structures.RecentlyViewedQueue" -> "org.troy.capstone.interfaces.ItemRepo (classes)";
    "org.troy.capstone.data_structures.RecentlyViewedQueue" -> "org.troy.capstone.ui_components.items.SearchedItemPanel (classes)";
    "org.troy.capstone.data_structures.SearchedItemsLinkedList" -> "java.io.PrintStream (java.base)";
    "org.troy.capstone.data_structures.SearchedItemsLinkedList" -> "java.lang.Math (java.base)";
@@ -256,8 +258,8 @@ digraph "classes" {
    "org.troy.capstone.data_structures.SearchedItemsLinkedList" -> "java.util.function.Function (java.base)";
    "org.troy.capstone.data_structures.SearchedItemsLinkedList" -> "java.util.stream.Stream (java.base)";
    "org.troy.capstone.data_structures.SearchedItemsLinkedList" -> "org.troy.capstone.data_structures.SearchedItemsLinkedList$ItemListNode (classes)";
-   "org.troy.capstone.data_structures.SearchedItemsLinkedList" -> "org.troy.capstone.data_structures.item_table.ItemHashMap (classes)";
    "org.troy.capstone.data_structures.SearchedItemsLinkedList" -> "org.troy.capstone.entities.Item (classes)";
+   "org.troy.capstone.data_structures.SearchedItemsLinkedList" -> "org.troy.capstone.interfaces.ItemRepo (classes)";
    "org.troy.capstone.data_structures.SearchedItemsLinkedList$ItemListNode" -> "java.lang.Object (java.base)";
    "org.troy.capstone.data_structures.SearchedItemsLinkedList$ItemListNode" -> "java.util.List (java.base)";
    "org.troy.capstone.data_structures.SearchedItemsLinkedList$ItemListNode" -> "org.troy.capstone.data_structures.SearchedItemsLinkedList (classes)";
@@ -278,7 +280,6 @@ digraph "classes" {
    "org.troy.capstone.data_structures.SimilarItemsGraph" -> "java.lang.invoke.MethodType (java.base)";
    "org.troy.capstone.data_structures.SimilarItemsGraph" -> "java.lang.invoke.StringConcatFactory (java.base)";
    "org.troy.capstone.data_structures.SimilarItemsGraph" -> "java.util.ArrayList (java.base)";
-   "org.troy.capstone.data_structures.SimilarItemsGraph" -> "java.util.Collection (java.base)";
    "org.troy.capstone.data_structures.SimilarItemsGraph" -> "java.util.Comparator (java.base)";
    "org.troy.capstone.data_structures.SimilarItemsGraph" -> "java.util.HashMap (java.base)";
    "org.troy.capstone.data_structures.SimilarItemsGraph" -> "java.util.Iterator (java.base)";
@@ -300,8 +301,8 @@ digraph "classes" {
    "org.troy.capstone.data_structures.SimilarItemsGraph" -> "org.troy.capstone.annotations.Generated (classes)";
    "org.troy.capstone.data_structures.SimilarItemsGraph" -> "org.troy.capstone.constants.TableColumnName (classes)";
    "org.troy.capstone.data_structures.SimilarItemsGraph" -> "org.troy.capstone.data_structures.SimilarItemsGraph$Edge (classes)";
-   "org.troy.capstone.data_structures.SimilarItemsGraph" -> "org.troy.capstone.data_structures.item_table.ItemHashMap (classes)";
    "org.troy.capstone.data_structures.SimilarItemsGraph" -> "org.troy.capstone.entities.Item (classes)";
+   "org.troy.capstone.data_structures.SimilarItemsGraph" -> "org.troy.capstone.interfaces.ItemRepo (classes)";
    "org.troy.capstone.data_structures.SimilarItemsGraph" -> "org.troy.capstone.ui_components.items.SearchedItemPanel (classes)";
    "org.troy.capstone.data_structures.SimilarItemsGraph" -> "org.troy.capstone.utils.UIUtils (classes)";
    "org.troy.capstone.data_structures.SimilarItemsGraph" -> "tech.tablesaw.api.Row (not found)";
@@ -357,6 +358,7 @@ digraph "classes" {
    "org.troy.capstone.data_structures.item_table.ItemHashMap" -> "org.troy.capstone.constants.TableColumnName (classes)";
    "org.troy.capstone.data_structures.item_table.ItemHashMap" -> "org.troy.capstone.data_structures.item_table.IdHashKey (classes)";
    "org.troy.capstone.data_structures.item_table.ItemHashMap" -> "org.troy.capstone.entities.Item (classes)";
+   "org.troy.capstone.data_structures.item_table.ItemHashMap" -> "org.troy.capstone.interfaces.ItemRepo (classes)";
    "org.troy.capstone.data_structures.item_table.ItemHashMap" -> "tech.tablesaw.api.Row (not found)";
    "org.troy.capstone.data_structures.item_table.ItemHashMap" -> "tech.tablesaw.api.Table (not found)";
    "org.troy.capstone.data_structures.item_table.SieveOfEratosthenes" -> "java.lang.Integer (java.base)";
@@ -422,6 +424,11 @@ digraph "classes" {
    "org.troy.capstone.entities.Item$ItemBuilder"      -> "java.util.Date (java.base)";
    "org.troy.capstone.entities.Item$ItemBuilder"      -> "java.util.Set (java.base)";
    "org.troy.capstone.entities.Item$ItemBuilder"      -> "org.troy.capstone.entities.Item (classes)";
+   "org.troy.capstone.interfaces.ItemRepo"            -> "java.lang.Object (java.base)";
+   "org.troy.capstone.interfaces.ItemRepo"            -> "java.lang.String (java.base)";
+   "org.troy.capstone.interfaces.ItemRepo"            -> "java.util.List (java.base)";
+   "org.troy.capstone.interfaces.ItemRepo"            -> "java.util.Optional (java.base)";
+   "org.troy.capstone.interfaces.ItemRepo"            -> "org.troy.capstone.entities.Item (classes)";
    "org.troy.capstone.interfaces.SearchedItemPanelDestinationUI" -> "java.lang.Object (java.base)";
    "org.troy.capstone.interfaces.SearchedItemPanelDestinationUI" -> "java.util.List (java.base)";
    "org.troy.capstone.interfaces.SearchedItemPanelDestinationUI" -> "javafx.scene.Node (not found)";
@@ -450,7 +457,7 @@ digraph "classes" {
    "org.troy.capstone.managers.GeneralManager"        -> "org.troy.capstone.constants.TableColumnName (classes)";
    "org.troy.capstone.managers.GeneralManager"        -> "org.troy.capstone.constants.UIDataName (classes)";
    "org.troy.capstone.managers.GeneralManager"        -> "org.troy.capstone.constants.UIElementName (classes)";
-   "org.troy.capstone.managers.GeneralManager"        -> "org.troy.capstone.data_structures.item_table.ItemHashMap (classes)";
+   "org.troy.capstone.managers.GeneralManager"        -> "org.troy.capstone.interfaces.ItemRepo (classes)";
    "org.troy.capstone.managers.GeneralManager"        -> "org.troy.capstone.interfaces.SearchedItemPanelDestinationUI (classes)";
    "org.troy.capstone.managers.GeneralManager"        -> "org.troy.capstone.interfaces.SearchedItemPanelSourceUI (classes)";
    "org.troy.capstone.managers.GeneralManager"        -> "org.troy.capstone.managers.RecentlyViewedManager (classes)";
@@ -473,7 +480,7 @@ digraph "classes" {
    "org.troy.capstone.managers.RecentlyViewedManager" -> "java.util.Collection (java.base)";
    "org.troy.capstone.managers.RecentlyViewedManager" -> "java.util.List (java.base)";
    "org.troy.capstone.managers.RecentlyViewedManager" -> "org.troy.capstone.data_structures.RecentlyViewedQueue (classes)";
-   "org.troy.capstone.managers.RecentlyViewedManager" -> "org.troy.capstone.data_structures.item_table.ItemHashMap (classes)";
+   "org.troy.capstone.managers.RecentlyViewedManager" -> "org.troy.capstone.interfaces.ItemRepo (classes)";
    "org.troy.capstone.managers.RecentlyViewedManager" -> "org.troy.capstone.interfaces.SearchedItemPanelDestinationUI (classes)";
    "org.troy.capstone.managers.RecentlyViewedManager" -> "org.troy.capstone.interfaces.SearchedItemPanelInteractor (classes)";
    "org.troy.capstone.managers.RecentlyViewedManager" -> "org.troy.capstone.interfaces.SearchedItemPanelSourceUI (classes)";
@@ -492,7 +499,7 @@ digraph "classes" {
    "org.troy.capstone.managers.SimilarItemsManager"   -> "java.util.Collection (java.base)";
    "org.troy.capstone.managers.SimilarItemsManager"   -> "java.util.List (java.base)";
    "org.troy.capstone.managers.SimilarItemsManager"   -> "org.troy.capstone.data_structures.SimilarItemsGraph (classes)";
-   "org.troy.capstone.managers.SimilarItemsManager"   -> "org.troy.capstone.data_structures.item_table.ItemHashMap (classes)";
+   "org.troy.capstone.managers.SimilarItemsManager"   -> "org.troy.capstone.interfaces.ItemRepo (classes)";
    "org.troy.capstone.managers.SimilarItemsManager"   -> "org.troy.capstone.interfaces.SearchedItemPanelDestinationUI (classes)";
    "org.troy.capstone.managers.SimilarItemsManager"   -> "org.troy.capstone.interfaces.SearchedItemPanelInteractor (classes)";
    "org.troy.capstone.managers.SimilarItemsManager"   -> "org.troy.capstone.interfaces.SearchedItemPanelSourceUI (classes)";
@@ -878,10 +885,10 @@ digraph "classes" {
    "org.troy.capstone.ui_components.filters.categorical.FiltersContainer" -> "java.lang.invoke.MethodHandles$Lookup (java.base)";
    "org.troy.capstone.ui_components.filters.categorical.FiltersContainer" -> "java.lang.invoke.MethodType (java.base)";
    "org.troy.capstone.ui_components.filters.categorical.FiltersContainer" -> "java.lang.invoke.StringConcatFactory (java.base)";
-   "org.troy.capstone.ui_components.filters.categorical.FiltersContainer" -> "java.util.Collection (java.base)";
    "org.troy.capstone.ui_components.filters.categorical.FiltersContainer" -> "java.util.HashMap (java.base)";
    "org.troy.capstone.ui_components.filters.categorical.FiltersContainer" -> "java.util.HashSet (java.base)";
    "org.troy.capstone.ui_components.filters.categorical.FiltersContainer" -> "java.util.Iterator (java.base)";
+   "org.troy.capstone.ui_components.filters.categorical.FiltersContainer" -> "java.util.List (java.base)";
    "org.troy.capstone.ui_components.filters.categorical.FiltersContainer" -> "java.util.Map (java.base)";
    "org.troy.capstone.ui_components.filters.categorical.FiltersContainer" -> "java.util.Set (java.base)";
    "org.troy.capstone.ui_components.filters.categorical.FiltersContainer" -> "java.util.function.Function (java.base)";
@@ -898,7 +905,6 @@ digraph "classes" {
    "org.troy.capstone.ui_components.filters.categorical.FiltersContainer" -> "javafx.scene.layout.VBox (not found)";
    "org.troy.capstone.ui_components.filters.categorical.FiltersContainer" -> "org.troy.capstone.constants.TableColumnName (classes)";
    "org.troy.capstone.ui_components.filters.categorical.FiltersContainer" -> "org.troy.capstone.constants.UISizeControl (classes)";
-   "org.troy.capstone.ui_components.filters.categorical.FiltersContainer" -> "org.troy.capstone.data_structures.item_table.ItemHashMap (classes)";
    "org.troy.capstone.ui_components.filters.categorical.FiltersContainer" -> "org.troy.capstone.entities.Item (classes)";
    "org.troy.capstone.ui_components.filters.categorical.FiltersContainer" -> "org.troy.capstone.ui_components.filters.categorical.FilterPanel (classes)";
    "org.troy.capstone.ui_components.filters.categorical.FiltersContainer" -> "org.troy.capstone.utils.UIUtils (classes)";
@@ -1045,6 +1051,8 @@ digraph "classes" {
    "org.troy.capstone.ui_components.items.searched.SearchedItemPagination" -> "java.lang.invoke.MethodHandles$Lookup (java.base)";
    "org.troy.capstone.ui_components.items.searched.SearchedItemPagination" -> "java.lang.invoke.MethodType (java.base)";
    "org.troy.capstone.ui_components.items.searched.SearchedItemPagination" -> "java.util.List (java.base)";
+   "org.troy.capstone.ui_components.items.searched.SearchedItemPagination" -> "java.util.function.Function (java.base)";
+   "org.troy.capstone.ui_components.items.searched.SearchedItemPagination" -> "java.util.stream.Stream (java.base)";
    "org.troy.capstone.ui_components.items.searched.SearchedItemPagination" -> "javafx.collections.ObservableList (not found)";
    "org.troy.capstone.ui_components.items.searched.SearchedItemPagination" -> "javafx.event.ActionEvent (not found)";
    "org.troy.capstone.ui_components.items.searched.SearchedItemPagination" -> "javafx.event.EventHandler (not found)";
@@ -1055,8 +1063,8 @@ digraph "classes" {
    "org.troy.capstone.ui_components.items.searched.SearchedItemPagination" -> "javafx.scene.layout.VBox (not found)";
    "org.troy.capstone.ui_components.items.searched.SearchedItemPagination" -> "org.troy.capstone.constants.UISizeControl (classes)";
    "org.troy.capstone.ui_components.items.searched.SearchedItemPagination" -> "org.troy.capstone.data_structures.SearchedItemsLinkedList (classes)";
-   "org.troy.capstone.ui_components.items.searched.SearchedItemPagination" -> "org.troy.capstone.data_structures.item_table.ItemHashMap (classes)";
    "org.troy.capstone.ui_components.items.searched.SearchedItemPagination" -> "org.troy.capstone.entities.Item (classes)";
+   "org.troy.capstone.ui_components.items.searched.SearchedItemPagination" -> "org.troy.capstone.interfaces.ItemRepo (classes)";
    "org.troy.capstone.ui_components.items.searched.SearchedItemPagination" -> "org.troy.capstone.interfaces.SearchedItemPanelInteractor (classes)";
    "org.troy.capstone.ui_components.items.searched.SearchedItemPagination" -> "org.troy.capstone.interfaces.SearchedItemPanelSourceUI (classes)";
    "org.troy.capstone.ui_components.items.searched.SearchedItemPagination" -> "org.troy.capstone.ui_components.items.searched.SearchedItemContainer (classes)";

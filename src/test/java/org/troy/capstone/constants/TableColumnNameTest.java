@@ -8,7 +8,7 @@ import org.troy.capstone.TestDataHolder;
 import tech.tablesaw.api.Table;
 
 public class TableColumnNameTest {
-    private static Table table = TestDataHolder.getTableCopy();
+    private static final Table table = TestDataHolder.getTableCopy();
     
     @ParameterizedTest
     @EnumSource(value = TableColumnName.class,

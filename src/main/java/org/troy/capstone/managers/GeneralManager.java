@@ -7,7 +7,7 @@ import java.util.Optional;
 import org.troy.capstone.constants.TableColumnName;
 import org.troy.capstone.constants.UIDataName;
 import org.troy.capstone.constants.UIElementName;
-import org.troy.capstone.data_structures.item_table.ItemHashMap;
+import org.troy.capstone.interfaces.ItemRepo;
 import org.troy.capstone.interfaces.SearchedItemPanelDestinationUI;
 import org.troy.capstone.interfaces.SearchedItemPanelSourceUI;
 import org.troy.capstone.search_engine.SearchEngine;
@@ -28,8 +28,8 @@ public class GeneralManager {
     /** The SearchEngine instance for performing search operations. */
     private final SearchEngine searchEngine;
 
-    /** The ItemHashMap containing all items, used by the SearchEngine for filtering and searching and by the RecentlyViewedManager for retrieving items. */
-    private final ItemHashMap itemHashMap;
+    /** The ItemRepo containing all items, used by the SearchEngine for filtering and searching and by the RecentlyViewedManager for retrieving items. */
+    private final ItemRepo itemRepo;
 
     /** The original table containing the items, used for retrieving items by index. */
     private final Table table;
@@ -42,10 +42,10 @@ public class GeneralManager {
 
     /** Constructor for GeneralManager, filled from a tablesaw Table.
      * @param table The tablesaw Table containing the item data to be used by the SearchEngine.
-     * @param itemHashMap The ItemHashMap containing all items, used by the SearchEngine for filtering and searching and by the RecentlyViewedManager for retrieving items.
+     * @param itemRepo The ItemRepo containing all items, used by the SearchEngine for filtering and searching and by the RecentlyViewedManager for retrieving items.
      */
-    public GeneralManager(Table table, ItemHashMap itemHashMap) {
-        this.itemHashMap = itemHashMap;
+    public GeneralManager(Table table, ItemRepo itemRepo) {
+        this.itemRepo = itemRepo;
         this.table = table;
         uiManager = new UIElementManager();
         searchEngine = new SearchEngine(table);
@@ -85,11 +85,11 @@ public class GeneralManager {
     public void addUIElement(UIElementName key, Node element) {
         uiManager.addElement(key, element);
         if( !recentlyViewedManagerCreated && readyToMakeRecentlyViewedManager()) {
-            RecentlyViewedManager.create(itemHashMap, (SearchedItemPanelDestinationUI) uiManager.getElement(UIElementName.RECENTLY_VIEWED_WINDOW).get(), (SearchedItemPanelSourceUI) uiManager.getElement(UIElementName.SEARCHED_ITEM_PAGINATION).get());
+            RecentlyViewedManager.create(itemRepo, (SearchedItemPanelDestinationUI) uiManager.getElement(UIElementName.RECENTLY_VIEWED_WINDOW).get(), (SearchedItemPanelSourceUI) uiManager.getElement(UIElementName.SEARCHED_ITEM_PAGINATION).get());
             recentlyViewedManagerCreated = true;
         }
         if( !similarItemsManagerCreated && readyToMakeSimilarItemsManager()) {
-            SimilarItemsManager.create(itemHashMap, table, (SearchedItemPanelDestinationUI) uiManager.getElement(UIElementName.SIMILAR_ITEMS_CONTAINER).get(), (SearchedItemPanelSourceUI) uiManager.getElement(UIElementName.SEARCHED_ITEM_PAGINATION).get());
+            SimilarItemsManager.create(itemRepo, table, (SearchedItemPanelDestinationUI) uiManager.getElement(UIElementName.SIMILAR_ITEMS_CONTAINER).get(), (SearchedItemPanelSourceUI) uiManager.getElement(UIElementName.SEARCHED_ITEM_PAGINATION).get());
             similarItemsManagerCreated = true;
         }
     }

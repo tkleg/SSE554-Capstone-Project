@@ -1,19 +1,21 @@
 digraph "classes" {
     // Path: target\classes
-   "data_structures.RecentlyViewedQueue" -> "data_structures.item_table.ItemHashMap";
    "data_structures.RecentlyViewedQueue" -> "entities.Item";
+   "data_structures.RecentlyViewedQueue" -> "interfaces.ItemRepo";
    "data_structures.RecentlyViewedQueue" -> "ui_components.items.SearchedItemPanel";
-   "data_structures.SearchedItemsLinkedList" -> "data_structures.item_table.ItemHashMap";
    "data_structures.SearchedItemsLinkedList" -> "entities.Item";
+   "data_structures.SearchedItemsLinkedList" -> "interfaces.ItemRepo";
    "data_structures.SearchedItemsLinkedList$ItemListNode" -> "entities.Item";
-   "data_structures.SimilarItemsGraph" -> "data_structures.item_table.ItemHashMap";
    "data_structures.SimilarItemsGraph" -> "entities.Item";
+   "data_structures.SimilarItemsGraph" -> "interfaces.ItemRepo";
    "data_structures.SimilarItemsGraph" -> "ui_components.items.SearchedItemPanel";
    "data_structures.item_table.IdHashKey" -> "data_structures.item_table.SieveOfEratosthenes";
    "data_structures.item_table.ItemHashMap" -> "data_structures.item_table.IdHashKey";
    "data_structures.item_table.ItemHashMap" -> "entities.Item";
+   "data_structures.item_table.ItemHashMap" -> "interfaces.ItemRepo";
+   "interfaces.ItemRepo"            -> "entities.Item";
    "interfaces.SearchedItemPanelSourceUI" -> "interfaces.SearchedItemPanelInteractor";
-   "managers.GeneralManager"        -> "data_structures.item_table.ItemHashMap";
+   "managers.GeneralManager"        -> "interfaces.ItemRepo";
    "managers.GeneralManager"        -> "interfaces.SearchedItemPanelDestinationUI";
    "managers.GeneralManager"        -> "interfaces.SearchedItemPanelSourceUI";
    "managers.GeneralManager"        -> "managers.RecentlyViewedManager";
@@ -22,13 +24,13 @@ digraph "classes" {
    "managers.GeneralManager"        -> "search_engine.SearchEngine";
    "managers.GeneralManager"        -> "search_engine.sorting.Sorter";
    "managers.RecentlyViewedManager" -> "data_structures.RecentlyViewedQueue";
-   "managers.RecentlyViewedManager" -> "data_structures.item_table.ItemHashMap";
+   "managers.RecentlyViewedManager" -> "interfaces.ItemRepo";
    "managers.RecentlyViewedManager" -> "interfaces.SearchedItemPanelDestinationUI";
    "managers.RecentlyViewedManager" -> "interfaces.SearchedItemPanelInteractor";
    "managers.RecentlyViewedManager" -> "interfaces.SearchedItemPanelSourceUI";
    "managers.RecentlyViewedManager" -> "ui_components.items.RecentlyViewedWindow";
    "managers.SimilarItemsManager"   -> "data_structures.SimilarItemsGraph";
-   "managers.SimilarItemsManager"   -> "data_structures.item_table.ItemHashMap";
+   "managers.SimilarItemsManager"   -> "interfaces.ItemRepo";
    "managers.SimilarItemsManager"   -> "interfaces.SearchedItemPanelDestinationUI";
    "managers.SimilarItemsManager"   -> "interfaces.SearchedItemPanelInteractor";
    "managers.SimilarItemsManager"   -> "interfaces.SearchedItemPanelSourceUI";
@@ -48,7 +50,6 @@ digraph "classes" {
    "search_engine.sorting.Sorter"   -> "search_engine.sorting.QuickSort";
    "search_engine.sorting.Sorter"   -> "search_engine.sorting.comparator.RowComparator";
    "ui_components.SearchBar"        -> "search_engine.sorting.comparator.RowComparator";
-   "ui_components.filters.categorical.FiltersContainer" -> "data_structures.item_table.ItemHashMap";
    "ui_components.filters.categorical.FiltersContainer" -> "entities.Item";
    "ui_components.filters.categorical.FiltersContainer" -> "ui_components.filters.categorical.FilterPanel";
    "ui_components.items.AttributedItemContainer" -> "entities.Item";
@@ -61,8 +62,8 @@ digraph "classes" {
    "ui_components.items.searched.SearchedItemContainer" -> "interfaces.SearchedItemPanelInteractor";
    "ui_components.items.searched.SearchedItemContainer" -> "ui_components.items.SearchedItemPanel";
    "ui_components.items.searched.SearchedItemPagination" -> "data_structures.SearchedItemsLinkedList";
-   "ui_components.items.searched.SearchedItemPagination" -> "data_structures.item_table.ItemHashMap";
    "ui_components.items.searched.SearchedItemPagination" -> "entities.Item";
+   "ui_components.items.searched.SearchedItemPagination" -> "interfaces.ItemRepo";
    "ui_components.items.searched.SearchedItemPagination" -> "interfaces.SearchedItemPanelInteractor";
    "ui_components.items.searched.SearchedItemPagination" -> "interfaces.SearchedItemPanelSourceUI";
    "ui_components.items.searched.SearchedItemPagination" -> "ui_components.items.searched.SearchedItemContainer";

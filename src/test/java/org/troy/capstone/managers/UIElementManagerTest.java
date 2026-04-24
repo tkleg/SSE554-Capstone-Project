@@ -32,7 +32,7 @@ public class UIElementManagerTest {
     public static void setupAll() {
         new JFXPanel();
         
-        dummyFiltersContainer = FiltersContainer.create(itemHashMap);
+        dummyFiltersContainer = FiltersContainer.create(itemHashMap.getItemsAsList());
     }
 
     @BeforeEach

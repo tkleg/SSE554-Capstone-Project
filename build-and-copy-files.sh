@@ -19,7 +19,6 @@ jdeps -dotoutput docs/dependency_graph -verbose:class -filter:none target/classe
 python3.12 graph_filter.py
 dot -Tpng docs/dependency_graph/filtered_classes.dot -o docs/dependency_graph/deps.png
 dot -Tpng docs/dependency_graph/filtered_cleaner_classes.dot -o docs/dependency_graph/deps_cleaner.png
-dot -Tpng docs/dependency_graph/filtered_no_itemhashmap_classes.dot -o docs/dependency_graph/deps_no_itemhashmap.png
 
 #Copy jar file, dependencies, data, docs, and run scripts to distribution directory
 cp target/Project-1.0-SNAPSHOT-with-dependencies.jar distribution

@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 
-import org.troy.capstone.data_structures.item_table.ItemHashMap;
 import org.troy.capstone.ui_components.items.SearchedItemPanel;
+import org.troy.capstone.interfaces.ItemRepo;
 
 /**
  * Queue to manage recently viewed items, with a fixed capacity. Oldest item is removed when capacity is exceeded. Does not allow duplicates.
@@ -14,19 +14,19 @@ public class RecentlyViewedQueue extends ArrayBlockingQueue<SearchedItemPanel>{
     /** Capacity of the recently viewed queue, set to 10 for a reasonable number of items to display without overwhelming the user. */
     private static final int CAPACITY = 10;
 
-    /** HashMap to store item details for quick access when creating SearchedItemPanel instances. */
-    private final ItemHashMap itemHashMap;
+    /** Repository to retrieve item details based on item IDs, used to create SearchedItemPanel instances when adding items to the queue. */
+    private final ItemRepo itemRepo;
 
     /** Queue to keep track of item IDs for quick lookup and to prevent duplicates. Faster than using SearchedItemPanel directly since a lot of work is done to create a panel before checking. */
     private final ArrayBlockingQueue<String> itemIds;
 
     /** Constructor for the RecentlyViewedQueue.
-     * @param itemHashMap The ItemHashMap to use for retrieving item details.
+     * @param itemRepo The ItemRepo to use for retrieving item details.
      */
-    public RecentlyViewedQueue(ItemHashMap itemHashMap) {
+    public RecentlyViewedQueue(ItemRepo itemRepo) {
         super(CAPACITY);
         itemIds = new ArrayBlockingQueue<>(CAPACITY);
-        this.itemHashMap = itemHashMap;
+        this.itemRepo = itemRepo;
     }
     
     /** Attempts to add an item to the recently viewed queue.
@@ -60,7 +60,7 @@ public class RecentlyViewedQueue extends ArrayBlockingQueue<SearchedItemPanel>{
     private void add(String itemId) {
         itemIds.add(itemId);
         add(SearchedItemPanel.create(
-            itemHashMap.getItem(itemId).orElseThrow()
+            itemRepo.getItem(itemId).orElseThrow()
         ));
     }
 

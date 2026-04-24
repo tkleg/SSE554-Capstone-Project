@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 import org.troy.capstone.constants.TableColumnName;
 import org.troy.capstone.entities.Item;
+import org.troy.capstone.interfaces.ItemRepo;
 
 import tech.tablesaw.api.Row;
 import tech.tablesaw.api.Table;
@@ -16,7 +17,7 @@ import tech.tablesaw.api.Table;
 /**
  * Custom HashMap implementation for storing Items with their IDs as keys, using a custom universal hash function (IdHashKey) to optimize bucket distribution for the specific set of item IDs in our dataset.
  */
-public class ItemHashMap extends HashMap<IdHashKey, Item> {
+public class ItemHashMap extends HashMap<IdHashKey, Item> implements ItemRepo {
 
     //Main in EntryPoints.java to stop Javadocs from including it
     
@@ -85,6 +86,7 @@ public class ItemHashMap extends HashMap<IdHashKey, Item> {
      * @param itemId The ID of the item to retrieve.
      * @return An Optional containing the Item if found, or empty if not found.
      */
+    @Override
     public Optional<Item> getItem(String itemId) {
         IdHashKey key = new IdHashKey(itemId);
         Optional<Item> item = Optional.ofNullable(get(key));
@@ -143,6 +145,16 @@ public class ItemHashMap extends HashMap<IdHashKey, Item> {
     }
 
     /**
+     * Retrieves the items of the hashmap as a list of Item objects.
+     *
+     * @return A list of Item objects representing the values in the hashmap.
+     */
+    @Override
+    public List<Item> getItemsAsList() {
+        return new ArrayList<>(values());
+    }
+
+    /**
      * Prints a table comparing the distribution of bucket sizes (number of buckets with 0 items, 1 item, 2 items, etc.) for the custom hash function vs Java's built in String hashCode, using the same item IDs. 
      * This allows us to see how well our custom universal hash function is performing in terms of distributing
      * items across buckets compared to the built-in hash function.
@@ -179,6 +191,14 @@ public class ItemHashMap extends HashMap<IdHashKey, Item> {
         for (Entry<IdHashKey, Item> entry : entrySet())
             copy.put((IdHashKey) entry.getKey().clone(), (Item) entry.getValue().clone());
         return copy;
+    }
+
+    /** Retrieves the number of items in the repository.
+     * @return The number of items in the repository.
+     */
+    @Override
+    public int getSize() {
+        return size();
     }
 
 }

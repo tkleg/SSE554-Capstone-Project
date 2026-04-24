@@ -49,7 +49,7 @@ public class GeneralManagerTest {
         fullGM.addUIElement(UIElementName.MAX_PRICE_SLIDER, new Slider(0, 100, 75));
         fullGM.addUIElement(UIElementName.SEARCH_FIELD, new TextField("Test Query"));
 
-        FiltersContainer filtersContainer = new FiltersContainer(TestDataHolder.getItemHashMapCopy());
+        FiltersContainer filtersContainer = new FiltersContainer(TestDataHolder.getItemHashMapCopy().getItemsAsList());
         fullGM.addUIElement(UIElementName.FILTERS_CONTAINER, filtersContainer);
         fullGM.addUIElement(UIElementName.STAR_RATING_FILTER, new StarRatingFilter());
         fullGM.addUIElement(UIElementName.RECENTLY_VIEWED_WINDOW, RecentlyViewedWindow.create());

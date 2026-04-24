@@ -3,8 +3,8 @@ package org.troy.capstone.data_structures;
 import java.util.List;
 import java.util.Optional;
 
-import org.troy.capstone.data_structures.item_table.ItemHashMap;
 import org.troy.capstone.entities.Item;
+import org.troy.capstone.interfaces.ItemRepo;
 
 /**
  * The SearchedItemsLinkedList class represents a custom linked list data structure that organizes search results into pages.
@@ -21,13 +21,13 @@ public class SearchedItemsLinkedList{
     /** The number of items to display per page. */
     private static final int ITEMS_PER_PAGE = 10;
 
-    /** Constructor for SearchedItemsLinkedList. Initializes the linked list based on a list of item IDs and an item hash map.
-     * @pre itemHashMap should contain valid item data for all item IDs in itemIdList, and itemIdList should not be null.
-     * @param itemHashMap The item hash map containing all items, used to populate the linked list nodes based on the provided item IDs.
+    /** Constructor for SearchedItemsLinkedList. Initializes the linked list based on a list of item IDs and an item repository.
+     * @pre itemRepo should contain valid item data for all item IDs in itemIdList, and itemIdList should not be null.
+     * @param itemRepo The item repository containing all items, used to populate the linked list nodes based on the provided item IDs.
      * @param itemIdList The list of item IDs representing the search results to be organized into pages in the linked list.
     */
     @SuppressWarnings("null")
-    public SearchedItemsLinkedList(ItemHashMap itemHashMap, List<String> itemIdList){
+    public SearchedItemsLinkedList(ItemRepo itemRepo, List<String> itemIdList){
         if (itemIdList.isEmpty()) {
             head = null;
             return;
@@ -39,7 +39,7 @@ public class SearchedItemsLinkedList{
             int endIndex = Math.min(startIndex + ITEMS_PER_PAGE, itemIdList.size());
             List<Item> pageItems
             = itemIdList.subList(startIndex, endIndex).stream()
-                    .map(itemHashMap::getItem)
+                    .map(itemRepo::getItem)
                     .map(Optional::orElseThrow)
                     .toList();
 

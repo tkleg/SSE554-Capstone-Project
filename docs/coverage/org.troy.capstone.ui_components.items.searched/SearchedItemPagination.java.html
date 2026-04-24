@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.troy.capstone.constants.UISizeControl;
 import org.troy.capstone.data_structures.SearchedItemsLinkedList;
-import org.troy.capstone.data_structures.item_table.ItemHashMap;
 import org.troy.capstone.entities.Item;
+import org.troy.capstone.interfaces.ItemRepo;
 import org.troy.capstone.interfaces.SearchedItemPanelInteractor;
 import org.troy.capstone.interfaces.SearchedItemPanelSourceUI;
 
@@ -20,8 +20,8 @@ import javafx.scene.layout.VBox;
  */
 public class SearchedItemPagination extends VBox implements SearchedItemPanelSourceUI {
 
-    /** The item hash map containing all items, used to populate the pagination content. */
-    private final ItemHashMap itemHashMap;
+    /** The item repository containing all items, used to populate the pagination content. */
+    private final ItemRepo itemRepo;
 
     /** The linked list representing the pages of search results. */
     private SearchedItemsLinkedList pageList;
@@ -36,15 +36,15 @@ public class SearchedItemPagination extends VBox implements SearchedItemPanelSou
     private final Button nextButton;
 
     /**
-     * Constructor for SearchedItemPagination. Initializes the item hash map and sets up the pagination component.
-     * @pre itemHashMap should contain valid item data to populate the pagination content.
-     * @param itemHashMap The item hash map containing all items, used to populate the pagination content based on the current search results.
+     * Constructor for SearchedItemPagination. Initializes the item repository and sets up the pagination component.
+     * @pre itemRepo should contain valid item data to populate the pagination content.
+     * @param itemRepo The item repository containing all items, used to populate the pagination content based on the current search results.
     */
-<span class="fc" id="L43">    public SearchedItemPagination(ItemHashMap itemHashMap) {</span>
+<span class="fc" id="L43">    public SearchedItemPagination(ItemRepo itemRepo) {</span>
 
-<span class="fc" id="L45">        this.itemHashMap = itemHashMap;</span>
+<span class="fc" id="L45">        this.itemRepo = itemRepo;</span>
 
-<span class="fc" id="L47">        List&lt;String&gt; initialIds = itemHashMap.getItemIdsAsList();</span>
+<span class="fc" id="L47">        List&lt;String&gt; initialIds = itemRepo.getItemsAsList().stream().map(Item::getId).toList();</span>
 
 <span class="fc" id="L49">        HBox buttonContainer = new HBox(UISizeControl.SEARCHED_ITEM_PAGINATION_BUTTON_SPACING.getValue());</span>
 <span class="fc" id="L50">        buttonContainer.setAlignment(Pos.CENTER);</span>
@@ -53,7 +53,7 @@ public class SearchedItemPagination extends VBox implements SearchedItemPanelSou
 
 <span class="fc" id="L54">        setSpacing(UISizeControl.HEIGHT_PADDING.getValue());</span>
 
-<span class="fc" id="L56">        pageList = new SearchedItemsLinkedList(itemHashMap, initialIds);</span>
+<span class="fc" id="L56">        pageList = new SearchedItemsLinkedList(itemRepo, initialIds);</span>
 <span class="fc" id="L57">        mySearchedItemContainer = SearchedItemContainer.create(pageList.getHead());</span>
 <span class="fc" id="L58">        this.getChildren().clear();</span>
 <span class="fc" id="L59">        this.setAlignment(Pos.TOP_CENTER);</span>
@@ -76,7 +76,7 @@ public class SearchedItemPagination extends VBox implements SearchedItemPanelSou
       * @param itemIdList A list of item IDs corresponding to search results to update the pagination component with.
      */
     public final void update(List&lt;String&gt; itemIdList) {
-<span class="fc" id="L79">        pageList = new SearchedItemsLinkedList(itemHashMap, itemIdList);</span>
+<span class="fc" id="L79">        pageList = new SearchedItemsLinkedList(itemRepo, itemIdList);</span>
 <span class="fc" id="L80">        mySearchedItemContainer.updateItems(pageList.getHead());</span>
 <span class="fc" id="L81">    }</span>
 

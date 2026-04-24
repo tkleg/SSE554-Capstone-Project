@@ -82,10 +82,3 @@ for line in lines:
     new_lines.append(line)
 with open("docs/dependency_graph/filtered_cleaner_classes.dot", "w") as f:
     f.writelines(new_lines)
-newer_lines = []
-for line in new_lines:
-    if "ItemHashMap" in line and '->' in line and line.index('->') < line.index("ItemHashMap"):
-        continue
-    newer_lines.append(line)
-with open("docs/dependency_graph/filtered_no_itemhashmap_classes.dot", "w") as f:
-    f.writelines(newer_lines)

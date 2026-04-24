@@ -13,7 +13,7 @@ import tech.tablesaw.api.Table;
 
 public class PriceFilterTest {
     private static PriceFilter priceFilter;
-    private static Table table = TestDataHolder.getTableCopy();
+    private static final Table table = TestDataHolder.getTableCopy();
 
     @BeforeAll
     public static void setup() {

@@ -2,13 +2,14 @@ package org.troy.capstone.ui_components.filters.categorical;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.troy.capstone.constants.TableColumnName;
 import org.troy.capstone.constants.UISizeControl;
-import org.troy.capstone.data_structures.item_table.ItemHashMap;
+import org.troy.capstone.entities.Item;
 import org.troy.capstone.utils.UIUtils;
 
 import javafx.scene.control.CheckBox;
@@ -29,11 +30,11 @@ public class FiltersContainer extends ScrollPane {
     /**
      * Factory method to create a FiltersContainer with the appropriate size and add it to the UIElementManager.
      * 
-     * @param itemHashMap The item hash map containing all items, used to extract unique values for filter generation.
+     * @param items The items used to generate the filters.
      * @return The created FiltersContainer instance with filters generated from the item data.
      */
-    public static FiltersContainer create( ItemHashMap itemHashMap ) {
-        FiltersContainer container = new FiltersContainer(itemHashMap);
+    public static FiltersContainer create( List<Item> items ) {
+        FiltersContainer container = new FiltersContainer(items);
         UIUtils.setSize(container, UISizeControl.FILTERS_CONTAINER_WIDTH.getValue(), UISizeControl.FILTERS_CONTAINER_HEIGHT.getValue());
         return container;
     }
@@ -42,11 +43,11 @@ public class FiltersContainer extends ScrollPane {
      * Constructor for FiltersContainer. Initializes the filter options map and content container, 
      *  then generates filters based on the provided item data.
      * 
-     * @pre itemHashMap should contain valid item data with categorical attributes corresponding to the expected filter types.
+     * @pre items should contain valid item data with categorical attributes corresponding to the expected filter types.
      * 
-     * @param itemHashMap The item hash map containing all items, used to extract unique values for filter generation.
+     * @param items The list of items used to generate the filters.
      */
-    public FiltersContainer( ItemHashMap itemHashMap ) {
+    public FiltersContainer( List<Item> items ) {
         filterOptions = new HashMap<>();
         contentContainer = new VBox();
         contentContainer.setSpacing(10);
@@ -54,28 +55,28 @@ public class FiltersContainer extends ScrollPane {
         setContent(contentContainer);
         setFitToWidth(true);
 
-        createFiltersFromTable(itemHashMap);
+        createFiltersFromTable(items);
     }
 
     /**
      * Generates filter panels based on the unique values of categorical attributes in the item data.
      * For each categorical column defined in TableColumnName, it extracts the unique values from the
-     *  itemHashMap and creates a FilterPanel with CheckBoxes for each unique value. Special handling is included for the TAGS column, 
+     *  list of items and creates a FilterPanel with CheckBoxes for each unique value. Special handling is included for the TAGS column, 
      *  which contains sets of strings.
      * 
-     * @pre itemHashMap should contain valid item data with categorical attributes corresponding to the expected filter types.
+     * @pre items should contain valid item data with categorical attributes corresponding to the expected filter types.
      * 
-     * @param itemHashMap The item hash map containing all items, used to extract unique values for filter generation.
+     * @param items The list of items used to generate the filters.
      */
-    private void createFiltersFromTable(ItemHashMap itemHashMap) {
+    private void createFiltersFromTable(List<Item> items) {
         for (TableColumnName column : TableColumnName.getCategoricalColumns()) {
             Set<String> uniqueValues;
             if( column.getColumnName().equals(TableColumnName.TAGS.getColumnName()) ){// Special handling for tags since it's a set of strings
-                uniqueValues = itemHashMap.values().stream()
+                uniqueValues = items.stream()
                 .flatMap(item -> item.getTags().stream())
                 .collect(Collectors.toSet());
             } else {
-                uniqueValues = itemHashMap.values().stream()
+                uniqueValues = items.stream()
                     .map(item -> (String) item.getAttribute(column))
                     .collect(Collectors.toSet());
             }

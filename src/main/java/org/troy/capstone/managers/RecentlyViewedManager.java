@@ -3,7 +3,7 @@ package org.troy.capstone.managers;
 import java.util.ArrayList;
 
 import org.troy.capstone.data_structures.RecentlyViewedQueue;
-import org.troy.capstone.data_structures.item_table.ItemHashMap;
+import org.troy.capstone.interfaces.ItemRepo;
 import org.troy.capstone.interfaces.SearchedItemPanelDestinationUI;
 import org.troy.capstone.interfaces.SearchedItemPanelInteractor;
 import org.troy.capstone.interfaces.SearchedItemPanelSourceUI;
@@ -22,25 +22,25 @@ public class RecentlyViewedManager implements SearchedItemPanelInteractor {
     private final RecentlyViewedWindow recentlyViewedWindow;
 
     /** Constructor for the RecentlyViewedManager.
-     * @param itemHashMap The ItemHashMap to use for retrieving item details.
+     * @param itemRepo The ItemRepo to use for retrieving item details.
      * @param recentlyViewedWindow The RecentlyViewedWindow to use for displaying recently viewed items.
      */
-    private RecentlyViewedManager(ItemHashMap itemHashMap, RecentlyViewedWindow recentlyViewedWindow ) {
-        recentlyViewedQueue = new RecentlyViewedQueue(itemHashMap);
+    private RecentlyViewedManager(ItemRepo itemRepo, RecentlyViewedWindow recentlyViewedWindow ) {
+        recentlyViewedQueue = new RecentlyViewedQueue(itemRepo);
         this.recentlyViewedWindow = recentlyViewedWindow;
     }
 
     /** Factory method to create a RecentlyViewedManager and attach it as a listener to the given SearchedItemPanelSourceUI, allowing to receive item selection events from within the SearchedItemPanelSourceUI.
      * 
-     * @pre itemHashMap, recentlyViewedWindow, and panelSourceUI are not null. destinationUI is an instance of RecentlyViewedWindow and panelSourceUI is an instance of SearchedItemPagination.
+     * @pre itemRepo, recentlyViewedWindow, and panelSourceUI are not null. destinationUI is an instance of RecentlyViewedWindow and panelSourceUI is an instance of SearchedItemPagination.
       *
-     * @param itemHashMap The ItemHashMap to use for retrieving item details.
+     * @param itemRepo The ItemRepo to use for retrieving item details.
      * @param destinationUI The SearchedItemPanelDestinationUI to use for displaying recently viewed items, should be the same instance as recentlyViewedWindow but typed as the interface it implements.
      * @param panelSourceUI The SearchedItemPanelSourceUI to register as a listener to receive item selection events from the searched item panels, should be the same instance as the SearchedItemPagination but typed as the interface it implements.
      * @return A new instance of RecentlyViewedManager with the given parameters, and registered as a listener to the panelSourceUI.
      */
-    static RecentlyViewedManager create(ItemHashMap itemHashMap, SearchedItemPanelDestinationUI destinationUI, SearchedItemPanelSourceUI panelSourceUI) {
-        RecentlyViewedManager manager = new RecentlyViewedManager(itemHashMap, (RecentlyViewedWindow) destinationUI);
+    static RecentlyViewedManager create(ItemRepo itemRepo, SearchedItemPanelDestinationUI destinationUI, SearchedItemPanelSourceUI panelSourceUI) {
+        RecentlyViewedManager manager = new RecentlyViewedManager(itemRepo, (RecentlyViewedWindow) destinationUI);
         panelSourceUI.addSearchedItemPanelInteractor(manager);
         return manager;
     }

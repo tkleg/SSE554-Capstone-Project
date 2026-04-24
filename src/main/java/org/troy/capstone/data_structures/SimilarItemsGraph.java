@@ -9,8 +9,8 @@ import java.util.PriorityQueue;
 import org.troy.capstone.Config;
 import org.troy.capstone.annotations.Generated;
 import org.troy.capstone.constants.TableColumnName;
-import org.troy.capstone.data_structures.item_table.ItemHashMap;
 import org.troy.capstone.entities.Item;
+import org.troy.capstone.interfaces.ItemRepo;
 import org.troy.capstone.ui_components.items.SearchedItemPanel;
 import org.troy.capstone.utils.UIUtils;
 
@@ -26,8 +26,8 @@ public class SimilarItemsGraph {
     private static final int NUM_SIMILAR_ITEMS_TO_DISPLAY = 10;
     /** Number of items in the graph. */
     protected int numItems;
-    /** HashMap to store items. Iterated over when filling the graph. */
-    private final ItemHashMap itemHashMap;
+    /** Repository to store items. Iterated over when filling the graph. */
+    private final ItemRepo itemRepo;
     /** The original table containing the items, used for retrieving items by index. */
     private final Table table;
     /** Adjacency list to represent edges between items. */
@@ -70,7 +70,7 @@ public class SimilarItemsGraph {
     /** Default constructor. Only used to allow for subclassing in the SimilarItemsGraphTest class. All fields are initialized to null. */
     public SimilarItemsGraph(){
         adjacencyList = null;
-        itemHashMap = null;
+        itemRepo = null;
         table = null;
     }
 
@@ -81,16 +81,16 @@ public class SimilarItemsGraph {
      * @throws RuntimeException if the item is not found in the hash map.
      */
     public List<VBox> findSimilarItems(String itemId) {
-        int itemIndex = itemHashMap.getItem(itemId)
-            .orElseThrow(() -> new RuntimeException("Item not found in hash map for similar items graph."))
+        int itemIndex = itemRepo.getItem(itemId)
+            .orElseThrow(() -> new RuntimeException("Item not found in item repository for similar items graph."))
             .getIndex();
         System.out.println("Item index for item ID " + itemId + ": " + itemIndex);
         List<Edge> similarItems = dijkstra(itemIndex);
         List<Item> similarItemsList = similarItems.stream()
             .map(Edge::getDestIndex)
-            .map(index -> itemHashMap.getItem(table.row(index).getString(TableColumnName.ID.getColumnName())).get())
+            .map(index -> itemRepo.getItem(table.row(index).getString(TableColumnName.ID.getColumnName())).get())
             .toList();
-        System.out.println("Similar items retrieved from item hash map: " + similarItemsList.size());
+        System.out.println("Similar items retrieved from item repository: " + similarItemsList.size());
         similarItemsList.forEach(item -> System.out.println("Similar item: \"" + item.getName() + "\" (ID: " + item.getId() + ")") );
 
         List<VBox> panels = similarItemsList.stream()
@@ -101,16 +101,15 @@ public class SimilarItemsGraph {
         return panels;
     }
 
-    /** Constructor for SimilarItemsGraph. Initializes the graph with the given ItemHashMap.
-     * @param itemHashMap The ItemHashMap containing the items to be added to the graph.
+    /** Constructor for SimilarItemsGraph. Initializes the graph with the given ItemRepo.
+     * @param itemRepo The ItemRepo containing the items to be added to the graph.
      * @param table The original table containing the items, used for retrieving items by index when filling the graph.
      * @param buildGraph A Boolean value indicating whether to build the graph. If null, the value from the configuration will be used.
      */
     @SuppressWarnings("unchecked")
-    public SimilarItemsGraph(ItemHashMap itemHashMap, Table table, Boolean buildGraph) {
-                
-        this.numItems = itemHashMap.size();
-        this.itemHashMap = itemHashMap;
+    public SimilarItemsGraph(ItemRepo itemRepo, Table table, Boolean buildGraph) {
+        this.itemRepo = itemRepo;
+        this.numItems = itemRepo.getSize();
         adjacencyList = new List[numItems];
         this.table = table;
 
@@ -161,7 +160,7 @@ public class SimilarItemsGraph {
      * @post The graph is filled with undirected edges between items based on their similarity scores
      */
     private void fillGraph() {
-        List<Item> items = itemHashMap.values().stream().toList();
+        List<Item> items = itemRepo.getItemsAsList();
         for (int i = 0; i < numItems; i++) {
             for (int j = i + 1; j < numItems; j++) {
                 float similarity = items.get(i).similarity(items.get(j));

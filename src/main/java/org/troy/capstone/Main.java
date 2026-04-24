@@ -79,7 +79,7 @@ public class Main extends Application {
         gridPane.add(searchBar, 0, 0, 1, 1);
 
         //Insert a FiltersContainer
-        FiltersContainer filtersContainer = FiltersContainer.create(itemHashMap);
+        FiltersContainer filtersContainer = FiltersContainer.create(itemHashMap.getItemsAsList());
         generalManager.addUIElement(UIElementName.FILTERS_CONTAINER, filtersContainer);
         gridPane.add(filtersContainer, 2, 1, 1, 1);
 
