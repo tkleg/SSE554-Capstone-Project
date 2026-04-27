@@ -40,34 +40,29 @@ public class SearchEngine {
      * @return The table containing the items that match the search criteria.
     */
     public Table filterItems(Map<UIDataName, Object> searchData) {
-        Selection selection;
+
+        Table filteredTable = table.copy();
 
         //Filter price
-        Selection priceResult = applyPriceFilters(searchData);
-        selection = priceResult;
-        System.out.println("After price filter: " + selection.size() + " items");
+        filteredTable = applyPriceFilters(searchData, filteredTable);
+        System.out.println("After price filter: " + filteredTable.rowCount() + " items");
         
         //Filter star rating
-        Selection starResult = applyStarFilter(searchData);
-        selection = selection.and(starResult);
-            System.out.println("After star rating filter: " + selection.size() + " items");
+        filteredTable = applyStarFilter(searchData, filteredTable);
+        System.out.println("After star rating filter: " + filteredTable.rowCount() + " items");
 
         //Apply categorical filters
-        Selection categoricalResult = applyCategoricalFilters(searchData);
-        selection = selection.and(categoricalResult);
-        System.out.println("After categorical filters: " + selection.size() + " items");
-
-        //Apply filters prior to the search query so the query is only applied to filtered items to reduce time to apply the search query filter
-        Table preQueryFilteredTable = table.where(selection);
+        filteredTable = applyCategoricalFilters(searchData, filteredTable);
+        System.out.println("After categorical filters: " + filteredTable.rowCount() + " items");
 
         //Filter search query. Add a relevance column in filterItems if not added by the search query filter to ensure that the column is always present for sorting in the UI.
-        Table queryFilteredTable = applySearchQueryFilter((String)searchData.get(UIDataName.SEARCH_QUERY), preQueryFilteredTable);
-        if( queryFilteredTable != preQueryFilteredTable ){
+        Table queryFilteredTable = applySearchQueryFilter((String)searchData.get(UIDataName.SEARCH_QUERY), filteredTable);
+        if( queryFilteredTable != filteredTable ){
             System.out.println("After applying search query filter: " + queryFilteredTable.rowCount() + " items");
             System.out.print(queryFilteredTable.selectColumns(TableColumnName.NAME.getColumnName(), TableColumnName.RELEVANCE.getColumnName()));
         }else{
             System.out.println("Search query filter not applied. Adding empty relevance column with default value of 0 for all items.");
-            FloatColumn relevanceColumn = FloatColumn.create(TableColumnName.RELEVANCE.getColumnName(), preQueryFilteredTable.rowCount());
+            FloatColumn relevanceColumn = FloatColumn.create(TableColumnName.RELEVANCE.getColumnName(), filteredTable.rowCount());
             for (int i = 0; i < relevanceColumn.size(); i++)
                 relevanceColumn.set(i, 0f);
             queryFilteredTable = queryFilteredTable.addColumns(relevanceColumn);
@@ -106,151 +101,145 @@ public class SearchEngine {
      * Helper method to apply tag filters since they have special handling compared to other categorical filters.
      * 
      * @param filtersContainer The filters container containing the selected tags under the "Tags" key.
+     * @param filteredTable The table to apply the tag filters on.
      * @return The selection of items that match the selected tags. Returns ALL items if no tags are selected or if the selected tags value is not found in the filters container.
      */
-    private Selection applyTagFilters(Map<String, Set<String>> filtersContainer) {
+    private Table applyTagFilters(Map<String, Set<String>> filtersContainer, Table filteredTable) {
         Set<String> selectedTags = filtersContainer.get("Tags");
-        Selection tagSelection = selectAll();
+        Selection tagSelection = selectAll(filteredTable.rowCount());
 
         if( selectedTags == null ){
             System.out.println("Selected tags value not found in filters container. Skipping tag filter.");
-            return selectAll();
+            return filteredTable;
         }
 
         if( selectedTags.size() > 4 ){
             System.out.println("More than 4 tags selected, no items are possibly matching since max tags per item is 4.");
-            return selectNone();//Indicates removing all results
+            return filteredTable.emptyCopy();
         }
         if( !selectedTags.isEmpty() )
             for( String selectedTag : selectedTags )
-                tagSelection = tagSelection.and( table.stringColumn(TableColumnName.TAGS.getColumnName()).lowerCase().containsString(selectedTag.toLowerCase()) );
+                tagSelection = tagSelection.and( filteredTable.stringColumn(TableColumnName.TAGS.getColumnName()).lowerCase().containsString(selectedTag.toLowerCase()) );
         else
             System.out.println("No tags selected, skipping tags filter.");
 
-        return tagSelection;
+        return filteredTable.where(tagSelection);
     }
 
     /**
      * Helper method to apply the star rating filter.
      * 
      * @param searchData The search data containing the minimum star rating.
-     * @return The selection of items that match the minimum star rating. Returns ALL items if the minimum star rating value is not found in the search data or is not of the expected type.
+     * @param filteredTable The table to apply the star rating filter on.
+     * @return The table of items that match the minimum star rating. Returns the original table if the minimum star rating value is not found in the search data or is not of the expected type.
      */
-    private Selection applyStarFilter(Map<UIDataName, Object> searchData) {
+    private Table applyStarFilter(Map<UIDataName, Object> searchData, Table filteredTable) {
         Integer minStarRating;
         try{
             minStarRating = (Integer) searchData.get(UIDataName.MIN_STAR_RATING);
         }catch(ClassCastException e){
             System.out.println("Min star rating value in search data is not of type Integer. Skipping star rating filter.");
-            return selectAll();
+            return filteredTable;
         }
 
         if( minStarRating == null ){
             System.out.println("Min star rating value not found in search data. Skipping star rating filter.");
-            return selectAll();
+            return filteredTable;
         }
 
-        return table.floatColumn(TableColumnName.REVIEW_SCORE.getColumnName()).isGreaterThanOrEqualTo(minStarRating.doubleValue());
+        return filteredTable.where(filteredTable.floatColumn(TableColumnName.REVIEW_SCORE.getColumnName()).isGreaterThanOrEqualTo(minStarRating.doubleValue()));
     }
 
     /**
      * Helper method to apply price filters.
      * 
      * @param searchData The search data containing the minimum and/or maximum price.
-     * @return The selection of items that match the price criteria. Returns ALL items if the minimum or maximum price value are not of the expected type.
+     * @param filteredTable The table to apply the price filter on.
+     * @return The table of items that match the price criteria. Returns the original table if the minimum or maximum price value are not of the expected type.
      */
-    private Selection applyPriceFilters(Map<UIDataName, Object> searchData) {
+    private Table applyPriceFilters(Map<UIDataName, Object> searchData, Table filteredTable) {
         float minPrice, maxPrice;
         try{
             minPrice = (float) searchData.getOrDefault(UIDataName.MIN_PRICE,
-                (float) table.floatColumn(TableColumnName.PRICE.getColumnName()).min()
+                (float) filteredTable.floatColumn(TableColumnName.PRICE.getColumnName()).min()
             );
             maxPrice = (float) searchData.getOrDefault(UIDataName.MAX_PRICE,
-                (float) table.floatColumn(TableColumnName.PRICE.getColumnName()).max()
+                (float) filteredTable.floatColumn(TableColumnName.PRICE.getColumnName()).max()
             );
         }catch(ClassCastException e){
             System.out.println("Min or max price value in search data is not of type Float. Skipping price filters.");
-            return selectAll();
+            return filteredTable;
         }
         int[] itemIndicesInRange = priceFilter.filterByPriceRange(minPrice, maxPrice);
-        return Selection.with(itemIndicesInRange);
+        return filteredTable.where(Selection.with(itemIndicesInRange));
     }
 
     /**
      * Helper method to apply categorical filters (other than tags which have special handling).
      * 
      * @param searchData The search data containing the selected categorical filters under the {@code FILTERS_CONTAINER} key.
-     * @return The selection of items that match the selected categorical filters, or ALL_ITEMS if no valid filters are found in the search data.
+     * @param filteredTable The table to apply the categorical filters on.
+     * @return The table of items that match the selected categorical filters, or the original table if no valid filters are found in the search data.
      */
     @SuppressWarnings("unchecked")
-    private Selection applyCategoricalFilters(Map<UIDataName, Object> searchData) {
+    private Table applyCategoricalFilters(Map<UIDataName, Object> searchData, Table filteredTable) {
         Set<TableColumnName> categoricalColumns = TableColumnName.getCategoricalColumns();
-        Selection categoricalSelection = selectAll();
-        System.out.println("Starting categorical filters with " + categoricalSelection.size() + " items");
+        System.out.println("Starting categorical filters with " + filteredTable.rowCount() + " items");
         Map<String, Set<String>> filtersContainer;
         try{ 
             filtersContainer = (Map<String, Set<String>>)searchData.get(UIDataName.FILTERS_CONTAINER);
             System.out.println("Retrieved filters container from search data for categorical filters: " + filtersContainer);
         }catch(ClassCastException e){
             System.out.println("Filters container in search data is not of type Map<String, Set<String>>. Skipping categorical filters.");
-            return selectAll();
+            return filteredTable;
         }
         if( filtersContainer == null ){
             System.out.println("Filters container not found in search data. Skipping categorical filters.");
-            return selectAll();
+            return filteredTable;
         }
 
         for( TableColumnName column : categoricalColumns ) {
             //Tags has special handling since it's a set of strings, so outsource the handling
             if( column == TableColumnName.TAGS ){
-                Selection tagResult = applyTagFilters(filtersContainer);
-                categoricalSelection = categoricalSelection.and(tagResult);
+                filteredTable = applyTagFilters(filtersContainer, filteredTable);
                 continue;
             }
-
 
             //Convert enum to the string key format used by FiltersContainer
             String filterKey = column.getColumnName().substring(0, 1).toUpperCase() + column.getColumnName().substring(1).toLowerCase();
             Set<String> selectedValues = filtersContainer.get(filterKey);
 
             if( selectedValues != null && !selectedValues.isEmpty() ) {
-                Selection columnSelection = selectAll();
+                Selection columnSelection = selectAll(filteredTable.rowCount());
 
                 //Combine selected values for the column with OR
                 for( String value : selectedValues ) {
-                    Selection valueSelection = table.stringColumn(column.getColumnName()).lowerCase().isEqualTo(value.toLowerCase());
-                    if( columnSelection.size() == table.rowCount() )//First value for the column, so initialize the column selection to this value's selection
+                    Selection valueSelection = filteredTable.stringColumn(column.getColumnName()).lowerCase().isEqualTo(value.toLowerCase());
+                    if( columnSelection.size() == filteredTable.rowCount() )//First value for the column, so initialize the column selection to this value's selection
                         columnSelection = valueSelection;
                     else
                         columnSelection = columnSelection.or(valueSelection);
                 }
 
-                categoricalSelection = categoricalSelection.and(columnSelection);
-                System.out.println("After applying " + filterKey + " filter: " + categoricalSelection.size() + " items selected for cateogries. Not including non-categorical filters.");
+                filteredTable = filteredTable.where(columnSelection);
+                System.out.println("After applying " + filterKey + " filter: " + filteredTable.rowCount() + " items selected for cateogries. Not including non-categorical filters.");
             }else if( selectedValues != null )//Empty but not null
                 System.out.println("No values selected for " + filterKey + ", skipping " + filterKey + " filter.");
             else//Null, meaning the key was not found in the filters container
                 System.out.println("Filter key " + filterKey + " not found in filters container, skipping " + filterKey + " filter.");
         }
 
-        System.out.println("Final categorical filter result: " + categoricalSelection.size() + " items");
-        return categoricalSelection;
+        System.out.println("Final categorical filter result: " + filteredTable.rowCount() + " items");
+        return filteredTable;
     }
 
     /** Select all rows in the table.
      * 
+     * @param rowCount The number of rows in the table to create a selection that includes all rows.
      * @return A {@code Selection} object that includes all rows in the table.
     */
-    private Selection selectAll(){
-        return Selection.withRange(0, table.rowCount());
-    }
-
-    /** Select no rows in the table.
-     * 
-     * @return A {@code Selection} object that includes no rows in the table.
-    */
-    private Selection selectNone(){
-        return Selection.withRange(0, 0);
+    private Selection selectAll(int rowCount){
+        return Selection.withRange(0, rowCount);
     }
 
 }

@@ -44,6 +44,6 @@ Project,org.troy.capstone.data_structures,SearchedItemsLinkedList,0,120,0,12,0,3
 Project,org.troy.capstone.data_structures,SimilarItemsGraph,5,377,0,22,0,72,1,25,1,14
 Project,org.troy.capstone.data_structures,PriceTree,0,60,0,2,0,11,0,5,0,4
 Project,org.troy.capstone.data_structures,RecentlyViewedQueue,0,82,0,4,0,20,0,7,0,5
-Project,org.troy.capstone.search_engine,SearchEngine,0,493,0,34,0,106,0,26,0,9
+Project,org.troy.capstone.search_engine,SearchEngine,0,471,0,34,0,100,0,25,0,8
 Project,org.troy.capstone.search_engine,PriceFilter,0,15,0,0,0,4,0,2,0,2
 Project,org.troy.capstone.search_engine,QueryFilter,0,351,0,12,0,69,0,11,0,5
