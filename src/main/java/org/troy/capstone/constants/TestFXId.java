@@ -12,7 +12,23 @@ public enum TestFXId {
     ATTRIBUTED_AUTHOR_NAME_PREFIX("attributedAuthorName_"),
 
     /** ID prefix for attributed item source name in the UI */
-    ATTRIBUTED_SOURCE_NAME_PREFIX("attributedSourceName_");
+    ATTRIBUTED_SOURCE_NAME_PREFIX("attributedSourceName_"),
+
+    /** ID for the search field in the UI */
+    SEARCH_FIELD("searchField"),
+
+    /** ID for the min price slider in the UI */
+    MIN_PRICE_SLIDER("minPriceSlider"),
+
+    /** ID for the max price slider in the UI */
+    MAX_PRICE_SLIDER("maxPriceSlider"),
+
+    /** ID prefix for star rating labels in the UI, where the full ID just includes the rating*/
+    STAR_LABEL_PREFIX("starLabel_"),
+
+    /** ID for the star rating filter component in the UI */
+    STAR_RATING_FILTER("starRatingFilter");
+
     /** The string ID associated with the {@code TestFXId} enum value. */
     private final String id;
 

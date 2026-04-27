@@ -35,6 +35,7 @@ public class SearchBar extends VBox {
         topRowBox.setSpacing(UISizeControl.WIDTH_PADDING.getValue());
         topRowBox.setAlignment(Pos.CENTER_LEFT);
         searchField = new TextField();
+        searchField.setId(TestFXId.SEARCH_FIELD.getId());
         searchField.setPromptText("Enter Query Here");
 
         searchButton = new Button("Search");

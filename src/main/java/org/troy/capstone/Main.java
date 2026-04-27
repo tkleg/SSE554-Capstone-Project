@@ -36,24 +36,6 @@ public class Main extends Application {
         GeneralManager generalManager = new GeneralManager(table, itemHashMap);
         
         GridPane gridPane = new GridPane();
-        /**
-        RowConstraints row1 = new RowConstraints();
-        row1.setVgrow(javafx.scene.layout.Priority.NEVER);
-        row1.setMinHeight(javafx.scene.layout.Region.USE_COMPUTED_SIZE);
-        row1.setPrefHeight(javafx.scene.layout.Region.USE_COMPUTED_SIZE);
-
-        RowConstraints row2 = new RowConstraints();
-        row2.setVgrow(javafx.scene.layout.Priority.NEVER);
-        row2.setMinHeight(javafx.scene.layout.Region.USE_COMPUTED_SIZE);
-        row2.setPrefHeight(javafx.scene.layout.Region.USE_COMPUTED_SIZE);
-
-        RowConstraints row3 = new RowConstraints();
-        row3.setVgrow(javafx.scene.layout.Priority.NEVER);
-        row3.setMinHeight(javafx.scene.layout.Region.USE_COMPUTED_SIZE);
-        row3.setPrefHeight(javafx.scene.layout.Region.USE_COMPUTED_SIZE);
-
-        gridPane.getRowConstraints().addAll(row1, row2, row3);
-        */
 
         gridPane.setPadding(new Insets(20)); // Add 20px padding around all edges
         gridPane.setHgap(UISizeControl.WIDTH_PADDING.getValue()); // 10px horizontal spacing between columns

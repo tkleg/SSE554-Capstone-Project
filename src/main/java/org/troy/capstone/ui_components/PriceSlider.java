@@ -1,5 +1,7 @@
 package org.troy.capstone.ui_components;
 
+import org.troy.capstone.constants.TestFXId;
+
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.VBox;
@@ -32,6 +34,7 @@ public class PriceSlider extends VBox {
         minSlider.setMajorTickUnit((max - min) / 4);
         minSlider.setBlockIncrement(1);
         minSlider.setPrefWidth(150);
+        minSlider.setId(TestFXId.MIN_PRICE_SLIDER.getId());
         
         // Max slider
         maxSlider = new Slider(min, max, max);
@@ -40,6 +43,7 @@ public class PriceSlider extends VBox {
         maxSlider.setMajorTickUnit((max - min) / 4);
         maxSlider.setBlockIncrement(1);
         maxSlider.setPrefWidth(150);
+        maxSlider.setId(TestFXId.MAX_PRICE_SLIDER.getId());
 
         // Label
         label = new Label(String.format("Price: $%.0f - $%.0f", min, max));

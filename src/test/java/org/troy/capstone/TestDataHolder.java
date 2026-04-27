@@ -13,7 +13,7 @@ public class TestDataHolder {
     private static final Table table;
     private static final ItemHashMap itemHashMap;
     private static final List<String> allItemIds;
-
+    
     static {
         table = TableUtils.readData(DataPath.CLEANED_ATTRIBUTED_DATA);
         itemHashMap = ItemHashMap.fromTable(table);
