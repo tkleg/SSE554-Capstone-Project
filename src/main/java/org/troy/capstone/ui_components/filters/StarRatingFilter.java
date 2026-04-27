@@ -1,8 +1,5 @@
 package org.troy.capstone.ui_components.filters;
 
-
-import org.troy.capstone.constants.TestFXId;
-
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
@@ -36,7 +33,6 @@ public class StarRatingFilter extends VBox {
      * Constructor for StarRatingFilter with 5 clickable stars and a label. The filter starts with no rating selected (0 stars).
      */
     public StarRatingFilter() {
-        setId(TestFXId.STAR_RATING_FILTER.getId());
         stars = new Label[MAX_STARS];
         setAlignment(Pos.CENTER_LEFT);
         setSpacing(2);
@@ -44,7 +40,6 @@ public class StarRatingFilter extends VBox {
         //Create the star labels
         for (int i = 0; i < MAX_STARS; i++) {
             Label star = new Label(EMPTY_STAR);
-            star.setId(TestFXId.STAR_LABEL_PREFIX.getId() + (i + 1));
             star.setFont(Font.font("Arial", 20));
             star.setTextFill(Color.GRAY);
             

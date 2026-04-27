@@ -13,12 +13,12 @@ Project,org.troy.capstone.managers,GeneralManager,0,171,0,16,0,31,0,18,0,10
 Project,org.troy.capstone.entities,Item,0,401,0,22,0,67,0,24,0,6
 Project,org.troy.capstone.ui_components.items,AttributedItemContainer.new Task() {...},0,18,0,0,0,2,0,2,0,2
 Project,org.troy.capstone.ui_components.items,RecentlyViewedWindow,0,58,0,0,0,14,0,3,0,3
-Project,org.troy.capstone.ui_components.items,AttributedItemContainer,18,209,0,0,6,44,0,9,0,9
+Project,org.troy.capstone.ui_components.items,AttributedItemContainer,18,187,0,0,6,41,0,9,0,9
 Project,org.troy.capstone.ui_components.items,SimilarItemsContainer,0,78,0,0,0,20,0,3,0,3
 Project,org.troy.capstone.ui_components.items,SearchedItemPanel,11,233,0,0,0,45,2,8,2,8
-Project,org.troy.capstone.ui_components,SearchBar.new ListCell() {...},0,21,0,2,0,4,0,3,0,2
-Project,org.troy.capstone.ui_components,SearchBar.new ListCell() {...},0,21,0,2,0,4,0,3,0,2
-Project,org.troy.capstone.ui_components,SearchBar,0,179,0,2,0,35,0,9,0,8
+Project,org.troy.capstone.ui_components,SearchBar.new ListCell() {...},13,8,2,0,3,1,2,1,1,1
+Project,org.troy.capstone.ui_components,SearchBar.new ListCell() {...},21,0,2,0,4,0,3,0,2,0
+Project,org.troy.capstone.ui_components,SearchBar,20,154,2,0,3,31,3,6,2,6
 Project,org.troy.capstone.ui_components,PriceSlider,0,200,0,4,0,36,0,8,0,6
 Project,org.troy.capstone.utils,Converters,0,6,0,0,0,1,0,1,0,1
 Project,org.troy.capstone.utils,UIUtils,0,61,0,4,0,11,0,4,0,2
@@ -30,9 +30,8 @@ Project,org.troy.capstone.constants,URL,0,42,0,0,0,9,0,3,0,3
 Project,org.troy.capstone.constants,UIElementName,0,77,0,0,0,14,0,3,0,3
 Project,org.troy.capstone.constants,TableColumnName,0,133,0,0,0,23,0,4,0,4
 Project,org.troy.capstone.constants,UIDataName,0,56,0,0,0,11,0,3,0,3
-Project,org.troy.capstone.constants,TestFXId,0,42,0,0,0,9,0,3,0,3
-Project,org.troy.capstone.ui_components.filters.categorical,FiltersContainer,0,194,0,8,0,43,0,11,0,7
-Project,org.troy.capstone.ui_components.filters.categorical,FilterPanel,0,45,0,0,0,13,0,2,0,2
+Project,org.troy.capstone.ui_components.filters.categorical,FiltersContainer,0,180,0,6,0,42,0,10,0,7
+Project,org.troy.capstone.ui_components.filters.categorical,FilterPanel,4,58,0,0,0,14,1,2,1,2
 Project,org.troy.capstone.search_engine.sorting.comparator,RowComparator,0,180,0,19,0,29,0,19,0,7
 Project,org.troy.capstone.search_engine.sorting.comparator,RowComparator.SortType,0,39,0,0,0,7,0,1,0,1
 Project,org.troy.capstone.ui_components.items.searched,SearchedItemContainer,0,165,0,8,0,41,0,16,0,12

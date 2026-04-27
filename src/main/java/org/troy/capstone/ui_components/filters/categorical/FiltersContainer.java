@@ -1,14 +1,12 @@
 package org.troy.capstone.ui_components.filters.categorical;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.troy.capstone.constants.TableColumnName;
-import org.troy.capstone.constants.TestFXId;
 import org.troy.capstone.constants.UISizeControl;
 import org.troy.capstone.entities.Item;
 import org.troy.capstone.utils.UIUtils;
@@ -97,15 +95,10 @@ public class FiltersContainer extends ScrollPane {
      * @param options The set of strings representing the filter options to create {@code CheckBox}es for.
      */
     public void addFilterPanel( String title, Set<String> options ) {
-        Set<CheckBox> checkBoxes = new HashSet<>();
-        for (String option : options){
-            CheckBox checkBox = new CheckBox(option);
-            checkBox.setId(TestFXId.CHECKBOX_PREFIX.getId() + option.toLowerCase().replaceAll("\\s", "_"));
-            checkBoxes.add(checkBox);
-        }
+        Set<CheckBox> checkBoxes = options.stream()
+            .map(CheckBox::new).collect(Collectors.toSet());
         filterOptions.put( title, checkBoxes );
         FilterPanel filterPanel = new FilterPanel(title, checkBoxes);
-        filterPanel.setId(TestFXId.FILTER_PANEL_PREFIX.getId() + title.toLowerCase().replaceAll("\\s", "_"));
         UIUtils.setLineBorder(filterPanel, 2, 2);
         filterPanel.setMaxWidth(Double.MAX_VALUE); //Allow the panel to expand to fill available width
         contentContainer.getChildren().add(filterPanel);

@@ -1,6 +1,7 @@
 package org.troy.capstone.ui_components;
 
 import java.util.Optional;
+import java.util.concurrent.CountDownLatch;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -8,46 +9,34 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.testfx.framework.junit5.ApplicationTest;
-import org.testfx.framework.junit5.Start;
+import org.testfx.util.WaitForAsyncUtils;
 import org.troy.capstone.TestDataHolder;
-import org.troy.capstone.TestUtils;
-import org.troy.capstone.constants.TestFXId;
 import org.troy.capstone.constants.UIElementName;
 import org.troy.capstone.managers.GeneralManager;
 import org.troy.capstone.search_engine.sorting.comparator.RowComparator;
 
+import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 
-public class SearchBarTest extends ApplicationTest {
+public class SearchBarTest {
 
     private static GeneralManager generalManager;
-    private SearchBar searchBar;
-
-    @Override
-    @Start
-    public void start(Stage stage) {
-        searchBar = new SearchBar();
-        generalManager = new GeneralManager(TestDataHolder.getTableCopy(), TestDataHolder.getItemHashMapCopy());
-        generalManager.addUIElement(UIElementName.SEARCH_FIELD, searchBar.getSearchField());
-        generalManager.addUIElement(UIElementName.SORTING_OPTION_DROPDOWN, searchBar.getSortingOptionDropdown());
-        generalManager.setButton(searchBar.getSearchButton());
-        Scene scene = new Scene(searchBar, 800, 100);
-        stage.setScene(scene);
-        stage.show();
-    }
+    private static SearchBar searchBar;
+    private static ComboBox<RowComparator> dropdown;
 
     @BeforeAll
     @SuppressWarnings("ResultOfObjectAllocationIgnored")
     public static void setup() {
         new JFXPanel();
+        searchBar = new SearchBar();
         generalManager = new GeneralManager(TestDataHolder.getTableCopy(), TestDataHolder.getItemHashMapCopy());
+        generalManager.addUIElement(UIElementName.SEARCH_FIELD, searchBar.getSearchField());
+        generalManager.addUIElement(UIElementName.SORTING_OPTION_DROPDOWN, searchBar.getSortingOptionDropdown());
+        generalManager.setButton(searchBar.getSearchButton());
     }
 
     @BeforeEach
@@ -56,6 +45,7 @@ public class SearchBarTest extends ApplicationTest {
         generalManager.addUIElement(UIElementName.SEARCH_FIELD, searchBar.getSearchField());
         generalManager.addUIElement(UIElementName.SORTING_OPTION_DROPDOWN, searchBar.getSortingOptionDropdown());
         generalManager.setButton(searchBar.getSearchButton());
+        dropdown = searchBar.getSortingOptionDropdown();
     }
     
     @Test
@@ -101,13 +91,21 @@ public class SearchBarTest extends ApplicationTest {
     @Test
     @DisplayName("Test the text shown when clicking the sortBy dropdown")
     public void testSortByDropdownText() throws NoSuchFieldException, IllegalAccessException {
-        
-        ComboBox<RowComparator> dropdown = TestUtils.lookupByTestFXId(TestFXId.SORT_OPTION_DROPDOWN);
 
         assertNotNull(dropdown, "Sorting option dropdown should not be null");
 
         //Open the dropdown and check the text in the cell
-        interact(dropdown::show);
+        CountDownLatch latch = new CountDownLatch(1);
+        Platform.runLater(() ->{ 
+            dropdown.show(); 
+            latch.countDown();
+        });
+        try {
+            latch.await();
+        } catch (InterruptedException e) {
+            System.err.println("Test was interrupted: " + e.getMessage());
+        }
+        WaitForAsyncUtils.waitForFxEvents();
         RowComparator thirdItem = dropdown.getItems().get(2);
         RowComparator expectedComparator = new RowComparator(RowComparator.SortType.RELEVANCE_ASCENDING);
         assertEquals(expectedComparator, thirdItem, "3rd item should be /\"" + expectedComparator.toString() + "/\" but got: " + thirdItem.toString());
@@ -116,7 +114,17 @@ public class SearchBarTest extends ApplicationTest {
         assertEquals(expectedText, thirdItemText, "3rd item text should by /\"" + expectedText + "/\" but got: " + thirdItemText);
 
         //Click the 3rd item and check that the dropdown value is updated
-        interact(() -> dropdown.getSelectionModel().select(2));
+        CountDownLatch latch2 = new CountDownLatch(1);
+        Platform.runLater(() -> {
+            dropdown.getSelectionModel().select(2);
+            latch2.countDown();
+        });
+        try {
+            latch2.await();
+        } catch (InterruptedException e) {
+            System.err.println("Test was interrupted: " + e.getMessage());
+        }
+        WaitForAsyncUtils.waitForFxEvents();
         RowComparator selectedComparator = dropdown.getValue();
         assertNotNull(selectedComparator, "Selected RowComparator should not be null after selecting an item from the dropdown");
         assertEquals(expectedComparator, selectedComparator, "Selected RowComparator should be equal to the expected comparator after selecting an item from the dropdown, but got: " + selectedComparator);
@@ -126,14 +134,21 @@ public class SearchBarTest extends ApplicationTest {
     @Test
     @DisplayName("Test null options in the sortBy dropdown")
     public void testNullOptionsInSortByDropdown() throws NoSuchFieldException, IllegalAccessException {
-        ComboBox<RowComparator> dropdown = TestUtils.lookupByTestFXId(TestFXId.SORT_OPTION_DROPDOWN);
 
         assertNotNull(dropdown, "Sorting option dropdown should not be null");
 
         //Add a null item to the dropdown and check that it is displayed as "None"
-        interact(() -> dropdown.getSelectionModel().clearSelection());
-        interact(() -> dropdown.setValue(null));
-
+        CountDownLatch latch = new CountDownLatch(1);
+        Platform.runLater(() -> {
+            dropdown.getSelectionModel().clearSelection();
+            dropdown.setValue(null);
+            latch.countDown();
+        });
+        try {
+            latch.await();
+        } catch (InterruptedException e) {
+            System.err.println("Test was interrupted: " + e.getMessage());
+        }
         //No assertions needed, just checking that no exceptions are thrown
     }
 }

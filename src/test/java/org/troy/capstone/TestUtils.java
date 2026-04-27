@@ -1,36 +1,8 @@
 package org.troy.capstone;
 
-import org.testfx.api.FxRobot;
-import org.troy.capstone.constants.TestFXId;
-
-import javafx.scene.Node;
 import tech.tablesaw.api.Table;
 
 public class TestUtils {
-    /**
-     * Looks up a node by TestFXId and returns the result of query().
-     * Only to be used in TestFX tests.
-     * @param id The TestFXId enum value.
-     * @param <T> The expected type of the node.
-     * @return The node found by TestFX lookup().query().
-     */
-    @SuppressWarnings("unchecked")
-    public static <T extends Node> T lookupByTestFXId(TestFXId id) {
-        return (T) new FxRobot().lookup("#" + id.getId()).query();
-    }
-
-    /**
-     * Looks up a node by a string ID and returns the result of query().
-     * Only to be used in TestFX tests.
-     * @param id The string ID of the node to look up.
-     * @param <T> The expected type of the node.
-     * @return The node found by TestFX lookup().query().
-     */
-    @SuppressWarnings("unchecked")
-    public static <T extends Node> T lookupByTestFXId(String id) {
-        return (T) new FxRobot().lookup("#" + id).query();
-    }
-
     
     /** Compares two Tablesaw Tables for equality by checking that they have the same number of rows and columns, the same column names in the same order, and the same values in each cell.
      * Marked as Generated since it is only used in testing.

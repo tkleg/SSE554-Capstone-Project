@@ -1,6 +1,5 @@
 package org.troy.capstone.ui_components;
 
-import org.troy.capstone.constants.TestFXId;
 import org.troy.capstone.constants.UISizeControl;
 import org.troy.capstone.search_engine.sorting.comparator.RowComparator;
 
@@ -35,7 +34,6 @@ public class SearchBar extends VBox {
         topRowBox.setSpacing(UISizeControl.WIDTH_PADDING.getValue());
         topRowBox.setAlignment(Pos.CENTER_LEFT);
         searchField = new TextField();
-        searchField.setId(TestFXId.SEARCH_FIELD.getId());
         searchField.setPromptText("Enter Query Here");
 
         searchButton = new Button("Search");
@@ -63,7 +61,6 @@ public class SearchBar extends VBox {
      * @param sortByLabel The {@code Label} to associate with the {@code sortingOptionDropdown} in the UI.
      */
     private void buildSortingOptionDropdown(HBox bottomBox, Label sortByLabel) {
-        sortingOptionDropdown.setId(TestFXId.SORT_OPTION_DROPDOWN.getId());
         sortingOptionDropdown.getItems().addAll(RowComparator.getComparators());
         sortingOptionDropdown.setPromptText("Sort By");
         sortingOptionDropdown.getSelectionModel().selectFirst();
