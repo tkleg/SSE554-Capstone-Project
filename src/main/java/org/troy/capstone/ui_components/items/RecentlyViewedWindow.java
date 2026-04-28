@@ -3,6 +3,7 @@ package org.troy.capstone.ui_components.items;
 import java.util.List;
 
 import org.troy.capstone.constants.UISizeControl;
+import org.troy.capstone.constants.TestFXId;
 import org.troy.capstone.interfaces.SearchedItemPanelDestinationUI;
 import org.troy.capstone.utils.UIUtils;
 
@@ -36,6 +37,7 @@ public class RecentlyViewedWindow extends ScrollPane implements SearchedItemPane
         Label titleLabel = new Label("Recently Viewed Items");
         titleLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
         content.getChildren().add(titleLabel);
+        content.setId(TestFXId.RECENTLY_VIEWED_CONTAINER.getId());
         setContent(content);
     }
 

@@ -15,6 +15,7 @@ import org.troy.capstone.search_engine.sorting.comparator.RowComparator;
 import org.troy.capstone.ui_components.filters.StarRatingFilter;
 import org.troy.capstone.ui_components.filters.categorical.FilterPanel;
 import org.troy.capstone.ui_components.items.searched.SearchedItemPagination;
+import org.troy.capstone.ui_components.items.SearchedItemPanel;
 
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -39,6 +40,27 @@ public class MainTest extends ApplicationTest {
     public void setUp() throws Exception {
         ApplicationTest.launch(Main.class);
     }
+
+    @Test
+    public void testDisplayInSimilarItemsAndRecentlyViewedItems(){
+        Label nameLabel = TestUtils.lookupByTestFXId(TestFXId.FIRST_SEARCHED_ITEM_NAME_LABEL);
+        assertNotNull(nameLabel, "First searched item name label should be found by TestFXId in testDisplayInSimilarItemsAndRecentlyViewedItems");
+
+        VBox recentlyViewedContent = TestUtils.lookupByTestFXId(TestFXId.RECENTLY_VIEWED_CONTAINER);
+        int initialRecentlyViewedCount = recentlyViewedContent.getChildren().size();
+        assertEquals(1, initialRecentlyViewedCount, "There should be 1 item (label) in the recently viewed container initially, but was " + initialRecentlyViewedCount);
+        Node firstChild = recentlyViewedContent.getChildren().get(0);
+        assertTrue(firstChild instanceof Label, "The first child in the recently viewed container should be a Label representing the item name, but was " + firstChild.getClass().getSimpleName());
+
+        //HBox similarItemsContainer = TestUtils.lookupByTestFXId(TestFXId.SIMILAR_ITEMS_CONTENT);
+        interact(() -> clickOn(nameLabel));
+
+        initialRecentlyViewedCount = recentlyViewedContent.getChildren().size();
+        assertEquals(1, initialRecentlyViewedCount, "There should be 1 item in the recently viewed container after clicking on the first searched item, but was " + initialRecentlyViewedCount);
+        firstChild = recentlyViewedContent.getChildren().get(0);
+        assertTrue(firstChild instanceof SearchedItemPanel, "The first child in the recently viewed container should be a SearchedItemPanel representing the item, but was " + firstChild.getClass().getSimpleName());
+    }
+
 
     @Test
     public void testFilteredSearch() throws ReflectiveOperationException {

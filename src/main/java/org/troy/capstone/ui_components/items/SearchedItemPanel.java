@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.troy.capstone.constants.UISizeControl;
+import org.troy.capstone.constants.TestFXId;
 import org.troy.capstone.entities.Item;
 import org.troy.capstone.interfaces.SearchedItemPanelInteractor;
 import org.troy.capstone.utils.UIUtils;
@@ -36,6 +37,9 @@ public class SearchedItemPanel extends HBox{
 
     /** The ID of the item being displayed in this panel. Used for checking if the panel is in the recently viewed queue. */
     private final String itemId;
+
+    /** Static variable to track if the first instance of {@code SearchedItemPanel} has been created, used to assign an ID to the name label of the first instance for clicking on the instance in tests. */
+    private static boolean firstInstanceMade = false;
 
     /**
      * Creates a {@code SearchedItemPanel} for the given item, displaying its image and details in a structured layout.
@@ -124,6 +128,11 @@ public class SearchedItemPanel extends HBox{
         nameLabel.setWrapText(true);
         nameLabel.setMaxWidth(UISizeControl.SEARCHED_ITEM_LABEL_MAX_WIDTH.getValue()); // Allow space for image on left
         nameLabel.setAlignment(Pos.CENTER_LEFT);
+        if(!firstInstanceMade) {
+            nameLabel.setId(TestFXId.FIRST_SEARCHED_ITEM_NAME_LABEL.getId());
+            firstInstanceMade = true;
+        }
+
 
         Label publisherLabel = createLabel("Publisher: " + item.getPublisher());
         

@@ -37,8 +37,11 @@ public enum TestFXId {
 
     /** ID for the pagination component that holds the SearchedItemContainer in the UI */
     SEARCHED_ITEM_PAGINATION("searchedItemPagination"),
+
+    /** ID for the container that holds the recently viewed item panels in the UI */
+    RECENTLY_VIEWED_CONTAINER("recentlyViewedContainer"),
     
-    /** ID for the name label of the first searchedItemPanel. Used for testing to allow retrieval of the first searched item's name label */
+    /** ID for the name label of the first searchedItemPanel. The name label is used to avoid triggering external links elsewhere in the SearchedItemPanel */
     FIRST_SEARCHED_ITEM_NAME_LABEL("searchedItemNameLabel_1");
 
     /** The string ID associated with the {@code TestFXId} enum value. */
