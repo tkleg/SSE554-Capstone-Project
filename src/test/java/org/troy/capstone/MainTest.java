@@ -2,6 +2,9 @@ package org.troy.capstone;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.lang.reflect.Field;
+
 import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
 import org.testfx.util.WaitForAsyncUtils;
@@ -30,13 +33,13 @@ public class MainTest extends ApplicationTest {
 
 
     @Test
-    public void testApp() {
+    public void testApp() throws ReflectiveOperationException {
         //Assert that the stage is showing after setup
         assertTrue(stage.isShowing(), "Primary stage should be showing after setup");
         setSortOptionAndTest();
         setSearchQueryAndTestRetrieval();
         setPriceSliderAndTestRetrievals();
-        //setStarRatingAndTest();
+        setStarRatingAndTest();
         /*try {
             setCategoryDataAndTest();
             setPublisherDataAndTest();
@@ -79,18 +82,18 @@ public class MainTest extends ApplicationTest {
         double minPrice = 100.0;
         double maxPrice = 500.0;
 
-        double pixelsPerUnit = minPriceSlider.getWidth() / (minPriceSlider.getMax() - minPriceSlider.getMin());
+        double pixelsPerDollar = minPriceSlider.getWidth() / (minPriceSlider.getMax() - minPriceSlider.getMin());
 
-        double minOffset = Math.abs((minPrice - minPriceSlider.getValue()) * pixelsPerUnit);
-        double maxOffset = Math.abs((maxPrice - maxPriceSlider.getValue()) * pixelsPerUnit);
+        double minOffset = Math.abs((minPrice - minPriceSlider.getValue()) * pixelsPerDollar);
+        double maxOffset = Math.abs((maxPrice - maxPriceSlider.getValue()) * pixelsPerDollar);
         // Move min slider thumb to the right (simulate user drag)
         interact(() -> {
-            drag(minPriceSlider.lookup(".thumb")).dropBy(minOffset, 0); // Adjust 50 as needed for your slider's range
+            drag(minPriceSlider.lookup(".thumb")).dropBy(minOffset, 0);
         });
 
         // Move max slider thumb to the left (simulate user drag)
         interact(() -> {
-            drag(maxPriceSlider.lookup(".thumb")).dropBy(-maxOffset, 0); // Adjust -50 as needed for your slider's range
+            drag(maxPriceSlider.lookup(".thumb")).dropBy(-maxOffset, 0);
         });
 
         // Wait for UI events to process
@@ -101,8 +104,8 @@ public class MainTest extends ApplicationTest {
         // Allow a wider delta due to drag precision
         System.out.println("Expected min price: " + minPrice + ", Actual min price: " + actualMinPrice);
         System.out.println("Expected max price: " + maxPrice + ", Actual max price: " + actualMaxPrice);
-        assertTrue(Math.abs(actualMinPrice - minPrice) < 10, "Min price slider should be near " + minPrice + ", but was " + actualMinPrice);
-        assertTrue(Math.abs(actualMaxPrice - maxPrice) < 10, "Max price slider should be near " + maxPrice + ", but was " + actualMaxPrice);
+        assertTrue(Math.abs(actualMinPrice - minPrice) < 15, "Min price slider should be near " + minPrice + ", but was " + actualMinPrice);
+        assertTrue(Math.abs(actualMaxPrice - maxPrice) < 15, "Max price slider should be near " + maxPrice + ", but was " + actualMaxPrice);
     
         //The FXRobot drag is not too precise, so the sliders are manually set later to ensure the correct values are set for later tests that rely on the slider values
         interact(() -> {
@@ -114,13 +117,63 @@ public class MainTest extends ApplicationTest {
         assertEquals(maxPrice, maxPriceSlider.getValue(), "Max price slider should be set to " + maxPrice + " after manual set, but was " + maxPriceSlider.getValue());
     }
 
-    public void setStarRatingAndTest() {
-        int expectedRating = 4;
-        Label star4 = TestUtils.lookupByTestFXId(TestFXId.STAR_LABEL_PREFIX.getId() + expectedRating);
-        interact(() -> clickOn(star4));
+    public void setStarRatingAndTest() throws ReflectiveOperationException {
+        Field MAX_STARS_FIELD = StarRatingFilter.class.getDeclaredField("MAX_STARS");
+        MAX_STARS_FIELD.setAccessible(true);
+        final int MAX_STARS = (int) MAX_STARS_FIELD.get(null);
+
+        Field EMPTY_STAR_FIELD = StarRatingFilter.class.getDeclaredField("EMPTY_STAR");
+        EMPTY_STAR_FIELD.setAccessible(true);
+        String EMPTY_STAR = (String) EMPTY_STAR_FIELD.get(null);
+
+        Field FILLED_STAR_FIELD = StarRatingFilter.class.getDeclaredField("FILLED_STAR");
+        FILLED_STAR_FIELD.setAccessible(true);
+        String FILLED_STAR = (String) FILLED_STAR_FIELD.get(null);
+
+        Label[] stars = new Label[MAX_STARS];
+        for (int i = 0; i < MAX_STARS; i++) {
+            String starLabelId = TestFXId.STAR_LABEL_PREFIX.getId() + (i + 1);
+            stars[i] = TestUtils.lookupByTestFXId(starLabelId);
+        }
+
         StarRatingFilter starRatingFilter = TestUtils.lookupByTestFXId(TestFXId.STAR_RATING_FILTER);
-        int actualRating = starRatingFilter.getSelectedRating();
-        assertEquals(expectedRating, actualRating, "Selected star rating should be " + expectedRating + ", but was " + actualRating);   
+
+        //Click on the 4 star label
+        interact(() -> clickOn(stars[3]) );
+        //Check that the first 4 stars are filled and the 5th star is not filled
+        for (int i = 0; i < MAX_STARS; i++) {
+            String expectedText = i <= 3 ? FILLED_STAR : EMPTY_STAR;
+            String actualText = stars[i].getText();
+            assertEquals(expectedText, actualText, "Star " + (i + 1) + " should be " + (i <= 3 ? "filled" : "empty") + " after clicking on star 4, but was " + (actualText.equals(FILLED_STAR) ? "filled" : actualText.equals(EMPTY_STAR) ? "empty" : "unknown"));
+        }
+        //Check the selected rating is 4
+        int actualSelectedRating = starRatingFilter.getSelectedRating();
+        assertEquals(4, actualSelectedRating, "Selected star rating should be 4 after clicking on the 4th star, but was " + actualSelectedRating);
+
+        //Click on the 4 star label again to deselect
+        interact(() -> clickOn(stars[3]) );
+        //Check that all stars are now empty
+        for (int i = 0; i < MAX_STARS; i++) {
+            String actualText = stars[i].getText();
+            assertEquals(EMPTY_STAR, actualText, "Star " + (i + 1) + " should be empty after clicking on star 4 again to deselect, but was " + (actualText.equals(FILLED_STAR) ? "filled" : actualText.equals(EMPTY_STAR) ? "empty" : "unknown"));
+        }
+        //Check the selected rating is 0 (no rating)
+        actualSelectedRating = starRatingFilter.getSelectedRating();
+        assertEquals(0, actualSelectedRating, "Selected star rating should be 0 after deselecting the 4th star, but was " + actualSelectedRating);
+
+        //Click on the 3 star label
+        interact(() -> clickOn(stars[2]) );
+        //Check that the first 3 stars are filled and the 4th and 5th stars are not filled
+        for (int i = 0; i < MAX_STARS; i++) {
+            String expectedText = i <= 2 ? FILLED_STAR : EMPTY_STAR;
+            String actualText = stars[i].getText();
+            assertEquals(expectedText, actualText, "Star " + (i + 1) + " should be " + (i <= 2 ? "filled" : "empty") + " after clicking on star 3, but was " + (actualText.equals(FILLED_STAR) ? "filled" : actualText.equals(EMPTY_STAR) ? "empty" : "unknown"));
+        }
+
+        //Check the selected rating is 3
+        actualSelectedRating = starRatingFilter.getSelectedRating();
+        assertEquals(3, actualSelectedRating, "Selected star rating should be 3 after clicking on the 3rd star, but was " + actualSelectedRating);
+
     }
 
     public void setCategoryDataAndTest() throws InterruptedException {
