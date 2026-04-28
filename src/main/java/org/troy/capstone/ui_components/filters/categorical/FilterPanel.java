@@ -4,9 +4,10 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.troy.capstone.constants.TestFXId;
+
 import javafx.geometry.Pos;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.Labeled;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.VBox;
 
@@ -41,8 +42,8 @@ public class FilterPanel extends TitledPane{
         contentBox.setStyle("-fx-font-weight: normal;");
 
         contentBox.getChildren().addAll(optionCheckBoxes);
-
-        System.out.println("\n\n\n\n\n Found for " + title + ": " + lookupAll(title).stream().map(n -> ((Labeled) n).getText()).collect(Collectors.toList()) + "\n\n\n\n\n");
+        
+        setId(TestFXId.FILTER_PANEL_PREFIX.getId() + title.toLowerCase().replaceAll("\\s+", "_"));
 
     }
 

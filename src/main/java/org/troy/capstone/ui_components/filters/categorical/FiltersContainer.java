@@ -7,6 +7,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.troy.capstone.constants.TableColumnName;
+import org.troy.capstone.constants.TestFXId;
 import org.troy.capstone.constants.UISizeControl;
 import org.troy.capstone.entities.Item;
 import org.troy.capstone.utils.UIUtils;
@@ -96,7 +97,9 @@ public class FiltersContainer extends ScrollPane {
      */
     public void addFilterPanel( String title, Set<String> options ) {
         Set<CheckBox> checkBoxes = options.stream()
-            .map(CheckBox::new).collect(Collectors.toSet());
+            .map(CheckBox::new)
+            .peek(box -> box.setId(TestFXId.CHECKBOX_PREFIX.getId() + box.getText().toLowerCase().replaceAll("\\s+", "_")))
+            .collect(Collectors.toSet());
         filterOptions.put( title, checkBoxes );
         FilterPanel filterPanel = new FilterPanel(title, checkBoxes);
         UIUtils.setLineBorder(filterPanel, 2, 2);

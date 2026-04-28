@@ -92,7 +92,6 @@ public class SearchBar extends VBox {
                 } else {
                     setText(item.toString());
                     String itemId = TestFXId.SORT_OPTION_CELL_PREFIX.getId() + item.toString().replaceAll("\\s+", "_").toLowerCase();
-                    System.out.println("Setting cell ID for sorting option: \"" + itemId + "\"");
                     setId(itemId);
                 }
             }

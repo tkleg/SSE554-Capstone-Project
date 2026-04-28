@@ -92,35 +92,34 @@ public class SearchBar extends VBox {
                 } else {
 <span class="fc" id="L93">                    setText(item.toString());</span>
 <span class="fc" id="L94">                    String itemId = TestFXId.SORT_OPTION_CELL_PREFIX.getId() + item.toString().replaceAll(&quot;\\s+&quot;, &quot;_&quot;).toLowerCase();</span>
-<span class="fc" id="L95">                    System.out.println(&quot;Setting cell ID for sorting option: \&quot;&quot; + itemId + &quot;\&quot;&quot;);</span>
-<span class="fc" id="L96">                    setId(itemId);</span>
+<span class="fc" id="L95">                    setId(itemId);</span>
                 }
-<span class="fc" id="L98">            }</span>
+<span class="fc" id="L97">            }</span>
         });
         // Display clean name and set TestFXId for the selected (button) cell, handling null/empty
-<span class="fc" id="L101">        sortingOptionDropdown.setButtonCell(new ListCell&lt;&gt;() {</span>
+<span class="fc" id="L100">        sortingOptionDropdown.setButtonCell(new ListCell&lt;&gt;() {</span>
             @Override
             protected void updateItem(RowComparator item, boolean empty) {
-<span class="fc" id="L104">                super.updateItem(item, empty);</span>
-<span class="pc bpc" id="L105" title="1 of 4 branches missed.">                if (empty || item == null)</span>
-<span class="fc" id="L106">                    setText(null);</span>
+<span class="fc" id="L103">                super.updateItem(item, empty);</span>
+<span class="pc bpc" id="L104" title="1 of 4 branches missed.">                if (empty || item == null)</span>
+<span class="fc" id="L105">                    setText(null);</span>
                 else
-<span class="fc" id="L108">                    setText(item.toString());</span>
-<span class="fc" id="L109">            }</span>
+<span class="fc" id="L107">                    setText(item.toString());</span>
+<span class="fc" id="L108">            }</span>
         });
         //Print selected option when changed
-<span class="fc" id="L112">        sortingOptionDropdown.setOnAction(e -&gt; {</span>
-<span class="fc" id="L113">            RowComparator selectedComparator = sortingOptionDropdown.getValue();</span>
-<span class="pc bpc" id="L114" title="1 of 2 branches missed.">            System.out.println(&quot;Selected sorting option: &quot; + (selectedComparator == null ? &quot;None&quot; : selectedComparator.toString()));</span>
-<span class="fc" id="L115">        });</span>
-<span class="fc" id="L116">    }</span>
+<span class="fc" id="L111">        sortingOptionDropdown.setOnAction(e -&gt; {</span>
+<span class="fc" id="L112">            RowComparator selectedComparator = sortingOptionDropdown.getValue();</span>
+<span class="pc bpc" id="L113" title="1 of 2 branches missed.">            System.out.println(&quot;Selected sorting option: &quot; + (selectedComparator == null ? &quot;None&quot; : selectedComparator.toString()));</span>
+<span class="fc" id="L114">        });</span>
+<span class="fc" id="L115">    }</span>
 
     /**
      * Returns the {@code TextField} for entering search queries.
      * @return The {@code TextField} for entering search queries.
      */
     public TextField getSearchField() {
-<span class="fc" id="L123">        return searchField;</span>
+<span class="fc" id="L122">        return searchField;</span>
     }
 
     /**
@@ -128,7 +127,7 @@ public class SearchBar extends VBox {
      * @return The {@code Button} for initiating the search.
      */
     public Button getSearchButton() {
-<span class="fc" id="L131">        return searchButton;</span>
+<span class="fc" id="L130">        return searchButton;</span>
     }
 
     /**
@@ -136,7 +135,7 @@ public class SearchBar extends VBox {
      * @return The {@code ComboBox} for selecting sorting options.
      */
     public ComboBox&lt;RowComparator&gt; getSortingOptionDropdown() {
-<span class="fc" id="L139">        return sortingOptionDropdown;</span>
+<span class="fc" id="L138">        return sortingOptionDropdown;</span>
     }
 
 }

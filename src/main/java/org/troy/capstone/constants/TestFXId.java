@@ -28,7 +28,7 @@ public enum TestFXId {
 
     /** ID prefix for filter panels in the UI, where the full ID includes the filter category */
     FILTER_PANEL_PREFIX("filterPanel_"),
-
+    
     /** ID for the name label of the first searchedItemPanel. Used for testing to allow retrieval of the first searched item's name label */
     FIRST_SEARCHED_ITEM_NAME_LABEL("searchedItemNameLabel_1");
 

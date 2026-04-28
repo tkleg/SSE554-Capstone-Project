@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.lang.reflect.Field;
+import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
@@ -40,13 +41,9 @@ public class MainTest extends ApplicationTest {
         setSearchQueryAndTestRetrieval();
         setPriceSliderAndTestRetrievals();
         setStarRatingAndTest();
-        /*try {
-            setCategoryDataAndTest();
-            setPublisherDataAndTest();
-            setTagDataAndTest();
-        } catch (InterruptedException e) {
-            System.err.println("Test was interrupted: " + e.getMessage());
-        }*/
+        setCategoryDataAndTest();
+        setPublisherDataAndTest();
+        setTagDataAndTest();
         //clickFirstNameLabelAndTest();
     }
 
@@ -176,40 +173,35 @@ public class MainTest extends ApplicationTest {
 
     }
 
-    public void setCategoryDataAndTest() throws InterruptedException {
-        FilterPanel categoryPanel = TestUtils.lookupByTestFXId(TestFXId.FILTER_PANEL_PREFIX.getId() + "category");
-        interact(() -> clickOn(categoryPanel));
-        Thread.sleep(500);
+    public void setCategoryDataAndTest(){
+        //Due to hidden field with the scrollpane, the checkbox is selected with the setting instead of a proper click event
         CheckBox electronicsCheckbox = TestUtils.lookupByTestFXId(TestFXId.CHECKBOX_PREFIX.getId() + "electronics");
-        interact(() -> clickOn(electronicsCheckbox));
-        Thread.sleep(500);
-        interact(() -> categoryPanel.setExpanded(false) ); //Collapse the panel again
-        Thread.sleep(500);
-        assertTrue(electronicsCheckbox.isSelected(), "Checkbox for Electronics should be selected, but was not");
+        interact(() -> electronicsCheckbox.setSelected(true));
+        
+        FilterPanel categoryPanel = TestUtils.lookupByTestFXId(TestFXId.FILTER_PANEL_PREFIX.getId() + "category");
+        Set<String> expectedSelectedOptions = Set.of("Electronics");
+        Set<String> actualSelectedOptions = categoryPanel.getCheckedOptions();
+        assertEquals(expectedSelectedOptions, actualSelectedOptions, "Selected category options should contain only Electronics after selecting the Electronics checkbox, but was " + actualSelectedOptions);
     }
 
-    public void setPublisherDataAndTest() throws InterruptedException {
-        FilterPanel publisherPanel = TestUtils.lookupByTestFXId(TestFXId.FILTER_PANEL_PREFIX.getId() + "publisher");
-        interact(() -> clickOn(publisherPanel));
-        Thread.sleep(500);
+    public void setPublisherDataAndTest() {
         CheckBox urbanNestCheckbox = TestUtils.lookupByTestFXId(TestFXId.CHECKBOX_PREFIX.getId() + "urbannest");
-        interact(() -> clickOn(urbanNestCheckbox));
-        Thread.sleep(500);
-        interact(() -> publisherPanel.setExpanded(false) ); //Collapse the panel again
-        Thread.sleep(500);
-        assertTrue(urbanNestCheckbox.isSelected(), "Checkbox for UrbanNest should be selected, but was not");
+        interact(() -> urbanNestCheckbox.setSelected(true));
+
+        FilterPanel publisherPanel = TestUtils.lookupByTestFXId(TestFXId.FILTER_PANEL_PREFIX.getId() + "publisher");
+        Set<String> expectedSelectedOptions = Set.of("UrbanNest");
+        Set<String> actualSelectedOptions = publisherPanel.getCheckedOptions();
+        assertEquals(expectedSelectedOptions, actualSelectedOptions, "Selected publisher options should contain only UrbanNest after selecting the UrbanNest checkbox, but was " + actualSelectedOptions);
     }
 
-    public void setTagDataAndTest() throws InterruptedException {
+    public void setTagDataAndTest(){
+        CheckBox bestSellerCheckbox= TestUtils.lookupByTestFXId(TestFXId.CHECKBOX_PREFIX.getId() + "bestseller");
+        interact(() -> bestSellerCheckbox.setSelected(true));
+
         FilterPanel tagPanel = TestUtils.lookupByTestFXId(TestFXId.FILTER_PANEL_PREFIX.getId() + "tags");
-        interact(() -> clickOn(tagPanel));
-        Thread.sleep(1000);
-        CheckBox smartHomeCheckbox = TestUtils.lookupByTestFXId(TestFXId.CHECKBOX_PREFIX.getId() + "bestseller");
-        interact(() -> clickOn(smartHomeCheckbox));
-        Thread.sleep(1000);
-        interact(() -> tagPanel.setExpanded(false) ); //Collapse the panel again
-        Thread.sleep(1000);
-        assertTrue(smartHomeCheckbox.isSelected(), "Checkbox for Best Seller should be selected, but was not");
+        Set<String> expectedSelectedOptions = Set.of("Bestseller");
+        Set<String> actualSelectedOptions = tagPanel.getCheckedOptions();
+        assertEquals(expectedSelectedOptions, actualSelectedOptions, "Selected tag options should contain only Best Seller after selecting the Best Seller checkbox, but was " + actualSelectedOptions);
     }
 
     public void clickFirstNameLabelAndTest() {

@@ -788,6 +788,7 @@ digraph "classes" {
    "org.troy.capstone.ui_components.PriceSlider"      -> "javafx.scene.control.Label (not found)";
    "org.troy.capstone.ui_components.PriceSlider"      -> "javafx.scene.control.Slider (not found)";
    "org.troy.capstone.ui_components.PriceSlider"      -> "javafx.scene.layout.VBox (not found)";
+   "org.troy.capstone.ui_components.PriceSlider"      -> "org.troy.capstone.constants.TestFXId (classes)";
    "org.troy.capstone.ui_components.SearchBar"        -> "java.io.PrintStream (java.base)";
    "org.troy.capstone.ui_components.SearchBar"        -> "java.lang.Object (java.base)";
    "org.troy.capstone.ui_components.SearchBar"        -> "java.lang.String (java.base)";
@@ -819,10 +820,8 @@ digraph "classes" {
    "org.troy.capstone.ui_components.SearchBar"        -> "org.troy.capstone.search_engine.sorting.comparator.RowComparator (classes)";
    "org.troy.capstone.ui_components.SearchBar"        -> "org.troy.capstone.ui_components.SearchBar$1 (classes)";
    "org.troy.capstone.ui_components.SearchBar"        -> "org.troy.capstone.ui_components.SearchBar$2 (classes)";
-   "org.troy.capstone.ui_components.SearchBar$1"      -> "java.io.PrintStream (java.base)";
    "org.troy.capstone.ui_components.SearchBar$1"      -> "java.lang.Object (java.base)";
    "org.troy.capstone.ui_components.SearchBar$1"      -> "java.lang.String (java.base)";
-   "org.troy.capstone.ui_components.SearchBar$1"      -> "java.lang.System (java.base)";
    "org.troy.capstone.ui_components.SearchBar$1"      -> "java.lang.invoke.CallSite (java.base)";
    "org.troy.capstone.ui_components.SearchBar$1"      -> "java.lang.invoke.MethodHandles (java.base)";
    "org.troy.capstone.ui_components.SearchBar$1"      -> "java.lang.invoke.MethodHandles$Lookup (java.base)";
@@ -859,10 +858,9 @@ digraph "classes" {
    "org.troy.capstone.ui_components.filters.StarRatingFilter" -> "javafx.scene.paint.Color (not found)";
    "org.troy.capstone.ui_components.filters.StarRatingFilter" -> "javafx.scene.paint.Paint (not found)";
    "org.troy.capstone.ui_components.filters.StarRatingFilter" -> "javafx.scene.text.Font (not found)";
-   "org.troy.capstone.ui_components.filters.categorical.FilterPanel" -> "java.io.PrintStream (java.base)";
+   "org.troy.capstone.ui_components.filters.StarRatingFilter" -> "org.troy.capstone.constants.TestFXId (classes)";
    "org.troy.capstone.ui_components.filters.categorical.FilterPanel" -> "java.lang.Object (java.base)";
    "org.troy.capstone.ui_components.filters.categorical.FilterPanel" -> "java.lang.String (java.base)";
-   "org.troy.capstone.ui_components.filters.categorical.FilterPanel" -> "java.lang.System (java.base)";
    "org.troy.capstone.ui_components.filters.categorical.FilterPanel" -> "java.lang.invoke.CallSite (java.base)";
    "org.troy.capstone.ui_components.filters.categorical.FilterPanel" -> "java.lang.invoke.LambdaMetafactory (java.base)";
    "org.troy.capstone.ui_components.filters.categorical.FilterPanel" -> "java.lang.invoke.MethodHandle (java.base)";
@@ -885,6 +883,7 @@ digraph "classes" {
    "org.troy.capstone.ui_components.filters.categorical.FilterPanel" -> "javafx.scene.control.Labeled (not found)";
    "org.troy.capstone.ui_components.filters.categorical.FilterPanel" -> "javafx.scene.control.TitledPane (not found)";
    "org.troy.capstone.ui_components.filters.categorical.FilterPanel" -> "javafx.scene.layout.VBox (not found)";
+   "org.troy.capstone.ui_components.filters.categorical.FilterPanel" -> "org.troy.capstone.constants.TestFXId (classes)";
    "org.troy.capstone.ui_components.filters.categorical.FiltersContainer" -> "java.lang.Double (java.base)";
    "org.troy.capstone.ui_components.filters.categorical.FiltersContainer" -> "java.lang.Integer (java.base)";
    "org.troy.capstone.ui_components.filters.categorical.FiltersContainer" -> "java.lang.Object (java.base)";
@@ -901,6 +900,7 @@ digraph "classes" {
    "org.troy.capstone.ui_components.filters.categorical.FiltersContainer" -> "java.util.List (java.base)";
    "org.troy.capstone.ui_components.filters.categorical.FiltersContainer" -> "java.util.Map (java.base)";
    "org.troy.capstone.ui_components.filters.categorical.FiltersContainer" -> "java.util.Set (java.base)";
+   "org.troy.capstone.ui_components.filters.categorical.FiltersContainer" -> "java.util.function.Consumer (java.base)";
    "org.troy.capstone.ui_components.filters.categorical.FiltersContainer" -> "java.util.function.Function (java.base)";
    "org.troy.capstone.ui_components.filters.categorical.FiltersContainer" -> "java.util.function.Predicate (java.base)";
    "org.troy.capstone.ui_components.filters.categorical.FiltersContainer" -> "java.util.stream.Collector (java.base)";
@@ -914,6 +914,7 @@ digraph "classes" {
    "org.troy.capstone.ui_components.filters.categorical.FiltersContainer" -> "javafx.scene.layout.Region (not found)";
    "org.troy.capstone.ui_components.filters.categorical.FiltersContainer" -> "javafx.scene.layout.VBox (not found)";
    "org.troy.capstone.ui_components.filters.categorical.FiltersContainer" -> "org.troy.capstone.constants.TableColumnName (classes)";
+   "org.troy.capstone.ui_components.filters.categorical.FiltersContainer" -> "org.troy.capstone.constants.TestFXId (classes)";
    "org.troy.capstone.ui_components.filters.categorical.FiltersContainer" -> "org.troy.capstone.constants.UISizeControl (classes)";
    "org.troy.capstone.ui_components.filters.categorical.FiltersContainer" -> "org.troy.capstone.entities.Item (classes)";
    "org.troy.capstone.ui_components.filters.categorical.FiltersContainer" -> "org.troy.capstone.ui_components.filters.categorical.FilterPanel (classes)";

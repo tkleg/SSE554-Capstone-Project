@@ -71,10 +71,14 @@ digraph "classes" {
    "search_engine.sorting.Sorter"   -> "utils.TableUtils";
    "search_engine.sorting.comparator.RowComparator" -> "annotations.Generated";
    "search_engine.sorting.comparator.RowComparator" -> "constants.TableColumnName";
+   "ui_components.PriceSlider"      -> "constants.TestFXId";
    "ui_components.SearchBar"        -> "constants.TestFXId";
    "ui_components.SearchBar"        -> "constants.UISizeControl";
    "ui_components.SearchBar"        -> "search_engine.sorting.comparator.RowComparator";
+   "ui_components.filters.StarRatingFilter" -> "constants.TestFXId";
+   "ui_components.filters.categorical.FilterPanel" -> "constants.TestFXId";
    "ui_components.filters.categorical.FiltersContainer" -> "constants.TableColumnName";
+   "ui_components.filters.categorical.FiltersContainer" -> "constants.TestFXId";
    "ui_components.filters.categorical.FiltersContainer" -> "constants.UISizeControl";
    "ui_components.filters.categorical.FiltersContainer" -> "entities.Item";
    "ui_components.filters.categorical.FiltersContainer" -> "ui_components.filters.categorical.FilterPanel";
