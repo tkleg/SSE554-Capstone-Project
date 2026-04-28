@@ -5,6 +5,9 @@ public enum TestFXId {
     /** ID for the sort option dropdown in the UI */
     SORT_OPTION_DROPDOWN("sortOptionDropdown"),
 
+    /** ID prefix for cells in the sort option dropdown, where the full ID includes {@code RowComparator.toString()} after the prefix */
+    SORT_OPTION_CELL_PREFIX("sortOptionCell_"),
+
     /** ID for the search field in the UI */
     SEARCH_FIELD("searchField"),
 

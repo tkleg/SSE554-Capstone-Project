@@ -35,6 +35,7 @@ public class SearchBar extends VBox {
         topRowBox.setSpacing(UISizeControl.WIDTH_PADDING.getValue());
         topRowBox.setAlignment(Pos.CENTER_LEFT);
         searchField = new TextField();
+        searchField.setId(TestFXId.SEARCH_FIELD.getId());
         searchField.setPromptText("Enter Query Here");
 
         searchButton = new Button("Search");
@@ -80,20 +81,31 @@ public class SearchBar extends VBox {
      * @post The callbacks for displaying a cell, selected item, and printing when an item is selected are set for the {@code sortingOptionDropdown}.
      */
     private void setSortingOptionCallbacks() {
-         //Display clean name when open
+        // Display clean name and set unique TestFXId for each cell, handling null/empty
         sortingOptionDropdown.setCellFactory(listView -> new ListCell<>() {
             @Override
             protected void updateItem(RowComparator item, boolean empty) {
                 super.updateItem(item, empty);
-                setText(empty ? null : item.toString());
+                if (empty || item == null) {
+                    setText(null);
+                    setId(null);
+                } else {
+                    setText(item.toString());
+                    String itemId = TestFXId.SORT_OPTION_CELL_PREFIX.getId() + item.toString().replaceAll("\\s+", "_").toLowerCase();
+                    System.out.println("Setting cell ID for sorting option: \"" + itemId + "\"");
+                    setId(itemId);
+                }
             }
         });
-        //Display clean name when closed
+        // Display clean name and set TestFXId for the selected (button) cell, handling null/empty
         sortingOptionDropdown.setButtonCell(new ListCell<>() {
             @Override
             protected void updateItem(RowComparator item, boolean empty) {
                 super.updateItem(item, empty);
-                setText(empty ? null : item.toString());
+                if (empty || item == null)
+                    setText(null);
+                else
+                    setText(item.toString());
             }
         });
         //Print selected option when changed

@@ -4,11 +4,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
+import org.testfx.util.WaitForAsyncUtils;
 import org.troy.capstone.constants.TestFXId;
 import org.troy.capstone.search_engine.sorting.comparator.RowComparator;
 import org.troy.capstone.ui_components.filters.StarRatingFilter;
 import org.troy.capstone.ui_components.filters.categorical.FilterPanel;
 
+import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -28,7 +30,7 @@ public class MainTest extends ApplicationTest {
 
 
     @Test
-    public void testApp() {
+    public void testApp() throws InterruptedException {
         //Assert that the stage is showing after setup
         assertTrue(stage.isShowing(), "Primary stage should be showing after setup");
         setSortOptionAndTest();
@@ -45,15 +47,19 @@ public class MainTest extends ApplicationTest {
         //clickFirstNameLabelAndTest();
     }
 
-    public void setSortOptionAndTest() {
+    public void setSortOptionAndTest() throws InterruptedException {
         ComboBox<RowComparator> dropdown = TestUtils.lookupByTestFXId(TestFXId.SORT_OPTION_DROPDOWN);
-        interact(() -> {
-            dropdown.show();
-            dropdown.getSelectionModel().select(4);
-        });
+        interact(() -> clickOn(dropdown) );
+        //Wait for the dropdown to open and populate
+        WaitForAsyncUtils.waitForFxEvents();
+        //Click on the "Rating Ascending" option
+        RowComparator expectedOption = new RowComparator(RowComparator.SortType.RATING_ASCENDING);
+        String optionId = TestFXId.SORT_OPTION_CELL_PREFIX.getId() + expectedOption.toString().replaceAll("\\s+", "_").toLowerCase();
+        Node ratingAscOption = TestUtils.lookupByTestFXId(optionId);
+        interact(() -> clickOn(ratingAscOption) );
+
         RowComparator selected = dropdown.getSelectionModel().getSelectedItem();
-        RowComparator expected = new RowComparator(RowComparator.SortType.RATING_ASCENDING);
-        assertEquals(expected, selected, "Selected sorting option should be Rating Ascending, but was " + selected);
+        assertEquals(expectedOption, selected, "Selected sorting option should be Rating Ascending, but was " + selected);
     }
 
     public void setSearchQueryAndTestRetrieval() {
