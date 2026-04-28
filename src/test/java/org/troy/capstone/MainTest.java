@@ -34,7 +34,7 @@ public class MainTest extends ApplicationTest {
         //Assert that the stage is showing after setup
         assertTrue(stage.isShowing(), "Primary stage should be showing after setup");
         setSortOptionAndTest();
-        //setSearchQueryAndTestRetrieval();
+        setSearchQueryAndTestRetrieval();
         //setPriceSliderAndTestRetrievals();
         //setStarRatingAndTest();
         /*try {
@@ -65,7 +65,10 @@ public class MainTest extends ApplicationTest {
     public void setSearchQueryAndTestRetrieval() {
         TextField searchField = TestUtils.lookupByTestFXId(TestFXId.SEARCH_FIELD);
         String query = "electric";
-        interact(() -> searchField.setText(query));
+        interact(() -> clickOn(searchField) );
+        interact(() -> eraseText(searchField.getText().length()) );
+        interact(() -> write(query));
+        WaitForAsyncUtils.waitForFxEvents();
         String actualQuery = searchField.getText();
         assertEquals(query, actualQuery, "Search query should be set to '" + query + "', but was '" + actualQuery + "'");
     }

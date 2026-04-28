@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TestFXId.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Project</a> &gt; <a href="index.source.html" class="el_package">org.troy.capstone.constants</a> &gt; <span class="el_source">TestFXId.java</span></div><h1>TestFXId.java</h1><pre class="source lang-java linenums">package org.troy.capstone.constants;
+
+/** Enum representing the IDs of various UI components for {@code TestFX} testing. */
+<span class="fc" id="L4">public enum TestFXId {</span>
+    /** ID for the sort option dropdown in the UI */
+<span class="fc" id="L6">    SORT_OPTION_DROPDOWN(&quot;sortOptionDropdown&quot;),</span>
+
+    /** ID prefix for cells in the sort option dropdown, where the full ID includes {@code RowComparator.toString()} after the prefix */
+<span class="fc" id="L9">    SORT_OPTION_CELL_PREFIX(&quot;sortOptionCell_&quot;),</span>
+
+    /** ID for the search field in the UI */
+<span class="fc" id="L12">    SEARCH_FIELD(&quot;searchField&quot;),</span>
+
+    /** ID for the min price slider in the UI */
+<span class="fc" id="L15">    MIN_PRICE_SLIDER(&quot;minPriceSlider&quot;),</span>
+
+    /** ID for the max price slider in the UI */
+<span class="fc" id="L18">    MAX_PRICE_SLIDER(&quot;maxPriceSlider&quot;),</span>
+
+    /** ID prefix for star rating labels in the UI, where the full ID just includes the rating */
+<span class="fc" id="L21">    STAR_LABEL_PREFIX(&quot;starLabel_&quot;),</span>
+
+    /** ID for the star rating filter component in the UI */
+<span class="fc" id="L24">    STAR_RATING_FILTER(&quot;starRatingFilter&quot;),</span>
+
+    /** ID prefix for filter checkboxes in the UI, where the full ID includes the filter option */
+<span class="fc" id="L27">    CHECKBOX_PREFIX(&quot;checkbox_&quot;),</span>
+
+    /** ID prefix for filter panels in the UI, where the full ID includes the filter category */
+<span class="fc" id="L30">    FILTER_PANEL_PREFIX(&quot;filterPanel_&quot;),</span>
+
+    /** ID for the name label of the first searchedItemPanel. Used for testing to allow retrieval of the first searched item's name label */
+<span class="fc" id="L33">    FIRST_SEARCHED_ITEM_NAME_LABEL(&quot;searchedItemNameLabel_1&quot;);</span>
+
+    /** The string ID associated with the {@code TestFXId} enum value. */
+    private final String id;
+
+    /** Constructs a {@code TestFXId} enum value with the specified string ID.
+     * @param id The string ID to be associated with the {@code TestFXId} enum value.
+     */
+<span class="fc" id="L41">    TestFXId(String id) {</span>
+<span class="fc" id="L42">        this.id = id;</span>
+<span class="fc" id="L43">    }</span>
+
+    /** Returns the string ID associated with this {@code TestFXId} enum value.
+     * @return The string ID associated with this {@code TestFXId} enum value.
+     */
+    public String getId() {
+<span class="fc" id="L49">        return id;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>
