@@ -30,12 +30,12 @@ public class MainTest extends ApplicationTest {
 
 
     @Test
-    public void testApp() throws InterruptedException {
+    public void testApp() {
         //Assert that the stage is showing after setup
         assertTrue(stage.isShowing(), "Primary stage should be showing after setup");
         setSortOptionAndTest();
         setSearchQueryAndTestRetrieval();
-        //setPriceSliderAndTestRetrievals();
+        setPriceSliderAndTestRetrievals();
         //setStarRatingAndTest();
         /*try {
             setCategoryDataAndTest();
@@ -47,7 +47,7 @@ public class MainTest extends ApplicationTest {
         //clickFirstNameLabelAndTest();
     }
 
-    public void setSortOptionAndTest() throws InterruptedException {
+    public void setSortOptionAndTest() {
         ComboBox<RowComparator> dropdown = TestUtils.lookupByTestFXId(TestFXId.SORT_OPTION_DROPDOWN);
         interact(() -> clickOn(dropdown) );
         //Wait for the dropdown to open and populate
@@ -75,16 +75,43 @@ public class MainTest extends ApplicationTest {
 
     public void setPriceSliderAndTestRetrievals() {
         Slider minPriceSlider = TestUtils.lookupByTestFXId(TestFXId.MIN_PRICE_SLIDER);
-        double minPrice = 100.0;
-        interact(() -> minPriceSlider.setValue(minPrice));
-        double actualMinPrice = minPriceSlider.getValue();
-        assertEquals(minPrice, actualMinPrice, 0.01, "Min price slider should be set to " + minPrice + ", but was " + actualMinPrice);
-
         Slider maxPriceSlider = TestUtils.lookupByTestFXId(TestFXId.MAX_PRICE_SLIDER);
+        double minPrice = 100.0;
         double maxPrice = 500.0;
-        interact(() -> maxPriceSlider.setValue(maxPrice));
+
+        double pixelsPerUnit = minPriceSlider.getWidth() / (minPriceSlider.getMax() - minPriceSlider.getMin());
+
+        double minOffset = Math.abs((minPrice - minPriceSlider.getValue()) * pixelsPerUnit);
+        double maxOffset = Math.abs((maxPrice - maxPriceSlider.getValue()) * pixelsPerUnit);
+        // Move min slider thumb to the right (simulate user drag)
+        interact(() -> {
+            drag(minPriceSlider.lookup(".thumb")).dropBy(minOffset, 0); // Adjust 50 as needed for your slider's range
+        });
+
+        // Move max slider thumb to the left (simulate user drag)
+        interact(() -> {
+            drag(maxPriceSlider.lookup(".thumb")).dropBy(-maxOffset, 0); // Adjust -50 as needed for your slider's range
+        });
+
+        // Wait for UI events to process
+        WaitForAsyncUtils.waitForFxEvents();
+
+        double actualMinPrice = minPriceSlider.getValue();
         double actualMaxPrice = maxPriceSlider.getValue();
-        assertEquals(maxPrice, actualMaxPrice, 0.01, "Max price slider should be set to " + maxPrice + ", but was " + actualMaxPrice);
+        // Allow a wider delta due to drag precision
+        System.out.println("Expected min price: " + minPrice + ", Actual min price: " + actualMinPrice);
+        System.out.println("Expected max price: " + maxPrice + ", Actual max price: " + actualMaxPrice);
+        assertTrue(Math.abs(actualMinPrice - minPrice) < 10, "Min price slider should be near " + minPrice + ", but was " + actualMinPrice);
+        assertTrue(Math.abs(actualMaxPrice - maxPrice) < 10, "Max price slider should be near " + maxPrice + ", but was " + actualMaxPrice);
+    
+        //The FXRobot drag is not too precise, so the sliders are manually set later to ensure the correct values are set for later tests that rely on the slider values
+        interact(() -> {
+            minPriceSlider.setValue(minPrice);
+            maxPriceSlider.setValue(maxPrice);
+        });
+        WaitForAsyncUtils.waitForFxEvents();
+        assertEquals(minPrice, minPriceSlider.getValue(), "Min price slider should be set to " + minPrice + " after manual set, but was " + minPriceSlider.getValue());
+        assertEquals(maxPrice, maxPriceSlider.getValue(), "Max price slider should be set to " + maxPrice + " after manual set, but was " + maxPriceSlider.getValue());
     }
 
     public void setStarRatingAndTest() {
