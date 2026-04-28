@@ -14,7 +14,7 @@ Project,org.troy.capstone.entities,Item,0,401,0,22,0,67,0,24,0,6
 Project,org.troy.capstone.ui_components.items,AttributedItemContainer.new Task() {...},0,18,0,0,0,2,0,2,0,2
 Project,org.troy.capstone.ui_components.items,RecentlyViewedWindow,0,58,0,0,0,14,0,3,0,3
 Project,org.troy.capstone.ui_components.items,AttributedItemContainer,18,187,0,0,6,41,0,9,0,9
-Project,org.troy.capstone.ui_components.items,SimilarItemsContainer,0,78,0,0,0,20,0,3,0,3
+Project,org.troy.capstone.ui_components.items,SimilarItemsContainer,0,64,0,0,0,17,0,3,0,3
 Project,org.troy.capstone.ui_components.items,SearchedItemPanel,11,233,0,0,0,45,2,8,2,8
 Project,org.troy.capstone.ui_components,SearchBar.new ListCell() {...},13,8,2,0,3,1,2,1,1,1
 Project,org.troy.capstone.ui_components,SearchBar.new ListCell() {...},21,0,2,0,4,0,3,0,2,0

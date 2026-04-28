@@ -40,10 +40,7 @@ public class SimilarItemsContainer extends ScrollPane implements SearchedItemPan
 <span class="fc" id="L40">        SimilarItemsContainer container = new SimilarItemsContainer();</span>
 <span class="fc" id="L41">        UIUtils.setSize(container, UISizeControl.SIMILAR_ITEMS_CONTAINER_WIDTH.getValue(), UISizeControl.SIMILAR_ITEMS_CONTAINER_HEIGHT.getValue());</span>
 <span class="fc" id="L42">        UIUtils.setLineBorder(container, 5, 1);</span>
-<span class="fc" id="L43">        Label titleLabel = new Label(&quot;Similar Items&quot;);</span>
-<span class="fc" id="L44">        titleLabel.setStyle(&quot;-fx-font-size: 16px; -fx-font-weight: bold;&quot;);</span>
-<span class="fc" id="L45">        container.content.getChildren().add(titleLabel);</span>
-<span class="fc" id="L46">        return container;</span>
+<span class="fc" id="L43">        return container;</span>
     }
 
     /** Sets the content of the {@code SimilarItemsContainer} with the given list of {@code Node} instances representing similar items.
@@ -53,9 +50,9 @@ public class SimilarItemsContainer extends ScrollPane implements SearchedItemPan
      */
     @Override
     public void setContent(List&lt;Node&gt; panels) {
-<span class="fc" id="L56">        content.getChildren().clear();</span>
-<span class="fc" id="L57">        content.getChildren().addAll(panels);</span>
-<span class="fc" id="L58">    }</span>
+<span class="fc" id="L53">        content.getChildren().clear();</span>
+<span class="fc" id="L54">        content.getChildren().addAll(panels);</span>
+<span class="fc" id="L55">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

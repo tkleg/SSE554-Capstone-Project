@@ -40,9 +40,6 @@ public class SimilarItemsContainer extends ScrollPane implements SearchedItemPan
         SimilarItemsContainer container = new SimilarItemsContainer();
         UIUtils.setSize(container, UISizeControl.SIMILAR_ITEMS_CONTAINER_WIDTH.getValue(), UISizeControl.SIMILAR_ITEMS_CONTAINER_HEIGHT.getValue());
         UIUtils.setLineBorder(container, 5, 1);
-        Label titleLabel = new Label("Similar Items");
-        titleLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
-        container.content.getChildren().add(titleLabel);
         return container;
     }
 
