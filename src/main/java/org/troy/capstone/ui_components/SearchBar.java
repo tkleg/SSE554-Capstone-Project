@@ -1,5 +1,6 @@
 package org.troy.capstone.ui_components;
 
+import org.troy.capstone.constants.TestFXId;
 import org.troy.capstone.constants.UISizeControl;
 import org.troy.capstone.search_engine.sorting.comparator.RowComparator;
 
@@ -68,6 +69,8 @@ public class SearchBar extends VBox {
 
         setSortingOptionCallbacks();
 
+        sortingOptionDropdown.setId(TestFXId.SORT_OPTION_DROPDOWN.getId());
+        
         bottomBox.getChildren().addAll(sortByLabel, sortingOptionDropdown);
     }
 
