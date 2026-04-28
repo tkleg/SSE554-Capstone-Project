@@ -82,3 +82,10 @@ for line in lines:
     new_lines.append(line)
 with open("docs/dependency_graph/filtered_cleaner_classes.dot", "w") as f:
     f.writelines(new_lines)
+newer_lines = []
+for line in new_lines:
+    if "ItemRepo" in line and line.index("->") < line.index("ItemRepo") and not "ItemHashMap" in line:
+        continue
+    newer_lines.append(line)
+with open("docs/dependency_graph/filtered_no_item_repo.dot", "w") as f:
+    f.writelines(newer_lines)
