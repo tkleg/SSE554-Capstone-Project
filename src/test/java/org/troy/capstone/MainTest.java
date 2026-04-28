@@ -1,11 +1,12 @@
 package org.troy.capstone;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import java.lang.reflect.Field;
 import java.util.Set;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
 import org.testfx.util.WaitForAsyncUtils;
@@ -13,14 +14,17 @@ import org.troy.capstone.constants.TestFXId;
 import org.troy.capstone.search_engine.sorting.comparator.RowComparator;
 import org.troy.capstone.ui_components.filters.StarRatingFilter;
 import org.troy.capstone.ui_components.filters.categorical.FilterPanel;
+import org.troy.capstone.ui_components.items.searched.SearchedItemPagination;
 
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import javafx.scene.layout.VBox;
 
 public class MainTest extends ApplicationTest {
 
@@ -29,12 +33,15 @@ public class MainTest extends ApplicationTest {
     @Override
     public void start(Stage stage) throws Exception {
         this.stage = stage;
-        new Main().start(stage);
     }
 
+    @BeforeEach
+    public void setUp() throws Exception {
+        ApplicationTest.launch(Main.class);
+    }
 
     @Test
-    public void testApp() throws ReflectiveOperationException {
+    public void testFilteredSearch() throws ReflectiveOperationException {
         //Assert that the stage is showing after setup
         assertTrue(stage.isShowing(), "Primary stage should be showing after setup");
         setSortOptionAndTest();
@@ -44,14 +51,36 @@ public class MainTest extends ApplicationTest {
         setCategoryDataAndTest();
         setPublisherDataAndTest();
         setTagDataAndTest();
-        //clickFirstNameLabelAndTest();
+        clickSearchButtonTest();
+    }
+
+    public void clickSearchButtonTest() {
+        Button searchButton = TestUtils.lookupByTestFXId(TestFXId.SEARCH_BUTTON);
+        assertNotNull(searchButton, "Search button should be found by TestFXId in clickSearchButtonTest before clicking");
+        interact(() -> clickOn(searchButton));
+        WaitForAsyncUtils.waitForFxEvents();
+
+        VBox resultsContainer = TestUtils.lookupByTestFXId(TestFXId.SEARCHED_ITEM_CONTAINER_CONTAINER);
+        assertNotNull(resultsContainer, "Results container should be found by TestFXId in clickSearchButtonTest after clicking search button");
+
+        int numResults = resultsContainer.getChildren().size();
+        assertEquals(5, numResults);
+
+        SearchedItemPagination pagination = TestUtils.lookupByTestFXId(TestFXId.SEARCHED_ITEM_PAGINATION);
+        assertNotNull(pagination, "Pagination should be found by TestFXId in clickSearchButtonTest after clicking search button");
+
+        int pageCount = pagination.getPageCount();
+        assertEquals(1, pageCount, "There should only be 1 page of results for the search query in clickSearchButtonTest, but was " + pageCount);
     }
 
     public void setSortOptionAndTest() {
         ComboBox<RowComparator> dropdown = TestUtils.lookupByTestFXId(TestFXId.SORT_OPTION_DROPDOWN);
+
         interact(() -> clickOn(dropdown) );
+
         //Wait for the dropdown to open and populate
         WaitForAsyncUtils.waitForFxEvents();
+
         //Click on the "Rating Ascending" option
         RowComparator expectedOption = new RowComparator(RowComparator.SortType.RATING_ASCENDING);
         String optionId = TestFXId.SORT_OPTION_CELL_PREFIX.getId() + expectedOption.toString().replaceAll("\\s+", "_").toLowerCase();
@@ -76,8 +105,8 @@ public class MainTest extends ApplicationTest {
     public void setPriceSliderAndTestRetrievals() {
         Slider minPriceSlider = TestUtils.lookupByTestFXId(TestFXId.MIN_PRICE_SLIDER);
         Slider maxPriceSlider = TestUtils.lookupByTestFXId(TestFXId.MAX_PRICE_SLIDER);
-        double minPrice = 100.0;
-        double maxPrice = 500.0;
+        double minPrice = 64;
+        double maxPrice = 657;
 
         double pixelsPerDollar = minPriceSlider.getWidth() / (minPriceSlider.getMax() - minPriceSlider.getMin());
 
@@ -158,50 +187,62 @@ public class MainTest extends ApplicationTest {
         actualSelectedRating = starRatingFilter.getSelectedRating();
         assertEquals(0, actualSelectedRating, "Selected star rating should be 0 after deselecting the 4th star, but was " + actualSelectedRating);
 
-        //Click on the 3 star label
-        interact(() -> clickOn(stars[2]) );
-        //Check that the first 3 stars are filled and the 4th and 5th stars are not filled
+        //Click on the 2 star label
+        interact(() -> clickOn(stars[1]) );
+        //Check that the first 2 stars are filled and the 3rd, 4th, and 5th stars are not filled
         for (int i = 0; i < MAX_STARS; i++) {
-            String expectedText = i <= 2 ? FILLED_STAR : EMPTY_STAR;
+            String expectedText = i <= 1 ? FILLED_STAR : EMPTY_STAR;
             String actualText = stars[i].getText();
-            assertEquals(expectedText, actualText, "Star " + (i + 1) + " should be " + (i <= 2 ? "filled" : "empty") + " after clicking on star 3, but was " + (actualText.equals(FILLED_STAR) ? "filled" : actualText.equals(EMPTY_STAR) ? "empty" : "unknown"));
+            assertEquals(expectedText, actualText, "Star " + (i + 1) + " should be " + (i <= 1 ? "filled" : "empty") + " after clicking on star 2, but was " + (actualText.equals(FILLED_STAR) ? "filled" : actualText.equals(EMPTY_STAR) ? "empty" : "unknown"));
         }
 
-        //Check the selected rating is 3
+        //Check the selected rating is 2
         actualSelectedRating = starRatingFilter.getSelectedRating();
-        assertEquals(3, actualSelectedRating, "Selected star rating should be 3 after clicking on the 3rd star, but was " + actualSelectedRating);
+        assertEquals(2, actualSelectedRating, "Selected star rating should be 2 after clicking on the 2nd star, but was " + actualSelectedRating);
 
     }
 
     public void setCategoryDataAndTest(){
+        Set<String> expectedInitialSelectedOptions = Set.of("Clothing", "Electronics", "Sports & Outdoors", "Books", "Office Supplies");
         //Due to hidden field with the scrollpane, the checkbox is selected with the setting instead of a proper click event
-        CheckBox electronicsCheckbox = TestUtils.lookupByTestFXId(TestFXId.CHECKBOX_PREFIX.getId() + "electronics");
-        interact(() -> electronicsCheckbox.setSelected(true));
+        for (String category : expectedInitialSelectedOptions) {
+            CheckBox categoryCheckbox = TestUtils.lookupByTestFXId(TestFXId.CHECKBOX_PREFIX.getId() + category.toLowerCase().replaceAll("\\s+", "_").replaceAll("\\.", ""));
+            interact(() -> categoryCheckbox.setSelected(true));
+            assertNotNull(categoryCheckbox, "Category checkbox for " + category + " should be found by TestFXId in setCategoryDataAndTest");
+            assertTrue(categoryCheckbox.isSelected(), "Category checkbox for " + category + " should be initially selected in setCategoryDataAndTest");
+        }
         
         FilterPanel categoryPanel = TestUtils.lookupByTestFXId(TestFXId.FILTER_PANEL_PREFIX.getId() + "category");
-        Set<String> expectedSelectedOptions = Set.of("Electronics");
         Set<String> actualSelectedOptions = categoryPanel.getCheckedOptions();
-        assertEquals(expectedSelectedOptions, actualSelectedOptions, "Selected category options should contain only Electronics after selecting the Electronics checkbox, but was " + actualSelectedOptions);
+        assertEquals(expectedInitialSelectedOptions, actualSelectedOptions, "Selected category options should match the expected initial selected options, but was " + actualSelectedOptions);
     }
 
     public void setPublisherDataAndTest() {
-        CheckBox urbanNestCheckbox = TestUtils.lookupByTestFXId(TestFXId.CHECKBOX_PREFIX.getId() + "urbannest");
-        interact(() -> urbanNestCheckbox.setSelected(true));
+        Set<String> expectedInitialSelectedOptions = Set.of("Summit Gear Co.", "BrightLeaf Publishing", "Maple Street Press", "SilverLine Electronics");
+        for (String publisher : expectedInitialSelectedOptions) {
+            CheckBox publisherCheckbox = TestUtils.lookupByTestFXId(TestFXId.CHECKBOX_PREFIX.getId() + publisher.toLowerCase().replaceAll("\\s+", "_").replaceAll("\\.", ""));
+            interact(() -> publisherCheckbox.setSelected(true));
+            assertNotNull(publisherCheckbox, "Publisher checkbox for " + publisher + " should be found by TestFXId in setPublisherDataAndTest");
+            assertTrue(publisherCheckbox.isSelected(), "Publisher checkbox for " + publisher + " should be initially selected in setPublisherDataAndTest");
+        }
 
         FilterPanel publisherPanel = TestUtils.lookupByTestFXId(TestFXId.FILTER_PANEL_PREFIX.getId() + "publisher");
-        Set<String> expectedSelectedOptions = Set.of("UrbanNest");
         Set<String> actualSelectedOptions = publisherPanel.getCheckedOptions();
-        assertEquals(expectedSelectedOptions, actualSelectedOptions, "Selected publisher options should contain only UrbanNest after selecting the UrbanNest checkbox, but was " + actualSelectedOptions);
+        assertEquals(expectedInitialSelectedOptions, actualSelectedOptions, "Selected publisher options should match the expected initial selected options, but was " + actualSelectedOptions);
     }
 
     public void setTagDataAndTest(){
-        CheckBox bestSellerCheckbox= TestUtils.lookupByTestFXId(TestFXId.CHECKBOX_PREFIX.getId() + "bestseller");
-        interact(() -> bestSellerCheckbox.setSelected(true));
+        Set<String> expectedInitialSelectedOptions = Set.of("Bestseller");
+        for (String tag : expectedInitialSelectedOptions) {
+            CheckBox tagCheckbox = TestUtils.lookupByTestFXId(TestFXId.CHECKBOX_PREFIX.getId() + tag.toLowerCase().replaceAll("\\s+", "_").replaceAll("\\.", ""));
+            interact(() -> tagCheckbox.setSelected(true));
+            assertNotNull(tagCheckbox, "Tag checkbox for " + tag + " should be found by TestFXId in setTagDataAndTest");
+            assertTrue(tagCheckbox.isSelected(), "Tag checkbox for " + tag + " should be initially selected in setTagDataAndTest");
+        }
 
         FilterPanel tagPanel = TestUtils.lookupByTestFXId(TestFXId.FILTER_PANEL_PREFIX.getId() + "tags");
-        Set<String> expectedSelectedOptions = Set.of("Bestseller");
         Set<String> actualSelectedOptions = tagPanel.getCheckedOptions();
-        assertEquals(expectedSelectedOptions, actualSelectedOptions, "Selected tag options should contain only Best Seller after selecting the Best Seller checkbox, but was " + actualSelectedOptions);
+        assertEquals(expectedInitialSelectedOptions, actualSelectedOptions, "Selected tag options should match the expected initial selected options, but was " + actualSelectedOptions);
     }
 
     public void clickFirstNameLabelAndTest() {

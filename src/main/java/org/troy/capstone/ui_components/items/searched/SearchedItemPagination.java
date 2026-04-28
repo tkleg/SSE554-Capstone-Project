@@ -3,6 +3,7 @@ package org.troy.capstone.ui_components.items.searched;
 import java.util.List;
 
 import org.troy.capstone.constants.UISizeControl;
+import org.troy.capstone.constants.TestFXId;
 import org.troy.capstone.data_structures.SearchedItemsLinkedList;
 import org.troy.capstone.entities.Item;
 import org.troy.capstone.interfaces.ItemRepo;
@@ -61,9 +62,18 @@ public class SearchedItemPagination extends VBox implements SearchedItemPanelSou
         buttonContainer.getChildren().addAll(prevButton, nextButton);
         this.getChildren().add(buttonContainer);
 
+        setId(TestFXId.SEARCHED_ITEM_PAGINATION.getId());
+
         prevButton.setOnAction(event -> { mySearchedItemContainer.updateItems(getPreviousPage()); });
         nextButton.setOnAction(event -> { mySearchedItemContainer.updateItems(getNextPage()); });
 
+    }
+
+    /** Returns the total number of pages in the pagination, calculated based on the total number of items and items per page.
+     * @return The total number of pages in the pagination, calculated based on the total number of items and items per page.
+     */
+    public int getPageCount() {
+        return pageList.getPageCount();
     }
 
      /**

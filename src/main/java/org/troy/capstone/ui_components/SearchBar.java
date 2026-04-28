@@ -39,6 +39,7 @@ public class SearchBar extends VBox {
         searchField.setPromptText("Enter Query Here");
 
         searchButton = new Button("Search");
+        searchButton.setId(TestFXId.SEARCH_BUTTON.getId());
 
         topRowBox.getChildren().addAll(searchField, searchButton);
 

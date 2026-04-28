@@ -98,11 +98,13 @@ digraph "classes" {
    "ui_components.items.SimilarItemsContainer" -> "constants.UISizeControl";
    "ui_components.items.SimilarItemsContainer" -> "interfaces.SearchedItemPanelDestinationUI";
    "ui_components.items.SimilarItemsContainer" -> "utils.UIUtils";
+   "ui_components.items.searched.SearchedItemContainer" -> "constants.TestFXId";
    "ui_components.items.searched.SearchedItemContainer" -> "constants.UISizeControl";
    "ui_components.items.searched.SearchedItemContainer" -> "entities.Item";
    "ui_components.items.searched.SearchedItemContainer" -> "interfaces.SearchedItemPanelInteractor";
    "ui_components.items.searched.SearchedItemContainer" -> "ui_components.items.SearchedItemPanel";
    "ui_components.items.searched.SearchedItemContainer" -> "utils.UIUtils";
+   "ui_components.items.searched.SearchedItemPagination" -> "constants.TestFXId";
    "ui_components.items.searched.SearchedItemPagination" -> "constants.UISizeControl";
    "ui_components.items.searched.SearchedItemPagination" -> "data_structures.SearchedItemsLinkedList";
    "ui_components.items.searched.SearchedItemPagination" -> "entities.Item";

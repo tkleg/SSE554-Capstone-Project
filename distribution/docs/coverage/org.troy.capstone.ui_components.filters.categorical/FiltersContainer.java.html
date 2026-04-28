@@ -98,14 +98,18 @@ public class FiltersContainer extends ScrollPane {
     public void addFilterPanel( String title, Set&lt;String&gt; options ) {
 <span class="fc" id="L99">        Set&lt;CheckBox&gt; checkBoxes = options.stream()</span>
 <span class="fc" id="L100">            .map(CheckBox::new)</span>
-<span class="fc" id="L101">            .peek(box -&gt; box.setId(TestFXId.CHECKBOX_PREFIX.getId() + box.getText().toLowerCase().replaceAll(&quot;\\s+&quot;, &quot;_&quot;)))</span>
-<span class="fc" id="L102">            .collect(Collectors.toSet());</span>
-<span class="fc" id="L103">        filterOptions.put( title, checkBoxes );</span>
-<span class="fc" id="L104">        FilterPanel filterPanel = new FilterPanel(title, checkBoxes);</span>
-<span class="fc" id="L105">        UIUtils.setLineBorder(filterPanel, 2, 2);</span>
-<span class="fc" id="L106">        filterPanel.setMaxWidth(Double.MAX_VALUE); //Allow the panel to expand to fill available width</span>
-<span class="fc" id="L107">        contentContainer.getChildren().add(filterPanel);</span>
-<span class="fc" id="L108">    }</span>
+<span class="fc" id="L101">            .peek(box -&gt; {</span>
+<span class="fc" id="L102">                String id = TestFXId.CHECKBOX_PREFIX.getId() + box.getText().toLowerCase().replaceAll(&quot;\\s+&quot;, &quot;_&quot;).replaceAll(&quot;\\.&quot;, &quot;&quot;);</span>
+<span class="fc" id="L103">                System.out.println(&quot;Assigning ID &quot; + id + &quot; to checkbox with text '&quot; + box.getText() + &quot;' in addFilterPanel&quot;);</span>
+<span class="fc" id="L104">                box.setId(id);</span>
+<span class="fc" id="L105">            })</span>
+<span class="fc" id="L106">            .collect(Collectors.toSet());</span>
+<span class="fc" id="L107">        filterOptions.put( title, checkBoxes );</span>
+<span class="fc" id="L108">        FilterPanel filterPanel = new FilterPanel(title, checkBoxes);</span>
+<span class="fc" id="L109">        UIUtils.setLineBorder(filterPanel, 2, 2);</span>
+<span class="fc" id="L110">        filterPanel.setMaxWidth(Double.MAX_VALUE); //Allow the panel to expand to fill available width</span>
+<span class="fc" id="L111">        contentContainer.getChildren().add(filterPanel);</span>
+<span class="fc" id="L112">    }</span>
 
     /**
      * Retrieves the currently selected filters as a map where the keys are filter types (e.g., &quot;Publisher&quot;, &quot;Category&quot;)
@@ -117,16 +121,16 @@ public class FiltersContainer extends ScrollPane {
      * @return selectedFilters A map containing the currently selected filters.
      */
     public Map&lt;String, Set&lt;String&gt;&gt; getSelectedFilters() {
-<span class="fc" id="L120">        Map&lt;String, Set&lt;String&gt;&gt; selectedFilters = new HashMap&lt;&gt;();</span>
-<span class="fc bfc" id="L121" title="All 2 branches covered.">        for (String filterType : filterOptions.keySet()) {</span>
-<span class="fc" id="L122">            Set&lt;String&gt; selectedOptions = filterOptions.get(filterType)</span>
-<span class="fc" id="L123">                    .stream()</span>
-<span class="fc" id="L124">                    .filter(CheckBox::isSelected)</span>
-<span class="fc" id="L125">                    .map(CheckBox::getText)</span>
-<span class="fc" id="L126">                    .collect(Collectors.toSet());</span>
-<span class="fc" id="L127">            selectedFilters.put(filterType, selectedOptions);</span>
-<span class="fc" id="L128">        }</span>
-<span class="fc" id="L129">        return selectedFilters;</span>
+<span class="fc" id="L124">        Map&lt;String, Set&lt;String&gt;&gt; selectedFilters = new HashMap&lt;&gt;();</span>
+<span class="fc bfc" id="L125" title="All 2 branches covered.">        for (String filterType : filterOptions.keySet()) {</span>
+<span class="fc" id="L126">            Set&lt;String&gt; selectedOptions = filterOptions.get(filterType)</span>
+<span class="fc" id="L127">                    .stream()</span>
+<span class="fc" id="L128">                    .filter(CheckBox::isSelected)</span>
+<span class="fc" id="L129">                    .map(CheckBox::getText)</span>
+<span class="fc" id="L130">                    .collect(Collectors.toSet());</span>
+<span class="fc" id="L131">            selectedFilters.put(filterType, selectedOptions);</span>
+<span class="fc" id="L132">        }</span>
+<span class="fc" id="L133">        return selectedFilters;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

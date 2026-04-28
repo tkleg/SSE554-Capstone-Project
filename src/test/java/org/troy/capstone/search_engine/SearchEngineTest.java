@@ -157,8 +157,8 @@ public class SearchEngineTest {
     @CsvSource({
         "'Compact', 'Clothing, Books', 'NorthPeak, UrbanNest', -1, -1, -1, '', 19",
         "'Durable, New Arrival, Versatile', 'Clothing, Sports & Outdoors', 'NorthPeak, Maple Street Press, UrbanNest', -1, -1, -1, '', 1",
-        "'Wireless, Bestseller', 'Clothing, Books, Office Supplies, Sports & Outdoors', 'Maple Street Press, Silverline Electronics, Summit Gear Co., BrightLeaf Publishing', 118.26167424649577, 676.6693076949581, 2, '', 15",
-        "'Wireless, Bestseller', 'Clothing, Books, Office Supplies, Sports & Outdoors', 'Maple Street Press, Silverline Electronics, Summit Gear Co., BrightLeaf Publishing', 118.26167424649577, 676.6693076949581, 2, 'elec', 1",
+        "'Wireless, Bestseller', 'Clothing, Books, Office Supplies, Sports & Outdoors', 'Maple Street Press, Silverline Electronics, Summit Gear Co., BrightLeaf Publishing', 118, 676, 2, '', 15",
+        "'Wireless, Bestseller', 'Clothing, Books, Office Supplies, Sports & Outdoors', 'Maple Street Press, Silverline Electronics, Summit Gear Co., BrightLeaf Publishing', 118, 676, 2, 'elec', 1",
         "'Durable, New Arrival, Versatile', '', '', -1, -1, -1, '', 20",
         "'', 'Home & Kitchen, Books, Clothing', '', -1, -1, -1, '', 482",
         "'', '', 'Maple Street Press, BlueRiver Outfitters, Horizon Tech, UrbanNest, NorthPeak', -1, -1, -1, '', 601",

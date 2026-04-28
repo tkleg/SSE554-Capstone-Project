@@ -11,6 +11,9 @@ public enum TestFXId {
     /** ID for the search field in the UI */
     SEARCH_FIELD("searchField"),
 
+    /** ID for the search button in the UI */
+    SEARCH_BUTTON("searchButton"),
+
     /** ID for the min price slider in the UI */
     MIN_PRICE_SLIDER("minPriceSlider"),
 
@@ -28,6 +31,12 @@ public enum TestFXId {
 
     /** ID prefix for filter panels in the UI, where the full ID includes the filter category */
     FILTER_PANEL_PREFIX("filterPanel_"),
+
+    /** ID for the container that holds the searched item panels in the UI. Note that the SearchedItemContainer is a ScrollPane holding the VBox which is what this ID points to. */
+    SEARCHED_ITEM_CONTAINER_CONTAINER("searchedItemContainerContainer"),
+
+    /** ID for the pagination component that holds the SearchedItemContainer in the UI */
+    SEARCHED_ITEM_PAGINATION("searchedItemPagination"),
     
     /** ID for the name label of the first searchedItemPanel. Used for testing to allow retrieval of the first searched item's name label */
     FIRST_SEARCHED_ITEM_NAME_LABEL("searchedItemNameLabel_1");

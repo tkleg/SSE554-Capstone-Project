@@ -203,6 +203,7 @@ digraph "summary" {
   "org.troy.capstone.ui_components.filters"          -> "javafx.scene.paint (not found)";
   "org.troy.capstone.ui_components.filters"          -> "javafx.scene.text (not found)";
   "org.troy.capstone.ui_components.filters"          -> "org.troy.capstone.constants (classes)";
+  "org.troy.capstone.ui_components.filters.categorical" -> "java.io (java.base)";
   "org.troy.capstone.ui_components.filters.categorical" -> "java.lang (java.base)";
   "org.troy.capstone.ui_components.filters.categorical" -> "java.lang.invoke (java.base)";
   "org.troy.capstone.ui_components.filters.categorical" -> "java.util (java.base)";

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.troy.capstone.constants.UISizeControl;
+import org.troy.capstone.constants.TestFXId;
 import org.troy.capstone.entities.Item;
 import org.troy.capstone.interfaces.SearchedItemPanelInteractor;
 import org.troy.capstone.ui_components.items.SearchedItemPanel;
@@ -43,6 +44,8 @@ public class SearchedItemContainer extends ScrollPane {
         //Cache nodes to improve scroll performance
         itemContainer.setCache(true);
         itemContainer.setCacheHint(javafx.scene.CacheHint.SPEED);
+
+        itemContainer.setId(TestFXId.SEARCHED_ITEM_CONTAINER_CONTAINER.getId());
 
     }
 

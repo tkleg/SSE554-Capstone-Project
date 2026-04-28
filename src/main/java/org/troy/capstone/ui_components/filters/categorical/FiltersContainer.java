@@ -98,7 +98,11 @@ public class FiltersContainer extends ScrollPane {
     public void addFilterPanel( String title, Set<String> options ) {
         Set<CheckBox> checkBoxes = options.stream()
             .map(CheckBox::new)
-            .peek(box -> box.setId(TestFXId.CHECKBOX_PREFIX.getId() + box.getText().toLowerCase().replaceAll("\\s+", "_")))
+            .peek(box -> {
+                String id = TestFXId.CHECKBOX_PREFIX.getId() + box.getText().toLowerCase().replaceAll("\\s+", "_").replaceAll("\\.", "");
+                System.out.println("Assigning ID " + id + " to checkbox with text '" + box.getText() + "' in addFilterPanel");
+                box.setId(id);
+            })
             .collect(Collectors.toSet());
         filterOptions.put( title, checkBoxes );
         FilterPanel filterPanel = new FilterPanel(title, checkBoxes);
