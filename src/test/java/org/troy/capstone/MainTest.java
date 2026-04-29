@@ -4,8 +4,8 @@ import java.lang.reflect.Field;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
@@ -14,9 +14,10 @@ import org.troy.capstone.constants.TestFXId;
 import org.troy.capstone.search_engine.sorting.comparator.RowComparator;
 import org.troy.capstone.ui_components.filters.StarRatingFilter;
 import org.troy.capstone.ui_components.filters.categorical.FilterPanel;
-import org.troy.capstone.ui_components.items.searched.SearchedItemPagination;
 import org.troy.capstone.ui_components.items.SearchedItemPanel;
+import org.troy.capstone.ui_components.items.searched.SearchedItemPagination;
 
+import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -24,9 +25,9 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
-import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 public class MainTest extends ApplicationTest {
 
@@ -247,45 +248,63 @@ public class MainTest extends ApplicationTest {
 
     }
 
-    public void setCategoryDataAndTest(){
+    public void setCategoryDataAndTest() throws InterruptedException {
         Set<String> expectedInitialSelectedOptions = Set.of("Clothing", "Electronics", "Sports & Outdoors", "Books", "Office Supplies");
+        FilterPanel categoryPanel = TestUtils.lookupByTestFXId(TestFXId.FILTER_PANEL_PREFIX.getId() + "category");
+        Point2D categroyPanelLocation = categoryPanel.localToScreen(categoryPanel.getLayoutBounds().getCenterX(), categoryPanel.getLayoutBounds().getCenterY());
+        interact(() -> clickOn(categoryPanel) );
+        Thread.sleep(700);
         //Due to hidden field with the scrollpane, the checkbox is selected with the setting instead of a proper click event
         for (String category : expectedInitialSelectedOptions) {
             CheckBox categoryCheckbox = TestUtils.lookupByTestFXId(TestFXId.CHECKBOX_PREFIX.getId() + category.toLowerCase().replaceAll("\\s+", "_").replaceAll("\\.", ""));
-            interact(() -> categoryCheckbox.setSelected(true));
+            interact(() -> clickOn(categoryCheckbox));
             assertNotNull(categoryCheckbox, "Category checkbox for " + category + " should be found by TestFXId in setCategoryDataAndTest");
             assertTrue(categoryCheckbox.isSelected(), "Category checkbox for " + category + " should be initially selected in setCategoryDataAndTest");
         }
-        
-        FilterPanel categoryPanel = TestUtils.lookupByTestFXId(TestFXId.FILTER_PANEL_PREFIX.getId() + "category");
+        //Click on saved location to close the dropdown
+        interact(() -> clickOn(categroyPanelLocation) );
+        Thread.sleep(700);
+
         Set<String> actualSelectedOptions = categoryPanel.getCheckedOptions();
         assertEquals(expectedInitialSelectedOptions, actualSelectedOptions, "Selected category options should match the expected initial selected options, but was " + actualSelectedOptions);
     }
 
-    public void setPublisherDataAndTest() {
+    public void setPublisherDataAndTest() throws InterruptedException {
+        FilterPanel publisherPanel = TestUtils.lookupByTestFXId(TestFXId.FILTER_PANEL_PREFIX.getId() + "publisher");
         Set<String> expectedInitialSelectedOptions = Set.of("Summit Gear Co.", "BrightLeaf Publishing", "Maple Street Press", "SilverLine Electronics");
+        Point2D publisherPanelLocation = publisherPanel.localToScreen(publisherPanel.getLayoutBounds().getCenterX(), publisherPanel.getLayoutBounds().getCenterY());
+        interact(() -> clickOn(publisherPanel) );
+        Thread.sleep(700);
         for (String publisher : expectedInitialSelectedOptions) {
             CheckBox publisherCheckbox = TestUtils.lookupByTestFXId(TestFXId.CHECKBOX_PREFIX.getId() + publisher.toLowerCase().replaceAll("\\s+", "_").replaceAll("\\.", ""));
-            interact(() -> publisherCheckbox.setSelected(true));
+            interact(() -> clickOn(publisherCheckbox));
             assertNotNull(publisherCheckbox, "Publisher checkbox for " + publisher + " should be found by TestFXId in setPublisherDataAndTest");
             assertTrue(publisherCheckbox.isSelected(), "Publisher checkbox for " + publisher + " should be initially selected in setPublisherDataAndTest");
         }
-
-        FilterPanel publisherPanel = TestUtils.lookupByTestFXId(TestFXId.FILTER_PANEL_PREFIX.getId() + "publisher");
+        //Click on saved location to close the dropdown
+        interact(() -> clickOn(publisherPanelLocation) );
+        Thread.sleep(700);
         Set<String> actualSelectedOptions = publisherPanel.getCheckedOptions();
         assertEquals(expectedInitialSelectedOptions, actualSelectedOptions, "Selected publisher options should match the expected initial selected options, but was " + actualSelectedOptions);
     }
 
-    public void setTagDataAndTest(){
+    public void setTagDataAndTest() throws InterruptedException {
         Set<String> expectedInitialSelectedOptions = Set.of("Bestseller");
+        FilterPanel tagPanel = TestUtils.lookupByTestFXId(TestFXId.FILTER_PANEL_PREFIX.getId() + "tags");
+        Point2D tagPanelLocation = tagPanel.localToScreen(tagPanel.getLayoutBounds().getCenterX(), tagPanel.getLayoutBounds().getCenterY());
+        interact(() -> clickOn(tagPanel) );
+        Thread.sleep(700);
         for (String tag : expectedInitialSelectedOptions) {
             CheckBox tagCheckbox = TestUtils.lookupByTestFXId(TestFXId.CHECKBOX_PREFIX.getId() + tag.toLowerCase().replaceAll("\\s+", "_").replaceAll("\\.", ""));
-            interact(() -> tagCheckbox.setSelected(true));
+            interact(() -> clickOn(tagCheckbox));
             assertNotNull(tagCheckbox, "Tag checkbox for " + tag + " should be found by TestFXId in setTagDataAndTest");
             assertTrue(tagCheckbox.isSelected(), "Tag checkbox for " + tag + " should be initially selected in setTagDataAndTest");
         }
 
-        FilterPanel tagPanel = TestUtils.lookupByTestFXId(TestFXId.FILTER_PANEL_PREFIX.getId() + "tags");
+        //Click on saved location to close the dropdown
+        interact(() -> clickOn(tagPanelLocation) );
+        Thread.sleep(700);
+
         Set<String> actualSelectedOptions = tagPanel.getCheckedOptions();
         assertEquals(expectedInitialSelectedOptions, actualSelectedOptions, "Selected tag options should match the expected initial selected options, but was " + actualSelectedOptions);
     }
