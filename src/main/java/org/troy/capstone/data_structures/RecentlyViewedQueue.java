@@ -43,8 +43,8 @@ public class RecentlyViewedQueue extends ArrayBlockingQueue<SearchedItemPanel>{
             removeIf(panel -> panel.getItemId().equals(itemId));
             System.out.println("Item with ID " + itemId + " is already in the recently viewed queue. Moving to top.");
         } else if (itemIds.remainingCapacity() == 0) {
-            itemIds.poll(); // Remove the oldest item ID
-            poll(); // Remove the oldest item panel
+            itemIds.poll(); //Remove the oldest item ID
+            poll(); //Remove the oldest item panel
             System.out.println("Recently viewed queue is full. Oldest item removed to make space for new item.");
         }
         add(itemId);

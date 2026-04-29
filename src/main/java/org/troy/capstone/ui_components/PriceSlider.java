@@ -27,7 +27,6 @@ public class PriceSlider extends VBox {
      */
     public PriceSlider(double min, double max) {
 
-        // Min slider
         minSlider = new Slider(min, max, min);
         minSlider.setId(TestFXId.MIN_PRICE_SLIDER.getId());
         minSlider.setShowTickLabels(true);
@@ -36,7 +35,6 @@ public class PriceSlider extends VBox {
         minSlider.setBlockIncrement(1);
         minSlider.setPrefWidth(150);
         
-        // Max slider
         maxSlider = new Slider(min, max, max);
         maxSlider.setId(TestFXId.MAX_PRICE_SLIDER.getId());
         maxSlider.setShowTickLabels(true);
@@ -45,9 +43,7 @@ public class PriceSlider extends VBox {
         maxSlider.setBlockIncrement(1);
         maxSlider.setPrefWidth(150);
 
-        // Label
         label = new Label(String.format("Price: $%.0f - $%.0f", min, max));
-        //Bold style for the label
         label.setStyle("-fx-font-weight: bold;");
         
         //Update label when sliders change to be within $1 of each other to prevent crossing

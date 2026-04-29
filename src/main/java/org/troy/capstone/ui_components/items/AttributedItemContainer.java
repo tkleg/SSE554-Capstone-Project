@@ -45,7 +45,7 @@ public class AttributedItemContainer extends VBox {
      */
     public AttributedItemContainer(Item item) {
         super(5); //5px spacing between items
-        setAlignment(Pos.TOP_CENTER); // Center-align the image and attribution
+        setAlignment(Pos.TOP_CENTER);
 
         TextFlow attributionFlow = makeAttributionFlow(item);
 

@@ -31,7 +31,7 @@ public class SearchedItemPanelTest {
         //Verify that the panel was created successfully
         assertNotNull(panel, "SearchedItemPanel should be created successfully");
         
-        // Verify that the right panel is populated with the correct content
+        //Verify that the right panel is populated with the correct content
         VBox rightPanel = panel.getChildren().stream()
             .filter(node -> node instanceof VBox)
             .filter(node -> !(node instanceof AttributedItemContainer)) //Ensure we get the right panel, not the attributed image container

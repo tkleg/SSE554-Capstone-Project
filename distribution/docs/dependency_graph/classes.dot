@@ -884,12 +884,10 @@ digraph "classes" {
    "org.troy.capstone.ui_components.filters.categorical.FilterPanel" -> "javafx.scene.control.TitledPane (not found)";
    "org.troy.capstone.ui_components.filters.categorical.FilterPanel" -> "javafx.scene.layout.VBox (not found)";
    "org.troy.capstone.ui_components.filters.categorical.FilterPanel" -> "org.troy.capstone.constants.TestFXId (classes)";
-   "org.troy.capstone.ui_components.filters.categorical.FiltersContainer" -> "java.io.PrintStream (java.base)";
    "org.troy.capstone.ui_components.filters.categorical.FiltersContainer" -> "java.lang.Double (java.base)";
    "org.troy.capstone.ui_components.filters.categorical.FiltersContainer" -> "java.lang.Integer (java.base)";
    "org.troy.capstone.ui_components.filters.categorical.FiltersContainer" -> "java.lang.Object (java.base)";
    "org.troy.capstone.ui_components.filters.categorical.FiltersContainer" -> "java.lang.String (java.base)";
-   "org.troy.capstone.ui_components.filters.categorical.FiltersContainer" -> "java.lang.System (java.base)";
    "org.troy.capstone.ui_components.filters.categorical.FiltersContainer" -> "java.lang.invoke.CallSite (java.base)";
    "org.troy.capstone.ui_components.filters.categorical.FiltersContainer" -> "java.lang.invoke.LambdaMetafactory (java.base)";
    "org.troy.capstone.ui_components.filters.categorical.FiltersContainer" -> "java.lang.invoke.MethodHandle (java.base)";
@@ -975,12 +973,15 @@ digraph "classes" {
    "org.troy.capstone.ui_components.items.RecentlyViewedWindow" -> "javafx.scene.control.ScrollPane (not found)";
    "org.troy.capstone.ui_components.items.RecentlyViewedWindow" -> "javafx.scene.layout.Region (not found)";
    "org.troy.capstone.ui_components.items.RecentlyViewedWindow" -> "javafx.scene.layout.VBox (not found)";
+   "org.troy.capstone.ui_components.items.RecentlyViewedWindow" -> "org.troy.capstone.constants.TestFXId (classes)";
    "org.troy.capstone.ui_components.items.RecentlyViewedWindow" -> "org.troy.capstone.constants.UISizeControl (classes)";
    "org.troy.capstone.ui_components.items.RecentlyViewedWindow" -> "org.troy.capstone.interfaces.SearchedItemPanelDestinationUI (classes)";
    "org.troy.capstone.ui_components.items.RecentlyViewedWindow" -> "org.troy.capstone.utils.UIUtils (classes)";
+   "org.troy.capstone.ui_components.items.SearchedItemPanel" -> "java.io.PrintStream (java.base)";
    "org.troy.capstone.ui_components.items.SearchedItemPanel" -> "java.lang.Float (java.base)";
    "org.troy.capstone.ui_components.items.SearchedItemPanel" -> "java.lang.Object (java.base)";
    "org.troy.capstone.ui_components.items.SearchedItemPanel" -> "java.lang.String (java.base)";
+   "org.troy.capstone.ui_components.items.SearchedItemPanel" -> "java.lang.System (java.base)";
    "org.troy.capstone.ui_components.items.SearchedItemPanel" -> "java.lang.invoke.CallSite (java.base)";
    "org.troy.capstone.ui_components.items.SearchedItemPanel" -> "java.lang.invoke.LambdaMetafactory (java.base)";
    "org.troy.capstone.ui_components.items.SearchedItemPanel" -> "java.lang.invoke.MethodHandle (java.base)";
@@ -1004,6 +1005,7 @@ digraph "classes" {
    "org.troy.capstone.ui_components.items.SearchedItemPanel" -> "javafx.scene.layout.HBox (not found)";
    "org.troy.capstone.ui_components.items.SearchedItemPanel" -> "javafx.scene.layout.Region (not found)";
    "org.troy.capstone.ui_components.items.SearchedItemPanel" -> "javafx.scene.layout.VBox (not found)";
+   "org.troy.capstone.ui_components.items.SearchedItemPanel" -> "org.troy.capstone.constants.TestFXId (classes)";
    "org.troy.capstone.ui_components.items.SearchedItemPanel" -> "org.troy.capstone.constants.UISizeControl (classes)";
    "org.troy.capstone.ui_components.items.SearchedItemPanel" -> "org.troy.capstone.entities.Item (classes)";
    "org.troy.capstone.ui_components.items.SearchedItemPanel" -> "org.troy.capstone.interfaces.SearchedItemPanelInteractor (classes)";
@@ -1021,6 +1023,7 @@ digraph "classes" {
    "org.troy.capstone.ui_components.items.SimilarItemsContainer" -> "javafx.scene.control.ScrollPane$ScrollBarPolicy (not found)";
    "org.troy.capstone.ui_components.items.SimilarItemsContainer" -> "javafx.scene.layout.HBox (not found)";
    "org.troy.capstone.ui_components.items.SimilarItemsContainer" -> "javafx.scene.layout.Region (not found)";
+   "org.troy.capstone.ui_components.items.SimilarItemsContainer" -> "org.troy.capstone.constants.TestFXId (classes)";
    "org.troy.capstone.ui_components.items.SimilarItemsContainer" -> "org.troy.capstone.constants.UISizeControl (classes)";
    "org.troy.capstone.ui_components.items.SimilarItemsContainer" -> "org.troy.capstone.interfaces.SearchedItemPanelDestinationUI (classes)";
    "org.troy.capstone.ui_components.items.SimilarItemsContainer" -> "org.troy.capstone.utils.UIUtils (classes)";

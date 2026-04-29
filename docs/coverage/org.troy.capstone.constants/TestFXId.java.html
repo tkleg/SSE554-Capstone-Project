@@ -37,9 +37,15 @@
 
     /** ID for the pagination component that holds the SearchedItemContainer in the UI */
 <span class="fc" id="L39">    SEARCHED_ITEM_PAGINATION(&quot;searchedItemPagination&quot;),</span>
+
+    /** ID for the container that holds the recently viewed item panels in the UI */
+<span class="fc" id="L42">    RECENTLY_VIEWED_CONTAINER(&quot;recentlyViewedContainer&quot;),</span>
+
+    /** ID for the container that holds the similar item panels in the UI */
+<span class="fc" id="L45">    SIMILAR_ITEMS_CONTAINER(&quot;similarItemsContainer&quot;),</span>
     
-    /** ID for the name label of the first searchedItemPanel. Used for testing to allow retrieval of the first searched item's name label */
-<span class="fc" id="L42">    FIRST_SEARCHED_ITEM_NAME_LABEL(&quot;searchedItemNameLabel_1&quot;);</span>
+    /** ID for the name label of the first searchedItemPanel. The name label is used to avoid triggering external links elsewhere in the SearchedItemPanel */
+<span class="fc" id="L48">    FIRST_SEARCHED_ITEM_NAME_LABEL(&quot;searchedItemNameLabel_1&quot;);</span>
 
     /** The string ID associated with the {@code TestFXId} enum value. */
     private final String id;
@@ -47,15 +53,15 @@
     /** Constructs a {@code TestFXId} enum value with the specified string ID.
      * @param id The string ID to be associated with the {@code TestFXId} enum value.
      */
-<span class="fc" id="L50">    TestFXId(String id) {</span>
-<span class="fc" id="L51">        this.id = id;</span>
-<span class="fc" id="L52">    }</span>
+<span class="fc" id="L56">    TestFXId(String id) {</span>
+<span class="fc" id="L57">        this.id = id;</span>
+<span class="fc" id="L58">    }</span>
 
     /** Returns the string ID associated with this {@code TestFXId} enum value.
      * @return The string ID associated with this {@code TestFXId} enum value.
      */
     public String getId() {
-<span class="fc" id="L58">        return id;</span>
+<span class="fc" id="L64">        return id;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

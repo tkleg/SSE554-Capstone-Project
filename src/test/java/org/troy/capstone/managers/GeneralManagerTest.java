@@ -137,7 +137,7 @@ public class GeneralManagerTest {
         button.fire();
 
         String output = outContent.toString();
-        System.out.println("Captured Output: " + output); // Print the captured output for debugging
+        System.out.println("Captured Output: " + output); //Print the captured output for debugging
         System.setOut(originalOut);
 
         assert output.contains("Search Data: {}") : "Expected output to contain 'Search Data: {}', but got: " + output;

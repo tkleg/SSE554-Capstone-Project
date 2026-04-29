@@ -87,14 +87,17 @@ digraph "classes" {
    "ui_components.items.AttributedItemContainer" -> "constants.UISizeControl";
    "ui_components.items.AttributedItemContainer" -> "constants.URL";
    "ui_components.items.AttributedItemContainer" -> "entities.Item";
+   "ui_components.items.RecentlyViewedWindow" -> "constants.TestFXId";
    "ui_components.items.RecentlyViewedWindow" -> "constants.UISizeControl";
    "ui_components.items.RecentlyViewedWindow" -> "interfaces.SearchedItemPanelDestinationUI";
    "ui_components.items.RecentlyViewedWindow" -> "utils.UIUtils";
+   "ui_components.items.SearchedItemPanel" -> "constants.TestFXId";
    "ui_components.items.SearchedItemPanel" -> "constants.UISizeControl";
    "ui_components.items.SearchedItemPanel" -> "entities.Item";
    "ui_components.items.SearchedItemPanel" -> "interfaces.SearchedItemPanelInteractor";
    "ui_components.items.SearchedItemPanel" -> "ui_components.items.AttributedItemContainer";
    "ui_components.items.SearchedItemPanel" -> "utils.UIUtils";
+   "ui_components.items.SimilarItemsContainer" -> "constants.TestFXId";
    "ui_components.items.SimilarItemsContainer" -> "constants.UISizeControl";
    "ui_components.items.SimilarItemsContainer" -> "interfaces.SearchedItemPanelDestinationUI";
    "ui_components.items.SimilarItemsContainer" -> "utils.UIUtils";

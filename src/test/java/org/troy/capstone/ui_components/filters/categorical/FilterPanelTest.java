@@ -50,7 +50,7 @@ public class FilterPanelTest {
             new CheckBox("Option 2"),
             new CheckBox("Option 3")
         );
-        checkBoxes.get(0).fire(); // Select Option 1
+        checkBoxes.get(0).fire();
         Set<CheckBox> checkBoxSet = Set.copyOf(checkBoxes);
         
         FilterPanel filterPanel = new FilterPanel("Test Filter", checkBoxSet);

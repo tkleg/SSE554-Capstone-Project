@@ -51,7 +51,7 @@ public class ImageUrlFiller {
             //System.out.println("Processing row " + i + ": " + query);
             
             try {
-                // Use search API to get photos that actually match the query
+                //Use search API to get photos that actually match the query
                 URI uri = URI.create("https://api.unsplash.com/search/photos?query=" + encodedQuery + "&per_page=1");
                 HttpRequest request = HttpRequest.newBuilder()
                         .uri(uri)
@@ -59,7 +59,7 @@ public class ImageUrlFiller {
                         .header("Accept-Version", "v1")
                         .build();
                 
-                // Send request and capture full response
+                //Send request and capture full response
                 HttpResponse<String> httpResponse = client.send(request, java.net.http.HttpResponse.BodyHandlers.ofString());
                 
                 int responseCode = httpResponse.statusCode();
@@ -72,7 +72,7 @@ public class ImageUrlFiller {
                 String responseBody = httpResponse.body();
                 JsonNode rootNode = mapper.readTree(responseBody);
                 
-                // Extract the first photo's data from search results
+                //Extract the first photo's data from search results
                 JsonNode results = rootNode.get("results");
                 if (results.isArray() && results.size() > 0) {
                     JsonNode photo = results.get(0);

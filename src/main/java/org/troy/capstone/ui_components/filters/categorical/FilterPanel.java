@@ -28,7 +28,7 @@ public class FilterPanel extends TitledPane{
      */
     public FilterPanel(String title, Set<CheckBox> options) {
         optionCheckBoxes = new HashSet<>(options);
-        VBox contentBox = new VBox(5); // 5px spacing between checkboxes
+        VBox contentBox = new VBox(5);
         super(title, contentBox);
 
         setExpanded(false);

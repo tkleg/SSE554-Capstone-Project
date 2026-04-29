@@ -125,7 +125,7 @@ public class SearchEngineTest {
     public void testCategoricalFilters(String tagsString, String categoriesString, String publisherString, int expectedCount) throws IllegalAccessException, InvocationTargetException {
         Map<String, Set<String>> filtersContainer = new HashMap<>();
         
-        // Handle empty strings properly to avoid creating sets with empty string elements
+        //Handle empty strings properly to avoid creating sets with empty string elements
         if(!tagsString.isEmpty())
             filtersContainer.put("Tags", new HashSet<>(Arrays.asList(tagsString.split(", "))));
         else
@@ -170,7 +170,7 @@ public class SearchEngineTest {
     public void testCombinedFilters(String tagsString, String categoriesString, String publisherString, float minPrice, float maxPrice, int minStarRating, String query, int expectedCount) throws IllegalAccessException, InvocationTargetException {
         Map<String, Set<String>> filtersContainer = new HashMap<>();
         
-        // Handle empty strings properly to avoid creating sets with empty string elements
+        //Handle empty strings properly to avoid creating sets with empty string elements
         if(!tagsString.isEmpty())
             filtersContainer.put("Tags", new HashSet<>(Arrays.asList(tagsString.split(", "))));
         else

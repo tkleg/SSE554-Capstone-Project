@@ -69,8 +69,11 @@ public class SearchedItemPagination extends VBox implements SearchedItemPanelSou
 
 <span class="fc" id="L70">    }</span>
 
+    /** Returns the total number of pages in the pagination, calculated based on the total number of items and items per page.
+     * @return The total number of pages in the pagination, calculated based on the total number of items and items per page.
+     */
     public int getPageCount() {
-<span class="fc" id="L73">        return pageList.getPageCount();</span>
+<span class="fc" id="L76">        return pageList.getPageCount();</span>
     }
 
      /**
@@ -83,9 +86,9 @@ public class SearchedItemPagination extends VBox implements SearchedItemPanelSou
       * @param itemIdList A list of item IDs corresponding to search results to update the pagination component with.
      */
     public final void update(List&lt;String&gt; itemIdList) {
-<span class="fc" id="L86">        pageList = new SearchedItemsLinkedList(itemRepo, itemIdList);</span>
-<span class="fc" id="L87">        mySearchedItemContainer.updateItems(pageList.getHead());</span>
-<span class="fc" id="L88">    }</span>
+<span class="fc" id="L89">        pageList = new SearchedItemsLinkedList(itemRepo, itemIdList);</span>
+<span class="fc" id="L90">        mySearchedItemContainer.updateItems(pageList.getHead());</span>
+<span class="fc" id="L91">    }</span>
 
     /**
      * Returns the list of items in the previous page of search results.
@@ -94,7 +97,7 @@ public class SearchedItemPagination extends VBox implements SearchedItemPanelSou
      * @return The list of items in the previous page of search results, or null if there is no previous page.
      */
     private List&lt;Item&gt; getPreviousPage() {
-<span class="fc" id="L97">        return pageList.getPrevious();</span>
+<span class="fc" id="L100">        return pageList.getPrevious();</span>
     }
 
     /** Adds a {@code SearchedItemPanelInteractor} to the {@code SearchedItemContainer} to allow for interaction with the item panels in the search results.
@@ -104,8 +107,8 @@ public class SearchedItemPagination extends VBox implements SearchedItemPanelSou
      */
     @Override
     public void addSearchedItemPanelInteractor(SearchedItemPanelInteractor interactor) {
-<span class="fc" id="L107">        mySearchedItemContainer.addSearchedItemPanelInteractor(interactor);</span>
-<span class="fc" id="L108">    }</span>
+<span class="fc" id="L110">        mySearchedItemContainer.addSearchedItemPanelInteractor(interactor);</span>
+<span class="fc" id="L111">    }</span>
 
     /**
      * Returns the list of items in the next page of search results.
@@ -114,7 +117,7 @@ public class SearchedItemPagination extends VBox implements SearchedItemPanelSou
      * @return The list of items in the next page of search results, or null if there is no next page.
      */
     private List&lt;Item&gt; getNextPage() {
-<span class="fc" id="L117">        return pageList.getNext();</span>
+<span class="fc" id="L120">        return pageList.getNext();</span>
     }
     
 }

@@ -82,7 +82,7 @@ public class SearchBar extends VBox {
      * @post The callbacks for displaying a cell, selected item, and printing when an item is selected are set for the {@code sortingOptionDropdown}.
      */
     private void setSortingOptionCallbacks() {
-        // Display clean name and set unique TestFXId for each cell, handling null/empty
+        //Display clean name and set unique TestFXId for each cell, handling null/empty
         sortingOptionDropdown.setCellFactory(listView -> new ListCell<>() {
             @Override
             protected void updateItem(RowComparator item, boolean empty) {
@@ -97,7 +97,7 @@ public class SearchBar extends VBox {
                 }
             }
         });
-        // Display clean name and set TestFXId for the selected (button) cell, handling null/empty
+        //Display clean name and set TestFXId for the selected (button) cell, handling null/empty
         sortingOptionDropdown.setButtonCell(new ListCell<>() {
             @Override
             protected void updateItem(RowComparator item, boolean empty) {

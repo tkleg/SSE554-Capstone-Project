@@ -71,7 +71,8 @@ public class FiltersContainer extends ScrollPane {
     private void createFiltersFromTable(List<Item> items) {
         for (TableColumnName column : TableColumnName.getCategoricalColumns()) {
             Set<String> uniqueValues;
-            if( column.getColumnName().equals(TableColumnName.TAGS.getColumnName()) ){// Special handling for tags since it's a set of strings
+            //Special handling for tags since it's a Set<String> instead of a String
+            if( column.getColumnName().equals(TableColumnName.TAGS.getColumnName()) ){
                 uniqueValues = items.stream()
                 .flatMap(item -> item.getTags().stream())
                 .collect(Collectors.toSet());
@@ -100,7 +101,6 @@ public class FiltersContainer extends ScrollPane {
             .map(CheckBox::new)
             .peek(box -> {
                 String id = TestFXId.CHECKBOX_PREFIX.getId() + box.getText().toLowerCase().replaceAll("\\s+", "_").replaceAll("\\.", "");
-                System.out.println("Assigning ID " + id + " to checkbox with text '" + box.getText() + "' in addFilterPanel");
                 box.setId(id);
             })
             .collect(Collectors.toSet());

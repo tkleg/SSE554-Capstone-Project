@@ -40,6 +40,9 @@ public enum TestFXId {
 
     /** ID for the container that holds the recently viewed item panels in the UI */
     RECENTLY_VIEWED_CONTAINER("recentlyViewedContainer"),
+
+    /** ID for the container that holds the similar item panels in the UI */
+    SIMILAR_ITEMS_CONTAINER("similarItemsContainer"),
     
     /** ID for the name label of the first searchedItemPanel. The name label is used to avoid triggering external links elsewhere in the SearchedItemPanel */
     FIRST_SEARCHED_ITEM_NAME_LABEL("searchedItemNameLabel_1");

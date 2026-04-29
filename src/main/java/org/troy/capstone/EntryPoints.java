@@ -108,7 +108,7 @@ public class EntryPoints {
         FloatColumn relevanceColumn = FloatColumn.create(TableColumnName.RELEVANCE.getColumnName(), tableSize);
         for (int i = 0; i < tableSize; i++)
             relevanceColumn.set(i, rand.nextFloat());
-        table.addColumns(relevanceColumn); // Add to main table
+        table.addColumns(relevanceColumn);
 
         //Create a performance table with the same number of rows as the main table
         Table performanceTable = Table.create("Performance Table");

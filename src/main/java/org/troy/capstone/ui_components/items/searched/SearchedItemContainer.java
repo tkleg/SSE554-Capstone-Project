@@ -31,8 +31,8 @@ public class SearchedItemContainer extends ScrollPane {
     private SearchedItemContainer() {
         super();
 
-        itemContainer = new VBox(UISizeControl.SEARCHED_ITEM_PANEL_SPACING.getValue()); // 5px spacing between items
-        itemContainer.setAlignment(Pos.TOP_CENTER); // Center-align items consistently
+        itemContainer = new VBox(UISizeControl.SEARCHED_ITEM_PANEL_SPACING.getValue());
+        itemContainer.setAlignment(Pos.TOP_CENTER);
         setContent(itemContainer);
         setFitToWidth(true);
 

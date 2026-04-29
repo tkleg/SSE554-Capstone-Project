@@ -31,12 +31,10 @@ public class RowComparatorTest {
         System.setOut(originalOut);
     }
 
-    // 
     @Test
     @SuppressWarnings("ObjectEqualsNull")
     public void testEqualsWithNullAndDifferentClass(){
         RowComparator comparator = new RowComparator(RowComparator.SortType.PRICE_ASCENDING);
-        // Suppress warning for .equals() on incompatible types
         assert !comparator.equals(null) : "RowComparator should not be equal to null";
         assert !comparator.equals(new Object()) : "RowComparator should not be equal to an object of a different class";
     }

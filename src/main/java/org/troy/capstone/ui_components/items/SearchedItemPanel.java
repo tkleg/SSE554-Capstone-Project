@@ -39,7 +39,7 @@ public class SearchedItemPanel extends HBox{
     private final String itemId;
 
     /** Static variable to track if the first instance of {@code SearchedItemPanel} has been created, used to assign an ID to the name label of the first instance for clicking on the instance in tests. */
-    private static boolean firstInstanceMade = false;
+    public static boolean firstInstanceMade = false;
 
     /**
      * Creates a {@code SearchedItemPanel} for the given item, displaying its image and details in a structured layout.
@@ -61,8 +61,8 @@ public class SearchedItemPanel extends HBox{
         
         //Add both sides to the HBox
         getChildren().addAll(attributedImage, rightPanel);
-        setSpacing(20); // 20px spacing between image and text
-        setAlignment(Pos.TOP_LEFT); // Align all items to top-left for consistency
+        setSpacing(20);
+        setAlignment(Pos.TOP_LEFT);
                 
         //Add padding inside the border
         setPadding(new Insets(UISizeControl.HEIGHT_PADDING.getValue(), UISizeControl.WIDTH_PADDING.getValue(), UISizeControl.HEIGHT_PADDING.getValue(), UISizeControl.WIDTH_PADDING.getValue()));
@@ -120,16 +120,17 @@ public class SearchedItemPanel extends HBox{
      * @return A {@code VBox} containing the labels with the item details, styled and formatted for display in the right panel of the {@code SearchedItemPanel}.
      */
     public static VBox makeRightPanel(Item item) {
-        VBox rightPanel = new VBox(5); // 5px spacing between elements
+        VBox rightPanel = new VBox(5);
         rightPanel.setAlignment(Pos.CENTER);
         //Name label done separately so we can style it
         Label nameLabel = new Label(item.getName());
         nameLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14;");
         nameLabel.setWrapText(true);
-        nameLabel.setMaxWidth(UISizeControl.SEARCHED_ITEM_LABEL_MAX_WIDTH.getValue()); // Allow space for image on left
+        nameLabel.setMaxWidth(UISizeControl.SEARCHED_ITEM_LABEL_MAX_WIDTH.getValue());
         nameLabel.setAlignment(Pos.CENTER_LEFT);
         if(!firstInstanceMade) {
             nameLabel.setId(TestFXId.FIRST_SEARCHED_ITEM_NAME_LABEL.getId());
+            System.out.println("Setting ID for first searched item name label: " + nameLabel.getId());
             firstInstanceMade = true;
         }
 

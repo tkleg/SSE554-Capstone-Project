@@ -26,6 +26,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.scene.layout.VBox;
+import javafx.scene.layout.HBox;
 
 public class MainTest extends ApplicationTest {
 
@@ -38,32 +39,54 @@ public class MainTest extends ApplicationTest {
 
     @BeforeEach
     public void setUp() throws Exception {
-        ApplicationTest.launch(Main.class);
+        SearchedItemPanel.firstInstanceMade = false;
+        Config.graphBuildingEnabled = false;
     }
 
     @Test
-    public void testDisplayInSimilarItemsAndRecentlyViewedItems(){
+    public void testDisplayInSimilarItemsAndRecentlyViewedItems()throws Exception{
+        
+        //Start test and get the triggering label
+        Config.graphBuildingEnabled = true;
+        ApplicationTest.launch(Main.class);
         Label nameLabel = TestUtils.lookupByTestFXId(TestFXId.FIRST_SEARCHED_ITEM_NAME_LABEL);
         assertNotNull(nameLabel, "First searched item name label should be found by TestFXId in testDisplayInSimilarItemsAndRecentlyViewedItems");
 
+        //Test RecentlyViewedWindow before the click
         VBox recentlyViewedContent = TestUtils.lookupByTestFXId(TestFXId.RECENTLY_VIEWED_CONTAINER);
         int initialRecentlyViewedCount = recentlyViewedContent.getChildren().size();
         assertEquals(1, initialRecentlyViewedCount, "There should be 1 item (label) in the recently viewed container initially, but was " + initialRecentlyViewedCount);
         Node firstChild = recentlyViewedContent.getChildren().get(0);
-        assertTrue(firstChild instanceof Label, "The first child in the recently viewed container should be a Label representing the item name, but was " + firstChild.getClass().getSimpleName());
+        assertTrue(firstChild instanceof Label, "The first child in the recently viewed container should be a Label representing the container, but was " + firstChild.getClass().getSimpleName());
 
-        //HBox similarItemsContainer = TestUtils.lookupByTestFXId(TestFXId.SIMILAR_ITEMS_CONTENT);
+        //Test SimilarItemsWindow before the click
+        HBox similarItemsContainer = TestUtils.lookupByTestFXId(TestFXId.SIMILAR_ITEMS_CONTAINER);
+        int similarItemsCount = similarItemsContainer.getChildren().size();
+        assertEquals(1, similarItemsCount, "There should be 1 item in the similar items container after clicking on the first searched item, but was " + similarItemsCount);
+        Node similarFirstChild = similarItemsContainer.getChildren().get(0);
+        assertTrue(similarFirstChild instanceof Label, "The first child in the similar items container should be a Label representing the container, but was " + similarFirstChild.getClass().getSimpleName());
+
         interact(() -> clickOn(nameLabel));
 
+        //Test RecentlyViewedWindow after the click
         initialRecentlyViewedCount = recentlyViewedContent.getChildren().size();
         assertEquals(1, initialRecentlyViewedCount, "There should be 1 item in the recently viewed container after clicking on the first searched item, but was " + initialRecentlyViewedCount);
         firstChild = recentlyViewedContent.getChildren().get(0);
         assertTrue(firstChild instanceof SearchedItemPanel, "The first child in the recently viewed container should be a SearchedItemPanel representing the item, but was " + firstChild.getClass().getSimpleName());
+    
+        //Test SimilarItemsWindow after the click
+        similarItemsCount = similarItemsContainer.getChildren().size();
+        assertEquals(10, similarItemsCount, "There should be 10 items in the similar items container after clicking on the first searched item, but was " + similarItemsCount);
+        for(int x = 0; x < 10; x++){
+            Node child = similarItemsContainer.getChildren().get(x);
+            assertTrue(child instanceof VBox, "Child " + (x+1) + " in the similar items container should be a VBox representing a similar item, but was " + child.getClass().getSimpleName());
+        }
     }
 
 
     @Test
-    public void testFilteredSearch() throws ReflectiveOperationException {
+    public void testFilteredSearch() throws Exception {
+        ApplicationTest.launch(Main.class);
         //Assert that the stage is showing after setup
         assertTrue(stage.isShowing(), "Primary stage should be showing after setup");
         setSortOptionAndTest();
@@ -134,22 +157,22 @@ public class MainTest extends ApplicationTest {
 
         double minOffset = Math.abs((minPrice - minPriceSlider.getValue()) * pixelsPerDollar);
         double maxOffset = Math.abs((maxPrice - maxPriceSlider.getValue()) * pixelsPerDollar);
-        // Move min slider thumb to the right (simulate user drag)
+        //Move min slider thumb to the right (simulate user drag)
         interact(() -> {
             drag(minPriceSlider.lookup(".thumb")).dropBy(minOffset, 0);
         });
 
-        // Move max slider thumb to the left (simulate user drag)
+        //Move max slider thumb to the left (simulate user drag)
         interact(() -> {
             drag(maxPriceSlider.lookup(".thumb")).dropBy(-maxOffset, 0);
         });
 
-        // Wait for UI events to process
+        //Wait for UI events to process
         WaitForAsyncUtils.waitForFxEvents();
 
         double actualMinPrice = minPriceSlider.getValue();
         double actualMaxPrice = maxPriceSlider.getValue();
-        // Allow a wider delta due to drag precision
+        //Allow a wider delta due to drag precision
         System.out.println("Expected min price: " + minPrice + ", Actual min price: " + actualMinPrice);
         System.out.println("Expected max price: " + maxPrice + ", Actual max price: " + actualMaxPrice);
         assertTrue(Math.abs(actualMinPrice - minPrice) < 15, "Min price slider should be near " + minPrice + ", but was " + actualMinPrice);

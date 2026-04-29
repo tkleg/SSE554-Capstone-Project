@@ -83,9 +83,9 @@ public class AttributedItemContainerTest {
                 desktopField.set(attributedItemContainer, mockDesktop);
                 TextFlow flow = (TextFlow) makeAttributionFlowTest.invoke(attributedItemContainer, item);
                 
-                Text authorName = (Text) flow.getChildren().get(1); // Author name
-                Text sourceName = (Text) flow.getChildren().get(3); // "Unsplash"
-                ImageView imageView = attributedItemContainer.getImageView(); // ImageView from the container
+                Text authorName = (Text) flow.getChildren().get(1); //Author name
+                Text sourceName = (Text) flow.getChildren().get(3); //"Unsplash"
+                ImageView imageView = attributedItemContainer.getImageView(); //ImageView from the container
 
                 if (scenario.equals("failure")) {
                     Mockito.doThrow(new RuntimeException("Mocked browse exception"))

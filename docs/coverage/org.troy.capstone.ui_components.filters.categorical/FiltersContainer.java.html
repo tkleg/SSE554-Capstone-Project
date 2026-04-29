@@ -71,19 +71,20 @@ public class FiltersContainer extends ScrollPane {
     private void createFiltersFromTable(List&lt;Item&gt; items) {
 <span class="fc bfc" id="L72" title="All 2 branches covered.">        for (TableColumnName column : TableColumnName.getCategoricalColumns()) {</span>
             Set&lt;String&gt; uniqueValues;
-<span class="fc bfc" id="L74" title="All 2 branches covered.">            if( column.getColumnName().equals(TableColumnName.TAGS.getColumnName()) ){// Special handling for tags since it's a set of strings</span>
-<span class="fc" id="L75">                uniqueValues = items.stream()</span>
-<span class="fc" id="L76">                .flatMap(item -&gt; item.getTags().stream())</span>
-<span class="fc" id="L77">                .collect(Collectors.toSet());</span>
+            //Special handling for tags since it's a Set&lt;String&gt; instead of a String
+<span class="fc bfc" id="L75" title="All 2 branches covered.">            if( column.getColumnName().equals(TableColumnName.TAGS.getColumnName()) ){</span>
+<span class="fc" id="L76">                uniqueValues = items.stream()</span>
+<span class="fc" id="L77">                .flatMap(item -&gt; item.getTags().stream())</span>
+<span class="fc" id="L78">                .collect(Collectors.toSet());</span>
             } else {
-<span class="fc" id="L79">                uniqueValues = items.stream()</span>
-<span class="fc" id="L80">                    .map(item -&gt; (String) item.getAttribute(column))</span>
-<span class="fc" id="L81">                    .collect(Collectors.toSet());</span>
+<span class="fc" id="L80">                uniqueValues = items.stream()</span>
+<span class="fc" id="L81">                    .map(item -&gt; (String) item.getAttribute(column))</span>
+<span class="fc" id="L82">                    .collect(Collectors.toSet());</span>
             }
-<span class="fc" id="L83">            String filterTitle = column.getColumnName().substring(0, 1).toUpperCase() + column.getColumnName().substring(1).toLowerCase();</span>
-<span class="fc" id="L84">            addFilterPanel(filterTitle, uniqueValues);</span>
-<span class="fc" id="L85">        }</span>
-<span class="fc" id="L86">    }</span>
+<span class="fc" id="L84">            String filterTitle = column.getColumnName().substring(0, 1).toUpperCase() + column.getColumnName().substring(1).toLowerCase();</span>
+<span class="fc" id="L85">            addFilterPanel(filterTitle, uniqueValues);</span>
+<span class="fc" id="L86">        }</span>
+<span class="fc" id="L87">    }</span>
 
     /**
      * Adds a filter panel to the {@code FiltersContainer} with the given title and options. Each option is represented as a {@code CheckBox}.
@@ -96,11 +97,10 @@ public class FiltersContainer extends ScrollPane {
      * @param options The set of strings representing the filter options to create {@code CheckBox}es for.
      */
     public void addFilterPanel( String title, Set&lt;String&gt; options ) {
-<span class="fc" id="L99">        Set&lt;CheckBox&gt; checkBoxes = options.stream()</span>
-<span class="fc" id="L100">            .map(CheckBox::new)</span>
-<span class="fc" id="L101">            .peek(box -&gt; {</span>
-<span class="fc" id="L102">                String id = TestFXId.CHECKBOX_PREFIX.getId() + box.getText().toLowerCase().replaceAll(&quot;\\s+&quot;, &quot;_&quot;).replaceAll(&quot;\\.&quot;, &quot;&quot;);</span>
-<span class="fc" id="L103">                System.out.println(&quot;Assigning ID &quot; + id + &quot; to checkbox with text '&quot; + box.getText() + &quot;' in addFilterPanel&quot;);</span>
+<span class="fc" id="L100">        Set&lt;CheckBox&gt; checkBoxes = options.stream()</span>
+<span class="fc" id="L101">            .map(CheckBox::new)</span>
+<span class="fc" id="L102">            .peek(box -&gt; {</span>
+<span class="fc" id="L103">                String id = TestFXId.CHECKBOX_PREFIX.getId() + box.getText().toLowerCase().replaceAll(&quot;\\s+&quot;, &quot;_&quot;).replaceAll(&quot;\\.&quot;, &quot;&quot;);</span>
 <span class="fc" id="L104">                box.setId(id);</span>
 <span class="fc" id="L105">            })</span>
 <span class="fc" id="L106">            .collect(Collectors.toSet());</span>
