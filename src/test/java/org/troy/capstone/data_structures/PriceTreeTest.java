@@ -13,7 +13,7 @@ import org.troy.capstone.constants.TableColumnName;
 
 import tech.tablesaw.api.Table;
 
-// Parameterized test info found on https://www.baeldung.com/parameterized-tests-junit-5
+//Parameterized test info found on https://www.baeldung.com/parameterized-tests-junit-5
 
 public class PriceTreeTest {
     private static PriceTree tree;

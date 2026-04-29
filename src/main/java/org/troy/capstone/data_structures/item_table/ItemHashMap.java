@@ -50,7 +50,7 @@ public class ItemHashMap extends HashMap<IdHashKey, Item> implements ItemRepo {
      * @param data_size The number of {@code Item} instances that will be added to the map, used to get a 0.75 load factor.
      */
     private ItemHashMap(int data_size) {
-        super((int) (data_size / MAX_LOAD_FACTOR) + 1); // Calculate initial capacity based on expected data size and load factor
+        super((int) (data_size / MAX_LOAD_FACTOR) + 1); //Calculate initial capacity based on expected data size and load factor
     }
     
     /**
@@ -108,17 +108,17 @@ public class ItemHashMap extends HashMap<IdHashKey, Item> implements ItemRepo {
         List<Integer> buckets = itemIds.stream() //List of the buckets that get hashed to
             .map( id -> useCustomHash ? new IdHashKey(id).hashCode() : id.hashCode() )
             .collect(Collectors.toList());
-        int[] itemsInBucket = new int[TABLE_SIZE]; // Count of how many items get hashed to each bucket
+        int[] itemsInBucket = new int[TABLE_SIZE]; //Count of how many items get hashed to each bucket
         for (int bucket : buckets)
             itemsInBucket[Math.floorMod(bucket, TABLE_SIZE)]++;
         
-        // Find the maximum bucket size to avoid ArrayIndexOutOfBoundsException
+        //Find the maximum bucket size to avoid ArrayIndexOutOfBoundsException
         int maxBucketSize = 0;
         for (int count : itemsInBucket)
             if (count > maxBucketSize)
                 maxBucketSize = count;
         
-        int[] bucketSizeCounts = new int[maxBucketSize + 1]; // Count of how many buckets have a certain size (0 items, 1 item, 2 items, etc.)
+        int[] bucketSizeCounts = new int[maxBucketSize + 1]; //Count of how many buckets have a certain size (0 items, 1 item, 2 items, etc.)
         for (int count : itemsInBucket)
             bucketSizeCounts[count]++;
         return bucketSizeCounts;
@@ -168,8 +168,8 @@ public class ItemHashMap extends HashMap<IdHashKey, Item> implements ItemRepo {
     private void printBucketSizeCountsCustomVsBuiltIn(){
         String col1 = "Entries in Bucket (N)", col2 = "Buckets with N entries (Custom Hash)", col3 = "Buckets with N entries (Built-in Hash)";
         System.out.printf("%-" + col1.length() + "s %s %-" + col2.length() + "s %s %-" + col3.length() + "s%n", col1, "|", col2, "|", col3);
-        int[] customBucketSizeCounts = getFreshBucketSizeCount(getItemIdsAsList(), true); // Use fresh calculation with current I,J
-        int[] builtInBucketSizeCounts = getFreshBucketSizeCount(getItemIdsAsList(), false); // Use fresh calculation for built-in String hash
+        int[] customBucketSizeCounts = getFreshBucketSizeCount(getItemIdsAsList(), true); //Use fresh calculation with current I,J
+        int[] builtInBucketSizeCounts = getFreshBucketSizeCount(getItemIdsAsList(), false); //Use fresh calculation for built-in String hash
         int maxSize = Math.max(customBucketSizeCounts.length, builtInBucketSizeCounts.length);
         customBucketSizeCounts = Arrays.copyOf(customBucketSizeCounts, maxSize); //Pad with zeros to match size
         builtInBucketSizeCounts = Arrays.copyOf(builtInBucketSizeCounts, maxSize); //Pad with zeros to match size

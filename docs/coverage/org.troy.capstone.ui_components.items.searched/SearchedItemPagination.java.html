@@ -3,6 +3,7 @@
 import java.util.List;
 
 import org.troy.capstone.constants.UISizeControl;
+import org.troy.capstone.constants.TestFXId;
 import org.troy.capstone.data_structures.SearchedItemsLinkedList;
 import org.troy.capstone.entities.Item;
 import org.troy.capstone.interfaces.ItemRepo;
@@ -40,31 +41,40 @@ public class SearchedItemPagination extends VBox implements SearchedItemPanelSou
      * @pre {@code itemRepo} should contain valid item data to populate the pagination content.
      * @param itemRepo The item repository containing all items, used to populate the pagination content based on the current search results.
     */
-<span class="fc" id="L43">    public SearchedItemPagination(ItemRepo itemRepo) {</span>
+<span class="fc" id="L44">    public SearchedItemPagination(ItemRepo itemRepo) {</span>
 
-<span class="fc" id="L45">        this.itemRepo = itemRepo;</span>
+<span class="fc" id="L46">        this.itemRepo = itemRepo;</span>
 
-<span class="fc" id="L47">        List&lt;String&gt; initialIds = itemRepo.getItemsAsList().stream().map(Item::getId).toList();</span>
+<span class="fc" id="L48">        List&lt;String&gt; initialIds = itemRepo.getItemsAsList().stream().map(Item::getId).toList();</span>
 
-<span class="fc" id="L49">        HBox buttonContainer = new HBox(UISizeControl.SEARCHED_ITEM_PAGINATION_BUTTON_SPACING.getValue());</span>
-<span class="fc" id="L50">        buttonContainer.setAlignment(Pos.CENTER);</span>
-<span class="fc" id="L51">        prevButton = new Button(&quot;Previous&quot;);</span>
-<span class="fc" id="L52">        nextButton = new Button(&quot;Next&quot;);</span>
+<span class="fc" id="L50">        HBox buttonContainer = new HBox(UISizeControl.SEARCHED_ITEM_PAGINATION_BUTTON_SPACING.getValue());</span>
+<span class="fc" id="L51">        buttonContainer.setAlignment(Pos.CENTER);</span>
+<span class="fc" id="L52">        prevButton = new Button(&quot;Previous&quot;);</span>
+<span class="fc" id="L53">        nextButton = new Button(&quot;Next&quot;);</span>
 
-<span class="fc" id="L54">        setSpacing(UISizeControl.HEIGHT_PADDING.getValue());</span>
+<span class="fc" id="L55">        setSpacing(UISizeControl.HEIGHT_PADDING.getValue());</span>
 
-<span class="fc" id="L56">        pageList = new SearchedItemsLinkedList(itemRepo, initialIds);</span>
-<span class="fc" id="L57">        mySearchedItemContainer = SearchedItemContainer.create(pageList.getHead());</span>
-<span class="fc" id="L58">        this.getChildren().clear();</span>
-<span class="fc" id="L59">        this.setAlignment(Pos.TOP_CENTER);</span>
-<span class="fc" id="L60">        this.getChildren().add(mySearchedItemContainer);</span>
-<span class="fc" id="L61">        buttonContainer.getChildren().addAll(prevButton, nextButton);</span>
-<span class="fc" id="L62">        this.getChildren().add(buttonContainer);</span>
+<span class="fc" id="L57">        pageList = new SearchedItemsLinkedList(itemRepo, initialIds);</span>
+<span class="fc" id="L58">        mySearchedItemContainer = SearchedItemContainer.create(pageList.getHead());</span>
+<span class="fc" id="L59">        this.getChildren().clear();</span>
+<span class="fc" id="L60">        this.setAlignment(Pos.TOP_CENTER);</span>
+<span class="fc" id="L61">        this.getChildren().add(mySearchedItemContainer);</span>
+<span class="fc" id="L62">        buttonContainer.getChildren().addAll(prevButton, nextButton);</span>
+<span class="fc" id="L63">        this.getChildren().add(buttonContainer);</span>
 
-<span class="fc" id="L64">        prevButton.setOnAction(event -&gt; { mySearchedItemContainer.updateItems(getPreviousPage()); });</span>
-<span class="fc" id="L65">        nextButton.setOnAction(event -&gt; { mySearchedItemContainer.updateItems(getNextPage()); });</span>
+<span class="fc" id="L65">        setId(TestFXId.SEARCHED_ITEM_PAGINATION.getId());</span>
 
-<span class="fc" id="L67">    }</span>
+<span class="fc" id="L67">        prevButton.setOnAction(event -&gt; { mySearchedItemContainer.updateItems(getPreviousPage()); });</span>
+<span class="fc" id="L68">        nextButton.setOnAction(event -&gt; { mySearchedItemContainer.updateItems(getNextPage()); });</span>
+
+<span class="fc" id="L70">    }</span>
+
+    /** Returns the total number of pages in the pagination, calculated based on the total number of items and items per page.
+     * @return The total number of pages in the pagination, calculated based on the total number of items and items per page.
+     */
+    public int getPageCount() {
+<span class="fc" id="L76">        return pageList.getPageCount();</span>
+    }
 
      /**
       * Updates the pagination content with a new list of item IDs corresponding to search results.
@@ -76,9 +86,9 @@ public class SearchedItemPagination extends VBox implements SearchedItemPanelSou
       * @param itemIdList A list of item IDs corresponding to search results to update the pagination component with.
      */
     public final void update(List&lt;String&gt; itemIdList) {
-<span class="fc" id="L79">        pageList = new SearchedItemsLinkedList(itemRepo, itemIdList);</span>
-<span class="fc" id="L80">        mySearchedItemContainer.updateItems(pageList.getHead());</span>
-<span class="fc" id="L81">    }</span>
+<span class="fc" id="L89">        pageList = new SearchedItemsLinkedList(itemRepo, itemIdList);</span>
+<span class="fc" id="L90">        mySearchedItemContainer.updateItems(pageList.getHead());</span>
+<span class="fc" id="L91">    }</span>
 
     /**
      * Returns the list of items in the previous page of search results.
@@ -87,7 +97,7 @@ public class SearchedItemPagination extends VBox implements SearchedItemPanelSou
      * @return The list of items in the previous page of search results, or null if there is no previous page.
      */
     private List&lt;Item&gt; getPreviousPage() {
-<span class="fc" id="L90">        return pageList.getPrevious();</span>
+<span class="fc" id="L100">        return pageList.getPrevious();</span>
     }
 
     /** Adds a {@code SearchedItemPanelInteractor} to the {@code SearchedItemContainer} to allow for interaction with the item panels in the search results.
@@ -97,8 +107,8 @@ public class SearchedItemPagination extends VBox implements SearchedItemPanelSou
      */
     @Override
     public void addSearchedItemPanelInteractor(SearchedItemPanelInteractor interactor) {
-<span class="fc" id="L100">        mySearchedItemContainer.addSearchedItemPanelInteractor(interactor);</span>
-<span class="fc" id="L101">    }</span>
+<span class="fc" id="L110">        mySearchedItemContainer.addSearchedItemPanelInteractor(interactor);</span>
+<span class="fc" id="L111">    }</span>
 
     /**
      * Returns the list of items in the next page of search results.
@@ -107,7 +117,7 @@ public class SearchedItemPagination extends VBox implements SearchedItemPanelSou
      * @return The list of items in the next page of search results, or null if there is no next page.
      */
     private List&lt;Item&gt; getNextPage() {
-<span class="fc" id="L110">        return pageList.getNext();</span>
+<span class="fc" id="L120">        return pageList.getNext();</span>
     }
     
 }

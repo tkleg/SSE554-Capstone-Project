@@ -50,7 +50,7 @@ public class ItemHashMap extends HashMap&lt;IdHashKey, Item&gt; implements ItemR
      * @param data_size The number of {@code Item} instances that will be added to the map, used to get a 0.75 load factor.
      */
     private ItemHashMap(int data_size) {
-<span class="fc" id="L53">        super((int) (data_size / MAX_LOAD_FACTOR) + 1); // Calculate initial capacity based on expected data size and load factor</span>
+<span class="fc" id="L53">        super((int) (data_size / MAX_LOAD_FACTOR) + 1); //Calculate initial capacity based on expected data size and load factor</span>
 <span class="fc" id="L54">    }</span>
     
     /**
@@ -108,17 +108,17 @@ public class ItemHashMap extends HashMap&lt;IdHashKey, Item&gt; implements ItemR
 <span class="fc" id="L108">        List&lt;Integer&gt; buckets = itemIds.stream() //List of the buckets that get hashed to</span>
 <span class="fc bfc" id="L109" title="All 2 branches covered.">            .map( id -&gt; useCustomHash ? new IdHashKey(id).hashCode() : id.hashCode() )</span>
 <span class="fc" id="L110">            .collect(Collectors.toList());</span>
-<span class="fc" id="L111">        int[] itemsInBucket = new int[TABLE_SIZE]; // Count of how many items get hashed to each bucket</span>
+<span class="fc" id="L111">        int[] itemsInBucket = new int[TABLE_SIZE]; //Count of how many items get hashed to each bucket</span>
 <span class="fc bfc" id="L112" title="All 2 branches covered.">        for (int bucket : buckets)</span>
 <span class="fc" id="L113">            itemsInBucket[Math.floorMod(bucket, TABLE_SIZE)]++;</span>
         
-        // Find the maximum bucket size to avoid ArrayIndexOutOfBoundsException
+        //Find the maximum bucket size to avoid ArrayIndexOutOfBoundsException
 <span class="fc" id="L116">        int maxBucketSize = 0;</span>
 <span class="fc bfc" id="L117" title="All 2 branches covered.">        for (int count : itemsInBucket)</span>
 <span class="fc bfc" id="L118" title="All 2 branches covered.">            if (count &gt; maxBucketSize)</span>
 <span class="fc" id="L119">                maxBucketSize = count;</span>
         
-<span class="fc" id="L121">        int[] bucketSizeCounts = new int[maxBucketSize + 1]; // Count of how many buckets have a certain size (0 items, 1 item, 2 items, etc.)</span>
+<span class="fc" id="L121">        int[] bucketSizeCounts = new int[maxBucketSize + 1]; //Count of how many buckets have a certain size (0 items, 1 item, 2 items, etc.)</span>
 <span class="fc bfc" id="L122" title="All 2 branches covered.">        for (int count : itemsInBucket)</span>
 <span class="fc" id="L123">            bucketSizeCounts[count]++;</span>
 <span class="fc" id="L124">        return bucketSizeCounts;</span>
@@ -168,8 +168,8 @@ public class ItemHashMap extends HashMap&lt;IdHashKey, Item&gt; implements ItemR
     private void printBucketSizeCountsCustomVsBuiltIn(){
 <span class="fc" id="L169">        String col1 = &quot;Entries in Bucket (N)&quot;, col2 = &quot;Buckets with N entries (Custom Hash)&quot;, col3 = &quot;Buckets with N entries (Built-in Hash)&quot;;</span>
 <span class="fc" id="L170">        System.out.printf(&quot;%-&quot; + col1.length() + &quot;s %s %-&quot; + col2.length() + &quot;s %s %-&quot; + col3.length() + &quot;s%n&quot;, col1, &quot;|&quot;, col2, &quot;|&quot;, col3);</span>
-<span class="fc" id="L171">        int[] customBucketSizeCounts = getFreshBucketSizeCount(getItemIdsAsList(), true); // Use fresh calculation with current I,J</span>
-<span class="fc" id="L172">        int[] builtInBucketSizeCounts = getFreshBucketSizeCount(getItemIdsAsList(), false); // Use fresh calculation for built-in String hash</span>
+<span class="fc" id="L171">        int[] customBucketSizeCounts = getFreshBucketSizeCount(getItemIdsAsList(), true); //Use fresh calculation with current I,J</span>
+<span class="fc" id="L172">        int[] builtInBucketSizeCounts = getFreshBucketSizeCount(getItemIdsAsList(), false); //Use fresh calculation for built-in String hash</span>
 <span class="fc" id="L173">        int maxSize = Math.max(customBucketSizeCounts.length, builtInBucketSizeCounts.length);</span>
 <span class="fc" id="L174">        customBucketSizeCounts = Arrays.copyOf(customBucketSizeCounts, maxSize); //Pad with zeros to match size</span>
 <span class="fc" id="L175">        builtInBucketSizeCounts = Arrays.copyOf(builtInBucketSizeCounts, maxSize); //Pad with zeros to match size</span>

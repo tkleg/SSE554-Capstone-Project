@@ -46,10 +46,8 @@ public class SorterTest {
 
         Table sortedTable = Sorter.sortTable(tempTable, comparator, time);
 
-        // Verify that the sorted table has the same number of rows as the original
         assert sortedTable.rowCount() == tempTable.rowCount() : "Sorted table should have the same number of rows as the original";
 
-        // Verify that the sorted table is actually sorted according to the comparator
         assert SortingAnalysis.isSorted(sortedTable, comparator) : "Table should be sorted according to the " + sortType + " comparator";
     }
 

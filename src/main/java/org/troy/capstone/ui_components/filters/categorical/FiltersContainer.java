@@ -7,6 +7,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.troy.capstone.constants.TableColumnName;
+import org.troy.capstone.constants.TestFXId;
 import org.troy.capstone.constants.UISizeControl;
 import org.troy.capstone.entities.Item;
 import org.troy.capstone.utils.UIUtils;
@@ -70,7 +71,8 @@ public class FiltersContainer extends ScrollPane {
     private void createFiltersFromTable(List<Item> items) {
         for (TableColumnName column : TableColumnName.getCategoricalColumns()) {
             Set<String> uniqueValues;
-            if( column.getColumnName().equals(TableColumnName.TAGS.getColumnName()) ){// Special handling for tags since it's a set of strings
+            //Special handling for tags since it's a Set<String> instead of a String
+            if( column.getColumnName().equals(TableColumnName.TAGS.getColumnName()) ){
                 uniqueValues = items.stream()
                 .flatMap(item -> item.getTags().stream())
                 .collect(Collectors.toSet());
@@ -96,7 +98,12 @@ public class FiltersContainer extends ScrollPane {
      */
     public void addFilterPanel( String title, Set<String> options ) {
         Set<CheckBox> checkBoxes = options.stream()
-            .map(CheckBox::new).collect(Collectors.toSet());
+            .map(CheckBox::new)
+            .peek(box -> {
+                String id = TestFXId.CHECKBOX_PREFIX.getId() + box.getText().toLowerCase().replaceAll("\\s+", "_").replaceAll("\\.", "");
+                box.setId(id);
+            })
+            .collect(Collectors.toSet());
         filterOptions.put( title, checkBoxes );
         FilterPanel filterPanel = new FilterPanel(title, checkBoxes);
         UIUtils.setLineBorder(filterPanel, 2, 2);

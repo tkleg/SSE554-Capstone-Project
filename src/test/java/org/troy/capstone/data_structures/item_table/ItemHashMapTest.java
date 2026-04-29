@@ -62,7 +62,7 @@ public class ItemHashMapTest {
     @Test
     @DisplayName("Test bucket distribution with optimized hash parameters")
     void testHashParametersSet(){
-        // Just check that I and J are not null and are within the expected range (1 to PRIME-1 for I, 0 to PRIME-1 for J)
+        //Just check that I and J are not null and are within the expected range (1 to PRIME-1 for I, 0 to PRIME-1 for J)
         List<String> itemIds = map.getItemIdsAsList();
         assert !itemIds.isEmpty() : "There should be item IDs in the map";
 
@@ -85,7 +85,7 @@ public class ItemHashMapTest {
         int[] expectedCustomDistribution = {1409, 394, 179, 55, 11};
         int[] expectedBuiltInDistribution = {1301, 563, 158, 22, 4};
 
-        // Check that we have at least the minimum expected length
+        //Check that we have at least the minimum expected length
         assert customBucketDistribution.length >= expectedCustomDistribution.length : 
             "Custom bucket distribution array should have at least " + expectedCustomDistribution.length + " elements. Actual length: " + customBucketDistribution.length;
         assert builtInBucketDistribution.length >= expectedBuiltInDistribution.length : 
@@ -116,7 +116,7 @@ public class ItemHashMapTest {
             System.setOut(new PrintStream(outContent));
 
             try {
-                // Use reflection to set I and J
+                //Use reflection to set I and J
                 Field fieldI = IdHashKey.class.getDeclaredField("I");
                 fieldI.setAccessible(true);
                 fieldI.set(null, new BigInteger("77507594"));
@@ -135,7 +135,7 @@ public class ItemHashMapTest {
             }catch(IllegalAccessException | NoSuchMethodException | InvocationTargetException e){
                 throw new RuntimeException("Failed to invoke printBucketSizeCountsCustomVsBuiltIn via reflection", e);
             }finally{
-                System.setOut(originalOut); // Restore original System.out
+                System.setOut(originalOut); //Restore original System.out
             }
 
         }

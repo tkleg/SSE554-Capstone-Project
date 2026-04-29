@@ -21,7 +21,7 @@ import tech.tablesaw.api.Table;
 /** Graph data structure to represent similar items. Uses an adjacency list representation. */
 public class SimilarItemsGraph {
     /** Minimum similarity score required for two items to be considered similar and have an edge between them in the graph. Set to the 95th percentile of all similarity scores. */
-    private static final float MIN_SIMILARITY_SCORE = 3.7162029800000007f;
+    private static final float MIN_SIMILARITY_SCORE = 3.995588695f;
     /** The number of similar items to display for selected items. */
     private static final int NUM_SIMILAR_ITEMS_TO_DISPLAY = 10;
     /** Number of items in the graph. */

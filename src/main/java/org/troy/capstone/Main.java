@@ -37,16 +37,13 @@ public class Main extends Application {
         
         GridPane gridPane = new GridPane();
 
-        gridPane.setPadding(new Insets(20)); // Add 20px padding around all edges
-        gridPane.setHgap(UISizeControl.WIDTH_PADDING.getValue()); // 10px horizontal spacing between columns
-        gridPane.setVgap(UISizeControl.HEIGHT_PADDING.getValue()); // 10px vertical spacing between rows
+        gridPane.setPadding(new Insets(20)); //Add 20px padding around all edges
+        gridPane.setHgap(UISizeControl.WIDTH_PADDING.getValue());
+        gridPane.setVgap(UISizeControl.HEIGHT_PADDING.getValue());
 
         SearchedItemPagination itemPagination = new SearchedItemPagination(itemHashMap);
         generalManager.addUIElement(UIElementName.SEARCHED_ITEM_PAGINATION, itemPagination);
         gridPane.add(itemPagination, 0, 1, 2, 2);
-
-        //SearchedItemContainer itemScroller = SearchedItemContainer.createFilledContainer(table.first(firstNItems), itemHashMap);
-        //gridPane.add(itemScroller, 0, 1, 2, 3);
 
         RecentlyViewedWindow recentlyViewedWindow = RecentlyViewedWindow.create();
         gridPane.add(recentlyViewedWindow, 3, 1, 1, 1);

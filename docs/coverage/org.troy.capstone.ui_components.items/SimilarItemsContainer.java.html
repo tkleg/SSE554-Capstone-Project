@@ -3,6 +3,7 @@
 import java.util.List;
 
 import org.troy.capstone.constants.UISizeControl;
+import org.troy.capstone.constants.TestFXId;
 import org.troy.capstone.interfaces.SearchedItemPanelDestinationUI;
 import org.troy.capstone.utils.UIUtils;
 
@@ -22,25 +23,26 @@ public class SimilarItemsContainer extends ScrollPane implements SearchedItemPan
      * @post The {@code SimilarItemsContainer} instance is created with a {@code ScrollPane} containing an {@code HBox} layout and a title label, ready to have similar items added to it.
      */
     private SimilarItemsContainer() {
-<span class="fc" id="L25">        super();</span>
-<span class="fc" id="L26">        content = new HBox();</span>
-<span class="fc" id="L27">        Label titleLabel = new Label(&quot;Similar Items&quot;);</span>
-<span class="fc" id="L28">        titleLabel.setStyle(&quot;-fx-font-size: 16px; -fx-font-weight: bold;&quot;);</span>
-<span class="fc" id="L29">        content.getChildren().add(titleLabel);</span>
-<span class="fc" id="L30">        setContent(content);</span>
-<span class="fc" id="L31">        setHbarPolicy(ScrollBarPolicy.AS_NEEDED);</span>
-<span class="fc" id="L32">        setVbarPolicy(ScrollBarPolicy.NEVER);</span>
-<span class="fc" id="L33">        setFitToWidth(false);</span>
-<span class="fc" id="L34">    }</span>
+<span class="fc" id="L26">        super();</span>
+<span class="fc" id="L27">        content = new HBox();</span>
+<span class="fc" id="L28">        Label titleLabel = new Label(&quot;Similar Items&quot;);</span>
+<span class="fc" id="L29">        titleLabel.setStyle(&quot;-fx-font-size: 16px; -fx-font-weight: bold;&quot;);</span>
+<span class="fc" id="L30">        content.getChildren().add(titleLabel);</span>
+<span class="fc" id="L31">        setContent(content);</span>
+<span class="fc" id="L32">        content.setId(TestFXId.SIMILAR_ITEMS_CONTAINER.getId());</span>
+<span class="fc" id="L33">        setHbarPolicy(ScrollBarPolicy.AS_NEEDED);</span>
+<span class="fc" id="L34">        setVbarPolicy(ScrollBarPolicy.NEVER);</span>
+<span class="fc" id="L35">        setFitToWidth(false);</span>
+<span class="fc" id="L36">    }</span>
 
     /** Factory method to create a {@code SimilarItemsContainer} instance with a title label and appropriate styling. 
     * @return A {@code SimilarItemsContainer} instance with a title label and appropriate styling, ready to have similar items added to it.
     */
     public static SimilarItemsContainer create() {
-<span class="fc" id="L40">        SimilarItemsContainer container = new SimilarItemsContainer();</span>
-<span class="fc" id="L41">        UIUtils.setSize(container, UISizeControl.SIMILAR_ITEMS_CONTAINER_WIDTH.getValue(), UISizeControl.SIMILAR_ITEMS_CONTAINER_HEIGHT.getValue());</span>
-<span class="fc" id="L42">        UIUtils.setLineBorder(container, 5, 1);</span>
-<span class="fc" id="L43">        return container;</span>
+<span class="fc" id="L42">        SimilarItemsContainer container = new SimilarItemsContainer();</span>
+<span class="fc" id="L43">        UIUtils.setSize(container, UISizeControl.SIMILAR_ITEMS_CONTAINER_WIDTH.getValue(), UISizeControl.SIMILAR_ITEMS_CONTAINER_HEIGHT.getValue());</span>
+<span class="fc" id="L44">        UIUtils.setLineBorder(container, 5, 1);</span>
+<span class="fc" id="L45">        return container;</span>
     }
 
     /** Sets the content of the {@code SimilarItemsContainer} with the given list of {@code Node} instances representing similar items.
@@ -50,9 +52,9 @@ public class SimilarItemsContainer extends ScrollPane implements SearchedItemPan
      */
     @Override
     public void setContent(List&lt;Node&gt; panels) {
-<span class="fc" id="L53">        content.getChildren().clear();</span>
-<span class="fc" id="L54">        content.getChildren().addAll(panels);</span>
-<span class="fc" id="L55">    }</span>
+<span class="fc" id="L55">        content.getChildren().clear();</span>
+<span class="fc" id="L56">        content.getChildren().addAll(panels);</span>
+<span class="fc" id="L57">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

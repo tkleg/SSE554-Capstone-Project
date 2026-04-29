@@ -1,9 +1,40 @@
 package org.troy.capstone;
 
+import org.testfx.api.FxRobot;
+import org.troy.capstone.constants.TestFXId;
+
+import javafx.scene.Node;
 import tech.tablesaw.api.Table;
 
 public class TestUtils {
     
+
+    /** 
+     * Looks up a node by TestFXId and returns the result of the query.
+     * @pre testFXId should correspond to a valid TestFXId for a node in the scene graph. The node should be properly initialized and added to the scene graph before this method is called.
+     * @param testFXId The TestFXId of the node to look up.
+     * @return The node corresponding to the given TestFXId, cast to the appropriate type.
+     * @throws ClassCastException if the node found by the TestFXId cannot be cast to the expected type.
+     * @throws EmptyNodeQueryException if no node is found.
+     */
+    @SuppressWarnings("unchecked")
+    public static <T extends Node> T lookupByTestFXId(TestFXId testFXId) {
+        return (T) new FxRobot().lookup("#" + testFXId.getId()).query();
+    }
+
+    /** 
+     * Looks up a node by TestFXId and returns the result of the query.
+     * @pre testFXId should correspond to a valid TestFXId for a node in the scene graph. The node should be properly initialized and added to the scene graph before this method is called.
+     * @param testFXId The TestFXId of the node to look up, provided as a String.
+     * @return The node corresponding to the given TestFXId, cast to the appropriate type.
+     * @throws ClassCastException if the node found by the TestFXId cannot be cast to the expected type.
+     * @throws EmptyNodeQueryException if no node is found.
+     */
+    @SuppressWarnings("unchecked")
+    public static <T extends Node> T lookupByTestFXId(String testFXId) {
+        return (T) new FxRobot().lookup("#" + testFXId).query();
+    }
+
     /** Compares two Tablesaw Tables for equality by checking that they have the same number of rows and columns, the same column names in the same order, and the same values in each cell.
      * Marked as Generated since it is only used in testing.
      * 

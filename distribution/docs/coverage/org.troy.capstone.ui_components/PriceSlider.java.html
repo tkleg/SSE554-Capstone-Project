@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PriceSlider.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Project</a> &gt; <a href="index.source.html" class="el_package">org.troy.capstone.ui_components</a> &gt; <span class="el_source">PriceSlider.java</span></div><h1>PriceSlider.java</h1><pre class="source lang-java linenums">package org.troy.capstone.ui_components;
 
+import org.troy.capstone.constants.TestFXId;
+
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.VBox;
@@ -23,27 +25,25 @@ public class PriceSlider extends VBox {
      * @param min The minimum price value for the sliders.
      * @param max The maximum price value for the sliders.
      */
-<span class="fc" id="L26">    public PriceSlider(double min, double max) {</span>
+<span class="fc" id="L28">    public PriceSlider(double min, double max) {</span>
 
-        // Min slider
-<span class="fc" id="L29">        minSlider = new Slider(min, max, min);</span>
-<span class="fc" id="L30">        minSlider.setShowTickLabels(true);</span>
-<span class="fc" id="L31">        minSlider.setShowTickMarks(true);</span>
-<span class="fc" id="L32">        minSlider.setMajorTickUnit((max - min) / 4);</span>
-<span class="fc" id="L33">        minSlider.setBlockIncrement(1);</span>
-<span class="fc" id="L34">        minSlider.setPrefWidth(150);</span>
+<span class="fc" id="L30">        minSlider = new Slider(min, max, min);</span>
+<span class="fc" id="L31">        minSlider.setId(TestFXId.MIN_PRICE_SLIDER.getId());</span>
+<span class="fc" id="L32">        minSlider.setShowTickLabels(true);</span>
+<span class="fc" id="L33">        minSlider.setShowTickMarks(true);</span>
+<span class="fc" id="L34">        minSlider.setMajorTickUnit((max - min) / 4);</span>
+<span class="fc" id="L35">        minSlider.setBlockIncrement(1);</span>
+<span class="fc" id="L36">        minSlider.setPrefWidth(150);</span>
         
-        // Max slider
-<span class="fc" id="L37">        maxSlider = new Slider(min, max, max);</span>
-<span class="fc" id="L38">        maxSlider.setShowTickLabels(true);</span>
-<span class="fc" id="L39">        maxSlider.setShowTickMarks(true);</span>
-<span class="fc" id="L40">        maxSlider.setMajorTickUnit((max - min) / 4);</span>
-<span class="fc" id="L41">        maxSlider.setBlockIncrement(1);</span>
-<span class="fc" id="L42">        maxSlider.setPrefWidth(150);</span>
+<span class="fc" id="L38">        maxSlider = new Slider(min, max, max);</span>
+<span class="fc" id="L39">        maxSlider.setId(TestFXId.MAX_PRICE_SLIDER.getId());</span>
+<span class="fc" id="L40">        maxSlider.setShowTickLabels(true);</span>
+<span class="fc" id="L41">        maxSlider.setShowTickMarks(true);</span>
+<span class="fc" id="L42">        maxSlider.setMajorTickUnit((max - min) / 4);</span>
+<span class="fc" id="L43">        maxSlider.setBlockIncrement(1);</span>
+<span class="fc" id="L44">        maxSlider.setPrefWidth(150);</span>
 
-        // Label
-<span class="fc" id="L45">        label = new Label(String.format(&quot;Price: $%.0f - $%.0f&quot;, min, max));</span>
-        //Bold style for the label
+<span class="fc" id="L46">        label = new Label(String.format(&quot;Price: $%.0f - $%.0f&quot;, min, max));</span>
 <span class="fc" id="L47">        label.setStyle(&quot;-fx-font-weight: bold;&quot;);</span>
         
         //Update label when sliders change to be within $1 of each other to prevent crossing

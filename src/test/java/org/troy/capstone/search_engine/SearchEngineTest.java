@@ -125,7 +125,7 @@ public class SearchEngineTest {
     public void testCategoricalFilters(String tagsString, String categoriesString, String publisherString, int expectedCount) throws IllegalAccessException, InvocationTargetException {
         Map<String, Set<String>> filtersContainer = new HashMap<>();
         
-        // Handle empty strings properly to avoid creating sets with empty string elements
+        //Handle empty strings properly to avoid creating sets with empty string elements
         if(!tagsString.isEmpty())
             filtersContainer.put("Tags", new HashSet<>(Arrays.asList(tagsString.split(", "))));
         else
@@ -157,8 +157,8 @@ public class SearchEngineTest {
     @CsvSource({
         "'Compact', 'Clothing, Books', 'NorthPeak, UrbanNest', -1, -1, -1, '', 19",
         "'Durable, New Arrival, Versatile', 'Clothing, Sports & Outdoors', 'NorthPeak, Maple Street Press, UrbanNest', -1, -1, -1, '', 1",
-        "'Wireless, Bestseller', 'Clothing, Books, Office Supplies, Sports & Outdoors', 'Maple Street Press, Silverline Electronics, Summit Gear Co., BrightLeaf Publishing', 118.26167424649577, 676.6693076949581, 2, '', 15",
-        "'Wireless, Bestseller', 'Clothing, Books, Office Supplies, Sports & Outdoors', 'Maple Street Press, Silverline Electronics, Summit Gear Co., BrightLeaf Publishing', 118.26167424649577, 676.6693076949581, 2, 'elec', 1",
+        "'Wireless, Bestseller', 'Clothing, Books, Office Supplies, Sports & Outdoors', 'Maple Street Press, Silverline Electronics, Summit Gear Co., BrightLeaf Publishing', 118, 676, 2, '', 15",
+        "'Wireless, Bestseller', 'Clothing, Books, Office Supplies, Sports & Outdoors', 'Maple Street Press, Silverline Electronics, Summit Gear Co., BrightLeaf Publishing', 118, 676, 2, 'elec', 1",
         "'Durable, New Arrival, Versatile', '', '', -1, -1, -1, '', 20",
         "'', 'Home & Kitchen, Books, Clothing', '', -1, -1, -1, '', 482",
         "'', '', 'Maple Street Press, BlueRiver Outfitters, Horizon Tech, UrbanNest, NorthPeak', -1, -1, -1, '', 601",
@@ -170,7 +170,7 @@ public class SearchEngineTest {
     public void testCombinedFilters(String tagsString, String categoriesString, String publisherString, float minPrice, float maxPrice, int minStarRating, String query, int expectedCount) throws IllegalAccessException, InvocationTargetException {
         Map<String, Set<String>> filtersContainer = new HashMap<>();
         
-        // Handle empty strings properly to avoid creating sets with empty string elements
+        //Handle empty strings properly to avoid creating sets with empty string elements
         if(!tagsString.isEmpty())
             filtersContainer.put("Tags", new HashSet<>(Arrays.asList(tagsString.split(", "))));
         else

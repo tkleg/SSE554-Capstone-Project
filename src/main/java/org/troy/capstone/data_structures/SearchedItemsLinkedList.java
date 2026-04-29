@@ -21,6 +21,9 @@ public class SearchedItemsLinkedList{
     /** The number of items to display per page. */
     private static final int ITEMS_PER_PAGE = 10;
 
+    /** The total number of pages in the linked list, calculated based on the total number of items and items per page. */
+    private int pageCount = 0;
+
     /** Constructor for {@code SearchedItemsLinkedList}. Initializes the linked list based on a list of item IDs and an item repository.
      * @pre {@code itemRepo} should contain valid item data for all item IDs in {@code itemIdList}, and {@code itemIdList} should not be null.
      * @param itemRepo The item repository containing all items, used to populate the linked list nodes based on the provided item IDs.
@@ -33,10 +36,12 @@ public class SearchedItemsLinkedList{
             return;
         }
         ItemListNode currentNode = null;
-        for (int startIndex = 0; startIndex < itemIdList.size(); startIndex += ITEMS_PER_PAGE) {
-            
+        int totalItems = itemIdList.size();
+        pageCount = 0;
+        for (int startIndex = 0; startIndex < totalItems; startIndex += ITEMS_PER_PAGE) {
+            pageCount++;
             //Get items to a list
-            int endIndex = Math.min(startIndex + ITEMS_PER_PAGE, itemIdList.size());
+            int endIndex = Math.min(startIndex + ITEMS_PER_PAGE, totalItems);
             List<Item> pageItems
             = itemIdList.subList(startIndex, endIndex).stream()
                     .map(itemRepo::getItem)
@@ -54,6 +59,13 @@ public class SearchedItemsLinkedList{
             }
         }
         current = head;
+    }
+
+    /** Returns the total number of pages in the linked list.
+     * @return The total number of pages, calculated based on the total number of items and items per page.
+     */
+    public int getPageCount() {
+        return pageCount;
     }
 
     /** Returns the list of items in the head node of the linked list.

@@ -3,6 +3,7 @@ package org.troy.capstone.ui_components.items;
 import java.util.List;
 
 import org.troy.capstone.constants.UISizeControl;
+import org.troy.capstone.constants.TestFXId;
 import org.troy.capstone.interfaces.SearchedItemPanelDestinationUI;
 import org.troy.capstone.utils.UIUtils;
 
@@ -28,6 +29,7 @@ public class SimilarItemsContainer extends ScrollPane implements SearchedItemPan
         titleLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
         content.getChildren().add(titleLabel);
         setContent(content);
+        content.setId(TestFXId.SIMILAR_ITEMS_CONTAINER.getId());
         setHbarPolicy(ScrollBarPolicy.AS_NEEDED);
         setVbarPolicy(ScrollBarPolicy.NEVER);
         setFitToWidth(false);

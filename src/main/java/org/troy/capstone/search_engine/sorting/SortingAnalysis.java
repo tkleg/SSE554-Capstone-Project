@@ -45,7 +45,7 @@ public class SortingAnalysis {
 
     public static List<LongWrapper> removeOutliers(List<LongWrapper> times) {
         if (times.size() < 4) {
-            return times; // Not enough data to remove outliers
+            return times; //Not enough data to remove outliers
         }
         List<Long> values = new ArrayList<>();
         for (LongWrapper time : times) {

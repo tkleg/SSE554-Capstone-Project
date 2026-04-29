@@ -98,7 +98,7 @@ public class MyBM25 {
                 
                 System.out.println("Searching for: '" + userQuery + "' (using n-gram analysis)");
                 
-                // N-gram parsing handles both exact matches and typos automatically
+                //N-gram parsing handles both exact matches and typos automatically
                 Query query = parser.parse(userQuery);
                 TopDocs results = searcher.search(query, 1000);
                 
@@ -107,7 +107,7 @@ public class MyBM25 {
                 
                 System.out.println("Total Hits: " + results.scoreDocs.length + " for search term: '" + userQuery + "'");
                 
-                // Print results with names and scores side by side
+                //Print results with names and scores side by side
                 StoredFields storedFields = searcher.storedFields();
                 System.out.println("Document Name | Score");
                 System.out.println("----------------------------------------");
@@ -133,9 +133,9 @@ public class MyBM25 {
 
     private static void addDoc(IndexWriter w, String id, String name, String desc) throws Exception {
         Document doc = new Document();
-        doc.add(new StoredField("id", id)); // ID field - stored but not indexed for searching
-        doc.add(new TextField("name", name, Field.Store.YES));    // Searchable and stored. Will be removed prior to use in main program
-        doc.add(new TextField("description", desc, Field.Store.NO)); // Searchable but not stored  
+        doc.add(new StoredField("id", id)); //ID field - stored but not indexed for searching
+        doc.add(new TextField("name", name, Field.Store.YES));    //Searchable and stored. Will be removed prior to use in main program
+        doc.add(new TextField("description", desc, Field.Store.NO)); //Searchable but not stored  
         w.addDocument(doc);
     }
 }

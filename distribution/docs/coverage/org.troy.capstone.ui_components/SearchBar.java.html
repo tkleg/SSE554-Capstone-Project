@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SearchBar.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Project</a> &gt; <a href="index.source.html" class="el_package">org.troy.capstone.ui_components</a> &gt; <span class="el_source">SearchBar.java</span></div><h1>SearchBar.java</h1><pre class="source lang-java linenums">package org.troy.capstone.ui_components;
 
+import org.troy.capstone.constants.TestFXId;
 import org.troy.capstone.constants.UISizeControl;
 import org.troy.capstone.search_engine.sorting.comparator.RowComparator;
 
@@ -28,30 +29,32 @@ public class SearchBar extends VBox {
      * @pre The {@code SearchBar} should be properly initialized to allow for user interaction with the search field and button.
      * 
      */
-<span class="fc" id="L31">    public SearchBar() {</span>
+<span class="fc" id="L32">    public SearchBar() {</span>
 
-<span class="fc" id="L33">        HBox topRowBox = new HBox();</span>
-<span class="fc" id="L34">        topRowBox.setSpacing(UISizeControl.WIDTH_PADDING.getValue());</span>
-<span class="fc" id="L35">        topRowBox.setAlignment(Pos.CENTER_LEFT);</span>
-<span class="fc" id="L36">        searchField = new TextField();</span>
-<span class="fc" id="L37">        searchField.setPromptText(&quot;Enter Query Here&quot;);</span>
+<span class="fc" id="L34">        HBox topRowBox = new HBox();</span>
+<span class="fc" id="L35">        topRowBox.setSpacing(UISizeControl.WIDTH_PADDING.getValue());</span>
+<span class="fc" id="L36">        topRowBox.setAlignment(Pos.CENTER_LEFT);</span>
+<span class="fc" id="L37">        searchField = new TextField();</span>
+<span class="fc" id="L38">        searchField.setId(TestFXId.SEARCH_FIELD.getId());</span>
+<span class="fc" id="L39">        searchField.setPromptText(&quot;Enter Query Here&quot;);</span>
 
-<span class="fc" id="L39">        searchButton = new Button(&quot;Search&quot;);</span>
+<span class="fc" id="L41">        searchButton = new Button(&quot;Search&quot;);</span>
+<span class="fc" id="L42">        searchButton.setId(TestFXId.SEARCH_BUTTON.getId());</span>
 
-<span class="fc" id="L41">        topRowBox.getChildren().addAll(searchField, searchButton);</span>
+<span class="fc" id="L44">        topRowBox.getChildren().addAll(searchField, searchButton);</span>
 
-<span class="fc" id="L43">        HBox bottomBox = new HBox();</span>
-<span class="fc" id="L44">        bottomBox.setSpacing(UISizeControl.WIDTH_PADDING.getValue());</span>
-<span class="fc" id="L45">        bottomBox.setAlignment(Pos.CENTER_LEFT);</span>
-<span class="fc" id="L46">        Label sortByLabel = new Label(&quot;Sort By:&quot;);</span>
+<span class="fc" id="L46">        HBox bottomBox = new HBox();</span>
+<span class="fc" id="L47">        bottomBox.setSpacing(UISizeControl.WIDTH_PADDING.getValue());</span>
+<span class="fc" id="L48">        bottomBox.setAlignment(Pos.CENTER_LEFT);</span>
+<span class="fc" id="L49">        Label sortByLabel = new Label(&quot;Sort By:&quot;);</span>
 
-<span class="fc" id="L48">        sortingOptionDropdown = new ComboBox&lt;&gt;();</span>
-<span class="fc" id="L49">        buildSortingOptionDropdown(bottomBox, sortByLabel);</span>
+<span class="fc" id="L51">        sortingOptionDropdown = new ComboBox&lt;&gt;();</span>
+<span class="fc" id="L52">        buildSortingOptionDropdown(bottomBox, sortByLabel);</span>
 
-<span class="fc" id="L51">        this.getChildren().addAll(topRowBox, bottomBox);</span>
-<span class="fc" id="L52">        setSpacing(UISizeControl.HEIGHT_PADDING.getValue());</span>
+<span class="fc" id="L54">        this.getChildren().addAll(topRowBox, bottomBox);</span>
+<span class="fc" id="L55">        setSpacing(UISizeControl.HEIGHT_PADDING.getValue());</span>
         
-<span class="fc" id="L54">    }</span>
+<span class="fc" id="L57">    }</span>
 
     /** Builds the dropdown for the Sort By selections.
      * 
@@ -61,15 +64,17 @@ public class SearchBar extends VBox {
      * @param sortByLabel The {@code Label} to associate with the {@code sortingOptionDropdown} in the UI.
      */
     private void buildSortingOptionDropdown(HBox bottomBox, Label sortByLabel) {
-<span class="fc" id="L64">        sortingOptionDropdown.getItems().addAll(RowComparator.getComparators());</span>
-<span class="fc" id="L65">        sortingOptionDropdown.setPromptText(&quot;Sort By&quot;);</span>
-<span class="fc" id="L66">        sortingOptionDropdown.getSelectionModel().selectFirst();</span>
-<span class="fc" id="L67">        sortingOptionDropdown.setEditable(false);</span>
+<span class="fc" id="L67">        sortingOptionDropdown.getItems().addAll(RowComparator.getComparators());</span>
+<span class="fc" id="L68">        sortingOptionDropdown.setPromptText(&quot;Sort By&quot;);</span>
+<span class="fc" id="L69">        sortingOptionDropdown.getSelectionModel().selectFirst();</span>
+<span class="fc" id="L70">        sortingOptionDropdown.setEditable(false);</span>
 
-<span class="fc" id="L69">        setSortingOptionCallbacks();</span>
+<span class="fc" id="L72">        setSortingOptionCallbacks();</span>
 
-<span class="fc" id="L71">        bottomBox.getChildren().addAll(sortByLabel, sortingOptionDropdown);</span>
-<span class="fc" id="L72">    }</span>
+<span class="fc" id="L74">        sortingOptionDropdown.setId(TestFXId.SORT_OPTION_DROPDOWN.getId());</span>
+        
+<span class="fc" id="L76">        bottomBox.getChildren().addAll(sortByLabel, sortingOptionDropdown);</span>
+<span class="fc" id="L77">    }</span>
 
     /**
      * Sets the callbacks for displaying a cell, selected item, and printing when an item is selected.
@@ -77,35 +82,45 @@ public class SearchBar extends VBox {
      * @post The callbacks for displaying a cell, selected item, and printing when an item is selected are set for the {@code sortingOptionDropdown}.
      */
     private void setSortingOptionCallbacks() {
-         //Display clean name when open
-<span class="pc" id="L81">        sortingOptionDropdown.setCellFactory(listView -&gt; new ListCell&lt;&gt;() {</span>
+        //Display clean name and set unique TestFXId for each cell, handling null/empty
+<span class="fc" id="L86">        sortingOptionDropdown.setCellFactory(listView -&gt; new ListCell&lt;&gt;() {</span>
             @Override
             protected void updateItem(RowComparator item, boolean empty) {
-<span class="nc" id="L84">                super.updateItem(item, empty);</span>
-<span class="nc bnc" id="L85" title="All 2 branches missed.">                setText(empty ? null : item.toString());</span>
-<span class="nc" id="L86">            }</span>
+<span class="fc" id="L89">                super.updateItem(item, empty);</span>
+<span class="pc bpc" id="L90" title="1 of 4 branches missed.">                if (empty || item == null) {</span>
+<span class="fc" id="L91">                    setText(null);</span>
+<span class="fc" id="L92">                    setId(null);</span>
+                } else {
+<span class="fc" id="L94">                    setText(item.toString());</span>
+<span class="fc" id="L95">                    String itemId = TestFXId.SORT_OPTION_CELL_PREFIX.getId() + item.toString().replaceAll(&quot;\\s+&quot;, &quot;_&quot;).toLowerCase();</span>
+<span class="fc" id="L96">                    setId(itemId);</span>
+                }
+<span class="fc" id="L98">            }</span>
         });
-        //Display clean name when closed
-<span class="fc" id="L89">        sortingOptionDropdown.setButtonCell(new ListCell&lt;&gt;() {</span>
+        //Display clean name and set TestFXId for the selected (button) cell, handling null/empty
+<span class="fc" id="L101">        sortingOptionDropdown.setButtonCell(new ListCell&lt;&gt;() {</span>
             @Override
             protected void updateItem(RowComparator item, boolean empty) {
-<span class="nc" id="L92">                super.updateItem(item, empty);</span>
-<span class="nc bnc" id="L93" title="All 2 branches missed.">                setText(empty ? null : item.toString());</span>
-<span class="nc" id="L94">            }</span>
+<span class="fc" id="L104">                super.updateItem(item, empty);</span>
+<span class="pc bpc" id="L105" title="1 of 4 branches missed.">                if (empty || item == null)</span>
+<span class="fc" id="L106">                    setText(null);</span>
+                else
+<span class="fc" id="L108">                    setText(item.toString());</span>
+<span class="fc" id="L109">            }</span>
         });
         //Print selected option when changed
-<span class="fc" id="L97">        sortingOptionDropdown.setOnAction(e -&gt; {</span>
-<span class="nc" id="L98">            RowComparator selectedComparator = sortingOptionDropdown.getValue();</span>
-<span class="nc bnc" id="L99" title="All 2 branches missed.">            System.out.println(&quot;Selected sorting option: &quot; + (selectedComparator == null ? &quot;None&quot; : selectedComparator.toString()));</span>
-<span class="nc" id="L100">        });</span>
-<span class="fc" id="L101">    }</span>
+<span class="fc" id="L112">        sortingOptionDropdown.setOnAction(e -&gt; {</span>
+<span class="fc" id="L113">            RowComparator selectedComparator = sortingOptionDropdown.getValue();</span>
+<span class="pc bpc" id="L114" title="1 of 2 branches missed.">            System.out.println(&quot;Selected sorting option: &quot; + (selectedComparator == null ? &quot;None&quot; : selectedComparator.toString()));</span>
+<span class="fc" id="L115">        });</span>
+<span class="fc" id="L116">    }</span>
 
     /**
      * Returns the {@code TextField} for entering search queries.
      * @return The {@code TextField} for entering search queries.
      */
     public TextField getSearchField() {
-<span class="fc" id="L108">        return searchField;</span>
+<span class="fc" id="L123">        return searchField;</span>
     }
 
     /**
@@ -113,7 +128,7 @@ public class SearchBar extends VBox {
      * @return The {@code Button} for initiating the search.
      */
     public Button getSearchButton() {
-<span class="fc" id="L116">        return searchButton;</span>
+<span class="fc" id="L131">        return searchButton;</span>
     }
 
     /**
@@ -121,7 +136,7 @@ public class SearchBar extends VBox {
      * @return The {@code ComboBox} for selecting sorting options.
      */
     public ComboBox&lt;RowComparator&gt; getSortingOptionDropdown() {
-<span class="fc" id="L124">        return sortingOptionDropdown;</span>
+<span class="fc" id="L139">        return sortingOptionDropdown;</span>
     }
 
 }

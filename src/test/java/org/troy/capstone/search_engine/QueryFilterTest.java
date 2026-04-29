@@ -55,7 +55,6 @@ public class QueryFilterTest {
         RuntimeException exception = assertThrows(RuntimeException.class, () -> {
             queryFilter = new QueryFilter(null);
         });
-        // Verify the exception was thrown
         assertTrue(exception.getMessage().contains("Failed to initialize QueryFilter"));
         assertNull(queryFilter);
     }
@@ -114,7 +113,7 @@ public class QueryFilterTest {
         @Test
         @DisplayName("Test that the createNGramAnalyzer method sets the nGramAnalyzer properly when an exception is thrown")
         public void testCreateNGramAnalyzer() throws Exception {
-            // Create a fresh QueryFilter instance for this test to avoid interference
+            //Create a fresh QueryFilter instance for this test to avoid interference
             QueryFilter testQueryFilter = new QueryFilter(table);
             
             //Forcing CustomAnalyzer.builder().build() to throw an IOException to test the fallback logic in createNgramAnalyzer
@@ -157,7 +156,7 @@ public class QueryFilterTest {
     @Test
     @DisplayName("Test the appropriate message is printed when an IOException is thrown in addDoc")
     public void testAddDocIOException() throws Exception {
-        // Capture System.out to verify error message
+        //Capture System.out to verify error message
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         PrintStream originalOut = System.out;
         System.setOut(new PrintStream(outContent));

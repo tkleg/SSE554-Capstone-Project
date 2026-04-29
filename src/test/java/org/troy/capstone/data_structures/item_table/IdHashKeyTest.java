@@ -11,7 +11,7 @@ public class IdHashKeyTest {
     @Test
     @DisplayName("Test Prime, I, and J parameters are set")
     void testHashParameters(){
-        // Just check that I and J are not null and are within the expected range (1 to PRIME-1 for I, 0 to PRIME-1 for J)
+        //Just check that I and J are not null and are within the expected range (1 to PRIME-1 for I, 0 to PRIME-1 for J)
         assert IdHashKey.getI() != null : "I should be set";
         assert IdHashKey.getJ() != null : "J should be set";
         assert IdHashKey.getP() != null : "Prime should be set";

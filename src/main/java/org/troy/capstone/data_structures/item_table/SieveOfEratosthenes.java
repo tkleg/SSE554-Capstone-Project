@@ -18,7 +18,7 @@ public class SieveOfEratosthenes {
     public SieveOfEratosthenes(int maxValue) {
         notAPrime = new BitSet(maxValue + 1);
 
-        // 0 and 1 are not prime numbers
+        //0 and 1 are not prime numbers
         notAPrime.set(0);
         notAPrime.set(1);
         

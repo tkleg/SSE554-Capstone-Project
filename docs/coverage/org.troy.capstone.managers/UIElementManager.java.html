@@ -91,7 +91,7 @@ public class UIElementManager {
         
         try{
 <span class="fc" id="L93">            getElement(UIElementName.MIN_PRICE_SLIDER)</span>
-<span class="fc" id="L94">            .ifPresentOrElse( e -&gt; searchData.put(UIDataName.MIN_PRICE, (float) Math.floor(((Slider)e).getValue())),</span>
+<span class="fc" id="L94">            .ifPresentOrElse( e -&gt; searchData.put(UIDataName.MIN_PRICE, (float) Math.round(((Slider)e).getValue())),</span>
 <span class="fc" id="L95">            () -&gt; System.out.println(&quot;Min price slider not found in UIElementManager, cannot include min price in search data.&quot;) );</span>
 <span class="fc" id="L96">        }catch (ClassCastException ex) {</span>
 <span class="fc" id="L97">            System.out.println(&quot;Error retrieving min price slider value: &quot; + ex.getMessage());</span>
@@ -99,7 +99,7 @@ public class UIElementManager {
 
         try{
 <span class="fc" id="L101">            getElement(UIElementName.MAX_PRICE_SLIDER)</span>
-<span class="fc" id="L102">            .ifPresentOrElse( e -&gt; searchData.put(UIDataName.MAX_PRICE, (float) Math.floor(((Slider)e).getValue())),</span>
+<span class="fc" id="L102">            .ifPresentOrElse( e -&gt; searchData.put(UIDataName.MAX_PRICE, (float) Math.round(((Slider)e).getValue())),</span>
 <span class="fc" id="L103">            () -&gt; System.out.println(&quot;Max price slider not found in UIElementManager, cannot include max price in search data.&quot;) );</span>
 <span class="fc" id="L104">        }catch (ClassCastException ex) {</span>
 <span class="fc" id="L105">            System.out.println(&quot;Error retrieving max price slider value: &quot; + ex.getMessage());</span>
