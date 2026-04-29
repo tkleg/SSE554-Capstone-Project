@@ -2,8 +2,8 @@ package org.troy.capstone.ui_components.items.searched;
 
 import java.util.List;
 
-import org.troy.capstone.constants.UISizeControl;
 import org.troy.capstone.constants.TestFXId;
+import org.troy.capstone.constants.UISizeControl;
 import org.troy.capstone.data_structures.SearchedItemsLinkedList;
 import org.troy.capstone.entities.Item;
 import org.troy.capstone.interfaces.ItemRepo;
@@ -87,7 +87,11 @@ public class SearchedItemPagination extends VBox implements SearchedItemPanelSou
      */
     public final void update(List<String> itemIdList) {
         pageList = new SearchedItemsLinkedList(itemRepo, itemIdList);
-        mySearchedItemContainer.updateItems(pageList.getHead());
+        List<Item> firstPageItems = pageList.getHead();
+        if( firstPageItems == null )
+            mySearchedItemContainer.updateItems(List.of());
+        else
+            mySearchedItemContainer.updateItems(firstPageItems);
     }
 
     /**

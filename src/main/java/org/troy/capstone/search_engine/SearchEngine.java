@@ -47,16 +47,23 @@ public class SearchEngine {
         filteredTable = applyPriceFilters(searchData, filteredTable);
         System.out.println("After price filter: " + filteredTable.rowCount() + " items");
         
-        //Filter star rating
-        filteredTable = applyStarFilter(searchData, filteredTable);
-        System.out.println("After star rating filter: " + filteredTable.rowCount() + " items");
+        if( !filteredTable.isEmpty() ){
+            //Filter star rating
+            filteredTable = applyStarFilter(searchData, filteredTable);
+            System.out.println("After star rating filter: " + filteredTable.rowCount() + " items");
+        }
 
-        //Apply categorical filters
-        filteredTable = applyCategoricalFilters(searchData, filteredTable);
-        System.out.println("After categorical filters: " + filteredTable.rowCount() + " items");
-
+        if( !filteredTable.isEmpty() ){
+            //Apply categorical filters
+            filteredTable = applyCategoricalFilters(searchData, filteredTable);
+            System.out.println("After categorical filters: " + filteredTable.rowCount() + " items");
+        }
+        Table queryFilteredTable = filteredTable;
+        
         //Filter search query. Add a relevance column in filterItems if not added by the search query filter to ensure that the column is always present for sorting in the UI.
-        Table queryFilteredTable = applySearchQueryFilter((String)searchData.get(UIDataName.SEARCH_QUERY), filteredTable);
+        if( !filteredTable.isEmpty() )
+            queryFilteredTable = applySearchQueryFilter((String)searchData.get(UIDataName.SEARCH_QUERY), filteredTable);
+        
         if( queryFilteredTable != filteredTable ){
             System.out.println("After applying search query filter: " + queryFilteredTable.rowCount() + " items");
             System.out.print(queryFilteredTable.selectColumns(TableColumnName.NAME.getColumnName(), TableColumnName.RELEVANCE.getColumnName()));

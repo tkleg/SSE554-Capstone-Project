@@ -4,28 +4,31 @@
 mvn clean package
 
 # Make sure that the necessary directories exist and are empty
-rm -rf docs
-mkdir -p docs/coverage
-mkdir docs/javadocs
+rm -rf generated_docs
+mkdir -p generated_docs/coverage
+mkdir -p generated_docs/javadocs
 rm -rf distribution
 mkdir distribution
 
 #Copy test coverage and javadocs to docs directory
-cp -r target/site/jacoco/* docs/coverage
-cp -r target/reports/apidocs/* docs/javadocs
+cp -r target/site/jacoco/* generated_docs/coverage
+cp -r target/reports/apidocs/* generated_docs/javadocs
 
 #Make the dependency graph (class-level)
-jdeps -dotoutput docs/dependency_graph -verbose:class -filter:none target/classes
+jdeps -dotoutput generated_docs/dependency_graph -verbose:class -filter:none target/classes
 python3.12 graph_filter.py
-dot -Tpng docs/dependency_graph/filtered_classes.dot -o docs/dependency_graph/deps.png
-dot -Tpng docs/dependency_graph/filtered_cleaner_classes.dot -o docs/dependency_graph/deps_cleaner.png
-dot -Tpng docs/dependency_graph/filtered_no_item_repo.dot -o docs/dependency_graph/deps_no_item_repo.png
+dot -Tpng generated_docs/dependency_graph/filtered_classes.dot -o generated_docs/dependency_graph/deps.png
+dot -Tpng generated_docs/dependency_graph/filtered_cleaner_classes.dot -o generated_docs/dependency_graph/deps_cleaner.png
+dot -Tpng generated_docs/dependency_graph/filtered_no_item_repo.dot -o generated_docs/dependency_graph/deps_no_item_repo.png
+
+shopt -s extglob
+cp -r persistent_docs/!(*.wsd) generated_docs
 
 #Copy jar file, dependencies, data, docs, and run scripts to distribution directory
 cp target/Project-1.0-SNAPSHOT-with-dependencies.jar distribution
 cp -r target/dependency distribution
 cp -r data distribution
-cp -r docs distribution
+cp -r generated_docs distribution
 cp -r build/* distribution
 
 #Zip distribution using PowerShell

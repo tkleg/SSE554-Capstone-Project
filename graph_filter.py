@@ -25,7 +25,7 @@ def my_filter(line):
     return False
 
 
-with open("docs/dependency_graph/classes.dot") as f:
+with open("generated_docs/dependency_graph/classes.dot") as f:
     lines = f.readlines()
 lines = list(filter(my_filter, lines))
 #Get rid of the " (classes)" suffix that jdeps adds to the end of every package name to make the graph easier to read
@@ -71,7 +71,7 @@ for line in lines:
             continue
     new_lines.append(line)
 lines = new_lines
-with open("docs/dependency_graph/filtered_classes.dot", "w") as f:
+with open("generated_docs/dependency_graph/filtered_classes.dot", "w") as f:
     f.writelines(lines)
 
 #Remove lines using utils, enums, and annotations to clean up the graph, as these are not important for understanding the main execution flow
@@ -80,12 +80,12 @@ for line in lines:
     if "constants" in line or "utils" in line or "annotations" in line:
         continue
     new_lines.append(line)
-with open("docs/dependency_graph/filtered_cleaner_classes.dot", "w") as f:
+with open("generated_docs/dependency_graph/filtered_cleaner_classes.dot", "w") as f:
     f.writelines(new_lines)
 newer_lines = []
 for line in new_lines:
     if "ItemRepo" in line and line.index("->") < line.index("ItemRepo") and not "ItemHashMap" in line:
         continue
     newer_lines.append(line)
-with open("docs/dependency_graph/filtered_no_item_repo.dot", "w") as f:
+with open("generated_docs/dependency_graph/filtered_no_item_repo.dot", "w") as f:
     f.writelines(newer_lines)

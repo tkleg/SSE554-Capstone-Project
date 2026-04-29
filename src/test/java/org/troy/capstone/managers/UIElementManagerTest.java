@@ -17,6 +17,7 @@ import org.troy.capstone.ui_components.filters.StarRatingFilter;
 import org.troy.capstone.ui_components.filters.categorical.FiltersContainer;
 import org.troy.capstone.ui_components.items.searched.SearchedItemPagination;
 
+import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
@@ -125,7 +126,7 @@ public class UIElementManagerTest {
         public void testUpdateSearchedItemPaginationWithPagination() {
             uiElementManager.addElement(UIElementName.SEARCHED_ITEM_PAGINATION, new SearchedItemPagination(itemHashMap));
 
-            uiElementManager.updateSearchedItemPagination(List.of());
+            Platform.runLater(() -> uiElementManager.updateSearchedItemPagination(List.of()));
 
             String output = outContent.toString();
 
