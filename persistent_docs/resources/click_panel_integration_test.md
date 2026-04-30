@@ -1,1 +1,0 @@
-![Click Panel Integration Test](./click_panel_integration_test.mp4)
