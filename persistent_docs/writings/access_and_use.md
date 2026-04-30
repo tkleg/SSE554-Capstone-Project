@@ -1,7 +1,7 @@
 # Access and Use
 
 ## Build/Run
-For instructions on how to run the application and required system specs, see [Build.pdf](build.pdf)
+For instructions on how to run the application and required system specs, see [build.md](build.md). The application can run on a variety of operating systems, and there is simply some minimum technical requirements to be met. This project was developed on a laptop with 16GB of RAM and Windows 11 as the operating system. It is multithreaded, as it uses a seperate thread for JavaFX rendering. While the app is not very resources intensive, the RAM used will increase as the `RecentlyViewedItemsWindow` gets filled up to capacity. At launch prior to any inputs, approximately 1.5GB of RAM is used, and this increases up to 4.4GB of RAM when the `RecentlyViewedItemsWindow` is filled to capacity and the `SimilarItemsContainer` is filled.
 
 ## Using The Application
 The program will firstly take a minute give or take to boot. Most of this time is spent filling the `SimilarItemsGraph`, a process that looks at exactly 46120 edges between items. This number is $\binom{961}{2}$ as there are 961 items, and there is one edge attempted between each.
@@ -46,6 +46,3 @@ The sequence is as follows.
 3. The `Sorter` class is used to sort the results based on the selected comparator. If the size of the items is less than or equal to 25, `InsertionSort` is used. If the size of the items is greater than 25, `QuickSort` is used.
 4. The UI is updated with the sorted and filtered items.
 5. Keep an eye on the console, as many details about the process are printed, such as the search data pulled from the UI and the number of items remaining after each filter is applied.
-
-## Techniques Applied
-- Reflection was used heavily in testing. This allowed access to private fields and methods of classses and instances. This enabled more in depth testing while not changing access modifiers of fields and methods just for testing purposes.

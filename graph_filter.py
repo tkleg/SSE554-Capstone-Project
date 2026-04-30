@@ -89,3 +89,10 @@ for line in new_lines:
     newer_lines.append(line)
 with open("generated_docs/dependency_graph/filtered_no_item_repo.dot", "w") as f:
     f.writelines(newer_lines)
+even_newer_lines = []
+for line in newer_lines:
+    if "entities" in line:
+        continue
+    even_newer_lines.append(line)
+with open("generated_docs/dependency_graph/filtered_no_item_repo_no_entities.dot", "w") as f:
+    f.writelines(even_newer_lines)

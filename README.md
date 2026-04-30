@@ -10,3 +10,4 @@ This repository contains the source code, documentation, and the build script fo
 - [Dependency Graphs](persistent_docs/writings/dependency_graphs.md)
 - [Testing](persistent_docs/writings/testing.md)
 - [Demo](persistent_docs/resources/demo.mp4)
+- [Package Exaplanations](persistent_docs/writings/package_explanations.md)

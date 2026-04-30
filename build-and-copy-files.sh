@@ -20,6 +20,8 @@ python3.12 graph_filter.py
 dot -Tpng generated_docs/dependency_graph/filtered_classes.dot -o generated_docs/dependency_graph/deps.png
 dot -Tpng generated_docs/dependency_graph/filtered_cleaner_classes.dot -o generated_docs/dependency_graph/deps_cleaner.png
 dot -Tpng generated_docs/dependency_graph/filtered_no_item_repo.dot -o generated_docs/dependency_graph/deps_no_item_repo.png
+dot -Tpng generated_docs/dependency_graph/filtered_no_item_repo_no_entities.dot -o generated_docs/dependency_graph/deps_no_item_repo_no_entities.png
+rm generated_docs/dependency_graph/*.dot
 
 shopt -s extglob
 cp -r persistent_docs/!(*.wsd) generated_docs
@@ -28,7 +30,6 @@ cp -r persistent_docs/!(*.wsd) generated_docs
 cp target/Project-1.0-SNAPSHOT-with-dependencies.jar distribution
 cp -r target/dependency distribution
 cp -r data distribution
-cp -r generated_docs distribution
 cp -r build/* distribution
 
 #Zip distribution using PowerShell

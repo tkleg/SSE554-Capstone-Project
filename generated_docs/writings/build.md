@@ -20,9 +20,10 @@
 4. Select **Main** and click the green play button
 
 ## How to Run from JAR
-
+   1. Clone the repository
+   2. Navigate to the `distribution` directory
 ### Windows:
-Double-click `run.bat`
+Run `run.bat`
 
 ### Linux/Mac:
 ```bash

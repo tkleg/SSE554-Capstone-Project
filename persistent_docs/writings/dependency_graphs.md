@@ -1,7 +1,7 @@
 # Dependency Graphs
 
 Notice that there are no circular dependencies in any of the generated graphs.
-Dependency graphs are seen in the `generated_docs/dependency_graph` directory. The `.png` files are the generated graphs. All graphs are filtered to exclude the following edges.
+Dependency graphs are seen in the [generated_docs/dependency_graph](../../generated_docs/dependency_graph) directory. The `.png` files are the generated graphs. All graphs are filtered to exclude the following edges.
 - Edges from a class to itself
 - Edges from a class to its inner classes
 - Edges involving classes not part of the main execution flow
