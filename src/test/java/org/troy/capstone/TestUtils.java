@@ -17,9 +17,8 @@ public class TestUtils {
      * @throws ClassCastException if the node found by the TestFXId cannot be cast to the expected type.
      * @throws EmptyNodeQueryException if no node is found.
      */
-    @SuppressWarnings("unchecked")
     public static <T extends Node> T lookupByTestFXId(TestFXId testFXId) {
-        return (T) new FxRobot().lookup("#" + testFXId.getId()).query();
+        return lookupByTestFXId(testFXId.getId());
     }
 
     /** 
