@@ -87,7 +87,7 @@ public class SearchBar extends VBox {
             @Override
             protected void updateItem(RowComparator item, boolean empty) {
                 super.updateItem(item, empty);
-                if (empty || item == null) {
+                if (empty) {
                     setText(null);
                     setId(null);
                 } else {
@@ -102,7 +102,7 @@ public class SearchBar extends VBox {
             @Override
             protected void updateItem(RowComparator item, boolean empty) {
                 super.updateItem(item, empty);
-                if (empty || item == null)
+                if (empty)
                     setText(null);
                 else
                     setText(item.toString());
@@ -111,7 +111,7 @@ public class SearchBar extends VBox {
         //Print selected option when changed
         sortingOptionDropdown.setOnAction(e -> {
             RowComparator selectedComparator = sortingOptionDropdown.getValue();
-            System.out.println("Selected sorting option: " + (selectedComparator == null ? "None" : selectedComparator.toString()));
+            System.out.println("Selected sorting option: " + selectedComparator );
         });
     }
 

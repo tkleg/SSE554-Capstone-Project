@@ -165,7 +165,11 @@ public class SearchEngineTest {
         "'', '', '', -1, -1, 4, '', 350",
         "'', '', '', 115.92435440837701, 522.830966113716, -1, '', 481",
         "'', '', '', 115.92435440837701, 522.830966113716, 5, '', 83",
-        "'', '', '', -1, -1, -1, 'elec', 304"
+        "'', '', '', -1, -1, -1, 'elec', 304,",
+        "'', '', '', 500, 200, -1, '', 0",
+        "'', '', '', 1, 100, -2, '', 121",
+        "'', '', '', 1, 100, 6, '', 121",
+        "'Durable, New Arrival, Versatile, Wireless, Bestseller', '', '', -1, -1, -1, '', 0",
     })
     public void testCombinedFilters(String tagsString, String categoriesString, String publisherString, float minPrice, float maxPrice, int minStarRating, String query, int expectedCount) throws IllegalAccessException, InvocationTargetException {
         Map<String, Set<String>> filtersContainer = new HashMap<>();

@@ -87,7 +87,7 @@ public class SearchBar extends VBox {
             @Override
             protected void updateItem(RowComparator item, boolean empty) {
 <span class="fc" id="L89">                super.updateItem(item, empty);</span>
-<span class="pc bpc" id="L90" title="1 of 4 branches missed.">                if (empty || item == null) {</span>
+<span class="fc bfc" id="L90" title="All 2 branches covered.">                if (empty) {</span>
 <span class="fc" id="L91">                    setText(null);</span>
 <span class="fc" id="L92">                    setId(null);</span>
                 } else {
@@ -102,7 +102,7 @@ public class SearchBar extends VBox {
             @Override
             protected void updateItem(RowComparator item, boolean empty) {
 <span class="fc" id="L104">                super.updateItem(item, empty);</span>
-<span class="pc bpc" id="L105" title="1 of 4 branches missed.">                if (empty || item == null)</span>
+<span class="fc bfc" id="L105" title="All 2 branches covered.">                if (empty)</span>
 <span class="fc" id="L106">                    setText(null);</span>
                 else
 <span class="fc" id="L108">                    setText(item.toString());</span>
@@ -111,7 +111,7 @@ public class SearchBar extends VBox {
         //Print selected option when changed
 <span class="fc" id="L112">        sortingOptionDropdown.setOnAction(e -&gt; {</span>
 <span class="fc" id="L113">            RowComparator selectedComparator = sortingOptionDropdown.getValue();</span>
-<span class="pc bpc" id="L114" title="1 of 2 branches missed.">            System.out.println(&quot;Selected sorting option: &quot; + (selectedComparator == null ? &quot;None&quot; : selectedComparator.toString()));</span>
+<span class="fc" id="L114">            System.out.println(&quot;Selected sorting option: &quot; + selectedComparator );</span>
 <span class="fc" id="L115">        });</span>
 <span class="fc" id="L116">    }</span>
 

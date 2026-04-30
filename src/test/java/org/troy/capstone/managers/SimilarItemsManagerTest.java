@@ -1,5 +1,7 @@
 package org.troy.capstone.managers;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import java.lang.reflect.Field;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -50,5 +52,15 @@ public class SimilarItemsManagerTest {
             "Expected " + numSimilarItemsToDisplay + " similar items, but got " + content.getChildren().size();
     
     }
+
+    @Test
+    public void testThatOnItemSelectedWithInvalidIdDoesThrow() {
+        assertThrows(RuntimeException.class,
+            () -> similarItemsManager.onItemSelected(""),
+            "Expected onItemSelected to throw a RuntimeException when given an invalid item ID, but it did not."
+        );
+    }
+
+    
 
 }

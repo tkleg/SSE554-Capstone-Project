@@ -154,6 +154,16 @@ public class SearchEngine {
             return filteredTable;
         }
 
+        if( minStarRating < 0 ){
+            System.out.println("Min star rating value out of expected range (0-5). Skipping star rating filter.");
+            return filteredTable;
+        }
+        
+        if( minStarRating > 5 ){
+            System.out.println("Min star rating value out of expected range (0-5). Skipping star rating filter.");
+            return filteredTable;
+        }
+        
         return filteredTable.where(filteredTable.floatColumn(TableColumnName.REVIEW_SCORE.getColumnName()).isGreaterThanOrEqualTo(minStarRating.doubleValue()));
     }
 
@@ -177,6 +187,12 @@ public class SearchEngine {
             System.out.println("Min or max price value in search data is not of type Float. Skipping price filters.");
             return filteredTable;
         }
+
+        if( minPrice > maxPrice ){
+            System.out.println("Min price is greater than max price. No items can match this criteria.");
+            return filteredTable.emptyCopy();
+        }
+
         int[] itemIndicesInRange = priceFilter.filterByPriceRange(minPrice, maxPrice);
         return filteredTable.where(Selection.with(itemIndicesInRange));
     }

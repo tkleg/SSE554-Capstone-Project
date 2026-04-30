@@ -22,3 +22,27 @@ Upon launch you will have the following options to filter items
 - Search Query
   - <img src="../resources/search_field.png" alt="Search Image Alt Text" scale="600">
   - The serach field allows the user to enter a query. The BM25 algorithm is used and all items get a score. The highest score gets selected, and items whose scores is less than 15% of the highest score get filtered out. This allows precise queries to have less results, while broad queries can have many results.
+
+### Sorting
+#### Comparators
+
+Several different comparators are used to sort the items. The options permitted are the following.
+- Relevance (ascending and descending)
+- Price (ascending and descending)
+- Rating (ascending and descending)
+- <img src="../resources/comparators.png" alt="Comparators Image Alt Text" scale="600">
+
+### Analyzing Results
+
+When the **Search** button is selected, the program takes in all of the filters and the comparator choice and applies them to the data. A full diagram of the process can be found here: [Search Sequence Diagram](../search_sequence.png)
+
+The sequence is as follows.
+1. Data is gathered from UI elements into a `HashMap` and passed to the `SearchEngine` class.
+2. The `SearchEngine` class applies the filters in the following order, with each filter being applied to the results of the previous filter. After each filter is applied, the number of items remaining is printed to the console.
+   1. Price Filter
+   2. Minimum Rating Filter
+   3. Categorical Filters (Category, Tags, Publisher)
+   4. Search Query Filter
+3. The `Sorter` class is used to sort the results based on the selected comparator. If the size of the items is less than or equal to 25, `InsertionSort` is used. If the size of the items is greater than 25, `QuickSort` is used.
+4. The UI is updated with the sorted and filtered items.
+5. Keep an eye on the console, as many details about the process are printed, such as the search data pulled from the UI and the number of items remaining after each filter is applied.

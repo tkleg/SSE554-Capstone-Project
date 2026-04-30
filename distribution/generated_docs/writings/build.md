@@ -1,6 +1,25 @@
 # My JavaFX Application
 
-## How to Run
+## How to Build and Run from Source Code
+1. Clone the repository
+2. Navigate to the project directory
+3. Ensure the following are installed:
+   - Java 17 or higher
+   - Maven
+   - Graphviz (for generating dependency graphs)
+   - Python 3.12 (for running the graph filtering script)
+   - Bash (for running the launch script on Linux/Mac)
+4. Run the script `./build-and-copy-files.sh` to build the project and move files to the right location
+5. Navigate to the `distribution` directory and run the appropriate launch script for your operating system (see below for instructions on how to run from JAR)
+6. Enjoy the application!
+
+### Running from VSCode
+1. Do steps 1-3 above
+2. Open the project in VSCode
+3. Go to the **Run and Debug** tab on the left sidebar
+4. Select **Main** and click the green play button
+
+## How to Run from JAR
 
 ### Windows:
 Double-click `run.bat`
