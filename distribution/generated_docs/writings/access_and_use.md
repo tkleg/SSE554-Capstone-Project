@@ -46,3 +46,6 @@ The sequence is as follows.
 3. The `Sorter` class is used to sort the results based on the selected comparator. If the size of the items is less than or equal to 25, `InsertionSort` is used. If the size of the items is greater than 25, `QuickSort` is used.
 4. The UI is updated with the sorted and filtered items.
 5. Keep an eye on the console, as many details about the process are printed, such as the search data pulled from the UI and the number of items remaining after each filter is applied.
+
+## Techniques Applied
+- Reflection was used heavily in testing. This allowed access to private fields and methods of classses and instances. This enabled more in depth testing while not changing access modifiers of fields and methods just for testing purposes.

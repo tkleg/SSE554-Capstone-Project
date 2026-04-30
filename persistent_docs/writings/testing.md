@@ -18,6 +18,10 @@ There is one integration test file, [`src/test/java/org/troy/capstone/MainTest.j
     ```
     - This does the same thing as the other `lookupByTestFXId` method, but it takes in a `String`, since the ID for some nodes are templated and then the full ID is not known until runtime.
   - ```java 
+        public static boolean equals(Table table1, Table table2)
+    ```
+    - This checks if two `Table` objects are equal by checking that they have the same number of columns, the same number of rows, the same column names in the same order, and the same values in every column of every row.
+
  
 
 ## Coverage

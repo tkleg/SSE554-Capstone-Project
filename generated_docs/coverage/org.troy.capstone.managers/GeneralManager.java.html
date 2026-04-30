@@ -12,6 +12,7 @@ import org.troy.capstone.interfaces.SearchedItemPanelDestinationUI;
 import org.troy.capstone.interfaces.SearchedItemPanelSourceUI;
 import org.troy.capstone.search_engine.SearchEngine;
 import org.troy.capstone.search_engine.sorting.Sorter;
+import org.troy.capstone.search_engine.sorting.comparator.RowComparator;
 
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -35,21 +36,21 @@ public class GeneralManager {
     private final Table table;
 
     /** A flag to track whether the {@code RecentlyViewedManager} has been created. Used to prevent duplicate creation. */
-<span class="fc" id="L38">    private boolean recentlyViewedManagerCreated = false;</span>
+<span class="fc" id="L39">    private boolean recentlyViewedManagerCreated = false;</span>
 
     /** A flag to track whether the {@code SimilarItemsManager} has been created. Used to prevent duplicate creation. */
-<span class="fc" id="L41">    private boolean similarItemsManagerCreated = false;</span>
+<span class="fc" id="L42">    private boolean similarItemsManagerCreated = false;</span>
 
     /** Constructor for {@code GeneralManager}, filled from a {@code Table}.
      * @param table The {@code Table} containing the item data to be used by the {@code SearchEngine}.
      * @param itemRepo The {@code ItemRepo} containing all items, used by the {@code SearchEngine} for filtering and searching and by the {@code RecentlyViewedManager} for retrieving items.
      */
-<span class="fc" id="L47">    public GeneralManager(Table table, ItemRepo itemRepo) {</span>
-<span class="fc" id="L48">        this.itemRepo = itemRepo;</span>
-<span class="fc" id="L49">        this.table = table;</span>
-<span class="fc" id="L50">        uiManager = new UIElementManager();</span>
-<span class="fc" id="L51">        searchEngine = new SearchEngine(table);</span>
-<span class="fc" id="L52">    }</span>
+<span class="fc" id="L48">    public GeneralManager(Table table, ItemRepo itemRepo) {</span>
+<span class="fc" id="L49">        this.itemRepo = itemRepo;</span>
+<span class="fc" id="L50">        this.table = table;</span>
+<span class="fc" id="L51">        uiManager = new UIElementManager();</span>
+<span class="fc" id="L52">        searchEngine = new SearchEngine(table);</span>
+<span class="fc" id="L53">    }</span>
 
     /**
      * Gets a UI element from the {@code UIElementManager} based on the provided key.
@@ -60,7 +61,7 @@ public class GeneralManager {
       * @return An {@code Optional} containing the UI element if found, or an empty {@code Optional} if not found.
      */
     public Optional&lt;Node&gt; getUIElement(UIElementName key) {
-<span class="fc" id="L63">        return uiManager.getElement(key);</span>
+<span class="fc" id="L64">        return uiManager.getElement(key);</span>
     }
 
     /**
@@ -71,7 +72,7 @@ public class GeneralManager {
       * @return The search data containing the filters to be applied.
      */
     public Map&lt;UIDataName, Object&gt; getSearchData() {
-<span class="fc" id="L74">        return uiManager.getSearchData();</span>
+<span class="fc" id="L75">        return uiManager.getSearchData();</span>
     }
 
     /**
@@ -83,16 +84,16 @@ public class GeneralManager {
      * @param element The UI element to be added.
      */
     public void addUIElement(UIElementName key, Node element) {
-<span class="fc" id="L86">        uiManager.addElement(key, element);</span>
-<span class="fc bfc" id="L87" title="All 4 branches covered.">        if( !recentlyViewedManagerCreated &amp;&amp; readyToMakeRecentlyViewedManager()) {</span>
-<span class="fc" id="L88">            RecentlyViewedManager.create(itemRepo, (SearchedItemPanelDestinationUI) uiManager.getElement(UIElementName.RECENTLY_VIEWED_WINDOW).get(), (SearchedItemPanelSourceUI) uiManager.getElement(UIElementName.SEARCHED_ITEM_PAGINATION).get());</span>
-<span class="fc" id="L89">            recentlyViewedManagerCreated = true;</span>
+<span class="fc" id="L87">        uiManager.addElement(key, element);</span>
+<span class="fc bfc" id="L88" title="All 4 branches covered.">        if( !recentlyViewedManagerCreated &amp;&amp; readyToMakeRecentlyViewedManager()) {</span>
+<span class="fc" id="L89">            RecentlyViewedManager.create(itemRepo, (SearchedItemPanelDestinationUI) uiManager.getElement(UIElementName.RECENTLY_VIEWED_WINDOW).get(), (SearchedItemPanelSourceUI) uiManager.getElement(UIElementName.SEARCHED_ITEM_PAGINATION).get());</span>
+<span class="fc" id="L90">            recentlyViewedManagerCreated = true;</span>
         }
-<span class="fc bfc" id="L91" title="All 4 branches covered.">        if( !similarItemsManagerCreated &amp;&amp; readyToMakeSimilarItemsManager()) {</span>
-<span class="fc" id="L92">            SimilarItemsManager.create(itemRepo, table, (SearchedItemPanelDestinationUI) uiManager.getElement(UIElementName.SIMILAR_ITEMS_CONTAINER).get(), (SearchedItemPanelSourceUI) uiManager.getElement(UIElementName.SEARCHED_ITEM_PAGINATION).get());</span>
-<span class="fc" id="L93">            similarItemsManagerCreated = true;</span>
+<span class="fc bfc" id="L92" title="All 4 branches covered.">        if( !similarItemsManagerCreated &amp;&amp; readyToMakeSimilarItemsManager()) {</span>
+<span class="fc" id="L93">            SimilarItemsManager.create(itemRepo, table, (SearchedItemPanelDestinationUI) uiManager.getElement(UIElementName.SIMILAR_ITEMS_CONTAINER).get(), (SearchedItemPanelSourceUI) uiManager.getElement(UIElementName.SEARCHED_ITEM_PAGINATION).get());</span>
+<span class="fc" id="L94">            similarItemsManagerCreated = true;</span>
         }
-<span class="fc" id="L95">    }</span>
+<span class="fc" id="L96">    }</span>
 
     /**
      * Checks if the necessary UI elements for creating the {@code RecentlyViewedManager} (SearchedItemPagination and RecentlyViewedWindow) are present in the {@code UIElementManager}.
@@ -100,7 +101,7 @@ public class GeneralManager {
      * @return true if both the {@code RecentlyViewedWindow} and {@code SearchedItemPagination} components are present in the {@code UIElementManager}, false otherwise.
      */
     boolean readyToMakeRecentlyViewedManager() {
-<span class="fc bfc" id="L103" title="All 4 branches covered.">        return uiManager.getElement(UIElementName.RECENTLY_VIEWED_WINDOW).isPresent() &amp;&amp; uiManager.getElement(UIElementName.SEARCHED_ITEM_PAGINATION).isPresent();</span>
+<span class="fc bfc" id="L104" title="All 4 branches covered.">        return uiManager.getElement(UIElementName.RECENTLY_VIEWED_WINDOW).isPresent() &amp;&amp; uiManager.getElement(UIElementName.SEARCHED_ITEM_PAGINATION).isPresent();</span>
     }
 
     /**
@@ -109,7 +110,7 @@ public class GeneralManager {
      * @return true if both the {@code SimilarItemsContainer} and {@code SearchedItemPagination} components are present in the {@code UIElementManager}, false otherwise.
      */
     boolean readyToMakeSimilarItemsManager() {
-<span class="fc bfc" id="L112" title="All 4 branches covered.">        return uiManager.getElement(UIElementName.SIMILAR_ITEMS_CONTAINER).isPresent() &amp;&amp; uiManager.getElement(UIElementName.SEARCHED_ITEM_PAGINATION).isPresent();</span>
+<span class="fc bfc" id="L113" title="All 4 branches covered.">        return uiManager.getElement(UIElementName.SIMILAR_ITEMS_CONTAINER).isPresent() &amp;&amp; uiManager.getElement(UIElementName.SEARCHED_ITEM_PAGINATION).isPresent();</span>
     }
 
     /**
@@ -120,9 +121,9 @@ public class GeneralManager {
      * @param button The Button to be set in the {@code UIElementManager}
      */
     public void setButton(Button button) {
-<span class="fc" id="L123">        uiManager.setButton(button);</span>
-<span class="fc" id="L124">        button.setOnAction(e -&gt; filterAndPrintNumberOfResults());</span>
-<span class="fc" id="L125">    }</span>
+<span class="fc" id="L124">        uiManager.setButton(button);</span>
+<span class="fc" id="L125">        button.setOnAction(e -&gt; filterAndPrintNumberOfResults());</span>
+<span class="fc" id="L126">    }</span>
 
     /**
      * Gets the button from the {@code UIElementManager}.
@@ -130,24 +131,27 @@ public class GeneralManager {
      * @return The Button from the {@code UIElementManager}
      */
     public Button getButton() {
-<span class="fc" id="L133">        return uiManager.getButton();</span>
+<span class="fc" id="L134">        return uiManager.getButton();</span>
     }
 
     /**
      * Gets a UI element from the {@code UIElementManager}, filters data, sorts it, and updates the UI with the filtered results.
      * 
-     * @pre None, error handling is done within the SearchEngine and {@code UIElementManager}.
-     * 
      * @post The UI is updated with the filtered and sorted results based on the current search data from the {@code UIElementManager}.
      */
     public void filterAndPrintNumberOfResults() {
-<span class="fc" id="L144">        Map&lt;UIDataName, Object&gt; searchData = getSearchData();</span>
-<span class="fc" id="L145">        System.out.println(&quot;Search Data: &quot; + searchData);</span>
-<span class="fc" id="L146">        Table filteredTable = searchEngine.filterItems(searchData);</span>
-<span class="fc" id="L147">        Table sortedTable = Sorter.sortTable(filteredTable, searchData.get(UIDataName.SORTING_OPTION));</span>
-<span class="fc" id="L148">        List&lt;String&gt; sortedAndFilteredItemIds = sortedTable.stringColumn(TableColumnName.ID.getColumnName()).asList();</span>
-<span class="fc" id="L149">        uiManager.updateSearchedItemPagination( sortedAndFilteredItemIds );</span>
-<span class="fc" id="L150">    }</span>
+<span class="fc" id="L143">        Map&lt;UIDataName, Object&gt; searchData = getSearchData();</span>
+<span class="fc" id="L144">        System.out.println(&quot;Search Data: &quot; + searchData);</span>
+<span class="fc" id="L145">        Table filteredTable = searchEngine.filterItems(searchData);</span>
+<span class="fc" id="L146">        Table sortedTable = filteredTable;</span>
+        try {
+<span class="fc" id="L148">            sortedTable = Sorter.sortTable(filteredTable, (RowComparator) searchData.get(UIDataName.SORTING_OPTION));</span>
+<span class="fc" id="L149">        } catch (ClassCastException e) {</span>
+<span class="fc" id="L150">            System.out.println(&quot;Sorting option provided: &quot; + searchData.get(UIDataName.SORTING_OPTION) + &quot; is not a valid RowComparator. Skipping sorting.&quot;);</span>
+<span class="fc" id="L151">        }</span>
+<span class="fc" id="L152">        List&lt;String&gt; sortedAndFilteredItemIds = sortedTable.stringColumn(TableColumnName.ID.getColumnName()).asList();</span>
+<span class="fc" id="L153">        uiManager.updateSearchedItemPagination(sortedAndFilteredItemIds);</span>
+<span class="fc" id="L154">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

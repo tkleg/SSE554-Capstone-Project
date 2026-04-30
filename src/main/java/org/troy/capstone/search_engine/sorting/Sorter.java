@@ -23,22 +23,19 @@ public class Sorter {
      * Sorts the given table using the specified {@code RowComparator}. If the table has 25 rows or fewer, it uses {@code Insertion Sort}; otherwise, it uses {@code Quick Sort}.
      * 
      * @pre table is not null and contains the necessary columns for the comparator to function properly.
-     * @pre comparator
-     * is a valid {@code RowComparator} that can compare the rows in the table.
      * 
      * @post The returned table is a new {@code Table} instance that contains the same rows as the input table but sorted according to the order defined by the comparator. The original table remains unchanged.
      * 
      * @param table The {@code Table} to be sorted.
-     * @param comparatorObj The {@code RowComparator} that defines the sorting order. This is an Object to make it possible to pass a comparator from another class without the import of the {@code RowComparator} class.
+     * @param comparator The {@code RowComparator} that defines the sorting order. This is an Object to make it possible to pass a comparator from another class without the import of the {@code RowComparator} class.
      * @param time An optional {@code LongWrapper} to store the time taken to perform the sort. If null, time will not be recorded.
      * @return A new {@code Table} instance containing the sorted rows from the input table.
      */
-    public static Table sortTable(Table table, Object comparatorObj, LongWrapper time) {
-        if( comparatorObj == null || !(comparatorObj instanceof RowComparator) ) {
-            System.out.println("Invalid comparator provided to Sorter.sortTable. Was provided: " + comparatorObj + ". Returning original table.");
+    public static Table sortTable(Table table, RowComparator comparator, LongWrapper time) {
+        if( comparator == null ) {
+            System.out.println("Invalid comparator provided to Sorter.sortTable. Was provided: " + comparator + ". Returning original table.");
             return table;
         }
-        RowComparator comparator = (RowComparator) comparatorObj;
         System.out.println("Sorting using " + comparator.toString() + " comparator...");
         List<Row> rows = TableUtils.tableToRowList(table);
 
@@ -99,13 +96,12 @@ public class Sorter {
     /** Overloaded method to allow calling sortTable without a {@code LongWrapper} for time measurement. 
      * 
      * @pre table is not null and contains the necessary columns for the comparator to function properly.
-     * comparator is a valid {@code RowComparator} that can compare the rows in the table.
      * @post The returned {@code Table} is a new {@code Table} instance that contains the same rows as the input table but sorted according to the order defined by the comparator. The original table remains unchanged.
      * @param table The {@code Table} to be sorted.
-     * @param comparator The {@code RowComparator} that defines the sorting order. This is an Object to make it possible to pass a comparator from another class without the import of the {@code RowComparator} class.
+     * @param comparator The {@code RowComparator} that defines the sorting order.
      * @return A new {@code Table} instance containing the sorted rows from the input table.
     */
-    public static Table sortTable(Table table, Object comparator) {
+    public static Table sortTable(Table table, RowComparator comparator) {
         return sortTable(table, comparator, null);
     }
 

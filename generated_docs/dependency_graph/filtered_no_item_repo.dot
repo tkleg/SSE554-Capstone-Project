@@ -19,6 +19,7 @@ digraph "classes" {
    "managers.GeneralManager"        -> "managers.UIElementManager";
    "managers.GeneralManager"        -> "search_engine.SearchEngine";
    "managers.GeneralManager"        -> "search_engine.sorting.Sorter";
+   "managers.GeneralManager"        -> "search_engine.sorting.comparator.RowComparator";
    "managers.RecentlyViewedManager" -> "data_structures.RecentlyViewedQueue";
    "managers.RecentlyViewedManager" -> "interfaces.SearchedItemPanelDestinationUI";
    "managers.RecentlyViewedManager" -> "interfaces.SearchedItemPanelInteractor";

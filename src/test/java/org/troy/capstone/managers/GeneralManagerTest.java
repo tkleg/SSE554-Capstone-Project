@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 
@@ -12,10 +13,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.troy.capstone.TestDataHolder;
 import org.troy.capstone.constants.UIElementName;
+import org.troy.capstone.constants.UIDataName;
 import org.troy.capstone.data_structures.item_table.ItemHashMap;
+import org.troy.capstone.search_engine.sorting.Sorter;
 import org.troy.capstone.ui_components.filters.StarRatingFilter;
 import org.troy.capstone.ui_components.filters.categorical.FiltersContainer;
 import org.troy.capstone.ui_components.items.RecentlyViewedWindow;
@@ -66,7 +70,8 @@ public class GeneralManagerTest {
         UIElementManager uiManager = (UIElementManager) uiManagerField.get(GM);
         Field uiElementsField = UIElementManager.class.getDeclaredField("uiElements");
         uiElementsField.setAccessible(true);
-        ((Map<UIElementName, Node>) uiElementsField.get(uiManager)).clear();
+        Map<UIDataName, Object> uiElementManagerSearchData = (Map<UIDataName, Object>) uiElementsField.get(uiManager);
+        uiElementManagerSearchData.clear();
     }
 
     @Test
@@ -94,7 +99,6 @@ public class GeneralManagerTest {
     @Test
     @DisplayName("Test printed results with full GM setup")
     public void testPrintedResultsWithFullGMSetup() throws InterruptedException {
-        final String[] output = {""};
     
         PrintStream originalOut = System.out;
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
@@ -107,21 +111,20 @@ public class GeneralManagerTest {
         });
         latch.await();
 
-        output[0] = outContent.toString();
-        System.out.println("Captured Output: " + output[0]);
+        String output = outContent.toString();
+        System.out.println("Captured Output: " + output);
         System.setOut(originalOut);
     
-        String outputStr = output[0];
-        assert outputStr.contains("Search Data") : "Expected output to contain 'Search Data', but got: " + outputStr;
-        assert outputStr.contains("SEARCH_QUERY=Test Query") : "Expected output to contain 'SEARCH_QUERY=Test Query', but got: " + outputStr;
-        assert outputStr.contains("MIN_PRICE=25.0") : "Expected output to contain 'MIN_PRICE=25.0', but got: " + outputStr;
-        assert outputStr.contains("MAX_PRICE=75.0") : "Expected output to contain 'MAX_PRICE=75.0', but got: " + outputStr;
-        assert outputStr.contains("Number of results: 39") : "Expected output to contain 'Number of results: 39', but got: " + outputStr;
-        assert outputStr.contains("FILTERS_CONTAINER") : "Expected output to contain 'FILTERS_CONTAINER', but got: " + outputStr;
-        assert outputStr.contains("MIN_STAR_RATING=0") : "Expected output to contain 'MIN_STAR_RATING=0', but got: " + outputStr;
-        assert outputStr.contains("Category=[]") : "Expected output to contain 'Category=[]', but got: " + outputStr;
-        assert outputStr.contains("Publisher=[]") : "Expected output to contain 'Publisher=[]', but got: " + outputStr;
-        assert outputStr.contains("Tags=[]") : "Expected output to contain 'Tags=[]', but got: " + outputStr;
+        assert output.contains("Search Data") : "Expected output to contain 'Search Data', but got: " + output;
+        assert output.contains("SEARCH_QUERY=Test Query") : "Expected output to contain 'SEARCH_QUERY=Test Query', but got: " + output;
+        assert output.contains("MIN_PRICE=25.0") : "Expected output to contain 'MIN_PRICE=25.0', but got: " + output;
+        assert output.contains("MAX_PRICE=75.0") : "Expected output to contain 'MAX_PRICE=75.0', but got: " + output;
+        assert output.contains("Number of results: 39") : "Expected output to contain 'Number of results: 39', but got: " + output;
+        assert output.contains("FILTERS_CONTAINER") : "Expected output to contain 'FILTERS_CONTAINER', but got: " + output;
+        assert output.contains("MIN_STAR_RATING=0") : "Expected output to contain 'MIN_STAR_RATING=0', but got: " + output;
+        assert output.contains("Category=[]") : "Expected output to contain 'Category=[]', but got: " + output;
+        assert output.contains("Publisher=[]") : "Expected output to contain 'Publisher=[]', but got: " + output;
+        assert output.contains("Tags=[]") : "Expected output to contain 'Tags=[]', but got: " + output;
     }
 
     @Test
@@ -161,6 +164,24 @@ public class GeneralManagerTest {
         methodField.setAccessible(true);
         boolean result = (boolean) methodField.invoke(fullGM);
         assert result : "Expected readyToMakeRecentlyViewedManager to return true when all required UI elements are present, but got: " + result;
+    }
+
+    @Test
+    public void testfilterAndPrintNumberOfResultsWithInvalidSortingOption() throws Exception {
+        Map<UIDataName, Object> fakeSearchData = new HashMap<>();
+        fakeSearchData.put(UIDataName.SORTING_OPTION, "Invalid Comparator");
+
+        //Spy on Sorter class to verify it is not called
+        MockedStatic<Sorter> sorterClass = Mockito.mockStatic(Sorter.class);
+
+        //Spy on GM to return our fakeSearchData
+        GeneralManager spyGM = Mockito.spy(GM);
+        Mockito.doReturn(fakeSearchData).when(spyGM).getSearchData();
+
+        spyGM.filterAndPrintNumberOfResults();
+
+        sorterClass.verify(() -> Sorter.sortTable(Mockito.any(), Mockito.any()), Mockito.never());
+        sorterClass.close();
     }
 
     @Nested

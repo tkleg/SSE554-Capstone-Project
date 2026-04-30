@@ -59,13 +59,6 @@ public class SorterTest {
     }
 
     @Test
-    @DisplayName("Test sortTable with the wrong type for the comparator (should not throw an exception, but should return the original table)")
-    public void testSortTableWithWrongComparatorType() {
-        Table tempTable = Sorter.sortTable(testTable, "", null);
-        assert TestUtils.equals(tempTable, testTable) : "Table should remain unchanged when comparator is of the wrong type";
-    }
-
-    @Test
     @DisplayName("Test mixedSort with a small list (should use insertion sort only)")
     public void testMixedSortWithSmallList() {
         Table tempTable = testTable.first(10);

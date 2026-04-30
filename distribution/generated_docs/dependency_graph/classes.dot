@@ -437,6 +437,7 @@ digraph "classes" {
    "org.troy.capstone.interfaces.SearchedItemPanelSourceUI" -> "java.lang.Object (java.base)";
    "org.troy.capstone.interfaces.SearchedItemPanelSourceUI" -> "org.troy.capstone.interfaces.SearchedItemPanelInteractor (classes)";
    "org.troy.capstone.managers.GeneralManager"        -> "java.io.PrintStream (java.base)";
+   "org.troy.capstone.managers.GeneralManager"        -> "java.lang.ClassCastException (java.base)";
    "org.troy.capstone.managers.GeneralManager"        -> "java.lang.Object (java.base)";
    "org.troy.capstone.managers.GeneralManager"        -> "java.lang.String (java.base)";
    "org.troy.capstone.managers.GeneralManager"        -> "java.lang.System (java.base)";
@@ -465,6 +466,7 @@ digraph "classes" {
    "org.troy.capstone.managers.GeneralManager"        -> "org.troy.capstone.managers.UIElementManager (classes)";
    "org.troy.capstone.managers.GeneralManager"        -> "org.troy.capstone.search_engine.SearchEngine (classes)";
    "org.troy.capstone.managers.GeneralManager"        -> "org.troy.capstone.search_engine.sorting.Sorter (classes)";
+   "org.troy.capstone.managers.GeneralManager"        -> "org.troy.capstone.search_engine.sorting.comparator.RowComparator (classes)";
    "org.troy.capstone.managers.GeneralManager"        -> "tech.tablesaw.api.StringColumn (not found)";
    "org.troy.capstone.managers.GeneralManager"        -> "tech.tablesaw.api.Table (not found)";
    "org.troy.capstone.managers.RecentlyViewedManager" -> "java.io.PrintStream (java.base)";

@@ -23,38 +23,35 @@ public class Sorter {
      * Sorts the given table using the specified {@code RowComparator}. If the table has 25 rows or fewer, it uses {@code Insertion Sort}; otherwise, it uses {@code Quick Sort}.
      * 
      * @pre table is not null and contains the necessary columns for the comparator to function properly.
-     * @pre comparator
-     * is a valid {@code RowComparator} that can compare the rows in the table.
      * 
      * @post The returned table is a new {@code Table} instance that contains the same rows as the input table but sorted according to the order defined by the comparator. The original table remains unchanged.
      * 
      * @param table The {@code Table} to be sorted.
-     * @param comparatorObj The {@code RowComparator} that defines the sorting order. This is an Object to make it possible to pass a comparator from another class without the import of the {@code RowComparator} class.
+     * @param comparator The {@code RowComparator} that defines the sorting order. This is an Object to make it possible to pass a comparator from another class without the import of the {@code RowComparator} class.
      * @param time An optional {@code LongWrapper} to store the time taken to perform the sort. If null, time will not be recorded.
      * @return A new {@code Table} instance containing the sorted rows from the input table.
      */
-    public static Table sortTable(Table table, Object comparatorObj, LongWrapper time) {
-<span class="fc bfc" id="L37" title="All 4 branches covered.">        if( comparatorObj == null || !(comparatorObj instanceof RowComparator) ) {</span>
-<span class="fc" id="L38">            System.out.println(&quot;Invalid comparator provided to Sorter.sortTable. Was provided: &quot; + comparatorObj + &quot;. Returning original table.&quot;);</span>
-<span class="fc" id="L39">            return table;</span>
+    public static Table sortTable(Table table, RowComparator comparator, LongWrapper time) {
+<span class="fc bfc" id="L35" title="All 2 branches covered.">        if( comparator == null ) {</span>
+<span class="fc" id="L36">            System.out.println(&quot;Invalid comparator provided to Sorter.sortTable. Was provided: &quot; + comparator + &quot;. Returning original table.&quot;);</span>
+<span class="fc" id="L37">            return table;</span>
         }
-<span class="fc" id="L41">        RowComparator comparator = (RowComparator) comparatorObj;</span>
-<span class="fc" id="L42">        System.out.println(&quot;Sorting using &quot; + comparator.toString() + &quot; comparator...&quot;);</span>
-<span class="fc" id="L43">        List&lt;Row&gt; rows = TableUtils.tableToRowList(table);</span>
+<span class="fc" id="L39">        System.out.println(&quot;Sorting using &quot; + comparator.toString() + &quot; comparator...&quot;);</span>
+<span class="fc" id="L40">        List&lt;Row&gt; rows = TableUtils.tableToRowList(table);</span>
 
-<span class="fc" id="L45">        LongWrapper startTime = new LongWrapper();</span>
-<span class="fc bfc" id="L46" title="All 2 branches covered.">        if( time != null )</span>
-<span class="fc" id="L47">            startTime = new LongWrapper(System.nanoTime());</span>
-<span class="fc bfc" id="L48" title="All 2 branches covered.">        if (rows.size() &lt;= SORTING_THRESHOLD)</span>
-<span class="fc" id="L49">            InsertionSort.insertionSort(rows, comparator);</span>
+<span class="fc" id="L42">        LongWrapper startTime = new LongWrapper();</span>
+<span class="fc bfc" id="L43" title="All 2 branches covered.">        if( time != null )</span>
+<span class="fc" id="L44">            startTime = new LongWrapper(System.nanoTime());</span>
+<span class="fc bfc" id="L45" title="All 2 branches covered.">        if (rows.size() &lt;= SORTING_THRESHOLD)</span>
+<span class="fc" id="L46">            InsertionSort.insertionSort(rows, comparator);</span>
         else
-<span class="fc" id="L51">            QuickSort.quickSort(rows, comparator);</span>
-<span class="fc bfc" id="L52" title="All 2 branches covered.">        if( time != null )</span>
-<span class="fc" id="L53">            time.setValue(System.nanoTime() - startTime.getValue());</span>
+<span class="fc" id="L48">            QuickSort.quickSort(rows, comparator);</span>
+<span class="fc bfc" id="L49" title="All 2 branches covered.">        if( time != null )</span>
+<span class="fc" id="L50">            time.setValue(System.nanoTime() - startTime.getValue());</span>
 
-<span class="fc" id="L55">        Table sortedTable = table.emptyCopy();</span>
-<span class="fc" id="L56">        rows.forEach(sortedTable::append);</span>
-<span class="fc" id="L57">        return sortedTable;</span>
+<span class="fc" id="L52">        Table sortedTable = table.emptyCopy();</span>
+<span class="fc" id="L53">        rows.forEach(sortedTable::append);</span>
+<span class="fc" id="L54">        return sortedTable;</span>
     }
 
     /** Helper method to perform a mixed sort using {@code Insertion Sort} for small lists and {@code Quick Sort} for larger lists, with time measurement. 
@@ -65,8 +62,8 @@ public class Sorter {
      * @param time An optional {@code LongWrapper} to store the time taken to perform the sort. If null, time will not be recorded.
      */
     public static void mixedSort(List&lt;Row&gt; rows, RowComparator comparator, LongWrapper time) {
-<span class="fc" id="L68">        mixedSort(rows, 0, rows.size() - 1, comparator, time);</span>
-<span class="fc" id="L69">    }</span>
+<span class="fc" id="L65">        mixedSort(rows, 0, rows.size() - 1, comparator, time);</span>
+<span class="fc" id="L66">    }</span>
 
     /**
      * Sorts the rows based on the provided comparator and optionally records the time taken for sorting. Uses {@code Insertion Sort} for small lists and {@code Quick Sort} for larger lists.
@@ -80,33 +77,32 @@ public class Sorter {
       * @param time An optional {@code LongWrapper} to store the time taken to perform the sort. If null, time will not be recorded.
      */
     private static void mixedSort(List&lt;Row&gt; rows, int low, int high, RowComparator comparator, LongWrapper time) {
-<span class="fc bfc" id="L83" title="All 2 branches covered.">        if( low &gt;= high )</span>
-<span class="fc" id="L84">            return;</span>
-<span class="fc" id="L85">        long start = 0L;</span>
-<span class="fc bfc" id="L86" title="All 2 branches covered.">        if( time != null )</span>
-<span class="fc" id="L87">            start = System.nanoTime();</span>
-<span class="fc bfc" id="L88" title="All 2 branches covered.">        if (rows.size() &lt;= SORTING_THRESHOLD)</span>
-<span class="fc" id="L89">            InsertionSort.insertionSort(rows, comparator);</span>
+<span class="fc bfc" id="L80" title="All 2 branches covered.">        if( low &gt;= high )</span>
+<span class="fc" id="L81">            return;</span>
+<span class="fc" id="L82">        long start = 0L;</span>
+<span class="fc bfc" id="L83" title="All 2 branches covered.">        if( time != null )</span>
+<span class="fc" id="L84">            start = System.nanoTime();</span>
+<span class="fc bfc" id="L85" title="All 2 branches covered.">        if (rows.size() &lt;= SORTING_THRESHOLD)</span>
+<span class="fc" id="L86">            InsertionSort.insertionSort(rows, comparator);</span>
         else{
-<span class="fc" id="L91">            int pivot = QuickSort.partition(rows, low, high, comparator);</span>
-<span class="fc" id="L92">            mixedSort(rows, low, pivot - 1, comparator, null);</span>
-<span class="fc" id="L93">            mixedSort(rows, pivot + 1, high, comparator, null);</span>
+<span class="fc" id="L88">            int pivot = QuickSort.partition(rows, low, high, comparator);</span>
+<span class="fc" id="L89">            mixedSort(rows, low, pivot - 1, comparator, null);</span>
+<span class="fc" id="L90">            mixedSort(rows, pivot + 1, high, comparator, null);</span>
         }
-<span class="fc bfc" id="L95" title="All 2 branches covered.">        if (time != null)</span>
-<span class="fc" id="L96">            time.setValue(System.nanoTime() - start);</span>
-<span class="fc" id="L97">    }</span>
+<span class="fc bfc" id="L92" title="All 2 branches covered.">        if (time != null)</span>
+<span class="fc" id="L93">            time.setValue(System.nanoTime() - start);</span>
+<span class="fc" id="L94">    }</span>
 
     /** Overloaded method to allow calling sortTable without a {@code LongWrapper} for time measurement. 
      * 
      * @pre table is not null and contains the necessary columns for the comparator to function properly.
-     * comparator is a valid {@code RowComparator} that can compare the rows in the table.
      * @post The returned {@code Table} is a new {@code Table} instance that contains the same rows as the input table but sorted according to the order defined by the comparator. The original table remains unchanged.
      * @param table The {@code Table} to be sorted.
-     * @param comparator The {@code RowComparator} that defines the sorting order. This is an Object to make it possible to pass a comparator from another class without the import of the {@code RowComparator} class.
+     * @param comparator The {@code RowComparator} that defines the sorting order.
      * @return A new {@code Table} instance containing the sorted rows from the input table.
     */
-    public static Table sortTable(Table table, Object comparator) {
-<span class="fc" id="L109">        return sortTable(table, comparator, null);</span>
+    public static Table sortTable(Table table, RowComparator comparator) {
+<span class="fc" id="L105">        return sortTable(table, comparator, null);</span>
     }
 
 }

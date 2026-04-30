@@ -12,6 +12,7 @@ import org.troy.capstone.interfaces.SearchedItemPanelDestinationUI;
 import org.troy.capstone.interfaces.SearchedItemPanelSourceUI;
 import org.troy.capstone.search_engine.SearchEngine;
 import org.troy.capstone.search_engine.sorting.Sorter;
+import org.troy.capstone.search_engine.sorting.comparator.RowComparator;
 
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -136,17 +137,20 @@ public class GeneralManager {
     /**
      * Gets a UI element from the {@code UIElementManager}, filters data, sorts it, and updates the UI with the filtered results.
      * 
-     * @pre None, error handling is done within the SearchEngine and {@code UIElementManager}.
-     * 
      * @post The UI is updated with the filtered and sorted results based on the current search data from the {@code UIElementManager}.
      */
     public void filterAndPrintNumberOfResults() {
         Map<UIDataName, Object> searchData = getSearchData();
         System.out.println("Search Data: " + searchData);
         Table filteredTable = searchEngine.filterItems(searchData);
-        Table sortedTable = Sorter.sortTable(filteredTable, searchData.get(UIDataName.SORTING_OPTION));
+        Table sortedTable = filteredTable;
+        try {
+            sortedTable = Sorter.sortTable(filteredTable, (RowComparator) searchData.get(UIDataName.SORTING_OPTION));
+        } catch (ClassCastException e) {
+            System.out.println("Sorting option provided: " + searchData.get(UIDataName.SORTING_OPTION) + " is not a valid RowComparator. Skipping sorting.");
+        }
         List<String> sortedAndFilteredItemIds = sortedTable.stringColumn(TableColumnName.ID.getColumnName()).asList();
-        uiManager.updateSearchedItemPagination( sortedAndFilteredItemIds );
+        uiManager.updateSearchedItemPagination(sortedAndFilteredItemIds);
     }
 
 }
