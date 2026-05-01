@@ -1,28 +1,21 @@
 package org.troy.capstone.managers;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.Supplier;
 
 import org.troy.capstone.constants.UIDataName;
-import org.troy.capstone.constants.UIElementName;
-import org.troy.capstone.ui_components.filters.StarRatingFilter;
-import org.troy.capstone.ui_components.filters.categorical.FiltersContainer;
-import org.troy.capstone.ui_components.items.searched.SearchedItemPagination;
+import org.troy.capstone.search_engine.sorting.RowComparator;
 
-import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Slider;
-import javafx.scene.control.TextField;
 
 /**
  * The {@code UIElementManager} class is responsible for managing the UI elements in the application.
  * It provides methods to add and retrieve UI elements, gather search data from the UI, and update the UI with search results.
  */
-public class UIElementManager {
+public class UIDataAndElementManager {
     /** A map of UI element names to their corresponding nodes */
     //private final Map<UIElementName, Node> uiElements;
 
@@ -33,7 +26,7 @@ public class UIElementManager {
     private Button searchButton;
     
     /** Constructor for {@code UIElementManager}, initializes the map for storing UI elements */
-    public UIElementManager() {
+    public UIDataAndElementManager() {
         //uiElements = new HashMap<>();
         uiDataSuppliers = new HashMap<>();
     }
@@ -80,10 +73,19 @@ public class UIElementManager {
      *
      * @param button The {@code Button} to be set in the manager
      */
-    public void setButton(Button button) {
+    /*public void setButton(Button button) {
         this.searchButton = button;
-    }
+    }*/
 
+    /**
+     * Adds a {@code Supplier} for UI data to the manager with the specified key.
+     * 
+     * @pre key and supplier are not null.
+     * @post The supplier is added to the manager and can be retrieved using the provided key.
+     * 
+     * @param key The {@code UIDataName} representing the type of data the supplier provides.
+     * @param supplier The {@code Supplier} that provides the UI data when called.
+     */
     public void addUIDataSupplier(UIDataName key, Supplier<Object> supplier) {
         uiDataSuppliers.put(key, supplier);
     }
@@ -94,12 +96,12 @@ public class UIElementManager {
     }
 
     /**
-     * Gathers current values of UI elements and returns them in a map for use
+     * Gathers current values of data from suppliers and returns them in a map for use
      * in search queries. Logs any missing elements or type errors but continues gathering other data.
      * 
-     * @pre UI elements should be added to the manager with the expected keys and types before this method is called.
+     * @pre data suppliers should be added to the manager with the expected keys and types before this method is called.
      * 
-     * @return A map containing the current values of UI elements for use in search queries
+     * @return A map containing the current values of UI data for use in search queries
      */
     public Map<UIDataName, Object> getSearchData(){
         Map<UIDataName, Object> searchData = new HashMap<>();
@@ -126,33 +128,45 @@ public class UIElementManager {
             System.out.println("Error retrieving max price slider value: " + ex.getMessage());
         }
         try{
-            getElement(UIElementName.SEARCH_FIELD)
-            .ifPresentOrElse( e -> searchData.put(UIDataName.SEARCH_QUERY, ((TextField)e).getText()),
-            () -> System.out.println("Search field not found in UIElementManager, cannot include search query in search data.") );
+            //getElement(UIElementName.SEARCH_FIELD)
+            //.ifPresentOrElse( e -> searchData.put(UIDataName.SEARCH_QUERY, ((TextField)e).getText()),
+            //() -> System.out.println("Search field not found in UIElementManager, cannot include search query in search data.") );
+            getUIData(UIDataName.SEARCH_QUERY)
+            .ifPresentOrElse( e -> searchData.put(UIDataName.SEARCH_QUERY, (String)e),
+            () -> System.out.println("getSearchQuery not found in UIElementManager, cannot include search query in search data.") );
         }catch (ClassCastException ex) {
             System.out.println("Error retrieving search field value: " + ex.getMessage());
         }
 
         try{
-            getElement(UIElementName.FILTERS_CONTAINER)
-            .ifPresentOrElse( e -> searchData.put(UIDataName.FILTERS_CONTAINER, ((FiltersContainer)e).getSelectedFilters()),
-            () -> System.out.println("Filters container not found in UIElementManager, cannot include filters in search data.") );
+            //getElement(UIElementName.FILTERS_CONTAINER)
+            //.ifPresentOrElse( e -> searchData.put(UIDataName.FILTERS_CONTAINER, ((FiltersContainer)e).getSelectedFilters()),
+            //() -> System.out.println("Filters container not found in UIElementManager, cannot include filters in search data.") );
+            getUIData(UIDataName.FILTERS_CONTAINER)
+            .ifPresentOrElse( e -> searchData.put(UIDataName.FILTERS_CONTAINER, (Map<String, Set<String>>)e),
+            () -> System.out.println("getSelectedFilters not found in UIElementManager, cannot include filters in search data.") );
         }catch (ClassCastException ex) {
             System.out.println("Error retrieving filters container value: " + ex.getMessage());
         }
 
         try{
-            getElement(UIElementName.STAR_RATING_FILTER)
-            .ifPresentOrElse( e -> searchData.put(UIDataName.MIN_STAR_RATING, ((StarRatingFilter)e).getSelectedRating()),
-            () -> System.out.println("Star rating filter not found in UIElementManager, cannot include star rating in search data.") );
+            //getElement(UIElementName.STAR_RATING_FILTER)
+            //.ifPresentOrElse( e -> searchData.put(UIDataName.MIN_STAR_RATING, ((StarRatingFilter)e).getSelectedRating()),
+            //() -> System.out.println("Star rating filter not found in UIElementManager, cannot include star rating in search data.") );
+            getUIData(UIDataName.MIN_STAR_RATING)
+            .ifPresentOrElse( e -> searchData.put(UIDataName.MIN_STAR_RATING, (int)e),
+            () -> System.out.println("getMinStarRating not found in UIElementManager, cannot include star rating in search data.") );
         }catch (ClassCastException ex) {
             System.out.println("Error retrieving star rating filter value: " + ex.getMessage());
         }
 
         try{
-            getElement(UIElementName.SORTING_OPTION_DROPDOWN)
-            .ifPresentOrElse( e -> searchData.put(UIDataName.SORTING_OPTION, ((ComboBox<?>)e).getValue()),
-            () -> System.out.println("Sorting option dropdown not found in UIElementManager, cannot include sorting option in search data.") );
+            //getElement(UIElementName.SORTING_OPTION_DROPDOWN)
+            //.ifPresentOrElse( e -> searchData.put(UIDataName.SORTING_OPTION, ((ComboBox<?>)e).getValue()),
+            //() -> System.out.println("Sorting option dropdown not found in UIElementManager, cannot include sorting option in search data.") );
+            getUIData(UIDataName.SORTING_OPTION)
+            .ifPresentOrElse( e -> searchData.put(UIDataName.SORTING_OPTION, (RowComparator)e),
+            () -> System.out.println("getSortingOption not found in UIElementManager, cannot include sorting option in search data.") );
         }catch (ClassCastException ex) {
             System.out.println("Error retrieving sorting option dropdown value: " + ex.getMessage());
         }
@@ -169,7 +183,7 @@ public class UIElementManager {
      * 
      * @param itemIDs A list of item IDs corresponding to search results to update the {@code SearchedItemPagination} component with.
      */
-    public void updateSearchedItemPagination(List<String> itemIDs) {
+    /*public void updateSearchedItemPagination(List<String> itemIDs) {
         try{
             getElement(UIElementName.SEARCHED_ITEM_PAGINATION)
             .ifPresentOrElse( e -> ((SearchedItemPagination)e).update(itemIDs),
@@ -177,7 +191,7 @@ public class UIElementManager {
         }catch (ClassCastException ex) {
             System.out.println("Error retrieving searched item pagination value: " + ex.getMessage());
         }
-    }
+    }*/
 
     
 }

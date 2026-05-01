@@ -23,8 +23,8 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 
-public class UIElementManagerTest {
-    private UIElementManager uiElementManager;
+public class UIDataAndElementManagerTest {
+    private UIDataAndElementManager uiElementManager;
     private static final ItemHashMap itemHashMap = TestDataHolder.getItemHashMapCopy();
     private static FiltersContainer dummyFiltersContainer;
 
@@ -38,7 +38,7 @@ public class UIElementManagerTest {
 
     @BeforeEach
     public void setup() {
-        uiElementManager = new UIElementManager();
+        uiElementManager = new UIDataAndElementManager();
     }
 
     @Test

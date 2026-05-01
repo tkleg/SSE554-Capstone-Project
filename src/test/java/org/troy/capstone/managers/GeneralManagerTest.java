@@ -67,8 +67,8 @@ public class GeneralManagerTest {
     public void clearGM() throws NoSuchFieldException, IllegalAccessException {
         Field uiManagerField = GeneralManager.class.getDeclaredField("uiManager");
         uiManagerField.setAccessible(true);
-        UIElementManager uiManager = (UIElementManager) uiManagerField.get(GM);
-        Field uiElementsField = UIElementManager.class.getDeclaredField("uiElements");
+        UIDataAndElementManager uiManager = (UIDataAndElementManager) uiManagerField.get(GM);
+        Field uiElementsField = UIDataAndElementManager.class.getDeclaredField("uiElements");
         uiElementsField.setAccessible(true);
         Map<UIDataName, Object> uiElementManagerSearchData = (Map<UIDataName, Object>) uiElementsField.get(uiManager);
         uiElementManagerSearchData.clear();
@@ -209,8 +209,8 @@ public class GeneralManagerTest {
             similarItemsManagerCreatedField.set(spyGM, false);
             Field uiManagerField = GeneralManager.class.getDeclaredField("uiManager");
             uiManagerField.setAccessible(true);
-            UIElementManager uiManager = (UIElementManager) uiManagerField.get(spyGM);
-            Field uiElementsField = UIElementManager.class.getDeclaredField("uiElements");
+            UIDataAndElementManager uiManager = (UIDataAndElementManager) uiManagerField.get(spyGM);
+            Field uiElementsField = UIDataAndElementManager.class.getDeclaredField("uiElements");
             uiElementsField.setAccessible(true);
             ((Map<UIElementName, Node>) uiElementsField.get(uiManager)).clear();
             Mockito.reset(spyGM);

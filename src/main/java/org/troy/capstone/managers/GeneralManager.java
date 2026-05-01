@@ -14,6 +14,7 @@ import org.troy.capstone.interfaces.SearchedItemPanelSourceUI;
 import org.troy.capstone.search_engine.SearchEngine;
 import org.troy.capstone.search_engine.sorting.RowComparator;
 import org.troy.capstone.search_engine.sorting.Sorter;
+import org.troy.capstone.ui_components.items.searched.SearchedItemPagination;
 
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -25,7 +26,7 @@ import tech.tablesaw.api.Table;
  */
 public class GeneralManager {
     /** The {@code UIElementManager} instance for managing UI elements. */
-    private final UIElementManager uiManager;
+    private final UIDataAndElementManager uiManager;
 
     /** The {@code SearchEngine} instance for performing search operations. */
     private final SearchEngine searchEngine;
@@ -42,6 +43,8 @@ public class GeneralManager {
     /** A flag to track whether the {@code SimilarItemsManager} has been created. Used to prevent duplicate creation. */
     private boolean similarItemsManagerCreated = false;
 
+    private SearchedItemPagination searchedItemPagination;
+
     /** Constructor for {@code GeneralManager}, filled from a {@code Table}.
      * @param table The {@code Table} containing the item data to be used by the {@code SearchEngine}.
      * @param itemRepo The {@code ItemRepo} containing all items, used by the {@code SearchEngine} for filtering and searching and by the {@code RecentlyViewedManager} for retrieving items.
@@ -49,7 +52,7 @@ public class GeneralManager {
     public GeneralManager(Table table, ItemRepo itemRepo) {
         this.itemRepo = itemRepo;
         this.table = table;
-        uiManager = new UIElementManager();
+        uiManager = new UIDataAndElementManager();
         searchEngine = new SearchEngine(table);
     }
 
@@ -126,17 +129,11 @@ public class GeneralManager {
      * @param button The Button to be set in the {@code UIElementManager}
      */
     public void setButton(Button button) {
-        uiManager.setButton(button);
         button.setOnAction(e -> filterAndPrintNumberOfResults());
     }
 
-    /**
-     * Gets the button from the {@code UIElementManager}.
-     *
-     * @return The Button from the {@code UIElementManager}
-     */
-    public Button getButton() {
-        return uiManager.getButton();
+    public void setPagination(SearchedItemPagination pagination) {
+        this.searchedItemPagination = pagination;
     }
 
     /**
@@ -155,7 +152,20 @@ public class GeneralManager {
             System.out.println("Sorting option provided: " + searchData.get(UIDataName.SORTING_OPTION) + " is not a valid RowComparator. Skipping sorting.");
         }
         List<String> sortedAndFilteredItemIds = sortedTable.stringColumn(TableColumnName.ID.getColumnName()).asList();
-        uiManager.updateSearchedItemPagination(sortedAndFilteredItemIds);
+        updateSearchedItemPagination(sortedAndFilteredItemIds);
+    }
+
+    /**
+     * Updates the searched item pagination component with new search results.
+     * Logs missing pagination component or type error with the component.
+     * 
+     * @pre A {@code SearchedItemPagination} component should be added to the manager with the expected key and type before this method is called.
+     *      itemIDs should be a list of valid item IDs corresponding to search results.
+     * 
+     * @param itemIDs A list of item IDs corresponding to search results to update the {@code SearchedItemPagination} component with.
+     */
+    public void updateSearchedItemPagination(List<String> itemIDs) {
+        searchedItemPagination.update(itemIDs);
     }
 
 }
