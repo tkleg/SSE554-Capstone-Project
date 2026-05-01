@@ -3,6 +3,7 @@ package org.troy.capstone.managers;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Supplier;
 
 import org.troy.capstone.constants.TableColumnName;
 import org.troy.capstone.constants.UIDataName;
@@ -73,6 +74,10 @@ public class GeneralManager {
      */
     public Map<UIDataName, Object> getSearchData() {
         return uiManager.getSearchData();
+    }
+
+    public void addUIDataSupplier(UIDataName key, Supplier<Object> supplier) {
+        uiManager.addUIDataSupplier(key, supplier);
     }
 
     /**

@@ -74,24 +74,20 @@ public class PriceSlider extends VBox {
                                    maxSlider.getValue()));
     }
 
-    /** Gets the minimum price slider. This is meant to allow registration with a manager.
-     * 
-     * @pre The {@code PriceSlider} should be properly initialized to ensure that the minSlider is available for retrieval.
+    /** Gets the minimum price value selected by the user.
      *
-     * @return The {@code Slider} representing the minimum price selection.
+     * @return The minimum price value.
      */
-    public Slider getMinSlider() {
-        return minSlider;
+    public double getMin() {
+        return minSlider.getValue();
     }
 
-    /** Gets the maximum price slider. This is meant to allow registration with a manager.
-     * 
-     * @pre The {@code PriceSlider} should be properly initialized to ensure that the maxSlider is available for retrieval.
+    /** Gets the maximum price value selected by the user.
      *
-     * @return The {@code Slider} representing the maximum price selection.
+     * @return The maximum price value.
      */
-    public Slider getMaxSlider() {
-        return maxSlider;
+    public double getMax() {
+        return maxSlider.getValue();
     }
     
 }

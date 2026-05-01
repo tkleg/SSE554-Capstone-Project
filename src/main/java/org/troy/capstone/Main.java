@@ -66,9 +66,9 @@ public class Main extends Application {
         //+1 and -1 to ensure no items cutoff by rounding issues
         double minPrice = table.floatColumn(TableColumnName.PRICE.getColumnName()).min() - 1;
         double maxPrice = table.floatColumn(TableColumnName.PRICE.getColumnName()).max() + 1;
-        PriceSlider priceSlider = new PriceSlider(minPrice, maxPrice );
-        generalManager.addUIElement(UIElementName.MIN_PRICE_SLIDER, priceSlider.getMinSlider());
-        generalManager.addUIElement(UIElementName.MAX_PRICE_SLIDER, priceSlider.getMaxSlider());
+        PriceSlider priceSlider = new PriceSlider(minPrice, maxPrice);
+        generalManager.addUIElement(UIElementName.MIN_PRICE_SLIDER, priceSlider::getMin);
+        generalManager.addUIElement(UIElementName.MAX_PRICE_SLIDER, priceSlider::getMax);
         gridPane.add(priceSlider, 1, 0, 2, 1);
 
         //Get and setup the StarRatingFilter

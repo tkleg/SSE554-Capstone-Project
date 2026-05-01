@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Supplier;
 
 import org.troy.capstone.constants.UIDataName;
 import org.troy.capstone.constants.UIElementName;
@@ -23,13 +24,18 @@ import javafx.scene.control.TextField;
  */
 public class UIElementManager {
     /** A map of UI element names to their corresponding nodes */
-    private final Map<UIElementName, Node> uiElements;
+    //private final Map<UIElementName, Node> uiElements;
+
+    /** A map of UI data names to their supplier functions. */
+    private final Map<UIDataName, Supplier<Object>> uiDataSuppliers;
+
     /** The search button in the UI */
     private Button searchButton;
     
     /** Constructor for {@code UIElementManager}, initializes the map for storing UI elements */
     public UIElementManager() {
-        uiElements = new HashMap<>();
+        //uiElements = new HashMap<>();
+        uiDataSuppliers = new HashMap<>();
     }
 
     /** Retrieves a UI element based on the provided key.
@@ -40,11 +46,11 @@ public class UIElementManager {
      * @param key The {@code UIElementName} representing the UI element to retrieve
      * @return An {@code Optional} containing the UI element if found, or an empty {@code Optional} if not found
      */
-    public Optional<Node> getElement(UIElementName key) {
+    /*public Optional<Node> getElement(UIElementName key) {
         if (!uiElements.containsKey(key))
             System.out.println("UI element with key " + key + " not found in UIElementManager.");
         return Optional.ofNullable(uiElements.get(key));
-    }
+    }*/
 
     /** Adds a UI element to the manager with the specified key.
      * Logs a message if the key or element is null.
@@ -54,9 +60,9 @@ public class UIElementManager {
      * @param key The key representing the UI element
      * @param element The UI element to be added
      */
-    public void addElement(UIElementName key, Node element) {
+    /*(public void addElement(UIElementName key, Node element) {
         uiElements.put(key, element);
-    }
+    }*/
 
     /** Gets the search button from the manager.
      * 
@@ -77,7 +83,16 @@ public class UIElementManager {
     public void setButton(Button button) {
         this.searchButton = button;
     }
+
+    public void addUIDataSupplier(UIDataName key, Supplier<Object> supplier) {
+        uiDataSuppliers.put(key, supplier);
+    }
     
+
+    public Optional<Object> getUIData(UIDataName key) {
+        return Optional.ofNullable(uiDataSuppliers.get(key)).map(Supplier::get);
+    }
+
     /**
      * Gathers current values of UI elements and returns them in a map for use
      * in search queries. Logs any missing elements or type errors but continues gathering other data.
@@ -90,17 +105,23 @@ public class UIElementManager {
         Map<UIDataName, Object> searchData = new HashMap<>();
         
         try{
-            getElement(UIElementName.MIN_PRICE_SLIDER)
-            .ifPresentOrElse( e -> searchData.put(UIDataName.MIN_PRICE, (float) Math.round(((Slider)e).getValue())),
-            () -> System.out.println("Min price slider not found in UIElementManager, cannot include min price in search data.") );
+            //getElement(UIElementName.MIN_PRICE_SLIDER)
+            //.ifPresentOrElse( e -> searchData.put(UIDataName.MIN_PRICE, (float) Math.round(((Slider)e).getValue())),
+            //() -> System.out.println("Min price slider not found in UIElementManager, cannot include min price in search data.") );
+            getUIData(UIDataName.MIN_PRICE)
+            .ifPresentOrElse( e -> searchData.put(UIDataName.MIN_PRICE, (float) Math.round((double)e)),
+            () -> System.out.println("getMin not found in UIElementManager, cannot include min price in search data.") );
         }catch (ClassCastException ex) {
             System.out.println("Error retrieving min price slider value: " + ex.getMessage());
         }
 
         try{
-            getElement(UIElementName.MAX_PRICE_SLIDER)
-            .ifPresentOrElse( e -> searchData.put(UIDataName.MAX_PRICE, (float) Math.round(((Slider)e).getValue())),
-            () -> System.out.println("Max price slider not found in UIElementManager, cannot include max price in search data.") );
+            //getElement(UIElementName.MAX_PRICE_SLIDER)
+            //.ifPresentOrElse( e -> searchData.put(UIDataName.MAX_PRICE, (float) Math.round(((Slider)e).getValue())),
+            //() -> System.out.println("Max price slider not found in UIElementManager, cannot include max price in search data.") );
+            getUIData(UIDataName.MAX_PRICE)
+            .ifPresentOrElse( e -> searchData.put(UIDataName.MAX_PRICE, (float) Math.round((double)e)),
+            () -> System.out.println("getMax not found in UIElementManager, cannot include max price in search data.") );
         }catch (ClassCastException ex) {
             System.out.println("Error retrieving max price slider value: " + ex.getMessage());
         }
