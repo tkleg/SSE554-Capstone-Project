@@ -2,7 +2,6 @@
 import java.util.List;
 
 import org.troy.capstone.annotations.Generated;
-import org.troy.capstone.search_engine.sorting.comparator.RowComparator;
 
 import tech.tablesaw.api.Row;
 
@@ -14,6 +13,7 @@ import tech.tablesaw.api.Row;
 public class QuickSort {
 
     /** Only exists to prevent Jacoco from reporting this class as uncovered. */
+    @Deprecated
     private QuickSort() {}
     
     /**
@@ -33,11 +33,14 @@ public class QuickSort {
       * @pre comparator is a valid {@code RowComparator} that can compare the {@code Row}s in the list.
       * @pre rows is not null and the {@code Row}s contain the correct column needed to do the sorting.
       * 
+      * @deprecated This is useful for analyzing the time taken, but it is not part of the main program execution.
+      * 
       * @post The list of {@code Row}s is sorted in place based on the order defined by the comparator, and the time taken for sorting is recorded in the provided {@code LongWrapper} if it is not null.
       * @param rows The list of {@code Row}s to be sorted.
       * @param comparator The {@code RowComparator} used to determine the order of the {@code Row}s.
       * @param time An optional {@code LongWrapper} to store the time taken to perform the sort. If null, time will not be recorded.
      */
+    @Deprecated
     @Generated
     public static void quickSort(List&lt;Row&gt; rows, RowComparator comparator, LongWrapper time) {
         long start = 0L;
@@ -60,12 +63,12 @@ public class QuickSort {
       * @param comparator The {@code RowComparator} used to determine the order of the {@code Row}s.
      */
     private static void quickSort(List&lt;Row&gt; rows, int low, int high, RowComparator comparator) {
-<span class="fc bfc" id="L63" title="All 2 branches covered.">        if (low &lt; high) {</span>
-<span class="fc" id="L64">            int pivot = partition(rows, low, high, comparator);</span>
-<span class="fc" id="L65">            quickSort(rows, low, pivot - 1, comparator);</span>
-<span class="fc" id="L66">            quickSort(rows, pivot + 1, high, comparator);</span>
+<span class="fc bfc" id="L66" title="All 2 branches covered.">        if (low &lt; high) {</span>
+<span class="fc" id="L67">            int pivot = partition(rows, low, high, comparator);</span>
+<span class="fc" id="L68">            quickSort(rows, low, pivot - 1, comparator);</span>
+<span class="fc" id="L69">            quickSort(rows, pivot + 1, high, comparator);</span>
         }
-<span class="fc" id="L68">    }</span>
+<span class="fc" id="L71">    }</span>
 
     /**
      * Partitions the list of {@code Row}s based on the provided {@code RowComparator} and returns the index of the pivot element after partitioning.
@@ -80,16 +83,16 @@ public class QuickSort {
       * @return The index of the pivot element after partitioning.
      */
     static int partition(List&lt;Row&gt; rows, int low, int high, RowComparator comparator) {
-<span class="fc" id="L83">        Row pivot = rows.get(high);</span>
-<span class="fc" id="L84">        int i = low - 1;</span>
-<span class="fc bfc" id="L85" title="All 2 branches covered.">        for (int j = low; j &lt; high; j++) {</span>
-<span class="fc bfc" id="L86" title="All 2 branches covered.">            if (comparator.compare(rows.get(j), pivot) &lt;= 0) {</span>
-<span class="fc" id="L87">                i++;</span>
-<span class="fc" id="L88">                swap(rows, i, j);</span>
+<span class="fc" id="L86">        Row pivot = rows.get(high);</span>
+<span class="fc" id="L87">        int i = low - 1;</span>
+<span class="fc bfc" id="L88" title="All 2 branches covered.">        for (int j = low; j &lt; high; j++) {</span>
+<span class="fc bfc" id="L89" title="All 2 branches covered.">            if (comparator.compare(rows.get(j), pivot) &lt;= 0) {</span>
+<span class="fc" id="L90">                i++;</span>
+<span class="fc" id="L91">                swap(rows, i, j);</span>
             }
         }
-<span class="fc" id="L91">        swap(rows, i + 1, high);</span>
-<span class="fc" id="L92">        return i + 1;</span>
+<span class="fc" id="L94">        swap(rows, i + 1, high);</span>
+<span class="fc" id="L95">        return i + 1;</span>
     }
 
     /**
@@ -102,10 +105,10 @@ public class QuickSort {
      * @param j The index of the second element to be swapped.
      */
     private static void swap(List&lt;Row&gt; rows, int i, int j) {
-<span class="fc" id="L105">        Row temp = rows.get(i);</span>
-<span class="fc" id="L106">        rows.set(i, rows.get(j));</span>
-<span class="fc" id="L107">        rows.set(j, temp);</span>
-<span class="fc" id="L108">    }</span>
+<span class="fc" id="L108">        Row temp = rows.get(i);</span>
+<span class="fc" id="L109">        rows.set(i, rows.get(j));</span>
+<span class="fc" id="L110">        rows.set(j, temp);</span>
+<span class="fc" id="L111">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

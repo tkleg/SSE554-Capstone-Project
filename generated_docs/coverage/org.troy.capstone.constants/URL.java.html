@@ -6,12 +6,21 @@
 <span class="fc" id="L6">public enum URL {</span>
     /** URL for Unsplash attribution, used to give credit to the image source. */
 <span class="fc" id="L8">    UNSPLASH_ATTRIBUTION(&quot;https://unsplash.com/?utm_source=sse554_capstone&amp;utm_medium=referral&quot;),</span>
-    /** URL for the page of the author of the default image, used for attribution purposes. */
-<span class="fc" id="L10">    DEFAULT_AUTHOR_URL(&quot;https://unsplash.com/@kalenemsley?utm_source=sse554_capstone&amp;utm_medium=referral&quot;),</span>
-    /** Name of the author of the default image, used for attribution purposes. */
-<span class="fc" id="L12">    DEFAULT_AUTHOR_NAME(&quot;Kalen Emsley&quot;),</span>
-    /** URL for the default image used when an item does not have its own image, sourced from Unsplash and chosen to be a generic mountain landscape that fits well with the theme of the application. */
-<span class="fc" id="L14">    DEFAULT_IMAGE_URL(&quot;https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?crop=entropy&amp;cs=tinysrgb&amp;fit=max&amp;fm=jpg&amp;ixid=M3w4NzQxNTN8MHwxfHNlYXJjaHwxfHxtb3VudGFpbnN8ZW58MHx8fHwxNzcxMDM1NzQwfDA&amp;ixlib=rb-4.1.0&amp;q=80&amp;w=1080?utm_source=sse554_capstone&amp;utm_medium=referral&quot;);</span>
+    /** URL for the page of the author of the default image, used for attribution purposes. 
+     * @deprecated This URL was only used for making a sample container in order to get approval for an Unsplash API license.
+    */
+<span class="fc" id="L12">    @Deprecated</span>
+    DEFAULT_AUTHOR_URL(&quot;https://unsplash.com/@kalenemsley?utm_source=sse554_capstone&amp;utm_medium=referral&quot;),
+    /** Name of the author of the default image, used for attribution purposes. 
+     * @deprecated This name was only used for making a sample container in order to get approval for an Unsplash API license.
+    */
+<span class="fc" id="L17">    @Deprecated</span>
+    DEFAULT_AUTHOR_NAME(&quot;Kalen Emsley&quot;),
+    /** URL for the default image used when an item does not have its own image, sourced from Unsplash and chosen to be a generic mountain landscape that fits well with the theme of the application. 
+     * @deprecated This URL was only used for making a sample container in order to get approval for an Unsplash API license. The default image is now sourced from a different URL that does not require attribution, so this URL is no longer used in the application.
+    */
+<span class="fc" id="L22">    @Deprecated</span>
+    DEFAULT_IMAGE_URL(&quot;https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?crop=entropy&amp;cs=tinysrgb&amp;fit=max&amp;fm=jpg&amp;ixid=M3w4NzQxNTN8MHwxfHNlYXJjaHwxfHxtb3VudGFpbnN8ZW58MHx8fHwxNzcxMDM1NzQwfDA&amp;ixlib=rb-4.1.0&amp;q=80&amp;w=1080?utm_source=sse554_capstone&amp;utm_medium=referral&quot;);
 
     /** The string value associated with this enum constant, used for URLs and attribution information. */
     private final String url;
@@ -19,15 +28,15 @@
     /** Constructs a {@code URL} enum constant with the specified string value.
      * @param url The string value to associate with this enum constant, typically used for URLs and attribution information.
     */
-<span class="fc" id="L22">    URL(String url) {</span>
-<span class="fc" id="L23">        this.url = url;</span>
-<span class="fc" id="L24">    }</span>
+<span class="fc" id="L31">    URL(String url) {</span>
+<span class="fc" id="L32">        this.url = url;</span>
+<span class="fc" id="L33">    }</span>
 
     /** Getter for the string value associated with this enum constant.
      * @return The string value that can be used for URLs and attribution information.
     */
     public String getUrl() {
-<span class="fc" id="L30">        return url;</span>
+<span class="fc" id="L39">        return url;</span>
     }
 
 }

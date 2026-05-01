@@ -21,8 +21,8 @@ import javafx.scene.layout.VBox;
  * It is the main container for all categorical filters in the UI and provides methods to generate filters based on item data and retrieve the currently selected filters.
  */
 public class FiltersContainer extends ScrollPane {
-    /** A map of filter types to their corresponding sets of {@code CheckBox} options in the filter panels. */
-    private final Map<String, Set<CheckBox>> filterOptions;
+    /** A map of filter types to their corresponding {@code FilterPanel} instances. */
+    private final Map<String, FilterPanel> filterOptions;
     /** The container for all filter panels. */
     private final VBox contentContainer;
     //Define which columns are categorical for filter generation
@@ -96,7 +96,7 @@ public class FiltersContainer extends ScrollPane {
      * @param title The title of the filter panel.
      * @param options The set of strings representing the filter options to create {@code CheckBox}es for.
      */
-    public void addFilterPanel( String title, Set<String> options ) {
+    private void addFilterPanel( String title, Set<String> options ) {
         Set<CheckBox> checkBoxes = options.stream()
             .map(CheckBox::new)
             .peek(box -> {
@@ -104,8 +104,8 @@ public class FiltersContainer extends ScrollPane {
                 box.setId(id);
             })
             .collect(Collectors.toSet());
-        filterOptions.put( title, checkBoxes );
         FilterPanel filterPanel = new FilterPanel(title, checkBoxes);
+        filterOptions.put(title, filterPanel);
         UIUtils.setLineBorder(filterPanel, 2, 2);
         filterPanel.setMaxWidth(Double.MAX_VALUE); //Allow the panel to expand to fill available width
         contentContainer.getChildren().add(filterPanel);
@@ -122,14 +122,8 @@ public class FiltersContainer extends ScrollPane {
      */
     public Map<String, Set<String>> getSelectedFilters() {
         Map<String, Set<String>> selectedFilters = new HashMap<>();
-        for (String filterType : filterOptions.keySet()) {
-            Set<String> selectedOptions = filterOptions.get(filterType)
-                    .stream()
-                    .filter(CheckBox::isSelected)
-                    .map(CheckBox::getText)
-                    .collect(Collectors.toSet());
-            selectedFilters.put(filterType, selectedOptions);
-        }
+        for (String filterType : filterOptions.keySet())
+            selectedFilters.put(filterType, filterOptions.get(filterType).getCheckedOptions());
         return selectedFilters;
     }
 }

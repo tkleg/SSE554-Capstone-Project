@@ -2,7 +2,6 @@
 
 import java.util.List;
 
-import org.troy.capstone.search_engine.sorting.comparator.RowComparator;
 import org.troy.capstone.utils.TableUtils;
 
 import tech.tablesaw.api.Row;
@@ -31,67 +30,73 @@ public class Sorter {
      * @param time An optional {@code LongWrapper} to store the time taken to perform the sort. If null, time will not be recorded.
      * @return A new {@code Table} instance containing the sorted rows from the input table.
      */
-    public static Table sortTable(Table table, RowComparator comparator, LongWrapper time) {
-<span class="fc bfc" id="L35" title="All 2 branches covered.">        if( comparator == null ) {</span>
-<span class="fc" id="L36">            System.out.println(&quot;Invalid comparator provided to Sorter.sortTable. Was provided: &quot; + comparator + &quot;. Returning original table.&quot;);</span>
-<span class="fc" id="L37">            return table;</span>
+    static Table sortTable(Table table, RowComparator comparator, LongWrapper time) {
+<span class="fc bfc" id="L34" title="All 2 branches covered.">        if( comparator == null ) {</span>
+<span class="fc" id="L35">            System.out.println(&quot;Invalid comparator provided to Sorter.sortTable. Was provided: &quot; + comparator + &quot;. Returning original table.&quot;);</span>
+<span class="fc" id="L36">            return table;</span>
         }
-<span class="fc" id="L39">        System.out.println(&quot;Sorting using &quot; + comparator.toString() + &quot; comparator...&quot;);</span>
-<span class="fc" id="L40">        List&lt;Row&gt; rows = TableUtils.tableToRowList(table);</span>
+<span class="fc" id="L38">        System.out.println(&quot;Sorting using &quot; + comparator.toString() + &quot; comparator...&quot;);</span>
+<span class="fc" id="L39">        List&lt;Row&gt; rows = TableUtils.tableToRowList(table);</span>
 
-<span class="fc" id="L42">        LongWrapper startTime = new LongWrapper();</span>
-<span class="fc bfc" id="L43" title="All 2 branches covered.">        if( time != null )</span>
-<span class="fc" id="L44">            startTime = new LongWrapper(System.nanoTime());</span>
-<span class="fc bfc" id="L45" title="All 2 branches covered.">        if (rows.size() &lt;= SORTING_THRESHOLD)</span>
-<span class="fc" id="L46">            InsertionSort.insertionSort(rows, comparator);</span>
+<span class="fc" id="L41">        LongWrapper startTime = new LongWrapper();</span>
+<span class="fc bfc" id="L42" title="All 2 branches covered.">        if( time != null )</span>
+<span class="fc" id="L43">            startTime = new LongWrapper(System.nanoTime());</span>
+<span class="fc bfc" id="L44" title="All 2 branches covered.">        if (rows.size() &lt;= SORTING_THRESHOLD)</span>
+<span class="fc" id="L45">            InsertionSort.insertionSort(rows, comparator);</span>
         else
-<span class="fc" id="L48">            QuickSort.quickSort(rows, comparator);</span>
-<span class="fc bfc" id="L49" title="All 2 branches covered.">        if( time != null )</span>
-<span class="fc" id="L50">            time.setValue(System.nanoTime() - startTime.getValue());</span>
+<span class="fc" id="L47">            QuickSort.quickSort(rows, comparator);</span>
+<span class="fc bfc" id="L48" title="All 2 branches covered.">        if( time != null )</span>
+<span class="fc" id="L49">            time.setValue(System.nanoTime() - startTime.getValue());</span>
 
-<span class="fc" id="L52">        Table sortedTable = table.emptyCopy();</span>
-<span class="fc" id="L53">        rows.forEach(sortedTable::append);</span>
-<span class="fc" id="L54">        return sortedTable;</span>
+<span class="fc" id="L51">        Table sortedTable = table.emptyCopy();</span>
+<span class="fc" id="L52">        rows.forEach(sortedTable::append);</span>
+<span class="fc" id="L53">        return sortedTable;</span>
     }
 
     /** Helper method to perform a mixed sort using {@code Insertion Sort} for small lists and {@code Quick Sort} for larger lists, with time measurement. 
      * @pre comparator is a valid {@code RowComparator} that can compare the rows in the list. rows is not null and the rows contain the correct column needed to do the sorting.
      * @post The list of rows is sorted in place based on the order defined by the comparator, and the time taken for sorting is recorded in the provided {@code LongWrapper} if it is not null.
      * @param rows The list of rows to be sorted.
+     * @deprecated This is useful for tests and analyzing time taken, but is not part of main program execution.
      * @param comparator The {@code RowComparator} used to determine the order of the rows.
      * @param time An optional {@code LongWrapper} to store the time taken to perform the sort. If null, time will not be recorded.
      */
+    @Deprecated
     public static void mixedSort(List&lt;Row&gt; rows, RowComparator comparator, LongWrapper time) {
-<span class="fc" id="L65">        mixedSort(rows, 0, rows.size() - 1, comparator, time);</span>
-<span class="fc" id="L66">    }</span>
+<span class="fc" id="L66">        mixedSort(rows, 0, rows.size() - 1, comparator, time);</span>
+<span class="fc" id="L67">    }</span>
 
     /**
      * Sorts the rows based on the provided comparator and optionally records the time taken for sorting. Uses {@code Insertion Sort} for small lists and {@code Quick Sort} for larger lists.
       * 
       * @pre comparator is a valid {@code RowComparator} that can compare the rows in the list. rows is not null and the rows contain the correct column needed to do the sorting.
       * @post The list of rows is sorted in place based on the order defined by the comparator, and the time taken for sorting is recorded in the provided {@code LongWrapper} if it is not null.
+      * 
+      * @deprecated This is useful for tests and analyzing time taken, but is not part of main program execution.
+      * 
       * @param rows The list of rows to be sorted.
       * @param comparator The {@code RowComparator} used to determine the order of the rows.
       * @param low The starting index of the portion of the list to be sorted.
       * @param high The ending index of the portion of the list to be sorted.
       * @param time An optional {@code LongWrapper} to store the time taken to perform the sort. If null, time will not be recorded.
      */
+    @Deprecated
     private static void mixedSort(List&lt;Row&gt; rows, int low, int high, RowComparator comparator, LongWrapper time) {
-<span class="fc bfc" id="L80" title="All 2 branches covered.">        if( low &gt;= high )</span>
-<span class="fc" id="L81">            return;</span>
-<span class="fc" id="L82">        long start = 0L;</span>
-<span class="fc bfc" id="L83" title="All 2 branches covered.">        if( time != null )</span>
-<span class="fc" id="L84">            start = System.nanoTime();</span>
-<span class="fc bfc" id="L85" title="All 2 branches covered.">        if (rows.size() &lt;= SORTING_THRESHOLD)</span>
-<span class="fc" id="L86">            InsertionSort.insertionSort(rows, comparator);</span>
+<span class="fc bfc" id="L85" title="All 2 branches covered.">        if( low &gt;= high )</span>
+<span class="fc" id="L86">            return;</span>
+<span class="fc" id="L87">        long start = 0L;</span>
+<span class="fc bfc" id="L88" title="All 2 branches covered.">        if( time != null )</span>
+<span class="fc" id="L89">            start = System.nanoTime();</span>
+<span class="fc bfc" id="L90" title="All 2 branches covered.">        if (rows.size() &lt;= SORTING_THRESHOLD)</span>
+<span class="fc" id="L91">            InsertionSort.insertionSort(rows, comparator);</span>
         else{
-<span class="fc" id="L88">            int pivot = QuickSort.partition(rows, low, high, comparator);</span>
-<span class="fc" id="L89">            mixedSort(rows, low, pivot - 1, comparator, null);</span>
-<span class="fc" id="L90">            mixedSort(rows, pivot + 1, high, comparator, null);</span>
+<span class="fc" id="L93">            int pivot = QuickSort.partition(rows, low, high, comparator);</span>
+<span class="fc" id="L94">            mixedSort(rows, low, pivot - 1, comparator, null);</span>
+<span class="fc" id="L95">            mixedSort(rows, pivot + 1, high, comparator, null);</span>
         }
-<span class="fc bfc" id="L92" title="All 2 branches covered.">        if (time != null)</span>
-<span class="fc" id="L93">            time.setValue(System.nanoTime() - start);</span>
-<span class="fc" id="L94">    }</span>
+<span class="fc bfc" id="L97" title="All 2 branches covered.">        if (time != null)</span>
+<span class="fc" id="L98">            time.setValue(System.nanoTime() - start);</span>
+<span class="fc" id="L99">    }</span>
 
     /** Overloaded method to allow calling sortTable without a {@code LongWrapper} for time measurement. 
      * 
@@ -102,7 +107,10 @@ public class Sorter {
      * @return A new {@code Table} instance containing the sorted rows from the input table.
     */
     public static Table sortTable(Table table, RowComparator comparator) {
-<span class="fc" id="L105">        return sortTable(table, comparator, null);</span>
+<span class="fc" id="L110">        LongWrapper time = new LongWrapper();</span>
+<span class="fc" id="L111">        Table sortedTable = sortTable(table, comparator, time);</span>
+<span class="fc" id="L112">        System.out.println(&quot;Sorting completed in &quot; + time.getValue() + &quot; nanoseconds.&quot;);</span>
+<span class="fc" id="L113">        return sortedTable;</span>
     }
 
 }

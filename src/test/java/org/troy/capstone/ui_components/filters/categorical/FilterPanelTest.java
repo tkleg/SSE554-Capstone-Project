@@ -14,6 +14,7 @@ import javafx.scene.control.CheckBox;
 public class FilterPanelTest {
 
     @BeforeAll
+    @SuppressWarnings("ResultOfObjectAllocationIgnored")
     public static void setup() {
         new JFXPanel();
     }

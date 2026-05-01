@@ -16,8 +16,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.troy.capstone.TestDataHolder;
-import org.troy.capstone.constants.UIElementName;
 import org.troy.capstone.constants.UIDataName;
+import org.troy.capstone.constants.UIElementName;
 import org.troy.capstone.data_structures.item_table.ItemHashMap;
 import org.troy.capstone.search_engine.sorting.Sorter;
 import org.troy.capstone.ui_components.filters.StarRatingFilter;
@@ -171,17 +171,16 @@ public class GeneralManagerTest {
         Map<UIDataName, Object> fakeSearchData = new HashMap<>();
         fakeSearchData.put(UIDataName.SORTING_OPTION, "Invalid Comparator");
 
-        //Spy on Sorter class to verify it is not called
-        MockedStatic<Sorter> sorterClass = Mockito.mockStatic(Sorter.class);
-
         //Spy on GM to return our fakeSearchData
-        GeneralManager spyGM = Mockito.spy(GM);
-        Mockito.doReturn(fakeSearchData).when(spyGM).getSearchData();
-
-        spyGM.filterAndPrintNumberOfResults();
-
-        sorterClass.verify(() -> Sorter.sortTable(Mockito.any(), Mockito.any()), Mockito.never());
-        sorterClass.close();
+        try (MockedStatic<Sorter> sorterClass = Mockito.mockStatic(Sorter.class)) {
+            //Spy on GM to return our fakeSearchData
+            GeneralManager spyGM = Mockito.spy(GM);
+            Mockito.doReturn(fakeSearchData).when(spyGM).getSearchData();
+            
+            spyGM.filterAndPrintNumberOfResults();
+            
+            sorterClass.verify(() -> Sorter.sortTable(Mockito.any(), Mockito.any()), Mockito.never());
+        }
     }
 
     @Nested

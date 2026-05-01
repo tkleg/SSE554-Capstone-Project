@@ -3,7 +3,6 @@
 import java.util.List;
 
 import org.troy.capstone.annotations.Generated;
-import org.troy.capstone.search_engine.sorting.comparator.RowComparator;
 
 import tech.tablesaw.api.Row;
 
@@ -23,10 +22,12 @@ public class InsertionSort {
      * 
      * @post The list of {@code Row}s is sorted in place based on the order defined by the comparator.
      * 
+     * @deprecated This method is useful for analyzing the time taken, but is not used in main program execution.
      * @param rows The list of {@code Row}s to be sorted.
      * @param comparator The {@code RowComparator} used to compare the {@code Row}s for sorting.
       * @param time An optional {@code LongWrapper} to store the time taken to perform the sort. If null, time will not be recorded.
      */
+    @Deprecated
     @Generated
     public static void insertionSort(List&lt;Row&gt; rows, RowComparator comparator, LongWrapper time) {
         long start = 0;
@@ -50,16 +51,16 @@ public class InsertionSort {
      * @param comparator The {@code RowComparator} used to compare the {@code Row}s for sorting.
      */
     public static void insertionSort(List&lt;Row&gt; rows, RowComparator comparator) {
-<span class="fc" id="L53">        int n = rows.size();</span>
-<span class="fc bfc" id="L54" title="All 2 branches covered.">        for( int i = 1; i &lt; n; i++) {</span>
-<span class="fc" id="L55">            Row key = rows.get(i);</span>
-<span class="fc" id="L56">            int j = i - 1;</span>
-<span class="fc bfc" id="L57" title="All 4 branches covered.">            while(j &gt;= 0 &amp;&amp; comparator.compare(rows.get(j), key) &gt; 0) {</span>
-<span class="fc" id="L58">                rows.set(j + 1, rows.get(j));</span>
-<span class="fc" id="L59">                j--;</span>
+<span class="fc" id="L54">        int n = rows.size();</span>
+<span class="fc bfc" id="L55" title="All 2 branches covered.">        for( int i = 1; i &lt; n; i++) {</span>
+<span class="fc" id="L56">            Row key = rows.get(i);</span>
+<span class="fc" id="L57">            int j = i - 1;</span>
+<span class="fc bfc" id="L58" title="All 4 branches covered.">            while(j &gt;= 0 &amp;&amp; comparator.compare(rows.get(j), key) &gt; 0) {</span>
+<span class="fc" id="L59">                rows.set(j + 1, rows.get(j));</span>
+<span class="fc" id="L60">                j--;</span>
             }
-<span class="fc" id="L61">            rows.set(j + 1, key);</span>
+<span class="fc" id="L62">            rows.set(j + 1, key);</span>
         }
-<span class="fc" id="L63">    }</span>
+<span class="fc" id="L64">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

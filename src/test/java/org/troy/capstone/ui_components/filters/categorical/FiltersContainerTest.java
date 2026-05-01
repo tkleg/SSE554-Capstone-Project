@@ -49,24 +49,33 @@ public class FiltersContainerTest {
     @DisplayName("Test getSelectedFilters with a selected filter")
     @SuppressWarnings("unchecked")
     public void testGetSelectedFiltersWithSelectedFilter() {
-        //Access the checkbox directly from the filtersContainer's filterOptions
-        try {
+        Map<String, FilterPanel> filterOptions;
+        try{
             Field filterOptionsField = FiltersContainer.class.getDeclaredField("filterOptions");
             filterOptionsField.setAccessible(true);
-            Map<String, Set<CheckBox>> filterOptions = (Map<String, Set<CheckBox>>) filterOptionsField.get(filtersContainer);
-
-            filterOptions.get("Tags").stream()
-                .findFirst()
-                .ifPresent(checkbox -> checkbox.setSelected(true));
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            System.err.println("Failed to access filterOptions via reflection: " + e.getMessage());
-            throw new RuntimeException("Failed to access filterOptions via reflection", e);
+            filterOptions = (Map<String, FilterPanel>) filterOptionsField.get(filtersContainer);
+        }catch(ReflectiveOperationException e){
+            assert false : "Reflection failed to access filterOptions field: " + e.getMessage();
+            return;
         }
 
-        System.out.println("Selected filters after selecting a tag: " + filtersContainer.getSelectedFilters());
-        assert filtersContainer.getSelectedFilters().get("Tags").size() == 1 : "Expected 1 selected tag filter, but got: " + filtersContainer.getSelectedFilters().get("Tags").size();
-        assert filtersContainer.getSelectedFilters().get("Category").isEmpty() : "Expected no selected category filters, but got: " + filtersContainer.getSelectedFilters().get("Category");
-        assert filtersContainer.getSelectedFilters().get("Publisher").isEmpty() : "Expected no selected publisher filters, but got: " + filtersContainer.getSelectedFilters().get("Publisher");
+        try{
+            Field optionCheckboxesField = FilterPanel.class.getDeclaredField("optionCheckBoxes");
+            optionCheckboxesField.setAccessible(true);
+            Set<CheckBox> optionCheckboxes = (Set<CheckBox>) optionCheckboxesField.get(filterOptions.get("Tags"));
+            optionCheckboxes.stream()
+                .filter(cb -> cb.getText().equals("Bestseller"))
+                .forEach(cb -> cb.setSelected(true));
+        }catch(ReflectiveOperationException e){
+            assert false : "Reflection failed to access optionCheckBoxes field: " + e.getMessage();
+            return;
+        }
+        
+        Map<String, Set<String>> selectedFilters = filtersContainer.getSelectedFilters();
+        System.out.println("Selected filters after selecting a tag: " + selectedFilters);
+        assert selectedFilters.get("Tags").size() == 1 : "Expected 1 selected tag filter, but got: " + selectedFilters.get("Tags").size();
+        assert selectedFilters.get("Category").isEmpty() : "Expected no selected category filters, but got: " + selectedFilters.get("Category");
+        assert selectedFilters.get("Publisher").isEmpty() : "Expected no selected publisher filters, but got: " + selectedFilters.get("Publisher");
     }
 
     @Test

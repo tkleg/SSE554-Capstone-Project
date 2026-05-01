@@ -21,8 +21,8 @@ import javafx.scene.layout.VBox;
  * It is the main container for all categorical filters in the UI and provides methods to generate filters based on item data and retrieve the currently selected filters.
  */
 public class FiltersContainer extends ScrollPane {
-    /** A map of filter types to their corresponding sets of {@code CheckBox} options in the filter panels. */
-    private final Map&lt;String, Set&lt;CheckBox&gt;&gt; filterOptions;
+    /** A map of filter types to their corresponding {@code FilterPanel} instances. */
+    private final Map&lt;String, FilterPanel&gt; filterOptions;
     /** The container for all filter panels. */
     private final VBox contentContainer;
     //Define which columns are categorical for filter generation
@@ -96,7 +96,7 @@ public class FiltersContainer extends ScrollPane {
      * @param title The title of the filter panel.
      * @param options The set of strings representing the filter options to create {@code CheckBox}es for.
      */
-    public void addFilterPanel( String title, Set&lt;String&gt; options ) {
+    private void addFilterPanel( String title, Set&lt;String&gt; options ) {
 <span class="fc" id="L100">        Set&lt;CheckBox&gt; checkBoxes = options.stream()</span>
 <span class="fc" id="L101">            .map(CheckBox::new)</span>
 <span class="fc" id="L102">            .peek(box -&gt; {</span>
@@ -104,8 +104,8 @@ public class FiltersContainer extends ScrollPane {
 <span class="fc" id="L104">                box.setId(id);</span>
 <span class="fc" id="L105">            })</span>
 <span class="fc" id="L106">            .collect(Collectors.toSet());</span>
-<span class="fc" id="L107">        filterOptions.put( title, checkBoxes );</span>
-<span class="fc" id="L108">        FilterPanel filterPanel = new FilterPanel(title, checkBoxes);</span>
+<span class="fc" id="L107">        FilterPanel filterPanel = new FilterPanel(title, checkBoxes);</span>
+<span class="fc" id="L108">        filterOptions.put(title, filterPanel);</span>
 <span class="fc" id="L109">        UIUtils.setLineBorder(filterPanel, 2, 2);</span>
 <span class="fc" id="L110">        filterPanel.setMaxWidth(Double.MAX_VALUE); //Allow the panel to expand to fill available width</span>
 <span class="fc" id="L111">        contentContainer.getChildren().add(filterPanel);</span>
@@ -122,15 +122,9 @@ public class FiltersContainer extends ScrollPane {
      */
     public Map&lt;String, Set&lt;String&gt;&gt; getSelectedFilters() {
 <span class="fc" id="L124">        Map&lt;String, Set&lt;String&gt;&gt; selectedFilters = new HashMap&lt;&gt;();</span>
-<span class="fc bfc" id="L125" title="All 2 branches covered.">        for (String filterType : filterOptions.keySet()) {</span>
-<span class="fc" id="L126">            Set&lt;String&gt; selectedOptions = filterOptions.get(filterType)</span>
-<span class="fc" id="L127">                    .stream()</span>
-<span class="fc" id="L128">                    .filter(CheckBox::isSelected)</span>
-<span class="fc" id="L129">                    .map(CheckBox::getText)</span>
-<span class="fc" id="L130">                    .collect(Collectors.toSet());</span>
-<span class="fc" id="L131">            selectedFilters.put(filterType, selectedOptions);</span>
-<span class="fc" id="L132">        }</span>
-<span class="fc" id="L133">        return selectedFilters;</span>
+<span class="fc bfc" id="L125" title="All 2 branches covered.">        for (String filterType : filterOptions.keySet())</span>
+<span class="fc" id="L126">            selectedFilters.put(filterType, filterOptions.get(filterType).getCheckedOptions());</span>
+<span class="fc" id="L127">        return selectedFilters;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

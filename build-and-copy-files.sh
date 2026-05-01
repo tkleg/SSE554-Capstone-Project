@@ -23,9 +23,6 @@ dot -Tpng generated_docs/dependency_graph/filtered_no_item_repo.dot -o generated
 dot -Tpng generated_docs/dependency_graph/filtered_no_item_repo_no_entities.dot -o generated_docs/dependency_graph/deps_no_item_repo_no_entities.png
 rm generated_docs/dependency_graph/*.dot
 
-shopt -s extglob
-cp -r persistent_docs/!(*.wsd) generated_docs
-
 #Copy jar file, dependencies, data, docs, and run scripts to distribution directory
 cp target/Project-1.0-SNAPSHOT-with-dependencies.jar distribution
 cp -r target/dependency distribution

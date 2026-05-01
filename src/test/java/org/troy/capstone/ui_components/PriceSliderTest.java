@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.troy.capstone.TestDataHolder;
 import org.troy.capstone.constants.UIElementName;
 import org.troy.capstone.managers.GeneralManager;
+import org.troy.capstone.ui_components.filters.PriceSlider;
 
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Node;

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PriceSlider.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Project</a> &gt; <a href="index.source.html" class="el_package">org.troy.capstone.ui_components.filters</a> &gt; <span class="el_source">PriceSlider.java</span></div><h1>PriceSlider.java</h1><pre class="source lang-java linenums">package org.troy.capstone.ui_components.filters;
+
+import org.troy.capstone.constants.TestFXId;
+
+import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
+import javafx.scene.layout.VBox;
+
+/**
+ * The {@code PriceSlider} class represents a UI component that allows users to select a price range for filtering search results.
+ */
+public class PriceSlider extends VBox {
+
+    /** The slider for selecting the minimum price in the range. */
+    private Slider minSlider;
+    /** The slider for selecting the maximum price in the range. */
+    private Slider maxSlider;
+    /** The label that displays the currently selected price range. */
+    private final Label label;
+    
+    /** Constructor for {@code PriceSlider}. Initializes the sliders and label.
+    *
+     * @pre min should be less than max to ensure valid slider ranges.
+     *
+     * @param min The minimum price value for the sliders.
+     * @param max The maximum price value for the sliders.
+     */
+<span class="fc" id="L28">    public PriceSlider(double min, double max) {</span>
+
+<span class="fc" id="L30">        minSlider = new Slider(min, max, min);</span>
+<span class="fc" id="L31">        minSlider.setId(TestFXId.MIN_PRICE_SLIDER.getId());</span>
+<span class="fc" id="L32">        minSlider.setShowTickLabels(true);</span>
+<span class="fc" id="L33">        minSlider.setShowTickMarks(true);</span>
+<span class="fc" id="L34">        minSlider.setMajorTickUnit((max - min) / 4);</span>
+<span class="fc" id="L35">        minSlider.setBlockIncrement(1);</span>
+<span class="fc" id="L36">        minSlider.setPrefWidth(150);</span>
+        
+<span class="fc" id="L38">        maxSlider = new Slider(min, max, max);</span>
+<span class="fc" id="L39">        maxSlider.setId(TestFXId.MAX_PRICE_SLIDER.getId());</span>
+<span class="fc" id="L40">        maxSlider.setShowTickLabels(true);</span>
+<span class="fc" id="L41">        maxSlider.setShowTickMarks(true);</span>
+<span class="fc" id="L42">        maxSlider.setMajorTickUnit((max - min) / 4);</span>
+<span class="fc" id="L43">        maxSlider.setBlockIncrement(1);</span>
+<span class="fc" id="L44">        maxSlider.setPrefWidth(150);</span>
+
+<span class="fc" id="L46">        label = new Label(String.format(&quot;Price: $%.0f - $%.0f&quot;, min, max));</span>
+<span class="fc" id="L47">        label.setStyle(&quot;-fx-font-weight: bold;&quot;);</span>
+        
+        //Update label when sliders change to be within $1 of each other to prevent crossing
+<span class="fc" id="L50">        minSlider.valueProperty().addListener((obs, oldVal, newVal) -&gt; {</span>
+<span class="fc" id="L51">            double minVal = newVal.doubleValue();</span>
+<span class="fc bfc" id="L52" title="All 2 branches covered.">            if (minVal + 1 &gt; maxSlider.getValue())</span>
+<span class="fc" id="L53">                maxSlider.setValue(Math.min(minVal + 1, max)); //Ensure max slider is always at least $1 above min slider</span>
+<span class="fc" id="L54">            updateLabel();</span>
+<span class="fc" id="L55">        });</span>
+<span class="fc" id="L56">        maxSlider.valueProperty().addListener((obs, oldVal, newVal) -&gt; {</span>
+<span class="fc" id="L57">            double maxVal = newVal.doubleValue();</span>
+<span class="fc bfc" id="L58" title="All 2 branches covered.">            if (maxVal - 1 &lt; minSlider.getValue())</span>
+<span class="fc" id="L59">                minSlider.setValue(Math.max(maxVal - 1, min)); //Ensure min slider is always at least $1 below max slider</span>
+<span class="fc" id="L60">            updateLabel();</span>
+<span class="fc" id="L61">        });</span>
+        
+<span class="fc" id="L63">        this.getChildren().addAll(label, minSlider, maxSlider);</span>
+<span class="fc" id="L64">        this.setSpacing(10);</span>
+<span class="fc" id="L65">    }</span>
+    
+    /** Updates the label to display the currently selected price range based on the values of the min and max sliders.
+     * 
+     * @post The label will be updated to reflect the current values of the min and max sliders, displaying the selected price range in a formatted manner.
+     */
+    private void updateLabel() {
+<span class="fc" id="L72">        label.setText(String.format(&quot;Price: $%.0f - $%.0f&quot;, </span>
+<span class="fc" id="L73">                                   minSlider.getValue(), </span>
+<span class="fc" id="L74">                                   maxSlider.getValue()));</span>
+<span class="fc" id="L75">    }</span>
+
+    /** Gets the minimum price slider. This is meant to allow registration with a manager.
+     * 
+     * @pre The {@code PriceSlider} should be properly initialized to ensure that the minSlider is available for retrieval.
+     *
+     * @return The {@code Slider} representing the minimum price selection.
+     */
+    public Slider getMinSlider() {
+<span class="fc" id="L84">        return minSlider;</span>
+    }
+
+    /** Gets the maximum price slider. This is meant to allow registration with a manager.
+     * 
+     * @pre The {@code PriceSlider} should be properly initialized to ensure that the maxSlider is available for retrieval.
+     *
+     * @return The {@code Slider} representing the maximum price selection.
+     */
+    public Slider getMaxSlider() {
+<span class="fc" id="L94">        return maxSlider;</span>
+    }
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

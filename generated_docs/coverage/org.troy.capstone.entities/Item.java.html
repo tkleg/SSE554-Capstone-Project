@@ -98,26 +98,27 @@ public class Item implements Cloneable{
 
     /**
      * Generates a random {@code Item} object with realistic values for each attribute using the {@code Faker} library.
-     * 
+     * @deprecated Used for testing purposes, not intended for production use.
      * @return A randomly generated {@code Item} object with all attributes populated with realistic random values.
      */
+    @Deprecated
     public static Item randomItem(){
-<span class="fc" id="L105">        return Item.builder()</span>
-<span class="fc" id="L106">            .imageUrl( URL.DEFAULT_IMAGE_URL.getUrl() )</span>
-<span class="fc" id="L107">            .name( faker.commerce().productName() )</span>
-<span class="fc" id="L108">            .publisher( faker.company().name() )</span>
-<span class="fc" id="L109">            .description( String.join(&quot; &quot;, faker.lorem().sentences(2) ) )</span>
-<span class="fc" id="L110">            .category( faker.commerce().department() )</span>
-<span class="fc" id="L111">            .tags( Set.copyOf( faker.lorem().words(3) ) )</span>
-<span class="fc" id="L112">            .price( (float) faker.number().randomDouble(2, 5, 500) )</span>
-<span class="fc" id="L113">            .reviewScore( (float) faker.number().randomDouble(1, 1, 5) )</span>
-<span class="fc" id="L114">            .reviewCount( (short) faker.number().numberBetween(0, 1000) )</span>
-<span class="fc" id="L115">            .stockQuantity( (short) faker.number().numberBetween(0, 100) )</span>
-<span class="fc" id="L116">            .dateAdded( Date.from( faker.timeAndDate().future(365, TimeUnit.DAYS) ) )</span>
-<span class="fc" id="L117">            .photoAuthor( URL.DEFAULT_AUTHOR_NAME.getUrl() )</span>
-<span class="fc" id="L118">            .photoAuthorUrl( URL.DEFAULT_AUTHOR_URL.getUrl() )</span>
-<span class="fc" id="L119">            .id( faker.internet().uuid() )</span>
-<span class="fc" id="L120">            .build();</span>
+<span class="fc" id="L106">        return Item.builder()</span>
+<span class="fc" id="L107">            .imageUrl( URL.DEFAULT_IMAGE_URL.getUrl() )</span>
+<span class="fc" id="L108">            .name( faker.commerce().productName() )</span>
+<span class="fc" id="L109">            .publisher( faker.company().name() )</span>
+<span class="fc" id="L110">            .description( String.join(&quot; &quot;, faker.lorem().sentences(2) ) )</span>
+<span class="fc" id="L111">            .category( faker.commerce().department() )</span>
+<span class="fc" id="L112">            .tags( Set.copyOf( faker.lorem().words(3) ) )</span>
+<span class="fc" id="L113">            .price( (float) faker.number().randomDouble(2, 5, 500) )</span>
+<span class="fc" id="L114">            .reviewScore( (float) faker.number().randomDouble(1, 1, 5) )</span>
+<span class="fc" id="L115">            .reviewCount( (short) faker.number().numberBetween(0, 1000) )</span>
+<span class="fc" id="L116">            .stockQuantity( (short) faker.number().numberBetween(0, 100) )</span>
+<span class="fc" id="L117">            .dateAdded( Date.from( faker.timeAndDate().future(365, TimeUnit.DAYS) ) )</span>
+<span class="fc" id="L118">            .photoAuthor( URL.DEFAULT_AUTHOR_NAME.getUrl() )</span>
+<span class="fc" id="L119">            .photoAuthorUrl( URL.DEFAULT_AUTHOR_URL.getUrl() )</span>
+<span class="fc" id="L120">            .id( faker.internet().uuid() )</span>
+<span class="fc" id="L121">            .build();</span>
     }
 
     /**
@@ -129,23 +130,23 @@ public class Item implements Cloneable{
      * @return An {@code Item} object created from the data in the provided {@code Row}.
      */
     public static Item fromRow( Row itemRow ){
-<span class="fc" id="L132">        return Item.builder()</span>
-<span class="fc" id="L133">                .index( itemRow.getShort(TableColumnName.INDEX.getColumnName()) )</span>
-<span class="fc" id="L134">                .imageUrl( itemRow.getString(TableColumnName.IMAGE_URL.getColumnName()) )</span>
-<span class="fc" id="L135">                .name( itemRow.getString(TableColumnName.NAME.getColumnName()) )</span>
-<span class="fc" id="L136">                .publisher( itemRow.getString(TableColumnName.PUBLISHER.getColumnName()) )</span>
-<span class="fc" id="L137">                .description( itemRow.getString(TableColumnName.DESCRIPTION.getColumnName()) )</span>
-<span class="fc" id="L138">                .category( itemRow.getString(TableColumnName.CATEGORY.getColumnName()) )</span>
-<span class="fc" id="L139">                .tags( new HashSet&lt;&gt;( Arrays.asList( itemRow.getString(TableColumnName.TAGS.getColumnName()).split(&quot;, &quot;) ) ) )</span>
-<span class="fc" id="L140">                .price( itemRow.getFloat(TableColumnName.PRICE.getColumnName()) )</span>
-<span class="fc" id="L141">                .reviewScore( itemRow.getFloat(TableColumnName.REVIEW_SCORE.getColumnName()) )</span>
-<span class="fc" id="L142">                .reviewCount( itemRow.getShort(TableColumnName.REVIEW_COUNT.getColumnName()) )</span>
-<span class="fc" id="L143">                .stockQuantity( itemRow.getShort(TableColumnName.STOCK_QUANTITY.getColumnName()) )</span>
-<span class="fc" id="L144">                .id( itemRow.getString(TableColumnName.ID.getColumnName()) )</span>
-<span class="fc" id="L145">                .photoAuthor( itemRow.getString(TableColumnName.PHOTO_AUTHOR.getColumnName()) )</span>
-<span class="fc" id="L146">                .photoAuthorUrl( itemRow.getString(TableColumnName.PHOTO_AUTHOR_URL.getColumnName()) )</span>
-<span class="fc" id="L147">                .dateAdded( Converters.localDateToDate(itemRow.getDate(TableColumnName.DATE_ADDED.getColumnName())) )</span>
-<span class="fc" id="L148">            .build();</span>
+<span class="fc" id="L133">        return Item.builder()</span>
+<span class="fc" id="L134">                .index( itemRow.getShort(TableColumnName.INDEX.getColumnName()) )</span>
+<span class="fc" id="L135">                .imageUrl( itemRow.getString(TableColumnName.IMAGE_URL.getColumnName()) )</span>
+<span class="fc" id="L136">                .name( itemRow.getString(TableColumnName.NAME.getColumnName()) )</span>
+<span class="fc" id="L137">                .publisher( itemRow.getString(TableColumnName.PUBLISHER.getColumnName()) )</span>
+<span class="fc" id="L138">                .description( itemRow.getString(TableColumnName.DESCRIPTION.getColumnName()) )</span>
+<span class="fc" id="L139">                .category( itemRow.getString(TableColumnName.CATEGORY.getColumnName()) )</span>
+<span class="fc" id="L140">                .tags( new HashSet&lt;&gt;( Arrays.asList( itemRow.getString(TableColumnName.TAGS.getColumnName()).split(&quot;, &quot;) ) ) )</span>
+<span class="fc" id="L141">                .price( itemRow.getFloat(TableColumnName.PRICE.getColumnName()) )</span>
+<span class="fc" id="L142">                .reviewScore( itemRow.getFloat(TableColumnName.REVIEW_SCORE.getColumnName()) )</span>
+<span class="fc" id="L143">                .reviewCount( itemRow.getShort(TableColumnName.REVIEW_COUNT.getColumnName()) )</span>
+<span class="fc" id="L144">                .stockQuantity( itemRow.getShort(TableColumnName.STOCK_QUANTITY.getColumnName()) )</span>
+<span class="fc" id="L145">                .id( itemRow.getString(TableColumnName.ID.getColumnName()) )</span>
+<span class="fc" id="L146">                .photoAuthor( itemRow.getString(TableColumnName.PHOTO_AUTHOR.getColumnName()) )</span>
+<span class="fc" id="L147">                .photoAuthorUrl( itemRow.getString(TableColumnName.PHOTO_AUTHOR_URL.getColumnName()) )</span>
+<span class="fc" id="L148">                .dateAdded( Converters.localDateToDate(itemRow.getDate(TableColumnName.DATE_ADDED.getColumnName())) )</span>
+<span class="fc" id="L149">            .build();</span>
     }
 
     /**
@@ -155,17 +156,17 @@ public class Item implements Cloneable{
      * @return A float value representing the similarity between the two items.
     */
     public float similarity(Item other){
-<span class="fc" id="L158">        float similarity = 0.0f;</span>
-<span class="fc" id="L159">        similarity += ItemSimilarityWeights.NAME.getWeight() * JARO_WINKLER_SIMILARITY.apply(this.name, other.name);</span>
-<span class="fc bfc" id="L160" title="All 2 branches covered.">        similarity += ItemSimilarityWeights.PUBLISHER.getWeight() * (this.publisher.equals(other.publisher) ? 1.0f : 0.0f);</span>
-<span class="fc" id="L161">        similarity += ItemSimilarityWeights.DESCRIPTION.getWeight() * JARO_WINKLER_SIMILARITY.apply(this.description, other.description);</span>
-<span class="fc bfc" id="L162" title="All 2 branches covered.">        similarity += ItemSimilarityWeights.CATEGORY.getWeight() * (this.category.equals(other.category) ? 1.0f : 0.0f);</span>
-<span class="fc" id="L163">        similarity += ItemSimilarityWeights.TAGS.getWeight() * (float) this.tags.stream().filter(other.tags::contains).count();</span>
-<span class="fc bfc" id="L164" title="All 2 branches covered.">        similarity += ItemSimilarityWeights.PHOTO_AUTHOR.getWeight() * (this.photoAuthor.equals(other.photoAuthor) ? 1.0f : 0.0f);</span>
-<span class="fc" id="L165">        similarity += ItemSimilarityWeights.PRICE.getWeight() * Math.abs(this.price - other.price) / 500.0f; //Normalize price difference to [0, 1] range based on a high price</span>
-<span class="fc" id="L166">        similarity += ItemSimilarityWeights.REVIEW_SCORE.getWeight() * Math.abs(this.reviewScore - other.reviewScore) / 5.0f; //Normalize review score difference to [0, 1] range based on max score of 5</span>
-<span class="fc" id="L167">        similarity += ItemSimilarityWeights.DATE_ADDED.getWeight() * ((float) Math.abs(this.dateAdded.getTime() - other.dateAdded.getTime()) / TimeUnit.DAYS.toMillis(1000)); //Normalize date difference to [0, 1] range based on 1000 days</span>
-<span class="fc" id="L168">        return similarity;</span>
+<span class="fc" id="L159">        float similarity = 0.0f;</span>
+<span class="fc" id="L160">        similarity += ItemSimilarityWeights.NAME.getWeight() * JARO_WINKLER_SIMILARITY.apply(this.name, other.name);</span>
+<span class="fc bfc" id="L161" title="All 2 branches covered.">        similarity += ItemSimilarityWeights.PUBLISHER.getWeight() * (this.publisher.equals(other.publisher) ? 1.0f : 0.0f);</span>
+<span class="fc" id="L162">        similarity += ItemSimilarityWeights.DESCRIPTION.getWeight() * JARO_WINKLER_SIMILARITY.apply(this.description, other.description);</span>
+<span class="fc bfc" id="L163" title="All 2 branches covered.">        similarity += ItemSimilarityWeights.CATEGORY.getWeight() * (this.category.equals(other.category) ? 1.0f : 0.0f);</span>
+<span class="fc" id="L164">        similarity += ItemSimilarityWeights.TAGS.getWeight() * (float) this.tags.stream().filter(other.tags::contains).count();</span>
+<span class="fc bfc" id="L165" title="All 2 branches covered.">        similarity += ItemSimilarityWeights.PHOTO_AUTHOR.getWeight() * (this.photoAuthor.equals(other.photoAuthor) ? 1.0f : 0.0f);</span>
+<span class="fc" id="L166">        similarity += ItemSimilarityWeights.PRICE.getWeight() * Math.abs(this.price - other.price) / 500.0f; //Normalize price difference to [0, 1] range based on a high price</span>
+<span class="fc" id="L167">        similarity += ItemSimilarityWeights.REVIEW_SCORE.getWeight() * Math.abs(this.reviewScore - other.reviewScore) / 5.0f; //Normalize review score difference to [0, 1] range based on max score of 5</span>
+<span class="fc" id="L168">        similarity += ItemSimilarityWeights.DATE_ADDED.getWeight() * ((float) Math.abs(this.dateAdded.getTime() - other.dateAdded.getTime()) / TimeUnit.DAYS.toMillis(1000)); //Normalize date difference to [0, 1] range based on 1000 days</span>
+<span class="fc" id="L169">        return similarity;</span>
     }
 
     /** Creates and returns a deep copy of this {@code Item} instance.
@@ -174,10 +175,10 @@ public class Item implements Cloneable{
      */
     @Override
     public Object clone() throws CloneNotSupportedException {
-<span class="fc" id="L177">        Item cloned = (Item) super.clone();</span>
-<span class="fc" id="L178">        cloned.tags = new HashSet&lt;&gt;(this.tags); //Deep copy of mutable Set</span>
-<span class="fc" id="L179">        cloned.dateAdded = (Date) this.dateAdded.clone(); //Deep copy of mutable Date</span>
-<span class="fc" id="L180">        return cloned;</span>
+<span class="fc" id="L178">        Item cloned = (Item) super.clone();</span>
+<span class="fc" id="L179">        cloned.tags = new HashSet&lt;&gt;(this.tags); //Deep copy of mutable Set</span>
+<span class="fc" id="L180">        cloned.dateAdded = (Date) this.dateAdded.clone(); //Deep copy of mutable Date</span>
+<span class="fc" id="L181">        return cloned;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>
