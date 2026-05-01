@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Item.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Project</a> &gt; <a href="index.source.html" class="el_package">org.troy.capstone.entities</a> &gt; <span class="el_source">Item.java</span></div><h1>Item.java</h1><pre class="source lang-java linenums">package org.troy.capstone.entities;
 
+import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
@@ -10,7 +11,6 @@ import org.apache.commons.text.similarity.JaroWinklerSimilarity;
 import org.troy.capstone.constants.ItemSimilarityWeights;
 import org.troy.capstone.constants.TableColumnName;
 import org.troy.capstone.constants.URL;
-import org.troy.capstone.utils.Converters;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -123,7 +123,7 @@ public class Item implements Cloneable{
 
     /**
      * Creates an {@code Item} object from a tablesaw {@code Row}. The {@code Row} must contain columns corresponding to the attributes of the {@code Item} class.
-     * 
+     * The method of converting a {@code LocalDate} to a {@code Date} is sourced from https://www.tutorialspoint.com/java-program-to-convert-localdate-to-java-util-date
      * @pre itemRow is not null and contains the expected columns for creating an {@code Item} (ID, Name, etc.).
      * 
      * @param itemRow A {@code Row} from a tablesaw {@code Table} containing item info.
@@ -145,8 +145,10 @@ public class Item implements Cloneable{
 <span class="fc" id="L145">                .id( itemRow.getString(TableColumnName.ID.getColumnName()) )</span>
 <span class="fc" id="L146">                .photoAuthor( itemRow.getString(TableColumnName.PHOTO_AUTHOR.getColumnName()) )</span>
 <span class="fc" id="L147">                .photoAuthorUrl( itemRow.getString(TableColumnName.PHOTO_AUTHOR_URL.getColumnName()) )</span>
-<span class="fc" id="L148">                .dateAdded( Converters.localDateToDate(itemRow.getDate(TableColumnName.DATE_ADDED.getColumnName())) )</span>
-<span class="fc" id="L149">            .build();</span>
+<span class="fc" id="L148">                .dateAdded( Date.from(itemRow.getDate(TableColumnName.DATE_ADDED.getColumnName())</span>
+<span class="fc" id="L149">                            .atStartOfDay(ZoneId.systemDefault()).toInstant()) </span>
+                        )
+<span class="fc" id="L151">            .build();</span>
     }
 
     /**
@@ -156,17 +158,17 @@ public class Item implements Cloneable{
      * @return A float value representing the similarity between the two items.
     */
     public float similarity(Item other){
-<span class="fc" id="L159">        float similarity = 0.0f;</span>
-<span class="fc" id="L160">        similarity += ItemSimilarityWeights.NAME.getWeight() * JARO_WINKLER_SIMILARITY.apply(this.name, other.name);</span>
-<span class="fc bfc" id="L161" title="All 2 branches covered.">        similarity += ItemSimilarityWeights.PUBLISHER.getWeight() * (this.publisher.equals(other.publisher) ? 1.0f : 0.0f);</span>
-<span class="fc" id="L162">        similarity += ItemSimilarityWeights.DESCRIPTION.getWeight() * JARO_WINKLER_SIMILARITY.apply(this.description, other.description);</span>
-<span class="fc bfc" id="L163" title="All 2 branches covered.">        similarity += ItemSimilarityWeights.CATEGORY.getWeight() * (this.category.equals(other.category) ? 1.0f : 0.0f);</span>
-<span class="fc" id="L164">        similarity += ItemSimilarityWeights.TAGS.getWeight() * (float) this.tags.stream().filter(other.tags::contains).count();</span>
-<span class="fc bfc" id="L165" title="All 2 branches covered.">        similarity += ItemSimilarityWeights.PHOTO_AUTHOR.getWeight() * (this.photoAuthor.equals(other.photoAuthor) ? 1.0f : 0.0f);</span>
-<span class="fc" id="L166">        similarity += ItemSimilarityWeights.PRICE.getWeight() * Math.abs(this.price - other.price) / 500.0f; //Normalize price difference to [0, 1] range based on a high price</span>
-<span class="fc" id="L167">        similarity += ItemSimilarityWeights.REVIEW_SCORE.getWeight() * Math.abs(this.reviewScore - other.reviewScore) / 5.0f; //Normalize review score difference to [0, 1] range based on max score of 5</span>
-<span class="fc" id="L168">        similarity += ItemSimilarityWeights.DATE_ADDED.getWeight() * ((float) Math.abs(this.dateAdded.getTime() - other.dateAdded.getTime()) / TimeUnit.DAYS.toMillis(1000)); //Normalize date difference to [0, 1] range based on 1000 days</span>
-<span class="fc" id="L169">        return similarity;</span>
+<span class="fc" id="L161">        float similarity = 0.0f;</span>
+<span class="fc" id="L162">        similarity += ItemSimilarityWeights.NAME.getWeight() * JARO_WINKLER_SIMILARITY.apply(this.name, other.name);</span>
+<span class="fc bfc" id="L163" title="All 2 branches covered.">        similarity += ItemSimilarityWeights.PUBLISHER.getWeight() * (this.publisher.equals(other.publisher) ? 1.0f : 0.0f);</span>
+<span class="fc" id="L164">        similarity += ItemSimilarityWeights.DESCRIPTION.getWeight() * JARO_WINKLER_SIMILARITY.apply(this.description, other.description);</span>
+<span class="fc bfc" id="L165" title="All 2 branches covered.">        similarity += ItemSimilarityWeights.CATEGORY.getWeight() * (this.category.equals(other.category) ? 1.0f : 0.0f);</span>
+<span class="fc" id="L166">        similarity += ItemSimilarityWeights.TAGS.getWeight() * (float) this.tags.stream().filter(other.tags::contains).count();</span>
+<span class="fc bfc" id="L167" title="All 2 branches covered.">        similarity += ItemSimilarityWeights.PHOTO_AUTHOR.getWeight() * (this.photoAuthor.equals(other.photoAuthor) ? 1.0f : 0.0f);</span>
+<span class="fc" id="L168">        similarity += ItemSimilarityWeights.PRICE.getWeight() * Math.abs(this.price - other.price) / 500.0f; //Normalize price difference to [0, 1] range based on a high price</span>
+<span class="fc" id="L169">        similarity += ItemSimilarityWeights.REVIEW_SCORE.getWeight() * Math.abs(this.reviewScore - other.reviewScore) / 5.0f; //Normalize review score difference to [0, 1] range based on max score of 5</span>
+<span class="fc" id="L170">        similarity += ItemSimilarityWeights.DATE_ADDED.getWeight() * ((float) Math.abs(this.dateAdded.getTime() - other.dateAdded.getTime()) / TimeUnit.DAYS.toMillis(1000)); //Normalize date difference to [0, 1] range based on 1000 days</span>
+<span class="fc" id="L171">        return similarity;</span>
     }
 
     /** Creates and returns a deep copy of this {@code Item} instance.
@@ -175,10 +177,10 @@ public class Item implements Cloneable{
      */
     @Override
     public Object clone() throws CloneNotSupportedException {
-<span class="fc" id="L178">        Item cloned = (Item) super.clone();</span>
-<span class="fc" id="L179">        cloned.tags = new HashSet&lt;&gt;(this.tags); //Deep copy of mutable Set</span>
-<span class="fc" id="L180">        cloned.dateAdded = (Date) this.dateAdded.clone(); //Deep copy of mutable Date</span>
-<span class="fc" id="L181">        return cloned;</span>
+<span class="fc" id="L180">        Item cloned = (Item) super.clone();</span>
+<span class="fc" id="L181">        cloned.tags = new HashSet&lt;&gt;(this.tags); //Deep copy of mutable Set</span>
+<span class="fc" id="L182">        cloned.dateAdded = (Date) this.dateAdded.clone(); //Deep copy of mutable Date</span>
+<span class="fc" id="L183">        return cloned;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

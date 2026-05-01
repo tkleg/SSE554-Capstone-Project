@@ -122,7 +122,7 @@ public class GeneralManager {
      */
     public void setButton(Button button) {
 <span class="fc" id="L124">        uiManager.setButton(button);</span>
-<span class="fc" id="L125">        button.setOnAction(e -&gt; filterAndPrintNumberOfResults());</span>
+<span class="fc" id="L125">        button.setOnAction(e -&gt; refreshUI());</span>
 <span class="fc" id="L126">    }</span>
 
     /**
@@ -139,7 +139,7 @@ public class GeneralManager {
      * 
      * @post The UI is updated with the filtered and sorted results based on the current search data from the {@code UIElementManager}.
      */
-    public void filterAndPrintNumberOfResults() {
+    public void refreshUI() {
 <span class="fc" id="L143">        Map&lt;UIDataName, Object&gt; searchData = getSearchData();</span>
 <span class="fc" id="L144">        System.out.println(&quot;Search Data: &quot; + searchData);</span>
 <span class="fc" id="L145">        Table filteredTable = searchEngine.filterItems(searchData);</span>

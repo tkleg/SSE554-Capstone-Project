@@ -12,7 +12,7 @@ Project,org.troy.capstone.managers,UIElementManager,0,232,0,2,0,56,0,22,0,21
 Project,org.troy.capstone.managers,RecentlyViewedManager,0,42,0,0,0,11,0,3,0,3
 Project,org.troy.capstone.managers,SimilarItemsManager,0,42,0,0,0,10,0,3,0,3
 Project,org.troy.capstone.managers,GeneralManager,0,183,0,16,0,35,0,18,0,10
-Project,org.troy.capstone.entities,Item,0,401,0,22,0,67,0,24,0,6
+Project,org.troy.capstone.entities,Item,0,404,0,22,0,68,0,24,0,6
 Project,org.troy.capstone.ui_components.items,AttributedItemContainer.new Task() {...},0,18,0,0,0,2,0,2,0,2
 Project,org.troy.capstone.ui_components.items,RecentlyViewedWindow,0,63,0,0,0,15,0,3,0,3
 Project,org.troy.capstone.ui_components.items,AttributedItemContainer,18,187,0,0,6,41,0,9,0,9
@@ -21,7 +21,6 @@ Project,org.troy.capstone.ui_components.items,SearchedItemPanel,0,259,0,2,0,50,0
 Project,org.troy.capstone.ui_components,SearchBar.new ListCell() {...},0,23,0,2,0,6,0,3,0,2
 Project,org.troy.capstone.ui_components,SearchBar.new ListCell() {...},0,39,0,2,0,9,0,3,0,2
 Project,org.troy.capstone.ui_components,SearchBar,0,185,0,0,0,37,0,8,0,8
-Project,org.troy.capstone.utils,Converters,0,6,0,0,0,1,0,1,0,1
 Project,org.troy.capstone.utils,UIUtils,0,61,0,4,0,11,0,4,0,2
 Project,org.troy.capstone.utils,TableUtils,0,85,0,2,0,22,0,7,0,6
 Project,org.troy.capstone.constants,UISizeControl,0,259,0,0,0,32,0,3,0,3

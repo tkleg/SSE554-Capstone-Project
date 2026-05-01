@@ -167,7 +167,7 @@ public class GeneralManagerTest {
     }
 
     @Test
-    public void testfilterAndPrintNumberOfResultsWithInvalidSortingOption() throws Exception {
+    public void testRefreshUIWithInvalidSortingOption() throws Exception {
         Map<UIDataName, Object> fakeSearchData = new HashMap<>();
         fakeSearchData.put(UIDataName.SORTING_OPTION, "Invalid Comparator");
 
@@ -177,7 +177,7 @@ public class GeneralManagerTest {
             GeneralManager spyGM = Mockito.spy(GM);
             Mockito.doReturn(fakeSearchData).when(spyGM).getSearchData();
             
-            spyGM.filterAndPrintNumberOfResults();
+            spyGM.refreshUI();
             
             sorterClass.verify(() -> Sorter.sortTable(Mockito.any(), Mockito.any()), Mockito.never());
         }
