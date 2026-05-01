@@ -115,7 +115,7 @@
       - This package holds custom UI components strictly meant for filtering data.
       - Classes
         - PriceSlider
-          - ![Price Slider Image](../resources/sliders.png)
+          - <img src="../resources/sliders.png" alt="Price Slider Image" width="500"/>
           - This class is a `VBox` for the vertical layout. It holds two sliders and a label. It enabled the user to select an initial price range, upon which the slider minimum and maximum values will be set. The label updates automatically, and methods expose the sliders to allow for retrieval of the selected price range for filtering later on.
         - StarRatingFilter
           - ![Star Rating Filter Image](../resources/star.png)
@@ -129,5 +129,37 @@
               - Note: The object is the entire `VBox` holding the three different sets of checkboxes. 
               - This class is a `ScrollPane` as expanding the checkbox panels can cause the content to exceed the visible area. It holds multiple groups of checkboxes for filtering categorical data. Each group is for a different categorical variable. A method exposes the selected options as a `Map<String, Set<String>>` where the key is the name of the categorical variable, and the value is the set of selected options for that variable. This allows for easy retrieval of all selected categorical filter options for filtering later on.
             - FilterPanel
-              - ![Filter Panel Image](../resources/filter_panel.png)
+              - <img src="../resources/filter_panel.png" alt="Filter Panel Image" width="300"/>
               - This class is a `TitledPane` to allow for the expand/collapse functionality. It holds a group of checkboxes for filtering a single categorical variable. The title of the pane is the name of the categorical variable, and the checkboxes are the options for that variable. A method exposes the selected options as a `Set<String>` for easy retrieval of the selected options for that variable for filtering later on.
+        - items
+          - This package holds custom UI components strictly meant for displaying item data.
+          - Classes
+            - AttributedItemContainer
+              - ![Attributed Item Container Image](../resources/attributed.png)
+              - This class is a `VBox` for the vertical layout. It holds an image of the item, the author of the image, and the title of the image source. The image is linked to the image online, the author name is linked to the author's page online, and the title is linked to the source page online. This was a requirement in order to get access to the Unsplash API, which retrieved the attribution data and URLs.
+            - RecentlyViewedWindow
+              - <img src="../resources/recent_window.png" alt="Recently Viewed Window Image" width="400"/>
+              - This class is a `ScrollPane` as the recently viewed items can exceed the visible area. It holds a queue of `SearchedItemPanel` instances of recently viewed items. When an item is clicked on in the `SearchedItemPagination`, it is added to the queue, and the content of the queue is displayed in this window.
+            - SearchedItemPanel
+              - <img src="../resources/searched_panel.png" alt="Searched Item Panel Image" width="500"/>
+              - This class is an `HBox` for the horizontal layout. It holds an `AttributedItemContainer` for the item image and attribution data, and a `VBox` for the vertical layout of most other item data. This right side `VBox` can also be created as a standalone away from the image and attribution data. This is done to prevent rendering the image to save on RAM.
+            - SimilarItemsContainer
+              - <img src="../resources/similar.png" alt="Similar Items Container Image" width="600"/>
+              - This class is a `ScrollPane` as the similar items can exceed the visible area. It holds a list of `VBox` instances of similar items. It gets filled by similar items when an item is clicked on in the `SearchedItemPagination`, which triggers the `SimilarItemsManager` to get similar items from the `SimilarItemsGraph` and send them to this container to be displayed.
+          - subpackages
+            - searched
+              - This package holds custom UI components strictly meant for the search results. `SearchedItemPanel` is not in this package as it is also used for recently viewed items, and similar items in a way.
+              - Classes
+                - SearchedItemPagination
+                  - <img src="../resources/pagination.png" alt="Searched Item Pagination Image" width="350"/>
+                  - This class is a `VBox` for the vertical layout. It encompasses a `SearchedItemContainer` and two buttons for navigating between pages. It uses a `SearchedItemLinkedList` to hold the search results in pages, and sends the current page of items to the `SearchedItemContainer` contained to be displayed.
+                - SearchedItemContainer
+                  - <img src="../resources/searched_container.png" alt="Searched Item Container Image" width="350"/>
+                  - This class is a `ScrollPane` as the search results can exceed the visible area. It holds a list of `SearchedItemPanel` instances of search results. It gets filled by the `SearchedItemPagination`, which pulls the current page of items from the `SearchedItemLinkedList`. The UI is the same as the `SearchedItemPagination` except without the page navigation buttons.
+- utils
+  - This package holds utility classes for the program. There are simple methods meant for general use.
+  - Classes
+    - TableUtils
+      - This class provides methods for reading in a table from CSV, writing a table to CSV, inserting an index column in a table, and converting a table to a list of `Row` instances.
+    - UIUtils
+      - This class provides a method for setting the size of a JavaFX `Region` based on integer values. It sets the max, min, and preferred widht and height to given values. Additionaly, it has a method which applies a black line border with a given corner radius and width to a JavaFX `Region`. This is used for styling purposes in the UI.

@@ -70,7 +70,7 @@ public class FiltersContainerTest {
             assert false : "Reflection failed to access optionCheckBoxes field: " + e.getMessage();
             return;
         }
-        
+
         Map<String, Set<String>> selectedFilters = filtersContainer.getSelectedFilters();
         System.out.println("Selected filters after selecting a tag: " + selectedFilters);
         assert selectedFilters.get("Tags").size() == 1 : "Expected 1 selected tag filter, but got: " + selectedFilters.get("Tags").size();

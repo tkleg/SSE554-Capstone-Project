@@ -1,5 +1,6 @@
 package org.troy.capstone.entities;
 
+import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
@@ -10,7 +11,6 @@ import org.apache.commons.text.similarity.JaroWinklerSimilarity;
 import org.troy.capstone.constants.ItemSimilarityWeights;
 import org.troy.capstone.constants.TableColumnName;
 import org.troy.capstone.constants.URL;
-import org.troy.capstone.utils.Converters;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -123,7 +123,7 @@ public class Item implements Cloneable{
 
     /**
      * Creates an {@code Item} object from a tablesaw {@code Row}. The {@code Row} must contain columns corresponding to the attributes of the {@code Item} class.
-     * 
+     * The method of converting a {@code LocalDate} to a {@code Date} is sourced from https://www.tutorialspoint.com/java-program-to-convert-localdate-to-java-util-date
      * @pre itemRow is not null and contains the expected columns for creating an {@code Item} (ID, Name, etc.).
      * 
      * @param itemRow A {@code Row} from a tablesaw {@code Table} containing item info.
@@ -145,7 +145,9 @@ public class Item implements Cloneable{
                 .id( itemRow.getString(TableColumnName.ID.getColumnName()) )
                 .photoAuthor( itemRow.getString(TableColumnName.PHOTO_AUTHOR.getColumnName()) )
                 .photoAuthorUrl( itemRow.getString(TableColumnName.PHOTO_AUTHOR_URL.getColumnName()) )
-                .dateAdded( Converters.localDateToDate(itemRow.getDate(TableColumnName.DATE_ADDED.getColumnName())) )
+                .dateAdded( Date.from(itemRow.getDate(TableColumnName.DATE_ADDED.getColumnName())
+                            .atStartOfDay(ZoneId.systemDefault()).toInstant()) 
+                        )
             .build();
     }
 

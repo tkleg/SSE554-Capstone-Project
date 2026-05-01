@@ -9,5 +9,7 @@ This repository contains the source code, documentation, and the build script fo
 - [API Documentation](persistent_docs/writings/api_docs.md)
 - [Dependency Graphs](persistent_docs/writings/dependency_graphs.md)
 - [Testing](persistent_docs/writings/testing.md)
-- [Demo](persistent_docs/resources/demo.mp4)
+- [Demo Video](persistent_docs/resources/demo.mp4)
 - [Package And Class Explanations](persistent_docs/writings/package_and_class_explanations.md)
+- [Useful Bash Commands](persistent_docs/writings/commands.md)
+- [Concepts Covered](persistent_docs/writings/concepts_covered.md)

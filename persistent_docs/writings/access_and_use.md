@@ -4,15 +4,15 @@
 For instructions on how to run the application and required system specs, see [build.md](build.md). The application can run on a variety of operating systems, and there is simply some minimum technical requirements to be met. This project was developed on a laptop with 16GB of RAM and Windows 11 as the operating system. It is multithreaded, as it uses a seperate thread for JavaFX rendering. While the app is not very resources intensive, the RAM used will increase as the `RecentlyViewedWindow` gets filled up to capacity. At launch prior to any inputs, approximately 1.5GB of RAM is used, and this increases up to 4.4GB of RAM when the `RecentlyViewedWindow` is filled to capacity and the `SimilarItemsContainer` is filled.
 
 ## Using The Application
-The program will firstly take a minute give or take to boot. Most of this time is spent filling the `SimilarItemsGraph`, a process that looks at exactly 46120 edges between items. This number is $\binom{961}{2}$ as there are 961 items, and there is one edge attempted between each.
+For a demo, see [Demo Video](../resources/demo.mp4). The program will firstly take a minute give or take to boot. Most of this time is spent filling the `SimilarItemsGraph`, a process that looks at exactly 46120 edges between items. This number is $\binom{961}{2}$ as there are 961 items, and there is one edge attempted between each.
 
 ### Filters 
 Upon launch you will have the following options to filter items
 - Price (Minumum and Maximum)
-  - <img src="../resources/sliders.png" alt="Slider Image Alt Text" scale="600">
+  - <img src="../resources/sliders.png" alt="Slider Image Alt Text" scale="500">
   - By dragging and dropping the two slider nubs, a minimum and maximum price can be selected. Note that the minimum and maximum prices are always rounded to the nearest dollar.
 - Minimum Rating (1-5 Stars)
-  - <img src="../resources/star.png" alt="Star Image Alt Text" scale="600">
+  - <img src="../resources/star.png" alt="Star Image Alt Text" scale="500">
   - By clicking on a star, the minimum rating is set to that star index (1 star = 1 minimum rating, 2 stars = 2 minimum rating, etc.). Clicking on the same star again will reset the minimum rating to 0.
 - Categorical Data (Category, Tags, and Publisher)
   - <img src="../resources/categorical.png" alt="Categorical Image Alt Text" scale="200">
