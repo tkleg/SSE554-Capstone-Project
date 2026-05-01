@@ -37,6 +37,7 @@ public class SearchedItemContainerTest {
         }
     }
 
+    @SuppressWarnings("deprecation")
     @BeforeEach
     public void setUp() {
         container = SearchedItemContainer.create(List.of(Item.randomItem()));
@@ -110,6 +111,7 @@ public class SearchedItemContainerTest {
         latch.await();
     }
 
+    @SuppressWarnings("deprecation")
     @Test
     @DisplayName("Test updateItems with null list")
     public void testUpdateItemsWithNullList() throws Exception {

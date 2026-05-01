@@ -7,12 +7,12 @@ import java.util.Map;
 import java.util.PriorityQueue;
 
 import org.troy.capstone.Config;
-import org.troy.capstone.annotations.Generated;
 import org.troy.capstone.constants.TableColumnName;
 import org.troy.capstone.entities.Item;
 import org.troy.capstone.interfaces.ItemRepo;
 import org.troy.capstone.ui_components.items.SearchedItemPanel;
 import org.troy.capstone.utils.UIUtils;
+import org.troy.capstone.annotations.Generated;
 
 import javafx.geometry.Insets;
 import javafx.scene.layout.VBox;

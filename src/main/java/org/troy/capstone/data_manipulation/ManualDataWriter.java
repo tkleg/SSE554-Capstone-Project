@@ -3,6 +3,7 @@ package org.troy.capstone.data_manipulation;
 import java.util.List;
 
 @SuppressWarnings("unused")
+@Deprecated
 public class ManualDataWriter {
     private static final List<String> categories = List.of(
         "Electronics", "Apparel", "Home & Garden", "Books",

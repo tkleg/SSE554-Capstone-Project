@@ -15,9 +15,9 @@ import org.troy.capstone.data_structures.item_table.SieveOfEratosthenes;
 import org.troy.capstone.search_engine.QueryFilter;
 import org.troy.capstone.search_engine.sorting.InsertionSort;
 import org.troy.capstone.search_engine.sorting.LongWrapper;
+import org.troy.capstone.search_engine.sorting.RowComparator;
 import org.troy.capstone.search_engine.sorting.Sorter;
 import org.troy.capstone.search_engine.sorting.SortingAnalysis;
-import org.troy.capstone.search_engine.sorting.comparator.RowComparator;
 import org.troy.capstone.utils.TableUtils;
 
 import tech.tablesaw.api.FloatColumn;
@@ -88,6 +88,7 @@ public class EntryPoints {
         }
     }
 
+    @SuppressWarnings("deprecation")
     public static void InsertionSortMain(String[] args) {
         Table table = TableUtils.readData(DataPath.CLEANED_ATTRIBUTED_DATA);
         LongWrapper time = new LongWrapper();
@@ -100,6 +101,7 @@ public class EntryPoints {
         System.out.println("Is sorted: " + SortingAnalysis.isSorted(sortedTable, new RowComparator(RowComparator.SortType.PRICE_ASCENDING)));
     }
 
+    @SuppressWarnings("deprecation")
     public static void SortingAnalysisMain(String[] args) throws Exception {
         Table table = TableUtils.readData(DataPath.CLEANED_ATTRIBUTED_DATA);
         //Add a column of random numbers (relevance) to the main table
@@ -126,6 +128,7 @@ public class EntryPoints {
         performanceTable.write().csv("sorting_performance.csv");
     }
 
+    @SuppressWarnings("deprecation")
     public static void testMixedSortingCorrectness(String[] args) {
         Table table = TableUtils.readData(DataPath.CLEANED_ATTRIBUTED_DATA);
         List<Row> rows = new ArrayList<>();

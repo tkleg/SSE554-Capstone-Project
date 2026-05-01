@@ -6,12 +6,13 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
 import org.testfx.util.WaitForAsyncUtils;
 import org.troy.capstone.constants.TestFXId;
-import org.troy.capstone.search_engine.sorting.comparator.RowComparator;
+import org.troy.capstone.search_engine.sorting.RowComparator;
 import org.troy.capstone.ui_components.filters.StarRatingFilter;
 import org.troy.capstone.ui_components.filters.categorical.FilterPanel;
 import org.troy.capstone.ui_components.items.SearchedItemPanel;
@@ -119,7 +120,7 @@ public class MainTest extends ApplicationTest {
         assertEquals(1, pageCount, "There should only be 1 page of results for the search query in clickSearchButtonTest, but was " + pageCount);
     }
 
-    public void setSortOptionAndTest() {
+    public void setSortOptionAndTest() throws ReflectiveOperationException{
         ComboBox<RowComparator> dropdown = TestUtils.lookupByTestFXId(TestFXId.SORT_OPTION_DROPDOWN);
 
         interact(() -> clickOn(dropdown) );
@@ -134,7 +135,8 @@ public class MainTest extends ApplicationTest {
         interact(() -> clickOn(ratingAscOption) );
 
         RowComparator selected = dropdown.getSelectionModel().getSelectedItem();
-        assertEquals(expectedOption, selected, "Selected sorting option should be Rating Ascending, but was " + selected);
+
+        assertEquals(selected.toString(), expectedOption.toString(), "Selected sorting option should be Rating Ascending, but was " + selected.toString());
     }
 
     public void setSearchQueryAndTestRetrieval() {

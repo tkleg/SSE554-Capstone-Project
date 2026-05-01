@@ -3,7 +3,6 @@ package org.troy.capstone.search_engine.sorting;
 import java.util.List;
 
 import org.troy.capstone.annotations.Generated;
-import org.troy.capstone.search_engine.sorting.comparator.RowComparator;
 
 import tech.tablesaw.api.Row;
 
@@ -23,10 +22,12 @@ public class InsertionSort {
      * 
      * @post The list of {@code Row}s is sorted in place based on the order defined by the comparator.
      * 
+     * @deprecated This method is useful for analyzing the time taken, but is not used in main program execution.
      * @param rows The list of {@code Row}s to be sorted.
      * @param comparator The {@code RowComparator} used to compare the {@code Row}s for sorting.
       * @param time An optional {@code LongWrapper} to store the time taken to perform the sort. If null, time will not be recorded.
      */
+    @Deprecated
     @Generated
     public static void insertionSort(List<Row> rows, RowComparator comparator, LongWrapper time) {
         long start = 0;

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.troy.capstone.search_engine.sorting.comparator.RowComparator;
 import org.troy.capstone.utils.TableUtils;
 
 import tech.tablesaw.api.IntColumn;
@@ -13,6 +12,7 @@ import tech.tablesaw.api.Row;
 import tech.tablesaw.api.StringColumn;
 import tech.tablesaw.api.Table;
 
+@Deprecated
 public class SortingAnalysis {
 
     public static boolean isSorted(Table table, RowComparator comparator) {
@@ -23,6 +23,7 @@ public class SortingAnalysis {
         return true;
     }
 
+    @Deprecated
     public static void testSorts(Table table) {
         for (RowComparator.SortType sortType : RowComparator.SortType.values()) {
             RowComparator comparator = new RowComparator(sortType);
@@ -35,6 +36,7 @@ public class SortingAnalysis {
         }
     }
 
+    @Deprecated
     public static Table shuffleTable(Table table) {
         List<Row> rows = TableUtils.tableToRowList(table);
         Collections.shuffle(rows);
@@ -43,6 +45,7 @@ public class SortingAnalysis {
         return shuffledTable;
     }
 
+    @Deprecated
     public static List<LongWrapper> removeOutliers(List<LongWrapper> times) {
         if (times.size() < 4) {
             return times; //Not enough data to remove outliers
@@ -66,6 +69,7 @@ public class SortingAnalysis {
         return filteredTimes;
     }
 
+    @Deprecated
     public static Table analyzeSortingPerformance(Table table, Table performanceTable, String algorithm, int numberOfTrials, RowComparator comparator, int step ) throws Exception {
         IntColumn tableSizeColumn = performanceTable.intColumn("Table Size");
         StringColumn algorithmColumn = performanceTable.stringColumn("Algorithm");

@@ -24,6 +24,7 @@ public class SearchedItemPanelTest {
     @Test
     @DisplayName("Test SearchedItemPanel creation and content population")
     public void testSearchedItemPanelCreation() {
+        @SuppressWarnings("deprecation")
         Item dummyItem = Item.randomItem();
         
         SearchedItemPanel panel = SearchedItemPanel.create(dummyItem);
@@ -101,6 +102,7 @@ public class SearchedItemPanelTest {
     @Test
     @DisplayName("Test getItemId returns the correct item ID")
     public void testGetItemId() {
+        @SuppressWarnings("deprecation")
         Item dummyItem = Item.randomItem();
         SearchedItemPanel panel = SearchedItemPanel.create(dummyItem);
         assertEquals(dummyItem.getId(), panel.getItemId(), "getItemId should return the correct item ID");

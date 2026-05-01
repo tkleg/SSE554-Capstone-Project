@@ -22,6 +22,7 @@ import tech.tablesaw.api.StringColumn;
 import tech.tablesaw.api.Table;
 import tech.tablesaw.selection.Selection;
 
+@Deprecated
 public class ImageUrlFiller {
 
     public static void main(String[] args) {

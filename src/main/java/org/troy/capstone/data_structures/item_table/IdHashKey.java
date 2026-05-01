@@ -13,14 +13,14 @@ public class IdHashKey implements Cloneable {
     private static final BigInteger P = BigInteger.valueOf(SieveOfEratosthenes.staticPrimeUnder100mil().orElseThrow());
     /**
      * A random coefficient for the universal hash function, chosen uniformly from 1 to P-1.
-     * Used as the multiplier in the universal hash formula.
+     * Used as the multiplier in the universal hash formula. Not final to allow changing in testing.
      */
     @SuppressWarnings("FieldMayBeFinal")
     private static BigInteger I = BigInteger.valueOf((long) (Math.random() * P.longValue()) + 1);
 
     /**
      * A random coefficient for the universal hash function, chosen uniformly from 0 to P-1.
-     * Used as the additive constant in the universal hash formula.
+     * Used as the additive constant in the universal hash formula. Not final to allow changing in testing.
      */
     @SuppressWarnings("FieldMayBeFinal")
     private static BigInteger J = BigInteger.valueOf((long) (Math.random() * (P.longValue() - 1L)));

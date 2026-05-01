@@ -98,9 +98,10 @@ public class Item implements Cloneable{
 
     /**
      * Generates a random {@code Item} object with realistic values for each attribute using the {@code Faker} library.
-     * 
+     * @deprecated Used for testing purposes, not intended for production use.
      * @return A randomly generated {@code Item} object with all attributes populated with realistic random values.
      */
+    @Deprecated
     public static Item randomItem(){
         return Item.builder()
             .imageUrl( URL.DEFAULT_IMAGE_URL.getUrl() )

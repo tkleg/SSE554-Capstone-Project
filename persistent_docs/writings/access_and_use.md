@@ -1,7 +1,7 @@
 # Access and Use
 
 ## Build/Run
-For instructions on how to run the application and required system specs, see [build.md](build.md). The application can run on a variety of operating systems, and there is simply some minimum technical requirements to be met. This project was developed on a laptop with 16GB of RAM and Windows 11 as the operating system. It is multithreaded, as it uses a seperate thread for JavaFX rendering. While the app is not very resources intensive, the RAM used will increase as the `RecentlyViewedItemsWindow` gets filled up to capacity. At launch prior to any inputs, approximately 1.5GB of RAM is used, and this increases up to 4.4GB of RAM when the `RecentlyViewedItemsWindow` is filled to capacity and the `SimilarItemsContainer` is filled.
+For instructions on how to run the application and required system specs, see [build.md](build.md). The application can run on a variety of operating systems, and there is simply some minimum technical requirements to be met. This project was developed on a laptop with 16GB of RAM and Windows 11 as the operating system. It is multithreaded, as it uses a seperate thread for JavaFX rendering. While the app is not very resources intensive, the RAM used will increase as the `RecentlyViewedWindow` gets filled up to capacity. At launch prior to any inputs, approximately 1.5GB of RAM is used, and this increases up to 4.4GB of RAM when the `RecentlyViewedWindow` is filled to capacity and the `SimilarItemsContainer` is filled.
 
 ## Using The Application
 The program will firstly take a minute give or take to boot. Most of this time is spent filling the `SimilarItemsGraph`, a process that looks at exactly 46120 edges between items. This number is $\binom{961}{2}$ as there are 961 items, and there is one edge attempted between each.
@@ -34,7 +34,7 @@ Several different comparators are used to sort the items. The options permitted 
 
 ### Analyzing Results
 
-When the **Search** button is selected, the program takes in all of the filters and the comparator choice and applies them to the data. A full diagram of the process can be found here: [Search Sequence Diagram](../search_sequence.png)
+When the **Search** button is selected, the program takes in all of the filters and the comparator choice and applies them to the data. A full diagram of the process can be found here: [Search Sequence Diagram](../resources/search_sequence.png)
 
 The sequence is as follows.
 1. Data is gathered from UI elements into a `HashMap` and passed to the `SearchEngine` class.

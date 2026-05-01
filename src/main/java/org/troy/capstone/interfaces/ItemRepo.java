@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import org.troy.capstone.entities.Item;
 
-/** Repository interface for managing items, simple getter method. */
+/** Repository interface for managing items, with simple getters. */
 public interface ItemRepo {
 
     /** Retrieves an item by its ID.

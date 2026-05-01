@@ -11,8 +11,8 @@ import org.troy.capstone.interfaces.ItemRepo;
 import org.troy.capstone.interfaces.SearchedItemPanelDestinationUI;
 import org.troy.capstone.interfaces.SearchedItemPanelSourceUI;
 import org.troy.capstone.search_engine.SearchEngine;
+import org.troy.capstone.search_engine.sorting.RowComparator;
 import org.troy.capstone.search_engine.sorting.Sorter;
-import org.troy.capstone.search_engine.sorting.comparator.RowComparator;
 
 import javafx.scene.Node;
 import javafx.scene.control.Button;

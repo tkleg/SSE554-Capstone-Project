@@ -5,8 +5,8 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import org.troy.capstone.annotations.Generated;
 import org.troy.capstone.constants.URL;
+import org.troy.capstone.annotations.Generated;
 import org.troy.capstone.constants.UISizeControl;
 import org.troy.capstone.entities.Item;
 

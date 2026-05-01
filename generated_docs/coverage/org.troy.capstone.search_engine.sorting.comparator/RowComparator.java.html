@@ -2,7 +2,6 @@
 
 import java.util.Comparator;
 
-import org.troy.capstone.annotations.Generated;
 import org.troy.capstone.constants.TableColumnName;
 
 import tech.tablesaw.api.Row;
@@ -18,19 +17,19 @@ public class RowComparator implements Comparator&lt;Row&gt; {
     /** 
      * Enum representing different sorting types for rows.
      */
-<span class="fc" id="L21">    public enum SortType {</span>
+<span class="fc" id="L20">    public enum SortType {</span>
         /** Sort by price in ascending order. */
-<span class="fc" id="L23">        PRICE_ASCENDING,</span>
+<span class="fc" id="L22">        PRICE_ASCENDING,</span>
         /** Sort by price in descending order. */
-<span class="fc" id="L25">        PRICE_DESCENDING,</span>
+<span class="fc" id="L24">        PRICE_DESCENDING,</span>
         /** Sort by relevance in ascending order. */
-<span class="fc" id="L27">        RELEVANCE_ASCENDING,</span>
+<span class="fc" id="L26">        RELEVANCE_ASCENDING,</span>
         /** Sort by relevance in descending order. */
-<span class="fc" id="L29">        RELEVANCE_DESCENDING,</span>
+<span class="fc" id="L28">        RELEVANCE_DESCENDING,</span>
         /** Sort by rating in ascending order. */
-<span class="fc" id="L31">        RATING_ASCENDING,</span>
+<span class="fc" id="L30">        RATING_ASCENDING,</span>
         /** Sort by rating in descending order. */
-<span class="fc" id="L33">        RATING_DESCENDING;</span>
+<span class="fc" id="L32">        RATING_DESCENDING;</span>
     }
 
     /**
@@ -38,10 +37,10 @@ public class RowComparator implements Comparator&lt;Row&gt; {
      * @return An array of {@code RowComparator}s, one for each {@code SortType}.
      */
     public static RowComparator[] getComparators() {
-<span class="fc" id="L41">        RowComparator[] comparators = new RowComparator[SortType.values().length];</span>
-<span class="fc bfc" id="L42" title="All 2 branches covered.">        for (int i = 0; i &lt; SortType.values().length; i++)</span>
-<span class="fc" id="L43">            comparators[i] = new RowComparator(SortType.values()[i]);</span>
-<span class="fc" id="L44">        return comparators;</span>
+<span class="fc" id="L40">        RowComparator[] comparators = new RowComparator[SortType.values().length];</span>
+<span class="fc bfc" id="L41" title="All 2 branches covered.">        for (int i = 0; i &lt; SortType.values().length; i++)</span>
+<span class="fc" id="L42">            comparators[i] = new RowComparator(SortType.values()[i]);</span>
+<span class="fc" id="L43">        return comparators;</span>
     }
 
     /**
@@ -50,34 +49,34 @@ public class RowComparator implements Comparator&lt;Row&gt; {
      */
     @Override
     public String toString() {
-<span class="fc" id="L53">        String[] parts = sortType.name().split(&quot;_&quot;);</span>
-<span class="fc bfc" id="L54" title="All 2 branches covered.">        for (int i = 0; i &lt; parts.length; i++)</span>
-<span class="fc" id="L55">            parts[i] = Character.toUpperCase(parts[i].charAt(0)) + parts[i].substring(1).toLowerCase();</span>
-<span class="fc" id="L56">        return String.join(&quot; &quot;, parts);</span>
+<span class="fc" id="L52">        String[] parts = sortType.name().split(&quot;_&quot;);</span>
+<span class="fc bfc" id="L53" title="All 2 branches covered.">        for (int i = 0; i &lt; parts.length; i++)</span>
+<span class="fc" id="L54">            parts[i] = Character.toUpperCase(parts[i].charAt(0)) + parts[i].substring(1).toLowerCase();</span>
+<span class="fc" id="L55">        return String.join(&quot; &quot;, parts);</span>
     }
 
     /**
      * Constructs a {@code RowComparator} with the specified {@code SortType}.
      * @param sortType The {@code SortType} that defines the sorting behavior of this {@code RowComparator}.
      */
-<span class="fc" id="L63">    public RowComparator(SortType sortType) {</span>
-<span class="fc" id="L64">        this.sortType = sortType;</span>
-<span class="fc" id="L65">    }</span>
+<span class="fc" id="L62">    public RowComparator(SortType sortType) {</span>
+<span class="fc" id="L63">        this.sortType = sortType;</span>
+<span class="fc" id="L64">    }</span>
 
     /**
      * Constructs a {@code RowComparator} with the specified {@code SortType} name.
      * @param sortTypeName The name of the {@code SortType} that defines the sorting behavior of this {@code RowComparator}.
      */
-<span class="fc" id="L71">    public RowComparator(String sortTypeName) {</span>
-<span class="fc" id="L72">        this.sortType = SortType.valueOf(sortTypeName.toUpperCase().replace(&quot; &quot;, &quot;_&quot;));</span>
-<span class="fc" id="L73">    }</span>
+<span class="fc" id="L70">    public RowComparator(String sortTypeName) {</span>
+<span class="fc" id="L71">        this.sortType = SortType.valueOf(sortTypeName.toUpperCase().replace(&quot; &quot;, &quot;_&quot;));</span>
+<span class="fc" id="L72">    }</span>
 
     /**
      * Returns the {@code SortType} of this {@code RowComparator}.
      * @return The {@code SortType} of this {@code RowComparator}.
      */
     public SortType getSortType() {
-<span class="fc" id="L80">        return sortType;</span>
+<span class="fc" id="L79">        return sortType;</span>
     }
 
     /**
@@ -88,51 +87,24 @@ public class RowComparator implements Comparator&lt;Row&gt; {
      */
     @Override
     public int compare(Row r1, Row r2){
-<span class="fc bfc" id="L91" title="All 7 branches covered.">        switch (sortType) {</span>
+<span class="fc bfc" id="L90" title="All 7 branches covered.">        switch (sortType) {</span>
             case PRICE_ASCENDING -&gt; {
-<span class="fc" id="L93">                return Float.compare(r1.getFloat(TableColumnName.PRICE.getColumnName()), r2.getFloat(TableColumnName.PRICE.getColumnName()));</span>
+<span class="fc" id="L92">                return Float.compare(r1.getFloat(TableColumnName.PRICE.getColumnName()), r2.getFloat(TableColumnName.PRICE.getColumnName()));</span>
             }case PRICE_DESCENDING -&gt; {
-<span class="fc" id="L95">                return Float.compare(r2.getFloat(TableColumnName.PRICE.getColumnName()), r1.getFloat(TableColumnName.PRICE.getColumnName()));</span>
+<span class="fc" id="L94">                return Float.compare(r2.getFloat(TableColumnName.PRICE.getColumnName()), r1.getFloat(TableColumnName.PRICE.getColumnName()));</span>
             }case RELEVANCE_ASCENDING -&gt; {
-<span class="fc" id="L97">                return Float.compare(r1.getFloat(TableColumnName.RELEVANCE.getColumnName()), r2.getFloat(TableColumnName.RELEVANCE.getColumnName()));</span>
+<span class="fc" id="L96">                return Float.compare(r1.getFloat(TableColumnName.RELEVANCE.getColumnName()), r2.getFloat(TableColumnName.RELEVANCE.getColumnName()));</span>
             }case RELEVANCE_DESCENDING -&gt; {
-<span class="fc" id="L99">                return Float.compare(r2.getFloat(TableColumnName.RELEVANCE.getColumnName()), r1.getFloat(TableColumnName.RELEVANCE.getColumnName()));</span>
+<span class="fc" id="L98">                return Float.compare(r2.getFloat(TableColumnName.RELEVANCE.getColumnName()), r1.getFloat(TableColumnName.RELEVANCE.getColumnName()));</span>
             }case RATING_ASCENDING -&gt; {
-<span class="fc" id="L101">                return Float.compare(r1.getFloat(TableColumnName.REVIEW_SCORE.getColumnName()), r2.getFloat(TableColumnName.REVIEW_SCORE.getColumnName()));</span>
+<span class="fc" id="L100">                return Float.compare(r1.getFloat(TableColumnName.REVIEW_SCORE.getColumnName()), r2.getFloat(TableColumnName.REVIEW_SCORE.getColumnName()));</span>
             }case RATING_DESCENDING -&gt; {
-<span class="fc" id="L103">                return Float.compare(r2.getFloat(TableColumnName.REVIEW_SCORE.getColumnName()), r1.getFloat(TableColumnName.REVIEW_SCORE.getColumnName()));</span>
+<span class="fc" id="L102">                return Float.compare(r2.getFloat(TableColumnName.REVIEW_SCORE.getColumnName()), r1.getFloat(TableColumnName.REVIEW_SCORE.getColumnName()));</span>
             }case null -&gt; {
-<span class="fc" id="L105">                System.out.println(&quot;Invalid SortType for RowComparator: &quot; + sortType);</span>
-<span class="fc" id="L106">                return 0;</span>
+<span class="fc" id="L104">                System.out.println(&quot;Invalid SortType for RowComparator: &quot; + sortType);</span>
+<span class="fc" id="L105">                return 0;</span>
             }
         }
-    }
-
-    /**
-     * Checks is the {@code RowComparator} is equal to another object. First, it checks the other object is a {@code RowComparator}. Then it makes sure the {@code SortType} is the same.
-     * 
-     * @pre obj is an instance of {@code RowComparator}.
-     * @post Returns true if the other object is a {@code RowComparator} with the same {@code SortType}, and false otherwise.
-     * @param obj The object to compare with this {@code RowComparator}.
-     * @return true if the other object is a {@code RowComparator} with the same {@code SortType}, and false otherwise.
-     */
-    @Override
-    public boolean equals(Object obj) {
-<span class="fc bfc" id="L121" title="All 2 branches covered.">        if (this == obj) return true;</span>
-<span class="fc bfc" id="L122" title="All 2 branches covered.">        if(obj == null) return false;</span>
-<span class="fc bfc" id="L123" title="All 2 branches covered.">        if(!(obj instanceof RowComparator)) return false;</span>
-<span class="fc" id="L124">        RowComparator other = (RowComparator) obj;</span>
-<span class="fc bfc" id="L125" title="All 2 branches covered.">        return sortType == other.sortType;</span>
-    }
-    
-    /**
-     * Returns a hash code value for this {@code RowComparator}, which is based on the {@code SortType}.
-     * @return A hash code value for this {@code RowComparator}.
-     */    
-    @Override
-    @Generated
-    public int hashCode() {
-        return sortType.hashCode();
     }
     
 }

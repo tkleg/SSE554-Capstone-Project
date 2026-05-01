@@ -1,0 +1,47 @@
+@startuml search_sequence
+title New Search Flow Sequence Diagram
+Button -> GeneralManager: trigger a new search
+activate GeneralManager
+GeneralManager -> GeneralManager: get search data
+activate GeneralManager
+GeneralManager -> UIElementManager: get search data
+activate UIElementManager
+UIElementManager --> GeneralManager: return search data
+deactivate GeneralManager
+deactivate UIElementManager
+GeneralManager -> SearchEngine: filter items with search data
+activate SearchEngine
+SearchEngine -> SearchEngine: filter the table by price using a TreeMap\n for efficient range queries
+SearchEngine -> SearchEngine: filter the table by minimum rating
+SearchEngine -> SearchEngine: filter the table by categoprical filters
+activate SearchEngine
+loop for each categorical column
+    SearchEngine -> SearchEngine: filter the table by the current categorical column
+end
+SearchEngine --> SearchEngine: return filtered table
+deactivate SearchEngine
+SearchEngine -> SearchEngine: apply the search query to the filtered table\n and calculate matching scores for each item
+activate SearchEngine
+SearchEngine -> SearchEngine: getMatchingScores to documents based\n on the search query
+SearchEngine -> SearchEngine: filter out items with matching socres below\n15% of the highest score
+SearchEngine --> SearchEngine: return matched items with their scores\n relating to the query
+deactivate SearchEngine
+SearchEngine --> GeneralManager: return filtered items with the query\n match score attached as a new column
+deactivate SearchEngine
+GeneralManager -> Sorter: sort items with comparator from the search data
+activate Sorter
+alt size of filtered table is greater than 25
+    Sorter -> Sorter: sort items using quicksort
+else
+    Sorter -> Sorter: sort items using insertion sort
+end
+Sorter --> GeneralManager: return sorted items
+deactivate Sorter
+GeneralManager -> UIElementManager: trigger UI update with sorted item IDs
+activate UIElementManager
+UIElementManager -> UIElementManager: create new linked list with sorted items, \nwith each node representing a page
+UIElementManager --> UIElementManager: return new linked list
+deactivate UIElementManager
+UIElementManager -> UIElementManager: fill the SearchedItemPagination with new \nSearchedItemPanels based on the IDs
+
+@enduml

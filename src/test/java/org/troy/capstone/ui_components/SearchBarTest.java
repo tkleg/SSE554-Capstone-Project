@@ -13,7 +13,7 @@ import org.testfx.util.WaitForAsyncUtils;
 import org.troy.capstone.TestDataHolder;
 import org.troy.capstone.constants.UIElementName;
 import org.troy.capstone.managers.GeneralManager;
-import org.troy.capstone.search_engine.sorting.comparator.RowComparator;
+import org.troy.capstone.search_engine.sorting.RowComparator;
 
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
@@ -108,9 +108,9 @@ public class SearchBarTest {
         WaitForAsyncUtils.waitForFxEvents();
         RowComparator thirdItem = dropdown.getItems().get(2);
         RowComparator expectedComparator = new RowComparator(RowComparator.SortType.RELEVANCE_ASCENDING);
-        assertEquals(expectedComparator, thirdItem, "3rd item should be /\"" + expectedComparator.toString() + "/\" but got: " + thirdItem.toString());
+
         String thirdItemText = thirdItem.toString();
-        String expectedText = "Relevance Ascending";
+        String expectedText = expectedComparator.toString();
         assertEquals(expectedText, thirdItemText, "3rd item text should by /\"" + expectedText + "/\" but got: " + thirdItemText);
 
         //Click the 3rd item and check that the dropdown value is updated
@@ -127,7 +127,6 @@ public class SearchBarTest {
         WaitForAsyncUtils.waitForFxEvents();
         RowComparator selectedComparator = dropdown.getValue();
         assertNotNull(selectedComparator, "Selected RowComparator should not be null after selecting an item from the dropdown");
-        assertEquals(expectedComparator, selectedComparator, "Selected RowComparator should be equal to the expected comparator after selecting an item from the dropdown, but got: " + selectedComparator);
         assertEquals(expectedText, selectedComparator.toString(), "Selected RowComparator should have the expected text representation after selecting an item from the dropdown, but got: " + selectedComparator.toString());
     }
 

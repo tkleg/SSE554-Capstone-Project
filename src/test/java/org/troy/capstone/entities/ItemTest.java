@@ -109,6 +109,7 @@ public class ItemTest {
     @Test
     @DisplayName("Test Random Item Generation")
     public void testRandomItemGeneration(){
+        @SuppressWarnings("deprecation")
         Item randomItem = Item.randomItem();
         
         //ID

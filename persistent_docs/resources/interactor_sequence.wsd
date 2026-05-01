@@ -1,0 +1,14 @@
+@startuml interactor_sequence
+title SearchedItemPanelInteractor Sequence Diagram
+SearchedItemPanelSourceUI -> SearchedItemPanel: Add the source UI's associated interactor\n to the panel's interactor list
+...
+SearchedItemPanel -> SearchedItemPanelInteractor: user clicks the panel, triggering all registered\n interactors to perform onItemSelected
+activate SearchedItemPanelInteractor
+SearchedItemPanelInteractor -> "Data Structure": optional interactions which can include data insertion
+activate "Data Structure"
+"Data Structure" --> SearchedItemPanelInteractor: return result of interactions (type is List<Node>)
+deactivate "Data Structure"
+SearchedItemPanelInteractor --> SearchedItemPanel: return List<Node> result
+SearchedItemPanelInteractor -> SearchedItemPanelDestinationUI: pass the List<Node> to the destination UI for processing and display
+deactivate SearchedItemPanelInteractor
+@enduml

@@ -2,7 +2,6 @@ package org.troy.capstone.search_engine.sorting;
 
 import java.util.List;
 
-import org.troy.capstone.search_engine.sorting.comparator.RowComparator;
 import org.troy.capstone.utils.TableUtils;
 
 import tech.tablesaw.api.Row;
@@ -31,7 +30,7 @@ public class Sorter {
      * @param time An optional {@code LongWrapper} to store the time taken to perform the sort. If null, time will not be recorded.
      * @return A new {@code Table} instance containing the sorted rows from the input table.
      */
-    public static Table sortTable(Table table, RowComparator comparator, LongWrapper time) {
+    static Table sortTable(Table table, RowComparator comparator, LongWrapper time) {
         if( comparator == null ) {
             System.out.println("Invalid comparator provided to Sorter.sortTable. Was provided: " + comparator + ". Returning original table.");
             return table;
@@ -58,9 +57,11 @@ public class Sorter {
      * @pre comparator is a valid {@code RowComparator} that can compare the rows in the list. rows is not null and the rows contain the correct column needed to do the sorting.
      * @post The list of rows is sorted in place based on the order defined by the comparator, and the time taken for sorting is recorded in the provided {@code LongWrapper} if it is not null.
      * @param rows The list of rows to be sorted.
+     * @deprecated This is useful for tests and analyzing time taken, but is not part of main program execution.
      * @param comparator The {@code RowComparator} used to determine the order of the rows.
      * @param time An optional {@code LongWrapper} to store the time taken to perform the sort. If null, time will not be recorded.
      */
+    @Deprecated
     public static void mixedSort(List<Row> rows, RowComparator comparator, LongWrapper time) {
         mixedSort(rows, 0, rows.size() - 1, comparator, time);
     }
@@ -70,12 +71,16 @@ public class Sorter {
       * 
       * @pre comparator is a valid {@code RowComparator} that can compare the rows in the list. rows is not null and the rows contain the correct column needed to do the sorting.
       * @post The list of rows is sorted in place based on the order defined by the comparator, and the time taken for sorting is recorded in the provided {@code LongWrapper} if it is not null.
+      * 
+      * @deprecated This is useful for tests and analyzing time taken, but is not part of main program execution.
+      * 
       * @param rows The list of rows to be sorted.
       * @param comparator The {@code RowComparator} used to determine the order of the rows.
       * @param low The starting index of the portion of the list to be sorted.
       * @param high The ending index of the portion of the list to be sorted.
       * @param time An optional {@code LongWrapper} to store the time taken to perform the sort. If null, time will not be recorded.
      */
+    @Deprecated
     private static void mixedSort(List<Row> rows, int low, int high, RowComparator comparator, LongWrapper time) {
         if( low >= high )
             return;
@@ -102,7 +107,10 @@ public class Sorter {
      * @return A new {@code Table} instance containing the sorted rows from the input table.
     */
     public static Table sortTable(Table table, RowComparator comparator) {
-        return sortTable(table, comparator, null);
+        LongWrapper time = new LongWrapper();
+        Table sortedTable = sortTable(table, comparator, time);
+        System.out.println("Sorting completed in " + time.getValue() + " nanoseconds.");
+        return sortedTable;
     }
 
 }

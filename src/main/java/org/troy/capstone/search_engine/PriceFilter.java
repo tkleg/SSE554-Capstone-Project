@@ -35,4 +35,5 @@ public class PriceFilter {
     public int[] filterByPriceRange(float minPrice, float maxPrice) {
         return priceTree.findItemsInPriceRange(minPrice, maxPrice);
     }
+    
 }
