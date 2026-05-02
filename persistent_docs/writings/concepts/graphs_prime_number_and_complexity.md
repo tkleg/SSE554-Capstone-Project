@@ -14,7 +14,7 @@ A graph is used in the project in the [`SimilarItemsGraph`](../../../src/main/ja
 A prime number is used in the project in the [`IdHashKey`](../../../src/main/java/org/troy/capstone/data_structures/item_table/IdHashKey.java) class to implement the Rabin-Karp rolling hash function for the custom hash function. The prime number is used to prevent overflow issues, as well as prevent collisions. The prime number should be large, so it was chosen as the largest prime number that is under 100 million.
 
 ## Complexity
-- $P$: Most algorithms used are $P$, as they are solved in worst case $O(n^2)$ time, which is polynomial time.
-- $NP$: Since most algorithms used are $P$, they are also $NP$, as $P \subseteq NP$.
-- $NP-Complete$: No algorithms used are $NP$-complete, as they are all solvable in polynomial time.
-- $NP-Hard$: No algorithms used are $NP$-hard, as they are all solvable in polynomial time.
+- `P`: Most algorithms used are `P`, as they are solved in worst case `O(n^2)` time, which is polynomial time.
+- `NP`: Since most algorithms used are `P`, they are also `NP`, as `P \subseteq NP`.
+- `NP-Complete`: No algorithms used are `NP`-complete, as they are all solvable in polynomial time.
+- `NP-Hard`: No algorithms used are `NP`-hard, as they are all solvable in polynomial time.
