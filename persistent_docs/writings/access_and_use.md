@@ -4,7 +4,7 @@
 For instructions on how to run the application and required system specs, see [build.md](build.md). The application can run on a variety of operating systems, and there is simply some minimum technical requirements to be met. This project was developed on a laptop with 16GB of RAM and Windows 11 as the operating system. It is multithreaded, as it uses a seperate thread for JavaFX rendering. While the app is not very resources intensive, the RAM used will increase as the `RecentlyViewedWindow` gets filled up to capacity. At launch prior to any inputs, approximately 1.5GB of RAM is used, and this increases up to 4.4GB of RAM when the `RecentlyViewedWindow` is filled to capacity and the `SimilarItemsContainer` is filled.
 
 ## Using The Application
-For a demo, see [Demo Video](../resources/demo.mp4). The program will firstly take a minute give or take to boot. Most of this time is spent filling the `SimilarItemsGraph`, a process that looks at exactly 46120 edges between items. This number is $\binom{961}{2}$ as there are 961 items, and there is one edge attempted between each.
+For a demo, see [Demo Video](../resources/demo.mp4). The program will firstly take a minute give or take to boot. Most of this time is spent filling the `SimilarItemsGraph`, a process that looks at exactly 46120 edges between items. This number is $$\binom{961}{2}$$ as there are 961 items, and there is one edge attempted between each.
 
 ### Filters 
 Upon launch you will have the following options to filter items
