@@ -1,3 +1,6 @@
+[//]: # (MathJax for LaTeX rendering)
+<!--#include virtual="mathjax_include.html" -->
+
 # SSE554 Capstone Project
 
 It is highly reccomended that you view documentation via the `GitHub Pages` deployment of the documentation, as it is easier to navigate, and it renders markdown, html, and mp4 files automatically. To view the documentation, click [HERE](https://tkleg.github.io/SSE554-Capstone-Project/).
