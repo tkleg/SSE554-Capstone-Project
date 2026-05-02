@@ -1,5 +1,7 @@
-[//]: # (MathJax for LaTeX rendering)
-<!--#include virtual="../mathjax_include.html" -->
+<!-- MathJax for LaTeX rendering -->
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
 
 # Access and Use
 
