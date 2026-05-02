@@ -49,7 +49,7 @@
   - Why it was chosen
     - The `TreeMap` class in Java already impleemtned the red-black tree and provides a `submap` method that allows for efficient searching of items within a certain price range. This made it a convenient choice for implementing the price filter.
   - Implementation Details
-    - Nodes in the tree store an item's price as the key, and an item index as the value. This allows for an array of item indexes to be returned. The algorithgm here is just doing many traversal of the tree, with the successor algorithm being used.
+    - Nodes in the tree store an item's price as the key, and an item index as the value. This allows for an array of item indexes to be returned. The algorithm here is just doing many traversal of the tree, with the successor algorithm being used.
   - Complexity:
-    - Time Complexity: $O(\log n + k)$ where $n$ is the number of unique prices in the tree and $k$ is the number of items returned in the search results.
+    - Time Complexity: $O(\log n)$ where $n$ is the number of unique prices in the tree and $k$ is the number of items returned in the search results.
     - Space Complexity: $O(n)$ for storing the items in the tree. The search itself uses $O(k)$ space to store the results.

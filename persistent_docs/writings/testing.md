@@ -27,12 +27,12 @@ There is one integration test file, [`src/test/java/org/troy/capstone/MainTest.j
 ## Coverage
   - Test coverage is calculated with the Jacoco reporting plugin and can be found in the [`generated_docs/coverage/`](../../generated_docs/coverage/) directory. To properly view the report open the [`index.html`](../../generated_docs/coverage/index.html) file in that directory in a web browser once cloned. This detailed report includes coverage for methods, lines, and branches for each class in the project. The tests have been designed to give as much coverage as possible.
 ###  Missed coverage
-  - Instructions - 18/6390 missed (0.28% missed)
-  - Branches - 0/271 missed (0% missed)
-  - Cyclomatic Complexity - 0/409 missed (0% missed)
-  - Lines - 6/1304 missed (0.46% missed)
-  - Methods - 0/264 missed (0% missed)
-  - Classes 0/48 missed (0% missed)
+  - Instructions - 18/6365 missed (0.28% missed)
+  - Branches - 0/263 missed (0% missed)
+  - Cyclomatic Complexity - 0/403 missed (0% missed)
+  - Lines - 6/1297 missed (0.46% missed)
+  - Methods - 0/262 missed (0% missed)
+  - Classes 0/47 missed (0% missed)
   - The only code missed was the catch statement in the following snippet as well as two other identical snippets in [`AttributedImageContainer`](../../src/main/java/org/troy/capstone/ui_components/items/AttributedItemContainer.java), except one is for the author name and the other is for the source name.
   ```java
         imageView.setOnMouseClicked(e -> {
