@@ -5,4 +5,4 @@ For simplification and readability, each concept is given its own file. They are
 ## Concepts
 - [Algorithms & Complexities](concepts/algorithms_and_complexities.md)
 - [Sorting Algorithms & Fundamental Data Structures](concepts/sorting_algorithms_and_fundamental_data_structures.md)
-- [Hash Tables & Binary Search Trees](concepts/hash_tables_and_binary_search_trees.md)
+- [Hash Tables & Binary Search Trees](concepts/hash_table_and_binary_search_trees.md)
