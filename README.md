@@ -1,6 +1,6 @@
 # SSE554 Capstone Project
 
-It is highly reccomended that you view documentation via the `GitHub Pages` deployment of the documentation, as it is easier to navigate, and it renders markdown and html files automatically. To view the documentation, click [HERE](https://tkleg.github.io/SSE554-Capstone-Project/).
+It is highly reccomended that you view documentation via the `GitHub Pages` deployment of the documentation, as it is easier to navigate, and it renders markdown, html, and mp4 files automatically. To view the documentation, click [HERE](https://tkleg.github.io/SSE554-Capstone-Project/).
 
 This repository contains the source code, documentation, and the build script for my capstone project in Object Oriented Design 2. The project is a JavaFX application that allows users to browse and shop for items, with various filters and sorting options. The application relies heavily on data structures and algorithms to operate efficiently.
 

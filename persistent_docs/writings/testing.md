@@ -25,7 +25,7 @@ There is one integration test file, [`src/test/java/org/troy/capstone/MainTest.j
  
 
 ## Coverage
-  - Test coverage is calculated with the Jacoco reporting plugin and can be found in the [`generated_docs/coverage/`](../../generated_docs/coverage/) directory. To properly view the report open the [`index.html`](../../generated_docs/coverage/index.html) file in that directory in a web browser once cloned. This detailed report includes coverage for methods, lines, and branches for each class in the project. The tests have been designed to give as much coverage as possible.
+  - Test coverage is calculated with the Jacoco reporting plugin and can be found in the [`generated_docs/coverage/`](../../generated_docs/coverage/) directory. To properly view the report open the [`index.html`](../../generated_docs/coverage/index.html) file in that directory in a web browser once cloned (or view it in GitHub Pages). This detailed report includes coverage for methods, lines, and branches for each class in the project. The tests have been designed to give as much coverage as possible.
 ###  Missed coverage
   - Instructions - 18/6365 missed (0.28% missed)
   - Branches - 0/263 missed (0% missed)
@@ -58,6 +58,6 @@ There is one integration test file, [`src/test/java/org/troy/capstone/MainTest.j
   - A file called `Config.java` is used to load in an `app.properties` file that contains a configuration for enabling/disabling building the `SimilarItemsGraph`. This is important as the process of building the `SimilarItemsGraph` is time consuming, and it is not necessary to build it for most tests. By using this config file, we can easily enable or disable the building of the `SimilarItemsGraph` for testing purposes, which allows for faster testing when the graph is not needed. The file in the `main` directory contains an enabled value for building the graph, while the file in the `test` directory contains a disabled value for building the graph.
 ## Drawbacks
 - Time consuming
-  - The graph has to be built twice during tests, once for a unit test regarding the graph, and once for one of the integration tests that relies on the graph. This is time consuming, but necessary to achieve full coverage of the code.
+    - The graph has to be built twice during tests, once for a unit test regarding the graph, and once for one of the integration tests that relies on the graph. This is time consuming, but necessary to achieve full coverage of the code.
 - Reflection breaking
   - Reflection is brittle as it uses `String` values to access fields and methods, which can break if the names of these fields and methods are changed. This is a negative for reflection, but is nevessary to avoid changing access modifiers. Additionally, if parameters of methods are changed, this can also break reflection calls to these methods.
