@@ -39,6 +39,7 @@ public class ItemHashMap extends HashMap<IdHashKey, Item> implements ItemRepo {
         ItemHashMap itemMap = new ItemHashMap(table.rowCount());
         System.out.println("P: " + IdHashKey.getP() + ", I: " + IdHashKey.getI() + ", J: " + IdHashKey.getJ());
         itemMap.addAllItems(table);
+        itemMap.printBucketSizeCountsCustomVsBuiltIn();
         return itemMap;
     }
 
@@ -164,7 +165,6 @@ public class ItemHashMap extends HashMap<IdHashKey, Item> implements ItemRepo {
      * the same item IDs are used for both calculations,
      * and the map must be filled.
      */
-    @SuppressWarnings("unused")
     private void printBucketSizeCountsCustomVsBuiltIn(){
         String col1 = "Entries in Bucket (N)", col2 = "Buckets with N entries (Custom Hash)", col3 = "Buckets with N entries (Built-in Hash)";
         System.out.printf("%-" + col1.length() + "s %s %-" + col2.length() + "s %s %-" + col3.length() + "s%n", col1, "|", col2, "|", col3);

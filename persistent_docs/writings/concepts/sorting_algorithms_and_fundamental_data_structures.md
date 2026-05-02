@@ -18,6 +18,13 @@ public void refreshUI() {
     }
 ```
 The sorting is done in the `Sorter` class, which uses `InsertionSort` for lists of size less than or equal to 25, and `QuickSort` for lists of size greater than 25. This is because `InsertionSort` is more efficient for small lists, while `QuickSort` is more efficient for larger lists. As stated in other documentation, 25 is arbitrary. In all cases for data in the project except a single size list, InsertionSort is faster, but the concept of using different sorting algorithms for different sizes of data is still demonstrated by using a cutoff for picking algorithms.
+- Choice of Algorithms
+  - `InsertionSort` was chosen for small lists because it has a low overhead and is efficient for small data sets. It has a time complexity of O(n^2) in the worst case, but for small lists, this is not a significant issue.
+  - `QuickSort` was chosen for larger lists because it has an average time complexity of O(n log n) and is generally faster than other sorting algorithms for larger data sets. It also has good cache performance, which can further improve its efficiency.
+  - The reason that `QuickSort` is not used for all sorting is because of the overhead associated with the recursive calls
+  - An analysis was done of all of the sorting algorithms implemented in the project, and it was found that `InsertionSort` is faster in nearly all cases. The cutoff of 25 was chosen arbitrarily, but it is based on the idea that `InsertionSort` is more efficient for small lists, while `QuickSort` is more efficient for larger lists. In practice, the cutoff could be adjusted based on testing to find the point at which `QuickSort` becomes more efficient. Analysis can be seen [HERE](../../../analysis/sort_time_comparing.ipynb).
+  - An alternative approach attempted was to combine both `QuickSort` and `InsertionSort` into a single algorithm, where `QuickSort` would be used for larger partitions of the data, and `InsertionSort` would be used for smaller partitions. This was due to reasearch showing this as a popular approach to sorting. While it was not too difficult to implement, it was nearly identical in speed to `QuickSort`, and only faster than `InsertionSort` for a small number of sizes, all of which were 25 or less.
+  - A graph linked [HERE](../../../analysis/plots/combined/sorting_performance_Price_Ascending.png) shows that `MixedSort` is very close to `QuickSort`, and that `InsertionSort` is much faster than either other algorithm.
 
 ## Fundamental Data Structures
 - **Queues**
