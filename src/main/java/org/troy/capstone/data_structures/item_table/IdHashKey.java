@@ -79,7 +79,7 @@ public class IdHashKey implements Cloneable {
 
     /**
      * Rabin-Karp style string to int collapse, using polynomial rolling hash method.
-     * Algorithm source is https://www.tutorialspoint.com/data_structures_algorithms/rabin_karp_algorithm.htm.
+     * Algorithm source is [3].
      * @pre str is not null and only contains ASCII characters from '!' to '~' (printable characters excluding space and delete).
      * 
      * @param str The string to collapse into an integer hash value.

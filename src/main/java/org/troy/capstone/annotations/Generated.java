@@ -9,7 +9,7 @@ import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.ElementType.TYPE;
 
 /**
- * This annotation marks code as generated, making Jacoco test coverage ignore it. Algorithm was sourced from https://www.baeldung.com/jacoco-report-exclude/ and then modified.
+ * This annotation marks code as generated, making Jacoco test coverage ignore it. Algorithm was sourced from [1] and then modified.
  */
 @Documented
 @Retention(RUNTIME)

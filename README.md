@@ -18,3 +18,4 @@ This repository contains the source code, documentation, and the build script fo
 - [Package And Class Explanations](persistent_docs/writings/package_and_class_explanations.md)
 - [Useful Bash Commands](persistent_docs/writings/commands.md)
 - [Concepts Covered](persistent_docs/writings/concepts_covered.md)
+- [References](persistent_docs/references.pdf)

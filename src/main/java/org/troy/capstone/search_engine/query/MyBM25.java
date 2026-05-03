@@ -34,10 +34,10 @@ import tech.tablesaw.api.Table;
 
 public class MyBM25 {
     public static void main(String[] args) throws Exception{
-        //Lucene https://www.baeldung.com/lucene
+        //Lucene was used as a helper source [4].
         //Highly optimized, better than if I implemented the algorithms myself due to optimizations, data structures
-        //See https://www.baeldung.com/lucene-analyzers for details on analyzers
-        //Base code source is https://medium.com/@dhruvsharma2600/integrating-search-in-your-application-with-apache-lucene-d11c6fb84ab4
+        //[5] was used for building the analyzer.
+        //Base code source is [6].
 
         //NgramTokenizer tokenizes to get tokens to be all substrings of length 2-5, gives better typo tolerance and partial matching
         //StopFilter Filters out common english words, also splits on non-letter cars and sets all tokens to lowercase

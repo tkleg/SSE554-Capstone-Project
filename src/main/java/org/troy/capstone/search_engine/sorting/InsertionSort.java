@@ -7,7 +7,7 @@ import org.troy.capstone.annotations.Generated;
 import tech.tablesaw.api.Row;
 
 /**
- * This is used to sort a list of {@code Row}s based on a custom {@code RowComparator}. Source is https://www.geeksforgeeks.org/dsa/insertion-sort-algorithm/ and modified to fit the data structure and comparators used in the project.
+ * This is used to sort a list of {@code Row}s based on a custom {@code RowComparator}. Source is [8].
  */
 public class InsertionSort {
     

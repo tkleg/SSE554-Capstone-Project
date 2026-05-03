@@ -123,7 +123,7 @@ public class Item implements Cloneable{
 
     /**
      * Creates an {@code Item} object from a tablesaw {@code Row}. The {@code Row} must contain columns corresponding to the attributes of the {@code Item} class.
-     * The method of converting a {@code LocalDate} to a {@code Date} is sourced from https://www.tutorialspoint.com/java-program-to-convert-localdate-to-java-util-date
+     * The method of converting a {@code LocalDate} to a {@code Date} is sourced from [7].
      * @pre itemRow is not null and contains the expected columns for creating an {@code Item} (ID, Name, etc.).
      * 
      * @param itemRow A {@code Row} from a tablesaw {@code Table} containing item info.

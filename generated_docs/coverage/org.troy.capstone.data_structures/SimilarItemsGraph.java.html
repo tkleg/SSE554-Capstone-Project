@@ -7,12 +7,12 @@ import java.util.Map;
 import java.util.PriorityQueue;
 
 import org.troy.capstone.Config;
+import org.troy.capstone.annotations.Generated;
 import org.troy.capstone.constants.TableColumnName;
 import org.troy.capstone.entities.Item;
 import org.troy.capstone.interfaces.ItemRepo;
 import org.troy.capstone.ui_components.items.SearchedItemPanel;
 import org.troy.capstone.utils.UIUtils;
-import org.troy.capstone.annotations.Generated;
 
 import javafx.geometry.Insets;
 import javafx.scene.layout.VBox;
@@ -169,7 +169,7 @@ public class SimilarItemsGraph {
         }
 <span class="fc" id="L170">    }</span>
 
-    /** Basic algorithm taken from https://www.geeksforgeeks.org/dsa/dijkstras-shortest-path-algorithm-greedy-algo-7/. Computes the shortest paths from the start index to all other items in the graph. 
+    /** Basic algorithm taken from [2]. Computes the shortest paths from the start index to all other items in the graph. 
      * @param startIndex The index of the starting item from which to compute the shortest paths to all other items in the graph.
      * @pre startIndex should be a valid item index corresponding to an item in the graph. The graph should be properly initialized with edges representing the similarity scores between items.
      * @post The method returns a list of {@code Edge} objects, where each object contains the index of a similar item and its corresponding similarity score. The list is sorted in descending order of similarity scores and limited to the number of similar items to display. Items that are not reachable from the start index (i.e., have a distance of {@code Float.MAX_VALUE}) are excluded from the returned list.
