@@ -1,10 +1,5 @@
 # Build artifacts
 target/
 
-response.json
-
-# The distribution zip is very large
-*.zip 
-
 #Holds an API key
 *ENV.java

@@ -29,6 +29,3 @@ cp target/Project-1.0-SNAPSHOT-with-dependencies.jar distribution
 cp -r target/dependency distribution
 cp -r data distribution
 cp run.sh distribution
-
-#Zip distribution using PowerShell
-powershell.exe "Compress-Archive -Path \"distribution\" -DestinationPath \"distribution.zip\" -Force"

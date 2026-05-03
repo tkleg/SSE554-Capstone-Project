@@ -6,7 +6,7 @@ These tests are located in the subdirectories of [`src/test/java/org/troy/capsto
 ## Integration Tests
 There is one integration test file, [`src/test/java/org/troy/capstone/MainTest.java`](../../src/test/java/org/troy/capstone/MainTest.java). This file tests the `SearchEngine` class, which is responsible for applying all filters and sorting to the data. This class is a good candidate for integration testing, as it relies on many different classes and methods to operate correctly.
   - The first test `testDisplayInSimilarItemsAndRecentlyViewedItems` clicks on an item in the `SearchedItemPagination` and checks that it gets displayed in the `RecentlyViewedWindow` as well as checking that the similar items are correctly displayed in the `SimilarItemsContainer`. A video of the test running can be seen [HERE](../resources/click_panel_integration_test.mp4).
-  - The second test `testFilteredSearch` makes a selection for each filter type and checks that the right number of restults are returned, and that the `SearchedItemPagination` is updated with the correct number of pages. A video of the test running can be seen [HERE](../resources/filtered_search_test.mp4).
+  - The second test `testFilteredSearch` makes a selection for each filter type and checks that the right number of results are returned, and that the `SearchedItemPagination` is updated with the correct number of pages. A video of the test running can be seen [HERE](../resources/filtered_search_test.mp4).
 ## Utility Files for Testing
 - [`TestUtils.java`](../../src/test/java/org/troy/capstone/TestUtils.java) contains three utility methods for testing.
   -    ```java
@@ -16,7 +16,7 @@ There is one integration test file, [`src/test/java/org/troy/capstone/MainTest.j
   - ```java
         public static <T extends Node> T lookupByTestFXId(String testFXId)
     ```
-    - This does the same thing as the other `lookupByTestFXId` method, but it takes in a `String`, since the ID for some nodes are templated and then the full ID is not known until runtime.
+    - This does the same thing as the other `lookupByTestFXId` method, but it takes in a `String`, since the ID for some nodes are a template and then the full ID is not known until runtime.
   - ```java 
         public static boolean equals(Table table1, Table table2)
     ```
@@ -53,11 +53,11 @@ There is one integration test file, [`src/test/java/org/troy/capstone/MainTest.j
 - Analyzing Current Coverage
   - Jacoco's coverage report was used to analyze the current coverage of the tests and identify areas that were not being covered. This allowed for the creation of new test cases to target these areas and increase overall coverage. The goal was to achieve as close to 100% coverage as possible, and the Jacoco report was instrumental in identifying areas that needed more testing.
 - Breaking Apart Conditionals
-  - Some conditionals that combined boolean expressions with `||` and `&&` were broken into seperate conditionals to achieve higher coverage. This was necessary because the coverage sees a 2 expression conditional as having 4 branches, and this makes it harder to achieve full branch coverage, especially in cases where one half checks for `null` and the other half checks for an `empty` value.
+  - Some conditionals that combined boolean expressions with `||` and `&&` were broken into separate conditionals to achieve higher coverage. This was necessary because the coverage sees a 2 expression conditional as having 4 branches, and this makes it harder to achieve full branch coverage, especially in cases where one half checks for `null` and the other half checks for an `empty` value.
 - Config
-  - A file called `Config.java` is used to load in an `app.properties` file that contains a configuration for enabling/disabling building the `SimilarItemsGraph`. This is important as the process of building the `SimilarItemsGraph` is time consuming, and it is not necessary to build it for most tests. By using this config file, we can easily enable or disable the building of the `SimilarItemsGraph` for testing purposes, which allows for faster testing when the graph is not needed. The file in the `main` directory contains an enabled value for building the graph, while the file in the `test` directory contains a disabled value for building the graph.
+  - A file called `Config.java` is used to load in an `app.properties` file that contains a configuration for enabling/disabling building the `SimilarItemsGraph`. This is important as the process of building the `SimilarItemsGraph` is time-consuming, and it is not necessary to build it for most tests. By using this config file, we can easily enable or disable the building of the `SimilarItemsGraph` for testing purposes, which allows for faster testing when the graph is not needed. The file in the `main` directory contains an enabled value for building the graph, while the file in the `test` directory contains a disabled value for building the graph.
 ## Drawbacks
 - Time consuming
-    - The graph has to be built twice during tests, once for a unit test regarding the graph, and once for one of the integration tests that relies on the graph. This is time consuming, but necessary to achieve full coverage of the code.
+    - The graph has to be built twice during tests, once for a unit test regarding the graph, and once for one of the integration tests that relies on the graph. This is time-consuming, but necessary to achieve full coverage of the code.
 - Reflection breaking
-  - Reflection is brittle as it uses `String` values to access fields and methods, which can break if the names of these fields and methods are changed. This is a negative for reflection, but is nevessary to avoid changing access modifiers. Additionally, if parameters of methods are changed, this can also break reflection calls to these methods.
+  - Reflection is brittle as it uses `String` values to access fields and methods, which can break if the names of these fields and methods are changed. This is a negative for reflection, but is necessary to avoid changing access modifiers. Additionally, if parameters of methods are changed, this can also break reflection calls to these methods.

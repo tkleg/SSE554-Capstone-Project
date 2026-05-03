@@ -7,27 +7,27 @@
     - Used in the [QueryFilter](../../../src/main/java/org/troy/capstone/search_engine/QueryFilter.java) and [MyBM25](../../../src/main/java/org/troy/capstone/search_engine/query/MyBM25.java) classes.
     - Why it was chosen
       - Allowed for custom weighting of different fields.
-      - Deals with overruse of terms with saturation.
+      - Deals with overuse of terms with saturation.
       - Deals with long vs short content.
       - Widely used and lots of documentation on the algorithm and implementation in java.
     - Implementation Details
-      - An analyzer was built that tokenized the query from 2 to 5 characters. This allowed for typos to not be penalized too hard, while still giving better scores to items with longer matches. The analyzer also removes stop words (common english words such as 'the', 'a', etc.).
+      - An analyzer was built that tokenized the query from 2 to 5 characters. This allowed for typos to not be penalized too hard, while still giving better scores to items with longer matches. The analyzer also removes stop words (common English words such as 'the', 'a', etc.).
       - Directory is all in RAM, as data is loaded in from objects in memory, and the access is faster.
-      - When filtering, the highest score is found, and items with scores less than 15% of the highest score are filtered out. This allows for precise queries to have less results, while broad queries can have many results.
+      - When filtering, the highest score is found, and items with scores less than 15% of the highest score are filtered out. This allows for precise queries to have fewer results, while broad queries can have many results.
 - **Sieve of Eratosthenes**: This algorithm is used to generate a prime number to use for the universal hashing in `ItemHashMap`. The algorithm is used in the [SieveOfEratosthenes](../../../src/main/java/org/troy/capstone/data_structures/item_table/SieveOfEratosthenes.java) class. Original code is from the modules for the course.
   - Why it was chosen
     - I needed a large prime number for the universal hashing.
     - The code was simple to implement and alter to work for my needs.
   - Implementation Details
-    - Uses a bitset rather than a boolean array to save space, as the size of the sieve is quite large (100 million).
+    - Uses a `BitSet` rather than a boolean array to save space, as the size of the sieve is quite large (100 million).
   - Complexity:
     - Time Complexity: *O(n \log \log n)*
     - Space Complexity: *O(n)*
-- **Dijsktra's Algorithm**: This algorithm is used to find the shortest path between two items in the `SimilarItemsGraph`. It is used in the [SimilarItemsGraph](../../../src/main/java/org/troy/capstone/data_structures/SimilarItemsGraph.java) class. The implementation is based on the standard Dijkstra's algorithm, with some modifications to work with the `SimilarItemsGraph`. The use is to find the top similar items to another given item. Citations are in the files.
+- **Dijkstra's Algorithm**: This algorithm is used to find the shortest path between two items in the `SimilarItemsGraph`. It is used in the [SimilarItemsGraph](../../../src/main/java/org/troy/capstone/data_structures/SimilarItemsGraph.java) class. The implementation is based on the standard Dijkstra's algorithm, with some modifications to work with the `SimilarItemsGraph`. The use is to find the top similar items to another given item. Citations are in the files.
   - Why it was chosen
     - The goal I am looking for is the most similar items to my item, and this can be found easily with Dijkstra's algorithm.
   - Implementation Details
-    - With 961 items, there are `961 choose 2` or 461280 possible edges. A script was ran in [Edge Analysis](../../../analysis/similarityGraphing.ipynb) to find the 95th percentile of edge weights, and only edges with weights above this threshold were added to the graph. Filling the graph still takes a long time, as each edge requires a similarity score to be calculated before the map can reject the edge.
+    - With 961 items, there are `961 choose 2` or 461280 possible edges. A script was run in [Edge Analysis](../../../analysis/similarityGraphing.ipynb) to find the 95th percentile of edge weights, and only edges with weights above this threshold were added to the graph. Filling the graph still takes a long time, as each edge requires a similarity score to be calculated before the map can reject the edge.
   - Complexity:
     - Time Complexity: `O((V + E) log V)` where `V` is the number of items and `E` is the number of edges in the graph.
     - Space Complexity: `O(V + E)` for the graph representation. `O(V)` for the priority queue and the distance map used in the algorithm.
@@ -47,9 +47,9 @@
     - The allowed characters are all ASCII character from `!` to `~`. `BigInteger` is used, so overflow should be avoided even with larger numbers.
 - **Red-Black Tree Search**: This is used in the [`PriceTree`](../../../src/main/java/org/troy/capstone/data_structures/PriceTree.java) class to find item indexes based on price. The `PriceTree` class is a red-black tree that stores items based on their price, and allows for efficient searching of items within a certain price range.
   - Why it was chosen
-    - The `TreeMap` class in Java already impleemtned the red-black tree and provides a `submap` method that allows for efficient searching of items within a certain price range. This made it a convenient choice for implementing the price filter.
+    - The `TreeMap` class in Java already implemented the red-black tree and provides a `subMap` method that allows for efficient searching of items within a certain price range. This made it a convenient choice for implementing the price filter.
   - Implementation Details
-    - Nodes in the tree store an item's price as the key, and an item index as the value. This allows for an array of item indexes to be returned. The algorithm here is just doing many traversal of the tree, with the successor algorithm being used.
+    - Nodes in the tree store an item's price as the key, and an item index as the value. This allows for an array of item indexes to be returned. The algorithm here is just doing many traversals of the tree, with the successor algorithm being used.
   - Complexity:
     - Time Complexity: `O(log n)` where `n` is the number of unique prices in the tree.
     - Space Complexity: `O(n)` for storing the items in the tree. The search itself uses `O(k)` space to store the results.

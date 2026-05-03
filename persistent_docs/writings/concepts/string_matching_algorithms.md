@@ -7,11 +7,11 @@
     - Used in the [QueryFilter](../../../src/main/java/org/troy/capstone/search_engine/QueryFilter.java) and [MyBM25](../../../src/main/java/org/troy/capstone/search_engine/query/MyBM25.java) classes.
     - Why it was chosen
       - Allowed for custom weighting of different fields.
-      - Deals with overruse of terms with saturation.
+      - Deals with overuse of terms with saturation.
       - Deals with long vs short content.
       - Widely used and lots of documentation on the algorithm and implementation in java.
     - Implementation Details
-      - An analyzer was built that tokenized the query from 2 to 5 characters. This allowed for typos to not be penalized too hard, while still giving better scores to items with longer matches. The analyzer also removes stop words (common english words such as 'the', 'a', etc.).
+      - An analyzer was built that tokenized the query from 2 to 5 characters. This allowed for typos to not be penalized too hard, while still giving better scores to items with longer matches. The analyzer also removes stop words (common English words such as 'the', 'a', etc.).
       - Directory is all in RAM, as data is loaded in from objects in memory, and the access is faster.
-      - When filtering, the highest score is found, and items with scores less than 15% of the highest score are filtered out. This allows for precise queries to have less results, while broad queries can have many results. For example, "elec" yields far more results than "electric".
+      - When filtering, the highest score is found, and items with scores less than 15% of the highest score are filtered out. This allows for precise queries to have fewer results, while broad queries can have many results. For example, "elec" yields far more results than "electric".
       - When searching, the name and description fields are used. The algorithm also stores the ID, but this is not used for searching, simply for retrieving the item after the search is done. The name field is given a higher weight than the description field, as it is more important for the name to match the query than the description.

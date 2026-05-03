@@ -1,6 +1,6 @@
 # API Docs
 
-To view Javadocs for the project, go to [generated_docs/javadocs/index.html](../../generated_docs/javadocs/index.html) and open it in a web browser once the project is cloned (or view it in GitHub Pages) and stored locally. The Javadocs are generated using the a maven plugin and auto generate from Javadoc comments on code.
+To view Javadocs for the project, go to [generated_docs/javadocs/index.html](../../generated_docs/javadocs/index.html) and open it in a web browser once the project is cloned (or view it in GitHub Pages) and stored locally. The Javadocs are generated using the maven plugin and auto generate from Javadoc comments on code.
 
 ## Excluded Files
 - Main.java
